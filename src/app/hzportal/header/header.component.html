@@ -1,0 +1,16 @@
+<div class="nav-left">
+  <p>
+    杭分统一门户<input type="button" (click)="loginOut()" value="登出"/>
+  </p>
+  <ul>
+    <li *ngFor="let catalog of catalogs">
+      <p>{{catalog.name}}</p>
+      <ul>
+        <li *ngFor="let child of catalog.childs">
+          <a [routerLink]="[child.routeUrl]">{{child.name}}</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<router-outlet></router-outlet>

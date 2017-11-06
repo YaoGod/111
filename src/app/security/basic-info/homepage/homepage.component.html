@@ -1,0 +1,10 @@
+<div>大楼管理/大楼基础信息</div>
+<!--大楼列表展示-->
+<ul>
+  <li *ngFor="let building of buildings">
+    <p>No.{{building.buildingId}}</p>
+    <p>{{building.name}}</p>
+    <p>{{building.summary}}</p>
+    <a [routerLink]="['detail',building.id]">查看详情</a>
+  </li>
+</ul>
