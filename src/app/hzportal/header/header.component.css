@@ -1,5 +1,6 @@
 .main{
   display: flex;
+  height: 100%;
 }
 .nav-left {
 /*  position: absolute;
@@ -14,6 +15,7 @@
 }
 .nav-right{
   width: 100%;
+  height: 100%;
 }
 .nav-heaader{
   height:100%;
@@ -106,6 +108,9 @@
   padding:5% 5%;
   height:68px;
   width:100%;
+}
+.logo>img{
+  width: 100%;
 }
 .user-photo{
   width:60px;

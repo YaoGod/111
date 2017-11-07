@@ -52,8 +52,19 @@
       <div class="mark">
         <h3>{{building.name}}No.{{building.buildingId}}</h3>
         <p>{{building.summary}}</p>
-        <a [routerLink]="['detail',building.id]">查看详情</a>
+        <a class="btn-detail" [routerLink]="['detail',building.id]">查看详情</a>
       </div>
     </li>
   </ul>
+  <div class="turn">
+    <ul>
+      <li class="active">1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+    </ul>
+  </div>
+</div>
+<div class="foot">
+  <p>2017`中国移动集团浙江有限公司杭州分公司</p>
 </div>
