@@ -11,23 +11,23 @@
     </div>
     <div class="ipt">
       <label>
-        <span>登陆账号</span>
+        <span><img src="../../../assets/image/icon_user.png">登陆账号</span>
         <input class="login-input" type="text" name="userName" id="userName">
       </label>
     </div>
     <div class="ipt">
       <label>
-        <span>登陆密码</span>
+        <span><img src="../../../assets/image/icon_key.png">登录密码</span>
           <input class="login-input" type="password" name="password"  id="password">
       </label>
     </div>
-    <div><span>忘记密码？</span></div>
-    <div>
-        <button (click)="loginIn()">开始登陆</button>
+    <div class="forget"><a>忘记密码？</a></div>
+    <div class="btn-login">
+        <input type="button" (click)="loginIn()" value="开始登陆">
     </div>
-    <div>
+    <div class="remember">
       <input type="checkbox" name="save_password" id="save_password">
-      <label for="save_password" class="label-size">记住密码</label>
+      <label for="save_password" class="label-size">记住账号和密码，下次免输入</label>
     </div>
   </div>
 </div>

@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 * { margin: 0; padding: 0; -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
-html { font-size: 100px; }
 body { font-family: 'Microsoft YaHei', 'Arial'; font-size: 14px; background: #f8f8f8;}
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td, label { margin: 0; padding: 0; }
 h1, .h1 { font-family: 'Microsoft YaHei', 'Arial'; font-size: 18px; font-weight: normal; }

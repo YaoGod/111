@@ -1,10 +1,59 @@
-<div>大楼管理/大楼基础信息</div>
+<!--大楼搜索栏-->
+<div class="search-bar">
+  <ul>
+    <li>
+      <label>大楼编号
+      <input type="text">
+      </label>
+    </li>
+    <li>
+      <label>大楼名称
+        <input type="text">
+      </label>
+    </li>
+    <li>
+      <label>大楼性质
+        <select>
+          <option></option>
+        </select>
+      </label>
+    </li>
+    <li>
+      <label>大楼地址
+        <input type="text">
+      </label>
+    </li>
+    <li>
+      <div class="search-icon" >
+        <img src="../../../../assets/image/icon_search.png">
+      </div>
+      <input type="button" value="查询">
+    </li>
+  </ul>
+</div>
+
 <!--大楼列表展示-->
-<ul>
-  <li *ngFor="let building of buildings">
-    <p>No.{{building.buildingId}}</p>
-    <p>{{building.name}}</p>
-    <p>{{building.summary}}</p>
-    <a [routerLink]="['detail',building.id]">查看详情</a>
-  </li>
-</ul>
+<div class="view">
+  <ul>
+    <li class="card">
+      <div class="card-img">
+        <img src="../../../../assets/image/demo_building.png">
+      </div>
+      <div class="mark">
+        <h3>No.11</h3>
+        <p>XXXXXXXXXXXXXXXXXXXXXXXXXXX</p>
+        <a class="btn-detail">详情</a>
+      </div>
+    </li>
+    <li class="card" *ngFor="let building of buildings">
+      <div class="card-img">
+        <img src="../../../../assets/image/demo_building.png">
+      </div>
+      <div class="mark">
+        <h3>{{building.name}}No.{{building.buildingId}}</h3>
+        <p>{{building.summary}}</p>
+        <a [routerLink]="['detail',building.id]">查看详情</a>
+      </div>
+    </li>
+  </ul>
+</div>

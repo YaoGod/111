@@ -1,13 +1,19 @@
+.main{
+  display: flex;
+}
 .nav-left {
-  position: absolute;
+/*  position: absolute;
   left:0;
   top:0px;
-  z-index:5;
+  z-index:5;*/
   width:17%;
   height:100%;
   background-color:#fff;
   /*overflow-x: hidden;
   overflow-y: visible;*/
+}
+.nav-right{
+  width: 100%;
 }
 .nav-heaader{
   height:100%;
