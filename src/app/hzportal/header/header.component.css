@@ -1,7 +1,147 @@
-.nav-left{
-  float: left;
-  width: 200px;
-  height: 800px;
-  margin-right: 20px;
-  border-right:1px solid black;
+.nav-left {
+  position: absolute;
+  left:0;
+  top:0px;
+  z-index:5;
+  width:17%;
+  height:100%;
+  background-color:#fff;
+  /*overflow-x: hidden;
+  overflow-y: visible;*/
+}
+.nav-heaader{
+  height:100%;
+  overflow-x: hidden;
+  overflow-y: visible;
+  flex: 0 0 17%;
+  border-right:1px solid #e1eaf2;
+}
+::-webkit-scrollbar
+{
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track-piece
+{
+  background-color: #CCCCCC;
+  -webkit-border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:vertical
+{
+  height: 5px;
+  background-color: #999999;
+  -webkit-border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:horizontal
+{
+  width: 5px;
+  background-color: #CCCCCC;
+  -webkit-border-radius: 6px;
+}
+.nav-list{
+  width:100%;
+  font-size:16px;
+  text-align: left;
+  margin:0 auto;
+  color:#8895a3;
+}
+.nav-list a{
+  color:#8895a3;
+}
+.nav-list a:hover{
+  color:#333;
+}
+.nav-list>li{
+  width:100%;
+}
+.menu-one{
+  position: relative;
+  line-height:56px;
+  width:100%;
+  box-sizing: border-box;
+  padding:0 10%;
+}
+.active.menu-one{
+  background-color:#fafafa;
+}
+.menu-one i{
+  transform: scale(.8,.8);
+  margin-top:7px;
+}
+.menu-one span{
+  display: block;
+  position: absolute;
+  right:16px;
+  top:23px;
+  width: 9px;
+  height: 9px;
+  border-top: 1px solid #666;
+  border-left: 1px solid #666;
+  transition: .5s;
+  transform:rotate(135deg);
+}
+.active.menu-one span{
+  transform:rotate(225deg);
+}
+.menu-second{
+  width:80%;
+  margin:0 auto;
+  display: none;
+}
+.menu-second>li{
+  line-height:45px;
+  text-indent:36px;
+}
+.nav-admin{
+  text-align: center;
+}
+.logo{
+  box-sizing: border-box;
+  padding:5% 5%;
+  height:68px;
+  width:100%;
+}
+.user-photo{
+  width:60px;
+  height:60px;
+  margin:15px auto;
+  border-radius:50%;
+
+}
+.user-photo img{
+  border-radius:50%;
+}
+.user-name{
+  height: 24px;
+  font-size: 16px;
+  line-height: 4px;
+  position: relative;
+}
+.user-name:after{
+  border: 4px solid transparent;
+  border-top: 4px solid #000;
+  width: 0;
+  height: 0;
+  position: absolute;
+  content: ' '
+}
+.user-onner{
+  width:60px;
+  height:1px;
+  position: relative;
+  margin:0 auto;
+}
+.user-menu{
+  display:none;
+  position: absolute;
+  left:0;
+  top:0px;
+  width:80px;
+  border-radius:4px;
+  background-color:#b8c3c9;
+  padding:4px;
+  transition: all .5s;
+}
+@media screen and (min-width: 1600px){
+
 }
