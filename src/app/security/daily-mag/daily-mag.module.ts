@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '',
     canActivate: [RouteGuardService],
     component: DailyMagComponent,
-    children:[
+    children: [
       {
         path: '',
         redirectTo: 'repair',
@@ -16,27 +16,27 @@ const routes: Routes = [
       },
       {
         path: 'repair',
-        loadChildren:'./repair/repair.module#RepairModule'
+        loadChildren: './repair/repair.module#RepairModule'
       },
       {
         path: 'fitment',
-        loadChildren:'./fitment/fitment.module#FitmentModule'
+        loadChildren: './fitment/fitment.module#FitmentModule'
       },
       {
         path: 'guard',
-        loadChildren:'./guard/guard.module#GuardModule'
+        loadChildren: './guard/guard.module#GuardModule'
       },
       {
         path: 'device',
-        loadChildren:'./device/device.module#DeviceModule'
+        loadChildren: './device/device.module#DeviceModule'
       },
       {
         path: 'clean',
-        loadChildren:'./clean/clean.module#CleanModule'
+        loadChildren: './clean/clean.module#CleanModule'
       },
       {
         path: 'energy',
-        loadChildren:'./energy/energy.module#EnergyModule'
+        loadChildren: './energy/energy.module#EnergyModule'
       }
     ]
   }
