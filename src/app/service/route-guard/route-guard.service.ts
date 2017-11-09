@@ -16,7 +16,7 @@ export class RouteGuardService implements CanActivate{
     return this.checkLogin(url);
   }
   checkLogin(url: string): boolean {
-    if (sessionStorage.getItem('isLoginIn') === "Login") {
+    if (sessionStorage.getItem('isLoginIn') === 'Login') {
       return true;
     }
 
