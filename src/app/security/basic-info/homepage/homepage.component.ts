@@ -17,7 +17,7 @@ export class HomepageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.infoBuildingService.getBuildingMsg(this.pageNo,this.pageSize,this.search)
+    this.infoBuildingService.getBuildingList(this.pageNo,this.pageSize,this.search)
       .subscribe(data => {
         this.buildings = data.data.infos;
       });

@@ -1,0 +1,58 @@
+.view{
+  height: calc(100% - 160px - 25px - 100px);
+  min-height: 630px;
+  padding:25px 2% 90px 2%;
+}
+.msg{
+  height: 100%;
+  padding: 30px;
+  background: #ffffff;
+  box-shadow: 0 0 2px rgba(181, 186, 193, 0.25);
+}
+.msg>img{
+  float: right;
+  width: 150px;
+  border-radius: 5px;
+  box-shadow: 0 0 2px rgba(223, 223, 223, 0.32) inset;
+}
+.msg>h3{
+  padding: 10px 0;
+  font-weight: 700;
+}
+.msg>p{
+  padding: 10px 0;
+  margin-bottom: 25px;
+  font-size: 16px;
+  color: #8e9ea8;
+}
+.nav-msg{
+  display: flex;
+  height: 40px;
+  border-bottom: 3px solid #f7fafc;
+}
+.nav-msg>li{
+  width: 150px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+}
+.nav-msg>li .active{
+  height: 40px;
+  color: #ff6849;
+  border-bottom: 3px solid #ff6849;
+}
+h4{
+  outline: none;
+}
+.content{
+   height: 100%;
+ }
+.foot{
+  height: 90px;
+  width: 100%;
+  line-height: 90px;
+  color: #56646c;
+  background: #ffffff;
+  text-align: center;
+}
+

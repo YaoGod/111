@@ -18,4 +18,5 @@ const routes: Routes = [
   exports: [RouterModule],
   declarations: [HomepageComponent]
 })
+  /*大楼列表页*/
 export class HomepageModule { }

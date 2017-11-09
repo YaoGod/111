@@ -9,6 +9,8 @@ fieldset { border: 0; }
 html,body{
   height: 100%;
   width: 100%;
+  overflow-x:hidden;
+  min-height:100%;
 }
 img { border: 0;}
 address, caption, cite, code, dfn, strong, th, var, optgroup { font-family: 'Microsoft YaHei', 'Arial'; font-weight: inherit; }

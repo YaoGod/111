@@ -40,9 +40,9 @@
         <img src="../../../../assets/image/demo_building.png">
       </div>
       <div class="mark">
-        <h3>No.11</h3>
-        <p>XXXXXXXXXXXXXXXXXXXXXXXXXXX</p>
-        <a class="btn-detail">详情</a>
+        <h3>No.4000</h3>
+        <p>移动信息大厦设计新颖、风格独特的这座大楼，在国内超高层建筑中首次采用了国际上先 进的劲性钢骨混凝土筒体和巨型钢结构行架技术，有高大无柱开放型大堂空间。大堂内的球体博览区、外墙面富有节奏感的铝板造型和半镜面玻璃幕墙，与大楼顶部的整流板、通信铁塔及大堂内悬浮的球体等构成“宇宙空间站”的造型。 国内一流的这座信息大楼有先进的通信、信息、智能化设施，实现无线通信的全覆盖，移动电话和无线寻呼在楼内无通信盲点；大楼还配备先进的光缆以及SDH同步数字系列传输系统、ATM宽带交换系统等。</p>
+        <a class="btn-detail" [routerLink]="['detail',1]">详情</a>
       </div>
     </li>
     <li class="card" *ngFor="let building of buildings">
@@ -52,7 +52,7 @@
       <div class="mark">
         <h3>{{building.name}}No.{{building.buildingId}}</h3>
         <p>{{building.summary}}</p>
-        <a class="btn-detail" [routerLink]="['detail',building.id]">查看详情</a>
+        <a class="btn-detail" [routerLink]="['detail',building.id]">详情</a>
       </div>
     </li>
   </ul>
@@ -65,6 +65,6 @@
     </ul>
   </div>
 </div>
-<div class="foot">
-  <p>2017`中国移动集团浙江有限公司杭州分公司</p>
-</div>
+<footer class="foot">
+  2017`中国移动集团浙江有限公司杭州分公司
+</footer>

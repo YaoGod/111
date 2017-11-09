@@ -9,25 +9,32 @@ ul,li{
   padding: 0 30px;
   background: #ffffff;
 }
+.search-bar>ul{
+  display: flex;
+}
 .search-bar>ul>li{
-  float: left;
+  min-width: 255px;
 }
 .search-bar>ul>li>label{
   margin-right: 20px;
   color: #686868;
 
 }
-.search-bar>ul>li>label>input[type=text],
-.search-bar>ul>li>label>select
-{
+.search-bar>ul>li>label>input[type=text] {
   height: 34px;
-  width: 150px;
+  width: inherit;
+  min-width: 100px;
   margin: 0 10px;
   border: 1px solid #e4e7ea;
   border-radius: 3px;
 }
-select{
+.search-bar>ul>li>label>select{
+  width: 170px;
+  height: 34px;
   padding-right: 3%;
+  margin: 0 10px;
+  border: 1px solid #e4e7ea;
+  border-radius: 3px;
 }
 select:focus{
   outline: none!important;
@@ -55,7 +62,9 @@ input[type=text]{
   margin-bottom: -3px;
 }
 .view{
-  padding:25px 2% 50px 2%;
+  height: calc(100% - 100px - 25px - 200px);
+  min-height: 630px;
+  padding:25px 2% 30px 2%;
   background-color: #edf1f5;
 }
 .view>ul{
@@ -93,6 +102,11 @@ input[type=text]{
   height: 80px;
   font-size: 12px;
   color: #686868;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+ /* text-indent:25px;*/
 }
 .mark>a{
   margin: 15px 0;
@@ -122,6 +136,7 @@ input[type=text]{
   border-bottom: 1px solid #e4e7ea;
   color: #686868;
   text-align: center;
+  cursor: pointer;
 }
 .turn>ul>li:first-child{
   border-left: 1px solid #e4e7ea;
@@ -133,6 +148,7 @@ input[type=text]{
 }
 .foot{
   height: 90px;
+  width: 100%;
   line-height: 90px;
   color: #56646c;
   background: #ffffff;

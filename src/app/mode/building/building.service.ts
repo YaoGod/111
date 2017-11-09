@@ -18,5 +18,4 @@ export class Building{
   serviceUnit:   string; /*物业服务单位*/
   summary:       string; /*简介*/
   useDepartment: string; /* 使用部门 */
-
 }
