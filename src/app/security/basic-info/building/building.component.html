@@ -1,19 +1,23 @@
 <div class="view">
   <div class="msg">
-    <img src="../../../../assets/image/demo_building.png">
-    <h3>浙江移动主楼</h3>
-    <p>地址：<span>浙江省杭州市下城区环城北路288号</span></p>
+    <img [src]="+'/proxy'+building.imgPath">
+    <h3>{{building.name}}</h3>
+    <p>地址：<span>{{building.address}}</span></p>
     <ul class="nav-msg">
       <li><h4 routerLink="belong" routerLinkActive="active">大楼所属信息</h4></li>
       <li><h4 routerLink="basic" routerLinkActive="active">大楼详细信息</h4></li>
       <li><h4 routerLink="floor" routerLinkActive="active">大楼楼层信息</h4></li>
-      <li><h4 routerLink="contract" routerLinkActive="active">大楼合同信息</h4></li>
+      <li>
+        <h4>大楼合同信息</h4>
+        <ol class="msg-child">
+          <li routerLink="contract" routerLinkActive="s-active"><h4>大楼自购/自建/租赁合同</h4></li>
+          <li routerLink="property" routerLinkActive="s-active"><h4>大楼物业合同</h4></li>
+        </ol>
+      </li>
     </ul>
     <div class="content">
       <router-outlet></router-outlet>
     </div>
   </div>
 </div>
-<footer class="foot">
-  2017©中国移动集团浙江有限公司杭州分公司
-</footer>
+<global-footer></global-footer>

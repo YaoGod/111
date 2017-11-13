@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BuildingComponent } from './building.component';
+import { GlobalFooterComponent } from '../global-footer/global-footer.component';
 import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
+import { GlobalBuildingService } from '../../../service/global-building/global-building.service';
 const routes: Routes = [
   {
     path: '',
@@ -34,6 +36,11 @@ const routes: Routes = [
         canActivate: [RouteGuardService],
         loadChildren: '../msg-contract/msg-contract.module#MsgContractModule'
       },
+      {
+        path: 'property',
+        canActivate: [RouteGuardService],
+        loadChildren: '../msg-contract-pro/msg-contract-pro.module#MsgContractProModule'
+      },
     ]
   }
 ];
@@ -43,7 +50,8 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   exports: [RouterModule],
-  declarations: [BuildingComponent]
+  providers:[ GlobalBuildingService ],
+  declarations: [BuildingComponent,GlobalFooterComponent]
 })
  /*大楼基本信息单页*/
 export class BuildingModule { }

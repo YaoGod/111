@@ -70,6 +70,7 @@ input[type=text]{
 .view>ul{
   display: flex;
   padding: 20px 2%;
+  min-height : 550px;
   background-color: #ffffff;
 }
 .card{
