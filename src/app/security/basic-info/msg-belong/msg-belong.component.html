@@ -1,0 +1,76 @@
+<div class="view">
+  <ul class="form-msg">
+    <li class="form-bar">
+      <label>
+        <span class="form-title">大楼编号</span>
+        <input type="text" name="buildingId" [(ngModel)]="building.buildingId">
+        <span>{{building.buildingId}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">大楼名称</span>
+        <input type="text" name="name" [(ngModel)]="building.name">
+        <span>{{building.name}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">大楼性质</span>
+        <input type="text" name="type" [(ngModel)]="building.type">
+        <span>{{building.type}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">大楼用途</span>
+        <input type="text" name="use" [(ngModel)]="building.use">
+        <span>{{building.use}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">大楼归属</span>
+        <input type="text" name="belongTo" [(ngModel)]="building.belongTo">
+        <span>{{building.belongTo}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">大楼使用部门</span>
+        <input type="text" name="useDepartment" [(ngModel)]="building.useDepartment">
+        <span>{{building.useDepartment}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+    <label>
+      <span class="form-title">地址</span>
+      <input type="text" name="area" [(ngModel)]="building.address">
+      <span>{{building.address}}</span>
+    </label>
+  </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">经度</span>
+        <input type="text" name="lat" [(ngModel)]="building.lat">
+        <span>{{building.lat}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">纬度</span>
+        <input type="text" name="lon" [(ngModel)]="building.lon">
+        <span>{{building.lon}}</span>
+      </label>
+    </li>
+    <li class="form-bar"></li>
+    <li class="form-bar full-line">
+      <label>
+        <span class="form-title">地图点位</span>
+        <div id="map" style="width:500px; height:300px"></div>
+      </label>
+    </li>
+  </ul>
+
+</div>
+

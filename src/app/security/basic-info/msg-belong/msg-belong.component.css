@@ -1,0 +1,36 @@
+.view{
+  padding: 20px;
+}
+.form-msg>li input{
+  display: none;
+}
+.form-bar{
+  display:inline-block;
+  padding: 5px 0;
+  width: 50%;
+  height: 30px;
+  line-height: 30px;
+  color: #686868;
+  font-size: 16px;
+}
+.form-bar:nth-of-type(even){
+  float: right;
+}
+.form-title{
+  display: inline-block;
+  width: 120px;
+}
+.full-line{
+  clear: both;
+  width: 100%;
+  height: auto;
+}
+.full-line .form-title{
+  float: left;
+}
+.summary-text{
+  clear: both;
+  display: inline-block;
+  width: calc(100% - 120px);
+}
+

@@ -1,0 +1,56 @@
+<!--搜索栏-->
+<div class="search-bar">
+  <ul>
+    <li>
+      <label>楼层
+        <select>
+          <option></option>
+        </select>
+      </label>
+    </li>
+    <li>
+      <label>楼层功能
+        <input type="text">
+      </label>
+    </li>
+    <li>
+      <div class="search-icon" >
+        <img src="../../../../assets/image/icon_search.png">
+      </div>
+      <input type="button" value="查询">
+    </li>
+  </ul>
+</div>
+<!--表头-->
+<div class="table-head">
+  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+    <tr class="row list-title" style="height:45px;">
+      <th width="15%">大楼名称</th>
+      <th width="15%">楼层</th>
+      <th width="20%">楼层功能</th>
+      <th width="35%">楼层平台图</th>
+      <th width="15%">操作</th>
+    </tr>
+  </table>
+</div>
+<!--表格内容-->
+<div class="table-content" style="height: 390px">
+  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+    <tr class="row"  style="height:45px;" *ngFor="let floor of floors">
+      <td width="15%">{{floor.buildingName}}</td>
+      <td width="15%">{{floor.floorNum}}</td>
+      <td width="20%">{{floor.floorUse}}</td>
+      <td width="35%">查看</td>
+      <td width="15%">查看房间信息</td>
+    </tr>
+  </table>
+</div>
+<!--翻页-->
+<div class="turn">
+  <ul>
+    <li class="active">1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+  </ul>
+</div>

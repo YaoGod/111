@@ -1,0 +1,82 @@
+<div class="view">
+  <ul class="form-msg">
+    <li class="form-bar">
+      <label>
+        <span class="form-title">大楼编号</span>
+        <input type="text" name="buildingId" [(ngModel)]="building.buildingId">
+        <span>{{building.buildingId}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">大楼名称</span>
+        <input type="text" name="name" [(ngModel)]="building.name">
+        <span>{{building.name}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">楼层数</span>
+        <input type="text" name="floorNum" [(ngModel)]="building.floorNum">
+        <span>{{building.floorNum}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">楼高</span>
+        <input type="text" name="height" [(ngModel)]="building.height">
+        <span>{{building.height}}</span>
+      </label>
+    </li>
+    <li class="form-bar full-line">
+      <label>
+        <span class="form-title">大楼图片</span>
+        <img class="build-img" [src]="+'/proxy'+building.imgPath">
+        <input type="file" name="imgPath">
+        <!--<span>{{building.imgPath}}</span>-->
+      </label>
+    </li>
+    <li class="form-bar full-line">
+      <label>
+        <span class="form-title">大楼简介</span>
+        <input type="text" name="summary" [(ngModel)]="building.summary">
+        <div class="summary-text">{{building.summary}}</div>
+      </label>
+    </li>
+    <li class="form-bar">
+    <label>
+      <span class="form-title">建筑面积</span>
+      <input type="text" name="area" [(ngModel)]="building.area">
+      <span>{{building.area}}</span>
+    </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">建造单位</span>
+        <input type="text" name="buildDept" [(ngModel)]="building.buildDept">
+        <span>{{building.buildDept}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">建造日期</span>
+        <input type="text" name="buildTime" [(ngModel)]="building.buildTime">
+        <span>{{building.buildTime}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">交付购买日期</span>
+        <input type="text" name="payTime" [(ngModel)]="building.payTime">
+        <span>{{building.payTime}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">物业服务单位</span>
+        <input type="text" name="serviceUnit" [(ngModel)]="building.serviceUnit">
+        <span>{{building.serviceUnit}}</span>
+      </label>
+    </li>
+  </ul>
+</div>
