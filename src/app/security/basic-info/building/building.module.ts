@@ -32,7 +32,7 @@ const routes: Routes = [
         loadChildren: '../msg-floor/msg-floor.module#MsgFloorModule'
       },
       {
-        path: 'contract',
+        path: 'contract/:type',
         canActivate: [RouteGuardService],
         loadChildren: '../msg-contract/msg-contract.module#MsgContractModule'
       },

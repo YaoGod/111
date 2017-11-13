@@ -1,20 +1,22 @@
 .view{
   padding: 20px;
 }
+.div-img{
+  float: left;
+  width:500px;
+  height:320px;
+  padding-right: 5%;
+  padding-bottom: 20px;
+}
 .form-msg>li input{
   display: none;
 }
 .form-bar{
-  display:inline-block;
-  padding: 5px 0;
-  width: 50%;
-  height: 30px;
+  height: 35px;
+  min-width: 300px;
   line-height: 30px;
   color: #686868;
   font-size: 16px;
-}
-.form-bar:nth-of-type(even){
-  float: right;
 }
 .form-title{
   display: inline-block;
@@ -28,11 +30,11 @@
 .full-line .form-title{
   float: left;
 }
-.summary-text{
-  clear: both;
-  display: inline-block;
-  width: calc(100% - 120px);
+.summary-title{
+  word-break: break-all;
 }
-.build-img{
-  width: 260px;
+.summary-text{
+  display: inline-block;
+  width: auto;
+  word-break: break-all;
 }

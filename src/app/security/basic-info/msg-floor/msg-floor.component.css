@@ -80,6 +80,7 @@ input[type=text]{
 }
 .turn>ul{
   display: flex;
+  border-left: 1px solid #e4e7ea;
 }
 .turn>ul>li{
   height: 35px;
@@ -91,9 +92,6 @@ input[type=text]{
   color: #686868;
   text-align: center;
   cursor: pointer;
-}
-.turn>ul>li:first-child{
-  border-left: 1px solid #e4e7ea;
 }
 .turn>ul>li.active{
   color: #ffffff;

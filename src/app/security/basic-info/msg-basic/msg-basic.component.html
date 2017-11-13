@@ -1,4 +1,8 @@
 <div class="view">
+  <div>
+      <img class="div-img" [src]="+'/proxy'+building.imgPath">
+      <!--<input type="file" name="imgPath">-->
+  </div>
   <ul class="form-msg">
     <li class="form-bar">
       <label>
@@ -26,21 +30,6 @@
         <span class="form-title">楼高</span>
         <input type="text" name="height" [(ngModel)]="building.height">
         <span>{{building.height}}</span>
-      </label>
-    </li>
-    <li class="form-bar full-line">
-      <label>
-        <span class="form-title">大楼图片</span>
-        <img class="build-img" [src]="+'/proxy'+building.imgPath">
-        <input type="file" name="imgPath">
-        <!--<span>{{building.imgPath}}</span>-->
-      </label>
-    </li>
-    <li class="form-bar full-line">
-      <label>
-        <span class="form-title">大楼简介</span>
-        <input type="text" name="summary" [(ngModel)]="building.summary">
-        <div class="summary-text">{{building.summary}}</div>
       </label>
     </li>
     <li class="form-bar">
@@ -76,6 +65,13 @@
         <span class="form-title">物业服务单位</span>
         <input type="text" name="serviceUnit" [(ngModel)]="building.serviceUnit">
         <span>{{building.serviceUnit}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <div class="form-title summary-title">大楼简介</div>
+        <input type="text" name="summary" [(ngModel)]="building.summary">
+        <div class="summary-text">{{building.summary}}</div>
       </label>
     </li>
   </ul>

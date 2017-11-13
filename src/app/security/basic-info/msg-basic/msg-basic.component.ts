@@ -20,10 +20,10 @@ export class MsgBasicComponent implements OnInit {
     /*大楼信息更新订阅*/
     this.globalBuilding.valueUpdated.subscribe(
       (val) =>{
-        this.building = this.globalBuilding.getVal()
+        this.building = this.globalBuilding.getVal();
+        console.log(this.building);
       }
-    )
-    console.log(this.building);
+    );
   }
 
 }

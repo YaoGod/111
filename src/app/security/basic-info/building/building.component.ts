@@ -14,6 +14,7 @@ import 'rxjs/add/operator/switchMap';
 export class BuildingComponent implements OnInit {
   public building:Building;  /*大楼信息*/
   private id;
+  public type;
   constructor(
     private infoBuildingService:InfoBuildingService,
     private globalBuilding: GlobalBuildingService,
@@ -47,7 +48,30 @@ export class BuildingComponent implements OnInit {
           this.building.payTime = data.data.attachInfo.payTime;
         }
         this.globalBuilding.setVal(this.building);
-     /*   console.log(this.building);*/
+        this.type = this.setType();
       });
+  }
+  /*设置导向路由*/
+  setNavActive(){
+    let active = this.router.url.split('/')[6];
+    if(active === 'property' || active === 'contract'){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  /*设置类型*/
+  setType(){
+    console.log(this.building.type);
+    if(this.building.type  === '自购'){
+      return 'buy';
+    }
+    else if(this.building.type  === '自建'){
+      return 'build';
+    }
+    else if(this.building.type  === '租赁'){
+      return 'lease';
+    }
+    return '';
   }
 }

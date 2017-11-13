@@ -34,30 +34,6 @@ export class HeaderComponent implements OnInit {
           {
             name: '大楼物业档案管理',
             routeUrl: 'security/property'
-          },
-          {
-            name: '大楼基础信息',
-            routeUrl: 'security/basic'
-          },
-          {
-            name: '大楼日常管理',
-            routeUrl: 'security/daily'
-          },
-          {
-            name: '大楼物业档案管理',
-            routeUrl: 'security/property'
-          },
-          {
-            name: '大楼基础信息',
-            routeUrl: 'security/basic'
-          },
-          {
-            name: '大楼日常管理',
-            routeUrl: 'security/daily'
-          },
-          {
-            name: '大楼物业档案管理',
-            routeUrl: 'security/property'
           }
         ]
       },

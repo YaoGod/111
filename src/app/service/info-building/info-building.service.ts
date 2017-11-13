@@ -4,6 +4,11 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class InfoBuildingService {
 
+  private headers = new Headers({'Content-Type': 'application/json'});
+  private options =  new RequestOptions({
+    headers: this.headers,
+    withCredentials: true
+  });
   constructor(
     private http: Http,
   ) { }
@@ -15,11 +20,9 @@ export class InfoBuildingService {
     return:              #大楼基础信息实体类列表
    */
   getBuildingList (pageNo:number,pageSize:number,search:string) {
-    const headers = new Headers({'Content-Type': 'application/json'});
-    const options = new RequestOptions({headers: headers});
     const url = '/proxy/building/info/getBuildingList/'+pageNo+'/'+pageSize+'?search='+search;
     const data = {};
-    return this.http.post(url,data,options)
+    return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
   /*
@@ -29,7 +32,7 @@ export class InfoBuildingService {
    */
   getBuildingMsg (id:number) {
     const url = '/proxy/building/info/getBuildingInfo/'+id;
-    return this.http.get(url)
+    return this.http.get(url,this.options)
       .map(res => res.json());
   }
   /*
@@ -41,7 +44,7 @@ export class InfoBuildingService {
    */
   getFloorListMsg (id:number,pageNo:number,pageSize:number) {
     const url = '/proxy/building/info/getFloorList/'+id+'/'+pageNo+'/'+pageSize;
-    return this.http.get(url)
+    return this.http.get(url,this.options)
       .map(res => res.json());
   }
   /*
@@ -52,7 +55,7 @@ export class InfoBuildingService {
    */
   getFloorMsg (id:number,num: string) {
     const url = '/proxy/building/info/getFloorInfo/'+id+'/'+num;
-    return this.http.get(url)
+    return this.http.get(url,this.options)
       .map(res => res.json());
   }
   /*
@@ -63,9 +66,111 @@ export class InfoBuildingService {
    param: pageSize:number,    #该页最大数
    return:   #大楼基础信息实体类
    */
-  getRoomMsg (id:number,floorId:number,pageNo: number,pageSize:number) {
+  getRoomListMsg (id:number,floorId:number,pageNo: number,pageSize:number) {
     const url = '/proxy/building/info/getRoomList/'+id+'/'+floorId+'/'+pageNo+'/'+pageSize;
-    return this.http.get(url)
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  /*
+ 新增大楼信息
+ param: postData:Building,          #大楼实体类
+ return:
+ */
+  addBuilding(postData){
+    const url = '/proxy/building/info/addBuilding';
+    const data = {postData};
+    return this.http.post(url,data,this.options)
+      .map(res => res.json());
+  }
+  /*
+   新增大楼楼层信息
+   param: postData:Floor,          #大楼实体类
+   return:
+   */
+  addFloor(postData){
+    const url = '/proxy/building/info/addFloor';
+    const data = {postData};
+    return this.http.post(url,data,this.options)
+      .map(res => res.json());
+  }
+  /*
+   新增大楼房间信息
+   param: postData:Room,          #大楼实体类
+   return:
+   */
+  addRoom(postData){
+    const url = '/proxy/building/info/addRoom';
+    const data = {postData};
+    return this.http.post(url,data,this.options)
+      .map(res => res.json());
+  }
+  /*
+   删除大楼信息
+   param: id:number,     #大楼ID
+   return:
+   */
+  deleteBuilding (id:number) {
+    const url = '/proxy/building/info/deleteBuilding/'+id;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  /*
+   删除大楼楼层信息
+   param: id:number,     #大楼ID
+   return:
+   */
+  deleteFloor (id:number) {
+    const url = '/proxy/building/info/deleteFloor/'+id;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  /*
+   删除大楼房间信息
+   param: id:number,     #大楼ID
+   return:
+   */
+  deleteRoom (id:number) {
+    const url = '/proxy/building/info/deleteRoom/'+id;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  /*
+   更新大楼信息
+   param: postData:Floor,          #大楼实体类
+   return:
+   */
+  updateBuilding(postData){
+    const headers = new Headers({'Content-Type': 'application/json'});
+    const options = new RequestOptions({headers: headers});
+    const url = '/proxy/building/info/updateBuilding';
+    const data = {postData};
+    return this.http.post(url,data,this.options)
+      .map(res => res.json());
+  }
+  /*
+   更新大楼楼层信息
+   param: postData:Floor,          #大楼实体类
+   return:
+   */
+  updateFloor(postData){
+    const headers = new Headers({'Content-Type': 'application/json'});
+    const options = new RequestOptions({headers: headers});
+    const url = '/proxy/building/info/updateFloor';
+    const data = {postData};
+    return this.http.post(url,data,this.options)
+      .map(res => res.json());
+  }
+  /*
+   更新大楼楼层信息
+   param: postData:Floor,          #大楼实体类
+   return:
+   */
+  updateRoom(postData){
+    const headers = new Headers({'Content-Type': 'application/json'});
+    const options = new RequestOptions({headers: headers});
+    const url = '/proxy/building/info/updateRoom';
+    const data = {postData};
+    return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
 }

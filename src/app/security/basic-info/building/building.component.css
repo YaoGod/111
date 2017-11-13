@@ -1,6 +1,6 @@
 .view{
   height: calc(100% - 160px - 25px - 100px);
-  min-height: 630px;
+  min-height: 690px;
   padding:25px 2% 90px 2%;
 }
 .msg{
@@ -63,13 +63,15 @@ h4{
   border-top: none;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  z-index: 1;
 }
 .msg-child>li{
   height: 30px;
   line-height: 30px;
-  font-size: 12px;
+  font-size: 10px;
+  outline: none;
 }
-.msg-child>li:hover{
+.msg-child>li:hover,.s-active{
   background : #ff6849;
   color : #ffffff;
 }
