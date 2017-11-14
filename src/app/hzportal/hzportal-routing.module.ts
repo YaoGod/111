@@ -9,8 +9,8 @@ import { RouteGuardService } from '../service/route-guard/route-guard.service';
 
 const routes: Routes = [
   {
-    path:'',
-    redirectTo:'/login',
+    path: '',
+    redirectTo: '/login',
     pathMatch: 'full'
   },
   {
@@ -20,15 +20,15 @@ const routes: Routes = [
   {
     path: 'hzportal',
     canActivate: [RouteGuardService],
-    component:HeaderComponent,
-    children:[
+    component: HeaderComponent,
+    children: [
       {
         path: '',
         component: HomepageComponent,
       },
       {
         path: 'security',
-        loadChildren:'../security/security.module#SecurityModule'
+        loadChildren: '../security/security.module#SecurityModule'
       },
     ]
   }
@@ -37,7 +37,7 @@ const routes: Routes = [
 @NgModule({
   imports: [CommonModule, RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers:[RouteGuardService],
+  providers: [RouteGuardService],
   declarations: []
 })
 export class HzportalRoutingModule {}

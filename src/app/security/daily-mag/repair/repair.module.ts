@@ -13,10 +13,11 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
   declarations: [RepairComponent]
 })
+
  /*大楼维修管理*/
 export class RepairModule { }

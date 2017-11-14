@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderModule } from './header/header.module';
+
 @Component({
   selector: 'app-hz-ab-mgt',
   templateUrl: './security.component.html',
@@ -7,7 +8,9 @@ import { HeaderModule } from './header/header.module';
 })
 export class SecurityComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+
+  }
 
   ngOnInit() {
   }

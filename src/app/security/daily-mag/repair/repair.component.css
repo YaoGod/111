@@ -27,12 +27,55 @@
   position: relative;
   margin-top:12px;
 }
-.repair-chandlery input{
+.repair-chandlery .search-ipt{
   width:200px;
-  height:36px;
+  height:30px;
   border-radius: 4px;
-  background:url("../../../../assets/image/icon_search.png") no-repeat 170px 8px;
+  background:url("../../../../assets/image/search.png") no-repeat 170px 4px;
   background-size: 20px 20px;
   border:1px solid #66CCFF;
   text-indent: 5px;
 }
+.repair-chandlery .search-btn{
+  padding:0 16px;
+  height:32px;
+  border:none;
+  background-color:#66CCFF;
+  color:#fff;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.new-btn{
+  _float: right;
+}
+.repair-tab{
+  margin-top:15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
