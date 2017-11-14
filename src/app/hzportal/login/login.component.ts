@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
 import { User } from "../../mode/user/user.service";
-import
-  * as $
-  from
-    'jquery';
+import { UserPortalService } from '../../service/user-portal/user-portal.service';
+import * as $ from 'jquery';
 declare var $: any;
 @Component({
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [ UserPortalService ]
 })
 export class LoginComponent implements OnInit {
   constructor(
-    public router: Router,
+    private router: Router,
+    private userPortal: UserPortalService
   ) {
   }
   private user: User;
@@ -26,7 +26,14 @@ export class LoginComponent implements OnInit {
   }
   /*登陆*/
   loginIn(){
-
+    var data = {
+      username: 'admin',
+      password: 'admin'
+    };
+      this.userPortal.portalLogin(data)
+        .subscribe(data =>{
+          console.log(data);
+        });
       sessionStorage.setItem("isLoginIn","Login");
       this.router.navigate(['/hzportal/']);
   }

@@ -1,3 +1,67 @@
-<p>
-  大楼租赁合同
-</p>
+<div class="view">
+  <ul class="form-msg">
+    <li class="form-bar">
+      <label>
+        <span class="form-title">大楼编号</span>
+        <input type="text" name="buildingId" [(ngModel)]="contract.buildingId">
+        <span>{{contract.buildingId}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">大楼名称</span>
+        <input type="text" name="buildingName" [(ngModel)]="contract.buildingName">
+        <span>{{contract.buildingName}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">大楼性质</span>
+        <input type="text" name="type" [(ngModel)]="building.type">
+        <span>{{building.type|tranType}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">设计单位</span>
+        <input type="text" name="design" [(ngModel)]="contract.design">
+        <span>{{contract.design}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">施工单位</span>
+        <input type="text" name="build" [(ngModel)]="contract.build">
+        <span>{{contract.build}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">监理单位</span>
+        <input type="text" name="supervise" [(ngModel)]="contract.supervise">
+        <span>{{contract.supervise}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">建造日期</span>
+        <input type="text" name="buildingDate" [(ngModel)]="contract.buildDate">
+        <span>{{contract.buildDate}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">交付日期</span>
+        <input type="text" name="payDate" [(ngModel)]="contract.payDate">
+        <span>{{contract.payDate}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">建造费用</span>
+        <input type="text" name="buildCost" [(ngModel)]="contract.buildCost">
+        <span>{{contract.buildCost}}</span>
+      </label>
+    </li>
+  </ul>
+</div>

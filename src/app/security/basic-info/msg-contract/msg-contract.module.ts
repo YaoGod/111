@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MsgContractComponent } from './msg-contract.component';
 import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
+import { TranTypePipe } from './tran-type.pipe';
 const routes: Routes = [
   {
     path: '',
@@ -18,6 +19,6 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   exports: [RouterModule],
-  declarations: [MsgContractComponent]
+  declarations: [MsgContractComponent, TranTypePipe]
 })
 export class MsgContractModule { }

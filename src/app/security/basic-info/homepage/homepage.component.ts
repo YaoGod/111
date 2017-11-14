@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Building } from '../../../mode/building/building.service';
 import { InfoBuildingService } from '../../../service/info-building/info-building.service';
+import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
@@ -12,15 +13,52 @@ export class HomepageComponent implements OnInit {
   private pageNo    :number = 1; /*当前页码*/
   private pageSize  :number = 3; /*显示页数*/
   private search    :string = ''; /*搜索字段*/
+  public pages: Array<number>;
   constructor(
-    private infoBuildingService:InfoBuildingService
+    private infoBuildingService:InfoBuildingService,
+    private errorVoid:ErrorResponseService
   ) { }
 
   ngOnInit() {
-    this.infoBuildingService.getBuildingList(this.pageNo,this.pageSize,this.search)
-      .subscribe(data => {
-        this.buildings = data.data.infos;
+    this.getBuildingMsg(this.pageNo,this.pageSize);
+  }
+  /*获取大楼列表*/
+  getBuildingMsg(pageNo,pageSize){
+    this.infoBuildingService.getBuildingList(pageNo,pageSize,this.search)
+      .subscribe(data =>{
+        if(this.errorVoid.errorMsg(data.data.errorVoid)){
+          this.buildings = data.data.infos;
+          this.initPage(data.data.total);
+        }
       });
+  }
+  /*页码初始化*/
+  initPage(total){
+    this.pages = new Array(total);
+    for(let i = 0;i< total;i++){
+      this.pages[i] = i+1;
+    }
+  }
+  /*页面显示区间5页*/
+  pageLimit(page:number){
+    if(this.pageNo<5){
+      return true;
+    }
+    else if(page<=5 && this.pageNo <= 3){
+      return false;
+    }
+    else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
+      return false;
+    }
+    else if (page<=this.pageNo+2 && page>=this.pageNo-2){
+      return false;
+    }
+    return true;
+  }
+  /*跳页加载数据*/
+  goPage(page:number){
+    this.pageNo = page;
+    this.getBuildingMsg(this.pageNo,this.pageSize);
   }
 
 }

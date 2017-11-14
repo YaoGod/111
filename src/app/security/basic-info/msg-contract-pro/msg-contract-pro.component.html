@@ -1,3 +1,74 @@
-<p>
-  msg-contract-pro works!
-</p>
+<div class="view">
+  <ul class="form-msg">
+    <li class="form-bar">
+      <label>
+        <span class="form-title">大楼编号</span>
+        <input type="text" name="buildingId" [(ngModel)]="contract.buildingId">
+        <span>{{contract.buildingId}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">大楼名称</span>
+        <input type="text" name="buildingName" [(ngModel)]="contract.buildingName">
+        <span>{{contract.buildingName}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">甲方（各级移动公司全称）</span>
+        <input type="text" name="design" [(ngModel)]="contract.design">
+        <span>{{contract.design}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">甲方联系人</span>
+        <input type="text" name="build" [(ngModel)]="contract.build">
+        <span>{{contract.build}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">甲方联系人电话</span>
+        <input type="text" name="build" [(ngModel)]="contract.build">
+        <span>{{contract.build}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">乙方（物业公司全称）</span>
+        <input type="text" name="supervise" [(ngModel)]="contract.supervise">
+        <span>{{contract.supervise}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">乙方联系人</span>
+        <input type="text" name="buildingDate" [(ngModel)]="contract.buildDate">
+        <span>{{contract.buildDate}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">乙方联系人电话</span>
+        <input type="text" name="buildingDate" [(ngModel)]="contract.buildDate">
+        <span>{{contract.buildDate}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">合同开始时间</span>
+        <input type="text" name="payDate" [(ngModel)]="contract.payDate">
+        <span>{{contract.payDate}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">合同结束时间</span>
+        <input type="text" name="buildCost" [(ngModel)]="contract.buildCost">
+        <span>{{contract.buildCost}}</span>
+      </label>
+    </li>
+  </ul>
+</div>

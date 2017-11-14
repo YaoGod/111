@@ -4,7 +4,7 @@ import { GlobalBuildingService } from '../../../service/global-building/global-b
 import { InfoBuildingService } from '../../../service/info-building/info-building.service';
 import { Router, ActivatedRoute, Params} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
-
+import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 @Component({
   selector: 'app-building',
   templateUrl: './building.component.html',
@@ -18,6 +18,7 @@ export class BuildingComponent implements OnInit {
   constructor(
     private infoBuildingService:InfoBuildingService,
     private globalBuilding: GlobalBuildingService,
+    private errorVoid:ErrorResponseService,
     private route: ActivatedRoute,
     private router: Router,
   ) { }
@@ -41,14 +42,16 @@ export class BuildingComponent implements OnInit {
   getBuildingInfo(id:number){
     this.infoBuildingService.getBuildingMsg(id)
       .subscribe(data => {
-        this.building = data.data.buildingInfo;
-        if(typeof (data.data.attachInfo) !== 'undefined' && data.data.attachInfo !== null){
-          this.building.buildDept = data.data.attachInfo.buildDept;
-          this.building.buildTime = data.data.attachInfo.buildTime;
-          this.building.payTime = data.data.attachInfo.payTime;
+        if(this.errorVoid.errorMsg(data.status)){
+          this.building = data.data.buildingInfo;
+          if(typeof (data.data.attachInfo) !== 'undefined' && data.data.attachInfo !== null){
+            this.building.buildDept = data.data.attachInfo.buildDept;
+            this.building.buildTime = data.data.attachInfo.buildTime;
+            this.building.payTime = data.data.attachInfo.payTime;
+          }
+          this.globalBuilding.setVal(this.building);
+          this.type = this.setType();
         }
-        this.globalBuilding.setVal(this.building);
-        this.type = this.setType();
       });
   }
   /*设置导向路由*/
@@ -62,7 +65,6 @@ export class BuildingComponent implements OnInit {
   }
   /*设置类型*/
   setType(){
-    console.log(this.building.type);
     if(this.building.type  === '自购'){
       return 'buy';
     }

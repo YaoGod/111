@@ -13,7 +13,7 @@ ul,li{
   display: flex;
 }
 .search-bar>ul>li{
-  min-width: 255px;
+  /*min-width: 255px;*/
 }
 .search-bar>ul>li>label{
   margin-right: 20px;
@@ -127,6 +127,7 @@ input[type=text]{
 }
 .turn>ul{
   display: flex;
+  height: 35px;
 }
 .turn>ul>li{
   height: 35px;

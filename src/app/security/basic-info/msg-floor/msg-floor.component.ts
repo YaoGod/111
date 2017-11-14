@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InfoBuildingService } from '../../../service/info-building/info-building.service';
 import { GlobalBuildingService } from '../../../service/global-building/global-building.service';
+import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import { Building } from '../../../mode/building/building.service';
 import { Floor } from '../../../mode/floor/floor.service';
 import { Router } from '@angular/router';
@@ -21,6 +22,7 @@ export class MsgFloorComponent implements OnInit {
     private globalBuilding:GlobalBuildingService,
     private infoBuildingService:InfoBuildingService,
     private router: Router,
+    private errorVoid:ErrorResponseService
   ) {
     this.building = globalBuilding.getVal();
   }
@@ -39,9 +41,11 @@ export class MsgFloorComponent implements OnInit {
     var id = this.router.url.split('/')[5];
     this.infoBuildingService.getFloorListMsg( Number(id), pageNo,pageSize)
       .subscribe(data =>{
-        this.floors = data.data.infos;
-        let total = Math.ceil(data.data.total / pageSize);
-        this.initPage(total);
+        if(this.errorVoid.errorMsg(data.status)) {
+          this.floors = data.data.infos;
+          let total = Math.ceil(data.data.total / pageSize);
+          this.initPage(total);
+        }
       });
   }
   /*页码初始化*/

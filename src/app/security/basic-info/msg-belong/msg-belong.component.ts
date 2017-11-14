@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Building } from '../../../mode/building/building.service';
 import { GlobalBuildingService } from '../../../service/global-building/global-building.service';
+import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 declare var AMap:any;
 @Component({
   selector: 'app-msg-belong',
@@ -12,7 +13,8 @@ export class MsgBelongComponent implements OnInit {
 
   public building:Building;  /*大楼信息*/
   constructor(
-    private globalBuilding:GlobalBuildingService
+    private globalBuilding:GlobalBuildingService,
+    private errorVoid:ErrorResponseService
   ) {
     this.building = globalBuilding.getVal();
   }

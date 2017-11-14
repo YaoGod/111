@@ -14,7 +14,10 @@
     <li>
       <label>大楼性质
         <select>
-          <option></option>
+          <option>全部</option>
+          <option>自建</option>
+          <option>自购</option>
+          <option>租赁</option>
         </select>
       </label>
     </li>
@@ -59,10 +62,12 @@
   </ul>
   <div class="turn">
     <ul>
-      <li class="active">1</li>
-      <li>2</li>
-      <li>3</li>
-      <li>4</li>
+      <li *ngFor="let i of pages"
+          [hidden] = "pageLimit(i)"
+          [ngClass]="{'active':i === pageNo}"
+          (click)="goPage(i);">
+        {{i}}
+      </li>
     </ul>
   </div>
 </div>
