@@ -41,7 +41,7 @@ select:focus{
 input[type=text]{
   padding: 0 10px;
 }
-.search-bar>ul>li>input[type=button]{
+.search-bar>ul>li>.search-btn{
   padding-left: 40px;
   padding-right: 20px;
   height: 34px;

@@ -12,8 +12,16 @@ export class ContractBuildingService {
   constructor(
     private http: Http,
   ) { }
+  /*获取当前合同*/
   getContractInfo(id,type) {
     const url = '/proxy/building/contract/getContractInfo/' + id + '/' + type;
+    return this.http.get(url, this.options)
+      .map(res => res.json());
+  }
+  /*获取历史合同列表*/
+  getContractList(id,type,pageNo,pageSize) {
+    const url = '/proxy/building/contract/getContractList/'
+      + id + '/' + type+ '/'+pageNo+ '/' + pageSize;
     return this.http.get(url, this.options)
       .map(res => res.json());
   }

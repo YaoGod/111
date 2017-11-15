@@ -13,7 +13,9 @@ import { Router } from '@angular/router';
 export class MsgContractComponent implements OnInit {
 
   public building: Building;
-  public contract: Contract;
+  public contracts: Array<Contract>;
+  private pageNo: number = 1;
+  private pageSize: number = 5;
   constructor(
     private contractBuildingService:ContractBuildingService,
     private errorVoid:ErrorResponseService,
@@ -21,7 +23,8 @@ export class MsgContractComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.building = new Building();
-    this.contract = new Contract();
+    this.contracts = new Array<Contract>(1);
+    this.contracts[0] = new Contract;
     this.building.id = Number(this.router.url.split('/')[5]);
     this.building.type = this.router.url.split('/')[7];
     this.getContract();
@@ -30,7 +33,19 @@ export class MsgContractComponent implements OnInit {
     this.contractBuildingService.getContractInfo(this.building.id,this.building.type)
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data.status)){
-          this.contract = data.data;
+          this.contracts = new Array<Contract>(1);
+          this.contracts[0] = new Contract;
+          this.contracts[0] = data.data;
+        }
+      });
+  }
+  /*获取历史合同*/
+  getContractList(){
+    this.contractBuildingService.getContractList(
+      Number(this.router.url.split('/')[5]),'property',this.pageNo,this.pageSize)
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data.status)){
+          this.contracts = data.data;
         }
       });
   }

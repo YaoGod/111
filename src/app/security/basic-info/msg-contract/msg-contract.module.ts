@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MsgContractComponent } from './msg-contract.component';
 import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
-import { TranTypePipe } from './tran-type.pipe';
+import { TranTypePipe } from '../../../pipe/transfer/tran-type.pipe';
 const routes: Routes = [
   {
     path: '',

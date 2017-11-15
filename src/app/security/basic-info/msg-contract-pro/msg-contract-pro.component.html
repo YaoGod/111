@@ -1,5 +1,27 @@
 <div class="view">
-  <ul class="form-msg">
+  <!--搜索栏-->
+  <div class="search-bar">
+    <ul>
+      <li>
+        <input class="tab active" type="button" value="当前合同" (click)="getContract();">
+      </li>
+      <li>
+        <input class="tab" type="button" value="历史合同" (click)="getContractList();">
+      </li>
+      <li>
+        <label>
+          <input type="text">
+        </label>
+      </li>
+      <li>
+        <div class="search-icon" >
+          <img src="../../../../assets/image/icon_search.png">
+        </div>
+        <input class="search-btn" type="button" value="查询">
+      </li>
+    </ul>
+  </div>
+  <ul class="form-msg" *ngFor="let contract of contracts">
     <li class="form-bar">
       <label>
         <span class="form-title">大楼编号</span>
@@ -17,57 +39,64 @@
     <li class="form-bar">
       <label>
         <span class="form-title">甲方（各级移动公司全称）</span>
-        <input type="text" name="design" [(ngModel)]="contract.design">
-        <span>{{contract.design}}</span>
+        <input type="text" name="design" [(ngModel)]="contract.cmccName">
+        <span>{{contract.cmccName}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">甲方联系人</span>
-        <input type="text" name="build" [(ngModel)]="contract.build">
-        <span>{{contract.build}}</span>
+        <input type="text" name="build" [(ngModel)]="contract.cmccContacts">
+        <span>{{contract.cmccContacts}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">甲方联系人电话</span>
-        <input type="text" name="build" [(ngModel)]="contract.build">
-        <span>{{contract.build}}</span>
+        <input type="text" name="build" [(ngModel)]="contract.cmccPhone">
+        <span>{{contract.cmccPhone}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">乙方（物业公司全称）</span>
-        <input type="text" name="supervise" [(ngModel)]="contract.supervise">
-        <span>{{contract.supervise}}</span>
+        <input type="text" name="name" [(ngModel)]="contract.name">
+        <span>{{contract.name}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">乙方联系人</span>
-        <input type="text" name="buildingDate" [(ngModel)]="contract.buildDate">
-        <span>{{contract.buildDate}}</span>
+        <input type="text" name="contacts" [(ngModel)]="contract.contacts">
+        <span>{{contract.contacts}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">乙方联系人电话</span>
-        <input type="text" name="buildingDate" [(ngModel)]="contract.buildDate">
-        <span>{{contract.buildDate}}</span>
+        <input type="text" name="phone" [(ngModel)]="contract.phone">
+        <span>{{contract.phone}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">合同开始时间</span>
-        <input type="text" name="payDate" [(ngModel)]="contract.payDate">
-        <span>{{contract.payDate}}</span>
+        <input type="text" name="contractBtime" [(ngModel)]="contract.contractBtime">
+        <span>{{contract.contractBtime | date:'yyyy-MM-dd'}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">合同结束时间</span>
-        <input type="text" name="buildCost" [(ngModel)]="contract.buildCost">
-        <span>{{contract.buildCost}}</span>
+        <input type="text" name="contractEtime" [(ngModel)]="contract.contractEtime">
+        <span>{{contract.contractEtime | date:'yyyy-MM-dd'}}</span>
+      </label>
+    </li>
+    <li class="form-bar">
+      <label>
+        <span class="form-title">合同状态</span>
+        <input type="text" name="contactStatus" [(ngModel)]="contract.contactStatus">
+        <span>{{contract.contactStatus}}</span>
       </label>
     </li>
   </ul>
