@@ -9,8 +9,13 @@ export class Contract {
   filePath     : string;  /*附件地址*/
 
   /*自购*/
-
-
+  buyName      : string;  /*购买方*/
+  buyContacts  : string;  /*购买方联系人*/
+  buyPhone     : string;  /*购买方联系人电话*/
+  buyCost      : string;  /*购买价格*/
+  buyDate      : string;  /*购买日期*/
+  salesName    : string;  /*卖方*/
+  unitPrice    : string;  /*单价*/
 
   /*自建合同*/
   build        : string;  /*施工单位*/
@@ -26,9 +31,9 @@ export class Contract {
   cmccPhone    : number;
   contractBtime: string;   /!*开始时间*!/
   contractEtime: string;   /!*结束时间*!/*/
-  landLord     : string;    /*乙方*/
-  lContacts    : string;
-  lPhone       : string;
+  landLord     : string;   /*乙方*/
+  lContacts    : string;   /*乙方联系人*/
+  lPhone       : string;   /*乙方联系电话*/
 
 
   /*物业合同*/

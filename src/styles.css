@@ -129,10 +129,10 @@ select{
   -moz-appearance:none;
   -webkit-appearance:none;
   -ms-appearance:none;
+  background: url("assets/image/icon_arrow.png") no-repeat scroll right center transparent;
+  padding-right: 14px;
 }
-.icono-stroke,.icono-home,.icono-home:before,.icono-home:after,.icono-mail,.icono-mail:before,[class*="icono-check"][class*="Circle"],.icono-power,.icono-heart,.icono-heart:before,.icono-heart:after,.icono-infinity:before,.icono-infinity:after,.icono-flag:before,.icono-flag:after,.icono-file,.icono-document,.icono-folder,.icono-pin,.icono-pin:before,.icono-smile,.icono-smile:after,.icono-eye,.icono-sync,.icono-signIn,.icono-signIn:before,.icono-signOut,.icono-signOut:before,.icono-chain:before,.icono-chain:after,.icono-youtube,.icono-youtube:before,.icono-rename,.icono-search,.icono-book,.icono-book:before,.icono-book:after,.icono-forbidden,.icono-trash,.icono-keyboard,.icono-mouse,.icono-mouse:before,.icono-user,.icono-user:before,.icono-crop,.icono-crop:before,.icono-display,.icono-imac,.icono-imacBold,.icono-iphone,.icono-iphoneBold,.icono-macbook:before,.icono-macbookBold:before,.icono-image,.icono-headphone,.icono-video,.icono-nexus,.icono-microphone,.icono-microphone:before,.icono-terminal,.icono-paperClip,.icono-paperClip:before,.icono-paperClip:after,.icono-market,.icono-market:after,.icono-clock,.icono-commentEmpty,.icono-areaChart,.icono-bookmarkEmpty,.icono-bookmarkEmpty:before,.icono-volumeLow:before,.icono-tag,.icono-tag:after,.icono-camera,.icono-piano,.icono-ruler,.icono-creditCard,[class*="icono-"][class*="Circle"],.icono-frown,.icono-frown:after,.icono-meh,.icono-meh:after,.icono-barChart,.icono-volumeMedium:before,.icono-volumeHigh:after,.icono-volumeHigh:before {
-  border:2px solid
-}
+
 .stickCenterV,.icono-dropper:before,.icono-list:before,.icono-chain:before,.icono-chain:after,.icono-rename:before,.icono-video:before,.icono-paperClip:before,.icono-indent:before,.icono-volumeLow:before,.icono-volumeDecrease:before,.icono-volumeDecrease:after,.icono-flickr:before,.icono-flickr:after,.icono-outdent:before,.icono-volumeMedium:before,.icono-volumeHigh:after,.icono-volumeIncrease:before,.icono-volumeIncrease:after,.icono-volumeHigh:before,.icono-volumeMute:before,.icono-volumeMute:after {
   position:absolute;
   top:50%;

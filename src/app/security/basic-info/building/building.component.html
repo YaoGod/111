@@ -1,6 +1,9 @@
 <div class="view">
   <div class="msg">
-    <img [src]="+'/proxy'+building.imgPath" *ngIf="building.imgPath">
+    <div class="img-border">
+      <img class="div-img" [src]="+'/proxy'+ building.imgList[0] " *ngIf="building.imgPath">
+    </div>
+
     <h3>{{building.name}}</h3>
     <p>地址：<span>{{building.address}}</span></p>
     <ul class="nav-msg">

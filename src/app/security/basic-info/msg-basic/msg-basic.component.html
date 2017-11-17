@@ -1,78 +1,108 @@
+<div class="top-right">
+  <input class="btn-edit"
+         value="编辑"
+         type="button"
+         (click)="initEdit()">
+</div>
 <div class="view">
-  <div>
-      <img class="div-img" [src]="+'/proxy'+building.imgPath">
-      <!--<input type="file" name="imgPath">-->
+  <div class="img-border" (click)="clickImg();">
+    <img class="div-img"
+         [src]="+'/proxy' + building.imgList[0]"
+         *ngIf="building.imgPath&&!editStatus">
+    <img class="div-img"
+         [src]="+'/proxy' + copyBuilding.imgList[0]"
+         *ngIf="copyBuilding.imgPath&&editStatus">
+    <input name="file" id="file_upload" style=" visibility:hidden;"
+           type="file"
+           multiple
+           #prese
+           (change)="prese_upload(prese.files)"/>
   </div>
   <ul class="form-msg">
     <li class="form-bar">
       <label>
         <span class="form-title">大楼编号</span>
-        <input type="text" name="buildingId" [(ngModel)]="building.buildingId">
-        <span>{{building.buildingId}}</span>
+        <input type="text" name="buildingId" class="ipt"
+               [(ngModel)]="copyBuilding.buildingId">
+        <span class="word">{{building.buildingId}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">大楼名称</span>
-        <input type="text" name="name" [(ngModel)]="building.name">
-        <span>{{building.name}}</span>
+        <input type="text" name="name" class="ipt"
+               [(ngModel)]="copyBuilding.name">
+        <span class="word">{{building.name}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">楼层数</span>
-        <input type="text" name="floorNum" [(ngModel)]="building.floorNum">
-        <span>{{building.floorNum}}</span>
+        <input type="text" name="floorNum" class="ipt"
+               [(ngModel)]="copyBuilding.floorNum">
+        <span class="word">{{building.floorNum}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">楼高</span>
-        <input type="text" name="height" [(ngModel)]="building.height">
-        <span>{{building.height}}</span>
+        <input type="text" name="height" class="ipt"
+               [(ngModel)]="copyBuilding.height">
+        <span class="word">{{building.height}}</span>
       </label>
     </li>
     <li class="form-bar">
     <label>
       <span class="form-title">建筑面积</span>
-      <input type="text" name="area" [(ngModel)]="building.area">
-      <span>{{building.area}}</span>
+      <input type="text" name="area" class="ipt"
+             [(ngModel)]="copyBuilding.area">
+      <span class="word">{{building.area}}</span>
     </label>
     </li>
-    <li class="form-bar">
+    <li class="form-bar" *ngIf="building.belongTo === '自建'">
       <label>
         <span class="form-title">建造单位</span>
-        <input type="text" name="buildDept" [(ngModel)]="building.buildDept">
-        <span>{{building.buildDept}}</span>
+        <input type="text" name="buildDept" class="ipt"
+               [(ngModel)]="copyBuilding.buildDept">
+        <span class="word">{{building.buildDept}}</span>
       </label>
     </li>
-    <li class="form-bar">
+    <li class="form-bar" *ngIf="building.belongTo === '自建'">
       <label>
         <span class="form-title">建造日期</span>
-        <input type="text" name="buildTime" [(ngModel)]="building.buildTime">
-        <span>{{building.buildTime}}</span>
+        <input type="text" name="buildTime" class="ipt"
+               [(ngModel)]="copyBuilding.buildTime">
+        <span class="word">{{building.buildTime}}</span>
       </label>
     </li>
-    <li class="form-bar">
+    <li class="form-bar" *ngIf="building.belongTo !== '租赁'">
       <label>
         <span class="form-title">交付购买日期</span>
-        <input type="text" name="payTime" [(ngModel)]="building.payTime">
-        <span>{{building.payTime}}</span>
+        <input type="text" name="payTime" class="ipt"
+               [(ngModel)]="copyBuilding.payTime">
+        <span class="word">{{building.payTime}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">物业服务单位</span>
-        <input type="text" name="serviceUnit" [(ngModel)]="building.serviceUnit">
-        <span>{{building.serviceUnit}}</span>
+        <input type="text" name="serviceUnit" class="ipt"
+               [(ngModel)]="copyBuilding.serviceUnit">
+        <span class="word">{{building.serviceUnit}}</span>
       </label>
     </li>
     <li class="form-bar">
-      <label>
+      <label style="display: block;">
         <div class="form-title summary-title">大楼简介</div>
-        <input type="text" name="summary" [(ngModel)]="building.summary">
-        <div class="summary-text">{{building.summary}}</div>
+        <textarea class="bigText ipt" [(ngModel)]="copyBuilding.summary"></textarea>
+        <div class="summary-text word">{{building.summary}}</div>
       </label>
     </li>
   </ul>
+</div>
+<div class="box-option">
+  <input class="btn-close" type="button" value="取消"
+         (click)="closeEdit()">
+  <input class="btn-submit" type="button" value="提交"
+         (click)="submit()">
 </div>

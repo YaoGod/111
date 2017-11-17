@@ -22,4 +22,5 @@ export class Building{
   buildTime:     string; /*建造时间*/
   payTime:       string; /*交付/购买日期*/
   serviceUnit:   string; /*物业服务单位*/
+  imgList :      Array<string>;
 }

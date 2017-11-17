@@ -9,12 +9,6 @@
   background: #ffffff;
   box-shadow: 0 0 2px rgba(181, 186, 193, 0.25);
 }
-.msg>img{
-  float: right;
-  width: 150px;
-  border-radius: 5px;
-  box-shadow: 0 0 2px rgba(223, 223, 223, 0.32) inset;
-}
 .msg>h3{
   padding: 10px 0;
   font-weight: 700;
@@ -77,4 +71,15 @@ h4{
 }
 .nav-msg>li:hover>.msg-child{
   display:block;
+}
+.img-border{
+  float: right;
+  width: 150px;
+  height: 100px;
+  border-radius: 5px;
+  box-shadow: 0 0 2px rgba(223, 223, 223, 0.32) inset;
+  overflow: hidden;
+}
+.div-img{
+  width: 100%;
 }

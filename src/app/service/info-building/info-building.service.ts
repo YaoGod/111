@@ -140,10 +140,8 @@ export class InfoBuildingService {
    return:
    */
   updateBuilding(postData){
-    const headers = new Headers({'Content-Type': 'application/json'});
-    const options = new RequestOptions({headers: headers});
     const url = '/proxy/building/info/updateBuilding';
-    const data = {postData};
+    const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
@@ -153,10 +151,8 @@ export class InfoBuildingService {
    return:
    */
   updateFloor(postData){
-    const headers = new Headers({'Content-Type': 'application/json'});
-    const options = new RequestOptions({headers: headers});
     const url = '/proxy/building/info/updateFloor';
-    const data = {postData};
+    const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
@@ -166,10 +162,8 @@ export class InfoBuildingService {
    return:
    */
   updateRoom(postData){
-    const headers = new Headers({'Content-Type': 'application/json'});
-    const options = new RequestOptions({headers: headers});
     const url = '/proxy/building/info/updateRoom';
-    const data = {postData};
+    const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }

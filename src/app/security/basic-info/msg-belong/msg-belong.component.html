@@ -1,70 +1,87 @@
+<div class="top-right">
+  <input class="btn-edit" type="button" value="编辑"
+         (click)="initEdit()">
+</div>
 <div class="view">
-  <p>地图点位</p>
   <div class="div-map" id="map"></div>
   <ul class="form-msg">
     <li class="form-bar">
       <label>
         <span class="form-title">大楼编号</span>
-        <input type="text" name="buildingId" [(ngModel)]="building.buildingId">
-        <span>{{building.buildingId}}</span>
+        <input type="text" name="buildingId" class="ipt"
+               [(ngModel)]="copyBuilding.buildingId">
+        <span class="word">{{building.buildingId}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">大楼名称</span>
-        <input type="text" name="name" [(ngModel)]="building.name">
-        <span>{{building.name}}</span>
+        <input type="text" name="name" class="ipt"
+               [(ngModel)]="copyBuilding.name">
+        <span class="word">{{building.name}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">大楼性质</span>
-        <input type="text" name="type" [(ngModel)]="building.type">
-        <span>{{building.type}}</span>
+        <input type="text" name="type" class="ipt"
+               [(ngModel)]="copyBuilding.type">
+        <span class="word">{{building.type}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">大楼用途</span>
-        <input type="text" name="use" [(ngModel)]="building.use">
-        <span>{{building.use}}</span>
+        <input type="text" name="use" class="ipt"
+               [(ngModel)]="copyBuilding.use">
+        <span class="word">{{building.use}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">大楼归属</span>
-        <input type="text" name="belongTo" [(ngModel)]="building.belongTo">
-        <span>{{building.belongTo}}</span>
+        <input type="text" name="belongTo" class="ipt"
+               [(ngModel)]="copyBuilding.belongTo">
+        <span class="word">{{building.belongTo}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">大楼使用部门</span>
-        <input type="text" name="useDepartment" [(ngModel)]="building.useDepartment">
-        <span>{{building.useDepartment}}</span>
+        <input type="text" name="useDepartment" class="ipt"
+               [(ngModel)]="copyBuilding.useDepartment">
+        <span class="word">{{building.useDepartment}}</span>
       </label>
     </li>
     <li class="form-bar">
     <label>
       <span class="form-title">地址</span>
-      <input type="text" name="area" [(ngModel)]="building.address">
-      <span>{{building.address}}</span>
+      <input type="text" name="area" class="ipt"
+             [(ngModel)]="copyBuilding.address">
+      <span class="word">{{building.address}}</span>
     </label>
   </li>
     <li class="form-bar">
       <label>
         <span class="form-title">经度</span>
-        <input type="text" name="lat" [(ngModel)]="building.lat">
-        <span>{{building.lat}}</span>
+        <input type="text" name="lat" class="ipt" disabled
+               [(ngModel)]="copyBuilding.lat">
+        <span class="word">{{building.lat}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">纬度</span>
-        <input type="text" name="lon" [(ngModel)]="building.lon">
-        <span>{{building.lon}}</span>
+        <input type="text" name="lon" class="ipt" disabled
+               [(ngModel)]="copyBuilding.lon">
+        <span class="word">{{building.lon}}</span>
       </label>
     </li>
   </ul>
 </div>
-
+<div class="box-option">
+  <input class="btn-close" type="button" value="取消"
+         (click)="closeEdit()">
+  <input class="btn-submit" type="button" value="提交"
+         (click)="submit()">
+</div>

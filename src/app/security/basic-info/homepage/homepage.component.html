@@ -48,10 +48,10 @@
         <a class="btn-detail" [routerLink]="['detail',1]">详情</a>
       </div>
     </li>-->
-    <li class="card" *ngFor="let building of buildings">
+    <li class="card" *ngFor="let building of buildings;let idx=index">
       <div class="card-img">
        <!-- <img src="../../../../assets/image/demo_building.png">-->
-        <img [src]="+'/proxy'+building.imgPath">
+        <img [src]="+'/proxy'+imgPaths[idx][0]">
       </div>
       <div class="mark">
         <h3>{{building.name}}No.{{building.buildingId}}</h3>
