@@ -5,7 +5,7 @@
 }
 .msg{
   height: 100%;
-  padding: 30px;
+  padding: 2%;
   background: #ffffff;
   box-shadow: 0 0 2px rgba(181, 186, 193, 0.25);
 }
@@ -26,7 +26,6 @@
 }
 .nav-msg>li{
   width: 150px;
-  /*height: 40px;*/
   font-size: 16px;
   text-align: center;
   cursor: pointer;

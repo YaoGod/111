@@ -3,21 +3,22 @@
   <ul>
     <li>
       <label>楼层
-        <select>
-          <option></option>
+        <select [(ngModel)]="searchFloor.floorNum">
+          <option>全部</option>
+          <option *ngFor="let name of floorNames" [value]="name.FLOOR_NUM">{{name.FLOOR_NUM}}</option>
         </select>
       </label>
     </li>
     <li>
       <label>楼层功能
-        <input type="text">
+        <input type="text" [(ngModel)]="searchFloor.floorUse" >
       </label>
     </li>
     <li>
       <div class="search-icon" >
         <img src="../../../../assets/image/icon_search.png">
       </div>
-      <input class="search-btn" type="button" value="查询">
+      <input class="search-btn" type="button" value="查询" (click)="search();">
     </li>
   </ul>
 </div>
@@ -40,9 +41,16 @@
       <td width="15%">{{floor.buildingName}}</td>
       <td width="15%">{{floor.floorNum}}</td>
       <td width="20%">{{floor.floorUse}}</td>
-      <td width="35%">查看</td>
-      <td width="15%">查看房间信息</td>
+      <td width="35%" class="box-demo">
+        <img src="../../../../assets/image/demo_floor.jpg" (click)="viewImg()">
+      </td>
+      <td width="15%" class="box-option">
+        <img src="../../../../assets/image/icon_bird.png">
+        <img src="../../../../assets/image/icon_edit.png">
+        <img src="../../../../assets/image/icon_can.png">
+      </td>
     </tr>
+    <tr class="row-add"><td colspan="5">添加</td></tr>
   </table>
 </div>
 <!--翻页-->
@@ -55,4 +63,15 @@
       {{i}}
     </li>
   </ul>
+</div>
+<!--图片查看器-->
+<div class="view-img" [hidden]="isViewImg">
+  <div class="back"></div>
+  <span class="close" (click)="closeViewImg()"></span>
+  <img class="big-img" [ngStyle]="{'width':imgWidth+'px','margin-left':- imgWidth/2 +'px'}"
+       src="../../../../assets/image/demo_floor.jpg">
+  <div class="option-bar">
+    <span class="enlarge" (click)="addImg()"></span>
+    <span class="less" (click)="decsImg()"></span>
+  </div>
 </div>

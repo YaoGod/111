@@ -67,7 +67,7 @@ input[type=text]{
 .list-box{
   width: 100%;
 }
-.row{
+.row,.row-add{
   height: 35px;
 }
 .row td, .row th{
@@ -75,8 +75,16 @@ input[type=text]{
   text-align: center;
   border-bottom: 1px solid #e1eaf2;
 }
-.row td{
+.row td,.row-add td{
   font-size: 12px;
+  text-align: center;
+}
+.row-add td{
+  background-color: #ebeff7;
+}
+.row-add td:hover{
+  background-color: #e1eaf2;
+  cursor: pointer;
 }
 .turn>ul{
   display: flex;
@@ -98,4 +106,70 @@ input[type=text]{
   color: #ffffff;
   background: #04a9f3;
   border-color: #04a9f3;
+}
+
+.view-img{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+.back{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: black;
+  filter:alpha(Opacity=80);
+  -moz-opacity:0.8;
+  opacity: 0.8;
+}
+.close{
+  position: absolute;
+  right: 0;
+  width: 70px;
+  height: 70px;
+  background: url("../../../../assets/image/icon_close_circle.png") no-repeat scroll right top transparent;
+  cursor: pointer;
+}
+.big-img{
+  position: absolute;
+  margin-left: -17%;
+  top: 130px;
+  width: auto;
+  min-width: 20%;
+  max-width: 80%;
+}
+.option-bar{
+  position: absolute;
+  bottom: 0 ;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  background-color: black;
+  text-align: center;
+}
+.option-bar>span{
+  display: inline-block;
+  margin-top: 14px;
+
+  width: 32px;
+  height: 32px;
+}
+.enlarge{
+  background: url("../../../../assets/image/icon_enlarge.png") no-repeat scroll center center transparent;
+}
+.less{
+  background: url("../../../../assets/image/icon_ensmall.png") no-repeat scroll center center transparent;
+}
+
+.box-demo>img{
+  height: 32px;
+  cursor: pointer;
+}
+
+.box-option>img{
+  width: 24px;
+  height: 24px;
 }

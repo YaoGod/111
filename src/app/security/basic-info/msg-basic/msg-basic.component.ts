@@ -14,9 +14,11 @@ declare var $:any;
 })
 
 export class MsgBasicComponent implements OnInit {
-  public building     : Building = new Building;   /*大楼信息*/
+  public building     : Building = new Building();   /*大楼信息*/
   public copyBuilding : Building = new Building(); /*大楼信息浅层拷贝*/
   public editStatus   : Boolean  = false;
+  public isViewImg    : boolean = true;
+  public imgWidth     : number = 500;
   constructor(
     private infoBuildingService:InfoBuildingService,
     private utilBuildingService:UtilBuildingService,
@@ -47,8 +49,8 @@ export class MsgBasicComponent implements OnInit {
       $('#file_upload').trigger('click');
     }else{
       // 查看图片大图
+      this.viewImg();
     }
-
   }
   /*取消操作*/
   closeEdit(){
@@ -86,5 +88,25 @@ export class MsgBasicComponent implements OnInit {
         }
       }
     };
+  }
+  /*查看图片*/
+  viewImg(){
+
+    this.isViewImg = false;
+  }
+  closeViewImg(){
+    this.isViewImg = true;
+  }
+  /*放大图片*/
+  addImg(){
+    if(this.imgWidth<1000){
+      this.imgWidth += 50;
+    }
+  }
+  /*缩小图片*/
+  decsImg(){
+    if(this.imgWidth>500){
+      this.imgWidth -= 50;
+    }
   }
 }

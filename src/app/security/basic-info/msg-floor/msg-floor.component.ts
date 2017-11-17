@@ -5,6 +5,8 @@ import { ErrorResponseService } from '../../../service/error-response/error-resp
 import { Building } from '../../../mode/building/building.service';
 import { Floor } from '../../../mode/floor/floor.service';
 import { Router } from '@angular/router';
+import * as $ from 'jquery';
+declare var $:any;
 @Component({
   selector: 'app-msg-floor',
   templateUrl: './msg-floor.component.html',
@@ -13,11 +15,15 @@ import { Router } from '@angular/router';
 })
 export class MsgFloorComponent implements OnInit {
 
-  public building:Building;    /*大楼信息*/
-  public floors: Array<Floor>;        /*大楼楼层列表*/
-  private pageNo: number = 1;
-  private pageSize: number = 8;
-  public pages: Array<number>;
+  public building   : Building;       /*大楼信息*/
+  public floors     : Array<Floor>;   /*大楼楼层列表*/
+  public floorNames : Array<any>;  /*大楼楼层名称列表*/
+  public searchFloor: Floor;
+  private pageNo    : number = 1;
+  private pageSize  : number = 8;
+  public pages      : Array<number>;
+  public isViewImg  : boolean = true;
+  public imgWidth   : number = 500;
   constructor(
     private globalBuilding:GlobalBuildingService,
     private infoBuildingService:InfoBuildingService,
@@ -29,17 +35,21 @@ export class MsgFloorComponent implements OnInit {
 
   ngOnInit() {
     this.floors = new Array<Floor>();
+    let id =Number( this.router.url.split('/')[5]);
+    this.searchFloor = new Floor();
+    this.searchFloor.buildingId = id;
+   /* this.searchFloor.floorNum = '0';*/
     this.globalBuilding.valueUpdated.subscribe(
       (val) =>{
         this.building = this.globalBuilding.getVal();
       }
     );
+    this.getFloorNameListInfo(id);
     this.getFloorInfo(this.pageNo,this.pageSize);
   }
   /*获取楼层信息*/
   getFloorInfo(pageNo:number,pageSize:number){
-    var id = this.router.url.split('/')[5];
-    this.infoBuildingService.getFloorListMsg( Number(id), pageNo,pageSize)
+    this.infoBuildingService.getFloorListMsg( this.searchFloor, pageNo,pageSize)
       .subscribe(data =>{
         if(this.errorVoid.errorMsg(data.status)) {
           this.floors = data.data.infos;
@@ -47,6 +57,20 @@ export class MsgFloorComponent implements OnInit {
           this.initPage(total);
         }
       });
+  }
+  /*获取楼层名称*/
+  getFloorNameListInfo(id:number){
+    this.infoBuildingService.getFloorNameListMsg(id)
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data.status)) {
+          this.floorNames = data.data;
+        }
+      });
+  }
+  search(){
+    this.pageNo = 1;
+    this.pageSize = 8;
+    this.getFloorInfo(this.pageNo,this.pageSize);
   }
   /*页码初始化*/
   initPage(total){
@@ -75,5 +99,24 @@ export class MsgFloorComponent implements OnInit {
   goPage(page:number){
     this.pageNo = page;
     this.getFloorInfo(this.pageNo,this.pageSize);
+  }
+  /*查看图片*/
+  viewImg(){
+    this.isViewImg = false;
+  }
+  closeViewImg(){
+    this.isViewImg = true;
+  }
+  /*放大图片*/
+  addImg(){
+    if(this.imgWidth<1000){
+      this.imgWidth += 50;
+    }
+  }
+  /*缩小图片*/
+  decsImg(){
+    if(this.imgWidth>500){
+      this.imgWidth -= 50;
+    }
   }
 }

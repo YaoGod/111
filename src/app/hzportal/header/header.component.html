@@ -39,11 +39,11 @@
           <div class="menu-one" (click)="Listslider($event)"><i class="icono-codepen" ></i> {{catalog.name}}<span></span></div>
           <ol class="menu-second">
             <li *ngFor="let child of catalog.childs">
-              <a [routerLink]="[child.routeUrl]" routerLinkActive="active" class="item">{{child.name}}</a>
+            <a [routerLink]="[child.routeUrl]" routerLinkActive="active" class="item">{{child.name}}</a>
             </li>
           </ol>
         </li>
-
+        <li><a routerLink = "employ">点我到员工服务</a></li>
       </ul>
   </div>
   <div class="nav-right">

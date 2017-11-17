@@ -30,8 +30,13 @@ const routes: Routes = [
         path: 'security',
         loadChildren: '../security/security.module#SecurityModule'
       },
+      {
+        path: 'employ',
+        loadChildren: '../employ/employ.module#EmployModule'
+      }
     ]
   }
+
 ];
 
 @NgModule({

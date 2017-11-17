@@ -27,6 +27,7 @@ export class BuildingComponent implements OnInit {
   /*初始化时间钩子*/
   ngOnInit() {
     this.building = new Building;
+    this.building.imgList = [];
     this.imgPaths = new Array<string>(1);
     this.loading();
   }
@@ -47,7 +48,8 @@ export class BuildingComponent implements OnInit {
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data.status)){
           this.building = data.data.buildingInfo;
-          if( this.building.imgPath != null){
+          this.building.imgList = [];
+          if(this.building.imgPath != null){
             this.building.imgList = this.building.imgPath.split(',');
           }
           if(typeof (data.data.attachInfo) !== 'undefined' && data.data.attachInfo !== null){

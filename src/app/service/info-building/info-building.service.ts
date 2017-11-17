@@ -42,8 +42,18 @@ export class InfoBuildingService {
    param:  pageSize:number, #页码展示条数
    return:   #大楼基础信息实体类
    */
-  getFloorListMsg (id:number,pageNo:number,pageSize:number) {
-    const url = '/proxy/building/info/getFloorList/'+id+'/'+pageNo+'/'+pageSize;
+  getFloorListMsg (data:any,pageNo:number,pageSize:number) {
+    const url = '/proxy/building/info/getFloorList/'+pageNo+'/'+pageSize;
+    return this.http.post(url,data,this.options)
+      .map(res => res.json());
+  }
+  /*
+   获取指定大楼楼层名称列表
+   param: id:number,     #大楼ID
+   return:   #大楼基础信息实体类
+   */
+  getFloorNameListMsg(id:number){
+    const url ='/proxy/building/info/getFloorNumList/3';
     return this.http.get(url,this.options)
       .map(res => res.json());
   }

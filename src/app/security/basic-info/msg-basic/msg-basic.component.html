@@ -7,10 +7,10 @@
 <div class="view">
   <div class="img-border" (click)="clickImg();">
     <img class="div-img"
-         [src]="+'/proxy' + building.imgList[0]"
+         [src]="'/proxy' + building.imgList[0]"
          *ngIf="building.imgPath&&!editStatus">
     <img class="div-img"
-         [src]="+'/proxy' + copyBuilding.imgList[0]"
+         [src]="'/proxy' + copyBuilding.imgList[0]"
          *ngIf="copyBuilding.imgPath&&editStatus">
     <input name="file" id="file_upload" style=" visibility:hidden;"
            type="file"
@@ -105,4 +105,16 @@
          (click)="closeEdit()">
   <input class="btn-submit" type="button" value="提交"
          (click)="submit()">
+</div>
+
+<!--图片查看器-->
+<div class="view-img" [hidden]="isViewImg">
+  <div class="back"></div>
+  <span class="close" (click)="closeViewImg()"></span>
+  <img class="big-img" [ngStyle]="{'width':imgWidth+'px','margin-left':- imgWidth/2 +'px'}"
+       [src]="'/proxy' + building.imgList[0]"  *ngIf="building.imgPath&&!editStatus">
+  <div class="option-bar">
+    <span class="enlarge" (click)="addImg()"></span>
+    <span class="less" (click)="decsImg()"></span>
+  </div>
 </div>
