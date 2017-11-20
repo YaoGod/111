@@ -9,4 +9,5 @@ export class Floor {
   buildingName: string; /*大楼名称*/
   floorNum: string;     /*楼层号*/
   floorUse: string;     /*楼层功能*/
+  imgPath: string;      /*楼层平面图*/
 }

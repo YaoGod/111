@@ -1,43 +1,51 @@
 <!--大楼搜索栏-->
-<div class="search-bar">
-  <ul>
-    <li>
-      <label>大楼编号
-      <input type="text">
-      </label>
-    </li>
-    <li>
-      <label>大楼名称
-        <input type="text">
-      </label>
-    </li>
-    <li>
-      <label>大楼性质
-        <select>
-          <option>全部</option>
-          <option>自建</option>
-          <option>自购</option>
-          <option>租赁</option>
-        </select>
-      </label>
-    </li>
-    <li>
-      <label>大楼地址
-        <input type="text">
-      </label>
-    </li>
-    <li>
-      <div class="search-icon" >
-        <img src="../../../../assets/image/icon_search.png">
+<div class="view">
+  <div class="search-bar">
+    <div class="panel-head">
+      <i class="icon-magnifier"></i>
+          搜索
+      <div class="panel-action">
+        <a href="javascript:;" (click)="slideToggle();">
+          <i class="ti-minus"></i>
+        </a>
       </div>
-      <input type="button" value="查询">
-    </li>
-  </ul>
+    </div>
+    <div class="panel" style="display: none;">
+      <ul>
+        <li>
+          <label>大楼编号</label>
+          <input type="text">
+        </li>
+        <li>
+          <label>大楼名称</label>
+          <input type="text">
+        </li>
+        <li>
+          <label>大楼性质</label>
+          <select>
+            <option>全部</option>
+            <option>自建</option>
+            <option>自购</option>
+            <option>租赁</option>
+          </select>
+        </li>
+        <li>
+          <label>大楼地址</label>
+          <input type="text">
+        </li>
+      </ul>
+      <div class="panel-search">
+        <input class="btn-info" type="button" value="开始查询">
+      </div>
+    </div>
+  </div>
 </div>
-
 <!--大楼列表展示-->
 <div class="view">
-  <ul>
+  <div class="row">
+      <a class="btn btn-danger" href="javascript:;"><i class="ti-plus"></i> 新增</a>
+  </div>
+  <ul class="page-area">
   <!--  <li class="card">
       <div class="card-img">
         <img src="../../../../assets/image/demo_building.png">
@@ -50,13 +58,29 @@
     </li>-->
     <li class="card" *ngFor="let building of buildings;let idx=index">
       <div class="card-img">
+        <div class="el-overlay">
+          <ul class="el-info">
+            <li><a class="btn-center-edit" href="javascript:;"><i class="ti-marker-alt"></i></a></li>
+            <li><a class="btn-center-del" href="javascript:;"><i class="ti-trash"></i></a></li>
+          </ul>
+        </div>
        <!-- <img src="../../../../assets/image/demo_building.png">-->
         <img [src]="+'/proxy'+imgPaths[idx][0]">
       </div>
+
       <div class="mark">
-        <h3>{{building.name}}No.{{building.buildingId}}</h3>
-        <p>{{building.summary}}</p>
-        <a class="btn-detail" [routerLink]="['detail',building.id]">详情</a>
+        <span>No.{{building.buildingId}}</span>
+        <h3>{{building.name}}</h3>
+       <!-- <p>{{building.summary}}</p>-->
+       <!-- <a class="btn-detail" [routerLink]="['detail',building.id]">详情</a>-->
+        <div class="text-muted">
+          <a class="text-muted " [routerLink]="['detail',building.id]" >
+            <i class="ti-file"></i> 详情</a>
+          <a class="text-muted m-l-10 m-r-10" href="javascript:;"><i class="ti-marker-alt"></i> 修改</a>
+          <a class="text-muted m-l-10" href="javascript:;" onclick="onDel('4001');"><i class="ti-trash">
+          </i> 删除
+          </a>
+        </div>
       </div>
     </li>
   </ul>
@@ -71,6 +95,5 @@
     </ul>
   </div>
 </div>
-<footer class="foot">
-  2017`中国移动集团浙江有限公司杭州分公司
-</footer>
+
+

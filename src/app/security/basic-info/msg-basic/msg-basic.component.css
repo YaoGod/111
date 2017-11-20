@@ -6,7 +6,6 @@
   width:500px;
   height:320px;
   padding-right: 5%;
-  padding-bottom: 20px;
   overflow: hidden;
   cursor: pointer;
 }
@@ -33,7 +32,6 @@
   color: #686868;
 }
 .form-bar{
-  height: 35px;
   min-width: 300px;
   line-height: 30px;
   color: #686868;
@@ -89,8 +87,8 @@
 .box-option{
   display: none;
   position: relative;
-  top: 180px;
-  width: 50%;
+  height: 40px;
+  padding-right: 6%;
   margin: 0 auto;
 }
 .box-option>input[type=button]{
@@ -152,3 +150,4 @@
 .less{
   background: url("../../../../assets/image/icon_ensmall.png") no-repeat scroll center center transparent;
 }
+

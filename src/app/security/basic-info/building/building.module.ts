@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BuildingComponent } from './building.component';
-import { GlobalFooterComponent } from '../global-footer/global-footer.component';
 import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
 import { GlobalBuildingService } from '../../../service/global-building/global-building.service';
@@ -51,7 +50,7 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers:[ GlobalBuildingService ],
-  declarations: [BuildingComponent,GlobalFooterComponent]
+  declarations: [BuildingComponent]
 })
  /*大楼基本信息单页*/
 export class BuildingModule { }

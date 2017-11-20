@@ -6,7 +6,6 @@ ul,li{
 .search-bar{
   height: 65px;
   line-height: 65px;
-  padding: 0 30px;
   background: #ffffff;
 }
 .search-bar>ul{
@@ -76,8 +75,14 @@ input[type=text]{
   border-bottom: 1px solid #e1eaf2;
 }
 .row td,.row-add td{
+  color: #686868;
   font-size: 12px;
   text-align: center;
+}
+.row td>input[type=text],.row td>select{
+  border: 1px solid #e1eaf2;
+  border-radius: 3px;
+  color: #686868;
 }
 .row-add td{
   background-color: #ebeff7;
@@ -172,4 +177,53 @@ input[type=text]{
 .box-option>img{
   width: 24px;
   height: 24px;
+  cursor: pointer;
+}
+.btn-add{
+  height: 36px;
+  line-height: 36px;
+}
+.btn-danger{
+  padding: .5rem 1.2rem;
+  padding-left:16px;
+  padding-right:16px;
+  -moz-border-radius:6px;
+  -webkit-border-radius:6px;
+  border-radius:6px;
+  font-size: 14px;
+  color: #fff;
+  background: #fb9678;
+  border: 1px solid #fb9678;
+  cursor: pointer;
+}
+.disable{
+  opacity: .2;
+  cursor: default;
+}
+.btn-upload{
+
+}
+.btn-upload>a{
+  display: inline-block;
+  position: relative;
+  padding: 2px 1.2rem;
+  padding-left:16px;
+  padding-right:16px;
+  -moz-border-radius:6px;
+  -webkit-border-radius:6px;
+  border-radius:6px;
+  font-size: 14px;
+  color: #fff;
+  background: #fb9678;
+  border: 1px solid #fb9678;
+  cursor: pointer;
+}
+.img-upload{
+  position: absolute;
+  margin-top: -21.5px;
+  margin-left: -31px;
+  border-radius: 5px;
+  width: 62px;
+  z-index: 2;
+  opacity: 0;
 }

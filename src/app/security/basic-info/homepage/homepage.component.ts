@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Building } from '../../../mode/building/building.service';
 import { InfoBuildingService } from '../../../service/info-building/info-building.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
-import {split} from "ts-node/dist";
+import * as $ from 'jquery';
+declare var $:any;
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
@@ -13,7 +14,7 @@ export class HomepageComponent implements OnInit {
   public buildings :Array<Building>;
   public imgPaths : any;
   private pageNo    :number = 1; /*当前页码*/
-  private pageSize  :number = 3; /*显示页数*/
+  private pageSize  :number = 6; /*显示页数*/
   private search    :string = ''; /*搜索字段*/
   public pages: Array<number>;
   constructor(
@@ -78,5 +79,7 @@ export class HomepageComponent implements OnInit {
     this.pageNo = page;
     this.getBuildingMsg(this.pageNo,this.pageSize);
   }
-
+  slideToggle(){
+    $('.panel').slideToggle();
+  }
 }

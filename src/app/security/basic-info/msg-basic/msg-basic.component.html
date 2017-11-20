@@ -6,7 +6,7 @@
 </div>
 <div class="view">
   <div class="img-border" (click)="clickImg();">
-    <img class="div-img"
+    <img class="div-img origin"
          [src]="'/proxy' + building.imgList[0]"
          *ngIf="building.imgPath&&!editStatus">
     <img class="div-img"
@@ -99,13 +99,14 @@
       </label>
     </li>
   </ul>
-</div>
-<div class="box-option">
+  <div class="box-option">
   <input class="btn-close" type="button" value="取消"
          (click)="closeEdit()">
   <input class="btn-submit" type="button" value="提交"
          (click)="submit()">
+  </div>
 </div>
+
 
 <!--图片查看器-->
 <div class="view-img" [hidden]="isViewImg">

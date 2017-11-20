@@ -1,10 +1,11 @@
 <!--搜索栏-->
 <div class="search-bar">
   <ul>
+    <li style="width: auto; padding-right: 20px;"><a class="btn-danger">添加</a></li>
     <li>
       <label>楼层
         <select [(ngModel)]="searchFloor.floorNum">
-          <option>全部</option>
+          <option value="">全部</option>
           <option *ngFor="let name of floorNames" [value]="name.FLOOR_NUM">{{name.FLOOR_NUM}}</option>
         </select>
       </label>
@@ -37,25 +38,66 @@
 <!--表格内容-->
 <div class="table-content" style="height: 390px">
   <table border="0" cellspacing="0" cellpadding="0" class="list-box">
-    <tr class="row"  style="height:45px;" *ngFor="let floor of floors">
-      <td width="15%">{{floor.buildingName}}</td>
-      <td width="15%">{{floor.floorNum}}</td>
-      <td width="20%">{{floor.floorUse}}</td>
+    <tr class="row"  style="height:45px;" *ngFor="let floor of floors;let i = index">
+      <td width="15%">
+        <span *ngIf="!copyFloors[i].editStatus">
+          {{floor.buildingName}}
+        </span>
+        <input type="text" name="buildingName"
+               *ngIf="copyFloors[i].editStatus"
+               [(ngModel)]="copyFloors[i].buildingName">
+      </td>
+      <td width="15%">
+        <span *ngIf="!copyFloors[i].editStatus">
+          {{floor.floorNum}}
+        </span>
+        <input type="text" name="floorNum"
+               *ngIf="copyFloors[i].editStatus"
+               [(ngModel)]="copyFloors[i].floorNum">
+      </td>
+      <td width="20%">
+        <span *ngIf="!copyFloors[i].editStatus">
+          {{floor.floorUse}}
+        </span>
+        <select  *ngIf="copyFloors[i].editStatus"
+                 [(ngModel)]="copyFloors[i].floorUse">
+          <option>车库</option>
+          <option>大厅</option>
+          <option>餐厅</option>
+          <option>办公层</option>
+          <option>设备机房层</option>
+          <option>多功能厅</option>
+          <option>员工活动层</option>
+          <option>其他</option>
+        </select>
+      </td>
       <td width="35%" class="box-demo">
-        <img src="../../../../assets/image/demo_floor.jpg" (click)="viewImg()">
+        <img *ngIf="floor.imgPath && !copyFloors[i].editStatus"
+             [src]="'/proxy' + floor.imgPath"
+             (click)="viewImg()">
+        <img src="../../../../assets/image/icon_img.png" *ngIf="!floor.imgPath && !copyFloors[i].editStatus">
+        <div  *ngIf="copyFloors[i].editStatus" class="btn-upload">
+          <img [src]="'/proxy' + copyFloors.imgPath" *ngIf="copyFloors.imgPath">
+          <a>上传
+            <input type="file" name="imgPath" class="img-upload" #prese
+                   (change)="prese_upload(prese.files,i)">
+          </a>
+        </div>
       </td>
       <td width="15%" class="box-option">
         <img src="../../../../assets/image/icon_bird.png">
-        <img src="../../../../assets/image/icon_edit.png">
+        <img src="../../../../assets/image/icon_edit.png" (click)="initEdit(i)">
+        <img src="../../../../assets/image/icon_save.png"
+             [ngClass]="!copyFloors[i].editStatus?'disable':''"
+             (click)="save(i)">
         <img src="../../../../assets/image/icon_can.png">
       </td>
     </tr>
-    <tr class="row-add"><td colspan="5">添加</td></tr>
   </table>
 </div>
 <!--翻页-->
 <div class="turn">
-  <ul>
+  <ul *ngIf="pages.length > 1">
     <li *ngFor="let i of pages"
         [hidden] = "pageLimit(i)"
         [ngClass]="{'active':i === pageNo}"

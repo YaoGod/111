@@ -89,8 +89,7 @@
 .box-option{
   display: none;
   position: relative;
-  top: 150px;
-  width: 50%;
+  padding-right: 6%;
   margin: 0 auto;
 }
 .box-option>input[type=button]{

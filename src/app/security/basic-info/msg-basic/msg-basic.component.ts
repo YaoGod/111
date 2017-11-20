@@ -81,7 +81,6 @@ export class MsgBasicComponent implements OnInit {
       xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
-        console.log(data);
         if(this.errorVoid.errorMsg(data.status)){
           this.copyBuilding.imgPath = data.msg;
           this.copyBuilding.imgList[0] = data.msg;
