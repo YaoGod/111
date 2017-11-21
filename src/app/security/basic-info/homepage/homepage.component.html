@@ -10,20 +10,20 @@
         </a>
       </div>
     </div>
-    <div class="panel" style="display: none;">
+    <div class="panel">
       <ul>
         <li>
           <label>大楼编号</label>
-          <input type="text">
+          <input type="text" name="name" [(ngModel)]="search.buildingId">
         </li>
         <li>
           <label>大楼名称</label>
-          <input type="text">
+          <input type="text" [(ngModel)]="search.name">
         </li>
         <li>
           <label>大楼性质</label>
-          <select>
-            <option>全部</option>
+          <select  [(ngModel)]="search.type">
+            <option value="">全部</option>
             <option>自建</option>
             <option>自购</option>
             <option>租赁</option>
@@ -31,11 +31,11 @@
         </li>
         <li>
           <label>大楼地址</label>
-          <input type="text">
+          <input type="text"  [(ngModel)]="search.address">
         </li>
       </ul>
       <div class="panel-search">
-        <input class="btn-info" type="button" value="开始查询">
+        <input class="btn-info" type="button" value="开始查询" (click)="getBuildingMsg()">
       </div>
     </div>
   </div>
@@ -57,29 +57,25 @@
       </div>
     </li>-->
     <li class="card" *ngFor="let building of buildings;let idx=index">
-      <div class="card-img">
-        <div class="el-overlay">
+      <div class="card-img" [routerLink]="['detail',building.id]">
+     <!--   <div class="el-overlay">
           <ul class="el-info">
             <li><a class="btn-center-edit" href="javascript:;"><i class="ti-marker-alt"></i></a></li>
             <li><a class="btn-center-del" href="javascript:;"><i class="ti-trash"></i></a></li>
           </ul>
-        </div>
+        </div>-->
        <!-- <img src="../../../../assets/image/demo_building.png">-->
         <img [src]="+'/proxy'+imgPaths[idx][0]">
       </div>
-
       <div class="mark">
         <span>No.{{building.buildingId}}</span>
         <h3>{{building.name}}</h3>
        <!-- <p>{{building.summary}}</p>-->
        <!-- <a class="btn-detail" [routerLink]="['detail',building.id]">详情</a>-->
         <div class="text-muted">
-          <a class="text-muted " [routerLink]="['detail',building.id]" >
-            <i class="ti-file"></i> 详情</a>
-          <a class="text-muted m-l-10 m-r-10" href="javascript:;"><i class="ti-marker-alt"></i> 修改</a>
-          <a class="text-muted m-l-10" href="javascript:;" onclick="onDel('4001');"><i class="ti-trash">
-          </i> 删除
-          </a>
+          <a class="text-muted " [routerLink]="['detail',building.id]" ><i class="ti-file"></i> 详情</a>
+        <!--  <a class="text-muted m-l-10 m-r-10" href="javascript:;"><i class="ti-marker-alt"></i> 修改</a>-->
+          <a class="text-muted" href="javascript:;" (click)="delete(building.id)"><i class="ti-trash"></i> 删除</a>
         </div>
       </div>
     </li>

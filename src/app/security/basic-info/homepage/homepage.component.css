@@ -102,6 +102,7 @@ input[type=text]{
   background: #03a9f3;
   opacity: .8;
   border: 1px solid #03a9f3;
+  cursor: pointer;
 }
 .view{
   padding-left : 2%;
@@ -122,6 +123,7 @@ input[type=text]{
 }
 .card{
   margin:0  1%;
+  padding-bottom: 20px;
   width: 31.33%;
 }
 
@@ -131,6 +133,7 @@ input[type=text]{
   height: 0;
   padding-top:13.25vw;
   margin-bottom: 10px;
+  cursor: pointer;
   overflow: hidden;
 }
 .card-img>img{
@@ -230,7 +233,6 @@ input[type=text]{
 }
 .text-muted{
   margin-bottom: 20px;
-  margin-top: 20px;
   color: #8d9ea7;
   text-align: center;
 }
@@ -288,5 +290,16 @@ input[type=text]{
   border-radius:6px;
   font-size: 14px;
   background: #fb9678;
+  border: 1px solid #fb9678;
+}
+.btn-danger.disabled.focus,
+.btn-danger.disabled:focus,
+.btn-danger.disabled:hover,
+.btn-danger.focus,
+.btn-danger:focus,
+.btn-danger:hover {
+  background: #fb9678;
+  opacity: .8;
+  color: #ffffff;
   border: 1px solid #fb9678;
 }

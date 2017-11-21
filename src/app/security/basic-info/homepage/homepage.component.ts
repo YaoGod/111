@@ -15,7 +15,7 @@ export class HomepageComponent implements OnInit {
   public imgPaths : any;
   private pageNo    :number = 1; /*当前页码*/
   private pageSize  :number = 6; /*显示页数*/
-  private search    :string = ''; /*搜索字段*/
+  public search    :Building ; /*搜索字段*/
   public pages: Array<number>;
   constructor(
     private infoBuildingService:InfoBuildingService,
@@ -23,15 +23,17 @@ export class HomepageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getBuildingMsg(this.pageNo,this.pageSize);
+    this.search = new Building();
+    this.search.type = '';
+    this.getBuildingMsg();
   }
   /*获取大楼列表*/
-  getBuildingMsg(pageNo,pageSize){
-    this.infoBuildingService.getBuildingList(pageNo,pageSize,this.search)
+  getBuildingMsg(){
+    this.infoBuildingService.getBuildingList(this.pageNo,this.pageSize,this.search)
       .subscribe(data =>{
-        if(this.errorVoid.errorMsg(data.data.errorVoid)){
+        if(this.errorVoid.errorMsg(data.status)){
           this.buildings = data.data.infos;
-          let total = Math.ceil(data.data.total / pageSize);
+          let total = Math.ceil(data.data.total / this.pageSize);
           this.initPage(total);
           this.splitImgPaths(this.buildings);
         }
@@ -77,9 +79,22 @@ export class HomepageComponent implements OnInit {
   /*跳页加载数据*/
   goPage(page:number){
     this.pageNo = page;
-    this.getBuildingMsg(this.pageNo,this.pageSize);
+    this.getBuildingMsg();
   }
+  /*折叠动画*/
   slideToggle(){
     $('.panel').slideToggle();
+  }
+  /*删除*/
+  delete(id:number){
+    let d = confirm("是否删除该大楼");
+    if(d){
+      this.infoBuildingService.deleteBuilding(id)
+        .subscribe(data => {
+          if(this.errorVoid.errorMsg(data.status)) {
+            alert(data.msg);
+          }
+        });
+    }
   }
 }

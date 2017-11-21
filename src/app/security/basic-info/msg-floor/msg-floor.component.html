@@ -1,19 +1,16 @@
 <!--搜索栏-->
 <div class="search-bar">
   <ul>
-    <li style="width: auto; padding-right: 20px;"><a class="btn-danger">添加</a></li>
     <li>
-      <label>楼层
-        <select [(ngModel)]="searchFloor.floorNum">
-          <option value="">全部</option>
-          <option *ngFor="let name of floorNames" [value]="name.FLOOR_NUM">{{name.FLOOR_NUM}}</option>
-        </select>
-      </label>
+      <label>楼层</label>
+      <select [(ngModel)]="searchFloor.floorNum">
+        <option value="">全部</option>
+        <option *ngFor="let name of floorNames" [value]="name.FLOOR_NUM">{{name.FLOOR_NUM}}</option>
+      </select>
     </li>
     <li>
-      <label>楼层功能
+      <label>楼层功能 </label>
         <input type="text" [(ngModel)]="searchFloor.floorUse" >
-      </label>
     </li>
     <li>
       <div class="search-icon" >
@@ -23,14 +20,15 @@
     </li>
   </ul>
 </div>
+<div class="box-plus"><a class="btn-danger"><i class="ti-plus"></i>添加楼层</a></div>
 <!--表头-->
 <div class="table-head">
   <table border="0" cellspacing="0" cellpadding="0" class="list-box">
     <tr class="row list-title" style="height:45px;">
-      <th width="15%">大楼名称</th>
+      <th width="30%" class="text-left">大楼名称</th>
       <th width="15%">楼层</th>
-      <th width="20%">楼层功能</th>
-      <th width="35%">楼层平台图</th>
+      <th width="15%" class="text-left">楼层功能</th>
+      <th width="25%">楼层平台图</th>
       <th width="15%">操作</th>
     </tr>
   </table>
@@ -39,7 +37,7 @@
 <div class="table-content" style="height: 390px">
   <table border="0" cellspacing="0" cellpadding="0" class="list-box">
     <tr class="row"  style="height:45px;" *ngFor="let floor of floors;let i = index">
-      <td width="15%">
+      <td width="30%" class="text-left">
         <span *ngIf="!copyFloors[i].editStatus">
           {{floor.buildingName}}
         </span>
@@ -55,7 +53,7 @@
                *ngIf="copyFloors[i].editStatus"
                [(ngModel)]="copyFloors[i].floorNum">
       </td>
-      <td width="20%">
+      <td width="15%" class="text-left">
         <span *ngIf="!copyFloors[i].editStatus">
           {{floor.floorUse}}
         </span>
@@ -71,13 +69,15 @@
           <option>其他</option>
         </select>
       </td>
-      <td width="35%" class="box-demo">
+      <td width="25%" class="box-demo">
         <img *ngIf="floor.imgPath && !copyFloors[i].editStatus"
              [src]="'/proxy' + floor.imgPath"
-             (click)="viewImg()">
+             (click)="viewImg(floor.imgPath)">
         <img src="../../../../assets/image/icon_img.png" *ngIf="!floor.imgPath && !copyFloors[i].editStatus">
         <div  *ngIf="copyFloors[i].editStatus" class="btn-upload">
-          <img [src]="'/proxy' + copyFloors.imgPath" *ngIf="copyFloors.imgPath">
+          <img [src]="'/proxy' + copyFloors[i].imgPath"
+               (click)="viewImg(copyFloors[i].imgPath)">
+          <img src="../../../../assets/image/icon_img.png" *ngIf="!copyFloors[i].imgPath && copyFloors[i].editStatus">
           <a>上传
             <input type="file" name="imgPath" class="img-upload" #prese
                    (change)="prese_upload(prese.files,i)">
@@ -111,7 +111,7 @@
   <div class="back"></div>
   <span class="close" (click)="closeViewImg()"></span>
   <img class="big-img" [ngStyle]="{'width':imgWidth+'px','margin-left':- imgWidth/2 +'px'}"
-       src="../../../../assets/image/demo_floor.jpg">
+       [src]="imgSrcView">
   <div class="option-bar">
     <span class="enlarge" (click)="addImg()"></span>
     <span class="less" (click)="decsImg()"></span>

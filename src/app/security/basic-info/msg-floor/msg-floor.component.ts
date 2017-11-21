@@ -26,6 +26,7 @@ export class MsgFloorComponent implements OnInit {
   public isViewImg  : boolean = true;
   public imgWidth   : number = 500;
   public copyFloors : any;
+  public imgSrcView : string;
   constructor(
     private globalBuilding:GlobalBuildingService,
     private infoBuildingService:InfoBuildingService,
@@ -111,8 +112,9 @@ export class MsgFloorComponent implements OnInit {
     this.getFloorInfo(this.pageNo,this.pageSize);
   }
   /*查看图片*/
-  viewImg(){
+  viewImg(url:string){
     this.isViewImg = false;
+    this.imgSrcView = '/proxy' + url;
   }
   closeViewImg(){
     this.isViewImg = true;
@@ -134,6 +136,7 @@ export class MsgFloorComponent implements OnInit {
     if(!this.copyFloors[index].editStatus){
       /*进入编辑*/
       this.copyFloors[index].editStatus = true;
+      console.log( this.copyFloors[index]);
     }else{
       /*取消编辑*/
       this.copyFloors[index] = JSON.parse(JSON.stringify(this.floors[index]));
@@ -157,7 +160,6 @@ export class MsgFloorComponent implements OnInit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
-        console.log(data);
         if(this.errorVoid.errorMsg(data.status)){
           this.copyFloors[index].imgPath = data.msg;
         }

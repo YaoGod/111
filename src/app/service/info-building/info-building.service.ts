@@ -19,9 +19,9 @@ export class InfoBuildingService {
     param:  search:string,   #搜索字段
     return:              #大楼基础信息实体类列表
    */
-  getBuildingList (pageNo:number,pageSize:number,search:string) {
-    const url = '/proxy/building/info/getBuildingList/'+pageNo+'/'+pageSize+'?search='+search;
-    const data = {};
+  getBuildingList (pageNo:number,pageSize:number,search:any) {
+    const url = '/proxy/building/info/getBuildingList/'+pageNo+'/'+pageSize+'?search=';
+    const data = search;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
