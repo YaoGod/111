@@ -1,11 +1,11 @@
 .div-map{
-  float: left;
-  width:500px;
+  width:100%;
   height:320px;
-  margin-right: 5%;
+  margin-top: 30px;
+  box-shadow: 0 0 50px #ccc2c2 inset;
 }
 .view{
-  padding: 20px;
+  padding: 20px 0;
 }
 .img-border{
   float: left;
@@ -18,10 +18,14 @@
 .div-img{
   width: 100%;
 }
+.form-msg{
+  padding: 10px 0;
+  margin: 15px 0;
+  float: left;
+}
 .form-msg>li input{
   display: none;
   height: 24px;
-  width: calc(50% - 250px);
   line-height: 24px;
   padding: 0 15px;
   border: 1px solid #b5d7fc;
@@ -37,17 +41,43 @@
   border-radius: 5px;
   color: #686868;
 }
+@media (min-width: 1200px) {
+  .form-bar{
+    min-width: 300px;
+    width: 33%;
+    float: left;
+  }
+}
+@media (max-width: 1200px){
+  .form-bar{
+    min-width: 300px;
+    width: 50%;
+    float: left;
+  }
+}
 .form-bar{
   height: 35px;
   min-width: 300px;
+  width: 33%;
+  float: left;
   line-height: 30px;
   color: #686868;
-  font-size: 16px;
+  font-size: 12px;
 }
 .form-title{
   display: inline-block;
-  width: 120px;
-}.full-line{
+  width: 110px;
+  padding-right:10px;
+  background-color: #f8f8f8;
+  font-weight: 300;
+  font-size: 12px;
+  text-align: right;
+}
+.word{
+  display: inline-block;
+  padding-left: 20px;
+}
+.full-line{
   clear: both;
   width: 100%;
   height: auto;
@@ -88,9 +118,9 @@
 }
 .box-option{
   display: none;
-  position: relative;
-  padding-right: 6%;
-  margin: 0 auto;
+  width: 100%;
+  height: 40px;
+  margin: 10px auto;
 }
 .box-option>input[type=button]{
   float: right;

@@ -1,6 +1,6 @@
 .main{
   display: flex;
-  height: 100%;
+  height: auto;
 }
 .nav-left {
 /*  position: absolute;

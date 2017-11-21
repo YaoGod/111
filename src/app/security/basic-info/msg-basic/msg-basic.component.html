@@ -1,22 +1,7 @@
-<div class="top-right">
-  <input class="btn-edit"
-         value="编辑"
-         type="button"
-         (click)="initEdit()">
-</div>
+
 <div class="view">
-  <div class="img-border" (click)="clickImg();">
-    <img class="div-img origin"
-         [src]="'/proxy' + building.imgList[0]"
-         *ngIf="building.imgPath&&!editStatus">
-    <img class="div-img"
-         [src]="'/proxy' + copyBuilding.imgList[0]"
-         *ngIf="copyBuilding.imgPath&&editStatus">
-    <input name="file" id="file_upload" style=" visibility:hidden;"
-           type="file"
-           multiple
-           #prese
-           (change)="prese_upload(prese.files)"/>
+  <div class="top-right">
+    <a class="btn-edit" href="javascript:;" (click)="initEdit()"><i class="icon-pencil"></i> 编辑</a>
   </div>
   <ul class="form-msg">
     <li class="form-bar">
@@ -91,14 +76,36 @@
         <span class="word">{{building.serviceUnit}}</span>
       </label>
     </li>
-    <li class="form-bar">
-      <label style="display: block;">
-        <div class="form-title summary-title">大楼简介</div>
-        <textarea class="bigText ipt" [(ngModel)]="copyBuilding.summary"></textarea>
-        <div class="summary-text word">{{building.summary}}</div>
-      </label>
-    </li>
   </ul>
+  <div class="div-text">
+    <div class="text-title"><i class="icon-paper-clip"></i><span>大楼简介</span></div>
+    <textarea class="bigText ipt" [(ngModel)]="copyBuilding.summary"></textarea>
+    <div class="summary-text word">
+      <i class="fa fa-quote-left" style="font-size: 18px; color:#e8e8e8;"></i>
+      {{building.summary}}
+      <i class="fa fa-quote-right" style="font-size: 18px; color:#e8e8e8;"></i>
+    </div>
+  </div>
+
+  <div class="div-text img-border" >
+    <div class="text-title"><i class="icon-puzzle"></i><span>大楼风采</span>
+      <a class="upload-option" (click)="clickImg();">
+        <i class="icon-wrench"></i>更新图片
+      </a>
+    </div>
+    <img class="div-img origin"
+         (click)="viewImg(building.imgPath);"
+         [src]="'/proxy' + building.imgList[0]"
+         *ngIf="building.imgPath&&!editStatus">
+    <img class="div-img"
+         [src]="'/proxy' + copyBuilding.imgList[0]"
+         *ngIf="copyBuilding.imgPath&&editStatus">
+    <input name="file" id="file_upload" style=" visibility:hidden;"
+           type="file"
+           multiple
+           #prese
+           (change)="prese_upload(prese.files)"/>
+  </div>
   <div class="box-option">
   <input class="btn-close" type="button" value="取消"
          (click)="closeEdit()">

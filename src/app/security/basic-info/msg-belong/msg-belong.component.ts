@@ -16,6 +16,7 @@ export class MsgBelongComponent implements OnInit {
 
   public building:Building;  /*大楼信息*/
   public copyBuilding:Building = new Building();
+  private mapEditStatus :boolean = false;
   constructor(
     private infoBuildingService:InfoBuildingService,
     private globalBuilding:GlobalBuildingService,
@@ -29,26 +30,37 @@ export class MsgBelongComponent implements OnInit {
     this.globalBuilding.valueUpdated.subscribe(
       (val) =>{
         this.building = this.globalBuilding.getVal();
-       /* this.showMap();*/
+        this.showMap(this.building.lon,this.building.lat);
       }
     );
-    this.showMap();
+    this.showMap(this.building.lon,this.building.lat);
   }
   /*地图打点展示*/
-  showMap(){
+  showMap(lat,lon){
     let map = new AMap.Map('map',{
       zoom: 10,
-      center: [120.159198,30.273623]
+      center:[lat,lon]
     });
-    /*'AMap.Geolocation'*/
     map.plugin('AMap.ToolBar',() =>{
       let marker = new AMap.Marker({
-        position: [this.building.lon,this.building.lat],
+        position: [lat,lon],
         title: this.building.name,
         map: map
       });
+      let clickEventListener = map.on('click', (e) => {
+        if( this.mapEditStatus ){
+          this.copyBuilding.lat =  e.lnglat.getLat();
+          this.copyBuilding.lon =  e.lnglat.getLng();
+          let position = [this.copyBuilding.lon,this.copyBuilding.lat];
+          marker.setPosition(position);
+          map.setFitView();
+        }
+      });
       map.setFitView();
     })
+  }
+  updateMarker(){
+    this.showMap(this.copyBuilding.lon,this.copyBuilding.lat);
   }
   /*进入编辑*/
   initEdit(){
@@ -56,9 +68,11 @@ export class MsgBelongComponent implements OnInit {
     $('.word').css('display','none');
     $('.box-option').css('display','block');
     this.copyBuilding = JSON.parse(JSON.stringify(this.building));
+    this.mapEditStatus = true;
   }
   /*取消操作*/
   closeEdit(){
+    this.mapEditStatus = false;
     $('.ipt').css('display','none');
     $('.word').css('display','inline-block');
     $('.box-option').css('display','none');

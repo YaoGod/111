@@ -3,8 +3,8 @@
     <div class="img-border">
       <img class="div-img" [src]="+'/proxy'+ building.imgList[0] " *ngIf="building.imgPath">
     </div>
-
-    <h3>{{building.name}}</h3>
+    <h3><i class="icon-home"></i>{{building.name}}</h3>
+    <p>编号：<span>{{building.buildingId}}</span></p>
     <p>地址：<span>{{building.address}}</span></p>
     <ul class="nav-msg">
       <li><h4 routerLink="belong" routerLinkActive="active">大楼所属信息</h4></li>

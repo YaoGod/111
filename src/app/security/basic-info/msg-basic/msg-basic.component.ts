@@ -40,23 +40,20 @@ export class MsgBasicComponent implements OnInit {
     $('.ipt').css('display','inline-block');
     $('.word').css('display','none');
     $('.box-option').css('display','block');
+    $('.upload-option').css('display','block');
     this.editStatus = true;
     this.copyBuilding = JSON.parse(JSON.stringify(this.building));
   }
   /*切换图片编辑状态*/
   clickImg(){
-    if(this.editStatus){
-      $('#file_upload').trigger('click');
-    }else{
-      // 查看图片大图
-      this.viewImg();
-    }
+    $('#file_upload').trigger('click');
   }
   /*取消操作*/
   closeEdit(){
     $('.ipt').css('display','none');
     $('.word').css('display','inline-block');
     $('.box-option').css('display','none');
+    $('.upload-option').css('display','none');
   }
   /*表单提交*/
   submit(){

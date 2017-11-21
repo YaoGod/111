@@ -3,7 +3,6 @@
          (click)="initEdit()">
 </div>
 <div class="view">
-  <div class="div-map" id="map"></div>
   <ul class="form-msg">
     <li class="form-bar">
       <label>
@@ -64,7 +63,7 @@
     <li class="form-bar">
       <label>
         <span class="form-title">经度</span>
-        <input type="text" name="lat" class="ipt" disabled
+        <input type="text" name="lat" class="ipt" (blur)="updateMarker()"
                [(ngModel)]="copyBuilding.lat">
         <span class="word">{{building.lat}}</span>
       </label>
@@ -72,16 +71,18 @@
     <li class="form-bar">
       <label>
         <span class="form-title">纬度</span>
-        <input type="text" name="lon" class="ipt" disabled
+        <input type="text" name="lon" class="ipt" (blur)="updateMarker()"
                [(ngModel)]="copyBuilding.lon">
         <span class="word">{{building.lon}}</span>
       </label>
     </li>
   </ul>
 </div>
+<div class="div-map" id="map"></div>
 <div class="box-option">
   <input class="btn-close" type="button" value="取消"
          (click)="closeEdit()">
   <input class="btn-submit" type="button" value="提交"
          (click)="submit()">
 </div>
+
