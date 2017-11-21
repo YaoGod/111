@@ -20,15 +20,9 @@
         <div class="user-photo"><img alt="image"  src="../../../assets/image/admin.jpg" /></div>
         <h3 class="user-name">用户名&nbsp;&nbsp;</h3>
         <div class="user-onner">
-          <ul class="user-menu animated fadeInRight">
-            <li><a class="J_menuItem" >修改头像</a>
-            </li>
-            <li><a class="J_menuItem">个人资料</a>
-            </li>
-            <li><a class="J_menuItem">联系我们</a>
-            </li>
-            <li><a class="J_menuItem" (click)="loginOut()">登出</a>
-            </li>
+          <ul class="user-menu animated flipInY">
+            <li style="border-bottom:1px solid #CCCCCC"><a class="J_menuItem">密码修改</a></li>
+            <li><a class="J_menuItem" (click)="loginOut()">注销登录</a></li>
           </ul>
         </div>
 
@@ -36,7 +30,7 @@
       <ul class="nav-list">
         <li *ngFor="let catalog of catalogs;">
           <!--<li (click)="Listslider($event)">-->
-          <div class="menu-one" (click)="Listslider($event)"><i class="icono-codepen" ></i> {{catalog.name}}<span></span></div>
+          <div class="menu-one" (click)="Listslider($event)"><i class="icon-home fa-fw"></i>&nbsp;&nbsp;{{catalog.name}}<span></span></div>
           <ol class="menu-second">
             <li *ngFor="let child of catalog.childs">
             <a [routerLink]="[child.routeUrl]" routerLinkActive="active" class="item">{{child.name}}</a>

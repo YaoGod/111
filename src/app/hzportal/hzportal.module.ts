@@ -8,6 +8,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { HeaderComponent } from './header/header.component';
 
 import { ErrorResponseService } from '../service/error-response/error-response.service';
+import {FormsModule} from "@angular/forms";
 @NgModule({
   declarations: [
     HzportalComponent,
@@ -19,6 +20,7 @@ import { ErrorResponseService } from '../service/error-response/error-response.s
     BrowserModule,
     HttpModule,
     HzportalRoutingModule,
+    FormsModule
   ],
   providers: [ErrorResponseService],
   bootstrap: [HzportalComponent]

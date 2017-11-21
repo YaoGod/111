@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
     private userPortal: UserPortalService
   ) {
   }
-  private user: User;
+  public user: User;
   ngOnInit() {
     this.user = {
       id: 1,
@@ -26,17 +26,48 @@ export class LoginComponent implements OnInit {
   }
   /*登陆*/
   loginIn(){
-    var data = {
-      username: 'admin',
-      password: 'admin'
+    let data = {
+      username: this.user.name,
+      password: this.user.password
     };
+    if(this.verifyUserName('userName') && this.verifyPassword('password')){
+      console.log(data)
       this.userPortal.portalLogin(data)
         .subscribe(data =>{
-          console.log(data);
+          if(data['status'] === 0){
+            console.log(data);
+            sessionStorage.setItem("isLoginIn","Login");
+            this.router.navigate(['/hzportal/']);
+          }else{
+            console.log(data);
+          }
+
         });
-      sessionStorage.setItem("isLoginIn","Login");
-      this.router.navigate(['/hzportal/']);
+    }else{
+
+    }
   }
+
+  private verifyUserName(id:string){
+      if (!this.isEmpty(id,'· 请输入你的用户名')) {
+        return false;
+      }
+      if(!this.verifyLength(id, '· 户名编号过短'))  {
+        return false;
+      }
+      return true;
+  }
+  private verifyPassword(id:string){
+  if (!this.isEmpty(id,'· 请输入你的登录密码')) {
+    return false;
+  }
+  if(!this.verifyLength(id, '· 密码长度过短'))  {
+    return false;
+  }
+  return true;
+}
+
+
   /*回车登陆*/
   keyLogin(event: any) {
 
@@ -49,5 +80,50 @@ export class LoginComponent implements OnInit {
         this.loginIn();
       }
     }
+  }
+
+  //  校验是否为空
+  private isEmpty(id: string, error: string): boolean  {
+    const data =  $('#' + id).val();
+    if (data.toString().trim() === '')  {
+      this.addErrorClass(id,error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /*匹配数字*/
+  private verifyIsNumber(id: string, error: string): boolean  {
+    const data =  $('#' + id).val();
+    if (!String(data).match(/^[0-9]*$/))  {
+      this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /*匹配长度*/
+  private verifyLength(id: string, error: string): boolean  {
+    const data =  $('#' + id).val();
+    if (data.length < 5)  {
+      this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /* 添加错误信息*/
+  private addErrorClass(id: string, error: string)  {
+    $('#' + id).parents('.input').addClass('red');
+
+    $('#' + id).parents('.input').siblings('.error').fadeIn().html(error);
+  }
+  /*去除错误信息*/
+  private  removeErrorClass(id: string) {
+    $('#' + id).parents('.input').removeClass('red');
+    $('#' + id).parents('.input').siblings('.error').fadeOut();
   }
 }

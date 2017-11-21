@@ -1,3 +1,166 @@
-<p>
-  fitment works!
-</p>
+<div class="fitment">
+  <div class="fitment-header clearfix">
+    <a href="javascript:;" class="active">大楼维修记录</a>
+    <a href="javascript:;">大楼维修合同</a>
+  </div>
+  <div class="fitment-chandlery">
+    <input type="text" placeholder="请输入大楼信息" class="search-ipt" [(ngModel)]="search">
+    <input type="button" value="查 询" class="search-btn" (click)="fitmentSearch()" >
+    <input type="button" value="新 增" class="search-btn new-btn" (click)="fitmentNew()"/>
+  </div>
+  <div class="fitment-container">
+    <table cellpadding="0" cellspacing="2px" border="1px solid #000" width="100%" class="fitment-tab">
+      <thead>
+      <th>大楼编号</th>
+      <th>大楼名称</th>
+      <th>维修单编号</th>
+      <th>维修类别</th>
+      <th>维修部门</th>
+      <th>维修部门联系人</th>
+      <th>维修部门电话</th>
+      <th>维修商</th>
+      <th>维修商联系人</th>
+      <th>维修商电话</th>
+      <th>维修开始时间</th>
+      <th>维修结束时间</th>
+      <th>维修费用</th>
+      <th>维修详细内容</th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let abc of record; let i=index">
+        <td>{{abc.buildingId}}</td>
+        <td>{{abc.buildingName}}</td>
+        <td>{{abc.recordId}}</td>
+        <td>{{abc.repairType}}</td>
+        <td>{{abc.cmccDepartment}}</td>
+        <td>{{abc.cmccContacts}}</td>
+        <td>{{abc.cmccPhone}}</td>
+        <td>{{abc.repairCost}}</td>
+        <td>{{abc.repairDepartment}}</td>
+        <td>{{abc.repairContacts}}</td>
+        <td>{{abc.repairPhone}}</td>
+        <td>{{abc.repairBtime}}</td>
+        <td>{{abc.repairEtime}}</td>
+        <td>{{abc.repairNote}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <!--<div id="gaodemap-container" class="gaodemap-container" tabindex="0" style="widht:500px;height:400px;"></div>-->
+  </div>
+</div>
+<div class="mask">
+  <div class="new-fitment-record">
+    <form method="post" name="topForm" class="new-fitment-form">
+      <div class="form-left">
+        <div class="form-control">
+          <span class="form-label">大楼编号</span>
+          <div class="form-inp">
+            <input type="text" id="Id" name="Id" [(ngModel)]="repairname.buildingId" (blur)="verifyId()" required minlength="4" maxlength="4" placeholder="请输入四位数字">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">大楼名称</span>
+          <div class="form-inp">
+            <input type="text" id="name" name="name" [(ngModel)]="repairname.buildingName" (blur)="verifyName()" required minlength="4" maxlength="10" placeholder="请输入大楼名称">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">维修单编号</span>
+          <div class="form-inp">
+            <input type="text" id="recordId" name="recordId" [(ngModel)]="repairname.recordId" (blur)="verifyRecordId()" required minlength="4" maxlength="10" placeholder="请输入字母和四位数字">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">维修类别</span>
+          <div class="form-inp">
+            <select id="repairType" name="repairType" [(ngModel)]="repairname.repairType" (blur)="verifyRepairType()">
+              <option value="">请选择</option>
+              <option value="A大楼整体维修">A大楼整体维修</option>
+              <option value="B大型设备维修">B大型设备维修</option>
+              <option value="C零星设备维修">C零星设备维修</option>
+              <option value="D大楼清洗">D大楼清洗</option>
+            </select>
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">维修部门</span>
+          <div class="form-inp">
+            <input id="cmccDepartment" name="cmccDepartment" [(ngModel)]="repairname.cmccDepartment" (blur)="verifyCmccDepartment()" type="text">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">维修部门联系人</span>
+          <div class="form-inp">
+            <input id="cmccContacts" name="cmccContacts" [(ngModel)]="repairname.cmccContacts" (blur)="verifyCmccContacts()" type="text">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">维修部门电话</span>
+          <div class="form-inp">
+            <input id="cmccPhone" name="cmccPhone" [(ngModel)]="repairname.cmccPhone" (blur)="verifyCmccPhone()" type="text">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">维修商</span>
+          <div class="form-inp">
+            <input id="repairDepartment" name="repairDepartment" [(ngModel)]="repairname.repairDepartment" (blur)="verifyRepairDepartment()" type="text">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">维修商联系人</span>
+          <div class="form-inp">
+            <input id="repairContacts" name="repairContacts" [(ngModel)]="repairname.repairContacts" (blur)="verifyRepairContacts()" type="text">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">维修商电话</span>
+          <div class="form-inp">
+            <input id="repairPhone" name="repairPhone" [(ngModel)]="repairname.repairPhone" (blur)="verifyRepairPhone()" type="text">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">维修开始时间</span>
+          <div class="form-inp">
+            <input id="repairBtime" name="repairBtime" [(ngModel)]="repairname.repairBtime" (blur)="verifyRepairBtime()" type="text">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">维修结束时间</span>
+          <div class="form-inp">
+            <input id="repairEtime" name="repairEtime" [(ngModel)]="repairname.repairEtime" (blur)="verifyRepairEtime()" type="text">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">维修费用</span>
+          <div class="form-inp">
+            <input id="repairCost" name="repairCost" [(ngModel)]="repairname.repairCost" onkeypress="return event.keyCode>=48&&event.keyCode<=57" (blur)="verifyRepairCost()" type="text">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-control form-right">
+        <span class="form-label">维修详细内容</span>
+        <div class="form-inp">
+          <textarea id="repairNote" name="repairNote" [(ngModel)]="repairname.repairNote" (blur)="verifyRepairNote()"></textarea>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <button value="确定" class="btn btn-determine" (click)="recordSubmit()">确定</button><button class="btn btn-cancel" value="取消" (click)="recordCancel()">取消</button>
+    </form>
+    <div class="close" (click)="recordCancel()">X</div>
+  </div>
+</div>
+

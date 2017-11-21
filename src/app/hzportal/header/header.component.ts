@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.catalogs = [{
-        name: '大楼综合管理平台',
+        name: '大楼信息管理',
         childs: [
           {
             name: '大楼基础信息',
@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit {
             routeUrl: 'security/daily'
           },
           {
-            name: '大楼物业档案管理',
+            name: '物业档案管理',
             routeUrl: 'security/property'
           }
         ]

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FitmentComponent } from './fitment.component';
 import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
+import {FormsModule} from "@angular/forms";
 const routes: Routes = [
   {
     path: '',
@@ -13,6 +14,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule.forChild(routes)
   ],
   exports: [RouterModule],

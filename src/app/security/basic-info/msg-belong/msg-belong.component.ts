@@ -29,7 +29,7 @@ export class MsgBelongComponent implements OnInit {
     this.globalBuilding.valueUpdated.subscribe(
       (val) =>{
         this.building = this.globalBuilding.getVal();
-        this.showMap();
+       /* this.showMap();*/
       }
     );
     this.showMap();

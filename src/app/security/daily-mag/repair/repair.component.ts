@@ -1,37 +1,383 @@
 import { Component, OnInit } from '@angular/core';
+import {Http, RequestOptions, Headers} from '@angular/http';
 
-declare var AMap: any;
+import * as $ from 'jquery';
+
+declare var $: any;
+declare var confirmFunc: any;
+
 @Component({
   selector: 'app-repair',
   templateUrl: './repair.component.html',
   styleUrls: ['./repair.component.css']
 })
 export class RepairComponent implements OnInit {
-
-  constructor() { }
+  public repairname: RepairName;
+  public record: Array<RepairName>;
+  private pageSize = 10;
+  private pageNo = 1;
+  private searchRepair = '';
+  private searchRecord = '';
+  private bool = true;
+  constructor(private http: Http) { }
 
   ngOnInit() {
-    // this.showMap();
+    this.repairname = new RepairName();
+    this.repairname.repairType = '';
+    this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
   }
-  // 获取大楼维修记录  /building/repair/getRepairList/{id}/{pageNo}/{pageSize
-
-  // 地图
-  showMap() {
-    let map = new AMap.Map('gaodemap-container', {
-      resizeEnable: true,
-      center: [120.158703, 30.274118],
-      zoom: 18
+  /*private initDatePicker () {
+    $('#repairBtime').pickadate({
+      monthsFull: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+      weekdaysShort: ['日', '一', '二', '三', '四', '五', '六'],
+      today: '今天',
+      clear: '清空',
+      close: '关闭',
+      firstDay: 1,
+      format: 'yyyy-mm-dd',
+      formatSubmit: 'yyyy-mm-dd',
+      max: true,
+      onSet:  ( context => {
+        this.beginTime = $('#repairBtime').val();
+        this.repairname.repairBtime = this.beginTime;
+      }),
     });
-    map.plugin('AMap.Geolocation', () => {
-      let geolocation = new AMap.Geolocation({
+  }*/
+  private getBeginTime() {
+    // this.initDatePicker();
+  }
+  private getEndTime() {}
+  // 点击新增
+  repairNew() {
+    if(this.bool === false) {
+      $('.mask2').fadeIn();
+    }else{
+      $('.mask').fadeIn();
+    }
+
+  }
+  // 获取/查询维修记录 POST /building/repair/getRepairList/{pageNo}/{pageSize}
+  private getRecord(search, pageNo, pageSize) {
+    const SOFTWARES_URL = "/proxy/building/repair/getRepairList/" + pageNo + "/" + pageSize + '?search=' + search;
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({headers: headers});
+    // JSON.stringify
+    const dataPost = {
+      'decorateRepair': search,
+      'pageNo': pageNo,
+      'pageSize': pageSize
+    };
+    this.http.post(SOFTWARES_URL, dataPost, options)
+      .map(res => res.json())
+      .subscribe(data => {
+        if (data['status'] === 0) {
+          console.log(data['data']['infos']);
+          this.record = data['data']['infos'];
+        }
       });
-      map.addControl(geolocation);
-    });
-
-    map.plugin(["AMap.Scale"], function () {
-      var scale = new AMap.Scale();
-      map.addControl(scale);
-    });
-
   }
+  // 查询
+  repairSearch() {
+    this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
+  }
+  // 编辑装修记录  Method:POST /building/repair/updateRepairRecord
+  editRecord(index) {
+    this.bool = false;
+    this.repairname = this.record[index];
+    $('.mask').fadeIn();
+  }
+  // 取消按钮
+  recordCancel() {
+    this.repairname = new RepairName();
+    $('.form-control').removeClass('form-error');
+    $('.errorMessage').html('');
+    this.repairname.repairType = '';
+    $('.mask').fadeOut();
+    /*let url = '/knowledge/list/' + '';
+     this.router.navigate([url]);*/
+  }
+
+  /*维修记录校验规则*/
+  private verifyId() {
+    if (!this.isEmpty('Id', '大楼编号不能为空')) {
+      return false;
+    }
+    if (!this.verifyIsNumber('Id', '请输入纯数字编号')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyName() {
+    if (!this.isEmpty('name', '大楼名称不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyRecordId() {
+    if (!this.isEmpty('recordId', '维修单编号不能为空')) {
+      return false;
+    }/*if (!this.verifyIsBlend('recordId', '联系人不能包含特殊字符'))  {return false;}*/
+    return true;
+  }
+  private verifyRepairType() {
+    if (!this.isEmpty('repairType', '维修类型不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyCmccDepartment() {
+    if (!this.isEmpty('cmccDepartment', '维修部门不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyCmccContacts() {
+    if (!this.isEmpty('cmccContacts', '维修部门联系人不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyCmccPhone()  {
+    if (!this.isEmpty('cmccPhone', '维修部门电话不能为空')) {
+      return false;
+    }
+    if (!this.verifyIsTel('cmccPhone', '请输入正确的手机号')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyRepairDepartment() {
+    if (!this.isEmpty('repairDepartment', '维修商不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyRepairContacts() {
+    if (!this.isEmpty('repairContacts', '维修商不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyRepairPhone()  {
+    if (!this.isEmpty('repairPhone', '维修商电话不能为空')) {
+      return false;
+    }
+    if (!this.verifyIsTel('repairPhone', '请输入正确的手机号')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyRepairBtime() {
+    if (!this.isEmpty('repairBtime', '维修开始时间不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyRepairEtime() {
+    if (!this.isEmpty('repairEtime', '维修结束时间不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyRepairCost() {
+    if (!this.isEmpty('repairCost', '维修费用不能为空')) {
+      return false;
+    }
+    if (!this.verifyIsNumber('repairCost', '请输入正确的费用')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyRepairNote() {
+    if (!this.isEmpty('repairNote', '维修详情不能为空')) {
+      return false;
+    }
+    return true;
+  }
+
+  // 新增/编辑维修记录提交
+  recordSubmit() {
+    if(this.bool === false){
+      var SOFTWARES_URL = "/proxy/building/repair/updateRepairRecord";
+    }else{
+      var SOFTWARES_URL = "/proxy/building/repair/addRepairRecord";
+    }
+    if (!this.verifyId() || !this.verifyName() || !this.verifyRecordId() || !this.verifyRepairType() || !this.verifyCmccDepartment() || !this.verifyCmccContacts() || !this.verifyCmccPhone() || !this.verifyRepairDepartment() || !this.verifyRepairContacts() || !this.verifyRepairPhone() || !this.verifyRepairBtime() || !this.verifyRepairEtime() || !this.verifyRepairCost() || !this.verifyRepairNote()) {
+      return false;
+    }
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({headers: headers});
+    // JSON.stringify
+    this.http.post(SOFTWARES_URL, this.repairname, options)
+      .map(res => res.json())
+      .subscribe(data => {
+        if (data['status'] === 0) {
+          if(this.bool === false){
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': this.bool === false?'更改成功':'新增成功',
+              'popType': 0 ,
+              'imgType': 1 ,
+            });
+          }
+          this.searchRepair = '';
+          this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
+          this.recordCancel();
+        }
+      });
+  }
+  repairFade(event) {
+    this.repairSearch();
+    $(event.target).addClass('active');
+    $(event.target).siblings('a').removeClass('active');
+    $('.repair-record').hide();
+    $('.repair-cont').fadeIn();
+  }
+  recordFade(event) {
+
+    $(event.target).addClass('active');
+    $(event.target).siblings('a').removeClass('active');
+    $('.repair-cont').hide();
+    $('.repair-record').fadeIn();
+  }
+// 获取/查询维修合同 POST /building/repair/getRepairContract/{pageNo}/{pageSize}
+  private getRecordSecond(search, pageNo, pageSize) {
+    const SOFTWARES_URL = "/proxy/building/repair/getRepairContract/" + pageNo + "/" + pageSize + '?search=' + search;
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({headers: headers});
+    // JSON.stringify
+    const dataPost = {
+      'decorateRepair': search,
+      'pageNo': pageNo,
+      'pageSize': pageSize
+    };
+    this.http.post(SOFTWARES_URL, dataPost, options)
+      .map(res => res.json())
+      .subscribe(data => {
+        if (data['status'] === 0) {
+          console.log(data['data']['infos']);
+          this.record = data['data']['infos'];
+        }
+      });
+  }
+  // 查询
+  recordSearch() {
+    this.getRecordSecond(this.searchRecord, this.pageNo, this.pageSize);
+  }
+  recordNew(){
+    $('.mask').fadeIn();
+  }
+
+  //  校验是否为空
+  private isEmpty(id: string, error: string): boolean  {
+    const data =  $('#' + id).val();
+    if (data.toString().trim() === '')  {
+      this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /**
+   * 验证手机号码
+   * @return
+   */
+  private verifyIsTel(id: string, error?: string): boolean {
+    const data =  $('#' + id).val();
+    if (!String(data).match(/^1(3[4-9]|5[0-2]|8[0-3,78])\d{8}$/))  {
+      this.addErrorClass(id, '请填写正确手机号');
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /**
+   * 匹配数字
+   * @param id
+   * @param error
+   * @returns {boolean}
+   */
+  private verifyIsNumber(id: string, error: string): boolean  {
+    const data =  $('#' + id).val();// /^[0-9]*$/
+    if (String(data).match(/^[1-9]\d*\.\d*|0\.\d*[1-9]\d*/))  {
+      this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /**
+   * 校验是否包含中文英文数字
+   * @param id
+   * @param error
+   * @returns {boolean}
+   */
+  private verifyIsBlend(id: string, error: string): boolean {
+    const data =  $('#' + id).val();
+    if (!String(data).match(/^[\u4E00-\u9FA5A-Za-z0-9]+$/))  {
+      this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /**
+   * 添加错误信息class
+   * @param id
+   * @param error
+   */
+  private  addErrorClass(id: string, error?: string)  {
+    $('#' + id).parents('.form-control').addClass('form-error');
+    if (error === undefined || error.trim().length === 0 ) {
+      $('#' + id).next('span').html('输入错误');
+    }else {
+      $('#' + id).next('span').html(error);
+    }
+  }
+  /**
+   * 去除错误信息class
+   * @param id
+   */
+  private  removeErrorClass(id: string) {
+    $('#' + id).parents('.form-control').removeClass('form-error');
+    $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
+  }
+}
+export class RepairName {
+  id: number; // 本条信息ID
+  buildingId: string;
+  buildingName: string;
+  recordId: string; // 维修单编号
+  repairType: string; // 维修类别
+  cmccDepartment: string; // 需要维修部门
+  cmccContacts: string; // 需要维修单位联系人
+  cmccPhone: string; // 需要维修单位联系人电话
+  repairCost: string; // 维修费用
+  repairDepartment: string; // 维修商
+  repairContacts: string; // 维修商联系人
+  repairPhone: string; // 维修商联电话
+  repairBtime: string; // 开始时间
+  repairEtime: string; // 结束时间
+  repairNote: string; // 详细内容
+}
+export class ContractName {
+  id: number; // 本条信息ID
+  buildingId: string;
+  buildingName: string;
+  recordId: string; // 维修单编号
+  repairType: string; // 维修类别
+  cmccDepartment: string; // 需要维修部门
+  cmccContacts: string; // 需要维修单位联系人
+  cmccPhone: string; // 需要维修单位联系人电话
+  repairCost: string; // 维修费用
+  repairDepartment: string; // 维修商
+  repairContacts: string; // 维修商联系人
+  repairPhone: string; // 维修商联电话
+  repairBtime: string; // 开始时间
+  repairEtime: string; // 结束时间
+  repairNote: string; // 详细内容
 }

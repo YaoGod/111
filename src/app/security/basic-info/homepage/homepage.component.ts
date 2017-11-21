@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Building } from '../../../mode/building/building.service';
 import { InfoBuildingService } from '../../../service/info-building/info-building.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
+
 import * as $ from 'jquery';
 declare var $:any;
+declare var confirmFunc: any;
+
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',

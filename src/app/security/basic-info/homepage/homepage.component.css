@@ -32,6 +32,7 @@ ul,li{
 }
 .panel{
   padding: 25px;
+  position: relative;
 }
 .search-bar{
   color: #2b2b2b;
@@ -44,7 +45,7 @@ ul,li{
   flex-wrap:wrap;
 }
 .panel>ul>li{
-  width: 33.33%;
+  width: 20%;
   height: 36px;
 }
 .panel>ul>li>label{
@@ -85,6 +86,10 @@ input[type=text]{
   background-clip: padding-box;
 }
 .panel-search{
+  position: absolute;
+  right:18px;
+  top:22px;
+  width:100px;
   height: 30px;
   text-align: right;
 }
@@ -105,6 +110,7 @@ input[type=text]{
   cursor: pointer;
 }
 .view{
+  /*min-width: 1180px;*/
   padding-left : 2%;
   padding-right: 2%;
   padding-bottom: 15px;
@@ -163,7 +169,7 @@ input[type=text]{
   top: 0;
   left: 0;
   opacity: 0;
-  background-color: rgba(0, 0, 0, .7);
+  background-color: rgba(0, 0, 0, .4);
   -webkit-transition: all .4s ease-in-out;
   transition: all .4s ease-in-out;
   z-index: 2;
@@ -279,7 +285,7 @@ input[type=text]{
   height: 36px;
   line-height: 36px;
   background-color: #ffffff;
-  padding: 25px 0 0 25px;
+  padding: 25px 0 0 3%;
 }
 .btn-danger{
   padding: .5rem 1.2rem;

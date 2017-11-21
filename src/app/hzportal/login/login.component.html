@@ -1,4 +1,4 @@
-<div class="main" (keydown)="keyLogin($event)">
+<!--<div class="main" (keydown)="keyLogin($event)">
   <div class="layout-right center">
     <div class="tag">
       <p>Ver <span>0.9</span></p>
@@ -30,4 +30,43 @@
       <label for="save_password" class="label-size">记住账号和密码，下次免输入</label>
     </div>
   </div>
+</div>-->
+<div class="ver">Ver 0.9</div>
+<div class="work">
+
 </div>
+
+<div class="area">
+  <div class="head">
+  <div class="logo"></div>
+  <div class="name">杭州移动 · 统一信息平台</div>
+  <div class="load">登录中 <span><i>·</i><i>·</i><i class="i">·</i></span></div>
+</div>
+  <div class="form">
+    <div class="form-info">
+      <div class="input">
+        <span class="flag"><img src="../../../assets/image/icon_user.png"> 登录帐号</span>
+        <input id="userName" name="userName" [(ngModel)]="user.name" type="text" placeholder="请输入用户名" value="" (blur)="verifyUserName('userName')"/>
+      </div>
+      <div class="error"></div>
+    </div>
+    <div class="form-info">
+      <div class="input">
+        <span class="flag"><img src="../../../assets/image/icon_key.png"> 登录密码</span>
+        <input id="password"  name="password" [(ngModel)]="user.password" type="password" placeholder="请输入密码" value="" (blur)="verifyPassword('password')"/>
+      </div>
+      <div class="error"></div>
+    </div>
+
+
+    <div class="other" style="text-align:right;">
+      <a href="javascript:;">忘记密码 <i class="fa fa-question-circle" style="font-size:14px;"></i></a>
+    </div>
+    <input class="login" type="button" (click)="loginIn()" value="开始登录" />
+    <div class="other">
+      <input id="in_save_passwd" type="checkbox" /><label for="in_save_passwd" style="color:#787878"> 记忆帐号和密码, 下次免输入</label>
+    </div>
+  </div>
+
+</div>
+<div class="backstretch"><img src="../../../assets/image/login_full_bg.jpg" ></div>
