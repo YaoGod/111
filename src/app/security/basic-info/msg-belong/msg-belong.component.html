@@ -10,6 +10,7 @@
                [(ngModel)]="copyBuilding.buildingId">
         <span class="word">{{building.buildingId}}</span>
       </label>
+      <div class="error">12121</div>
     </li>
     <li class="form-bar">
       <label>
@@ -22,24 +23,38 @@
     <li class="form-bar">
       <label>
         <span class="form-title">大楼性质</span>
-        <input type="text" name="type" class="ipt"
-               [(ngModel)]="copyBuilding.type">
+        <select class="ipt" [(ngModel)]="copyBuilding.type">
+          <option>自购</option>
+          <option>自建</option>
+          <option>租赁</option>
+        </select>
+        <!--<input type="text" name="type" class="ipt"
+               [(ngModel)]="copyBuilding.type">-->
         <span class="word">{{building.type}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">大楼用途</span>
-        <input type="text" name="use" class="ipt"
-               [(ngModel)]="copyBuilding.use">
+        <select  class="ipt" [(ngModel)]="copyBuilding.use">
+          <option>办公</option>
+          <option>机房</option>
+          <option>营业厅</option>
+        </select>
+        <!--<input type="text" name="use" class="ipt"
+               [(ngModel)]="copyBuilding.use">-->
         <span class="word">{{building.use}}</span>
       </label>
     </li>
     <li class="form-bar">
       <label>
         <span class="form-title">大楼归属</span>
-        <input type="text" name="belongTo" class="ipt"
-               [(ngModel)]="copyBuilding.belongTo">
+        <select class="ipt" [(ngModel)]="copyBuilding.belongTo">
+          <option>市公司</option>
+          <option>县区分公司</option>
+        </select>
+        <!--<input type="text" name="belongTo" class="ipt"
+               [(ngModel)]="copyBuilding.belongTo">-->
         <span class="word">{{building.belongTo}}</span>
       </label>
     </li>

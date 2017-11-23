@@ -172,8 +172,7 @@
               <img [src]="'/proxy'+newRoom.imgPath" *ngIf="newRoom.imgPath">
             </div>
             <p>点击此处上传房间平面图</p>
-            <input  class="dropify" type="file"
-                    #pres
+            <input  class="dropify" type="file" #pres
                     (change)="presepic_upload(pres.files)"
                     (blur)="verifyImgPath(newRoom.imgPath,'newImgPath')">
           </div>
@@ -225,8 +224,7 @@
               <input class="form-control" id="newRoomArea"
                      name="floorNum" placeholder="" type="text"
                      [(ngModel)]="newRoom.roomArea"
-                     (blur)="verifyEmpty(newRoom.roomArea,'newRoomArea');"
-              >
+                     (blur)="verifyEmpty(newRoom.roomArea,'newRoomArea');">
             </label>
             <div class="error"></div>
           </div>

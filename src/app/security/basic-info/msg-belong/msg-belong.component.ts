@@ -6,6 +6,7 @@ import { InfoBuildingService } from '../../../service/info-building/info-buildin
 import * as $ from 'jquery';
 declare var AMap:any;
 declare var $:any;
+declare var confirmFunc: any;
 @Component({
   selector: 'app-msg-belong',
   templateUrl: './msg-belong.component.html',
@@ -85,21 +86,24 @@ export class MsgBelongComponent implements OnInit {
     this.showMap(this.building.lon,this.building.lat);
   }
   /*表单提交*/
-  submit(){
-    var data = this.copyBuilding;
-    console.log(data);
-    this.infoBuildingService.updateBuilding(data)
-      .subscribe(data => {
-        if(this.errorVoid.errorMsg(data.status)){
-          if(data.msg === '更新成功'){
-            this.building = this.copyBuilding;
-            this.globalBuilding.setVal(this.building);
-            this.closeEdit();
-          }
-          else{
-            alert(data.msg);
-          }
+  submit() {
+    this.infoBuildingService.updateBuilding(this.copyBuilding)
+      .subscribe( data => {
+        if(this.errorVoid.errorMsg(data.status)) {
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data.msg,
+            'popType': 2,
+            'imgType': 1,
+            "callback": () => {
+              if (data.msg === '更新成功') {
+                this.building = this.copyBuilding;
+                this.globalBuilding.setVal(this.building);
+                this.closeEdit();
+              }
+            }
+          })
         }
-      });
+      })
   }
 }

@@ -88,7 +88,6 @@ export class MsgBasicComponent implements OnInit {
   }
   /*查看图片*/
   viewImg(){
-
     this.isViewImg = false;
   }
   closeViewImg(){
@@ -106,4 +105,5 @@ export class MsgBasicComponent implements OnInit {
       this.imgWidth -= 50;
     }
   }
+
 }

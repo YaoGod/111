@@ -1,4 +1,4 @@
-<div class="view" *ngIf="contracts[0].id != null">
+<div class="view">
   <!--搜索栏-->
   <div class="search-bar" [hidden]="building.type != 'lease'">
     <ul>
@@ -17,176 +17,156 @@
         <div class="search-icon" >
           <img src="../../../../assets/image/icon_search.png">
         </div>
-        <input class="search-btn" type="button" value="查询">
       </li>
     </ul>
   </div>
+  <div *ngIf="contracts[0].id != null">
   <ul class="form-msg" *ngFor="let contract of contracts">
     <li class="form-bar">
       <label>
         <span class="form-title">大楼性质</span>
-        <input type="text" name="type" [(ngModel)]="building.type">
         <span>{{building.type|tranType}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.type === 'buy'">
       <label>
         <span class="form-title">卖方</span>
-        <input type="text" name="salesName" [(ngModel)]="contract.salesName">
         <span>{{contract.salesName}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.type === 'buy'">
       <label>
         <span class="form-title">购买方</span>
-        <input type="text" name="buyName" [(ngModel)]="contract.buyName">
         <span>{{contract.buyName}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.type === 'buy'">
       <label>
         <span class="form-title">购买方联系人</span>
-        <input type="text" name="buyContacts" [(ngModel)]="contract.buyContacts">
         <span>{{contract.buyContacts}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.type === 'buy'">
       <label>
         <span class="form-title">购买方联系人电话</span>
-        <input type="text" name="buyPhone" [(ngModel)]="contract.buyPhone">
         <span>{{contract.buyPhone}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.type === 'buy'">
       <label>
         <span class="form-title">购买价格</span>
-        <input type="text" name="buyCost" [(ngModel)]="contract.buyCost">
         <span>{{contract.buyCost}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.type === 'buy'">
       <label>
         <span class="form-title">购买日期</span>
-        <input type="text" name="buyDate" [(ngModel)]="contract.buyDate">
         <span>{{contract.buyDate}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.type === 'buy'">
       <label>
         <span class="form-title">单价</span>
-        <input type="text" name="unitPrice" [(ngModel)]="contract.unitPrice">
         <span>{{contract.unitPrice}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.type === 'build'">
       <label>
         <span class="form-title">设计单位</span>
-        <input type="text" name="design" [(ngModel)]="contract.design">
         <span>{{contract.design}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.type === 'build'">
       <label>
         <span class="form-title">施工单位</span>
-        <input type="text" name="build" [(ngModel)]="contract.build">
         <span>{{contract.build}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.type === 'build'">
       <label>
         <span class="form-title">监理单位</span>
-        <input type="text" name="supervise" [(ngModel)]="contract.supervise">
         <span>{{contract.supervise}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.type === 'build'">
       <label>
         <span class="form-title">建造日期</span>
-        <input type="text" name="buildingDate" [(ngModel)]="contract.buildDate">
         <span>{{contract.buildDate| date:'yyyy-MM-dd'}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.type === 'build'">
       <label>
         <span class="form-title">交付日期</span>
-        <input type="text" name="payDate" [(ngModel)]="contract.payDate">
         <span>{{contract.payDate| date:'yyyy-MM-dd'}}</span>
       </label>
     </li>
     <li class="form-bar"  *ngIf="building.type === 'build'">
       <label>
         <span class="form-title">建造费用</span>
-        <input type="text" name="buildCost" [(ngModel)]="contract.buildCost">
         <span>{{contract.buildCost}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.type === 'lease'">
       <label>
         <span class="form-title">甲方（出租方）</span>
-        <input type="text" name="design" [(ngModel)]="contract.cmccName">
         <span>{{contract.cmccName}}</span>
       </label>
     </li>
     <li class="form-bar"  *ngIf="building.type === 'lease'">
       <label>
         <span class="form-title">甲方联系人</span>
-        <input type="text" name="build" [(ngModel)]="contract.cmccContacts">
         <span>{{contract.cmccContacts}}</span>
       </label>
     </li>
     <li class="form-bar"  *ngIf="building.type === 'lease'">
       <label>
         <span class="form-title">甲方联系人电话</span>
-        <input type="text" name="build" [(ngModel)]="contract.cmccPhone">
         <span>{{contract.cmccPhone}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.type === 'lease'">
       <label>
         <span class="form-title">乙方（承租方）</span>
-        <input type="text" name="design" [(ngModel)]="contract.landLord">
         <span>{{contract.cmccName}}</span>
       </label>
     </li>
     <li class="form-bar"  *ngIf="building.type === 'lease'">
       <label>
         <span class="form-title">乙方联系人</span>
-        <input type="text" name="build" [(ngModel)]="contract.lContacts">
         <span>{{contract.cmccContacts}}</span>
       </label>
     </li>
     <li class="form-bar"  *ngIf="building.type === 'lease'">
       <label>
         <span class="form-title">乙方联系人电话</span>
-        <input type="text" name="build" [(ngModel)]="contract.lPhone">
         <span>{{contract.cmccPhone}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.type === 'lease'">
       <label>
         <span class="form-title">合同开始时间</span>
-        <input type="text" name="contractBtime" [(ngModel)]="contract.contractBtime">
         <span>{{contract.contractBtime | date:'yyyy-MM-dd'}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.type === 'lease'">
       <label>
         <span class="form-title">合同结束时间</span>
-        <input type="text" name="contractEtime" [(ngModel)]="contract.contractEtime">
         <span>{{contract.contractEtime | date:'yyyy-MM-dd'}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.type === 'lease'">
       <label>
         <span class="form-title">合同状态</span>
-        <input type="text" name="contactStatus" [(ngModel)]="contract.contactStatus">
         <span>{{contract.contactStatus}}</span>
       </label>
     </li>
   </ul>
-</div>
-<div class="view" *ngIf="contracts[0].id == null">
-  <div class="div-add">
-    <p>添加</p>
+  </div>
+  <div class="div-add" *ngIf="contracts[0].id == null">
+    <div class="add-border">
+      <i class="icon-plus"></i>
+      <p>添加</p>
+    </div>
   </div>
 </div>
+

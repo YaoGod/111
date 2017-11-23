@@ -22,14 +22,18 @@
   margin-bottom: 15px;
   float: left;
 }
-.form-msg>li input{
+.form-msg>li input,.form-msg>li select{
   display: none;
   height: 24px;
+  width: 50%;
   line-height: 24px;
   padding: 0 15px;
   border: 1px solid #b5d7fc;
   border-radius: 5px;
   color: #686868;
+}
+.form-msg>li select{
+  width: calc( 50% + 32px);
 }
 .bigText{
   display: none;

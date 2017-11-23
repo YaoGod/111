@@ -26,8 +26,8 @@ export class MsgFloorComponent implements OnInit {
   public pages        : Array<number>;
   public isViewImg    : boolean = true;
   public imgWidth     : number = 500;
-  public copyFloors   : any;
   public imgSrcView   : string;
+  public copyFloors   : any;
   public newFloor     : Floor = new Floor();
   public isOpenNewView: boolean =false;
   constructor(

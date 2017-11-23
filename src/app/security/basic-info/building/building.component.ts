@@ -16,6 +16,9 @@ export class BuildingComponent implements OnInit {
   public imgPaths : Array<string>;
   private id;
   public type;
+  public isViewImg    : boolean = true;
+  public imgWidth     : number = 500;
+  public imgSrcView   : string;
   constructor(
     private infoBuildingService:InfoBuildingService,
     private globalBuilding: GlobalBuildingService,
@@ -41,6 +44,12 @@ export class BuildingComponent implements OnInit {
         this.getBuildingInfo(this.id);
         this.valueUpdated();
       });
+    this.globalBuilding.valueUpdated.subscribe(
+      (val) =>{
+        this.building = this.globalBuilding.getVal();
+        this.type = this.setType();
+      }
+    );
   }
   /*获取大楼信息*/
   getBuildingInfo(id:number){
@@ -91,5 +100,25 @@ export class BuildingComponent implements OnInit {
         this.building = this.globalBuilding.getVal();
       }
     );
+  }
+  /*查看图片*/
+  viewImg(url:string){
+    this.isViewImg = false;
+    this.imgSrcView = '/proxy' + url;
+  }
+  closeViewImg(){
+    this.isViewImg = true;
+  }
+  /*放大图片*/
+  addImg(){
+    if(this.imgWidth<1000){
+      this.imgWidth += 50;
+    }
+  }
+  /*缩小图片*/
+  decsImg(){
+    if(this.imgWidth>500){
+      this.imgWidth -= 50;
+    }
   }
 }

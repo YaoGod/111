@@ -10,7 +10,7 @@
       </li>
       <li>
         <label>
-          <input type="text">
+          <input type="text" [(ngModel)] = "search">
         </label>
       </li>
       <li>
@@ -21,6 +21,7 @@
       </li>
     </ul>
   </div>
+  <div *ngIf="contracts[0].id != null">
   <ul class="form-msg" *ngFor="let contract of contracts">
     <li class="form-bar">
       <label>
@@ -100,4 +101,11 @@
       </label>
     </li>
   </ul>
+  </div>
+  <div class="div-add" *ngIf="contracts[0].id == null">
+    <div class="add-border">
+      <i class="icon-plus"></i>
+      <p>添加</p>
+    </div>
+  </div>
 </div>

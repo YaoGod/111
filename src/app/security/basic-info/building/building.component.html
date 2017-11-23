@@ -1,6 +1,6 @@
 <div class="view">
   <div class="msg">
-    <div class="img-border">
+    <div class="img-border" (click)="viewImg(building.imgList[0])">
       <img class="div-img" [src]="+'/proxy'+ building.imgList[0] " *ngIf="building.imgPath">
     </div>
     <h3><i class="icon-home"></i>{{building.name}}</h3>
@@ -21,5 +21,18 @@
     <div class="content">
       <router-outlet></router-outlet>
     </div>
+  </div>
+</div>
+
+
+<!--图片查看器-->
+<div class="view-img" [hidden]="isViewImg">
+  <div class="back"></div>
+  <span class="close" (click)="closeViewImg()"></span>
+  <img class="big-img" [ngStyle]="{'width':imgWidth+'px','margin-left':- imgWidth/2 +'px'}"
+       [src]="imgSrcView">
+  <div class="option-bar">
+    <span class="enlarge" (click)="addImg()"></span>
+    <span class="less" (click)="decsImg()"></span>
   </div>
 </div>

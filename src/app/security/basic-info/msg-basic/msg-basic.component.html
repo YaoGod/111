@@ -4,7 +4,7 @@
     <a class="btn-edit" href="javascript:;" (click)="initEdit()"><i class="icon-pencil"></i> 编辑</a>
   </div>
   <ul class="form-msg">
-    <li class="form-bar">
+<!--    <li class="form-bar">
       <label>
         <span class="form-title">大楼编号</span>
         <input type="text" name="buildingId" class="ipt"
@@ -19,7 +19,7 @@
                [(ngModel)]="copyBuilding.name">
         <span class="word">{{building.name}}</span>
       </label>
-    </li>
+    </li>-->
     <li class="form-bar">
       <label>
         <span class="form-title">楼层数</span>
@@ -64,7 +64,7 @@
       <label>
         <span class="form-title">交付购买日期</span>
         <input type="text" name="payTime" class="ipt"
-               [(ngModel)]="copyBuilding.payTime">
+               [(ngModel)]="copyBuilding.payTime" >
         <span class="word">{{building.payTime}}</span>
       </label>
     </li>
@@ -113,7 +113,6 @@
          (click)="submit()">
   </div>
 </div>
-
 
 <!--图片查看器-->
 <div class="view-img" [hidden]="isViewImg">

@@ -14,6 +14,7 @@ export class MsgContractProComponent implements OnInit {
   public contracts: Array<Contract>;
   private pageNo: number = 1;
   private pageSize: number = 5;
+  public search:any;
   constructor(
     private contractBuildingService:ContractBuildingService,
     private errorVoid:ErrorResponseService,
