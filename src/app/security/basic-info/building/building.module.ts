@@ -31,11 +31,6 @@ const routes: Routes = [
         loadChildren: '../msg-floor/msg-floor.module#MsgFloorModule'
       },
       {
-        path: 'room/:id',
-        canActivate: [RouteGuardService],
-        loadChildren: '../room/room.module#RoomModule'
-      },
-      {
         path: 'contract/:type',
         canActivate: [RouteGuardService],
         loadChildren: '../msg-contract/msg-contract.module#MsgContractModule'

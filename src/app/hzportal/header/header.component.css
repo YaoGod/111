@@ -1,6 +1,6 @@
 .main{
   display: flex;
-  height: auto;
+  height: 100%;
 }
 .nav-left {
 /*  position: absolute;
@@ -8,8 +8,7 @@
   top:0px;
   z-index:5;*/
 
-  flex: 0 0 10%;
-  min-width: 200px;
+  flex: 0 0 220px;
   height:100%;
   background-color:#fff;
   overflow-x: hidden;

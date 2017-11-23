@@ -38,27 +38,15 @@
 <!--大楼列表展示-->
 <div class="view">
   <div class="row">
-      <a class="btn btn-danger" href="javascript:;"><i class="icon-plus"></i> 新增</a>
+      <a class="btn btn-danger" (click)="fadeBom()" href="javascript:;"><i class="icon-plus"></i> 新增</a>
   </div>
   <ul class="page-area">
-  <!--  <li class="card">
-      <div class="card-img">
-        <img src="../../../../assets/image/demo_building.png">
-      </div>
-      <div class="mark">
-        <h3>No.4000</h3>
-        <p>移动信息大厦设计新颖、风格独特的这座大楼，在国内超高层建筑中首次采用了国际上先 进的劲性钢骨混凝土筒体和巨型钢结构行架技术，有高大无柱开放型大堂空间。大堂内的球体博览区、外墙面富有节奏感的铝板造型和半镜面玻璃幕墙，与大楼顶部的整流板、通信铁塔及大堂内悬浮的球体等构成“宇宙空间站”的造型。 国内一流的这座信息大楼有先进的通信、信息、智能化设施，实现无线通信的全覆盖，移动电话和无线寻呼在楼内无通信盲点；大楼还配备先进的光缆以及SDH同步数字系列传输系统、ATM宽带交换系统等。</p>
-        <a class="btn-detail" [routerLink]="['detail',1]">详情</a>
-      </div>
-    </li>-->
     <li class="card" *ngFor="let building of buildings;let idx=index">
       <div class="card-img">
         <div class="el-overlay">
         </div>
-       <!-- <img src="../../../../assets/image/demo_building.png">-->
         <img [src]="+'/proxy'+imgPaths[idx][0]">
       </div>
-
       <div class="mark">
         <span>No.{{building.buildingId}}</span>
         <h3>{{building.name}}</h3>
@@ -66,7 +54,6 @@
        <!-- <a class="btn-detail" [routerLink]="['detail',building.id]">详情</a>-->
         <div class="text-muted">
           <a class="text-muted " [routerLink]="['detail',building.id]" ><i class="icon-doc"></i> 详情</a>
-        <!--  <a class="text-muted m-l-10 m-r-10" href="javascript:;"><i class="ti-marker-alt"></i> 修改</a>-->
           <a class="text-muted" href="javascript:;" (click)="delete(building.id)"><i class="icon-trash"></i> 删除</a>
         </div>
       </div>
@@ -83,5 +70,53 @@
     </ul>
   </div>
 </div>
-
+<div class="mask">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class="icon-home"></i> 新增大楼信息</h4>
+        <button type="button" class="close" (click)="closeMask()">×</button>
+      </div>
+      <form class="form-building form-material">
+        <div class="modal-body clearfix">
+          <div class="modal-left">
+            <div class="dropify-wrapper">
+              <div class="dropify-message">
+                <img *ngIf="newBuilding.imgPath!==''" [src]="'/proxy/' + newBuilding.imgPath" />
+              </div>
+              <p>点击此处上传图片</p>
+              <input type="file" class="dropify" #prese id="prese"
+                     (change)="prese_upload(prese.files)">
+            </div>
+          </div>
+          <div class="modal-right">
+              <div class="form-group">
+                <label class="control-label"><span>大楼编号</span><input type="text" min-length="4" name="newBuildingId" class="form-control" placeholder="" [(ngModel)]="newBuilding.buildingId"></label>
+              </div>
+              <div class="form-group">
+                <label class="control-label"><span>大楼名称</span><input type="text" name="newBuildingName" class="form-control" placeholder="" [(ngModel)]="newBuilding.name"></label>
+              </div>
+              <div class="form-group">
+                <label class="control-label"><span>大楼归属</span><input type="text" name="belongTo" class="form-control" placeholder="" [(ngModel)]="newBuilding.belongTo"></label>
+              </div>
+              <div class="form-group">
+                <label class="control-label"><span>地&nbsp;&nbsp;址</span><input type="text" name="address" class="form-control" placeholder="" [(ngModel)]="newBuilding.address"></label>
+              </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="closeMask()">取 消</button>
+          <button type="submit" class="btn btn-info" (click)="subBuilding()">保 存</button>
+        </div>
+      </form>
+    </div>
+</div>
+<div class="confirm">
+  <div class="confirm-modal">
+    <div class="confirm-icon confirm-question">?</div>
+    <div class="confirm-content" >你确定要删除该大楼的信息吗?</div>
+    <hr style="margin-top: 20px; margin-bottom: 20px; height: 10px;color: transparent;border: 0;">
+    <button class="confirm-btn styled" (click)="okFunc()">确定</button>
+    <button class="confirm-btn cancel" (click)="noFunc()">取消</button>
+  </div>
+</div>
 

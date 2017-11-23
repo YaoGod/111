@@ -7,7 +7,7 @@ h2,h3,h4,h5,h6{ font-weight: normal;}
 table { border-collapse: collapse }
 fieldset { border: 0; }
 html,body{
-  height: auto;
+  height: 100%;
   width: 100%;
   overflow-x:hidden;
   min-height:100%;
@@ -29,9 +29,6 @@ select { height: 22px; line-height: 18px; padding: 2px 0; }
 a, a:visited { text-decoration: none; outline: none; blr:expression(this.onFocus=this.blur());
 }
 a:active{color:inherit;}
-html,body{
-  height:auto; width:100%;
-}
 .button { border: 0; background: #3f88d6; padding: 3px 10px; }
 .hand { cursor: pointer; }
 .underline { text-decoration: underline; }

@@ -4,6 +4,7 @@ import { InfoBuildingService } from '../../../service/info-building/info-buildin
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 
 import * as $ from 'jquery';
+import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 declare var $:any;
 declare var confirmFunc: any;
 
@@ -11,7 +12,7 @@ declare var confirmFunc: any;
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css'],
-  providers: [InfoBuildingService,ErrorResponseService]
+  providers: [InfoBuildingService,UtilBuildingService,ErrorResponseService]
 })
 export class HomepageComponent implements OnInit {
   public buildings :Array<Building>;
@@ -20,9 +21,18 @@ export class HomepageComponent implements OnInit {
   private pageSize  :number = 6; /*显示页数*/
   public search    :Building ; /*搜索字段*/
   public pages: Array<number>;
+  private delId: any;
+  public newBuilding = {
+    imgPath: '',
+    buildingId: '',
+    name: '',
+    address: '',
+    belongTo:''
+  }
   constructor(
     private infoBuildingService:InfoBuildingService,
-    private errorVoid:ErrorResponseService
+    private errorVoid:ErrorResponseService,
+    private utilBuildingService:UtilBuildingService,
   ) { }
 
   ngOnInit() {
@@ -52,6 +62,78 @@ export class HomepageComponent implements OnInit {
       }
     }
     this.imgPaths = list;
+  }
+  fadeBom(){
+    $('.mask').show();
+  }
+  closeMask(){
+    $('.mask').hide();
+    $('#prese').val('');
+    this.newBuilding = {
+      'imgPath': '',
+      'buildingId': '',
+      'name': '',
+      'address': '',
+      'belongTo': ''
+    }
+  }
+  subBuilding(){
+    if(this.newBuilding.buildingId === '' || this.newBuilding.imgPath === '' || this.newBuilding.name === '' || this.newBuilding.address === '' || this.newBuilding.belongTo === ''){
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': "请把信息填写完整",
+        'popType': 0 ,
+        'imgType': 2 ,
+      });
+      return false;
+    }
+    this.infoBuildingService.addBuilding(this.newBuilding)
+     .subscribe(data => {
+        if(data['status'] === 0){
+          if(data['msg'] === 'success'){
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': '新增成功',
+              'popType': 0 ,
+              'imgType': 1 ,
+            });
+            this.closeMask();
+            this.getBuildingMsg();
+          }else{
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': data['msg'],
+              'popType': 0 ,
+              'imgType': 2 ,
+            });
+          }
+        }else if(data['status'] === 1){
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': data['msg'],
+              'popType': 0 ,
+              'imgType': 2 ,
+            });
+        }
+     })
+  }
+  /*文件图片上传*/
+  prese_upload(files,index){
+    var xhr = this.utilBuildingService.uploadImg(files[0],'building',-1);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
+        var data:any = JSON.parse(xhr.responseText);
+        if(this.errorVoid.errorMsg(data.status)){
+          this.newBuilding.imgPath = data.msg;
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': '上传成功',
+            'popType': 0 ,
+            'imgType': 1,
+          });
+        }
+      }
+    };
   }
   /*页码初始化*/
   initPage(total){
@@ -89,15 +171,30 @@ export class HomepageComponent implements OnInit {
     $('.panel').slideToggle();
   }
   /*删除*/
+  okFunc(){
+    $('.confirm').hide();
+    this.infoBuildingService.deleteBuilding(this.delId)
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data.status)) {
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': data.msg,
+            'popType': 0,
+            'imgType': 1
+          });
+        }
+      });
+    this.getBuildingMsg();
+  }
+  noFunc(){
+    $('.confirm').fadeOut();
+  }
   delete(id:number){
-    let d = confirm("是否删除该大楼");
+    /*let d = confirm("是否删除该大楼");
     if(d){
-      this.infoBuildingService.deleteBuilding(id)
-        .subscribe(data => {
-          if(this.errorVoid.errorMsg(data.status)) {
-            alert(data.msg);
-          }
-        });
-    }
+
+     }*/
+    this.delId = id;
+    $('.confirm').fadeIn();
   }
 }

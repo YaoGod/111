@@ -5,7 +5,6 @@ import { UtilBuildingService } from '../../../service/util-building/util-buildin
 import { GlobalBuildingService } from '../../../service/global-building/global-building.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import * as $ from 'jquery';
-declare var confirmFunc: any;
 declare var $:any;
 @Component({
   selector: 'app-msg-basic',
