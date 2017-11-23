@@ -1,0 +1,274 @@
+<!--搜索栏-->
+<!--<div class="search-bar">
+  <ul>
+    <li>
+      <label>房间号</label>
+      <select [(ngModel)]="searchFloor.floorNum">
+        <option value="">全部</option>
+        <option *ngFor="let name of floorNames" [value]="name.FLOOR_NUM">{{name.FLOOR_NUM}}</option>
+      </select>
+    </li>
+    <li>
+      <label>楼层功能 </label>
+      <select  class="form-control"
+               name="floorUse" [(ngModel)]="searchFloor.floorUse">
+        <option value="">请选择</option>
+        <option>车库</option>
+        <option>大厅</option>
+        <option>餐厅</option>
+        <option>办公层</option>
+        <option>设备机房层</option>
+        <option>多功能厅</option>
+        <option>员工活动层</option>
+        <option>其他</option>
+      </select>
+    </li>
+    <li>
+      <div class="search-icon" >
+        <img src="../../../../assets/image/icon_search.png">
+      </div>
+      <input class="search-btn" type="button" value="查询" (click)="search();">
+    </li>
+  </ul>
+</div>-->
+<div class="box-plus">
+  <a class="btn-danger" (click)="addNewRoom()">
+    <i class="icon-plus"></i>
+    添加房间
+  </a>
+</div>
+<!--表头-->
+<div class="table-head">
+  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+    <tr class="row list-title" style="height:45px;">
+      <th width="8%" class="text-left" style="min-width: 50px;">房间号</th>
+      <th width="17%">房间用途</th>
+      <th width="8%" style="min-width: 70px;">房间面积</th>
+      <th width="8%" style="min-width: 90px;">设计座位数</th>
+      <th width="21%" class="text-left">房间实际用途</th>
+      <th width="25%">房间平面图</th>
+      <th width="15%">操作</th>
+    </tr>
+  </table>
+</div>
+<!--表格内容-->
+<div class="table-content" style="height: 390px">
+  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+    <tr class="row"  style="height:45px;" *ngFor="let room of rooms;let i = index">
+      <td width="8%" class="text-left">
+        <span *ngIf="!copyRooms[i].editStatus">
+          {{room.roomNum}}
+        </span>
+        <input type="text" name="roomNum"
+               id="roomNum"
+               *ngIf="copyRooms[i].editStatus"
+               [(ngModel)]="copyRooms[i].roomNum">
+      </td>
+      <td width="17%">
+        <span *ngIf="!copyRooms[i].editStatus">
+          {{room.roomUse}}
+        </span>
+        <select  id="roomUse"
+          *ngIf="copyRooms[i].editStatus"
+           [(ngModel)]="copyRooms[i].roomUse">
+          <option value="">请选择</option>
+          <option>总经理办公室</option>
+          <option>副总经理办公室</option>
+          <option>中层办公室</option>
+          <option>员工办公室</option>
+          <option>会议室</option>
+          <option>电视电话会议室</option>
+          <option>接待室</option>
+          <option>休息间</option>
+          <option>茶水间</option>
+          <option>文印室</option>
+          <option>员工餐厅</option>
+          <option>餐厅包间</option>
+          <option>厨房</option>
+          <option>洗手间</option>
+          <option>设备间</option>
+          <option>多功能厅</option>
+          <option>活动室</option>
+          <option>职工小小家</option>
+          <option>员工服务中心</option>
+          <option>其他</option>
+        </select>
+      </td>
+      <td width="8%" style="min-width: 70px;">
+        <span *ngIf="!copyRooms[i].editStatus">
+          {{room.roomArea}}
+        </span>
+        <input type="text" name="roomArea"
+               id="roomArea"
+               *ngIf="copyRooms[i].editStatus"
+               [(ngModel)]="copyRooms[i].roomArea">
+      </td>
+      <td width="8%" style="min-width: 90px;">
+        <span *ngIf="!copyRooms[i].editStatus">
+          {{room.seatingNum}}
+        </span>
+        <input type="text" name="seatingNum"
+               id="seatingNum"
+               *ngIf="copyRooms[i].editStatus && copyRooms[i].roomUse === '员工办公室'"
+               [(ngModel)]="copyRooms[i].seatingNum">
+      </td>
+      <td width="21%" class="text-left">
+        <span *ngIf="!copyRooms[i].editStatus">
+          {{room.roomUseReal}}
+        </span>
+        <textarea name="roomUseReal" id="roomUseReal"
+                  *ngIf="copyRooms[i].editStatus"
+                  [(ngModel)]="copyRooms[i].roomUseReal">
+        </textarea>
+      </td>
+      <td width="25%" class="box-demo">
+        <img *ngIf="room.imgPath && !copyRooms[i].editStatus"
+             [src]="'/proxy' + room.imgPath"
+             (click)="viewImg(room.imgPath)">
+        <img src="../../../../assets/image/icon_img.png" *ngIf="!room.imgPath && !copyRooms[i].editStatus">
+        <div  *ngIf="copyRooms[i].editStatus" class="btn-upload" id="imgView">
+          <img [src]="'/proxy' + copyRooms[i].imgPath"
+               (click)="viewImg(copyRooms[i].imgPath)">
+          <img src="../../../../assets/image/icon_img.png" *ngIf="!copyRooms[i].imgPath && copyRooms[i].editStatus">
+          <a>上传
+            <input type="file" name="imgPath" class="img-upload" #prese
+                   (change)="prese_upload(prese.files,i)">
+          </a>
+        </div>
+      </td>
+      <td width="13%" class="box-option">
+        <img src="../../../../assets/image/icon_edit.png" (click)="initEdit(i)">
+        <img src="../../../../assets/image/icon_save.png"
+             [ngClass]="!copyRooms[i].editStatus?'disable':''"
+             (click)="save(i)">
+        <img src="../../../../assets/image/icon_can.png" (click)="delRoom(room.id)">
+      </td>
+    </tr>
+  </table>
+</div>
+<!--翻页-->
+<div class="turn">
+  <ul *ngIf="pages.length > 1">
+    <li *ngFor="let i of pages"
+        [hidden] = "pageLimit(i)"
+        [ngClass]="{'active':i === pageNo}"
+        (click)="goPage(i);">
+      {{i}}
+    </li>
+  </ul>
+</div>
+<!--新建-->
+<div class="mask" style="display: none;">
+  <div  class="modal-content">
+    <div  class="modal-header">
+      <h4 class="modal-title"><i class="icon-home"></i>新增楼层信息</h4>
+      <button class="modal-close" type="button" (click)="closeNewView()">×</button>
+    </div>
+    <form  class="form-building form-material ng-untouched ng-pristine ng-valid" novalidate="">
+      <div  class="modal-body clearfix">
+        <div class="modal-left">
+          <div  class="dropify-wrapper" id = "newImgPath">
+            <div  class="dropify-message">
+              <img [src]="'/proxy'+newRoom.imgPath" *ngIf="newRoom.imgPath">
+            </div>
+            <p>点击此处上传房间平面图</p>
+            <input  class="dropify" type="file"
+                    #pres
+                    (change)="presepic_upload(pres.files)"
+                    (blur)="verifyImgPath(newRoom.imgPath,'newImgPath')">
+          </div>
+        </div>
+        <div   class="modal-right">
+          <div  class="form-group">
+            <label  class="control-label"><span>房间号</span>
+              <input class="form-control" id="newRoomNum"
+                     name="floorNum" placeholder="" type="text"
+                     [(ngModel)]="newRoom.roomNum"
+                     (blur)="verifyEmpty(newRoom.roomNum,'newRoomNum');">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div class="form-group">
+            <label class="control-label"><span>房间用途</span>
+              <select  class="form-control" id="newRoomUse"
+                       name="newFloorUse"
+                       [(ngModel)]="newRoom.roomUse"
+                       (blur)="verifyEmpty(newRoom.roomUse,'newRoomUse');"
+                       >
+                <option value="">请选择</option>
+                <option>总经理办公室</option>
+                <option>副总经理办公室</option>
+                <option>中层办公室</option>
+                <option>员工办公室</option>
+                <option>会议室</option>
+                <option>电视电话会议室</option>
+                <option>接待室</option>
+                <option>休息间</option>
+                <option>茶水间</option>
+                <option>文印室</option>
+                <option>员工餐厅</option>
+                <option>餐厅包间</option>
+                <option>厨房</option>
+                <option>洗手间</option>
+                <option>设备间</option>
+                <option>多功能厅</option>
+                <option>活动室</option>
+                <option>职工小小家</option>
+                <option>员工服务中心</option>
+                <option>其他</option>
+              </select>
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label"><span>房间面积</span>
+              <input class="form-control" id="newRoomArea"
+                     name="floorNum" placeholder="" type="text"
+                     [(ngModel)]="newRoom.roomArea"
+                     (blur)="verifyEmpty(newRoom.roomArea,'newRoomArea');"
+              >
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group" *ngIf="newRoom.roomUse == '员工办公室'">
+            <label  class="control-label"><span>设计座位数</span>
+              <input class="form-control" id="newSeatingNum"
+                     name="floorNum" placeholder="" type="text"
+                     [(ngModel)]="newRoom.seatingNum"
+                     (blur)="verifySeatNumber(newRoom.seatingNum,'newSeatingNum');"
+              >
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label"><span>实际用途</span>
+              <input class="form-control" id="newRoomUserReal"
+                     name="floorNum" placeholder="" type="text"
+                     [(ngModel)]="newRoom.roomUseReal"
+                     (blur)="verifyEmpty(newRoom.roomUseReal,'newRoomUserReal');verifyMaxLength(newRoom.roomUseReal,'newRoomUserReal',50)"
+              >
+            </label>
+            <div class="error"></div>
+          </div>
+        </div>
+      </div>
+      <div  class="modal-footer">
+        <button  class="btn btn-danger" type="button"
+                 (click)="closeNewView()">取 消</button>
+        <button  class="btn btn-info" type="submit"
+                 (click)="submit()">保 存</button>
+      </div>
+    </form>
+  </div>
+</div>
+<!--图片查看器-->
+<div class="view-img" [hidden]="isViewImg">
+  <div class="back"></div>
+  <span class="close" (click)="closeViewImg()"></span>
+  <img class="big-img" [ngStyle]="{'width':imgWidth+'px','margin-left':- imgWidth/2 +'px'}"
+       [src]="imgSrcView">
+  <div class="option-bar">
+    <span class="enlarge" (click)="addImg()"></span>
+    <span class="less" (click)="decsImg()"></span>
+  </div>
+</div>

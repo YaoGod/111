@@ -172,6 +172,32 @@ export class MsgFloorComponent implements OnInit {
         })
     }
   }
+  /*删除信息*/
+  delRoom(id) {
+    confirmFunc.init({
+      'title': '提示' ,
+      'mes': '是否删除？',
+      'popType': 1,
+      'imgType': 2 ,
+      "callback": () => {
+        this.infoBuildingService.deleteFloor(id)
+          .subscribe( data => {
+            if(this.errorVoid.errorMsg(data.status)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data.msg,
+                'popType': 2,
+                'imgType': 1,
+                "callback": () => {
+                  this.initFloor();
+                }
+              });
+
+            }
+          });
+      }
+    });
+  }
   /*文件图片上传*/
   prese_upload(files,index){
     var xhr = this.utilBuildingService.uploadImg(files[0],'floor',-1);
@@ -223,11 +249,13 @@ export class MsgFloorComponent implements OnInit {
             confirmFunc.init({
               'title': '提示' ,
               'mes': data.msg,
-              'popType': 0 ,
+              'popType': 2 ,
               'imgType': 1 ,
+              "callback": () => {
+                this.closeNewView();
+                this.initFloor();
+              }
             });
-            this.closeNewView();
-            this.initFloor();
           }
         })
     }

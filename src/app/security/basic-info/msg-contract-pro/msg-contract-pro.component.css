@@ -73,19 +73,59 @@ input[type=text]{
   height: 16px;
   margin-bottom: -3px;
 }
+.form-msg{
+  margin-bottom: 15px;
+  float: left;
+}
 .form-msg>li input{
   display: none;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 15px;
+  border: 1px solid #b5d7fc;
+  border-radius: 5px;
+  color: #686868;
+}
+.bigText{
+  display: none;
+  height: 120px;
+  width: calc(100% - 30px);
+  padding: 0 15px;
+  border: 1px solid #b5d7fc;
+  border-radius: 5px;
+  color: #686868;
+}
+@media (min-width: 1200px) {
+  .form-bar{
+    min-width: 300px;
+    width: 33%;
+    float: left;
+  }
+}
+@media (max-width: 1200px){
+  .form-bar{
+    min-width: 300px;
+    width: 50%;
+    float: left;
+  }
 }
 .form-bar{
   height: 35px;
   min-width: 300px;
+  float: left;
   line-height: 30px;
   color: #686868;
-  font-size: 16px;
+  font-size: 12px;
 }
 .form-title{
   display: inline-block;
-  width: 200px;
+  width: 110px;
+  padding-right:10px;
+  background-color: #f8f8f8;
+  color: #8d9ea7;
+  font-weight: 300;
+  font-size: 12px;
+  text-align: right;
 }
 .full-line{
   clear: both;
@@ -94,4 +134,21 @@ input[type=text]{
 }
 .full-line .form-title{
   float: left;
+}
+.summary-title{
+  vertical-align:top;
+  word-break: break-all;
+}
+.div-text>.summary-text{
+  width: auto;
+  padding: 10px 7.5px;
+  font-weight: 300;
+  word-break: break-all;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
+  margin: 0;
+  overflow-x: hidden;
+  color: #686868;
+  font-size: 12px;
+  letter-spacing: 2.5px;
+  line-height: 2;
 }

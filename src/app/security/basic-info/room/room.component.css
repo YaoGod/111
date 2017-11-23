@@ -124,6 +124,10 @@ input[type=text]{
 .row td>input[type=text]:focus,.row td>select:focus,.row td>textarea:focus{
   border-color: #333333;
 }
+.table-content .row td .red{
+  border-color: red;
+  border-radius: 5px;
+}
 .row-add td{
   background-color: #ebeff7;
 }

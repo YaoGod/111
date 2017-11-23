@@ -1,4 +1,4 @@
-<div class="view">
+<div class="view" *ngIf="contracts[0].id != null">
   <!--搜索栏-->
   <div class="search-bar" [hidden]="building.type != 'lease'">
     <ul>
@@ -22,20 +22,6 @@
     </ul>
   </div>
   <ul class="form-msg" *ngFor="let contract of contracts">
-    <li class="form-bar">
-      <label>
-        <span class="form-title">大楼编号</span>
-        <input type="text" name="buildingId" [(ngModel)]="contract.buildingId">
-        <span>{{contract.buildingId}}</span>
-      </label>
-    </li>
-    <li class="form-bar">
-      <label>
-        <span class="form-title">大楼名称</span>
-        <input type="text" name="buildingName" [(ngModel)]="contract.buildingName">
-        <span>{{contract.buildingName}}</span>
-      </label>
-    </li>
     <li class="form-bar">
       <label>
         <span class="form-title">大楼性质</span>
@@ -198,4 +184,9 @@
       </label>
     </li>
   </ul>
+</div>
+<div class="view" *ngIf="contracts[0].id == null">
+  <div class="div-add">
+    <p>添加</p>
+  </div>
 </div>

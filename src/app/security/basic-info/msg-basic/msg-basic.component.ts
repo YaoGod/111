@@ -6,12 +6,12 @@ import { GlobalBuildingService } from '../../../service/global-building/global-b
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import * as $ from 'jquery';
 declare var confirmFunc: any;
-declare var $:any;
+declare var $: any;
 @Component({
   selector: 'app-msg-basic',
   templateUrl: './msg-basic.component.html',
   styleUrls: ['./msg-basic.component.css'],
-  providers: [Building,InfoBuildingService,UtilBuildingService],
+  providers: [Building, InfoBuildingService, UtilBuildingService],
 })
 
 export class MsgBasicComponent implements OnInit {

@@ -109,7 +109,7 @@
         <img src="../../../../assets/image/icon_save.png"
              [ngClass]="!copyFloors[i].editStatus?'disable':''"
              (click)="save(i)">
-        <img src="../../../../assets/image/icon_can.png">
+        <img src="../../../../assets/image/icon_can.png" (click)="delRoom(floor.id)">
       </td>
     </tr>
   </table>

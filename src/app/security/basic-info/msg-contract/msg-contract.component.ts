@@ -23,14 +23,13 @@ export class MsgContractComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.building = new Building();
-    this.contracts = new Array<Contract>(1);
-    this.contracts[0] = new Contract;
+    this.contracts = new Array<Contract>();
     this.building.id = Number(this.router.url.split('/')[5]);
     this.building.type = this.router.url.split('/')[7];
     this.getContract();
   }
   getContract(){
-    this.contractBuildingService.getContractInfo(this.building.id,this.building.type)
+    this.contractBuildingService.getContractInfo(this.building.id, this.building.type)
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data.status)){
           this.contracts = new Array<Contract>(1);
