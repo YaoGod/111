@@ -10,7 +10,18 @@
     </li>
     <li>
       <label>楼层功能 </label>
-        <input type="text" [(ngModel)]="searchFloor.floorUse" >
+      <select  class="form-control"
+        name="floorUse" [(ngModel)]="searchFloor.floorUse">
+        <option value="">请选择</option>
+        <option>车库</option>
+        <option>大厅</option>
+        <option>餐厅</option>
+        <option>办公层</option>
+        <option>设备机房层</option>
+        <option>多功能厅</option>
+        <option>员工活动层</option>
+        <option>其他</option>
+      </select>
     </li>
     <li>
       <div class="search-icon" >
@@ -20,14 +31,19 @@
     </li>
   </ul>
 </div>
-<div class="box-plus"><a class="btn-danger"><i class="ti-plus"></i>添加楼层</a></div>
+<div class="box-plus">
+  <a class="btn-danger" (click)="addNewFloor()">
+    <i class="icon-plus"></i>
+    添加楼层
+  </a>
+</div>
 <!--表头-->
 <div class="table-head">
   <table border="0" cellspacing="0" cellpadding="0" class="list-box">
     <tr class="row list-title" style="height:45px;">
-      <th width="30%" class="text-left">大楼名称</th>
+      <th width="25%" class="text-left">大楼名称</th>
       <th width="15%">楼层</th>
-      <th width="15%" class="text-left">楼层功能</th>
+      <th width="20%" class="text-left">楼层功能</th>
       <th width="25%">楼层平台图</th>
       <th width="15%">操作</th>
     </tr>
@@ -37,13 +53,15 @@
 <div class="table-content" style="height: 390px">
   <table border="0" cellspacing="0" cellpadding="0" class="list-box">
     <tr class="row"  style="height:45px;" *ngFor="let floor of floors;let i = index">
-      <td width="30%" class="text-left">
+      <td width="25%" class="text-left">
         <span *ngIf="!copyFloors[i].editStatus">
           {{floor.buildingName}}
         </span>
         <input type="text" name="buildingName"
                *ngIf="copyFloors[i].editStatus"
-               [(ngModel)]="copyFloors[i].buildingName">
+               [(ngModel)]="copyFloors[i].buildingName"
+               disabled
+        >
       </td>
       <td width="15%">
         <span *ngIf="!copyFloors[i].editStatus">
@@ -53,12 +71,13 @@
                *ngIf="copyFloors[i].editStatus"
                [(ngModel)]="copyFloors[i].floorNum">
       </td>
-      <td width="15%" class="text-left">
+      <td width="20%" class="text-left">
         <span *ngIf="!copyFloors[i].editStatus">
           {{floor.floorUse}}
         </span>
         <select  *ngIf="copyFloors[i].editStatus"
                  [(ngModel)]="copyFloors[i].floorUse">
+          <option value="">请选择</option>
           <option>车库</option>
           <option>大厅</option>
           <option>餐厅</option>
@@ -85,7 +104,7 @@
         </div>
       </td>
       <td width="15%" class="box-option">
-        <img src="../../../../assets/image/icon_bird.png">
+        <img src="../../../../assets/image/icon_bird.png" (click)="goToRoom(floor.id)">
         <img src="../../../../assets/image/icon_edit.png" (click)="initEdit(i)">
         <img src="../../../../assets/image/icon_save.png"
              [ngClass]="!copyFloors[i].editStatus?'disable':''"
@@ -105,6 +124,68 @@
       {{i}}
     </li>
   </ul>
+</div>
+<!--新建-->
+<div class="mask" style="display: none;">
+  <div  class="modal-content">
+    <div  class="modal-header">
+      <h4 class="modal-title"><i class="icon-home"></i>新增楼层信息</h4>
+      <button class="modal-close" type="button" (click)="closeNewView()">×</button>
+    </div>
+    <form  class="form-building form-material ng-untouched ng-pristine ng-valid" novalidate="">
+      <div  class="modal-body clearfix">
+        <div class="modal-left">
+          <div  class="dropify-wrapper" id = "newImgPath">
+            <div  class="dropify-message">
+              <img [src]="'/proxy'+newFloor.imgPath" *ngIf="newFloor.imgPath">
+            </div>
+            <p >点击此处上传大楼平面图</p>
+            <input  class="dropify" type="file"
+                    #pres
+                    (change)="presepic_upload(pres.files)"
+                    (blur)="verifyImgPath()"
+            >
+          </div>
+        </div>
+        <div   class="modal-right">
+          <div  class="form-group">
+            <label  class="control-label"><span>楼层</span>
+              <input class="form-control" id="newFloorNum"
+                     name="floorNum" placeholder="" type="text"
+                     [(ngModel)]="newFloor.floorNum"
+                     (blur)="verifyFloorNum()">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div class="form-group">
+            <label class="control-label"><span>楼层功能</span>
+              <select  class="form-control" id="newFloorUse"
+                       name="newFloorUse"
+                       [(ngModel)]="newFloor.floorUse"
+                       (blur)="verifyFloorUse()" >
+                <option value="">请选择</option>
+                <option>车库</option>
+                <option>大厅</option>
+                <option>餐厅</option>
+                <option>办公层</option>
+                <option>设备机房层</option>
+                <option>多功能厅</option>
+                <option>员工活动层</option>
+                <option>其他</option>
+              </select>
+            </label>
+            <div class="error"></div>
+          </div>
+        </div>
+      </div>
+      <div  class="modal-footer">
+        <button  class="btn btn-danger" type="button"
+                 (click)="closeNewView()">取 消</button>
+        <button  class="btn btn-info" type="submit"
+                 (click)="submit()">保 存</button>
+      </div>
+    </form>
+  </div>
 </div>
 <!--图片查看器-->
 <div class="view-img" [hidden]="isViewImg">

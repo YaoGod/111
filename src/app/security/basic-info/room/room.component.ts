@@ -1,97 +1,75 @@
 import { Component, OnInit } from '@angular/core';
-import { InfoBuildingService } from '../../../service/info-building/info-building.service';
 import { GlobalBuildingService } from '../../../service/global-building/global-building.service';
+import { Router,ActivatedRoute } from '@angular/router';
+import { InfoBuildingService } from '../../../service/info-building/info-building.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import { Building } from '../../../mode/building/building.service';
 import { Floor } from '../../../mode/floor/floor.service';
-import { Router } from '@angular/router';
+import { Room } from '../../../mode/room/room.service';
 import { UtilBuildingService } from '../../../service/util-building/util-building.service';
 import * as $ from 'jquery';
 declare var confirmFunc: any;
 declare var $:any;
 @Component({
-  selector: 'app-msg-floor',
-  templateUrl: './msg-floor.component.html',
-  styleUrls: ['./msg-floor.component.css'],
-  providers:[InfoBuildingService,UtilBuildingService,Building,Floor]
+  selector: 'app-room',
+  templateUrl: './room.component.html',
+  styleUrls: ['./room.component.css'],
+  providers:[InfoBuildingService,UtilBuildingService,Building,Floor,Room]
 })
-export class MsgFloorComponent implements OnInit {
+export class RoomComponent implements OnInit {
 
   public building     : Building;       /*大楼信息*/
-  public floors       : Array<Floor>;   /*大楼楼层列表*/
-  public floorNames   : Array<any>;  /*大楼楼层名称列表*/
-  public searchFloor  : Floor;
+  public floor        : Floor =  new Floor();
+  public rooms        : Array<Room>;
   private pageNo      : number = 1;
   private pageSize    : number = 5;
   public pages        : Array<number>;
   public isViewImg    : boolean = true;
   public imgWidth     : number = 500;
-  public copyFloors   : any;
+  public copyRooms   : any;
   public imgSrcView   : string;
-  public newFloor     : Floor = new Floor();
+  public newRoom     : Room = new Room();
   public isOpenNewView: boolean =false;
   constructor(
     private globalBuilding:GlobalBuildingService,
+    private router: Router,
+    private route:ActivatedRoute,
     private infoBuildingService:InfoBuildingService,
     private utilBuildingService:UtilBuildingService,
-    private router: Router,
     private errorVoid:ErrorResponseService
+
   ) {
     this.building = globalBuilding.getVal();
   }
-
   ngOnInit() {
-    this.globalBuilding.valueUpdated.subscribe(
-      (val) =>{
-        this.building = this.globalBuilding.getVal();
-      }
-    );
-    this.initFloor();
+    this.route.params.subscribe(data => {
+      this.floor.id = data.id;
+      this.initRoom();
+    });
+
   }
-  initFloor(){
+  initRoom(){
     this.pageNo = 1;
-    this.floors = new Array<Floor>();
-    this.copyFloors =[];
+    this.rooms = new Array<Room>();
+    this.copyRooms =[];
     this.pages = [];
-    let id =Number( this.router.url.split('/')[5]);
-    this.searchFloor = new Floor();
-    this.searchFloor.buildingId = id;
-    this.searchFloor.floorNum = '';
-    this.getFloorNameListInfo(id);
     this.getFloorInfo(this.pageNo,this.pageSize);
   }
   /*获取楼层信息*/
   getFloorInfo(pageNo:number,pageSize:number){
-    var copySearch = JSON.parse(JSON.stringify(this.searchFloor));
-    if(this.searchFloor.floorNum === '') {
-      copySearch.floorNum = undefined;
-    }
-    this.infoBuildingService.getFloorListMsg( copySearch, pageNo,pageSize)
+    this.infoBuildingService.getRoomListMsg( this.floor.id, pageNo,pageSize)
       .subscribe(data =>{
         if(this.errorVoid.errorMsg(data.status)) {
-          this.floors = data.data.infos;
-          this.copyFloors = JSON.parse(JSON.stringify(this.floors));
-          for( var i = 0;i<this.copyFloors.length;i++){
-            this.copyFloors[i].editStatus = false;
+          this.rooms = data.data.infos;
+          this.copyRooms = JSON.parse(JSON.stringify(this.rooms));
+          for( var i = 0;i<this.copyRooms.length;i++){
+            this.copyRooms[i].editStatus = false;
           }
+          console.log(this.copyRooms);
           let total = Math.ceil(data.data.total / pageSize);
           this.initPage(total);
         }
       });
-  }
-  /*获取楼层名称*/
-  getFloorNameListInfo(id:number){
-    this.infoBuildingService.getFloorNameListMsg(id)
-      .subscribe(data => {
-        if(this.errorVoid.errorMsg(data.status)) {
-          this.floorNames = data.data;
-        }
-      });
-  }
-  search(){
-    this.pageNo = 1;
-    this.pages = [];
-    this.getFloorInfo(this.pageNo,this.pageSize);
   }
   /*页码初始化*/
   initPage(total){
@@ -112,7 +90,7 @@ export class MsgFloorComponent implements OnInit {
       return false;
     }
     else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-       return false;
+      return false;
     }
     return true;
   }
@@ -148,25 +126,26 @@ export class MsgFloorComponent implements OnInit {
   }
   /*初始化编辑*/
   initEdit(index: number){
-    if(!this.copyFloors[index].editStatus){
+    if(!this.copyRooms[index].editStatus){
       /*进入编辑*/
-      this.copyFloors[index].editStatus = true;
-      console.log( this.copyFloors[index]);
+      this.copyRooms[index].editStatus = true;
+      console.log( this.copyRooms[index]);
     }else{
       /*取消编辑*/
-      this.copyFloors[index] = JSON.parse(JSON.stringify(this.floors[index]));
-      this.copyFloors[index].editStatus = false;
+      this.copyRooms[index] = JSON.parse(JSON.stringify(this.rooms[index]));
+      this.copyRooms[index].editStatus = false;
     }
   }
   /*保存*/
   save(index:number){
-    if(this.copyFloors[index].editStatus){
-      this.infoBuildingService.updateFloor(this.copyFloors[index])
+    if(this.copyRooms[index].editStatus){
+      this.infoBuildingService.updateRoom(this.copyRooms[index])
         .subscribe(data => {
           if(this.errorVoid.errorMsg(data.status)){
             if(data.msg = '更新成功'){
-              this.floors[index] = this.copyFloors[index];
-              this.copyFloors[index].editStatus = false;
+              this.copyRooms[index] = this.copyRooms[index];
+              this.copyRooms[index].editStatus = false;
+              this.rooms[index] =JSON.parse(JSON.stringify(this.copyRooms[index]));
             }
           }
         })
@@ -179,29 +158,29 @@ export class MsgFloorComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          this.copyFloors[index].imgPath = data.msg;
+          this.copyRooms[index].imgPath = data.msg;
         }
       }
     };
   }
-  /*新建楼层的楼层平面图上传*/
+  /*新建房间平面图上传*/
   presepic_upload(files){
     var xhr = this.utilBuildingService.uploadImg(files[0],'floor',-1);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-         this.newFloor.imgPath = data.msg;
+          this.newRoom.imgPath = data.msg;
         }
       }
     };
   }
-  /*添加新楼层窗口弹出*/
-  addNewFloor(){
-    this.newFloor = new Floor();
-    this.newFloor.buildingName = this.building.name;
-    this.newFloor.buildingId = this.building.id;
-    this.newFloor.floorUse = '';
+  /*添加新房间窗口弹出*/
+  addNewRoom(){
+    this.newRoom = new Room();
+/*    this.newRoom.buildingName = this.building.name;
+    this.newRoom.buildingId = this.building.id;
+    this.newRoom.floorUse = '';*/
     this.isOpenNewView = true;
     $('.mask').css('display','block');
   }
@@ -209,15 +188,13 @@ export class MsgFloorComponent implements OnInit {
   closeNewView(){
     this.isOpenNewView = false;
     $('.mask').css('display','none');
-    this.newFloor = new Floor();
+    this.newRoom = new Room();
   }
   /*提交新楼层信息*/
   submit(){
-    if(this.verifyImgPath()
-      &&this.verifyFloorNum()
-      &&this.verifyFloorUse()
-    ){
-      this.infoBuildingService.addFloor(this.newFloor)
+    console.log(this.newRoom);
+    if(this.newRoom.roomNum!= ''){
+      this.infoBuildingService.updateRoom(this.newRoom)
         .subscribe(data => {
           if(this.errorVoid.errorMsg(data.status)){
             confirmFunc.init({
@@ -227,43 +204,11 @@ export class MsgFloorComponent implements OnInit {
               'imgType': 1 ,
             });
             this.closeNewView();
-            this.initFloor();
+            this.initRoom();
           }
         })
     }
-  }
-  verifyImgPath(){
-    if(typeof (this.newFloor.imgPath) === "undefined" ||
-        this.newFloor.imgPath === null ||
-        this.newFloor.imgPath === ''){
-      this.addErrorClass('newImgPath','请上传图片');
-      return false;
-    }else{
-      this.removeErrorClass('newImgPath');
-      return true;
-    }
-  }
-  verifyFloorNum(){
-    if(typeof (this.newFloor.floorNum) === "undefined" ||
-        this.newFloor.floorNum === null ||
-        this.newFloor.floorNum === ''){
-        this.addErrorClass('newFloorNum','请填写楼层');
-      return false;
-    }else{
-      this.removeErrorClass('newFloorNum');
-      return true;
-    }
-  }
-  verifyFloorUse(){
-    if(typeof (this.newFloor.floorUse) === "undefined" ||
-      this.newFloor.floorUse === null ||
-      this.newFloor.floorUse === ''){
-      this.addErrorClass('newFloorUse','请选择楼层功能');
-      return false;
-    }else{
-      this.removeErrorClass('newFloorUse');
-      return true;
-    }
+
   }
   /* 添加错误信息*/
   private addErrorClass(id: string, error: string)  {
@@ -275,4 +220,5 @@ export class MsgFloorComponent implements OnInit {
     $('#' + id).removeClass('red');
     $('#' + id).parent().next('.error').fadeOut();
   }
+
 }

@@ -54,7 +54,6 @@
 .form-bar{
   height: 35px;
   min-width: 300px;
-  width: 33%;
   float: left;
   line-height: 30px;
   color: #686868;
@@ -131,7 +130,7 @@
   float: right;
 }
 .view-img{
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;

@@ -31,7 +31,7 @@ ul,li{
   touch-action: manipulation;
 }
 .panel{
-  padding: 25px;
+  padding: 25px 115px 25px 25px;
   position: relative;
 }
 .search-bar{
@@ -44,9 +44,17 @@ ul,li{
   display: flex;
   flex-wrap:wrap;
 }
-.panel>ul>li{
-  width: 20%;
-  height: 36px;
+@media (min-width: 1000px ) {
+  .panel > ul > li {
+   /* width: 20%;*/
+    height: 36px;
+  }
+}
+@media (max-width: 1000px ){
+  .panel>ul>li{
+    float: left;
+    height: 36px;
+  }
 }
 .panel>ul>li>label{
   float: left;
@@ -61,6 +69,7 @@ ul,li{
 .panel>ul>li>input[type=text] {
   height: 20px;
   width: calc(100% - 115px);
+  min-width: 100px;
   padding: 3px 10px;
   font-size: 12px;
   line-height: 1.5;
@@ -70,6 +79,7 @@ ul,li{
 }
 .panel>ul>li>select{
   width: calc(100% - 90px);
+  min-width: 140px;
   height: 30px;
   padding: 5px 10px;
   font-size: 12px;
@@ -110,7 +120,7 @@ input[type=text]{
   cursor: pointer;
 }
 .view{
-  min-width: 1180px;
+/*  min-width: 1180px;*/
   padding-left : 2%;
   padding-right: 2%;
   padding-bottom: 15px;
