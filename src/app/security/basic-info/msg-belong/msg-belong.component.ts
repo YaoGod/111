@@ -39,25 +39,31 @@ export class MsgBelongComponent implements OnInit {
   showMap(lat,lon){
     let map = new AMap.Map('map',{
       zoom: 10,
-      center:[lat,lon]
+      center:[120.323189,30.235673]
     });
-    map.plugin('AMap.ToolBar',() =>{
-      let marker = new AMap.Marker({
-        position: [lat,lon],
-        title: this.building.name,
-        map: map
-      });
-      let clickEventListener = map.on('click', (e) => {
-        if( this.mapEditStatus ){
-          this.copyBuilding.lat =  e.lnglat.getLat();
-          this.copyBuilding.lon =  e.lnglat.getLng();
-          let position = [this.copyBuilding.lon,this.copyBuilding.lat];
-          marker.setPosition(position);
-          map.setFitView();
+      map.plugin('AMap.ToolBar',() =>{
+        if(typeof(lat)==="undefined" || typeof(lon)==="undefined"
+          || lat=== null || lon === null ) {
+            lat = 120.323;
+            lon = 30.235;
         }
-      });
-      map.setFitView();
-    })
+        let marker = new AMap.Marker({
+          position: [lat, lon],
+          title: this.building.name,
+          map: map
+        });
+        let clickEventListener = map.on('click', (e) => {
+          if (this.mapEditStatus) {
+            this.copyBuilding.lat = e.lnglat.getLat();
+            this.copyBuilding.lon = e.lnglat.getLng();
+            let position = [this.copyBuilding.lon, this.copyBuilding.lat];
+            marker.setPosition(position);
+            map.setFitView();
+          }
+        });
+        map.setFitView();
+      })
+
   }
   updateMarker(){
     this.showMap(this.copyBuilding.lon,this.copyBuilding.lat);

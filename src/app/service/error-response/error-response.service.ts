@@ -11,7 +11,7 @@ export class ErrorResponseService {
       console.log('用户信息过期');
       this.router.navigate(['login']);
       return false;
-    }else if (data === 102) {
+    }else if (data === 1) {
       console.log('服务层方法报错');
       return false;
     }else if (data === 103) {

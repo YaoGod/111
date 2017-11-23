@@ -1,8 +1,8 @@
 <!--搜索栏-->
-<div class="search-bar">
+<!--<div class="search-bar">
   <ul>
     <li>
-      <label>楼层</label>
+      <label>房间号</label>
       <select [(ngModel)]="searchFloor.floorNum">
         <option value="">全部</option>
         <option *ngFor="let name of floorNames" [value]="name.FLOOR_NUM">{{name.FLOOR_NUM}}</option>
@@ -11,7 +11,7 @@
     <li>
       <label>楼层功能 </label>
       <select  class="form-control"
-        name="floorUse" [(ngModel)]="searchFloor.floorUse">
+               name="floorUse" [(ngModel)]="searchFloor.floorUse">
         <option value="">请选择</option>
         <option>车库</option>
         <option>大厅</option>
@@ -30,21 +30,23 @@
       <input class="search-btn" type="button" value="查询" (click)="search();">
     </li>
   </ul>
-</div>
+</div>-->
 <div class="box-plus">
-  <a class="btn-danger" (click)="addNewFloor()">
+  <a class="btn-danger" (click)="addNewRoom()">
     <i class="icon-plus"></i>
-    添加楼层
+    添加房间
   </a>
 </div>
 <!--表头-->
 <div class="table-head">
   <table border="0" cellspacing="0" cellpadding="0" class="list-box">
     <tr class="row list-title" style="height:45px;">
-      <th width="25%" class="text-left">大楼名称</th>
-      <th width="15%">楼层</th>
-      <th width="20%" class="text-left">楼层功能</th>
-      <th width="25%">楼层平台图</th>
+      <th width="10%" class="text-left">房间号</th>
+      <th width="15%">房间用途</th>
+      <th width="10%" class="text-left">房间面积</th>
+      <th width="10%">设计座位数</th>
+      <th width="15%">房间实际用途</th>
+      <th width="25%">房间平面图</th>
       <th width="15%">操作</th>
     </tr>
   </table>
@@ -52,31 +54,23 @@
 <!--表格内容-->
 <div class="table-content" style="height: 390px">
   <table border="0" cellspacing="0" cellpadding="0" class="list-box">
-    <tr class="row"  style="height:45px;" *ngFor="let floor of floors;let i = index">
-      <td width="25%" class="text-left">
-        <span *ngIf="!copyFloors[i].editStatus">
-          {{floor.buildingName}}
+    <tr class="row"  style="height:45px;" *ngFor="let room of rooms;let i = index">
+      <td width="10%" class="text-left">
+        <span *ngIf="!newRoom[i].editStatus">
+          {{room.roomNum}}
         </span>
         <input type="text" name="buildingName"
-               *ngIf="copyFloors[i].editStatus"
-               [(ngModel)]="copyFloors[i].buildingName"
+               *ngIf="newRoom[i].editStatus"
+               [(ngModel)]="newRoom[i].roomNum"
                disabled
         >
       </td>
-      <td width="15%">
-        <span *ngIf="!copyFloors[i].editStatus">
-          {{floor.floorNum}}
+      <td width="15%" class="text-left">
+        <span *ngIf="!newRoom[i].editStatus">
+          {{room.roomUse}}
         </span>
-        <input type="text" name="floorNum"
-               *ngIf="copyFloors[i].editStatus"
-               [(ngModel)]="copyFloors[i].floorNum">
-      </td>
-      <td width="20%" class="text-left">
-        <span *ngIf="!copyFloors[i].editStatus">
-          {{floor.floorUse}}
-        </span>
-        <select  *ngIf="copyFloors[i].editStatus"
-                 [(ngModel)]="copyFloors[i].floorUse">
+        <select  *ngIf="newRoom[i].editStatus"
+                 [(ngModel)]="newRoom[i].floorUse">
           <option value="">请选择</option>
           <option>车库</option>
           <option>大厅</option>
@@ -88,15 +82,39 @@
           <option>其他</option>
         </select>
       </td>
+      <td width="10%">
+        <span *ngIf="!newRoom[i].editStatus">
+          {{room.floorNum}}
+        </span>
+        <input type="text" name="floorNum"
+               *ngIf="newRoom[i].editStatus"
+               [(ngModel)]="newRoom[i].floorNum">
+      </td>
+      <td width="10%">
+        <span *ngIf="!newRoom[i].editStatus">
+          {{floor.floorNum}}
+        </span>
+        <input type="text" name="floorNum"
+               *ngIf="newRoom[i].editStatus"
+               [(ngModel)]="newRoom[i].floorNum">
+      </td>
+      <td width="15%">
+        <span *ngIf="!newRoom[i].editStatus">
+          {{floor.floorNum}}
+        </span>
+        <input type="text" name="floorNum"
+               *ngIf="newRoom[i].editStatus"
+               [(ngModel)]="newRoom[i].floorNum">
+      </td>
       <td width="25%" class="box-demo">
-        <img *ngIf="floor.imgPath && !copyFloors[i].editStatus"
+        <img *ngIf="floor.imgPath && !newRoom[i].editStatus"
              [src]="'/proxy' + floor.imgPath"
              (click)="viewImg(floor.imgPath)">
-        <img src="../../../../assets/image/icon_img.png" *ngIf="!floor.imgPath && !copyFloors[i].editStatus">
-        <div  *ngIf="copyFloors[i].editStatus" class="btn-upload">
-          <img [src]="'/proxy' + copyFloors[i].imgPath"
-               (click)="viewImg(copyFloors[i].imgPath)">
-          <img src="../../../../assets/image/icon_img.png" *ngIf="!copyFloors[i].imgPath && copyFloors[i].editStatus">
+        <img src="../../../../assets/image/icon_img.png" *ngIf="!floor.imgPath && !newRoom[i].editStatus">
+        <div  *ngIf="newRoom[i].editStatus" class="btn-upload">
+          <img [src]="'/proxy' + newRoom[i].imgPath"
+               (click)="viewImg(newRoom[i].imgPath)">
+          <img src="../../../../assets/image/icon_img.png" *ngIf="!newRoom[i].imgPath && newRoom[i].editStatus">
           <a>上传
             <input type="file" name="imgPath" class="img-upload" #prese
                    (change)="prese_upload(prese.files,i)">
@@ -107,7 +125,7 @@
         <img src="../../../../assets/image/icon_bird.png" (click)="goToRoom(floor.id)">
         <img src="../../../../assets/image/icon_edit.png" (click)="initEdit(i)">
         <img src="../../../../assets/image/icon_save.png"
-             [ngClass]="!copyFloors[i].editStatus?'disable':''"
+             [ngClass]="!newRoom[i].editStatus?'disable':''"
              (click)="save(i)">
         <img src="../../../../assets/image/icon_can.png">
       </td>
@@ -143,7 +161,7 @@
             <input  class="dropify" type="file"
                     #pres
                     (change)="presepic_upload(pres.files)"
-                    (blur)="verifyImgPath()"
+
             >
           </div>
         </div>
@@ -153,7 +171,7 @@
               <input class="form-control" id="newFloorNum"
                      name="floorNum" placeholder="" type="text"
                      [(ngModel)]="newFloor.floorNum"
-                     (blur)="verifyFloorNum()">
+                     >
             </label>
             <div class="error"></div>
           </div>
@@ -162,7 +180,7 @@
               <select  class="form-control" id="newFloorUse"
                        name="newFloorUse"
                        [(ngModel)]="newFloor.floorUse"
-                       (blur)="verifyFloorUse()" >
+                       >
                 <option value="">请选择</option>
                 <option>车库</option>
                 <option>大厅</option>

@@ -27,7 +27,7 @@
         "../node_modules/pickadate/lib/picker.js",
         "../node_modules/pickadate/lib/picker.date.js",
         "../node_modules/pickadate/lib/picker.time.js",
-        "../src/assets/confirmFunc.js"
+        "../src/assets/js/confirmFunc.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

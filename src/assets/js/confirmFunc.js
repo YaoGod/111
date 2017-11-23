@@ -194,8 +194,8 @@ confirmFunc={
 			$(".cpMasking").css("zIndex",data.zIndex);
 		};
 	},
-	'imgHint': '../assets/img/hint.png',
-	'imgOK': '../assets/img/successpop.png',
-	'imgWarn': '../assets/img/warnpop.png'
+	'imgHint': '../assets/image/hint.png',
+	'imgOK': '../assets/image/successpop.png',
+	'imgWarn': '../assets/image/warnpop.png'
 };
 

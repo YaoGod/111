@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     };
   }
   /*登陆*/
-  loginIn(){
+    loginIn(){
     let data = {
       username: this.user.name,
       password: this.user.password

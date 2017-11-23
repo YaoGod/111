@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Http, RequestOptions, Headers} from '@angular/http';
 
 import * as $ from 'jquery';
-/*import '../../../../assets/confirmFunc.js';*/
+/*import '../../../../assets/js/confirmFunc.js';*/
 
 declare var $: any;
 declare var confirmFunc: any;

@@ -469,7 +469,7 @@ select{
 }
 .error{
   width: 276px;
-/*  height: 18px;*/
+  /*  height: 18px;*/
   padding-left: 75px;
   font-size: 10px;
   color: #d75452;
