@@ -87,7 +87,7 @@ input[type=text]{
   height: 35px;
 }
 .row td, .row th{
-  padding: 10px;
+  padding: 3px 10px;
   text-align: center;
   border-bottom: 1px solid #e1eaf2;
 }
@@ -100,8 +100,14 @@ input[type=text]{
   font-weight: 300;
   text-align: center;
 }
-.row td>input[type=text],.row td>select{
-  width: calc(100% - 40px);
+.row td>input[type=text]{
+  width: calc(100% - 20px);
+  border: 1px solid #e1eaf2;
+  border-radius: 3px;
+  color: #686868;
+}
+.row td>select{
+  width: 100%;
   border: 1px solid #e1eaf2;
   border-radius: 3px;
   color: #686868;
@@ -144,7 +150,7 @@ td>img{
   text-align: right;
 }
 .view-img{
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -240,7 +246,7 @@ td>img{
 }
 .box-plus{
   height: 45px;
-  padding: 10px;
+  padding: 0 10px;
 }
 .box-plus>a{
   position: relative;
@@ -252,7 +258,7 @@ td>img{
 }
 .btn-upload{
   height: 64px;
-/*  float: right;*/
+  min-width: 160px;
   vertical-align: middle;
 }
 .btn-upload>a{
@@ -298,4 +304,177 @@ td>img{
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+.win{
+  position: absolute;
+  width: 680px;
+  top: 80px;
+  left: 50%;
+  margin-left: -340px;
+  background-color: #ffffff;
+}
+.mask {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,.4);
+  z-index: 999;
+}
+.modal-content{
+  width: 500px;
+  position: absolute;
+  left: 50%;
+  top: 100px;
+  margin-left: -250px;
+}
+.modal-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #f1f5f8;
+}
+.modal-close{
+  cursor: pointer;
+  border: none;
+  font-size: 18px;
+  background: none;
+  outline: none;
+  font-family: 'Microsoft YaHei', 'Arial';
+}
+.modal-body {
+  position: relative;
+  padding: 15px;
+  background: #fff;
+}
+.modal-left {
+  width: 180px;
+  height: 200px;
+  border: 2px solid #E5E5E5;
+  float: left;
+}
+.modal-right {
+  width: 260px;
+  margin-left: 20px;
+  float: left;
+}
+.dropify-wrapper{
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  height: 200px;
+  font-size: 14px;
+  line-height: 22px;
+  color: #777;
+  background-color: #FFF;
+  background-image: none;
+  text-align: center;
+}
+.dropify-wrapper .dropify-message{
+  position: relative;
+  z-index: 3;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.dropify-wrapper p {
+  position: absolute;
+  left: 0;
+  top: 88px;
+  width: 100%;
+  line-height: 24px;
+  z-index: 2;
+}
+.dropify-wrapper input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 5;
+}
+.modal-footer{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding: 15px;
+  background-color: #f1f5f8;
+}
+.btn-info {
+  margin-left: 15px;
+  padding: 10px 16px;
+  border-radius: 4px;
+  background: #03a9f3;
+  border: 1px solid #03a9f3;
+  color: #fff;
+}
+.btn-info:hover {
+  background: #03a9f3;
+  opacity: .8;
+  border: 1px solid #03a9f3;
+  cursor: pointer;
+}
+.control-label{
+  display: block;
+  color: #8d9ea7;
+}
+.control-label>span{
+  display: inline-block;
+  width: 60px;
+  padding-right: 10px;
+}
+.form-control {
+  color: #565656;
+  height: 38px;
+  max-width: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  background-position: center bottom, center calc(99%);
+  background-repeat: no-repeat;
+  background-size: 0 1px, 100% 1px;
+  padding: 0;
+  transition: background 0s ease-out 0s;
+  background-image: linear-gradient(#03a9f3, #03a9f3), linear-gradient(rgba(120, 130, 140, .13), rgba(120, 130, 140, .13));
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  float: none;
+}
+select{
+  width: calc(100% - 90px);
+  padding: 0 10px;
+}
+.dropify-message>img{
+  width: 100%;
+}
+.error{
+  width: 276px;
+/*  height: 18px;*/
+  padding-left: 75px;
+  font-size: 10px;
+  color: #d75452;
+}
+.red{
+  border: 0.5px solid #d75452;
+  border-radius: 5px;
 }

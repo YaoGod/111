@@ -76,9 +76,10 @@ export class InfoBuildingService {
    param: pageSize:number,    #该页最大数
    return:   #大楼基础信息实体类
    */
-  getRoomListMsg (id:number,floorId:number,pageNo: number,pageSize:number) {
-    const url = '/proxy/building/info/getRoomList/'+id+'/'+floorId+'/'+pageNo+'/'+pageSize;
-    return this.http.get(url,this.options)
+  getRoomListMsg (floorId:number,pageNo: number,pageSize:number) {
+    const url = '/proxy/building/info/getRoomList/'+pageNo+'/'+pageSize;
+    var data = {floorId:floorId};
+    return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
   /*
@@ -99,7 +100,7 @@ export class InfoBuildingService {
    */
   addFloor(postData){
     const url = '/proxy/building/info/addFloor';
-    const data = {postData};
+    const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
@@ -110,7 +111,7 @@ export class InfoBuildingService {
    */
   addRoom(postData){
     const url = '/proxy/building/info/addRoom';
-    const data = {postData};
+    const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
@@ -167,7 +168,7 @@ export class InfoBuildingService {
       .map(res => res.json());
   }
   /*
-   更新大楼楼层信息
+   更新大楼房间信息
    param: postData:Floor,          #大楼实体类
    return:
    */
