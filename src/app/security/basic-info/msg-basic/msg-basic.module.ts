@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MsgBasicComponent } from './msg-basic.component';
 import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
+import { EmptyValueModule } from '../../../pipe/rename/rename.module';
 const routes: Routes = [
   {
     path: '',
@@ -15,7 +16,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    EmptyValueModule
   ],
   exports: [RouterModule],
   declarations: [MsgBasicComponent]

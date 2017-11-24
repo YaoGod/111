@@ -4,7 +4,6 @@ import { InfoBuildingService } from '../../../service/info-building/info-buildin
 import { UtilBuildingService } from '../../../service/util-building/util-building.service';
 import { GlobalBuildingService } from '../../../service/global-building/global-building.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
-
 import * as $ from 'jquery';
 declare var confirmFunc: any;
 declare var $: any;
@@ -59,18 +58,22 @@ export class MsgBasicComponent implements OnInit {
   }
   /*表单提交*/
   submit(){
-    var data = this.copyBuilding;
-    this.infoBuildingService.updateBuilding(data)
-      .subscribe(data => {
+    this.infoBuildingService.updateBuilding(this.copyBuilding)
+      .subscribe( data => {
         if(this.errorVoid.errorMsg(data.status)){
-          if(data.msg === '更新成功'){
-            this.building = this.copyBuilding;
-            this.globalBuilding.setVal(this.building);
-            this.closeEdit();
-          }
-          else{
-            alert(data.msg);
-          }
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data.msg,
+            'popType': 2,
+            'imgType': 1,
+            "callback": () => {
+              if(data.msg === '更新成功') {
+                this.building = this.copyBuilding;
+                this.globalBuilding.setVal(this.building);
+                this.closeEdit();
+              }
+            }
+          });
         }
       });
   }
@@ -106,4 +109,5 @@ export class MsgBasicComponent implements OnInit {
       this.imgWidth -= 50;
     }
   }
+
 }

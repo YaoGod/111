@@ -4,6 +4,8 @@ import { ErrorResponseService } from '../../../service/error-response/error-resp
 import { Building } from '../../../mode/building/building.service';
 import { Contract } from '../../../mode/contract/contract.service';
 import { Router } from '@angular/router';
+import * as $ from 'jquery';
+declare var $:any;
 @Component({
   selector: 'app-msg-contract',
   templateUrl: './msg-contract.component.html',
@@ -23,7 +25,8 @@ export class MsgContractComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.building = new Building();
-    this.contracts = new Array<Contract>();
+    this.contracts = [];
+    this.contracts[0] = new Contract;
     this.building.id = Number(this.router.url.split('/')[5]);
     this.building.type = this.router.url.split('/')[7];
     this.getContract();
@@ -32,8 +35,6 @@ export class MsgContractComponent implements OnInit {
     this.contractBuildingService.getContractInfo(this.building.id, this.building.type)
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data.status)){
-          this.contracts = new Array<Contract>(1);
-          this.contracts[0] = new Contract;
           this.contracts[0] = data.data;
         }
       });
@@ -48,4 +49,26 @@ export class MsgContractComponent implements OnInit {
         }
       });
   }
+  verifyEmpty( value, id){
+    if(typeof (value) === "undefined" ||
+      value === null ||
+      value === ''){
+      this.addErrorClass(id,'该值不能为空');
+      return false;
+    }else{
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /* 添加错误信息*/
+  private addErrorClass(id: string, error: string)  {
+    $('#' + id).addClass('red');
+    $('#' + id).parent().next('.error').fadeIn().html(error);
+  }
+  /*去除错误信息*/
+  private  removeErrorClass(id: string) {
+    $('#' + id).removeClass('red');
+    $('#' + id).parent().next('.error').fadeOut();
+  }
+
 }

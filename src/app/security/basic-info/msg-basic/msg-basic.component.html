@@ -49,7 +49,7 @@
         <span class="form-title">建造单位</span>
         <input type="text" name="buildDept" class="ipt"
                [(ngModel)]="copyBuilding.buildDept">
-        <span class="word">{{building.buildDept}}</span>
+        <span class="word">{{building.buildDept | emptyValue:'暂无数据'}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.belongTo === '自建'">
@@ -57,7 +57,7 @@
         <span class="form-title">建造日期</span>
         <input type="text" name="buildTime" class="ipt"
                [(ngModel)]="copyBuilding.buildTime">
-        <span class="word">{{building.buildTime}}</span>
+        <span class="word">{{building.buildTime | emptyValue:'暂无数据'}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.belongTo !== '租赁'">
@@ -65,7 +65,7 @@
         <span class="form-title">交付购买日期</span>
         <input type="text" name="payTime" class="ipt"
                [(ngModel)]="copyBuilding.payTime" >
-        <span class="word">{{building.payTime}}</span>
+        <span class="word">{{building.payTime | emptyValue:'暂无数据'}}</span>
       </label>
     </li>
     <li class="form-bar">
@@ -73,7 +73,7 @@
         <span class="form-title">物业服务单位</span>
         <input type="text" name="serviceUnit" class="ipt"
                [(ngModel)]="copyBuilding.serviceUnit">
-        <span class="word">{{building.serviceUnit}}</span>
+        <span class="word">{{building.serviceUnit | emptyValue:'暂无数据'}}</span>
       </label>
     </li>
   </ul>
