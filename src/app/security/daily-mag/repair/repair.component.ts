@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {Http, RequestOptions, Headers} from '@angular/http';
-
-import * as $ from 'jquery';
 import {InfoBuildingService} from "../../../service/info-building/info-building.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
@@ -25,6 +23,7 @@ export class RepairComponent implements OnInit {
   private searchRepair = '';
   private editBool = true;
   private contractBool = true;
+  private editNum:any;
   constructor(
     private http: Http,
     private errorVoid:ErrorResponseService,
@@ -37,6 +36,8 @@ export class RepairComponent implements OnInit {
     this.repairname.repairType = '';
     this.contractName.contractType = 'repair';
     this.contractName.contractStatus = '已完成';
+    this.contractName.fileName = [];
+    this.contractName.filePath = [];
 
     if($('.repair-header a:last-child').hasClass('active')){
       $('.repair-contract').fadeIn();
@@ -129,21 +130,40 @@ export class RepairComponent implements OnInit {
   /*删除*/
   okFunc(){
     $('.confirm').hide();
-    const SOFTWARES_URL = "/proxy/building/repair/deleteRepairRecord/" +this.repairname.id;
-    this.http.get(SOFTWARES_URL)
-      .map(res => res.json())
-      .subscribe(data => {
-        if (data['status'] === 0) {
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': data['msg'],
-            'popType': 0 ,
-            'imgType': 1 ,
-          });
-          this.searchRepair = '';
-          this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
-        }
-      });
+    if($('.repair-header a:last-child').hasClass('active')){
+      var SOFTWARES_URL = "/proxy/building/repair/deleteRepairContract/" +this.contractName.id;
+      this.http.get(SOFTWARES_URL)
+        .map(res => res.json())
+        .subscribe(data => {
+          if (data['status'] === 0) {
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': data['msg'],
+              'popType': 0 ,
+              'imgType': 1 ,
+            });
+            this.searchRepair = '';
+            this.getRecordSecond(this.searchRepair, this.pageNo, this.pageSize);
+          }
+        });
+    }else{
+      var SOFTWARES_URL = "/proxy/building/repair/deleteRepairRecord/" +this.repairname.id;
+      this.http.get(SOFTWARES_URL)
+        .map(res => res.json())
+        .subscribe(data => {
+          if (data['status'] === 0) {
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': data['msg'],
+              'popType': 0 ,
+              'imgType': 1 ,
+            });
+            this.searchRepair = '';
+            this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
+          }
+        });
+    }
+
   }
   noFunc(){
     $('.confirm').hide();
@@ -324,22 +344,37 @@ export class RepairComponent implements OnInit {
     }
   }
   /* 编辑维修合同*/
-  editContract(){
-
+  editContract(index){
+    this.contractBool = false;
+    this.contractName = this.contract[index];
+    this.contractName.fileName = [];
+    this.contractName.filePath = [];
+    this.editNum = index;
+    $('.mask-contract').fadeIn();
   }
   /* 删除维修合同*/
-  delContract(){
-
+  delContract(index){
+    $('.confirm').fadeIn();
+    this.contractName = this.contract[index];
+  }
+  /*删除合同文件*/
+  delFile(index){
+    this.contractName.filePath.splice(index,1);
+    this.contractName.fileName.splice(index,1);
+    console.log(this.contractName.filePath)
   }
   /*合同上传*/
-  prese_upload(files,index){
-    var xhr = this.utilBuildingService.uploadImg(files[0],'contract',-1);
+  prese_upload(files){
+    var xhr = this.utilBuildingService.uploadFile(files[0],'repair',-1);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
           // this.newBuilding.imgPath = data.msg;
-          console.log(data);
+
+          this.contractName.fileName.push(files[0].name);
+          this.contractName.filePath.push(data.msg);
+          console.log(this.contractName.fileName);
           confirmFunc.init({
             'title': '提示' ,
             'mes': '上传成功',
@@ -428,7 +463,7 @@ export class RepairComponent implements OnInit {
   contractSubmit() {
     if(this.contractBool === false){
       var SOFTWARES_URL = "/proxy/building/repair/updateRepairContract";
-      alert(1);
+      console.log(this.contractBool);
     }else{
       console.log(this.contractName);
       var SOFTWARES_URL = "/proxy/building/repair/addRepairContract";
@@ -439,6 +474,7 @@ export class RepairComponent implements OnInit {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
+    console.log(this.contractName.filePath);
     this.http.post(SOFTWARES_URL, this.contractName, options)
       .map(res => res.json())
       .subscribe(data => {
@@ -460,7 +496,9 @@ export class RepairComponent implements OnInit {
       $('.form-control').removeClass('form-error');
       $('.errorMessage').html('');
       this.contractName.contractStatus = '';
-    $('.mask-contract').hide();
+      this.contractName.fileName = [];
+      this.contractName.filePath = [];
+      $('.mask-contract').hide();
   }
   /**非空校验*/
   private isEmpty(id: string, error: string): boolean  {
@@ -588,4 +626,6 @@ export class ContractName {
   contractStatus: string; // 合同状态
   contractBtime: string; // 合同开始时间
   contractEtime: string; // 合同结束时间
+  filePath: string[]; //合同路径
+  fileName: string[]; //合同名字
 }

@@ -3,7 +3,7 @@ import { Building } from '../../../mode/building/building.service';
 import { GlobalBuildingService } from '../../../service/global-building/global-building.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import { InfoBuildingService } from '../../../service/info-building/info-building.service';
-import * as $ from 'jquery';
+
 declare var AMap:any;
 declare var $:any;
 declare var confirmFunc: any;

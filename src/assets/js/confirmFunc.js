@@ -149,9 +149,7 @@ confirmFunc={
 		}else if(this.ownData.popType==1){//传1表示有取消和确定的确定框
 			$(".confirmTrue").on("click",function(){
 				$(this).parents(".cpMasking").remove();
-				if(callback){
 					callback();
-				}
 			});
 			$(".confirmFaulse").on("click",function(){
 				$(this).parents(".cpMasking").remove();

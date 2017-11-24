@@ -35,8 +35,8 @@ export class UtilBuildingService {
    param: postData:file,
    return:
    */
-  uploadFile(postData){
-    const url = '/proxy/building/util/uploadFile';
+  uploadFile(postData,type,id){
+    const url = '/proxy/building/util/uploadFile/'+type+ '/' +id;
     var form = new FormData();
     if (typeof(postData) === 'object') {
       form.append('file', postData);

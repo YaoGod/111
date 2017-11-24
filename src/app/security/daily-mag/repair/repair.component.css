@@ -25,9 +25,11 @@
 }
 .repair-chandlery{
   position: relative;
-  margin-top:12px;
+  padding:20px 0;
 }
 .repair-chandlery .search-ipt{
+  float: left;
+  margin-left:20px;
   width:200px;
   height:30px;
   border-radius: 4px;
@@ -37,16 +39,25 @@
   text-indent: 5px;
 }
 .repair-chandlery .search-btn{
+  float: left;
+  margin-left:10px;
+  display: inline-block;
   padding:0 16px;
+  line-height:32px;
   height:32px;
   border:none;
   background-color:#66CCFF;
   color:#fff;
   border-radius: 3px;
   cursor: pointer;
+  transition: all .5s;
 }
-.new-btn{
+.repair-chandlery .search-btn:hover{
+  opacity:.8;
+}
+.repair-chandlery .new-btn{
   _float: right;
+  background-color:#fb9678;
 }
 .repair-tab{
   margin-top:15px;
@@ -69,7 +80,7 @@
   width:900px;
   height:540px;
   margin:200px auto 0;
-  background-color: #abe5da;
+  background-color: #aadbef;
   border-radius:5px;
 }
 .close{
@@ -182,10 +193,17 @@
 
 /*新的信息列表*/
 .form-msg{
-  margin:30px 0;
+  margin:10px 0;
   float: left;
   position: relative;
-  border-bottom:3px solid #f8f8f8;
+  padding:20px 0 10px 20px;
+  border-radius:5px;
+  border:1px solid rgba(0,0,0,0);
+  border-bottom:1px solid rgba(0,0,0,.4);;
+  transition: all .5s;
+}
+.form-msg:hover{
+  border:1px solid rgba(0,0,0,.4);
 }
 .form-bar{
   height: 35px;
@@ -230,10 +248,15 @@
   position: absolute;
   left:50px;
   bottom:46px;
+  opacity:0;
+  transition: all 0.4s;
 }
 .form-btn2{
   background-color:#CCCCCC;
   bottom:8px;
+}
+.form-msg:hover .form-btn{
+  opacity:1;
 }
 .form-texarea{
   height:120px;

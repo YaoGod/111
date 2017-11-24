@@ -2,10 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Catalog } from '../../mode/catalog/catalog.service'
-import
-  * as $
-  from
-    'jquery';
+
 declare var $: any;
 @Component({
   selector: 'app-header',

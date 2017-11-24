@@ -3,8 +3,8 @@ import { Building } from '../../../mode/building/building.service';
 import { InfoBuildingService } from '../../../service/info-building/info-building.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 
-import * as $ from 'jquery';
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
+import * as $ from 'jquery';
 declare var $:any;
 declare var confirmFunc: any;
 
@@ -17,8 +17,8 @@ declare var confirmFunc: any;
 export class HomepageComponent implements OnInit {
   public buildings :Array<Building>;
   public imgPaths : any;
-  private pageNo    :number = 1; /*当前页码*/
-  private pageSize  :number = 6; /*显示页数*/
+  private pageNo = 1; /*当前页码*/
+  private pageSize = 6; /*显示页数*/
   public search    :Building ; /*搜索字段*/
   public pages: Array<number>;
   private delId: any;
@@ -27,7 +27,8 @@ export class HomepageComponent implements OnInit {
     buildingId: '',
     name: '',
     address: '',
-    belongTo:''
+    belongTo:'',
+    type: ''
   }
   constructor(
     private infoBuildingService:InfoBuildingService,
@@ -44,6 +45,7 @@ export class HomepageComponent implements OnInit {
   getBuildingMsg(){
     this.infoBuildingService.getBuildingList(this.pageNo,this.pageSize,this.search)
       .subscribe(data =>{
+        console.log(data);
         if(this.errorVoid.errorMsg(data.status)){
           this.buildings = data.data.infos;
           let total = Math.ceil(data.data.total / this.pageSize);
@@ -74,11 +76,14 @@ export class HomepageComponent implements OnInit {
       'buildingId': '',
       'name': '',
       'address': '',
-      'belongTo': ''
+      'belongTo': '',
+      'type': ''
     }
   }
   subBuilding(){
-    if(this.newBuilding.buildingId === '' || this.newBuilding.imgPath === '' || this.newBuilding.name === '' || this.newBuilding.address === '' || this.newBuilding.belongTo === ''){
+    if(this.newBuilding.buildingId === '' || this.newBuilding.imgPath === '' ||
+      this.newBuilding.name === '' || this.newBuilding.address === '' || this.newBuilding.belongTo === '' ||
+      this.newBuilding.type === ''){
       confirmFunc.init({
         'title': '提示' ,
         'mes': "请把信息填写完整",

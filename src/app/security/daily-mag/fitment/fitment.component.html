@@ -1,54 +1,137 @@
 <div class="fitment">
   <div class="fitment-header clearfix">
-    <a href="javascript:;" class="active">大楼维修记录</a>
-    <a href="javascript:;">大楼维修合同</a>
+    <a href="javascript:;" class="active" (click)="recordFade($event)">大楼装修记录</a>
+    <a href="javascript:;" (click)="contractFade($event)">大楼装修合同</a>
   </div>
-  <div class="fitment-chandlery">
-    <input type="text" placeholder="请输入大楼信息" class="search-ipt" [(ngModel)]="search">
-    <input type="button" value="查 询" class="search-btn" (click)="fitmentSearch()" >
-    <input type="button" value="新 增" class="search-btn new-btn" (click)="fitmentNew()"/>
-  </div>
-  <div class="fitment-container">
-    <table cellpadding="0" cellspacing="2px" border="1px solid #000" width="100%" class="fitment-tab">
-      <thead>
-      <th>大楼编号</th>
-      <th>大楼名称</th>
-      <th>维修单编号</th>
-      <th>维修类别</th>
-      <th>维修部门</th>
-      <th>维修部门联系人</th>
-      <th>维修部门电话</th>
-      <th>维修商</th>
-      <th>维修商联系人</th>
-      <th>维修商电话</th>
-      <th>维修开始时间</th>
-      <th>维修结束时间</th>
-      <th>维修费用</th>
-      <th>维修详细内容</th>
-      </thead>
-      <tbody>
-      <tr *ngFor="let abc of record; let i=index">
-        <td>{{abc.buildingId}}</td>
-        <td>{{abc.buildingName}}</td>
-        <td>{{abc.recordId}}</td>
-        <td>{{abc.repairType}}</td>
-        <td>{{abc.cmccDepartment}}</td>
-        <td>{{abc.cmccContacts}}</td>
-        <td>{{abc.cmccPhone}}</td>
-        <td>{{abc.repairCost}}</td>
-        <td>{{abc.repairDepartment}}</td>
-        <td>{{abc.repairContacts}}</td>
-        <td>{{abc.repairPhone}}</td>
-        <td>{{abc.repairBtime}}</td>
-        <td>{{abc.repairEtime}}</td>
-        <td>{{abc.repairNote}}</td>
-      </tr>
-      </tbody>
-    </table>
-    <!--<div id="gaodemap-container" class="gaodemap-container" tabindex="0" style="widht:500px;height:400px;"></div>-->
+  <div class="fitment-cont">
+    <div class="fitment-chandlery clearfix">
+      <input type="text" placeholder="请输入查询信息" class="search-ipt" [(ngModel)]="searchRepair">
+      <a href="javascript:;" class="search-btn" (click)="repairSearch()"><i class="icon-magnifier"></i> 查 询</a>
+      <a href="javascript:;" class="search-btn new-btn" (click)="repairNew()"><i class="icon-plus"></i> 新 增</a>
+    </div>
+    <!--维修记录-->
+    <div class="fitment-container fitment-record">
+      <ul class="form-msg clearfix" *ngFor="let inner of record; let i=index">
+        <li class="form-bar">
+          <span class="form-title">大楼编号</span>
+          <span class="word">{{inner.buildingId}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">大楼名称</span>
+          <span class="word">{{inner.buildingName}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">装修单编号</span>
+          <span class="word">{{inner.recordId}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">装修楼层</span>
+          <span class="word">{{inner.decorateFloor}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">装修部门</span>
+          <span class="word">{{inner.cmccDepartment}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">装修部门联系人</span>
+          <span class="word">{{inner.cmccContacts}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">装修部门电话</span>
+          <span class="word">{{inner.cmccPhone}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">装修公司</span>
+          <span class="word">{{inner.decorateDepartment}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">装修公司联系人</span>
+          <span class="word">{{inner.decorateContacts}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">装修公司电话</span>
+          <span class="word">{{inner.decoratePhone}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">装修开始时间</span>
+          <span class="word">{{inner.decorateBtime}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">装修结束时间</span>
+          <span class="word">{{inner.decorateEtime}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">装修费用</span>
+          <span class="word">{{inner.decorateCost}}</span>
+        </li>
+        <li class="form-bar form-texarea">
+          <span class="form-title">装修详细内容</span>
+          <span class="word">{{inner.decorateNote}}</span>
+        </li>
+        <li class="form-btn" (click)="editRecord(i)">编&nbsp;&nbsp;辑</li>
+        <li class="form-btn form-btn2" (click)="delRecord(i)">删&nbsp;&nbsp;除</li>
+      </ul>
+    </div>
+    <!--维修合同-->
+    <div class="fitment-container fitment-contract">
+      <ul class="form-msg clearfix" *ngFor="let ctct of contract; let i=index">
+        <li class="form-bar">
+          <span class="form-title">大楼编号</span>
+          <span class="word">{{ctct.buildingId}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">大楼名称</span>
+          <span class="word">{{ctct.buildingName}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">甲方</span>
+          <span class="word">{{ctct.cmccName}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">甲方联系人</span>
+          <span class="word">{{ctct.cmccContacts}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">甲方联系电话</span>
+          <span class="word">{{ctct.cmccPhone}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">乙方</span>
+          <span class="word">{{ctct.name}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">乙方联系人</span>
+          <span class="word">{{ctct.contacts}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">乙方联系电话</span>
+          <span class="word">{{ctct.phone}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">合同状态</span>
+          <span class="word">{{ctct.contractStatus}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">合同开始时间</span>
+          <span class="word">{{ctct.contractBtime}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">合同结束时间</span>
+          <span class="word">{{ctct.contractEtime}}</span>
+        </li>
+        <li class="form-bar form-texarea">
+          <span class="form-title">服务合同</span>
+          <a style="color:#686868; margin-left:10px;" href="javascript:;" *ngFor="let abc of ctct.fileName; let j=index">{{abc}}</a>
+        </li>
+        <li class="form-btn" (click)="editContract(i)">编&nbsp;&nbsp;辑</li>
+        <li class="form-btn form-btn2" (click)="delContract(i)">删&nbsp;&nbsp;除</li>
+      </ul>
+    </div>
   </div>
 </div>
-<div class="mask">
+
+<!--新增编辑记录弹框-->
+<div class="mask mask-repair">
   <div class="new-fitment-record">
     <form method="post" name="topForm" class="new-fitment-form">
       <div class="form-left">
@@ -67,100 +150,195 @@
           </div>
         </div>
         <div class="form-control">
-          <span class="form-label">维修单编号</span>
+          <span class="form-label">装修单编号</span>
           <div class="form-inp">
             <input type="text" id="recordId" name="recordId" [(ngModel)]="repairname.recordId" (blur)="verifyRecordId()" required minlength="4" maxlength="10" placeholder="请输入字母和四位数字">
             <span class="errorMessage"></span>
           </div>
         </div>
         <div class="form-control">
-          <span class="form-label">维修类别</span>
+          <span class="form-label">装修楼层</span>
           <div class="form-inp">
-            <select id="repairType" name="repairType" [(ngModel)]="repairname.repairType" (blur)="verifyRepairType()">
-              <option value="">请选择</option>
-              <option value="A大楼整体维修">A大楼整体维修</option>
-              <option value="B大型设备维修">B大型设备维修</option>
-              <option value="C零星设备维修">C零星设备维修</option>
-              <option value="D大楼清洗">D大楼清洗</option>
-            </select>
+            <input type="text" id="decorateFloor" name="decorateFloor" [(ngModel)]="repairname.decorateFloor" (blur)="verifydecorateFloor()" required minlength="4" maxlength="10" placeholder="比如：1F">
             <span class="errorMessage"></span>
           </div>
         </div>
         <div class="form-control">
-          <span class="form-label">维修部门</span>
+          <span class="form-label">装修操作部门</span>
           <div class="form-inp">
             <input id="cmccDepartment" name="cmccDepartment" [(ngModel)]="repairname.cmccDepartment" (blur)="verifyCmccDepartment()" type="text">
             <span class="errorMessage"></span>
           </div>
         </div>
         <div class="form-control">
-          <span class="form-label">维修部门联系人</span>
+          <span class="form-label">装修部门联系人</span>
           <div class="form-inp">
             <input id="cmccContacts" name="cmccContacts" [(ngModel)]="repairname.cmccContacts" (blur)="verifyCmccContacts()" type="text">
             <span class="errorMessage"></span>
           </div>
         </div>
         <div class="form-control">
-          <span class="form-label">维修部门电话</span>
+          <span class="form-label">装修部门电话</span>
           <div class="form-inp">
             <input id="cmccPhone" name="cmccPhone" [(ngModel)]="repairname.cmccPhone" (blur)="verifyCmccPhone()" type="text">
             <span class="errorMessage"></span>
           </div>
         </div>
         <div class="form-control">
-          <span class="form-label">维修商</span>
+          <span class="form-label">装修公司</span>
           <div class="form-inp">
-            <input id="repairDepartment" name="repairDepartment" [(ngModel)]="repairname.repairDepartment" (blur)="verifyRepairDepartment()" type="text">
+            <input id="decorateDepartment" name="decorateDepartment" [(ngModel)]="repairname.decorateDepartment" (blur)="verifydecorateDepartment()" type="text">
             <span class="errorMessage"></span>
           </div>
         </div>
         <div class="form-control">
-          <span class="form-label">维修商联系人</span>
+          <span class="form-label">装修公司联系人</span>
           <div class="form-inp">
-            <input id="repairContacts" name="repairContacts" [(ngModel)]="repairname.repairContacts" (blur)="verifyRepairContacts()" type="text">
+            <input id="decorateContacts" name="decorateContacts" [(ngModel)]="repairname.decorateContacts" (blur)="verifydecorateContacts()" type="text">
             <span class="errorMessage"></span>
           </div>
         </div>
         <div class="form-control">
-          <span class="form-label">维修商电话</span>
+          <span class="form-label">装修公司电话</span>
           <div class="form-inp">
-            <input id="repairPhone" name="repairPhone" [(ngModel)]="repairname.repairPhone" (blur)="verifyRepairPhone()" type="text">
+            <input id="decoratePhone" name="decoratePhone" [(ngModel)]="repairname.decoratePhone" (blur)="verifydecoratePhone()" type="text">
             <span class="errorMessage"></span>
           </div>
         </div>
         <div class="form-control">
-          <span class="form-label">维修开始时间</span>
+          <span class="form-label">装修开始时间</span>
           <div class="form-inp">
-            <input id="repairBtime" name="repairBtime" [(ngModel)]="repairname.repairBtime" (blur)="verifyRepairBtime()" type="text">
+            <input id="decorateBtime" name="decorateBtime" [(ngModel)]="repairname.decorateBtime" (blur)="verifydecorateBtime()" type="text">
             <span class="errorMessage"></span>
           </div>
         </div>
         <div class="form-control">
-          <span class="form-label">维修结束时间</span>
+          <span class="form-label">装修结束时间</span>
           <div class="form-inp">
-            <input id="repairEtime" name="repairEtime" [(ngModel)]="repairname.repairEtime" (blur)="verifyRepairEtime()" type="text">
+            <input id="decorateEtime" name="decorateEtime" [(ngModel)]="repairname.decorateEtime" (blur)="verifydecorateEtime()" type="text">
             <span class="errorMessage"></span>
           </div>
         </div>
         <div class="form-control">
-          <span class="form-label">维修费用</span>
+          <span class="form-label">装修费用</span>
           <div class="form-inp">
-            <input id="repairCost" name="repairCost" [(ngModel)]="repairname.repairCost" onkeypress="return event.keyCode>=48&&event.keyCode<=57" (blur)="verifyRepairCost()" type="text">
+            <input id="decorateCost" name="decorateCost" [(ngModel)]="repairname.decorateCost" onkeypress="return event.keyCode>=48&&event.keyCode<=57" (blur)="verifydecorateCost()" type="text">
             <span class="errorMessage"></span>
           </div>
         </div>
       </div>
 
       <div class="form-control form-right">
-        <span class="form-label">维修详细内容</span>
+        <span class="form-label">装修详细内容</span>
         <div class="form-inp">
-          <textarea id="repairNote" name="repairNote" [(ngModel)]="repairname.repairNote" (blur)="verifyRepairNote()"></textarea>
+          <textarea id="decorateNote" name="decorateNote" [(ngModel)]="repairname.decorateNote" (blur)="verifydecorateNote()"></textarea>
           <span class="errorMessage"></span>
         </div>
       </div>
       <button value="确定" class="btn btn-determine" (click)="recordSubmit()">确定</button><button class="btn btn-cancel" value="取消" (click)="recordCancel()">取消</button>
     </form>
     <div class="close" (click)="recordCancel()">X</div>
+  </div>
+</div>
+<!--新增编辑合同弹窗-->
+<div class="mask mask-contract">
+  <div class="new-fitment-record new-fitment-contract">
+    <form method="post" name="topForm" class="new-fitment-form">
+      <div class="form-left">
+        <div class="form-control">
+          <span class="form-label">大楼编号</span>
+          <div class="form-inp">
+            <input type="text" id="contractId" name="contractId" [(ngModel)]="contractName.buildingId" (blur)="verifyContractId()" required minlength="4" maxlength="4" placeholder="请输入四位数字">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">大楼名称</span>
+          <div class="form-inp">
+            <input type="text" id="contractName" name="contractName" [(ngModel)]="contractName.buildingName" (blur)="verifyContractName()" required placeholder="请输入大楼名称">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">甲方</span>
+          <div class="form-inp">
+            <input type="text" id="cmccName" name="cmccName" [(ngModel)]="contractName.cmccName" (blur)="verifyCmccName()" required placeholder="请输入各级移动公司全称">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">甲方联系人</span>
+          <div class="form-inp">
+            <input type="text" id="contractcmccContacts" name="cmccContacts" [(ngModel)]="contractName.cmccContacts" (blur)="verifycontractcmccContacts()" required placeholder="">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">甲方联系人电话</span>
+          <div class="form-inp">
+            <input id="contractcmccPhone" name="cmccPhone" [(ngModel)]="contractName.cmccPhone" (blur)="verifycontractcmccPhone()" type="text">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">乙方</span>
+          <div class="form-inp">
+            <input id="contractname2" name="contractname2" [(ngModel)]="contractName.name" (blur)="verifycontractname2()" type="text" placeholder="请输入维修单位全称">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">乙方联系人</span>
+          <div class="form-inp">
+            <input id="contacts" name="contacts" [(ngModel)]="contractName.contacts" (blur)="verifycontacts()" type="text">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">乙方联系电话</span>
+          <div class="form-inp">
+            <input id="phone" name="phone" [(ngModel)]="contractName.phone" (blur)="verifyphone()" type="text">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+      </div>
+      <div class="form-right-contract">
+        <div class="form-control">
+          <span class="form-label">合同开始时间</span>
+          <div class="form-inp">
+            <input id="contractBtime" name="contractBtime" [(ngModel)]="contractName.contractBtime" (blur)="verifycontractBtime()" type="text">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">合同结束时间</span>
+          <div class="form-inp">
+            <input id="contractEtime" name="contractEtime" [(ngModel)]="contractName.contractEtime" (blur)="verifycontractEtime()" type="text">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">合同状态</span>
+          <div class="form-inp">
+            <input id="contractStatus" name="contractStatus" [(ngModel)]="contractName.contractStatus" disabled type="text">
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">服务合同</span>
+          <ul style="height:60px; min-width:160px; line-height: 20px; overflow-y: auto; background: #f7f7f7; float: left; color:#666; border-radius:4px;">
+            <li style="max-width: 160px;" *ngFor="let abc of contractName.fileName; let k=index">{{abc}}<a style="margin-left:6px; color:#ff0000" href="javascript:;" (click)="delFile(k)">X</a> </li>
+          </ul>
+          <div class="form-inp" style="margin-left:130px; margin-top:10px;">
+            <a href="javascript:;" style="color:#666; border-radius:4px; padding:5px 10px; background: #f7f7f7;" onclick="$('#prese').trigger('click')">上 传</a>
+            <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;"
+                   (change)="prese_upload(prese.files)">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+      </div>
+      <button value="确定" class="btn btn-determine" (click)="contractSubmit()">确定</button><button class="btn btn-cancel" value="取消" (click)="contractCancel()">取消</button>
+    </form>
+    <div class="close" (click)="contractCancel()">X</div>
   </div>
 </div>
 

@@ -4,6 +4,7 @@ import { InfoBuildingService } from '../../../service/info-building/info-buildin
 import { UtilBuildingService } from '../../../service/util-building/util-building.service';
 import { GlobalBuildingService } from '../../../service/global-building/global-building.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
+
 import * as $ from 'jquery';
 declare var confirmFunc: any;
 declare var $: any;
@@ -105,5 +106,4 @@ export class MsgBasicComponent implements OnInit {
       this.imgWidth -= 50;
     }
   }
-
 }

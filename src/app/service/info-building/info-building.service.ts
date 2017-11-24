@@ -89,7 +89,7 @@ export class InfoBuildingService {
  */
   addBuilding(postData){
     const url = '/proxy/building/info/addBuilding';
-    const data = {postData};
+    const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
