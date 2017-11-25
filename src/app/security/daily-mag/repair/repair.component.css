@@ -25,24 +25,47 @@
 }
 .repair-chandlery{
   position: relative;
-  padding:20px 0;
+  padding: 15px 115px 15px 0;
+  background-color: #f8f8f8;
+  margin-top: 10px;
 }
-.repair-chandlery .search-ipt{
+.repair-chandlery ul{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+.repair-chandlery ul li label{
   float: left;
-  margin-left:20px;
-  width:200px;
-  height:30px;
-  border-radius: 4px;
-  background:url("../../../../assets/image/search.png") no-repeat 170px 4px;
-  background-size: 20px 20px;
-  border:1px solid #66CCFF;
-  text-indent: 5px;
+  color: #686868;
+  height: 30px;
+  width: 70px;
+  padding-right: 10px;
+  line-height: 30px;
+  font-size: 12px;
+  text-align: right;
+}
+.repair-chandlery ul li input{
+  height: 20px;
+  width: calc(100% - 115px);
+  min-width: 70px;
+  padding: 3px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  background-color: #fff;
+  border: 1px solid #e4e7ea;
+}
+.search-right{
+  position: absolute;
+  right:0; top:15px;
 }
 .repair-chandlery .search-btn{
   float: left;
   margin-left:10px;
   display: inline-block;
-  padding:0 16px;
+  padding:0 10px;
   line-height:32px;
   height:32px;
   border:none;
@@ -59,13 +82,6 @@
   _float: right;
   background-color:#fb9678;
 }
-.repair-tab{
-  margin-top:15px;
-  text-align: center;
-}
-.repair-tab th{
-  text-align: center;
-}
 .mask{
   display: none;
   position: fixed;
@@ -76,11 +92,14 @@
   background-color:rgba(0,0,0,.4);
 }
 .new-repair-record{
-  position: relative;
-  width:900px;
+  position: absolute;
+  left:50%;
+  top:50%;
+  width:880px;
   height:540px;
-  margin:200px auto 0;
-  background-color: #aadbef;
+  margin-top:-270px;
+  margin-left:-440px;
+  background-color: #fff;
   border-radius:5px;
 }
 .close{
@@ -96,12 +115,12 @@
   cursor: pointer;
 }
 .new-repair-form{
-  width:840px;
+  width:820px;
   margin:0 auto;
 }
 .new-repair-contract{
   padding-top:10px;
-  height:360px;
+  height:425px;
 }
 .form-left{
   float:left;
@@ -109,7 +128,7 @@
 }
 .form-control{
   min-height:25px;
-  width: 450px;
+  width: 430px;
   padding:6px 0 6px 5px;
   _border-bottom:1px solid #e1eaf2;
 }.form-right{
@@ -124,12 +143,15 @@
   float: left;
 }
 .form-control .form-label{
+  background-color: #cccccc73;
   float: left;
-  min-width: 100px;
+  line-height: 28px;
+  min-width: 120px;
   font-size: 12px;
   color: #666;
-  padding-right: 5px;
-  padding-top: 5px;
+  margin-right: 9px;
+  text-indent: 6px;
+  border-radius: 4px;
 }
 .form-control input{
   width: 150px;
@@ -173,19 +195,20 @@
 }
 .btn{
   position: absolute;
-  bottom:20px;
-  width: 60px;
-  line-height:30px;
-  border:none;
-  border-radius:4px;
-  background-color: #fff;
+  bottom: 20px;
+  padding: 10px 16px;
+  border-radius: 4px;
+  background: #03a9f3;
+  border: none;
+  color: #fff;
   cursor: pointer;
 }
 .btn-determine{
-  right:200px;
+  right:220px;
 }
 .btn-cancel{
-  right:130px;
+  background: #fb9678;
+  right: 120px;
 }
 .repair-container{
   display: none;
@@ -199,8 +222,8 @@
   padding:20px 0 10px 20px;
   border-radius:5px;
   border:1px solid rgba(0,0,0,0);
-  border-bottom:1px solid rgba(0,0,0,.4);;
   transition: all .5s;
+  box-shadow: 0 3px 0 0 #aaa;
 }
 .form-msg:hover{
   border:1px solid rgba(0,0,0,.4);
@@ -348,7 +371,9 @@
   float: right;
   margin-top:25px;
 }
-
+.box1,.box2{
+  display:none;
+}
 
 
 

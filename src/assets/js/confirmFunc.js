@@ -69,11 +69,11 @@ confirmFunc={
 		/* 弹出层 */
 		$(obj).find(".cpAlert").css({
 			"position":"absolute",
-			"top":"100px",
+			"top":"50%",
 			"left":"50%",
 			"width":"500px",
 			"marginLeft":"-250px",
-			"marginBottom":"20px",
+			"marginTop":"-150px",
 			"background":"#ffffff",
 			"boxShadow": "1px 1px 3px rgba(0,0,0,0.5)",
 			"borderRadius":"6px",
@@ -81,61 +81,64 @@ confirmFunc={
 		});
 		/* 弹出层 头部 */
 		$(obj).find(".cpAlertHeader").css({
-			"height":"45px"
+			"height":"60px"
 		});
 		/* h1标题 */
 		$(obj).find(".cpAlertHeader h1").css({
-			"height":"45px",
-			"line-height":"45px",
+			"height":"60px",
+			"line-height":"60px",
 			"textAlign":"center",
 			"padding":"0",
 			"color": "#666666",
-			"fontSize":"16px",
-			"background":"#dce3e8",
+			"fontSize":"24px",
+			"background":"#f1f1f1",
 			"margin":"0"
 		});
 		/* 关闭按钮 */
 		$(obj).find(".cpAlertHeader a").css({
 			"position":"absolute",
-			"top":"10px",
-			"right":"8px",
+			"top":"20px",
+			"right":"15px",
 			"width":"16px",
 			"height":"16px",
 			"line-height":"16px",
-			"fontSize":"18px",
-			"color":"#ffffff",
+      "fontWeight": "bold",
+			"fontSize":"22px",
+			"color":"rgba(255, 77, 67,.5)",
 			"cursor":"pointer"
 		});
 		/* 弹出 内容 */
 		$(obj).find(".cpAlertContent").find("img").css({
 			"display":"block",
-			"width":"60px",
+			"width":"80px",
 			"margin":"25px auto"
 		});
 		$(obj).find(".cpAlertContent").find("p").css({
 			"lineHeight":"30px",
 			"textAlign":"center",
 			"marginBottom":"20px",
-			"padding":"0 10px"
+			"padding":"0 10px",
+      "fontSize": "18px"
 		});
 		/* 弹出 底部 */
 		$(obj).find(".cpAlertFooter").css({
-			"height":"45px",
-			"background":"#dce3e8"
+			"height":"60px",
+			"background":"#f1f1f1"
 		});
 		$(obj).find(".cpAlertFooter a").css({
 			"float":"right",
-			"height":"28px",
-			"lineHeight":"28px",
-			"padding":"0px 30px",
+			"padding":"10px 20px",
 			"color":"#fff",
 			"fontSize":"14px",
-			"marginRight":"10px",
+			"marginRight":"20px",
 			"marginTop":"10px",
-			"borderRadius":"6px",
-			"background":"#88a4ff",
+			"borderRadius":"4px",
+			"background":"#fb9678",
 			"cursor":"pointer"
 		});
+    $(obj).find(".cpAlertFooter a:last-child").css({
+      "background":"#03a9f3"
+    });
 	},
 	addEvents:function(obj){
 		var thatData=this.ownData;

@@ -21,7 +21,8 @@ export class FitmentComponent implements OnInit {
   public contract : Array<ContractName>;
   private pageSize = 10;
   private pageNo = 1;
-  public searchRepair = '';
+  public searchRepair : SearchRecord;
+  public searchContract : SearchContract;
   private editBool = true;
   private contractBool = true;
   constructor(private http: Http,
@@ -30,33 +31,31 @@ export class FitmentComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.searchRepair = new SearchRecord();
+    this.searchContract = new SearchContract();
     this.repairname = new RepairName();
     this.contractName = new ContractName();
-    this.contractName.contractStatus = '已完成';
     this.contractName.fileName = [];
     this.contractName.filePath = [];
-    this.contractName.contractType = 'decorate'
+    this.contractName.contractType = 'decorate';
 
     if($('.fitment-header a:last-child').hasClass('active')){
-      $('.fitment-contract').fadeIn();
-      this.getRecordSecond(this.searchRepair, this.pageNo, this.pageSize);
+      $('.fitment-contract,.box2').fadeIn();
+      this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
     }else{
-      $('.fitment-record').fadeIn();
+      $('.fitment-record,.box1').fadeIn();
       this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
     }
   }
   /*获取/查询装修记录*/
   private getRecord(search, pageNo, pageSize) {
-    const SOFTWARES_URL = "/proxy/building/decorate/getDecorateList/" + pageNo + "/" + pageSize + '?search=' + search;
+    const SOFTWARES_URL = "/proxy/building/decorate/getDecorateList/" + pageNo + "/" + pageSize;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
-    const dataPost = {
-      'decorateRepair': search,
-      'pageNo': pageNo,
-      'pageSize': pageSize
-    };
-    this.http.post(SOFTWARES_URL, dataPost, options)
+    const dataPost = search;
+
+    this.http.post(SOFTWARES_URL, this.searchRepair, options)
       .map(res => res.json())
       .subscribe(data => {
         console.log(data);
@@ -84,17 +83,12 @@ export class FitmentComponent implements OnInit {
   }
   /*获取/查询装修合同 */
   private getRecordSecond(search, pageNo, pageSize) {
-    const SOFTWARES_URL = "/proxy/building/decorate/getDecorateContract/" + pageNo + "/" + pageSize + '?search=' + search;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
+    let SOFTWARES_URL = "/proxy/building/decorate/getDecorateContract/" + pageNo + "/" + pageSize;
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({headers: headers});
     // JSON.stringify
-    const dataPost2 = {
-      'decorateRepair': search,
-      'contractType': 'decorate',
-      'pageNo': pageNo,
-      'pageSize': pageSize
-    };
-    this.http.post(SOFTWARES_URL, dataPost2, options)
+    this.searchContract.contractType = 'decorate';
+    this.http.post(SOFTWARES_URL, this.searchContract , options)
       .map(res => res.json())
       .subscribe(data => {
         console.log(data);
@@ -108,7 +102,7 @@ export class FitmentComponent implements OnInit {
   repairSearch() {
     if($('.fitment-header a:last-child').hasClass('active')){
       console.log('执行合同');
-      this.getRecordSecond(this.searchRepair, this.pageNo, this.pageSize);
+      this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
     }else{
       console.log('执行记录');
       this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
@@ -116,17 +110,23 @@ export class FitmentComponent implements OnInit {
   }
   /*点击大楼维修记录*/
   recordFade(event) {
-    $(event.target).addClass('active');
+    this.searchRepair = new SearchRecord();
+;   $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
     this.repairSearch();
+    $('.box1').show();
+    $('.box2').hide();
     $('.fitment-record').fadeIn();
     $('.fitment-contract').hide();
   }
   /*点击大楼维修合同*/
   contractFade(event) {
+    this.searchContract = new SearchContract();
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
     this.repairSearch();
+    $('.box1').hide();
+    $('.box2').show();
     $('.fitment-contract').fadeIn();
     $('.fitment-record').hide();
   }
@@ -143,41 +143,23 @@ export class FitmentComponent implements OnInit {
       'title': '提示' ,
       'mes': '是否删除此记录？',
       'popType': 1 ,
-      'imgType': 2 ,
+      'imgType': 3 ,
       'callback': () => {
-        if($('.fitment-header a:last-child').hasClass('active')){
-          var SOFTWARES_URL = "/proxy/building/decorate/deleteDecorateContract/" +this.contractName.id;
-          this.http.get(SOFTWARES_URL)
-            .map(res => res.json())
-            .subscribe(data => {
-              if (data['status'] === 0) {
-                confirmFunc.init({
-                  'title': '提示' ,
-                  'mes': data['msg'],
-                  'popType': 0 ,
-                  'imgType': 1 ,
-                });
-                this.searchRepair = '';
-                this.getRecordSecond(this.searchRepair, this.pageNo, this.pageSize);
-              }
-            });
-        }else{
-          var SOFTWARES_URL = "/proxy/building/decorate/deleteDecorateRecord/" +this.repairname.id;
-          this.http.get(SOFTWARES_URL)
-            .map(res => res.json())
-            .subscribe(data => {
-              if (data['status'] === 0) {
-                confirmFunc.init({
-                  'title': '提示' ,
-                  'mes': data['msg'],
-                  'popType': 0 ,
-                  'imgType': 1 ,
-                });
-                this.searchRepair = '';
-                this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
-              }
-            });
-        }
+        let SOFTWARES_URL = "/proxy/building/decorate/deleteDecorateRecord/" +this.repairname.id;
+        this.http.get(SOFTWARES_URL)
+          .map(res => res.json())
+          .subscribe(data => {
+            if (data['status'] === 0) {
+              confirmFunc.init({
+                'title': '提示' ,
+                'mes': data['msg'],
+                'popType': 0 ,
+                'imgType': 1 ,
+              });
+              this.searchRepair = new SearchRecord();
+              this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
+            }
+          });
       }
     });
   }
@@ -194,41 +176,23 @@ export class FitmentComponent implements OnInit {
       'title': '提示' ,
       'mes': '是否删除此记录？',
       'popType': 1 ,
-      'imgType': 2 ,
+      'imgType': 3 ,
       'callback': () => {
-        if($('.fitment-header a:last-child').hasClass('active')){
-          var SOFTWARES_URL = "/proxy/building/decorate/deleteDecorateContract/" +this.contractName.id;
-          this.http.get(SOFTWARES_URL)
-            .map(res => res.json())
-            .subscribe(data => {
-              if (data['status'] === 0) {
-                confirmFunc.init({
-                  'title': '提示' ,
-                  'mes': data['msg'],
-                  'popType': 0 ,
-                  'imgType': 1 ,
-                });
-                this.searchRepair = '';
-                this.getRecordSecond(this.searchRepair, this.pageNo, this.pageSize);
-              }
-            });
-        }else{
-          var SOFTWARES_URL = "/proxy/building/decorate/deleteDecorateRecord/" +this.repairname.id;
-          this.http.get(SOFTWARES_URL)
-            .map(res => res.json())
-            .subscribe(data => {
-              if (data['status'] === 0) {
-                confirmFunc.init({
-                  'title': '提示' ,
-                  'mes': data['msg'],
-                  'popType': 0 ,
-                  'imgType': 1 ,
-                });
-                this.searchRepair = '';
-                this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
-              }
-            });
-        }
+        let SOFTWARES_URL = "/proxy/building/decorate/deleteDecorateContract/" +this.contractName.id;
+        this.http.get(SOFTWARES_URL)
+          .map(res => res.json())
+          .subscribe(data => {
+            if (data['status'] === 0) {
+              confirmFunc.init({
+                'title': '提示' ,
+                'mes': data['msg'],
+                'popType': 0 ,
+                'imgType': 1 ,
+              });
+              this.searchContract = new SearchContract();
+              this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
+            }
+          });
       }
     });
   }
@@ -335,12 +299,16 @@ export class FitmentComponent implements OnInit {
 
   /*新增/编辑装修记录提交*/
   recordSubmit() {
+    var SOFTWARES_URL;
     if(this.editBool === false){
-      var SOFTWARES_URL = "/proxy/building/decorate/updateDecorateRecord";
+      SOFTWARES_URL = "/proxy/building/decorate/updateDecorateRecord";
     }else{
-      var SOFTWARES_URL = "/proxy/building/decorate/addDecorateRecord";
+      SOFTWARES_URL = "/proxy/building/decorate/addDecorateRecord";
     }
-    if (!this.verifyId() || !this.verifyName() || !this.verifyRecordId() || !this.verifydecorateFloor() || !this.verifyCmccDepartment() || !this.verifyCmccContacts() || !this.verifyCmccPhone() || !this.verifydecorateDepartment() || !this.verifydecorateContacts() || !this.verifydecoratePhone() || !this.verifydecorateBtime() || !this.verifydecorateEtime() || !this.verifydecorateCost() || !this.verifydecorateNote()) {
+    if (!this.verifyId() || !this.verifyName() || !this.verifyRecordId() || !this.verifydecorateFloor() ||
+      !this.verifyCmccDepartment() || !this.verifyCmccContacts() || !this.verifyCmccPhone() || !this.verifydecorateDepartment()
+      || !this.verifydecorateContacts() || !this.verifydecoratePhone() || !this.verifydecorateBtime() ||
+      !this.verifydecorateEtime() || !this.verifydecorateCost() || !this.verifydecorateNote()) {
       return false;
     }
     const headers = new Headers({ 'Content-Type': 'application/json' });
@@ -356,7 +324,7 @@ export class FitmentComponent implements OnInit {
             'popType': 0 ,
             'imgType': 1 ,
           });
-          this.searchRepair = '';
+          this.searchRepair = new SearchRecord();
           this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
           this.recordCancel();
         }
@@ -388,13 +356,13 @@ export class FitmentComponent implements OnInit {
     return true;
   }
   private verifycontractcmccContacts() {
-    if (!this.isEmpty('contractcmccContacts', '甲方联系人不能为空')) {
+    if (!this.isEmpty('contractcmccContacts', '联系人不能为空')) {
       return false;
     }
     return true;
   }
   private verifycontractcmccPhone()  {
-    if (!this.isEmpty('contractcmccPhone', '甲方联系电话不能为空')) {
+    if (!this.isEmpty('contractcmccPhone', '联系电话不能为空')) {
       return false;
     }
     if (!this.verifyIsTel('contractcmccPhone', '请输入正确的手机号')) {
@@ -409,7 +377,7 @@ export class FitmentComponent implements OnInit {
     return true;
   }
   private verifycontacts() {
-    if (!this.isEmpty('contacts', '乙方联系人不能为空')) {
+    if (!this.isEmpty('contacts', '联系人不能为空')) {
       return false;
     }
     return true;
@@ -442,8 +410,6 @@ export class FitmentComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          // this.newBuilding.imgPath = data.msg;
-
           this.contractName.fileName.push(files[0].name);
           this.contractName.filePath.push(data.msg);
           console.log(this.contractName.fileName);
@@ -465,15 +431,26 @@ export class FitmentComponent implements OnInit {
   }
   /*新增/编辑合同信息提交*/
   contractSubmit() {
+    let SOFTWARES_URL;
     if(this.contractBool === false){
-      var SOFTWARES_URL = "/proxy/building/decorate/updateDecorateContract";
+      SOFTWARES_URL = "/proxy/building/decorate/updateDecorateContract";
       console.log(this.contractBool);
     }else{
       console.log(this.contractName);
-      var SOFTWARES_URL = "/proxy/building/decorate/addDecorateContract";
+      SOFTWARES_URL = "/proxy/building/decorate/addDecorateContract";
     }
-    if (!this.verifyContractId() || !this.verifyContractName() || !this.verifyCmccName() || !this.verifycontractcmccContacts() || !this.verifycontractcmccPhone() || !this.verifycontractname2() || !this.verifycontacts() || !this.verifyphone() || !this.verifycontractBtime() || !this.verifycontractEtime() || this.contractName.filePath.length<1) {
+    if (!this.verifyContractId() || !this.verifyContractName() || !this.verifyCmccName() || !this.verifycontractcmccContacts()
+      || !this.verifycontractcmccPhone() || !this.verifycontractname2() || !this.verifycontacts() || !this.verifyphone()
+      || !this.verifycontractBtime() || !this.verifycontractEtime() ) {
       return false;
+    }
+    if( this.contractName.filePath.length<1 ){
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '请上传文件信息',
+        'popType': 0 ,
+        'imgType': 2 ,
+      });
     }
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
@@ -489,8 +466,8 @@ export class FitmentComponent implements OnInit {
             'popType': 0 ,
             'imgType': 1 ,
           });
-          this.searchRepair = '';
-          this.getRecordSecond(this.searchRepair, this.pageNo, this.pageSize);
+          this.searchContract = new SearchContract();
+          this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
           this.contractCancel();
         }
       });
@@ -499,7 +476,6 @@ export class FitmentComponent implements OnInit {
     this.contractName = new ContractName();
     $('.form-control').removeClass('form-error');
     $('.errorMessage').html('');
-    this.contractName.contractStatus = '';
     this.contractName.fileName = [];
     this.contractName.filePath = [];
     $('.mask-contract').hide();
@@ -633,3 +609,19 @@ export class ContractName {
   filePath: string[]; //合同路径
   fileName: string[]; //合同名字
 }
+export class SearchRecord {
+  buildingId: string; // 大楼编号
+  buildingName: string;  // 大楼名称
+  fitmentNum: string; // 装修单编号
+  contractType: string; // 'decorate'
+  decorateBtime: string; // 合同开始时间
+  decorateEtime: string; // 合同结束时间
+}
+export class SearchContract {
+  buildingId: string; // 大楼编号
+  buildingName: string;  // 大楼名称
+  contractType: string; // 'decorate'
+  contractBtime: string; // 合同开始时间
+  contractEtime: string; // 合同结束时间
+}
+

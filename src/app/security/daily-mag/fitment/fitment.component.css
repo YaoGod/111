@@ -25,24 +25,48 @@
 }
 .fitment-chandlery{
   position: relative;
-  padding:20px 0;
+  padding: 15px 115px 15px 0;
+  background-color: #f8f8f8;
+  margin-top: 10px;
 }
-.fitment-chandlery .search-ipt{
+.fitment-chandlery ul{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+.fitment-chandlery ul li label{
   float: left;
-  margin-left:20px;
-  width:200px;
-  height:30px;
-  border-radius: 4px;
-  background:url("../../../../assets/image/search.png") no-repeat 170px 4px;
-  background-size: 20px 20px;
-  border:1px solid #66CCFF;
-  text-indent: 5px;
+  color: #686868;
+  height: 30px;
+  width: 70px;
+  padding-right: 10px;
+  line-height: 30px;
+  font-size: 12px;
+  text-align: right;
 }
+.fitment-chandlery ul li input{
+  height: 20px;
+  width: calc(100% - 115px);
+  min-width: 70px;
+  padding: 3px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  background-color: #fff;
+  border: 1px solid #e4e7ea;
+ }
+.search-right{
+  position: absolute;
+  right:0; top:15px;
+}
+
 .fitment-chandlery .search-btn{
   float: left;
   margin-left:10px;
   display: inline-block;
-  padding:0 16px;
+  padding:0 10px;
   line-height:32px;
   height:32px;
   border:none;
@@ -76,12 +100,15 @@
   background-color:rgba(0,0,0,.4);
 }
 .new-fitment-record{
-  position: relative;
-  width:880px;
-  height:540px;
-  margin:200px auto 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 880px;
+  height: 540px;
+  margin-top: -270px;
+  margin-left: -440px;
   background-color: #fff;
-  border-radius:5px;
+  border-radius: 5px;
 }
 .close{
   width:24px;
@@ -101,20 +128,21 @@
 }
 .new-fitment-contract{
   padding-top:10px;
-  height:345px;
+  height:425px;
 }
 .form-left{
   float:left;
-  margin-top:20px;
+  margin-top:50px;
 }
 .form-control{
   min-height:25px;
   width: 430px;
   padding:6px 0 6px 5px;
   _border-bottom:1px solid #e1eaf2;
-}.form-right{
+}
+.form-right{
    float: right;
-   margin-top: 20px;
+   margin-top: 55px;
    width:360px;
  }
 .form-control:last-child{
@@ -204,8 +232,8 @@
   padding:20px 0 10px 20px;
   border-radius:5px;
   border:1px solid rgba(0,0,0,0);
-  border-bottom:1px solid rgba(0,0,0,.4);;
   transition: all .5s;
+  box-shadow: 0 3px 0 0 #aaa;
 }
 .form-msg:hover{
   border:1px solid rgba(0,0,0,.4);
@@ -351,9 +379,11 @@
 .form-right-contract{
   width:380px;
   float: right;
-  margin-top:25px;
+  margin-top:55px;
 }
-
+.box1,.box2{
+  display:none;
+}
 
 
 

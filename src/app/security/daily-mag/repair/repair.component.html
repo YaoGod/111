@@ -20,10 +20,51 @@
 
   <div class="repair-cont">
     <div class="repair-chandlery clearfix">
-      <input type="text" placeholder="请输入查询信息" class="search-ipt" [(ngModel)]="searchRepair">
-      <a href="javascript:;" class="search-btn" (click)="repairSearch()"><i class="icon-magnifier"></i> 查 询</a>
-      <a href="javascript:;" class="search-btn new-btn" (click)="repairNew()"><i class="icon-plus"></i> 新 增</a>
+      <div class="box1">
+        <ul class="record-search clearfix">
+          <li>
+            <label>大楼编号</label>
+            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchRepair.buildingId">
+          </li>
+          <li >
+            <label >大楼名称</label>
+            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchRepair.buildingName">
+          </li>
+          <li >
+            <label >开始时间</label>
+            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchRepair.decorateBtime">
+          </li>
+          <li>
+            <label>结束时间</label>
+            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchRepair.decorateEtime">
+          </li>
+        </ul>
+      </div>
+      <div class="box2">
+        <ul class="contract-search clearfix">
+          <li>
+            <label>大楼编号</label>
+            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchContract.buildingId">
+          </li>
+          <li >
+            <label >大楼名称</label>
+            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchContract.buildingName">
+          </li>
+          <li >
+            <label >开始时间</label>
+            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchContract.contractBtime">
+          </li>
+          <li>
+            <label>结束时间</label>
+            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchContract.contractEtime">
+          </li>
+        </ul>
+      </div>
 
+      <div class="search-right">
+        <a href="javascript:;" class="search-btn" (click)="repairSearch()"><i class="icon-magnifier"></i> 查 询</a>
+        <a href="javascript:;" class="search-btn new-btn" (click)="repairNew()"><i class="icon-plus"></i> 新 增</a>
+      </div>
     </div>
     <!--维修记录-->
     <div class="repair-container repair-record">
@@ -146,16 +187,6 @@
   </div>
   <!--<div id="gaodemap-container" class="gaodemap-container" tabindex="0" style="widht:500px;height:400px;"></div>-->
 </div>
-<!--删除确认弹窗-->
-<div class="confirm">
-  <div class="confirm-modal">
-    <div class="confirm-icon confirm-question">?</div>
-    <div class="confirm-content" >你确定要删除该记录吗?</div>
-    <hr style="margin-top: 20px; margin-bottom: 20px; height: 10px;color: transparent;border: 0;">
-    <button class="confirm-btn styled" (click)="okFunc()">确定</button>
-    <button class="confirm-btn cancel" (click)="noFunc()">取消</button>
-  </div>
-</div>
 <!--新增编辑弹窗-->
 <div class="mask mask-repair">
   <div class="new-repair-record">
@@ -260,7 +291,7 @@
         </div>
       </div>
 
-      <div class="form-control form-right">
+      <div class="form-control form-right" style="margin-top:25px">
         <span class="form-label">维修详细内容</span>
         <div class="form-inp">
           <textarea id="repairNote" name="repairNote" [(ngModel)]="repairname.repairNote" (blur)="verifyRepairNote()"></textarea>
@@ -276,7 +307,7 @@
 <div class="mask mask-contract">
   <div class="new-repair-record new-repair-contract">
     <form method="post" name="topForm" class="new-repair-form">
-      <div class="form-left">
+      <div class="form-left" style="margin-top:50px;">
         <div class="form-control">
           <span class="form-label">大楼编号</span>
           <div class="form-inp">
@@ -341,7 +372,7 @@
           </div>
         </div>
       </div>
-      <div class="form-right-contract">
+      <div class="form-right-contract" style="margin-top:55px;">
         <div class="form-control">
           <span class="form-label">合同开始时间</span>
           <div class="form-inp">
@@ -357,18 +388,12 @@
           </div>
         </div>
         <div class="form-control">
-          <span class="form-label">合同状态</span>
-          <div class="form-inp">
-            <input id="contractStatus" name="contractStatus" [(ngModel)]="contractName.contractStatus" disabled type="text">
-          </div>
-        </div>
-        <div class="form-control">
           <span class="form-label">服务合同</span>
-          <ul style="height:60px; min-width:160px; line-height: 20px; overflow-y: auto; background: #fff; float: left; color:#666; border-radius:4px;">
+          <ul style="height:100px; min-width:160px; line-height: 20px; overflow-y: auto; background: #f6f6f6; float: left; color:#666; border-radius:4px;">
             <li style="max-width: 160px;" *ngFor="let abc of contractName.fileName; let k=index">{{abc}}<a style="margin-left:6px; color:#ff0000" href="javascript:;" (click)="delFile(k)">X</a> </li>
           </ul>
-          <div class="form-inp" style="margin-left:104px; margin-top:10px;">
-            <a href="javascript:;" style="color:#666; border-radius:4px; padding:5px 10px; background: #fff;" onclick="$('#prese').trigger('click')">上 传</a>
+          <div class="form-inp" style="margin-left:130px; margin-top:10px;">
+            <a href="javascript:;" style="color:#666; border-radius:4px; padding:5px 10px; background: #f6f6f6;" onclick="$('#prese').trigger('click')">上 传</a>
             <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;"
                    (change)="prese_upload(prese.files)">
             <span class="errorMessage"></span>

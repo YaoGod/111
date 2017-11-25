@@ -1,3 +1,101 @@
-<p>
-  guard works!
-</p>
+<div class="guard">
+  <div class="guard-header clearfix">
+    <a href="javascript:;" class="active" (click)="recordFade($event)">大楼维修记录</a>
+    <a href="javascript:;" (click)="contractFade($event)">大楼维修合同</a>
+  </div>
+  <div class="guard-cont">
+    <div class="guard-chandlery clearfix">
+      <div class="box1">
+        <ul class="record-search clearfix">
+          <li>
+            <label>大楼编号</label>
+            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchRepair.buildingId">
+          </li>
+          <li >
+            <label >大楼名称</label>
+            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchRepair.buildingName">
+          </li>
+          <li >
+            <label >开始时间</label>
+            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchRepair.decorateBtime">
+          </li>
+          <li>
+            <label>结束时间</label>
+            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchRepair.decorateEtime">
+          </li>
+        </ul>
+      </div>
+      <div class="box2">
+
+      </div>
+
+      <div class="search-right">
+        <a href="javascript:;" class="search-btn" (click)="repairSearch()"><i class="icon-magnifier"></i> 查 询</a>
+        <a href="javascript:;" class="search-btn new-btn" (click)="repairNew()"><i class="icon-plus"></i> 新 增</a>
+      </div>
+    </div>
+    <!--维修记录-->
+    <div class="guard-container repair-record">
+      <ul class="form-msg clearfix" *ngFor="let inner of record; let i=index">
+        <li class="form-bar">
+          <span class="form-title">大楼编号</span>
+          <span class="word">{{inner.buildingId}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">大楼名称</span>
+          <span class="word">{{inner.buildingName}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">维修单编号</span>
+          <span class="word">{{inner.recordId}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">维修类别</span>
+          <span class="word">{{inner.repairType}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">维修部门</span>
+          <span class="word">{{inner.cmccDepartment}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">维修部门联系人</span>
+          <span class="word">{{inner.cmccContacts}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">维修部门电话</span>
+          <span class="word">{{inner.cmccPhone}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">维修商</span>
+          <span class="word">{{inner.repairDepartment}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">维修商联系人</span>
+          <span class="word">{{inner.repairContacts}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">维修商电话</span>
+          <span class="word">{{inner.repairPhone}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">维修开始时间</span>
+          <span class="word">{{inner.repairBtime}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">维修结束时间</span>
+          <span class="word">{{inner.repairEtime}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">维修费用</span>
+          <span class="word">{{inner.repairCost}}</span>
+        </li>
+        <li class="form-bar form-texarea">
+          <span class="form-title">维修详细内容</span>
+          <span class="word">{{inner.repairNote}}</span>
+        </li>
+        <li class="form-btn" (click)="editRecord(i)">编&nbsp;&nbsp;辑</li>
+        <li class="form-btn form-btn2" (click)="delRecord(i)">删&nbsp;&nbsp;除</li>
+      </ul>
+    </div>
+  </div>
+</div>
