@@ -35,13 +35,15 @@ export class LoginComponent implements OnInit {
       this.userPortal.portalLogin(data)
         .subscribe(data =>{
           if(data['status'] === 0){
-            console.log(data);
-            sessionStorage.setItem("isLoginIn","Login");
-            this.router.navigate(['/hzportal/']);
+            if(data.data.result === 'illegal'){
+              this.addErrorClass('password','密码错误');
+            }else {
+              sessionStorage.setItem("isLoginIn","Login");
+              this.router.navigate(['/hzportal/']);
+            }
           }else{
             console.log(data);
           }
-
         });
     }else{
 

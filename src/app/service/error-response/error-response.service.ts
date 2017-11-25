@@ -11,8 +11,8 @@ export class ErrorResponseService {
       console.log('用户信息过期');
       this.router.navigate(['login']);
       return false;
-    }else if (data === 102) {
-      console.log('服务层方法报错');
+    }else if (data === 1) {
+      console.log('系统错误请稍后再试');
       return false;
     }else if (data === 103) {
       console.log('权限不足');

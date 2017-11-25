@@ -37,12 +37,17 @@ export class BuildingComponent implements OnInit {
 
   /*获取路由参数*/
   loading() {
+    let tempid: number = 0;
     this.route.params // 通过注入的方式拿到route里的参数params
       .switchMap((params: Params) => this.id = params['id'])
       .subscribe(() => {
         // 每次id变换，对参数进行初始化
-        this.getBuildingInfo(this.id);
-        this.valueUpdated();
+        if(tempid === 0){
+          this.getBuildingInfo(this.id);
+          this.valueUpdated();
+          tempid++;
+        }
+
       });
     this.globalBuilding.valueUpdated.subscribe(
       (val) =>{

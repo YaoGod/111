@@ -207,6 +207,13 @@ export class MsgFloorComponent implements OnInit {
         if(this.errorVoid.errorMsg(data.status)){
           this.copyFloors[index].imgPath = data.msg;
         }
+      }else if(xhr.readyState === 4 && xhr.status === 413 ){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '图片大小超出限制',
+          'popType': 1 ,
+          'imgType': 2 ,
+        });
       }
     };
   }
@@ -234,6 +241,8 @@ export class MsgFloorComponent implements OnInit {
   /*添加楼层窗口关闭*/
   closeNewView(){
     this.isOpenNewView = false;
+    $('.form-control').removeClass('red');
+    $('.error').fadeOut();
     $('.mask').css('display','none');
     this.newFloor = new Floor();
   }

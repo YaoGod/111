@@ -5,8 +5,8 @@ export class Contract {
   id           : number;  /*id*/
   buildingId   : number;  /*所属大楼id*/
   buildingName : string;  /*大楼名称*/
-  fileName     : string;  /*附件名称*/
-  filePath     : string;  /*附件地址*/
+  fileName     : Array<string>;  /*附件名称*/
+  filePath     : Array<string>;  /*附件地址*/
 
   /*自购*/
   buyName      : string;  /*购买方*/
@@ -26,14 +26,14 @@ export class Contract {
   supervise    : string;  /*监理单位*/
 
   /*租赁合同*/
-/*cmccName     : string;    /!*甲方*!/
+/*cmccName     : string;    /!*乙方*!/
   cmccContacts : string;
   cmccPhone    : number;
   contractBtime: string;   /!*开始时间*!/
   contractEtime: string;   /!*结束时间*!/*/
-  landLord     : string;   /*乙方*/
-  lContacts    : string;   /*乙方联系人*/
-  lPhone       : string;   /*乙方联系电话*/
+  landlord     : string;   /*甲方*/
+  lContacts    : string;
+  lPhone       : string;
 
 
   /*物业合同*/
@@ -45,6 +45,7 @@ export class Contract {
   phone        : number;
   contractBtime: string;   /*开始时间*/
   contractEtime: string;   /*结束时间*/
-  contactStatus: string;   /*合同状态*/
+
+  contractStatus: string;   /*合同状态*/
 
 }

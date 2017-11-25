@@ -25,4 +25,35 @@ export class ContractBuildingService {
     return this.http.get(url, this.options)
       .map(res => res.json());
   }
+  /*新增房屋合同*/
+  addContract(data:any,path:string){
+    let url = '';
+    if(path === 'build') {
+      url = '/proxy/building/contract/addBuildContract';
+    }else if(path === 'buy') {
+      url = '/proxy/building/contract/addBuyContract';
+    }else if(path = 'lease') {
+      url = '/proxy/building/contract/addLeaseContract';
+    }
+    return this.http.post(url,data,this.options)
+      .map(res => res.json());
+  }
+  /*更新合同信息*/
+  updateContract(data:any,path:string){
+    let url = '';
+    if(path === 'build') {
+      url = '/proxy/building/contract/updateBuildContract';
+    }else if(path === 'buy') {
+      url = '/proxy/building/contract/updateBuyContract';
+    }else if(path = 'lease') {
+      url = '/proxy/building/contract/updateLeaseContract';
+    }
+    return this.http.post(url,data,this.options)
+      .map(res => res.json());
+  }
+  deleteContract(id,type){
+    const url = '/proxy/building/contract/deleteContract/'+id+'/'+type;
+    return this.http.get(url, this.options)
+      .map(res => res.json());
+  }
 }
