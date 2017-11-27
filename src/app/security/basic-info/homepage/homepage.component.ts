@@ -21,7 +21,6 @@ export class HomepageComponent implements OnInit {
   private pageSize = 6; /*显示页数*/
   public search    :Building ; /*搜索字段*/
   public pages: Array<number>;
-  private delId: any;
   public newBuilding = {
     imgPath: '',
     buildingId: '',
@@ -39,14 +38,14 @@ export class HomepageComponent implements OnInit {
   ngOnInit() {
     this.search = new Building();
     this.search.type = '';
+    this.pages = [];
     this.getBuildingMsg();
   }
   /*获取大楼列表*/
   getBuildingMsg(){
     this.infoBuildingService.getBuildingList(this.pageNo,this.pageSize,this.search)
       .subscribe(data =>{
-        console.log(data);
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
           this.buildings = data.data.infos;
           let total = Math.ceil(data.data.total / this.pageSize);
           this.initPage(total);
@@ -67,6 +66,13 @@ export class HomepageComponent implements OnInit {
   }
   fadeBom(){
     $('.mask').show();
+    if (navigator.geolocation){
+      navigator.geolocation.getCurrentPosition((position)=> {
+        console.log("Latitude: " + position.coords.latitude + "<br />Longitude: " + position.coords.longitude);
+      })
+    }else{
+      console.log("Geolocation is not supported by this browser.");
+    }
   }
   closeMask(){
     $('.mask').hide();
@@ -128,7 +134,7 @@ export class HomepageComponent implements OnInit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
           this.newBuilding.imgPath = data.msg;
           confirmFunc.init({
             'title': '提示' ,
@@ -149,19 +155,14 @@ export class HomepageComponent implements OnInit {
   }
   /*页面显示区间5页*/
   pageLimit(page:number){
+    console.log(page);
     if(this.pages.length < 5){
       return false;
-    }
-    else if(this.pageNo < 5){
-      return true;
-    }
-    else if(page<=5 && this.pageNo <= 3){
+    } else if(page<=5 && this.pageNo <= 3){
       return false;
-    }
-    else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
+    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
       return false;
-    }
-    else if (page<=this.pageNo+2 && page>=this.pageNo-2){
+    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
       return false;
     }
     return true;
@@ -175,31 +176,30 @@ export class HomepageComponent implements OnInit {
   slideToggle(){
     $('.panel').slideToggle();
   }
-  /*删除*/
-  okFunc(){
-    $('.confirm').hide();
-    this.infoBuildingService.deleteBuilding(this.delId)
-      .subscribe(data => {
-        if(this.errorVoid.errorMsg(data.status)) {
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': data.msg,
-            'popType': 0,
-            'imgType': 1
-          });
-        }
-      });
-    this.getBuildingMsg();
-  }
-  noFunc(){
-    $('.confirm').fadeOut();
-  }
   delete(id:number){
-    /*let d = confirm("是否删除该大楼");
-    if(d){
-
-     }*/
-    this.delId = id;
-    $('.confirm').fadeIn();
+    confirmFunc.init({
+      'title': '提示' ,
+      'mes': '是否删除该大楼？',
+      'popType': 1,
+      'imgType': 2,
+      'callback': () => {
+        this.infoBuildingService.deleteBuilding(id)
+          .subscribe(data => {
+            if(this.errorVoid.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示' ,
+                'mes': data.msg,
+                'popType': 2,
+                'imgType': 1,
+                'callback': () => {
+                  this.pages =[];
+                  this.pageNo = 1;
+                  this.getBuildingMsg();
+                }
+              });
+            }
+          });
+      }
+    });
   }
 }

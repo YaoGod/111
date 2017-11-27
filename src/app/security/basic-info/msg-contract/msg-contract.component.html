@@ -1,6 +1,6 @@
 <div class="view">
   <!--搜索栏-->
-  <div class="search-bar" [hidden]="building.type != 'lease'">
+  <div class="search-bar" [hidden]="building.type != 'lease' && building.type != 'property'">
     <ul>
       <li>
         <input class="tab active" type="button" value="当前合同" (click)="getContract();">
@@ -8,7 +8,7 @@
       <li>
         <input class="tab" type="button" value="历史合同" (click)="getContractList();">
       </li>
-      <li>
+      <!--<li>
         <label>
           <input type="text">
         </label>
@@ -20,7 +20,7 @@
           查询
         </a>
         </label>
-      </li>
+      </li>-->
     </ul>
   </div>
   <div *ngIf="pageStatus===1||pageStatus===3">
@@ -30,10 +30,10 @@
         <i class="icon-pencil"></i> 编辑
       </a>
       <a class="btn-edit" href="javascript:;" (click)="deleteContract(contract.id)">
-        <i class="icon-pencil"></i> 删除
+        <i class="icon-trash"></i> 删除
       </a>
     </li>
-    <li class="form-bar">
+    <li class="form-bar" *ngIf="building.type !== 'property'">
       <label>
         <span class="form-title">大楼性质</span>
         <span>{{building.type|tranType}}</span>
@@ -72,7 +72,13 @@
     <li class="form-bar" *ngIf="building.type === 'buy'">
       <label>
         <span class="form-title">购买日期</span>
-        <span>{{contract.buyDate}}</span>
+        <span>{{contract.buyDate | date:'yyyy/MM/dd'}}</span>
+      </label>
+    </li>
+    <li class="form-bar" *ngIf="building.type === 'buy'">
+      <label>
+        <span class="form-title">建筑面积</span>
+        <span>{{contract.area}}</span>
       </label>
     </li>
     <li class="form-bar" *ngIf="building.type === 'buy'">
@@ -119,68 +125,100 @@
     </li>
     <li class="form-bar" *ngIf="building.type === 'lease'">
       <label>
-        <span class="form-title">甲方（出租方）</span>
-        <span>{{contract.cmccName}}</span>
-      </label>
-    </li>
-    <li class="form-bar"  *ngIf="building.type === 'lease'">
-      <label>
-        <span class="form-title">甲方联系人</span>
-        <span>{{contract.cmccContacts}}</span>
-      </label>
-    </li>
-    <li class="form-bar"  *ngIf="building.type === 'lease'">
-      <label>
-        <span class="form-title">甲方联系人电话</span>
-        <span>{{contract.cmccPhone}}</span>
-      </label>
-    </li>
-    <li class="form-bar" *ngIf="building.type === 'lease'">
-      <label>
-        <span class="form-title">乙方（承租方）</span>
+        <span class="form-title">甲方（承租方）</span>
         <span>{{contract.landlord}}</span>
       </label>
     </li>
     <li class="form-bar"  *ngIf="building.type === 'lease'">
       <label>
-        <span class="form-title">乙方联系人</span>
+        <span class="form-title">甲方联系人</span>
         <span>{{contract.lContacts}}</span>
       </label>
     </li>
     <li class="form-bar"  *ngIf="building.type === 'lease'">
       <label>
-        <span class="form-title">乙方联系人电话</span>
+        <span class="form-title">甲方联系人电话</span>
         <span>{{contract.lPhone}}</span>
       </label>
     </li>
-    <li class="form-bar" *ngIf="building.type === 'lease'">
+    <li class="form-bar" *ngIf="building.type === 'lease' || building.type === 'property'">
+      <label>
+        <span class="form-title">{{building.type === 'lease'? '乙方（出租方)':'甲方(各级移动)'}}</span>
+        <span>{{contract.cmccName}}</span>
+      </label>
+    </li>
+    <li class="form-bar"  *ngIf="building.type === 'lease' || building.type === 'property'">
+      <label>
+        <span class="form-title">{{building.type === 'lease'? '乙':'甲'}}方联系人</span>
+        <span>{{contract.cmccContacts}}</span>
+      </label>
+    </li>
+    <li class="form-bar"  *ngIf="building.type === 'lease' || building.type === 'property'">
+      <label>
+        <span class="form-title">{{building.type === 'lease'? '乙':'甲'}}方联系人电话</span>
+        <span>{{contract.cmccPhone}}</span>
+      </label>
+    </li>
+    <li class="form-bar" *ngIf="building.type === 'property'">
+      <label>
+        <span class="form-title">乙方(物业公司)</span>
+        <input type="text" name="name" [(ngModel)]="contract.name">
+        <span>{{contract.name}}</span>
+      </label>
+    </li>
+    <li class="form-bar" *ngIf="building.type === 'property'">
+      <label>
+        <span class="form-title">乙方联系人</span>
+        <input type="text" name="contacts" [(ngModel)]="contract.contacts">
+        <span>{{contract.contacts}}</span>
+      </label>
+    </li>
+    <li class="form-bar" *ngIf="building.type === 'property'">
+      <label>
+        <span class="form-title">乙方联系人电话</span>
+        <input type="text" name="phone" [(ngModel)]="contract.phone">
+        <span>{{contract.phone}}</span>
+      </label>
+    </li>
+    <li class="form-bar" *ngIf="building.type === 'lease' || building.type === 'property'">
       <label>
         <span class="form-title">合同开始时间</span>
         <span>{{contract.contractBtime | date:'yyyy/MM/dd'}}</span>
       </label>
     </li>
-    <li class="form-bar" *ngIf="building.type === 'lease'">
+    <li class="form-bar" *ngIf="building.type === 'lease' || building.type === 'property'">
       <label>
         <span class="form-title">合同结束时间</span>
         <span>{{contract.contractEtime | date:'yyyy/MM/dd'}}</span>
       </label>
     </li>
-    <li class="form-bar" *ngIf="building.type === 'lease'">
+    <li class="form-bar" *ngIf="building.type === 'lease' || building.type === 'property'">
       <label>
         <span class="form-title">合同状态</span>
         <span>{{contract.contractStatus}}</span>
       </label>
     </li>
   </ul>
+    <div style="clear:both"></div>
   </div>
-  <div class="div-none" *ngIf="pageStatus===2">  <!--*ngIf="contracts.length === 0"-->
+  <div class="div-none" *ngIf="pageStatus===2">
     <p>暂无信息</p>
   </div>
-  <div class="div-add" *ngIf="pageStatus===0"><!--*ngIf="contracts.length>0 && contracts[0].id == null"-->
+  <div class="div-add" *ngIf="pageStatus===0">
     <div class="add-border" (click)="addNewRoom()">
       <i class="icon-plus"></i>
       <p>添加</p>
     </div>
+  </div>
+  <div class="turn" *ngIf="pages.length>1">
+    <ul>
+      <li *ngFor="let i of pages"
+          [hidden] = "pageLimit(i)"
+          [ngClass]="{'active':i === pageNo}"
+          (click)="goPage(i);">
+        {{i}}
+      </li>
+    </ul>
   </div>
 </div>
 
@@ -194,7 +232,7 @@
       <div  class="modal-body clearfix">
         <div class="dropify-edit">
           <a><i class="icon-share"></i>上传附件
-            <input  class="dropify" type="file" #pres
+            <input  class="dropify" type="file" #pres id="fileUpload"
                     (change)="prese_upload(pres.files)"></a>
         </div>
         <div class="modal-left">
@@ -205,7 +243,7 @@
             <ul class="dropify-list">
               <li *ngFor="let name of tempContract.fileName;let i = index">
                 <a (click)="deleteFile(i)">
-                  <i class="icon-pencil"></i>删除
+                  <i class="icon-trash"></i>删除
                 </a>
                 <p>{{name}}</p>
               </li>
@@ -272,9 +310,18 @@
             <div class="error"></div>
           </div>
           <div  class="form-group" *ngIf="building.type === 'buy'">
+            <label  class="control-label"><span>建筑面积</span>
+              <input class="form-control" id="area"
+                     name="area" placeholder="" type="text"
+                     [(ngModel)]="tempContract.area"
+                     (blur)="verifyEmpty(tempContract.area,'area');">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group" *ngIf="building.type === 'buy'">
             <label  class="control-label"><span>单价</span>
               <input class="form-control" id="unitPrice"
-                     name="floorNum" placeholder="" type="text"
+                     name="unitPrice" placeholder="" type="text"
                      [(ngModel)]="tempContract.unitPrice"
                      (blur)="verifyEmpty(tempContract.unitPrice,'unitPrice');">
             </label>
@@ -283,7 +330,7 @@
           <div  class="form-group" *ngIf="building.type === 'build'">
             <label  class="control-label"><span>设计单位</span>
               <input class="form-control" id="design"
-                     name="floorNum" placeholder="" type="text"
+                     name="design" placeholder="" type="text"
                      [(ngModel)]="tempContract.design"
                      (blur)="verifyEmpty(tempContract.design,'design');">
             </label>
@@ -325,7 +372,7 @@
             </label>
             <div class="error"></div>
           </div>
-          <div  class="form-group" *ngIf="building.type === 'buy'">
+          <div  class="form-group" *ngIf="building.type === 'build'">
             <label  class="control-label"><span>建造费用</span>
               <input class="form-control" id="buildCost"
                      name="buildCost" placeholder="" type="text"
@@ -361,8 +408,8 @@
             </label>
             <div class="error"></div>
           </div>
-          <div  class="form-group" *ngIf="building.type === 'lease'">
-            <label  class="control-label"><span>乙方（承租方）</span>
+          <div  class="form-group" *ngIf="building.type === 'lease' || building.type === 'property'" >
+            <label  class="control-label"><span>{{building.type === 'lease'? '乙方(承租方)':'甲方(各级移动)'}}</span>
               <input class="form-control" id="cmccName"
                      name="cmccName" placeholder="" type="text"
                      [(ngModel)]="tempContract.cmccName"
@@ -370,8 +417,8 @@
             </label>
             <div class="error"></div>
           </div>
-          <div  class="form-group" *ngIf="building.type === 'lease'">
-            <label  class="control-label"><span>乙方联系人</span>
+          <div  class="form-group" *ngIf="building.type === 'lease' || building.type === 'property'">
+            <label  class="control-label"><span>{{building.type === 'lease'? '乙':'甲'}}方联系人</span>
               <input class="form-control" id="cmccContacts"
                      name="cmccContacts" placeholder="" type="text"
                      [(ngModel)]="tempContract.cmccContacts"
@@ -379,8 +426,8 @@
             </label>
             <div class="error"></div>
           </div>
-          <div  class="form-group" *ngIf="building.type === 'lease'">
-            <label  class="control-label"><span>乙方联系人电话</span>
+          <div  class="form-group" *ngIf="building.type === 'lease'  || building.type === 'property'">
+            <label  class="control-label"><span>{{building.type === 'lease'? '乙':'甲'}}方联系人电话</span>
               <input class="form-control" id="cmccPhone"
                      name="cmccPhone" placeholder="" type="text"
                      [(ngModel)]="tempContract.cmccPhone"
@@ -388,19 +435,46 @@
             </label>
             <div class="error"></div>
           </div>
-          <div  class="form-group" *ngIf="building.type === 'lease'">
+          <div  class="form-group" *ngIf="building.type === 'property'">
+            <label  class="control-label"><span>乙方(物业公司)</span>
+              <input class="form-control" id="name"
+                     name="name" placeholder="" type="text"
+                     [(ngModel)]="tempContract.name"
+                     (blur)="verifyEmpty(tempContract.name,'name');">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group" *ngIf="building.type === 'property'">
+            <label  class="control-label"><span>乙方联系人</span>
+              <input class="form-control" id="contacts"
+                     name="contacts" placeholder="" type="text"
+                     [(ngModel)]="tempContract.contacts"
+                     (blur)="verifyEmpty(tempContract.contacts,'contacts');">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group" *ngIf="building.type === 'property'">
+            <label  class="control-label"><span>乙方联系人电话</span>
+              <input class="form-control" id="phone"
+                     name="phone" placeholder="" type="text"
+                     [(ngModel)]="tempContract.phone"
+                     (blur)="verifyEmpty(tempContract.phone,'phone');">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group" *ngIf="building.type === 'lease' || building.type === 'property'">
             <label  class="control-label"><span>合同开始时间</span>
               <input class="form-control" id="contractBtime"
-                     name="contractBtime" placeholder="" type="text"
+                     name="contractBtime" placeholder="" type="date"
                      [(ngModel)]="tempContract.contractBtime"
                      (blur)="verifyEmpty(tempContract.contractBtime,'contractBtime');">
             </label>
             <div class="error"></div>
           </div>
-          <div  class="form-group" *ngIf="building.type === 'lease'">
+          <div  class="form-group" *ngIf="building.type === 'lease' || building.type === 'property'">
             <label  class="control-label"><span>合同结束时间</span>
               <input class="form-control" id="contractEtime"
-                     name="contractEtime" placeholder="" type="text"
+                     name="contractEtime" placeholder="" type="date"
                      [(ngModel)]="tempContract.contractEtime"
                      (blur)="verifyEmpty(tempContract.contractEtime,'contractEtime');">
             </label>

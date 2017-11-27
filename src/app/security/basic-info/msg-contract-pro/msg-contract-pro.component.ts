@@ -31,7 +31,7 @@ export class MsgContractProComponent implements OnInit {
     this.contractBuildingService.getContractInfo(
       Number(this.router.url.split('/')[5]),'property')
       .subscribe(data => {
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
           this.contracts = new Array<Contract>(1);
           this.contracts[0] = new Contract;
           this.contracts[0] = data.data;
@@ -43,7 +43,7 @@ export class MsgContractProComponent implements OnInit {
     this.contractBuildingService.getContractList(
       Number(this.router.url.split('/')[5]),'property',this.pageNo,this.pageSize)
       .subscribe(data => {
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
           this.contracts = data.data;
         }
       });

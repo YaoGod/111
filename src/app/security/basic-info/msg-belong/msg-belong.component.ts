@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Building } from '../../../mode/building/building.service';
 import { GlobalBuildingService } from '../../../service/global-building/global-building.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
@@ -21,7 +22,8 @@ export class MsgBelongComponent implements OnInit {
   constructor(
     private infoBuildingService:InfoBuildingService,
     private globalBuilding:GlobalBuildingService,
-    private errorVoid:ErrorResponseService
+    private errorVoid:ErrorResponseService,
+    private router: Router
   ) {
     this.building = globalBuilding.getVal();
   }
@@ -31,10 +33,30 @@ export class MsgBelongComponent implements OnInit {
     this.globalBuilding.valueUpdated.subscribe(
       (val) =>{
         this.building = this.globalBuilding.getVal();
-       /* this.showMap(this.building.lon,this.building.lat);*/
       }
     );
-    this.showMap(this.building.lon,this.building.lat);
+    let id = this.router.url.split('/')[5];
+    this.getBuildingInfo(Number(id));
+  }
+  /*获取大楼信息*/
+  getBuildingInfo(id: number) {
+    this.infoBuildingService.getBuildingMsg(id)
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data)){
+          this.building = data.data.buildingInfo;
+          this.building.imgList = [];
+          if(this.building.imgPath != null){
+            this.building.imgList = this.building.imgPath.split(',');
+          }
+          if(typeof (data.data.attachInfo) !== 'undefined' && data.data.attachInfo !== null){
+            this.building.buildDept = data.data.attachInfo.buildDept;
+            this.building.buildTime = data.data.attachInfo.buildTime;
+            this.building.payTime = data.data.attachInfo.payTime;
+          }
+          this.showMap(this.building.lon,this.building.lat);
+          this.globalBuilding.setVal(this.building);
+        }
+      });
   }
   /*地图打点展示*/
   showMap(lat,lon){
@@ -89,7 +111,7 @@ export class MsgBelongComponent implements OnInit {
   submit() {
     this.infoBuildingService.updateBuilding(this.copyBuilding)
       .subscribe( data => {
-        if(this.errorVoid.errorMsg(data.status)) {
+        if(this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
             'title': '提示',
             'mes': data.msg,

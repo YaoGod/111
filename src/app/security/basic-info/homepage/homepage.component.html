@@ -36,13 +36,13 @@
   </div>
 </div>
 <!--大楼列表展示-->
-<div class="view">
+<div class="view" style="min-height: 350px;">
   <div class="row">
       <a class="btn btn-danger" (click)="fadeBom()" href="javascript:;"><i class="icon-plus"></i> 新增</a>
   </div>
   <ul class="page-area">
     <li class="card" *ngFor="let building of buildings;let idx=index">
-      <div class="card-img">
+      <div class="card-img" [routerLink]="['detail',building.id]">
         <div class="el-overlay">
         </div>
         <img [src]="+'/proxy'+imgPaths[idx][0]">
@@ -59,7 +59,7 @@
       </div>
     </li>
   </ul>
-  <div class="turn">
+  <div class="turn" *ngIf="pages.length>1">
     <ul>
       <li *ngFor="let i of pages"
           [hidden] = "pageLimit(i)"
@@ -105,7 +105,13 @@
                 </label>
               </div>
               <div class="form-group">
-                <label class="control-label"><span>大楼归属</span><input type="text" name="belongTo" class="form-control" placeholder="" [(ngModel)]="newBuilding.belongTo"></label>
+                <label class="control-label"><span>大楼归属</span>
+      <!--            <input type="text" name="belongTo" class="form-control" placeholder="" [(ngModel)]="newBuilding.belongTo">-->
+                  <select [(ngModel)]="newBuilding.belongTo" style="width:170px;padding:0 10px;" name="belongTo" class="form-control">
+                    <option>市公司</option>
+                    <option>县区分公司</option>
+                  </select>
+                </label>
               </div>
               <div class="form-group">
                 <label class="control-label"><span>地&nbsp;&nbsp;址</span><input type="text" name="address" class="form-control" placeholder="" [(ngModel)]="newBuilding.address"></label>
@@ -119,7 +125,7 @@
       </form>
     </div>
 </div>
-<div class="confirm">
+<!--<div class="confirm">
   <div class="confirm-modal">
     <div class="confirm-icon confirm-question">?</div>
     <div class="confirm-content" >你确定要删除该大楼的信息吗?</div>
@@ -127,5 +133,5 @@
     <button class="confirm-btn styled" (click)="okFunc()">确定</button>
     <button class="confirm-btn cancel" (click)="noFunc()">取消</button>
   </div>
-</div>
+</div>-->
 

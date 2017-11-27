@@ -53,7 +53,7 @@ export class InfoBuildingService {
    return:   #大楼基础信息实体类
    */
   getFloorNameListMsg(id:number){
-    const url ='/proxy/building/info/getFloorNumList/3';
+    const url ='/proxy/building/info/getFloorNumList/'+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }

@@ -30,6 +30,7 @@ export class MsgFloorComponent implements OnInit {
   public copyFloors   : any;
   public newFloor     : Floor = new Floor();
   public isOpenNewView: boolean =false;
+  public file         : any;
   constructor(
     private globalBuilding:GlobalBuildingService,
     private infoBuildingService:InfoBuildingService,
@@ -57,21 +58,22 @@ export class MsgFloorComponent implements OnInit {
     this.searchFloor = new Floor();
     this.searchFloor.buildingId = id;
     this.searchFloor.floorNum = '';
+    this.searchFloor.floorUse = '';
     this.getFloorNameListInfo(id);
     this.getFloorInfo(this.pageNo,this.pageSize);
   }
   /*获取楼层信息*/
-  getFloorInfo(pageNo:number,pageSize:number){
-    var copySearch = JSON.parse(JSON.stringify(this.searchFloor));
+  getFloorInfo(pageNo:number,pageSize:number) {
+    let copySearch = JSON.parse(JSON.stringify(this.searchFloor));
     if(this.searchFloor.floorNum === '') {
       copySearch.floorNum = undefined;
     }
     this.infoBuildingService.getFloorListMsg( copySearch, pageNo,pageSize)
       .subscribe(data =>{
-        if(this.errorVoid.errorMsg(data.status)) {
+        if(this.errorVoid.errorMsg(data)) {
           this.floors = data.data.infos;
           this.copyFloors = JSON.parse(JSON.stringify(this.floors));
-          for( var i = 0;i<this.copyFloors.length;i++){
+          for( let i = 0;i<this.copyFloors.length;i++) {
             this.copyFloors[i].editStatus = false;
           }
           let total = Math.ceil(data.data.total / pageSize);
@@ -80,10 +82,10 @@ export class MsgFloorComponent implements OnInit {
       });
   }
   /*获取楼层名称*/
-  getFloorNameListInfo(id:number){
+  getFloorNameListInfo(id:number) {
     this.infoBuildingService.getFloorNameListMsg(id)
       .subscribe(data => {
-        if(this.errorVoid.errorMsg(data.status)) {
+        if(this.errorVoid.errorMsg(data)) {
           this.floorNames = data.data;
         }
       });
@@ -96,23 +98,20 @@ export class MsgFloorComponent implements OnInit {
   /*页码初始化*/
   initPage(total){
     this.pages = new Array(total);
-    for(let i = 0;i< total;i++){
+    for(let i = 0;i< total ;i++){
       this.pages[i] = i+1;
     }
   }
   /*页面显示区间5页*/
   pageLimit(page:number){
-    if(this.pageNo<5){
-      return true;
-    }
-    else if(page<=5 && this.pageNo <= 3){
+    if(this.pages.length < 5){
       return false;
-    }
-    else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
+    } else if(page<=5 && this.pageNo <= 3){
       return false;
-    }
-    else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-       return false;
+    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
+      return false;
+    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
+      return false;
     }
     return true;
   }
@@ -161,15 +160,31 @@ export class MsgFloorComponent implements OnInit {
   /*保存*/
   save(index:number){
     if(this.copyFloors[index].editStatus){
-      this.infoBuildingService.updateFloor(this.copyFloors[index])
-        .subscribe(data => {
-          if(this.errorVoid.errorMsg(data.status)){
-            if(data.msg = '更新成功'){
-              this.floors[index] = this.copyFloors[index];
-              this.copyFloors[index].editStatus = false;
+      if($('.red').length === 0) {
+        this.infoBuildingService.updateFloor(this.copyFloors[index])
+          .subscribe(data => {
+            if (this.errorVoid.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示' ,
+                'mes': data.msg,
+                'popType': 2 ,
+                'imgType': 1 ,
+                "callback": () => {
+                  this.floors[index] = this.copyFloors[index];
+                  $('#prese'+index).val('');
+                  this.copyFloors[index].editStatus = false;
+                }
+              });
             }
-          }
-        })
+          })
+      }else {
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '表单数据填写不完全哦',
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
+      }
     }
   }
   /*删除信息*/
@@ -182,7 +197,7 @@ export class MsgFloorComponent implements OnInit {
       "callback": () => {
         this.infoBuildingService.deleteFloor(id)
           .subscribe( data => {
-            if(this.errorVoid.errorMsg(data.status)) {
+            if(this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示',
                 'mes': data.msg,
@@ -204,7 +219,7 @@ export class MsgFloorComponent implements OnInit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
           this.copyFloors[index].imgPath = data.msg;
         }
       }else if(xhr.readyState === 4 && xhr.status === 413 ){
@@ -223,7 +238,7 @@ export class MsgFloorComponent implements OnInit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
          this.newFloor.imgPath = data.msg;
         }
       }
@@ -254,13 +269,14 @@ export class MsgFloorComponent implements OnInit {
     ){
       this.infoBuildingService.addFloor(this.newFloor)
         .subscribe(data => {
-          if(this.errorVoid.errorMsg(data.status)){
+          if(this.errorVoid.errorMsg(data)){
             confirmFunc.init({
               'title': '提示' ,
               'mes': data.msg,
               'popType': 2 ,
               'imgType': 1 ,
               "callback": () => {
+                $('#pressNew').val('');
                 this.closeNewView();
                 this.initFloor();
               }
@@ -277,6 +293,18 @@ export class MsgFloorComponent implements OnInit {
       return false;
     }else{
       this.removeErrorClass('newImgPath');
+      return true;
+    }
+  }
+  /*非空验证*/
+  verifyEmpty( value, id){
+    if(typeof (value) === "undefined" ||
+      value === null ||
+      value === ''){
+      this.addErrorClass(id,'该值不能为空');
+      return false;
+    }else{
+      this.removeErrorClass(id);
       return true;
     }
   }

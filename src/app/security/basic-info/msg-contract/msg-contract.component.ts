@@ -3,27 +3,31 @@ import { UtilBuildingService } from '../../../service/util-building/util-buildin
 import { ContractBuildingService } from '../../../service/contract-building/contract-building.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import { GlobalBuildingService } from '../../../service/global-building/global-building.service';
+import { InfoBuildingService } from '../../../service/info-building/info-building.service';
 import { Building } from '../../../mode/building/building.service';
 import { Contract } from '../../../mode/contract/contract.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params} from '@angular/router';
 declare var confirmFunc: any;
 import * as $ from 'jquery';
-import {element} from "protractor";
 declare var $:any;
 @Component({
   selector: 'app-msg-contract',
   templateUrl: './msg-contract.component.html',
   styleUrls: ['./msg-contract.component.css'],
-  providers: [ ContractBuildingService, UtilBuildingService ]
+  providers: [ ContractBuildingService, InfoBuildingService,UtilBuildingService ]
 })
 export class MsgContractComponent implements OnInit {
 
   public building: Building;
+  public modeBuilding: Building;
   public contracts: Array<Contract>;
   public tempContract: Contract;
   private pageNo: number = 1;
   private pageSize: number = 5;
-  public pageStatus: number = 0;
+  public pages: Array<number>;
+  public pageStatus: number = 2;
+  private temp: any = '';
+  private type = '';
   /*{0：无合同，非多合同；
      1：有一份合同，非多合同；
      2：无合同，多合同；
@@ -31,33 +35,44 @@ export class MsgContractComponent implements OnInit {
      }*/
   public title = "";
   constructor(
+    private infoBuildingService:InfoBuildingService,
     private contractBuildingService:ContractBuildingService,
     private utilBuildingService:UtilBuildingService,
     private globalBuilding:GlobalBuildingService,
     private errorVoid:ErrorResponseService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
   ) {
     this.building = globalBuilding.getVal();
   }
   ngOnInit() {
     this.building = new Building();
     this.contracts = [];
+    this.pages = [];
     this.tempContract = new Contract;
     /*大楼信息更新订阅*/
     this.globalBuilding.valueUpdated.subscribe(
       (val) =>{
-        var a  = this.globalBuilding.getVal();
-        this.building.name =a.name;
+        this.modeBuilding = this.globalBuilding.getVal();
+        this.building.name = this.modeBuilding.name;
       }
     );
     this.building.id = Number(this.router.url.split('/')[5]);
-    this.building.type = this.router.url.split('/')[7];
-    this.getContract();
+    this.route.params // 通过注入的方式拿到route里的参数params
+      .switchMap((params: Params) => this.building.type = params['type'])
+      .subscribe(() => {
+        if(this.building.type !== this.temp) {
+          this.temp = JSON.parse(JSON.stringify(this.building.type));
+          this.getContract();
+        }
+      });
+
   }
   getContract(){
     this.contractBuildingService.getContractInfo(this.building.id, this.building.type)
       .subscribe(data => {
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
+          this.contracts = [];
           this.contracts[0] = data.data;
           if(typeof (this.contracts[0].id) === "undefined" || this.contracts[0].id === null){
             this.pageStatus = 0;
@@ -66,32 +81,23 @@ export class MsgContractComponent implements OnInit {
             this.pageStatus = 1;
             this.title = "编辑";
           }
-          console.log(this.pageStatus);
         }
       });
+    this.getBuildingInfo(this.building.id);
   }
   /*获取历史合同*/
   getContractList(){
+    this.pageStatus = 2;
     this.contractBuildingService.getContractList(
-      Number(this.router.url.split('/')[5]),'lease',this.pageNo,this.pageSize)
+      Number(this.router.url.split('/')[5]),this.building.type,this.pageNo,this.pageSize)
       .subscribe(data => {
-        if(this.errorVoid.errorMsg(data.status)) {
-          this.contracts = data.data;
+        if(this.errorVoid.errorMsg(data)) {
+          this.contracts = data.data.infos;
           this.pageStatus = this.contracts.length>0?3:2;
-          console.log(this.pageStatus);
+          let total = Math.ceil(data.data.total / this.pageSize);
+          this.initPage(total);
         }
       });
-  }
-  /*折叠展示历史信息*/
-  isLeaseHistory(){
-    if(this.contracts.length > 0 ){
-      if(typeof (this.contracts[0].id) === "undefined" ||
-       this.contracts[0].id === null){
-        return false;
-      }
-      return true;
-    }
-      return false;
   }
   /*添加合同窗口弹出*/
   addNewRoom() {
@@ -110,12 +116,11 @@ export class MsgContractComponent implements OnInit {
   }
   /*文件上传*/
   prese_upload(files) {
-    console.log(files[0].name);
     var xhr = this.utilBuildingService.uploadFile(files[0], this.building.type+'Contract', -1);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
           this.tempContract.filePath.push(data.msg);
           this.tempContract.fileName.push(files[0].name);
         }
@@ -137,31 +142,57 @@ export class MsgContractComponent implements OnInit {
   /*提交合同信息*/
   submit() {
     if($('.red').length === 0) {
+      this.tempContract.buyDate = this.formatDate(this.tempContract.buyDate);
+      this.tempContract.buildDate = this.formatDate(this.tempContract.buildDate);
+      this.tempContract.payDate = this.formatDate(this.tempContract.payDate);
+      this.tempContract.contractBtime = this.formatDate(this.tempContract.contractBtime);
+      this.tempContract.contractEtime = this.formatDate(this.tempContract.contractEtime);
+
       if(typeof (this.tempContract.id) === "undefined" || this.tempContract.id === null) {
         this.addContract();
-      }else{
+      }else {
         this.updateContract();
       }
     }else{
       confirmFunc.init({
         'title': '提示' ,
         'mes': '表单数据填写不完全哦',
-        'popType': 1 ,
+        'popType': 2 ,
         'imgType': 1 ,
       });
     }
+  }
+  /*获取大楼信息*/
+  getBuildingInfo(id:number){
+    this.infoBuildingService.getBuildingMsg(id)
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data)) {
+          this.modeBuilding = data.data.buildingInfo;
+          if(this.modeBuilding.imgPath !== null) {
+            this.modeBuilding.imgList = this.modeBuilding.imgPath.split(',');
+          }
+          if(typeof (data.data.attachInfo) !== 'undefined' && data.data.attachInfo !== null){
+            this.modeBuilding.buildDept = data.data.attachInfo.buildDept;
+            this.modeBuilding.buildTime = data.data.attachInfo.buildTime;
+            this.modeBuilding.payTime = data.data.attachInfo.payTime;
+          }
+          console.log('更新');
+          this.globalBuilding.setVal(this.modeBuilding);
+        }
+      });
   }
   /*新增*/
   addContract(){
     this.contractBuildingService.addContract(this.tempContract,this.building.type)
       .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
+        if (this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
             'title': '提示' ,
             'mes': data.msg,
             'popType': 2 ,
             'imgType': 1 ,
             "callback": () => {
+              $("#fileUpload").val("");
               this.pageNo = 1;
               this.closeNewView();
               this.getContract();
@@ -174,13 +205,14 @@ export class MsgContractComponent implements OnInit {
   updateContract() {
     this.contractBuildingService.updateContract(this.tempContract,this.building.type)
       .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
+        if (this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
             'title': '提示' ,
             'mes': data.msg,
             'popType': 2 ,
             'imgType': 1 ,
             "callback": () => {
+              $("#fileUpload").val("");
               this.pageNo = 1;
               this.closeNewView();
               this.getContract();
@@ -200,6 +232,14 @@ export class MsgContractComponent implements OnInit {
       return true;
     }
   }
+  /*时间格式转换*/
+  formatDate( value ){
+    if( typeof (value) === "undefined" || value === null || value === ''){
+      return null;
+    }else {
+      return value.replace(/-/g,'/');
+    }
+  }
   /* 添加错误信息*/
   private addErrorClass(id: string, error: string)  {
     $('#' + id).addClass('red');
@@ -215,17 +255,22 @@ export class MsgContractComponent implements OnInit {
     this.addNewRoom();
     this.tempContract = JSON.parse(JSON.stringify(this.contracts[i]));
     console.log(this.tempContract);
+    /*this.tempContract.buyDate = this.formatDate(this.tempContract.buyDate);
+    this.tempContract.buildDate = this.formatDate(this.tempContract.buildDate);
+    this.tempContract.payDate = this.formatDate(this.tempContract.payDate);
+    this.tempContract.contractBtime = this.formatDate(this.tempContract.contractBtime);
+    this.tempContract.contractEtime = this.formatDate(this.tempContract.contractEtime);*/
   }
-  deleteContract(id){
+  deleteContract(id) {
     confirmFunc.init({
       'title': '提示' ,
       'mes': '是否删除该合同',
       'popType': 1 ,
-      'imgType': 1 ,
+      'imgType': 2 ,
       "callback": () => {
         this.contractBuildingService.deleteContract(id,this.building.type)
           .subscribe(data => {
-            if (this.errorVoid.errorMsg(data.status)) {
+            if (this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示' ,
                 'mes': data.msg,
@@ -241,5 +286,31 @@ export class MsgContractComponent implements OnInit {
           })
       }
     });
+  }
+  /*页码初始化*/
+  initPage(total){
+    this.pages = new Array(total);
+    for(let i = 0;i< total ;i++){
+      this.pages[i] = i+1;
+    }
+  }
+  /*页面显示区间5页*/
+  pageLimit(page:number){
+    console.log(page);
+    if(this.pages.length < 5){
+      return false;
+    } else if(page<=5 && this.pageNo <= 3){
+      return false;
+    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
+      return false;
+    } else if (page<=this                                                                                                                                                                 .pageNo+2 && page>=this.pageNo-2){
+      return false;
+    }
+    return true;
+  }
+  /*跳页加载数据*/
+  goPage(page:number){
+    this.pageNo = page;
+    this.getContractList();
   }
 }

@@ -135,6 +135,7 @@ input[type=text]{
   display: flex;
   flex-wrap: wrap;
   padding: 20px 2%;
+  min-height: inherit;
   background-color: #ffffff;
 }
 .card{

@@ -5,14 +5,17 @@
       <label>楼层</label>
       <select [(ngModel)]="searchFloor.floorNum">
         <option value="">全部</option>
-        <option *ngFor="let name of floorNames" [value]="name.FLOOR_NUM">{{name.FLOOR_NUM}}</option>
+        <option *ngFor="let name of floorNames"
+                [value]="name.FLOOR_NUM">
+          {{name.FLOOR_NUM}}
+        </option>
       </select>
     </li>
     <li>
       <label>楼层功能 </label>
-      <select  class="form-control"
+      <select
         name="floorUse" [(ngModel)]="searchFloor.floorUse">
-        <option value="">请选择</option>
+        <option value="">全部</option>
         <option>车库</option>
         <option>大厅</option>
         <option>餐厅</option>
@@ -44,7 +47,7 @@
       <th width="25%" class="text-left">大楼名称</th>
       <th width="15%">楼层</th>
       <th width="20%" class="text-left">楼层功能</th>
-      <th width="25%">楼层平台图</th>
+      <th width="25%">楼层平面图</th>
       <th width="15%">操作</th>
     </tr>
   </table>
@@ -57,9 +60,10 @@
         <span *ngIf="!copyFloors[i].editStatus">
           {{floor.buildingName}}
         </span>
-        <input type="text" name="buildingName"
+        <input type="text" name="buildingName" [id]="'buildingName' + i"
                *ngIf="copyFloors[i].editStatus"
                [(ngModel)]="copyFloors[i].buildingName"
+               (blur)="verifyEmpty(copyFloors[i].buildingName,'buildingName' + i)"
                disabled
         >
       </td>
@@ -67,16 +71,20 @@
         <span *ngIf="!copyFloors[i].editStatus">
           {{floor.floorNum}}
         </span>
-        <input type="text" name="floorNum"
+        <input type="text" name="floorNum" [id]="'floorNum' + i"
                *ngIf="copyFloors[i].editStatus"
-               [(ngModel)]="copyFloors[i].floorNum">
+               [(ngModel)]="copyFloors[i].floorNum"
+               (blur)="verifyEmpty(copyFloors[i].floorNum,'floorNum' + i)"
+        >
       </td>
       <td width="20%" class="text-left">
         <span *ngIf="!copyFloors[i].editStatus">
           {{floor.floorUse}}
         </span>
-        <select  *ngIf="copyFloors[i].editStatus"
-                 [(ngModel)]="copyFloors[i].floorUse">
+        <select  *ngIf="copyFloors[i].editStatus" [id]="'floorUse' + i"
+                 [(ngModel)]="copyFloors[i].floorUse"
+                 (blur)="verifyEmpty(copyFloors[i].floorUse,'floorUse' + i)"
+        >
           <option value="">请选择</option>
           <option>车库</option>
           <option>大厅</option>
@@ -88,7 +96,7 @@
           <option>其他</option>
         </select>
       </td>
-      <td width="25%" class="box-demo">
+      <td width="25%" class="box-demo" [id]="'imgPath' + i">
         <img *ngIf="floor.imgPath && !copyFloors[i].editStatus"
              [src]="'/proxy' + floor.imgPath"
              (click)="viewImg(floor.imgPath)">
@@ -98,8 +106,10 @@
                (click)="viewImg(copyFloors[i].imgPath)">
           <img src="../../../../assets/image/icon_img.png" *ngIf="!copyFloors[i].imgPath && copyFloors[i].editStatus">
           <a>上传
-            <input type="file" name="imgPath" class="img-upload" #prese
-                   (change)="prese_upload(prese.files,i)">
+            <input type="file" name="imgPath" class="img-upload" #prese [id]="'prese'+i"
+                   (change)="prese_upload(prese.files,i)"
+                   (blur)="verifyEmpty(copyFloors[i].imgPath,'imgPath' + i)"
+            >
           </a>
         </div>
       </td>
@@ -113,10 +123,13 @@
       </td>
     </tr>
   </table>
+  <div class="div-none" *ngIf="copyFloors.length < 1">
+    <p>暂无信息</p>
+  </div>
 </div>
 <!--翻页-->
-<div class="turn">
-  <ul *ngIf="pages.length > 1">
+<div class="turn" *ngIf="pages.length > 1">
+  <ul>
     <li *ngFor="let i of pages"
         [hidden] = "pageLimit(i)"
         [ngClass]="{'active':i === pageNo}"
@@ -140,9 +153,9 @@
               <img [src]="'/proxy'+newFloor.imgPath" *ngIf="newFloor.imgPath">
             </div>
             <p >点击此处上传大楼平面图</p>
-            <input  class="dropify" type="file"
-                    #pres
-                    (change)="presepic_upload(pres.files)"
+            <input  class="dropify" type="file"  id="pressNew"
+                    #pressNew
+                    (change)="presepic_upload(pressNew.files)"
                     (blur)="verifyImgPath()"
             >
           </div>

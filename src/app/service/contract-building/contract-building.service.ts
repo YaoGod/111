@@ -27,13 +27,16 @@ export class ContractBuildingService {
   }
   /*新增房屋合同*/
   addContract(data:any,path:string){
+    console.log(1213);
     let url = '';
     if(path === 'build') {
       url = '/proxy/building/contract/addBuildContract';
     }else if(path === 'buy') {
       url = '/proxy/building/contract/addBuyContract';
-    }else if(path = 'lease') {
+    }else if(path === 'lease') {
       url = '/proxy/building/contract/addLeaseContract';
+    }else if(path === 'property'){
+      url = '/proxy/building/contract/addPropertyContract';
     }
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -45,8 +48,10 @@ export class ContractBuildingService {
       url = '/proxy/building/contract/updateBuildContract';
     }else if(path === 'buy') {
       url = '/proxy/building/contract/updateBuyContract';
-    }else if(path = 'lease') {
+    }else if(path === 'lease') {
       url = '/proxy/building/contract/updateLeaseContract';
+    }else if(path === 'property'){
+      url = '/proxy/building/contract/updatePropertyContract';
     }
     return this.http.post(url,data,this.options)
       .map(res => res.json());

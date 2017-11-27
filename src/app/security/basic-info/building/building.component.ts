@@ -47,7 +47,6 @@ export class BuildingComponent implements OnInit {
           this.valueUpdated();
           tempid++;
         }
-
       });
     this.globalBuilding.valueUpdated.subscribe(
       (val) =>{
@@ -60,7 +59,7 @@ export class BuildingComponent implements OnInit {
   getBuildingInfo(id:number){
     this.infoBuildingService.getBuildingMsg(id)
       .subscribe(data => {
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
           this.building = data.data.buildingInfo;
           this.building.imgList = [];
           if(this.building.imgPath != null){

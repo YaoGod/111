@@ -60,7 +60,7 @@ export class MsgBasicComponent implements OnInit {
   submit(){
     this.infoBuildingService.updateBuilding(this.copyBuilding)
       .subscribe( data => {
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
           confirmFunc.init({
             'title': '提示',
             'mes': data.msg,
@@ -83,7 +83,7 @@ export class MsgBasicComponent implements OnInit {
       xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
           this.copyBuilding.imgPath = data.msg;
           this.copyBuilding.imgList[0] = data.msg;
         }

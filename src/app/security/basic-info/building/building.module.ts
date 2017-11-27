@@ -4,6 +4,7 @@ import { BuildingComponent } from './building.component';
 import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
 import { GlobalBuildingService } from '../../../service/global-building/global-building.service';
+import { EmptyValueModule } from '../../../pipe/rename/rename.module';
 const routes: Routes = [
   {
     path: '',
@@ -51,7 +52,8 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    EmptyValueModule
   ],
   exports: [RouterModule],
   providers:[ GlobalBuildingService ],

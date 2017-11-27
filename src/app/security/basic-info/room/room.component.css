@@ -439,7 +439,7 @@ td>img{
 }
 .btn-info {
   margin-left: 15px;
-  padding: 10px 16px;
+  padding: .3rem 1.2rem;
   border-radius: 4px;
   background: #03a9f3;
   border: 1px solid #03a9f3;
@@ -493,4 +493,9 @@ select{
 .red{
   border: 0.5px solid #d75452;
   border-radius: 5px;
+}
+.div-none{
+  padding: 20px;
+  color: #CCCCCC;
+  text-align: center;
 }

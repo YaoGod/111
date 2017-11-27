@@ -4,12 +4,12 @@
     <a class="btn-edit" href="javascript:;" (click)="initEdit()"><i class="icon-pencil"></i> 编辑</a>
   </div>
   <ul class="form-msg">
-<!--    <li class="form-bar">
+    <li class="form-bar">
       <label>
         <span class="form-title">大楼编号</span>
         <input type="text" name="buildingId" class="ipt"
                [(ngModel)]="copyBuilding.buildingId">
-        <span class="word">{{building.buildingId}}</span>
+        <span class="word">{{building.buildingId | emptyValue:'暂无数据'}}</span>
       </label>
     </li>
     <li class="form-bar">
@@ -17,15 +17,15 @@
         <span class="form-title">大楼名称</span>
         <input type="text" name="name" class="ipt"
                [(ngModel)]="copyBuilding.name">
-        <span class="word">{{building.name}}</span>
+        <span class="word">{{building.name | emptyValue:'暂无数据'}}</span>
       </label>
-    </li>-->
+    </li>
     <li class="form-bar">
       <label>
         <span class="form-title">楼层数</span>
         <input type="text" name="floorNum" class="ipt"
                [(ngModel)]="copyBuilding.floorNum">
-        <span class="word">{{building.floorNum}}</span>
+        <span class="word">{{building.floorNum | emptyValue:'暂无数据'}}</span>
       </label>
     </li>
     <li class="form-bar">
@@ -33,37 +33,37 @@
         <span class="form-title">楼高</span>
         <input type="text" name="height" class="ipt"
                [(ngModel)]="copyBuilding.height">
-        <span class="word">{{building.height}}</span>
+        <span class="word">{{building.height | emptyValue:'暂无数据'}}</span>
       </label>
     </li>
     <li class="form-bar">
     <label>
       <span class="form-title">建筑面积</span>
-      <input type="text" name="area" class="ipt"
+      <input type="text" name="area" class="ipt" disabled
              [(ngModel)]="copyBuilding.area">
-      <span class="word">{{building.area}}</span>
+      <span class="word">{{building.area | emptyValue:'暂无数据'}}</span>
     </label>
     </li>
-    <li class="form-bar" *ngIf="building.belongTo === '自建'">
+    <li class="form-bar" *ngIf="building.type === '自建'">
       <label>
         <span class="form-title">建造单位</span>
-        <input type="text" name="buildDept" class="ipt"
+        <input type="text" name="buildDept" class="ipt" disabled
                [(ngModel)]="copyBuilding.buildDept">
         <span class="word">{{building.buildDept | emptyValue:'暂无数据'}}</span>
       </label>
     </li>
-    <li class="form-bar" *ngIf="building.belongTo === '自建'">
+    <li class="form-bar" *ngIf="building.type === '自建'">
       <label>
         <span class="form-title">建造日期</span>
-        <input type="text" name="buildTime" class="ipt"
+        <input type="text" name="buildTime" class="ipt" disabled
                [(ngModel)]="copyBuilding.buildTime">
         <span class="word">{{building.buildTime | emptyValue:'暂无数据'}}</span>
       </label>
     </li>
-    <li class="form-bar" *ngIf="building.belongTo !== '租赁'">
+    <li class="form-bar" *ngIf="building.type !== '租赁'">
       <label>
         <span class="form-title">交付购买日期</span>
-        <input type="text" name="payTime" class="ipt"
+        <input type="text" name="payTime" class="ipt" disabled
                [(ngModel)]="copyBuilding.payTime" >
         <span class="word">{{building.payTime | emptyValue:'暂无数据'}}</span>
       </label>
@@ -71,7 +71,7 @@
     <li class="form-bar">
       <label>
         <span class="form-title">物业服务单位</span>
-        <input type="text" name="serviceUnit" class="ipt"
+        <input type="text" name="serviceUnit" class="ipt" disabled
                [(ngModel)]="copyBuilding.serviceUnit">
         <span class="word">{{building.serviceUnit | emptyValue:'暂无数据'}}</span>
       </label>
@@ -79,11 +79,11 @@
   </ul>
   <div class="div-text">
     <div class="text-title"><i class="icon-paper-clip"></i><span>大楼简介</span></div>
-    <textarea class="bigText ipt" [(ngModel)]="copyBuilding.summary"></textarea>
+    <textarea class="bigText ipt" [(ngModel)]="copyBuilding.summary "></textarea>
     <div class="summary-text word">
-      <i class="fa fa-quote-left" style="font-size: 18px; color:#e8e8e8;"></i>
-      {{building.summary}}
-      <i class="fa fa-quote-right" style="font-size: 18px; color:#e8e8e8;"></i>
+      <i class="fa fa-quote-left" style="font-size: 18px; color:#e8e8e8;" *ngIf="building.summary"></i>
+      {{building.summary | emptyValue:'暂无数据'}}
+      <i class="fa fa-quote-right" style="font-size: 18px; color:#e8e8e8;" *ngIf="building.summary"></i>
     </div>
   </div>
 

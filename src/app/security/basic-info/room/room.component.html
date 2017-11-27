@@ -131,7 +131,7 @@
                (click)="viewImg(copyRooms[i].imgPath)">
           <img src="../../../../assets/image/icon_img.png" *ngIf="!copyRooms[i].imgPath && copyRooms[i].editStatus">
           <a>上传
-            <input type="file" name="imgPath" class="img-upload" #prese
+            <input type="file" name="imgPath" class="img-upload" #prese [id]="'prese'+i"
                    (change)="prese_upload(prese.files,i)">
           </a>
         </div>
@@ -145,6 +145,9 @@
       </td>
     </tr>
   </table>
+  <div class="div-none" *ngIf="copyRooms.length < 1">
+    <p>暂无信息</p>
+  </div>
 </div>
 <!--翻页-->
 <div class="turn">
@@ -172,7 +175,7 @@
               <img [src]="'/proxy'+newRoom.imgPath" *ngIf="newRoom.imgPath">
             </div>
             <p>点击此处上传房间平面图</p>
-            <input  class="dropify" type="file" #pres
+            <input  class="dropify" type="file" #pres  id="pres"
                     (change)="presepic_upload(pres.files)"
                     (blur)="verifyImgPath(newRoom.imgPath,'newImgPath')">
           </div>
@@ -181,7 +184,7 @@
           <div  class="form-group">
             <label  class="control-label"><span>房间号</span>
               <input class="form-control" id="newRoomNum"
-                     name="floorNum" placeholder="" type="text"
+                     name="roomNum" placeholder="" type="text"
                      [(ngModel)]="newRoom.roomNum"
                      (blur)="verifyEmpty(newRoom.roomNum,'newRoomNum');">
             </label>
@@ -190,7 +193,7 @@
           <div class="form-group">
             <label class="control-label"><span>房间用途</span>
               <select  class="form-control" id="newRoomUse"
-                       name="newFloorUse"
+                       name="roomUse"
                        [(ngModel)]="newRoom.roomUse"
                        (blur)="verifyEmpty(newRoom.roomUse,'newRoomUse');"
                        >
@@ -222,7 +225,7 @@
           <div  class="form-group">
             <label  class="control-label"><span>房间面积</span>
               <input class="form-control" id="newRoomArea"
-                     name="floorNum" placeholder="" type="text"
+                     name="roomArea" placeholder="" type="text"
                      [(ngModel)]="newRoom.roomArea"
                      (blur)="verifyEmpty(newRoom.roomArea,'newRoomArea');">
             </label>
@@ -231,7 +234,7 @@
           <div  class="form-group" *ngIf="newRoom.roomUse == '员工办公室'">
             <label  class="control-label"><span>设计座位数</span>
               <input class="form-control" id="newSeatingNum"
-                     name="floorNum" placeholder="" type="text"
+                     name="seatingNum" placeholder="" type="text"
                      [(ngModel)]="newRoom.seatingNum"
                      (blur)="verifySeatNumber(newRoom.seatingNum,'newSeatingNum');"
               >
@@ -241,7 +244,7 @@
           <div  class="form-group">
             <label  class="control-label"><span>实际用途</span>
               <input class="form-control" id="newRoomUserReal"
-                     name="floorNum" placeholder="" type="text"
+                     name="roomUseReal" placeholder="" type="text"
                      [(ngModel)]="newRoom.roomUseReal"
                      (blur)="verifyEmpty(newRoom.roomUseReal,'newRoomUserReal');verifyMaxLength(newRoom.roomUseReal,'newRoomUserReal',50)"
               >

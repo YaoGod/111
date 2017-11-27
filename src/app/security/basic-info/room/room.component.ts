@@ -59,7 +59,7 @@ export class RoomComponent implements OnInit {
   getFloorInfo(pageNo:number,pageSize:number){
     this.infoBuildingService.getRoomListMsg( this.floor.id, pageNo,pageSize)
       .subscribe(data =>{
-        if(this.errorVoid.errorMsg(data.status)) {
+        if(this.errorVoid.errorMsg(data)) {
           this.rooms = data.data.infos;
           this.copyRooms = JSON.parse(JSON.stringify(this.rooms));
           for( var i = 0;i<this.copyRooms.length;i++){
@@ -128,7 +128,6 @@ export class RoomComponent implements OnInit {
     if(!this.copyRooms[index].editStatus){
       /*进入编辑*/
       this.copyRooms[index].editStatus = true;
-      console.log( this.copyRooms[index]);
     }else{
       /*取消编辑*/
       this.copyRooms[index] = JSON.parse(JSON.stringify(this.rooms[index]));
@@ -148,7 +147,7 @@ export class RoomComponent implements OnInit {
       ){
         this.infoBuildingService.updateRoom(this.copyRooms[index])
           .subscribe(data => {
-            if(this.errorVoid.errorMsg(data.status)){
+            if(this.errorVoid.errorMsg(data)){
               confirmFunc.init({
                 'title': '提示',
                 'mes': data.msg,
@@ -160,6 +159,7 @@ export class RoomComponent implements OnInit {
                     this.copyRooms[index].editStatus = false;
                     this.rooms[index] =JSON.parse(JSON.stringify(this.copyRooms[index]));
                   }
+                  $("#prese"+index).val('');
                 }
               });
             }
@@ -178,7 +178,7 @@ export class RoomComponent implements OnInit {
       "callback": () => {
         this.infoBuildingService.deleteRoom(id)
           .subscribe( data => {
-            if(this.errorVoid.errorMsg(data.status)) {
+            if(this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示',
                 'mes': data.msg,
@@ -201,7 +201,7 @@ export class RoomComponent implements OnInit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
           this.copyRooms[index].imgPath = data.msg;
         }
       }else if(xhr.readyState === 4 && xhr.status === 413 ){
@@ -220,7 +220,7 @@ export class RoomComponent implements OnInit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
           this.newRoom.imgPath = data.msg;
         }
       }
@@ -243,29 +243,38 @@ export class RoomComponent implements OnInit {
   }
   /*提交新楼层信息*/
   submit() {
-    if(this.verifyImgPath(this.newRoom.imgPath, 'newImgPath') &&
+    /*if(this.verifyImgPath(this.newRoom.imgPath, 'newImgPath') &&
       this.verifyEmpty(this.newRoom.roomNum, 'newRoomNum') &&
       this.verifyEmpty(this.newRoom.roomUse, 'newRoomUse') &&
       this.verifyEmpty(this.newRoom.roomArea, 'newRoomArea') &&
       this.verifySeatNumber(this.newRoom.seatingNum, 'newSeatingNum') &&
       this.verifyEmpty(this.newRoom.roomUseReal, 'newRoomUserReal') &&
       this.verifyMaxLength(this.newRoom.roomUseReal, 'newRoomUserReal', 50)
-    ){
+    ){*/
+    if($('.red').length === 0) {
       this.infoBuildingService.addRoom(this.newRoom)
         .subscribe(data => {
-          if (this.errorVoid.errorMsg(data.status)){
+          if (this.errorVoid.errorMsg(data)){
             confirmFunc.init({
               'title': '提示' ,
               'mes': data.msg,
               'popType': 2 ,
               'imgType': 1 ,
               "callback": () => {
+                $('#pres').val('');
                 this.closeNewView();
                 this.initRoom();
               }
             });
           }
         })
+    }else{
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '表单数据填写不完全哦',
+        'popType': 2 ,
+        'imgType': 1 ,
+      });
     }
   }
   verifySeatNumber(value, id) {
