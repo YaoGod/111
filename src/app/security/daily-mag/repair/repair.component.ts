@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Http, RequestOptions, Headers} from '@angular/http';
+import {DomSanitizer} from '@angular/platform-browser';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
 import {InfoBuildingService} from "../../../service/info-building/info-building.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
@@ -18,11 +21,14 @@ export class RepairComponent implements OnInit {
   public record: Array<RepairName>;
   public contractName: ContractName;
   public contract : Array<ContractName>;
-  private pageSize = 10;
+  private pageSize = 5;
   private pageNo = 1;
+  public pages: Array<number>;
   public searchRepair : SearchRecord;
   public searchContract : SearchContract;
   private editBool = true;
+  private beginTime :string;
+  private endTime :string;
   private contractBool = true;
   constructor(
     private http: Http,
@@ -35,6 +41,8 @@ export class RepairComponent implements OnInit {
     this.contractName = new ContractName();
     this.searchRepair = new SearchRecord();
     this.searchContract = new SearchContract();
+    this.beginTime = '';
+    this.endTime = '';
     this.repairname.repairType = '';
     this.contractName.contractType = 'repair';
     this.contractName.fileName = [];
@@ -48,8 +56,8 @@ export class RepairComponent implements OnInit {
       this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
     }
   }
-  /*private initDatePicker () {
-    $('#repairBtime').pickadate({
+  /*setTimePicker() {
+    $('#datepicker').pickadate({
       monthsFull: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
       weekdaysShort: ['日', '一', '二', '三', '四', '五', '六'],
       today: '今天',
@@ -59,16 +67,12 @@ export class RepairComponent implements OnInit {
       format: 'yyyy-mm-dd',
       formatSubmit: 'yyyy-mm-dd',
       max: true,
-      onSet:  ( context => {
-        this.beginTime = $('#repairBtime').val();
-        this.repairname.repairBtime = this.beginTime;
-      }),
+      onSet: ( context => {
+        this.searchContract.contractBtime =  $('#datepicker').val();
+      })
     });
   }*/
-  private getBeginTime() {
-    // this.initDatePicker();
-  }
-  private getEndTime() {}
+
   /*点击新增*/
   repairNew() {
     if($('.repair-header a:last-child').hasClass('active')){
@@ -83,28 +87,53 @@ export class RepairComponent implements OnInit {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
+    search.repairBtime = this.beginTime.replace(/-/g, "/");
+    search.repairEtime = this.endTime.replace(/-/g, "/");
     this.http.post(SOFTWARES_URL, search, options)
       .map(res => res.json())
       .subscribe(data => {
         if (data['status'] === 0) {
           this.record = data['data']['infos'];
+          let total = Math.ceil(data.data.total / this.pageSize);
+          this.initPage(total);
+        }else if (data['status'] === 1) {
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': data['msg'],
+            'popType': 0 ,
+            'imgType': 2 ,
+          });
         }
       });
   }
   /*点击查询*/
   repairSearch() {
-    if($('.repair-header a:last-child').hasClass('active')){
-      console.log('执行合同');
-      this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
+    //console.log(this.endTime==='');
+    //console.log(this.beginTime==='');
+    if(((this.endTime === '' && this.beginTime !== '') || (this.endTime !== '' && this.beginTime === '') || ((this.beginTime !==
+      '' &&  this.endTime !== '') && this.beginTime <= this.endTime)) || (this.beginTime === '' && this.endTime === '')){
+      if($('.repair-header a:last-child').hasClass('active')){
+        console.log('执行合同');
+        this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
+      }else{
+        console.log('执行记录');
+        this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
+      }
     }else{
-      console.log('执行记录');
-      this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '开始时间要大于结束时间',
+        'popType': 0 ,
+        'imgType': 2 ,
+      });
     }
   }
-  /*编辑装修记录*/
+  /*编辑维修记录*/
   editRecord(index) {
     this.editBool = false;
     this.repairname = this.record[index];
+    this.repairname.repairBtime = this.repairname.repairBtime.replace(/\//g, "-");
+    this.repairname.repairEtime = this.repairname.repairEtime.replace(/\//g, "-");
     $('.mask-repair').fadeIn();
   }
   /*删除装修记录*/
@@ -129,12 +158,19 @@ export class RepairComponent implements OnInit {
               });
               this.searchRepair = new SearchRecord();
               this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
+            }else if (data['status'] === 1) {
+              confirmFunc.init({
+                'title': '提示' ,
+                'mes': data['msg'],
+                'popType': 0 ,
+                'imgType': 2 ,
+              });
             }
           });
       }
     });
   }
-  /*新增和编辑界面的取消按钮*/
+  /*记录新增和编辑界面的取消按钮*/
   recordCancel() {
     this.repairname = new RepairName();
     $('.form-control').removeClass('form-error');
@@ -152,12 +188,6 @@ export class RepairComponent implements OnInit {
       return false;
     }
     if (!this.verifyLength('Id', '请输入四位数字')) {
-      return false;
-    }
-    return true;
-  }
-  private verifyName() {
-    if (!this.isEmpty('name', '大楼名称不能为空')) {
       return false;
     }
     return true;
@@ -248,19 +278,32 @@ export class RepairComponent implements OnInit {
   recordSubmit() {
     let SOFTWARES_URL;
     if(this.editBool === false){
+      this.pageNo = 1;
       SOFTWARES_URL = "/proxy/building/repair/updateRepairRecord";
     }else{
       SOFTWARES_URL = "/proxy/building/repair/addRepairRecord";
     }
-    if (!this.verifyId() || !this.verifyName() || !this.verifyRecordId() || !this.verifyRepairType() ||
-      !this.verifyCmccDepartment() || !this.verifyCmccContacts() || !this.verifyCmccPhone() ||
-      !this.verifyRepairDepartment() || !this.verifyRepairContacts() || !this.verifyRepairPhone() ||
-      !this.verifyRepairBtime() || !this.verifyRepairEtime() || !this.verifyRepairCost() || !this.verifyRepairNote()) {
+    if (!this.verifyId() || !this.verifyRecordId() || !this.verifyRepairType() || !this.verifyCmccDepartment() ||
+      !this.verifyCmccContacts() || !this.verifyCmccPhone() || !this.verifyRepairDepartment() || !this.verifyRepairContacts() ||
+      !this.verifyRepairPhone() || !this.verifyRepairBtime() || !this.verifyRepairEtime() || !this.verifyRepairCost() ||
+      !this.verifyRepairNote()) {
+      return false;
+  }
+    if(this.repairname.repairBtime > this.repairname.repairEtime){
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '开始时间要小于结束时间',
+        'popType': 0 ,
+        'imgType': 2 ,
+      });
       return false;
     }
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
+    this.repairname.repairBtime = this.repairname.repairBtime.replace(/-/g, "/");
+    this.repairname.repairEtime = this.repairname.repairEtime.replace(/-/g, "/");
+    //console.log(this.repairname);
     this.http.post(SOFTWARES_URL, this.repairname, options)
       .map(res => res.json())
       .subscribe(data => {
@@ -274,11 +317,23 @@ export class RepairComponent implements OnInit {
           this.searchRepair = new SearchRecord();
           this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
           this.recordCancel();
+        }else if (data['status'] === 1) {
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': data['msg'],
+            'popType': 0 ,
+            'imgType': 2 ,
+          });
+          this.repairname.repairBtime = this.repairname.repairBtime.replace(/\//g, "-");
+          this.repairname.repairEtime = this.repairname.repairEtime.replace(/\//g, "-");
         }
       });
   }
   /*点击大楼维修记录*/
   recordFade(event) {
+    this.beginTime = '';
+    this.endTime = '';
+    this.pageNo = 1;
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
     this.repairSearch();
@@ -289,6 +344,9 @@ export class RepairComponent implements OnInit {
   }
   /*点击大楼维修合同*/
   contractFade(event) {
+    this.beginTime = '';
+    this.endTime = '';
+    this.pageNo = 1;
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
     this.repairSearch();
@@ -302,13 +360,24 @@ export class RepairComponent implements OnInit {
     const SOFTWARES_URL = "/proxy/building/repair/getRepairContract/" + pageNo + "/" + pageSize;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
-    search.contractType = 'repair';
+    //search.contractType = 'repair';
     // JSON.stringify
+    this.searchContract.contractBtime = this.beginTime.replace(/-/g, "/");
+    this.searchContract.contractEtime = this.endTime.replace(/-/g, "/");
     this.http.post(SOFTWARES_URL, search, options)
       .map(res => res.json())
       .subscribe(data => {
         if (data['status'] === 0) {
           this.contract = data['data']['infos'];
+          let total = Math.ceil(data.data.total / this.pageSize);
+          this.initPage(total);
+        }else if (data['status'] === 1) {
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': data['msg'],
+            'popType': 0 ,
+            'imgType': 2 ,
+          });
         }
       });
   }
@@ -316,6 +385,8 @@ export class RepairComponent implements OnInit {
   editContract(index){
     this.contractBool = false;
     this.contractName = this.contract[index];
+    this.contractName.contractBtime = this.contractName.contractBtime.replace(/\//g, "-");
+    this.contractName.contractEtime = this.contractName.contractEtime.replace(/\//g, "-");
     $('.mask-contract').fadeIn();
   }
   /* 删除维修合同*/
@@ -340,6 +411,14 @@ export class RepairComponent implements OnInit {
               });
               this.searchContract = new SearchContract();
               this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
+            }
+            else if (data['status'] === 1) {
+              confirmFunc.init({
+                'title': '提示' ,
+                'mes': data['msg'],
+                'popType': 0 ,
+                'imgType': 2 ,
+              });
             }
           });
       }
@@ -381,12 +460,6 @@ export class RepairComponent implements OnInit {
       return false;
     }
     if (!this.verifyLength('contractId', '请输入四位数字')) {
-      return false;
-    }
-    return true;
-  }
-  private verifyContractName() {
-    if (!this.isEmpty('contractName', '大楼名称不能为空')) {
       return false;
     }
     return true;
@@ -454,11 +527,30 @@ export class RepairComponent implements OnInit {
     }else{
       SOFTWARES_URL = "/proxy/building/repair/addRepairContract";
     }
-    if (!this.verifyContractId() || !this.verifyContractName() || !this.verifyCmccName() || !this.verifycontractcmccContacts()
-      || !this.verifycontractcmccPhone() || !this.verifycontractname2() || !this.verifycontacts() || !this.verifyphone()
-      || !this.verifycontractBtime() || !this.verifycontractEtime() || this.contractName.filePath.length<1) {
+    if (!this.verifyContractId() || !this.verifyCmccName() || !this.verifycontractcmccContacts() || !this.verifycontractcmccPhone() || !this.verifycontractname2() || !this.verifycontacts() || !this.verifyphone() || !this.verifycontractBtime() || !this.verifycontractEtime()) {
       return false;
     }
+    if(this.contractName.contractBtime > this.contractName.contractEtime){
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '开始时间要小于结束时间',
+        'popType': 0 ,
+        'imgType': 2 ,
+      });
+      return false;
+    }
+    if(this.contractName.filePath.length<1){
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '请补全合同信息',
+        'popType': 0 ,
+        'imgType': 2 ,
+      });
+      return false;
+    }
+//console.log(this.contractName);
+    this.contractName.contractBtime = this.contractName.contractBtime.replace(/-/g, "/");
+    this.contractName.contractEtime = this.contractName.contractEtime.replace(/-/g, "/");
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
@@ -475,10 +567,19 @@ export class RepairComponent implements OnInit {
           this.searchContract = new SearchContract();
           this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
           this.contractCancel();
+        }else if (data['status'] === 1) {
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': data['msg'],
+            'popType': 0 ,
+            'imgType': 2 ,
+          });
+          this.contractName.contractBtime = this.contractName.contractBtime.replace(/\//g, "-");
+          this.contractName.contractEtime = this.contractName.contractEtime.replace(/\//g, "-");
         }
       });
   }
-  /*新增/编辑的取消按钮*/
+  /*合同新增/编辑的取消按钮*/
   contractCancel(){
       this.contractName = new ContractName();
       $('.form-control').removeClass('form-error');
@@ -486,6 +587,41 @@ export class RepairComponent implements OnInit {
       this.contractName.fileName = [];
       this.contractName.filePath = [];
       $('.mask-contract').hide();
+  }
+  /*页码初始化*/
+  initPage(total){
+    this.pages = new Array(total);
+    for(let i = 0;i< total ;i++){
+      this.pages[i] = i+1;
+    }
+  }
+  /*页面显示区间5页*/
+  pageLimit(page:number){
+    if(this.pages.length < 5){
+      return false;
+    }
+    else if(this.pageNo < 5){
+      return true;
+    }
+    else if(page<=5 && this.pageNo <= 3){
+      return false;
+    }
+    else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
+      return false;
+    }
+    else if (page<=this.pageNo+2 && page>=this.pageNo-2){
+      return false;
+    }
+    return true;
+  }
+  /*跳页加载数据*/
+  goPage(page:number){
+    this.pageNo = page;
+    if($('.repair-header a:last-child').hasClass('active')){
+      this.getRecordSecond(this.searchRepair, this.pageNo, this.pageSize);
+    }else{
+      this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
+    }
   }
   /**非空校验*/
   private isEmpty(id: string, error: string): boolean  {
@@ -503,8 +639,8 @@ export class RepairComponent implements OnInit {
    * @return
    */
   private verifyIsTel(id: string, error?: string): boolean {
-    const data =  $('#' + id).val();
-    if (!String(data).match(/^1(3[4-9]|5[0-2]|8[0-3,78])\d{8}$/))  {
+    const data =  $('#' + id).val();/*/^1(3[4-9]|5[0-2]|8[0-3,78])\d{8}$/ 移动号段*/
+    if (!String(data).match( /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/ ))  {
       this.addErrorClass(id, '请填写正确手机号');
       return false;
     }else {
@@ -603,6 +739,7 @@ export class ContractName {
   id: number; // 本条信息ID
   buildingId: string;
   buildingName: string;
+  contractId: string; //合同编号
   cmccName: string; // 甲方（各级移动公司）
   cmccContacts: string; // 甲方联系人
   cmccPhone: string; // 甲方联系人电话

@@ -39,7 +39,7 @@ confirmFunc={
 			'<div class="cpAlert">'+
 			'<div class="cpAlertHeader">'+
 			'<h1>'+data.title+'</h1>'+
-			'<a class="closeFnDiv">X</a>'+
+			'<a class="closeFnDiv">×</a>'+
 			'</div>'+
 			'<div class="cpAlertContent">'+
 			'<img src="'+this.img+'">'+

@@ -24,19 +24,19 @@
         <ul class="record-search clearfix">
           <li>
             <label>大楼编号</label>
-            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchRepair.buildingId">
+            <input type="text" name="buildingId" class="search-ipt" [(ngModel)]="searchRepair.buildingId">
           </li>
           <li >
             <label >大楼名称</label>
-            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchRepair.buildingName">
+            <input type="text" name="buildingName" class="search-ipt" [(ngModel)]="searchRepair.buildingName">
           </li>
           <li >
             <label >开始时间</label>
-            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchRepair.decorateBtime">
+            <input type="date" class="search-ipt" name="decorateBtime" [(ngModel)]="beginTime" >
           </li>
           <li>
             <label>结束时间</label>
-            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchRepair.decorateEtime">
+            <input type="date" class="search-ipt" name="decorateEtime" [(ngModel)]="endTime">
           </li>
         </ul>
       </div>
@@ -44,19 +44,19 @@
         <ul class="contract-search clearfix">
           <li>
             <label>大楼编号</label>
-            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchContract.buildingId">
+            <input type="text" name="buildingId" class="search-ipt" [(ngModel)]="searchContract.buildingId">
           </li>
           <li >
             <label >大楼名称</label>
-            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchContract.buildingName">
+            <input type="text" name="buildingName" class="search-ipt" [(ngModel)]="searchContract.buildingName">
           </li>
           <li >
             <label >开始时间</label>
-            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchContract.contractBtime">
+            <input type="date" name="contractBtime" class="search-ipt" [(ngModel)]="beginTime">
           </li>
           <li>
             <label>结束时间</label>
-            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchContract.contractEtime">
+            <input type="date" name="contractEtime" class="search-ipt" [(ngModel)]="endTime">
           </li>
         </ul>
       </div>
@@ -67,7 +67,7 @@
       </div>
     </div>
     <!--维修记录-->
-    <div class="repair-container repair-record">
+    <div class="repair-container repair-record clearfix">
       <ul class="form-msg clearfix" *ngFor="let inner of record; let i=index">
         <li class="form-bar">
             <span class="form-title">大楼编号</span>
@@ -130,7 +130,7 @@
       </ul>
     </div>
     <!--维修合同-->
-    <div class="repair-container repair-contract">
+    <div class="repair-container repair-contract clearfix">
       <ul class="form-msg clearfix" *ngFor="let ctct of contract; let i=index">
         <li class="form-bar">
           <span class="form-title">大楼编号</span>
@@ -139,6 +139,10 @@
         <li class="form-bar">
           <span class="form-title">大楼名称</span>
           <span class="word">{{ctct.buildingName}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">合同编号</span>
+          <span class="word">{{ctct.contractId}}</span>
         </li>
         <li class="form-bar">
           <span class="form-title">甲方</span>
@@ -184,6 +188,16 @@
         <li class="form-btn form-btn2" (click)="delContract(i)">删&nbsp;&nbsp;除</li>
       </ul>
     </div>
+    <div class="turn">
+      <ul>
+        <li *ngFor="let i of pages"
+            [hidden] = "pageLimit(i)"
+            [ngClass]="{'active':i === pageNo}"
+            (click)="goPage(i);">
+          {{i}}
+        </li>
+      </ul>
+    </div>
   </div>
   <!--<div id="gaodemap-container" class="gaodemap-container" tabindex="0" style="widht:500px;height:400px;"></div>-->
 </div>
@@ -196,13 +210,6 @@
           <span class="form-label">大楼编号</span>
           <div class="form-inp">
             <input type="text" id="Id" name="Id" [(ngModel)]="repairname.buildingId" (blur)="verifyId()" required minlength="4" maxlength="4" placeholder="请输入四位数字">
-            <span class="errorMessage"></span>
-          </div>
-        </div>
-        <div class="form-control">
-          <span class="form-label">大楼名称</span>
-          <div class="form-inp">
-            <input type="text" id="name" name="name" [(ngModel)]="repairname.buildingName" (blur)="verifyName()" required minlength="4" maxlength="10" placeholder="请输入大楼名称">
             <span class="errorMessage"></span>
           </div>
         </div>
@@ -271,14 +278,14 @@
         <div class="form-control">
           <span class="form-label">维修开始时间</span>
           <div class="form-inp">
-            <input id="repairBtime" name="repairBtime" [(ngModel)]="repairname.repairBtime" (blur)="verifyRepairBtime()" type="text">
+            <input id="repairBtime" name="repairBtime" [(ngModel)]="repairname.repairBtime" (blur)="verifyRepairBtime()" type="date">
             <span class="errorMessage"></span>
           </div>
         </div>
         <div class="form-control">
           <span class="form-label">维修结束时间</span>
           <div class="form-inp">
-            <input id="repairEtime" name="repairEtime" [(ngModel)]="repairname.repairEtime" (blur)="verifyRepairEtime()" type="text">
+            <input id="repairEtime" name="repairEtime" [(ngModel)]="repairname.repairEtime" (blur)="verifyRepairEtime()" type="date">
             <span class="errorMessage"></span>
           </div>
         </div>
@@ -291,7 +298,7 @@
         </div>
       </div>
 
-      <div class="form-control form-right" style="margin-top:25px">
+      <div class="form-control form-right" style="margin-top:42px">
         <span class="form-label">维修详细内容</span>
         <div class="form-inp">
           <textarea id="repairNote" name="repairNote" [(ngModel)]="repairname.repairNote" (blur)="verifyRepairNote()"></textarea>
@@ -300,7 +307,7 @@
       </div>
       <button value="确定" class="btn btn-determine" (click)="recordSubmit()">确定</button><button class="btn btn-cancel" value="取消" (click)="recordCancel()">取消</button>
     </form>
-    <div class="close" (click)="recordCancel()">X</div>
+    <div class="close" (click)="recordCancel()">×</div>
   </div>
 </div>
 <!--新增合同弹窗-->
@@ -315,10 +322,11 @@
             <span class="errorMessage"></span>
           </div>
         </div>
+
         <div class="form-control">
-          <span class="form-label">大楼名称</span>
+          <span class="form-label">合同编号</span>
           <div class="form-inp">
-            <input type="text" id="contractName" name="contractName" [(ngModel)]="contractName.buildingName" (blur)="verifyContractName()" required placeholder="请输入大楼名称">
+            <input type="text" id="contractNum" name="contractNum" [(ngModel)]="contractName.contractId" (blur)="verifyContractName()" required placeholder="请输入大楼名称">
             <span class="errorMessage"></span>
           </div>
         </div>
@@ -376,21 +384,21 @@
         <div class="form-control">
           <span class="form-label">合同开始时间</span>
           <div class="form-inp">
-            <input id="contractBtime" name="contractBtime" [(ngModel)]="contractName.contractBtime" (blur)="verifycontractBtime()" type="text">
+            <input id="contractBtime" name="contractBtime" [(ngModel)]="contractName.contractBtime" (blur)="verifycontractBtime()" type="date">
             <span class="errorMessage"></span>
           </div>
         </div>
         <div class="form-control">
           <span class="form-label">合同结束时间</span>
           <div class="form-inp">
-            <input id="contractEtime" name="contractEtime" [(ngModel)]="contractName.contractEtime" (blur)="verifycontractEtime()" type="text">
+            <input id="contractEtime" name="contractEtime" [(ngModel)]="contractName.contractEtime" (blur)="verifycontractEtime()" type="date">
             <span class="errorMessage"></span>
           </div>
         </div>
         <div class="form-control">
           <span class="form-label">服务合同</span>
           <ul style="height:100px; min-width:160px; line-height: 20px; overflow-y: auto; background: #f6f6f6; float: left; color:#666; border-radius:4px;">
-            <li style="max-width: 160px;" *ngFor="let abc of contractName.fileName; let k=index">{{abc}}<a style="margin-left:6px; color:#ff0000" href="javascript:;" (click)="delFile(k)">X</a> </li>
+            <li style="max-width: 160px;" *ngFor="let abc of contractName.fileName; let k=index">{{abc}}<a style="margin-left:6px; color:#ff0000" href="javascript:;" (click)="delFile(k)">×</a> </li>
           </ul>
           <div class="form-inp" style="margin-left:130px; margin-top:10px;">
             <a href="javascript:;" style="color:#666; border-radius:4px; padding:5px 10px; background: #f6f6f6;" onclick="$('#prese').trigger('click')">上 传</a>
@@ -402,7 +410,7 @@
       </div>
       <button value="确定" class="btn btn-determine" (click)="contractSubmit()">确定</button><button class="btn btn-cancel" value="取消" (click)="contractCancel()">取消</button>
     </form>
-    <div class="close" (click)="contractCancel()">X</div>
+    <div class="close" (click)="contractCancel()">×</div>
   </div>
 </div>
 
