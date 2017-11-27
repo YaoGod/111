@@ -21,7 +21,7 @@
         <h3 class="user-name">用户名&nbsp;&nbsp;</h3>
         <div class="user-onner">
           <ul class="user-menu animated flipInY">
-            <li style="border-bottom:1px solid #CCCCCC"><a class="J_menuItem">密码修改</a></li>
+            <li style="border-bottom:1px solid #CCCCCC"><a class="J_menuItem" (click)="rePassword()">密码修改</a></li>
             <li><a class="J_menuItem" (click)="loginOut()">注销登录</a></li>
           </ul>
         </div>
@@ -42,5 +42,67 @@
   </div>
   <div class="nav-right">
     <router-outlet></router-outlet>
+  </div>
+</div>
+
+
+<!--修改密码-->
+<div class="maskword" id="viewPassword" style="display: none;">
+  <div  class="modal-content">
+    <div  class="modal-header">
+      <h4 class="modal-title"><i class="icon-home"></i>修改密码</h4>
+      <button class="modal-close" type="button" (click)="closeNewView()">×</button>
+    </div>
+    <form  class="form-building form-material ng-untouched ng-pristine ng-valid" novalidate="">
+      <div  class="modal-body clearfix">
+        <div   class="modal-right">
+         <!-- <div  class="form-group">
+            <label  class="control-label"><span>用户名</span>
+              <input class="form-control" id="userName"
+                     name="userName" placeholder="" type="text"
+                     [(ngModel)]="user.username">
+            </label>
+            <div class="error"></div>
+          </div>-->
+          <div  class="form-group">
+            <label  class="control-label"><span>验证码</span>
+              <input class="form-control" id="msg"
+                     name="msg" placeholder="" type="text"
+                     [(ngModel)]="code"
+                     (blur)="isEmpty('msg','请输入验证码')"
+              >
+              <a (click)="sendCode()">发送验证码</a>
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label"><span>新密码</span>
+              <input class="form-control" id="password"
+                     name="password" placeholder="" type="password"
+                     [(ngModel)]="user.password"
+                     (blur)="verifyPassword('password')"
+              >
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label"><span>确认密码</span>
+              <input class="form-control" id="sndpassword"
+                     name="password" placeholder="" type="password"
+                     [(ngModel)]="password"
+                     (blur)="verifyPassword('sndpassword')"
+              >
+            </label>
+            <div class="error"></div>
+          </div>
+        </div>
+      </div>
+      <div  class="modal-footer">
+        <button  class="btn btn-danger" type="button"
+                 (click)="closeNewView()">取 消</button>
+        <button  class="btn btn-info" type="submit"
+                 (click)="submit()">保 存</button>
+      </div>
+    </form>
   </div>
 </div>

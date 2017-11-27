@@ -59,12 +59,11 @@ export class InfoBuildingService {
   }
   /*
    获取指定楼层信息
-   param: id:number,     #大楼ID
-   param: num:number,    #楼层号
+   param: id:number,     #楼层ID
    return:   #大楼基础信息实体类
    */
-  getFloorMsg (id:number,num: string) {
-    const url = '/proxy/building/info/getFloorInfo/'+id+'/'+num;
+  getFloorMsg (id:number) {
+    const url = '/proxy/building/info/getFloorInfo/'+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }

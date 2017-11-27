@@ -18,6 +18,11 @@ const routes: Routes = [
       {
         path:'detail/:id',
         loadChildren:'./building/building.module#BuildingModule'
+      },
+      {
+        path: 'detail/:id/room/:id',
+        canActivate: [RouteGuardService],
+        loadChildren: './room/room.module#RoomModule'
       }
     ]
   }

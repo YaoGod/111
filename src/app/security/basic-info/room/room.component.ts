@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { GlobalBuildingService } from '../../../service/global-building/global-building.service';
 import { Router,ActivatedRoute } from '@angular/router';
 import { InfoBuildingService } from '../../../service/info-building/info-building.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
@@ -17,12 +16,10 @@ declare var $:any;
   providers:[InfoBuildingService,UtilBuildingService,Building,Floor,Room]
 })
 export class RoomComponent implements OnInit {
-
-  public building     : Building;       /*大楼信息*/
   public floor        : Floor =  new Floor();
   public rooms        : Array<Room>;
   private pageNo      : number = 1;
-  private pageSize    : number = 5;
+  private pageSize    : number = 6;
   public pages        : Array<number>;
   public isViewImg    : boolean = true;
   public imgWidth     : number = 500;
@@ -30,8 +27,8 @@ export class RoomComponent implements OnInit {
   public imgSrcView   : string;
   public newRoom     : Room = new Room();
   public isOpenNewView: boolean =false;
+  public title        : string = "新增";
   constructor(
-    private globalBuilding:GlobalBuildingService,
     private router: Router,
     private route:ActivatedRoute,
     private infoBuildingService:InfoBuildingService,
@@ -39,24 +36,33 @@ export class RoomComponent implements OnInit {
     private errorVoid:ErrorResponseService
 
   ) {
-    this.building = globalBuilding.getVal();
   }
   ngOnInit() {
     this.route.params.subscribe(data => {
       this.floor.id = data.id;
+      this.getFloor(this.floor.id);
       this.initRoom();
     });
 
   }
-  initRoom(){
+  /*获取指定大楼信息*/
+  getFloor(id) {
+    this.infoBuildingService.getFloorMsg(id)
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data)) {
+          this.floor = data.data;
+        }
+      })
+  }
+  initRoom() {
     this.pageNo = 1;
     this.rooms = new Array<Room>();
     this.copyRooms =[];
     this.pages = [];
-    this.getFloorInfo(this.pageNo,this.pageSize);
+    this.getRoomInfo(this.pageNo,this.pageSize);
   }
   /*获取楼层信息*/
-  getFloorInfo(pageNo:number,pageSize:number){
+  getRoomInfo(pageNo:number,pageSize:number){
     this.infoBuildingService.getRoomListMsg( this.floor.id, pageNo,pageSize)
       .subscribe(data =>{
         if(this.errorVoid.errorMsg(data)) {
@@ -79,16 +85,13 @@ export class RoomComponent implements OnInit {
   }
   /*页面显示区间5页*/
   pageLimit(page:number){
-    if(this.pageNo<5){
-      return true;
-    }
-    else if(page<=5 && this.pageNo <= 3){
+    if(this.pages.length < 5){
       return false;
-    }
-    else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
+    } else if(page<=5 && this.pageNo <= 3){
       return false;
-    }
-    else if (page<=this.pageNo+2 && page>=this.pageNo-2){
+    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
+      return false;
+    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
       return false;
     }
     return true;
@@ -96,12 +99,7 @@ export class RoomComponent implements OnInit {
   /*跳页加载数据*/
   goPage(page:number){
     this.pageNo = page;
-    this.getFloorInfo(this.pageNo,this.pageSize);
-  }
-  /*查看大楼房间信息*/
-  goToRoom(id){
-    var url = this.router.url.replace('floor','room');
-    this.router.navigate([url,id]);
+    this.getRoomInfo(this.pageNo,this.pageSize);
   }
   /*查看图片*/
   viewImg(url:string){
@@ -125,26 +123,21 @@ export class RoomComponent implements OnInit {
   }
   /*初始化编辑*/
   initEdit(index: number){
-    if(!this.copyRooms[index].editStatus){
-      /*进入编辑*/
+    this.addNewRoom();
+    this.title = "编辑";
+    this.newRoom = this.copyRooms[index];
+    /*if(!this.copyRooms[index].editStatus){
+      /!*进入编辑*!/
       this.copyRooms[index].editStatus = true;
     }else{
-      /*取消编辑*/
+      /!*取消编辑*!/
       this.copyRooms[index] = JSON.parse(JSON.stringify(this.rooms[index]));
       this.copyRooms[index].editStatus = false;
-    }
+    }*/
+
   }
   /*保存*/
-  save(index:number){
-    if(this.copyRooms[index].editStatus){
-      if(this.verifyImgPath(this.copyRooms[index].imgPath,'imgView') &&
-        this.verifyEmpty(this.copyRooms[index].roomNum, 'roomNum') &&
-        this.verifyEmpty(this.copyRooms[index].roomUse, 'roomUse') &&
-        this.verifyEmpty(this.copyRooms[index].roomArea, 'roomArea') &&
-        this.verifySeatNumber(this.copyRooms[index].seatingNum, 'seatingNum') &&
-        this.verifyEmpty(this.copyRooms[index].roomUseReal, 'roomUseReal') &&
-        this.verifyMaxLength(this.copyRooms[index].roomUseReal, 'roomUseReal', 50)
-      ){
+  /*save(){
         this.infoBuildingService.updateRoom(this.copyRooms[index])
           .subscribe(data => {
             if(this.errorVoid.errorMsg(data)){
@@ -164,10 +157,7 @@ export class RoomComponent implements OnInit {
               });
             }
           })
-      }
-
-    }
-  }
+  }*/
   /*删除信息*/
   delRoom(id) {
     confirmFunc.init({
@@ -228,6 +218,7 @@ export class RoomComponent implements OnInit {
   }
   /*添加新房间窗口弹出*/
   addNewRoom(){
+    this.title = "新建";
     this.newRoom = new Room();
     this.newRoom.floorId = this.floor.id;
     this.isOpenNewView = true;
@@ -237,43 +228,66 @@ export class RoomComponent implements OnInit {
   closeNewView(){
     this.isOpenNewView = false;
     $('.form-control').removeClass('red');
+    $('#newImgPath').removeClass('red');
     $('.error').fadeOut();
     $('.mask').css('display', 'none');
     this.newRoom = new Room();
+    this.copyRooms = JSON.parse(JSON.stringify(this.rooms));
   }
   /*提交新楼层信息*/
   submit() {
-    /*if(this.verifyImgPath(this.newRoom.imgPath, 'newImgPath') &&
-      this.verifyEmpty(this.newRoom.roomNum, 'newRoomNum') &&
-      this.verifyEmpty(this.newRoom.roomUse, 'newRoomUse') &&
-      this.verifyEmpty(this.newRoom.roomArea, 'newRoomArea') &&
-      this.verifySeatNumber(this.newRoom.seatingNum, 'newSeatingNum') &&
-      this.verifyEmpty(this.newRoom.roomUseReal, 'newRoomUserReal') &&
-      this.verifyMaxLength(this.newRoom.roomUseReal, 'newRoomUserReal', 50)
-    ){*/
+    this.verifyImgPath(this.newRoom.imgPath, 'newImgPath');
+    this.verifyEmpty(this.newRoom.roomNum, 'newRoomNum');
+    this.verifyEmpty(this.newRoom.roomUse, 'newRoomUse') ;
+    this.verifyEmpty(this.newRoom.roomArea, 'newRoomArea') ;
+    this.verifySeatNumber(this.newRoom.seatingNum, 'newSeatingNum') ;
+    this.verifyEmpty(this.newRoom.roomUseReal, 'newRoomUserReal');
+    this.verifyMaxLength(this.newRoom.roomUseReal, 'newRoomUserReal', 50);
+
     if($('.red').length === 0) {
-      this.infoBuildingService.addRoom(this.newRoom)
-        .subscribe(data => {
-          if (this.errorVoid.errorMsg(data)){
-            confirmFunc.init({
-              'title': '提示' ,
-              'mes': data.msg,
-              'popType': 2 ,
-              'imgType': 1 ,
-              "callback": () => {
-                $('#pres').val('');
-                this.closeNewView();
-                this.initRoom();
-              }
-            });
-          }
-        })
+      if(typeof(this.newRoom.id) === "undefined" || this.newRoom.id === null){
+        this.infoBuildingService.addRoom(this.newRoom)
+          .subscribe(data => {
+            if (this.errorVoid.errorMsg(data)){
+              confirmFunc.init({
+                'title': '提示' ,
+                'mes': data.msg,
+                'popType': 2 ,
+                'imgType': 1 ,
+                "callback": () => {
+                  $('#pres').val('');
+                  this.closeNewView();
+                  this.initRoom();
+                }
+              });
+            }
+          })
+      }else{
+        this.infoBuildingService.updateRoom(this.newRoom)
+          .subscribe(data => {
+            if(this.errorVoid.errorMsg(data)){
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data.msg,
+                'popType': 2,
+                'imgType': 1,
+                "callback": () => {
+                  if(data.msg = '更新成功'){
+                    $('#pres').val('');
+                    this.closeNewView();
+                    this.initRoom();
+                  }
+                }
+              });
+            }
+          })
+      }
     }else{
       confirmFunc.init({
         'title': '提示' ,
         'mes': '表单数据填写不完全哦',
-        'popType': 2 ,
-        'imgType': 1 ,
+        'popType': 0 ,
+        'imgType': 2 ,
       });
     }
   }
@@ -307,7 +321,6 @@ export class RoomComponent implements OnInit {
     }
   }
   verifyMaxLength( value, id, len){
-    console.log(value.length);
     if(typeof (value) === "undefined" ||
       value === null ||
       value === ''){

@@ -1,10 +1,19 @@
-<div>大楼管理/大楼物业档案管理</div>
-<!--大楼列表展示-->
-<ul>
-  <li>
-    <a routerLink="file">物业档案管理</a>
-  </li>
-  <li>
-    <a routerLink="account">物业档案台账管理</a>
-  </li>
-</ul>
+<div class="main">
+  <!--标题栏-->
+  <div class="header">
+    <img src="../../../assets/image/icon_3line.png">
+    <h2>大楼管理/大楼物业档案管理</h2>
+    <div class="header-right">
+      <a class="waves-effect waves-light" (click)="loginOut()">
+        <span class="hidden-xs">退出&nbsp;&nbsp;<i class="icon-close"></i></span> </a>
+    </div>
+    <div class="header-right">
+      <img src="../../../assets/image/icon_wheel.png">
+    </div>
+    <div class="header-right">
+      <img src="../../../assets/image/icon_email.png">
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>
+<global-footer></global-footer>

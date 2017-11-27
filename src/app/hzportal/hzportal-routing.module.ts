@@ -24,7 +24,9 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: HomepageComponent,
+        redirectTo: 'security',
+        pathMatch: 'full'
+       /* component: HomepageComponent,*/
       },
       {
         path: 'security',

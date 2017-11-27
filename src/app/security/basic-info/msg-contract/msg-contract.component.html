@@ -2,11 +2,13 @@
   <!--搜索栏-->
   <div class="search-bar" [hidden]="building.type != 'lease' && building.type != 'property'">
     <ul>
-      <li>
-        <input class="tab active" type="button" value="当前合同" (click)="getContract();">
+      <li [class]="watchType?'active':''">
+        <input class="tab" type="button"
+               value="当前合同" (click)="getContract();">
       </li>
-      <li>
-        <input class="tab" type="button" value="历史合同" (click)="getContractList();">
+      <li [class]="watchType?'':'active'">
+        <input class="tab" type="button" value="历史合同"
+               (click)="getContractList();">
       </li>
       <!--<li>
         <label>
@@ -198,6 +200,16 @@
         <span>{{contract.contractStatus}}</span>
       </label>
     </li>
+    <li class="file-list">
+      <div class="text-title"><i class="icon-puzzle"></i><span>合同附件</span>
+      </div>
+      <p class="file-msg" *ngFor="let filename of contract.fileName;index">
+        {{filename}}
+        <a (click)="openFile(contract.filePath);">
+          <i class="icon-cloud-download"></i>下载
+        </a>
+      </p>
+    </li>
   </ul>
     <div style="clear:both"></div>
   </div>
@@ -231,7 +243,7 @@
     <form  class="form-building form-material ng-untouched ng-pristine ng-valid" novalidate="">
       <div  class="modal-body clearfix">
         <div class="dropify-edit">
-          <a><i class="icon-share"></i>上传附件
+          <a><i class="icon-cloud-upload"></i>上传附件
             <input  class="dropify" type="file" #pres id="fileUpload"
                     (change)="prese_upload(pres.files)"></a>
         </div>

@@ -5,5 +5,6 @@ export class User {
   /*登陆用户*/
   id       : number;
   name     : string;
+  username : string;
   password : string;
 }

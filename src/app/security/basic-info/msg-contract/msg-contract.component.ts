@@ -33,6 +33,7 @@ export class MsgContractComponent implements OnInit {
      2：无合同，多合同；
      3：有一份合同，多合同；
      }*/
+  public watchType : boolean = true;
   public title = "";
   constructor(
     private infoBuildingService:InfoBuildingService,
@@ -69,6 +70,7 @@ export class MsgContractComponent implements OnInit {
 
   }
   getContract(){
+    this.watchType = true;
     this.contractBuildingService.getContractInfo(this.building.id, this.building.type)
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)){
@@ -87,6 +89,7 @@ export class MsgContractComponent implements OnInit {
   }
   /*获取历史合同*/
   getContractList(){
+    this.watchType = false;
     this.pageStatus = 2;
     this.contractBuildingService.getContractList(
       Number(this.router.url.split('/')[5]),this.building.type,this.pageNo,this.pageSize)
@@ -312,5 +315,8 @@ export class MsgContractComponent implements OnInit {
   goPage(page:number){
     this.pageNo = page;
     this.getContractList();
+  }
+  openFile(url) {
+    window.location.href = "proxy"+ url;
   }
 }

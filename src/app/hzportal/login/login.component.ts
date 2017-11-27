@@ -3,50 +3,50 @@ import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
 import { User } from "../../mode/user/user.service";
 import { UserPortalService } from '../../service/user-portal/user-portal.service';
+import { ErrorResponseService } from '../../service/error-response/error-response.service';
+import { GlobalUserService } from '../../service/global-user/global-user.service';
 import * as $ from 'jquery';
+declare var confirmFunc: any;
 declare var $: any;
 @Component({
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers: [ UserPortalService ]
+  providers: [ UserPortalService,]
 })
 export class LoginComponent implements OnInit {
+  public user: User;
   constructor(
     private router: Router,
-    private userPortal: UserPortalService
+    private errorResponse:ErrorResponseService,
+    private userPortal: UserPortalService,
+    private globalUserService:GlobalUserService,
   ) {
   }
-  public user: User;
   ngOnInit() {
-    this.user = {
-      id: 1,
-      name: '',
-      password: ''
-    };
+    this.user = new User();
   }
   /*登陆*/
-  loginIn(){
-    let data = {
+  loginIn() {
+    let user = {
       username: this.user.name,
       password: this.user.password
     };
     if(this.verifyUserName('userName') && this.verifyPassword('password')){
-      console.log(data)
-      this.userPortal.portalLogin(data)
-        .subscribe(data =>{
-          if(data['status'] === 0){
-            if(data.data.result === 'illegal'){
+      this.userPortal.portalLogin(user)
+        .subscribe(data => {
+          if(this.errorResponse.errorMsg(data)) {
+            if(data.data.result === 'illegal') {
               this.addErrorClass('password','密码错误');
             }else {
+              this.globalUserService.setVal(data.data.userInfo);
               sessionStorage.setItem("isLoginIn","Login");
+              sessionStorage.setItem("username",data.data.userInfo.username);
               this.router.navigate(['/hzportal/']);
             }
-          }else{
+          }else {
             console.log(data);
           }
         });
-    }else{
-
     }
   }
 
@@ -127,5 +127,25 @@ export class LoginComponent implements OnInit {
   private  removeErrorClass(id: string) {
     $('#' + id).parents('.input').removeClass('red');
     $('#' + id).parents('.input').siblings('.error').fadeOut();
+  }
+  findPassword() {
+    if(typeof(this.user.name) === "undefined" ||
+      this.user.name === null ||
+      this.user.name === '') {
+      $('#userName').focus();
+      this.addErrorClass("userName","请先输入您要找回的用户名称。")
+    }else {
+      this.userPortal.getNewPassword(this.user.name)
+        .subscribe(data =>{
+          if(this.errorResponse.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': data.msg,
+              'popType': 2 ,
+              'imgType': 1 ,
+            });
+          }
+        })
+    }
   }
 }

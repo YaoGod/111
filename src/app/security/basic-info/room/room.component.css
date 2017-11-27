@@ -262,10 +262,21 @@ td>img{
 }
 .box-plus{
   height: 45px;
-  padding: 0 10px;
+  padding: 20px 35px;
+}
+.box-plus>h3{
+  width: 50%;
+  display: inline-block;
+  line-height: 30px;
+  font-size: 21px;
+  color: #2b2b2b;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
+  margin: 10px 0;
+  font-weight: 300;
 }
 .box-plus>a{
   position: relative;
+  float: right;
   top: 10px;
 }
 .disable{
@@ -498,4 +509,112 @@ select{
   padding: 20px;
   color: #CCCCCC;
   text-align: center;
+}
+.room-list{
+  min-height: 680px;
+  padding: 0 35px;
+}
+.room-card{
+  float: left;
+  width: 50%;
+  height: auto;
+  margin-bottom: 15px;
+}
+.room-card>h5{
+  position: relative;
+  top: 12px;
+  float: left;
+  display: block;
+  padding: 0 20px;
+  min-width: 100px;
+  max-width: 33.333333%;
+  height: 30px;
+  line-height: 30px;
+  clear: left;
+  text-align: center;
+  color: #fff;
+  background: #ab8ce4;
+}
+.card-border{
+  height: 100%;
+  margin-left: 20px;
+  margin-right: 10px;
+  padding: 15px;
+  background-color: #ffffff;
+}
+.card-border>h6{
+  height: 50px;
+  line-height: 50px;
+  text-align: right;
+  color: #03a9f3;
+  font-size: 20px;
+}
+.card-border>h6>i{
+  padding-left: 10px;
+  font-size: 12px;
+  color: #8d9ea7;
+  cursor: pointer;
+}
+.form-title{
+  display: inline-block;
+  width: 70px;
+  height: 30px;
+  line-height: 30px;
+  padding-right:10px;
+  margin-right: 10px;
+  background-color: #f8f8f8;
+  color: #8d9ea7;
+  font-weight: 300;
+  font-size: 12px;
+  text-align: center;
+  vertical-align: top;
+}
+.card-left>label{
+  display: block;
+  vertical-align: top;
+}
+.card-left>label>p{
+  display: inline-block;
+  width: 60%;
+  line-height: 30px;
+  font-size: 12px;
+  color: #797979;
+  vertical-align: top;
+}
+.card-left{
+  display: inline-block;
+  width: 65%;
+}
+.card-right{
+  width: 33.3333%;
+  height: auto;
+  float: right;
+}
+.card-wrapper{
+
+}
+.card-message{
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  font-size: 14px;
+  line-height: 22px;
+  color: #777;
+  background-color: #FFF;
+  background-image: none;
+  text-align: center;
+}
+.card-message a{
+  color: #8d9ea7;
+}
+.card-message>img{
+  width: 100%;
+  max-height: 100px;
+}
+.turn-box{
+  padding-bottom: 20px;
+  padding-left: 55px;
+  clear: both;
 }

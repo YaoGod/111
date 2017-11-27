@@ -19,10 +19,12 @@
 }
 .header-right{
   float: right;
+  padding: 0 10px;
   text-align: center;
-  width:45px;
   height: 60px;
   line-height: 70px;
+  color: #ffffff;
+  cursor: pointer;
 }
 .header-right:hover{
   background: rgba(0, 0, 0, .1);

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../service/route-guard/route-guard.service';
 import { PropertyComponent } from './property.component';
+import { GlobalFooterModule } from '../basic-info/global-footer/global-footer.module';
 const routes: Routes = [
   {
     path: '',
@@ -28,6 +29,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    GlobalFooterModule,
     RouterModule.forChild(routes)
   ],
   exports: [RouterModule],
