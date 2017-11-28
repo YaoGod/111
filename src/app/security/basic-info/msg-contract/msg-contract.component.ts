@@ -186,13 +186,13 @@ export class MsgContractComponent implements OnInit {
       }else {
         this.updateContract();
       }
-    }else{
-/*      confirmFunc.init({
+    }else {
+      confirmFunc.init({
         'title': '提示' ,
         'mes': '表单数据填写不完全',
         'popType': 2 ,
         'imgType': 1 ,
-      });*/
+      });
     }
   }
   /*获取大楼信息*/
@@ -372,6 +372,6 @@ export class MsgContractComponent implements OnInit {
     this.getContractList();
   }
   openFile(url) {
-    window.location.href = "proxy"+ url;
+    window.open("proxy"+ url);
   }
 }

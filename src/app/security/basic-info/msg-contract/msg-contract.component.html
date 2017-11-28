@@ -205,9 +205,9 @@
     <li class="file-list">
       <div class="text-title"><i class="icon-puzzle"></i><span>合同附件</span>
       </div>
-      <p class="file-msg" *ngFor="let filename of contract.fileName;index">
+      <p class="file-msg" *ngFor="let filename of contract.fileName;let i = index">
         {{filename}}
-        <a (click)="openFile(contract.filePath);">
+        <a (click)="openFile(contract.filePath[i]);">
           <i class="icon-cloud-download"></i>下载
         </a>
       </p>
