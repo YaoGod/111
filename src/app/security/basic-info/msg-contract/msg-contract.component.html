@@ -197,7 +197,9 @@
     <li class="form-bar" *ngIf="building.type === 'lease' || building.type === 'property'">
       <label>
         <span class="form-title">合同状态</span>
-        <span>{{contract.contractStatus}}</span>
+        <span [ngStyle]="{'color':contract.contractStatus==='执行中'?'red':'green'}">
+          {{contract.contractStatus}}
+        </span>
       </label>
     </li>
     <li class="file-list">
@@ -209,6 +211,7 @@
           <i class="icon-cloud-download"></i>下载
         </a>
       </p>
+      <p class="file-msg" *ngIf="contract.filePath.length === 0">暂无附件</p>
     </li>
   </ul>
     <div style="clear:both"></div>
@@ -245,7 +248,9 @@
         <div class="dropify-edit">
           <a><i class="icon-cloud-upload"></i>上传附件
             <input  class="dropify" type="file" #pres id="fileUpload"
-                    (change)="prese_upload(pres.files)"></a>
+                    (change)="prese_upload(pres.files)"
+                    (blur)="verifyFileNone(tempContract.filePath, 'newImgPath')"
+            ></a>
         </div>
         <div class="modal-left">
           <div  class="dropify-wrapper" id = "newImgPath">
@@ -261,10 +266,8 @@
               </li>
             </ul>
             <p></p>
-            <!--<input  class="dropify" type="file" #pres
-                    (change)="prese_upload(pres.files)">-->
-                    <!--(blur)="verifyImgPath(newRoom.imgPath,'newImgPath')"-->
           </div>
+          <div class="error"></div>
         </div>
         <div   class="modal-right">
           <div  class="form-group" *ngIf="building.type === 'buy'">

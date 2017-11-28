@@ -180,9 +180,9 @@ export class MsgFloorComponent implements OnInit {
       }else {
         confirmFunc.init({
           'title': '提示' ,
-          'mes': '表单数据填写不完全哦',
+          'mes': '表单数据填写不完全',
           'popType': 0 ,
-          'imgType': 1 ,
+          'imgType': 2 ,
         });
       }
     }
@@ -193,7 +193,7 @@ export class MsgFloorComponent implements OnInit {
       'title': '提示' ,
       'mes': '是否删除？',
       'popType': 1,
-      'imgType': 2 ,
+      'imgType': 3 ,
       "callback": () => {
         this.infoBuildingService.deleteFloor(id)
           .subscribe( data => {

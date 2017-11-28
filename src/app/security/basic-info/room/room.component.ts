@@ -164,7 +164,7 @@ export class RoomComponent implements OnInit {
       'title': '提示' ,
       'mes': '是否删除？',
       'popType': 1,
-      'imgType': 2 ,
+      'imgType': 3,
       "callback": () => {
         this.infoBuildingService.deleteRoom(id)
           .subscribe( data => {

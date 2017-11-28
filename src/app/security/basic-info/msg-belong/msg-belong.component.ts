@@ -67,8 +67,8 @@ export class MsgBelongComponent implements OnInit {
       map.plugin('AMap.ToolBar',() =>{
         if(typeof(lat)==="undefined" || typeof(lon)==="undefined"
           || lat=== null || lon === null ) {
-            lat = 120.323;
-            lon = 30.235;
+            lat = 0;
+            lon = 0;
         }
         let marker = new AMap.Marker({
           position: [lat, lon],
@@ -79,12 +79,20 @@ export class MsgBelongComponent implements OnInit {
           if (this.mapEditStatus) {
             this.copyBuilding.lat = e.lnglat.getLat();
             this.copyBuilding.lon = e.lnglat.getLng();
-            let position = [this.copyBuilding.lon, this.copyBuilding.lat];
-            marker.setPosition(position);
+            let marker1 = new AMap.Marker({
+              position: [this.copyBuilding.lon, this.copyBuilding.lat],
+              title: this.building.name,
+              map: map
+            });
+
+
             map.setFitView();
           }
         });
-        map.setFitView();
+        if(lat === 0 && lon === 0) {
+          map.remove(marker);
+        }
+          map.setFitView();
       })
 
   }

@@ -10,10 +10,14 @@ const routes: Routes = [
     canActivate: [RouteGuardService],
     component: PropertyComponent,
     children:[
-      {
+   /*   {
         path:'',
         redirectTo:'file',
         pathMatch:'full'
+      },*/
+      {
+        path:'',
+        loadChildren:'./front/front.module#FrontModule'
       },
       {
         path:'file',

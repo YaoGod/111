@@ -1,6 +1,5 @@
 .view{
-  height: calc(100% - 180px);
-  min-height: 700px;
+  min-height: calc(100% - 100px);
   padding:25px 2% 25px 2%;
 }
 .msg{

@@ -34,7 +34,11 @@
 }
 .main{
   width: 100%;
-  height:auto;
+  height: 100%;
   min-height: calc(100% - 65px);
   background-color: #edf1f5;
+}
+.auto-height{
+  height: calc(100% - 60px);
+  overflow-y: auto;
 }

@@ -517,6 +517,7 @@ select{
 .room-card{
   float: left;
   width: 50%;
+  min-width: 450px;
   height: auto;
   margin-bottom: 15px;
 }
@@ -610,11 +611,13 @@ select{
   color: #8d9ea7;
 }
 .card-message>img{
-  width: 100%;
-  max-height: 100px;
+  height: 120px;
 }
 .turn-box{
   padding-bottom: 20px;
   padding-left: 55px;
   clear: both;
+}
+.limit-height{
+  min-height: calc(100% - 50px);
 }

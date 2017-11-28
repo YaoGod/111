@@ -102,7 +102,7 @@
              (click)="viewImg(floor.imgPath)">
         <img src="../../../../assets/image/icon_img.png" *ngIf="!floor.imgPath && !copyFloors[i].editStatus">
         <div  *ngIf="copyFloors[i].editStatus" class="btn-upload">
-          <img [src]="'/proxy' + copyFloors[i].imgPath"
+          <img [src]="'/proxy' + copyFloors[i].imgPath" *ngIf="copyFloors[i].imgPath"
                (click)="viewImg(copyFloors[i].imgPath)">
           <img src="../../../../assets/image/icon_img.png" *ngIf="!copyFloors[i].imgPath && copyFloors[i].editStatus">
           <a>上传
@@ -204,7 +204,8 @@
 <div class="view-img" [hidden]="isViewImg">
   <div class="back"></div>
   <span class="close" (click)="closeViewImg()"></span>
-  <img class="big-img" [ngStyle]="{'width':imgWidth+'px','margin-left':- imgWidth/2 +'px'}"
+  <img class="big-img" *ngIf="imgSrcView"
+       [ngStyle]="{'width':imgWidth+'px','margin-left':- imgWidth/2 +'px'}"
        [src]="imgSrcView">
   <div class="option-bar">
     <span class="enlarge" (click)="addImg()"></span>

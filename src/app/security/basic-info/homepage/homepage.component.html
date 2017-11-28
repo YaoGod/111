@@ -45,7 +45,7 @@
       <div class="card-img" [routerLink]="['detail',building.id]">
         <div class="el-overlay">
         </div>
-        <img [src]="+'/proxy'+imgPaths[idx][0]">
+        <img [src]="+'/proxy'+imgPaths[idx][0]" *ngIf="imgPaths[idx][0]">
       </div>
       <div class="mark">
         <span>No.{{building.buildingId}}</span>

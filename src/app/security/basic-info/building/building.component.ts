@@ -5,6 +5,7 @@ import { InfoBuildingService } from '../../../service/info-building/info-buildin
 import { Router, ActivatedRoute, Params} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
+declare var $: any;
 @Component({
   selector: 'app-building',
   templateUrl: './building.component.html',
@@ -106,11 +107,13 @@ export class BuildingComponent implements OnInit {
     );
   }
   /*查看图片*/
-  viewImg(url:string){
-    this.isViewImg = false;
+  viewImg(url:string) {
+    $('.view-img').css('display','block');
+   /* this.isViewImg = false;*/
     this.imgSrcView = '/proxy' + url;
   }
   closeViewImg(){
+    $('.view-img').css('display','none');
     this.isViewImg = true;
   }
   /*放大图片*/

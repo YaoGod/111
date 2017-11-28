@@ -31,177 +31,70 @@
     </li>
   </ul>
 </div>-->
-<div class="box-plus">
-  <h3>当前楼层：{{floor.floorNum}}</h3>
-  <a class="btn-danger" (click)="addNewRoom()">
-    <i class="icon-plus"></i>
-    新增
-  </a>
-</div>
-<!--表头
-<div class="table-head">
-  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
-    <tr class="row list-title" style="height:45px;">
-      <th width="8%" class="text-left" style="min-width: 50px;">房间号</th>
-      <th width="17%">房间用途</th>
-      <th width="8%" style="min-width: 70px;">房间面积</th>
-      <th width="8%" style="min-width: 90px;">设计座位数</th>
-      <th width="21%" class="text-left">房间实际用途</th>
-      <th width="25%">房间平面图</th>
-      <th width="15%">操作</th>
-    </tr>
-  </table>
-</div>-->
-<!--表格内容-->
-<!--<div class="table-content" style="height: 390px">
-  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
-    <tr class="row"  style="height:45px;" *ngFor="let room of rooms;let i = index">
-      <td width="8%" class="text-left">
-        <span *ngIf="!copyRooms[i].editStatus">
-          {{room.roomNum}}
-        </span>
-     &lt;!&ndash;   <input type="text" name="roomNum"
-               id="roomNum"
-               *ngIf="copyRooms[i].editStatus"
-               [(ngModel)]="copyRooms[i].roomNum">&ndash;&gt;
-      </td>
-      <td width="17%">
-        <span *ngIf="!copyRooms[i].editStatus">
-          {{room.roomUse}}
-        </span>
-        <select  id="roomUse"
-          *ngIf="copyRooms[i].editStatus"
-           [(ngModel)]="copyRooms[i].roomUse">
-          <option value="">请选择</option>
-          <option>总经理办公室</option>
-          <option>副总经理办公室</option>
-          <option>中层办公室</option>
-          <option>员工办公室</option>
-          <option>会议室</option>
-          <option>电视电话会议室</option>
-          <option>接待室</option>
-          <option>休息间</option>
-          <option>茶水间</option>
-          <option>文印室</option>
-          <option>员工餐厅</option>
-          <option>餐厅包间</option>
-          <option>厨房</option>
-          <option>洗手间</option>
-          <option>设备间</option>
-          <option>多功能厅</option>
-          <option>活动室</option>
-          <option>职工小小家</option>
-          <option>员工服务中心</option>
-          <option>其他</option>
-        </select>
-      </td>
-      <td width="8%" style="min-width: 70px;">
-        <span *ngIf="!copyRooms[i].editStatus">
-          {{room.roomArea}}
-        </span>
-      &lt;!&ndash;  <input type="text" name="roomArea"
-               id="roomArea"
-               *ngIf="copyRooms[i].editStatus"
-               [(ngModel)]="copyRooms[i].roomArea">&ndash;&gt;
-      </td>
-      <td width="8%" style="min-width: 90px;">
-        <span *ngIf="!copyRooms[i].editStatus">
-          {{room.seatingNum}}
-        </span>
-     &lt;!&ndash;   <input type="text" name="seatingNum"
-               id="seatingNum"
-               *ngIf="copyRooms[i].editStatus && copyRooms[i].roomUse === '员工办公室'"
-               [(ngModel)]="copyRooms[i].seatingNum">&ndash;&gt;
-      </td>
-      <td width="21%" class="text-left">
-        <span *ngIf="!copyRooms[i].editStatus">
-          {{room.roomUseReal}}
-        </span>
-      &lt;!&ndash;  <textarea name="roomUseReal" id="roomUseReal"
-                  *ngIf="copyRooms[i].editStatus"
-                  [(ngModel)]="copyRooms[i].roomUseReal">
-        </textarea>&ndash;&gt;
-      </td>
-      <td width="25%" class="box-demo">
-        <img *ngIf="room.imgPath && !copyRooms[i].editStatus"
-             [src]="'/proxy' + room.imgPath"
-             (click)="viewImg(room.imgPath)">
-        <img src="../../../../assets/image/icon_img.png" *ngIf="!room.imgPath && !copyRooms[i].editStatus">
-      &lt;!&ndash;  <div  *ngIf="copyRooms[i].editStatus" class="btn-upload" id="imgView">
-          <img [src]="'/proxy' + copyRooms[i].imgPath"
-               (click)="viewImg(copyRooms[i].imgPath)">
-          <img src="../../../../assets/image/icon_img.png" *ngIf="!copyRooms[i].imgPath && copyRooms[i].editStatus">
-          <a>上传
-            <input type="file" name="imgPath" class="img-upload" #prese [id]="'prese'+i"
-                   (change)="prese_upload(prese.files,i)">
-          </a>
-        </div>&ndash;&gt;
-      </td>
-      <td width="13%" class="box-option">
-        <img src="../../../../assets/image/icon_edit.png" (click)="initEdit(i)">
-      &lt;!&ndash;  <img src="../../../../assets/image/icon_save.png"
-             [ngClass]="!copyRooms[i].editStatus?'disable':''"
-             (click)="save(i)">&ndash;&gt;
-        <img src="../../../../assets/image/icon_can.png" (click)="delRoom(room.id)">
-      </td>
-    </tr>
-  </table>
-</div>-->
-<div class="room-list" *ngIf="rooms">
-  <ul>
-    <li class="room-card" *ngFor="let room of rooms;let i = index">
-      <h5> {{room.roomUse}}</h5>
-      <div class="card-border">
-        <h6>{{room.roomNum}}室
-          <i class="icon-pencil" (click)="initEdit(i)"> </i>
-          <i class="icon-trash"(click)="delRoom(room.id)"> </i>
-        </h6>
-        <div class="card-left">
-          <label>
-            <span class="form-title">房间面积</span>
-            <p>{{room.roomArea}}</p>
-          </label>
-          <label *ngIf="room.seatingNum">
-            <span class="form-title">设计座位数</span>
-            <p>{{room.seatingNum}}</p>
-          </label>
-          <label>
-            <span class="form-title">实际用途</span>
-            <p>{{room.roomUseReal}}</p>
-          </label>
-        </div>
-        <div class="card-right">
-          <div  class="card-wrapper">
-            <div  class="card-message">
-              <img [src]="'/proxy'+room.imgPath" *ngIf="room.imgPath"  (click)="viewImg(room.imgPath)">
-              <div class="text-center">
-                <a class="text-muted font-12" href="javascript:;"  (click)="viewImg(room.imgPath)">
-                  <i class="icon-magnifier-add"></i> 放大
-                </a>
+<div class="limit-height">
+  <div class="box-plus">
+    <h3>当前楼层：{{floor.floorNum}}</h3>
+    <a class="btn-danger" (click)="addNewRoom()">
+      <i class="icon-plus"></i>
+      新增
+    </a>
+  </div>
+  <div class="room-list" *ngIf="rooms">
+    <ul>
+      <li class="room-card" *ngFor="let room of rooms;let i = index">
+        <h5> {{room.roomUse}}</h5>
+        <div class="card-border">
+          <h6>{{room.roomNum}}室
+            <i class="icon-pencil" (click)="initEdit(i)"> </i>
+            <i class="icon-trash"(click)="delRoom(room.id)"> </i>
+          </h6>
+          <div class="card-left">
+            <label>
+              <span class="form-title">房间面积</span>
+              <p>{{room.roomArea}}</p>
+            </label>
+            <label *ngIf="room.seatingNum">
+              <span class="form-title">设计座位数</span>
+              <p>{{room.seatingNum}}</p>
+            </label>
+            <label>
+              <span class="form-title">实际用途</span>
+              <p>{{room.roomUseReal}}</p>
+            </label>
+          </div>
+          <div class="card-right">
+            <div  class="card-wrapper">
+              <div  class="card-message">
+                <img [src]="'/proxy'+room.imgPath" *ngIf="room.imgPath"  (click)="viewImg(room.imgPath)">
+                <div class="text-center">
+                  <a class="text-muted font-12" href="javascript:;"  (click)="viewImg(room.imgPath)">
+                    <i class="icon-magnifier-add"></i> 放大
+                  </a>
+                </div>
               </div>
             </div>
           </div>
+          <div style="clear: both"></div>
         </div>
-        <div style="clear: both"></div>
-      </div>
-    </li>
-  </ul>
-</div>
-<div class="div-none" *ngIf="copyRooms.length < 1">
-  <p>暂无信息</p>
-</div>
-<!--翻页-->
-<div class="turn-box">
-  <div class="turn">
-    <ul *ngIf="pages.length > 1">
-      <li *ngFor="let i of pages"
-          [hidden] = "pageLimit(i)"
-          [ngClass]="{'active':i === pageNo}"
-          (click)="goPage(i);">
-        {{i}}
       </li>
     </ul>
-    <div style="clear: both"></div>
+  </div>
+  <div class="div-none" *ngIf="copyRooms.length < 1">
+    <p>暂无信息</p>
+  </div>
+  <!--翻页-->
+  <div class="turn-box">
+    <div class="turn">
+      <ul *ngIf="pages.length > 1">
+        <li *ngFor="let i of pages"
+            [hidden] = "pageLimit(i)"
+            [ngClass]="{'active':i === pageNo}"
+            (click)="goPage(i);">
+          {{i}}
+        </li>
+      </ul>
+      <div style="clear: both"></div>
+    </div>
   </div>
 </div>
 <!--新建-->
@@ -310,7 +203,8 @@
 <div class="view-img" [hidden]="isViewImg">
   <div class="back"></div>
   <span class="close" (click)="closeViewImg()"></span>
-  <img class="big-img" [ngStyle]="{'width':imgWidth+'px','margin-left':- imgWidth/2 +'px'}"
+  <img class="big-img" *ngIf="imgSrcView"
+       [ngStyle]="{'width':imgWidth+'px','margin-left':- imgWidth/2 +'px'}"
        [src]="imgSrcView">
   <div class="option-bar">
     <span class="enlarge" (click)="addImg()"></span>

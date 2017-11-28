@@ -69,7 +69,7 @@ export class MsgContractComponent implements OnInit {
       });
 
   }
-  getContract(){
+  getContract() {
     this.watchType = true;
     this.contractBuildingService.getContractInfo(this.building.id, this.building.type)
       .subscribe(data => {
@@ -131,7 +131,7 @@ export class MsgContractComponent implements OnInit {
         confirmFunc.init({
           'title': '提示' ,
           'mes': '文件大小超出限制',
-          'popType': 1 ,
+          'popType': 0 ,
           'imgType': 2 ,
         });
       }
@@ -144,25 +144,55 @@ export class MsgContractComponent implements OnInit {
   }
   /*提交合同信息*/
   submit() {
+    this.verifyFileNone(this.tempContract.filePath, 'newImgPath');
+    this.verifyEmpty(this.tempContract.salesName,'salesName');
+    this.verifyEmpty(this.tempContract.buyName,'buyName');
+    this.verifyEmpty(this.tempContract.buyContacts,'buyContacts');
+    this.verifyEmpty(this.tempContract.buyContacts,'buyPhone');
+    this.verifyEmpty(this.tempContract.buyCost,'buyCost');
+    this.verifyEmpty(this.tempContract.buyDate,'buyDate');
+    this.verifyEmpty(this.tempContract.area,'area');
+    this.verifyEmpty(this.tempContract.unitPrice,'unitPrice');
+    this.verifyEmpty(this.tempContract.design,'design');
+    this.verifyEmpty(this.tempContract.build,'build');
+    this.verifyEmpty(this.tempContract.supervise,'supervise');
+    this.verifyEmpty(this.tempContract.buildDate,'buildDate');
+    this.verifyEmpty(this.tempContract.payDate,'payDate');
+    this.verifyEmpty(this.tempContract.buildCost,'buildCost');
+    this.verifyEmpty(this.tempContract.landlord,'landlord');
+    this.verifyEmpty(this.tempContract.lContacts,'lContacts');
+    this.verifyEmpty(this.tempContract.lPhone,'lPhone');
+    this.verifyEmpty(this.tempContract.cmccName,'cmccName');
+    this.verifyEmpty(this.tempContract.cmccContacts,'cmccContacts');
+    this.verifyEmpty(this.tempContract.cmccPhone,'cmccPhone');
+    this.verifyEmpty(this.tempContract.name,'name');
+    this.verifyEmpty(this.tempContract.contacts,'contacts');
+    this.verifyEmpty(this.tempContract.phone,'phone');
+    this.verifyEmpty(this.tempContract.contractBtime,'contractBtime');
+    this.verifyEmpty(this.tempContract.contractEtime,'contractEtime');
+    if (this.building.type ===  'lease' || this.building.type === 'property'){
+      if(this.tempContract.contractBtime > this.tempContract.contractEtime){
+        this.addErrorClass('contractEtime', '结束时间不能早于开始时间');
+      }
+    }
     if($('.red').length === 0) {
       this.tempContract.buyDate = this.formatDate(this.tempContract.buyDate);
       this.tempContract.buildDate = this.formatDate(this.tempContract.buildDate);
       this.tempContract.payDate = this.formatDate(this.tempContract.payDate);
       this.tempContract.contractBtime = this.formatDate(this.tempContract.contractBtime);
       this.tempContract.contractEtime = this.formatDate(this.tempContract.contractEtime);
-
       if(typeof (this.tempContract.id) === "undefined" || this.tempContract.id === null) {
         this.addContract();
       }else {
         this.updateContract();
       }
     }else{
-      confirmFunc.init({
+/*      confirmFunc.init({
         'title': '提示' ,
-        'mes': '表单数据填写不完全哦',
+        'mes': '表单数据填写不完全',
         'popType': 2 ,
         'imgType': 1 ,
-      });
+      });*/
     }
   }
   /*获取大楼信息*/
@@ -179,7 +209,6 @@ export class MsgContractComponent implements OnInit {
             this.modeBuilding.buildTime = data.data.attachInfo.buildTime;
             this.modeBuilding.payTime = data.data.attachInfo.payTime;
           }
-          console.log('更新');
           this.globalBuilding.setVal(this.modeBuilding);
         }
       });
@@ -224,6 +253,25 @@ export class MsgContractComponent implements OnInit {
         }
       })
   }
+  verifyFileNone(value, id){
+    if(typeof (value) === "undefined" ||
+      value === null ||
+      value === ''){
+      if(value.length === 0){
+        this.addErrorClass(id,'请上传附件');
+      }else{
+        this.addErrorClass(id,'该值不能为空');
+      }
+      return false;
+    }else{
+      if(value.length === 0){
+        this.addErrorClass(id,'请上传附件');
+        return false;
+      }
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
   verifyEmpty( value, id){
     if(typeof (value) === "undefined" ||
       value === null ||
@@ -236,11 +284,18 @@ export class MsgContractComponent implements OnInit {
     }
   }
   /*时间格式转换*/
-  formatDate( value ){
+  formatDate( value ) {
     if( typeof (value) === "undefined" || value === null || value === ''){
       return null;
     }else {
       return value.replace(/-/g,'/');
+    }
+  }
+  formatDateforDatePicker( value ) {
+    if( typeof (value) === "undefined" || value === null || value === ''){
+      return null;
+    }else {
+      return value.replace(/\//g,'-');
     }
   }
   /* 添加错误信息*/
@@ -254,22 +309,22 @@ export class MsgContractComponent implements OnInit {
     $('#' + id).parent().next('.error').fadeOut();
   }
   /*合同编辑*/
-  initEdit(i){
+  initEdit(i) {
     this.addNewRoom();
     this.tempContract = JSON.parse(JSON.stringify(this.contracts[i]));
+    this.tempContract.buyDate = this.formatDateforDatePicker(this.tempContract.buyDate);
+    this.tempContract.buildDate =  this.formatDateforDatePicker(this.tempContract.buildDate);
+    this.tempContract.payDate =  this.formatDateforDatePicker(this.tempContract.payDate);
+    this.tempContract.contractBtime =  this.formatDateforDatePicker(this.tempContract.contractBtime);
+    this.tempContract.contractEtime = this.formatDateforDatePicker(this.tempContract.contractEtime);
     console.log(this.tempContract);
-    /*this.tempContract.buyDate = this.formatDate(this.tempContract.buyDate);
-    this.tempContract.buildDate = this.formatDate(this.tempContract.buildDate);
-    this.tempContract.payDate = this.formatDate(this.tempContract.payDate);
-    this.tempContract.contractBtime = this.formatDate(this.tempContract.contractBtime);
-    this.tempContract.contractEtime = this.formatDate(this.tempContract.contractEtime);*/
   }
   deleteContract(id) {
     confirmFunc.init({
       'title': '提示' ,
       'mes': '是否删除该合同',
       'popType': 1 ,
-      'imgType': 2 ,
+      'imgType': 3 ,
       "callback": () => {
         this.contractBuildingService.deleteContract(id,this.building.type)
           .subscribe(data => {

@@ -181,7 +181,7 @@ export class HomepageComponent implements OnInit {
       'title': '提示' ,
       'mes': '是否删除该大楼？',
       'popType': 1,
-      'imgType': 2,
+      'imgType': 3,
       'callback': () => {
         this.infoBuildingService.deleteBuilding(id)
           .subscribe(data => {
