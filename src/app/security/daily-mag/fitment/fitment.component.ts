@@ -66,6 +66,8 @@ export class FitmentComponent implements OnInit {
         // console.log(data);
         if (data['status'] === 0) {
           this.record = data['data']['infos'];
+          let total = Math.ceil(data.data.total / this.pageSize);
+          this.initPage(total);
         }else if (data['status'] === 1) {
           confirmFunc.init({
             'title': '提示' ,
@@ -508,6 +510,7 @@ export class FitmentComponent implements OnInit {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
+    console.log(this.contractName.contractStatus);
     this.http.post(SOFTWARES_URL, this.contractName, options)
       .map(res => res.json())
       .subscribe(data => {
@@ -593,7 +596,7 @@ export class FitmentComponent implements OnInit {
    */
   private verifyIsTel(id: string, error?: string): boolean {
     const data =  $('#' + id).val();
-    if (!String(data).match(/^1(3[4-9]|5[0-2]|8[0-9])\d{8}$/))  {
+    if (!String(data).match( /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/ )){
       this.addErrorClass(id, error);
       return false;
     }else {

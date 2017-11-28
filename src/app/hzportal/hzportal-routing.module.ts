@@ -26,7 +26,6 @@ const routes: Routes = [
         path: '',
         redirectTo: 'security',
         pathMatch: 'full'
-       /* component: HomepageComponent,*/
       },
       {
         path: 'security',

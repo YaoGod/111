@@ -164,7 +164,7 @@
         </li>
         <li class="form-bar form-texarea">
           <span class="form-title">服务合同</span>
-          <a style="color:#686868; margin-left:10px;" href="javascript:;" *ngFor="let abc of ctct.fileName; let j=index">{{abc}}</a>
+          <a style="color:#686868; margin-left:20px; color: #1eaaf0" target="_blank" [href]="+'/proxy'+ ctct.filePath[j] " *ngFor="let abc of ctct.fileName; let j=index">{{abc}}</a>
         </li>
         <li class="form-btn" (click)="editContract(i)">编&nbsp;&nbsp;辑</li>
         <li class="form-btn form-btn2" (click)="delContract(i)">删&nbsp;&nbsp;除</li>
