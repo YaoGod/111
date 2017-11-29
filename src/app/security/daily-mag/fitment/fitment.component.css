@@ -280,13 +280,13 @@
   cursor: pointer;
   position: absolute;
   left:50px;
-  bottom:46px;
+  bottom:55px;
   opacity:0;
   transition: all 0.4s;
 }
 .form-btn2{
   background-color:#CCCCCC;
-  bottom:8px;
+  bottom:15px;
 }
 .form-msg:hover .form-btn{
   opacity:1;

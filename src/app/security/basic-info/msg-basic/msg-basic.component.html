@@ -78,7 +78,7 @@
     </li>
   </ul>
   <div class="div-text">
-    <div class="text-title"><i class="icon-paper-clip"></i><span>大楼简介</span></div>
+    <div class="text-title"><i class="icon-doc"></i> <span>大楼简介</span></div>
     <textarea class="bigText ipt" [(ngModel)]="copyBuilding.summary"
     (keyup)="copyBuilding.summary = limitText(copyBuilding.summary,500)"
     ></textarea>
@@ -90,7 +90,7 @@
   </div>
 
   <div class="div-text img-border">
-    <div class="text-title"><i class="icon-puzzle"></i><span>大楼风采</span>
+    <div class="text-title"><i class="icon-puzzle"></i> <span>大楼风采</span>
       <a class="upload-option" (click)="clickImg();">
         <i class="icon-wrench"></i>更新图片
       </a>
@@ -109,12 +109,11 @@
            (change)="prese_upload(prese.files)"/>
   </div>
   <div class="box-option">
-  <input class="btn-close" type="button" value="取消"
-         (click)="closeEdit()">
-  <input class="btn-submit" type="button" value="提交"
-         (click)="submit()">
+    <button class="btn-submit" (click)="submit()">保存</button>
+    <button class="btn-close" (click)="closeEdit()">取消</button>
   </div>
 </div>
+
 <!--图片查看器-->
 <div class="view-img" [hidden]="isViewImg">
   <div class="back"></div>

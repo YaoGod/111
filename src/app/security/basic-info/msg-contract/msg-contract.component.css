@@ -417,10 +417,33 @@ input[type = date]{
   text-align: right;
 }
 .btn-edit{
-  border: none;
-  color: #8d9ea7;
-  background-color: transparent;
+  padding: 6px 10px;
+  font-size: 12px;
+  border: 1px solid #fff;
+  color: #fff;
+  background-color: #fb9678;
   cursor: pointer;
+  transition: all .5s;
+  border-radius: 5px;
+}
+.btn-del{
+  margin-left: 15px;
+  padding: 6px 10px;
+  font-size: 12px;
+  border: 1px solid #fff;
+  color: #fff;
+  background-color: #ccc;
+  cursor: pointer;
+  transition: all .5s;
+  border-radius: 5px;
+}
+.btn-edit:hover{
+  border-color: #fb9678;
+  opacity: .8;
+}
+.btn-del:hover{
+  border-color: #ccc;
+  opacity: .8;
 }
 .turn{
   padding: 0 2% 20px 2%;
@@ -455,6 +478,8 @@ input[type = date]{
 .text-title{
   font-size: 16px;
   padding: 10px 0;
+  text-indent: 35px;
+  line-height:40px;
   margin:10px 0;
   color: #8d9ea7;
   font-weight: 300;

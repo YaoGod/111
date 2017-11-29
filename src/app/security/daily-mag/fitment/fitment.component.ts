@@ -40,6 +40,7 @@ export class FitmentComponent implements OnInit {
     this.contractName = new ContractName();
     this.beginTime = '';
     this.endTime = '';
+    this.pages = [];
     this.contractName.fileName = [];
     this.contractName.filePath = [];
 

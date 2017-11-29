@@ -320,7 +320,6 @@ export class MsgContractComponent implements OnInit {
     this.tempContract.payDate =  this.formatDateforDatePicker(this.tempContract.payDate);
     this.tempContract.contractBtime =  this.formatDateforDatePicker(this.tempContract.contractBtime);
     this.tempContract.contractEtime = this.formatDateforDatePicker(this.tempContract.contractEtime);
-    console.log(this.tempContract);
   }
   deleteContract(id) {
     confirmFunc.init({

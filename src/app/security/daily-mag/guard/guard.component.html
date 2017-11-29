@@ -1,101 +1,97 @@
 <div class="guard">
   <div class="guard-header clearfix">
-    <a href="javascript:;" class="active" (click)="recordFade($event)">大楼维修记录</a>
-    <a href="javascript:;" (click)="contractFade($event)">大楼维修合同</a>
+    <a href="javascript:;" class="active" (click)="companyFade($event)">保安公司</a>
+    <a href="javascript:;" (click)="archFade($event)">保安人员档案</a>
   </div>
   <div class="guard-cont">
     <div class="guard-chandlery clearfix">
       <div class="box1">
-        <ul class="record-search clearfix">
+        <ul class="company-search clearfix">
           <li>
             <label>大楼编号</label>
-            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchRepair.buildingId">
+            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchCompany.buildingId">
           </li>
           <li >
             <label >大楼名称</label>
-            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchRepair.buildingName">
+            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchCompany.buildingName">
           </li>
           <li >
-            <label >开始时间</label>
-            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchRepair.decorateBtime">
-          </li>
-          <li>
-            <label>结束时间</label>
-            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchRepair.decorateEtime">
+            <label >服务公司名称</label>
+            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchCompany.companyName">
           </li>
         </ul>
+        <div class="search-right"><a href="javascript:;" class="search-btn" (click)="repairSearch()"><i class="icon-magnifier"></i> 查 询</a></div>
       </div>
       <div class="box2">
-
+        <div class="search-right"><a href="javascript:;" class="search-btn" (click)="repairSearch()"><i class="icon-magnifier"></i> 查 询</a></div>
+        <!--<div class="search-right">
+          <a href="javascript:;" class="search-btn new-btn" (click)="repairNew()"><i class="icon-plus"></i> 新 增</a>
+        </div>-->
       </div>
 
-      <div class="search-right">
-        <a href="javascript:;" class="search-btn" (click)="repairSearch()"><i class="icon-magnifier"></i> 查 询</a>
-        <a href="javascript:;" class="search-btn new-btn" (click)="repairNew()"><i class="icon-plus"></i> 新 增</a>
-      </div>
+
     </div>
-    <!--维修记录-->
-    <div class="guard-container repair-record">
+    <!--服务公司-->
+    <div class="guard-container guard-company">
+      <div class="row text-right">
+        <a class="btn btn-lead" href="javascript:;"><i class="icon-docs"></i> 批量导入</a>
+        <a class="btn btn-new" href="javascript:;" (click)="addCompany()"><i class="icon-plus"></i> 新 增</a>
+      </div>
       <ul class="form-msg clearfix" *ngFor="let inner of record; let i=index">
         <li class="form-bar">
-          <span class="form-title">大楼编号</span>
-          <span class="word">{{inner.buildingId}}</span>
+          <span class="form-title text-right">大楼编号</span>
+          <span class="form-word">{{inner.buildingId}}</span>
         </li>
         <li class="form-bar">
-          <span class="form-title">大楼名称</span>
-          <span class="word">{{inner.buildingName}}</span>
+          <span class="form-title text-right">大楼名称</span>
+          <span class="form-word">{{inner.buildingName}}</span>
         </li>
         <li class="form-bar">
-          <span class="form-title">维修单编号</span>
-          <span class="word">{{inner.recordId}}</span>
+          <span class="form-title text-right">服务公司名称</span>
+          <span class="form-word">{{inner.companyName}}</span>
         </li>
         <li class="form-bar">
-          <span class="form-title">维修类别</span>
-          <span class="word">{{inner.repairType}}</span>
+          <span class="form-title text-right">派驻大楼保安人数</span>
+          <span class="form-word">{{inner.personNum}}</span>
         </li>
-        <li class="form-bar">
-          <span class="form-title">维修部门</span>
-          <span class="word">{{inner.cmccDepartment}}</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title">维修部门联系人</span>
-          <span class="word">{{inner.cmccContacts}}</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title">维修部门电话</span>
-          <span class="word">{{inner.cmccPhone}}</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title">维修商</span>
-          <span class="word">{{inner.repairDepartment}}</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title">维修商联系人</span>
-          <span class="word">{{inner.repairContacts}}</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title">维修商电话</span>
-          <span class="word">{{inner.repairPhone}}</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title">维修开始时间</span>
-          <span class="word">{{inner.repairBtime}}</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title">维修结束时间</span>
-          <span class="word">{{inner.repairEtime}}</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title">维修费用</span>
-          <span class="word">{{inner.repairCost}}</span>
-        </li>
-        <li class="form-bar form-texarea">
-          <span class="form-title">维修详细内容</span>
-          <span class="word">{{inner.repairNote}}</span>
-        </li>
-        <li class="form-btn" (click)="editRecord(i)">编&nbsp;&nbsp;辑</li>
-        <li class="form-btn form-btn2" (click)="delRecord(i)">删&nbsp;&nbsp;除</li>
+        <li class="form-btn" (click)="editRecord(i)"><i class="icon-pencil"></i></li>
+        <li class="form-btn form-del" (click)="delRecord(i)"><i class="icon-trash"></i></li>
       </ul>
+    </div>
+  </div>
+</div>
+<!--新增编辑弹窗-->
+<div class="mask mask-repair">
+  <div class="new-company">
+    <div class="mask-head"><i class="icon-film"></i> <p>新增服务公司</p>
+      <button class="close" (click)="recordCancel()">×</button>
+    </div>
+    <form method="post" name="topForm" class="company-form">
+      <div class="form-control clearfix">
+        <label class="form-label text-right">大楼编号</label>
+        <div class="form-inp">
+          <input type="text" class="company-ipt" id="Id" name="Id" [(ngModel)]="repairname.buildingId" (blur)="verifyId()" required minlength="4" maxlength="4" placeholder="请输入四位数字">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control clearfix">
+        <span class="form-label">服务公司名称</span>
+        <div class="form-inp">
+          <input type="text" class="company-ipt" id="companyName" name="companyName" [(ngModel)]="repairname.companyName" (blur)="verifycompanyName()" required minlength="4">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control clearfix">
+        <span class="form-label">派驻大楼保安人数</span>
+        <div class="form-inp">
+          <input type="text" class="company-ipt" id="personNum" name="personNum" [(ngModel)]="repairname.personNum" (blur)="verifypersonNum()" required minlength="4">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+    </form>
+    <div class="mask-footer">
+      <button type="submit" class="btn-mask btn-info" (click)="recordSubmit()">保 存</button>
+      <button type="button" class="btn-mask btn-danger" (click)="recordCancel()">取 消</button>
     </div>
   </div>
 </div>

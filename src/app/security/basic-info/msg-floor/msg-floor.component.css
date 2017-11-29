@@ -36,7 +36,7 @@ ul,li{
   border: 1px solid #e4e7ea;
 }
 .search-bar>ul>li>select{
-  width: calc(100% - 90px);
+  width: calc(100% - 158px);
   height: 30px;
   padding: 5px 10px;
   font-size: 12px;
@@ -233,16 +233,13 @@ td>img{
   line-height: 36px;
 }
 .btn-danger{
-  padding: .3rem 1.2rem;
-  padding-left:16px;
-  padding-right:16px;
-  -moz-border-radius:6px;
-  -webkit-border-radius:6px;
-  border-radius:6px;
-  font-size: 14px;
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius:5px;
   color: #fff;
   background: #fb9678;
-  border: 1px solid #fb9678;
+  border: 1px solid #fff;
+  transition: all .6s;
   cursor: pointer;
 }
 .btn-danger.disabled.focus,
@@ -257,12 +254,10 @@ td>img{
   border: 1px solid #fb9678;
 }
 .box-plus{
-  height: 45px;
-  padding: 0 10px;
+  margin:15px 0;
 }
 .box-plus>a{
   position: relative;
-  top: 10px;
 }
 .disable{
   opacity: .2;

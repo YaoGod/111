@@ -101,18 +101,18 @@ export class MsgBelongComponent implements OnInit {
   }
   /*进入编辑*/
   initEdit(){
-    $('.ipt').css('display','inline-block');
-    $('.word').css('display','none');
-    $('.box-option').css('display','block');
+    $('.ipt').fadeIn(700);
+    $('.word').hide();
+    $('.box-option').slideDown(500);
     this.copyBuilding = JSON.parse(JSON.stringify(this.building));
     this.mapEditStatus = true;
   }
   /*取消操作*/
   closeEdit(){
     this.mapEditStatus = false;
-    $('.ipt').css('display','none');
-    $('.word').css('display','inline-block');
-    $('.box-option').css('display','none');
+    $('.ipt').hide();
+    $('.word').fadeIn(600);
+    $('.box-option').slideUp(100);
     this.showMap(this.building.lon,this.building.lat);
   }
   /*表单提交*/

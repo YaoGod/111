@@ -38,10 +38,10 @@ export class MsgBasicComponent implements OnInit {
   }
   /*进入编辑*/
   initEdit(){
-    $('.ipt').css('display','inline-block');
-    $('.word').css('display','none');
-    $('.box-option').css('display','block');
-    $('.upload-option').css('display','block');
+    $('.ipt').fadeIn(700);
+    $('.word').hide();
+    $('.box-option').slideDown(600);
+    $('.upload-option').fadeIn(600);
     this.editStatus = true;
     this.copyBuilding = JSON.parse(JSON.stringify(this.building));
   }
@@ -51,10 +51,10 @@ export class MsgBasicComponent implements OnInit {
   }
   /*取消操作*/
   closeEdit(){
-    $('.ipt').css('display','none');
-    $('.word').css('display','inline-block');
-    $('.box-option').css('display','none');
-    $('.upload-option').css('display','none');
+    $('.ipt').hide();
+    $('.word').fadeIn(700);
+    $('.box-option').hide();
+    $('.upload-option').slideUp(500);
   }
   /*表单提交*/
   submit(){

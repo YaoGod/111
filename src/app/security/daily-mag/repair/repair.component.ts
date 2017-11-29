@@ -27,8 +27,8 @@ export class RepairComponent implements OnInit {
   public searchRepair : SearchRecord;
   public searchContract : SearchContract;
   private editBool = true;
-  private beginTime :string;
-  private endTime :string;
+  public beginTime :string;
+  public endTime :string;
   private contractBool = true;
   constructor(
     private http: Http,
@@ -43,6 +43,7 @@ export class RepairComponent implements OnInit {
     this.searchContract = new SearchContract();
     this.beginTime = '';
     this.endTime = '';
+    this.pages = [];
     this.repairname.repairType = '';
     this.contractName.contractType = 'repair';
     this.contractName.fileName = [];
@@ -50,7 +51,7 @@ export class RepairComponent implements OnInit {
 
     if($('.repair-header a:last-child').hasClass('active')){
       $('.repair-contract,.box2').fadeIn();
-      this.getRecordSecond(this.searchRepair, this.pageNo, this.pageSize);
+      this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
     }else{
       $('.repair-record,.box1').fadeIn();
       this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
@@ -75,7 +76,7 @@ export class RepairComponent implements OnInit {
 
   /*点击新增*/
   repairNew() {
-    if($('.repair-header a:last-child').hasClass('active')){
+    if($('.repair-header a:last-child').hasClass('active')) {
       $('.mask-contract').fadeIn();
     }else{
       $('.mask-repair').fadeIn();
@@ -106,10 +107,10 @@ export class RepairComponent implements OnInit {
     if(((this.endTime === '' && this.beginTime !== '') || (this.endTime !== '' && this.beginTime === '') || ((this.beginTime !==
       '' &&  this.endTime !== '') && this.beginTime <= this.endTime)) || (this.beginTime === '' && this.endTime === '')){
       if($('.repair-header a:last-child').hasClass('active')){
-        console.log('执行合同');
+        // console.log('执行合同');
         this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
       }else{
-        console.log('执行记录');
+        // console.log('执行记录');
         this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
       }
     }else{
@@ -583,7 +584,7 @@ export class RepairComponent implements OnInit {
   goPage(page:number){
     this.pageNo = page;
     if($('.repair-header a:last-child').hasClass('active')){
-      this.getRecordSecond(this.searchRepair, this.pageNo, this.pageSize);
+      this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
     }else{
       this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
     }
