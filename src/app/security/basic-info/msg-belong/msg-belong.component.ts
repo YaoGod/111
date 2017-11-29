@@ -75,26 +75,26 @@ export class MsgBelongComponent implements OnInit {
           title: this.building.name,
           map: map
         });
+        if(lat === 0 && lon === 0 && !this.mapEditStatus) {
+          map.remove(marker);
+        }
+        map.setFitView();
+        let marker1 = new AMap.Marker({
+          position: [0, 0],
+          title: this.building.name,
+          map: map
+        });
         let clickEventListener = map.on('click', (e) => {
           if (this.mapEditStatus) {
+            map.remove(marker);
             this.copyBuilding.lat = e.lnglat.getLat();
             this.copyBuilding.lon = e.lnglat.getLng();
-            let marker1 = new AMap.Marker({
-              position: [this.copyBuilding.lon, this.copyBuilding.lat],
-              title: this.building.name,
-              map: map
-            });
-
-
+            let position = [this.copyBuilding.lon, this.copyBuilding.lat];
+            marker1.setPosition(position);
             map.setFitView();
           }
         });
-        if(lat === 0 && lon === 0) {
-          map.remove(marker);
-        }
-          map.setFitView();
       })
-
   }
   updateMarker(){
     this.showMap(this.copyBuilding.lon,this.copyBuilding.lat);

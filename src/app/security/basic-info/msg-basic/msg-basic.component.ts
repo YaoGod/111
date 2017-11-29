@@ -116,5 +116,11 @@ export class MsgBasicComponent implements OnInit {
       this.imgWidth -= 50;
     }
   }
-
+  /*字数限制*/
+  limitText(value,limit) {
+    if(value.length > limit) {
+      return value.substr(0,limit);
+    }
+    return value;
+  }
 }

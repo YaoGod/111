@@ -79,7 +79,9 @@
   </ul>
   <div class="div-text">
     <div class="text-title"><i class="icon-paper-clip"></i><span>大楼简介</span></div>
-    <textarea class="bigText ipt" [(ngModel)]="copyBuilding.summary "></textarea>
+    <textarea class="bigText ipt" [(ngModel)]="copyBuilding.summary"
+    (keyup)="copyBuilding.summary = limitText(copyBuilding.summary,500)"
+    ></textarea>
     <div class="summary-text word">
       <i class="fa fa-quote-left" style="font-size: 18px; color:#e8e8e8;" *ngIf="building.summary"></i>
       {{building.summary | emptyValue:'暂无数据'}}
@@ -113,7 +115,6 @@
          (click)="submit()">
   </div>
 </div>
-
 <!--图片查看器-->
 <div class="view-img" [hidden]="isViewImg">
   <div class="back"></div>

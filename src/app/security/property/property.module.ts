@@ -20,12 +20,8 @@ const routes: Routes = [
         loadChildren:'./front/front.module#FrontModule'
       },
       {
-        path:'file',
-        loadChildren:'./file/file.module#FileModule'
-      },
-      {
-        path:'account',
-        loadChildren:'./account/account.module#AccountModule'
+        path:'type',
+        loadChildren:'./type-define/type-define.module#TypeDefineModule'
       }
     ]
   }

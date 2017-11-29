@@ -3,16 +3,20 @@
   <div class="tab-bar">
     <ul>
       <li [class]="watchType?'active':''">
-        <input class="tab" type="button"
+        <input class="tab" type="button" routerLink="file"
+               (click)="watchType = true"
                value="物业档案管理">
       </li>
       <li [class]="watchType?'':'active'">
-        <input class="tab" type="button" value="物业档案台账管理">
+        <input class="tab" type="button" routerLink="account"
+               (click)="watchType = false"
+               value="物业档案台账管理">
       </li>
       <li class="tab-right">
         <label><i class="icon-direction"></i>类型</label>
-        <select>
-          <option>请选择</option>
+        <select (change)="linkType()" [(ngModel)] = "types">
+          <option value="">全部</option>
+          <option value ="0" class="type-edit">查看详情</option>
         </select>
       </li>
     </ul>

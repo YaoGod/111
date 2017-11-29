@@ -176,22 +176,23 @@ export class MsgContractComponent implements OnInit {
       }
     }
     if($('.red').length === 0) {
-      this.tempContract.buyDate = this.formatDate(this.tempContract.buyDate);
-      this.tempContract.buildDate = this.formatDate(this.tempContract.buildDate);
-      this.tempContract.payDate = this.formatDate(this.tempContract.payDate);
-      this.tempContract.contractBtime = this.formatDate(this.tempContract.contractBtime);
-      this.tempContract.contractEtime = this.formatDate(this.tempContract.contractEtime);
-      if(typeof (this.tempContract.id) === "undefined" || this.tempContract.id === null) {
-        this.addContract();
+      let data =  JSON.parse(JSON.stringify(this.tempContract));
+      data.buyDate = this.formatDate(this.tempContract.buyDate);
+      data.buildDate = this.formatDate(this.tempContract.buildDate);
+      data.payDate = this.formatDate(this.tempContract.payDate);
+      data.contractBtime = this.formatDate(this.tempContract.contractBtime);
+      data.contractEtime = this.formatDate(this.tempContract.contractEtime);
+      if(typeof (data.id) === "undefined" || data.id === null) {
+        this.addContract(data);
       }else {
-        this.updateContract();
+        this.updateContract(data);
       }
     }else {
       confirmFunc.init({
         'title': '提示' ,
         'mes': '表单数据填写不完全',
         'popType': 2 ,
-        'imgType': 1 ,
+        'imgType': 2 ,
       });
     }
   }
@@ -214,8 +215,8 @@ export class MsgContractComponent implements OnInit {
       });
   }
   /*新增*/
-  addContract(){
-    this.contractBuildingService.addContract(this.tempContract,this.building.type)
+  addContract(json:any){
+    this.contractBuildingService.addContract(json,this.building.type)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
@@ -234,8 +235,8 @@ export class MsgContractComponent implements OnInit {
       })
   }
   /*更新*/
-  updateContract() {
-    this.contractBuildingService.updateContract(this.tempContract,this.building.type)
+  updateContract(json:any) {
+    this.contractBuildingService.updateContract(json,this.building.type)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
@@ -253,7 +254,7 @@ export class MsgContractComponent implements OnInit {
         }
       })
   }
-  verifyFileNone(value, id){
+  verifyFileNone(value, id) {
     if(typeof (value) === "undefined" ||
       value === null ||
       value === ''){
@@ -322,7 +323,7 @@ export class MsgContractComponent implements OnInit {
   deleteContract(id) {
     confirmFunc.init({
       'title': '提示' ,
-      'mes': '是否删除该合同',
+      'mes': '是否删除？',
       'popType': 1 ,
       'imgType': 3 ,
       "callback": () => {

@@ -180,11 +180,13 @@
           </div>
           <div  class="form-group">
             <label  class="control-label"><span>实际用途</span>
-              <input class="form-control" id="newRoomUserReal"
+              <textarea class="form-control" id="newRoomUserReal"
                      name="roomUseReal" placeholder="" type="text"
                      [(ngModel)]="newRoom.roomUseReal"
-                     (blur)="verifyEmpty(newRoom.roomUseReal,'newRoomUserReal');verifyMaxLength(newRoom.roomUseReal,'newRoomUserReal',50)"
-              >
+                     (blur)="verifyEmpty(newRoom.roomUseReal,'newRoomUserReal');
+                     verifyMaxLength(newRoom.roomUseReal,'newRoomUserReal',50)"
+                    (keyup)="newRoom.roomUseReal = limitText(newRoom.roomUseReal,50)"
+              ></textarea>
             </label>
             <div class="error"></div>
           </div>

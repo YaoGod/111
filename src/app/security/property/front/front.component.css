@@ -51,9 +51,12 @@ li.active .tab{
 label i{
   padding-right: 5px;
 }
-.tab-right select{
+.tab-right select {
   min-width: 150px;
-  height: 28px;
+  height: 30px;
   padding-left: 10px;
   border-radius: 3px;
+}
+.type-edit{
+  color: #04a9f3;
 }
