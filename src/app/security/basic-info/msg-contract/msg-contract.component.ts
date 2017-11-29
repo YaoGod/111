@@ -162,12 +162,14 @@ export class MsgContractComponent implements OnInit {
     this.verifyEmpty(this.tempContract.landlord,'landlord');
     this.verifyEmpty(this.tempContract.lContacts,'lContacts');
     this.verifyEmpty(this.tempContract.lPhone,'lPhone');
+    this.verifyEmpty(this.tempContract.lMail,'lMail');
     this.verifyEmpty(this.tempContract.cmccName,'cmccName');
     this.verifyEmpty(this.tempContract.cmccContacts,'cmccContacts');
     this.verifyEmpty(this.tempContract.cmccPhone,'cmccPhone');
     this.verifyEmpty(this.tempContract.name,'name');
     this.verifyEmpty(this.tempContract.contacts,'contacts');
     this.verifyEmpty(this.tempContract.phone,'phone');
+    this.verifyEmpty(this.tempContract.mail,'mail');
     this.verifyEmpty(this.tempContract.contractBtime,'contractBtime');
     this.verifyEmpty(this.tempContract.contractEtime,'contractEtime');
     if (this.building.type ===  'lease' || this.building.type === 'property'){

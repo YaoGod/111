@@ -1,36 +1,4 @@
 <!--搜索栏-->
-<!--<div class="search-bar">
-  <ul>
-    <li>
-      <label>房间号</label>
-      <select [(ngModel)]="searchFloor.floorNum">
-        <option value="">全部</option>
-        <option *ngFor="let name of floorNames" [value]="name.FLOOR_NUM">{{name.FLOOR_NUM}}</option>
-      </select>
-    </li>
-    <li>
-      <label>楼层功能 </label>
-      <select  class="form-control"
-               name="floorUse" [(ngModel)]="searchFloor.floorUse">
-        <option value="">请选择</option>
-        <option>车库</option>
-        <option>大厅</option>
-        <option>餐厅</option>
-        <option>办公层</option>
-        <option>设备机房层</option>
-        <option>多功能厅</option>
-        <option>员工活动层</option>
-        <option>其他</option>
-      </select>
-    </li>
-    <li>
-      <div class="search-icon" >
-        <img src="../../../../assets/image/icon_search.png">
-      </div>
-      <input class="search-btn" type="button" value="查询" (click)="search();">
-    </li>
-  </ul>
-</div>-->
 <div class="limit-height">
   <div class="box-plus">
     <h3>当前楼层：{{floor.floorNum}}</h3>
@@ -179,7 +147,8 @@
             <div class="error"></div>
           </div>
           <div  class="form-group">
-            <label  class="control-label"><span>实际用途</span>
+            <label  class="control-label">
+              <span style="vertical-align: top;">实际用途</span>
               <textarea class="form-control" id="newRoomUserReal"
                      name="roomUseReal" placeholder="" type="text"
                      [(ngModel)]="newRoom.roomUseReal"

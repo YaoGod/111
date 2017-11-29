@@ -31,6 +31,7 @@ export class Contract {
   landlord     : string;   /*甲方*/
   lContacts    : string;
   lPhone       : string;
+  lMail        : string;    /*甲方邮箱（该类型必填）*/
   /*cmccName     : string;    /!*乙方*!/
    cmccContacts : string;
    cmccPhone    : number;
@@ -45,6 +46,7 @@ export class Contract {
   name         : string;   /*乙方*/
   contacts     : string;
   phone        : number;
+  mail         : string;    /*乙方邮箱（该类型必填）*/
   contractBtime: string;   /*开始时间*/
   contractEtime: string;   /*结束时间*/
 /* contractStatus: string;  /!*合同状态*!/  */

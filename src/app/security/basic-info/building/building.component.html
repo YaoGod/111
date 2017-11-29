@@ -29,7 +29,8 @@
 <div class="view-img" style="display: none;" [hidden]="isViewImg">
   <div class="back"></div>
   <span class="close" (click)="closeViewImg()"></span>
-  <img class="big-img" [ngStyle]="{'width':imgWidth+'px','margin-left':- imgWidth/2 +'px'}"
+  <img class="big-img" *ngIf="imgSrcView"
+       [ngStyle]="{'width':imgWidth+'px','margin-left':- imgWidth/2 +'px'}"
        [src]="imgSrcView">
   <div class="option-bar">
     <span class="enlarge" (click)="addImg()"></span>
