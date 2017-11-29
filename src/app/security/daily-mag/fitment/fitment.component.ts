@@ -63,18 +63,10 @@ export class FitmentComponent implements OnInit {
     this.http.post(SOFTWARES_URL, this.searchRepair, options)
       .map(res => res.json())
       .subscribe(data => {
-        // console.log(data);
-        if (data['status'] === 0) {
+        if(this.errorVoid.errorMsg(data)){
           this.record = data['data']['infos'];
           let total = Math.ceil(data.data.total / this.pageSize);
           this.initPage(total);
-        }else if (data['status'] === 1) {
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': data['msg'],
-            'popType': 0 ,
-            'imgType': 2 ,
-          });
         }
       });
   }
@@ -107,18 +99,10 @@ export class FitmentComponent implements OnInit {
     this.http.post(SOFTWARES_URL, this.searchContract , options)
       .map(res => res.json())
       .subscribe(data => {
-        // console.log(data);
-        if (data['status'] === 0) {
+        if(this.errorVoid.errorMsg(data)){
           this.contract = data['data']['infos'];
           let total = Math.ceil(data.data.total / this.pageSize);
           this.initPage(total);
-        }else if (data['status'] === 1) {
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': data['msg'],
-            'popType': 0 ,
-            'imgType': 2 ,
-          });
         }
       });
   }
@@ -191,7 +175,7 @@ export class FitmentComponent implements OnInit {
         this.http.get(SOFTWARES_URL)
           .map(res => res.json())
           .subscribe(data => {
-            if (data['status'] === 0) {
+            if(this.errorVoid.errorMsg(data)){
               confirmFunc.init({
                 'title': '提示' ,
                 'mes': data['msg'],
@@ -226,7 +210,7 @@ export class FitmentComponent implements OnInit {
         this.http.get(SOFTWARES_URL)
           .map(res => res.json())
           .subscribe(data => {
-            if (data['status'] === 0) {
+            if(this.errorVoid.errorMsg(data)){
               confirmFunc.init({
                 'title': '提示' ,
                 'mes': data['msg'],
@@ -366,7 +350,7 @@ export class FitmentComponent implements OnInit {
     this.http.post(SOFTWARES_URL, this.repairname, options)
       .map(res => res.json())
       .subscribe(data => {
-        if (data['status'] === 0) {
+        if(this.errorVoid.errorMsg(data)){
           confirmFunc.init({
             'title': '提示' ,
             'mes': this.editBool === false?'更改成功':'新增成功',
@@ -377,12 +361,6 @@ export class FitmentComponent implements OnInit {
           this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
           this.recordCancel();
         }else if (data['status'] === 1) {
-          confirmFunc.init({
-            'title': '提示',
-            'mes': data['msg'],
-            'popType': 0,
-            'imgType': 2,
-          });
           this.repairname.decorateBtime = this.repairname.decorateBtime.replace(/\//g, "-");
           this.repairname.decorateEtime = this.repairname.decorateEtime.replace(/\//g, "-");
         }
@@ -397,6 +375,12 @@ export class FitmentComponent implements OnInit {
       return false;
     }
     if (!this.verifyLength('contractId', '请输入四位数字')) {
+      return false;
+    }
+    return true;
+  }
+  private verifycontractNum() {
+    if (!this.isEmpty('ontractNum', '合同编号不能为空')) {
       return false;
     }
     return true;
@@ -464,7 +448,6 @@ export class FitmentComponent implements OnInit {
         if(this.errorVoid.errorMsg(data.status)){
           this.contractName.fileName.push(files[0].name);
           this.contractName.filePath.push(data.msg);
-          console.log(this.contractName.fileName);
           confirmFunc.init({
             'title': '提示' ,
             'mes': '上传成功',
@@ -486,12 +469,10 @@ export class FitmentComponent implements OnInit {
     let SOFTWARES_URL;
     if(this.contractBool === false){
       SOFTWARES_URL = "/proxy/building/decorate/updateDecorateContract";
-      console.log(this.contractBool);
     }else{
-      console.log(this.contractName);
       SOFTWARES_URL = "/proxy/building/decorate/addDecorateContract";
     }
-    if (!this.verifyContractId() || !this.verifyCmccName() || !this.verifycontractcmccContacts() ||
+    if (!this.verifyContractId() || !this.verifycontractNum() || !this.verifyCmccName() || !this.verifycontractcmccContacts() ||
       !this.verifycontractcmccPhone() || !this.verifycontractname2() || !this.verifycontacts() || !this.verifyphone() ||
       !this.verifycontractBtime() || !this.verifycontractEtime() ) {
       return false;
@@ -514,7 +495,7 @@ export class FitmentComponent implements OnInit {
     this.http.post(SOFTWARES_URL, this.contractName, options)
       .map(res => res.json())
       .subscribe(data => {
-        if (data['status'] === 0) {
+        if(this.errorVoid.errorMsg(data)){
           confirmFunc.init({
             'title': '提示' ,
             'mes': this.contractBool === false?'更改成功':'新增成功',
@@ -525,12 +506,6 @@ export class FitmentComponent implements OnInit {
           this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
           this.contractCancel();
         }else if (data['status'] === 1) {
-          confirmFunc.init({
-            'title': '提示',
-            'mes': data['msg'],
-            'popType': 0,
-            'imgType': 2,
-          });
           this.contractName.contractBtime = this.contractName.contractBtime.replace(/\//g, "-");
           this.contractName.contractEtime = this.contractName.contractEtime.replace(/\//g, "-");
         }

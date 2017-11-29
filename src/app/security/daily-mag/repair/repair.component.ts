@@ -92,17 +92,10 @@ export class RepairComponent implements OnInit {
     this.http.post(SOFTWARES_URL, search, options)
       .map(res => res.json())
       .subscribe(data => {
-        if (data['status'] === 0) {
+        if(this.errorVoid.errorMsg(data)){
           this.record = data['data']['infos'];
           let total = Math.ceil(data.data.total / this.pageSize);
           this.initPage(total);
-        }else if (data['status'] === 1) {
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': data['msg'],
-            'popType': 0 ,
-            'imgType': 2 ,
-          });
         }
       });
   }
@@ -149,7 +142,7 @@ export class RepairComponent implements OnInit {
         this.http.get(SOFTWARES_URL)
           .map(res => res.json())
           .subscribe(data => {
-            if (data['status'] === 0) {
+            if(this.errorVoid.errorMsg(data)){
               confirmFunc.init({
                 'title': '提示' ,
                 'mes': data['msg'],
@@ -158,13 +151,6 @@ export class RepairComponent implements OnInit {
               });
               this.searchRepair = new SearchRecord();
               this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
-            }else if (data['status'] === 1) {
-              confirmFunc.init({
-                'title': '提示' ,
-                'mes': data['msg'],
-                'popType': 0 ,
-                'imgType': 2 ,
-              });
             }
           });
       }
@@ -303,11 +289,10 @@ export class RepairComponent implements OnInit {
     // JSON.stringify
     this.repairname.repairBtime = this.repairname.repairBtime.replace(/-/g, "/");
     this.repairname.repairEtime = this.repairname.repairEtime.replace(/-/g, "/");
-    //console.log(this.repairname);
     this.http.post(SOFTWARES_URL, this.repairname, options)
       .map(res => res.json())
       .subscribe(data => {
-        if (data['status'] === 0) {
+        if(this.errorVoid.errorMsg(data)){
           confirmFunc.init({
             'title': '提示' ,
             'mes': this.editBool === false?'更改成功':'新增成功',
@@ -318,12 +303,6 @@ export class RepairComponent implements OnInit {
           this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
           this.recordCancel();
         }else if (data['status'] === 1) {
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': data['msg'],
-            'popType': 0 ,
-            'imgType': 2 ,
-          });
           this.repairname.repairBtime = this.repairname.repairBtime.replace(/\//g, "-");
           this.repairname.repairEtime = this.repairname.repairEtime.replace(/\//g, "-");
         }
@@ -367,17 +346,10 @@ export class RepairComponent implements OnInit {
     this.http.post(SOFTWARES_URL, search, options)
       .map(res => res.json())
       .subscribe(data => {
-        if (data['status'] === 0) {
+        if(this.errorVoid.errorMsg(data)){
           this.contract = data['data']['infos'];
           let total = Math.ceil(data.data.total / this.pageSize);
           this.initPage(total);
-        }else if (data['status'] === 1) {
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': data['msg'],
-            'popType': 0 ,
-            'imgType': 2 ,
-          });
         }
       });
   }
@@ -402,7 +374,7 @@ export class RepairComponent implements OnInit {
         this.http.get(SOFTWARES_URL)
           .map(res => res.json())
           .subscribe(data => {
-            if (data['status'] === 0) {
+            if(this.errorVoid.errorMsg(data)){
               confirmFunc.init({
                 'title': '提示' ,
                 'mes': data['msg'],
@@ -411,14 +383,6 @@ export class RepairComponent implements OnInit {
               });
               this.searchContract = new SearchContract();
               this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
-            }
-            else if (data['status'] === 1) {
-              confirmFunc.init({
-                'title': '提示' ,
-                'mes': data['msg'],
-                'popType': 0 ,
-                'imgType': 2 ,
-              });
             }
           });
       }
@@ -464,6 +428,12 @@ export class RepairComponent implements OnInit {
     }
     return true;
   }
+  private verifycontractNum() {
+  if (!this.isEmpty('contractNum', '合同编号不能为空')) {
+    return false;
+  }
+  return true;
+}
   private verifyCmccName() {
     if (!this.isEmpty('cmccName', '甲方不能为空')) {
       return false;
@@ -527,7 +497,9 @@ export class RepairComponent implements OnInit {
     }else{
       SOFTWARES_URL = "/proxy/building/repair/addRepairContract";
     }
-    if (!this.verifyContractId() || !this.verifyCmccName() || !this.verifycontractcmccContacts() || !this.verifycontractcmccPhone() || !this.verifycontractname2() || !this.verifycontacts() || !this.verifyphone() || !this.verifycontractBtime() || !this.verifycontractEtime()) {
+    if (!this.verifyContractId() ||!this.verifycontractNum() || !this.verifyCmccName() || !this.verifycontractcmccContacts() ||
+      !this.verifycontractcmccPhone() || !this.verifycontractname2() || !this.verifycontacts() || !this.verifyphone() ||
+      !this.verifycontractBtime() || !this.verifycontractEtime()) {
       return false;
     }
     if(this.contractName.contractBtime > this.contractName.contractEtime){
@@ -548,7 +520,6 @@ export class RepairComponent implements OnInit {
       });
       return false;
     }
-//console.log(this.contractName);
     this.contractName.contractBtime = this.contractName.contractBtime.replace(/-/g, "/");
     this.contractName.contractEtime = this.contractName.contractEtime.replace(/-/g, "/");
     const headers = new Headers({ 'Content-Type': 'application/json' });
@@ -557,7 +528,7 @@ export class RepairComponent implements OnInit {
     this.http.post(SOFTWARES_URL, this.contractName, options)
       .map(res => res.json())
       .subscribe(data => {
-        if (data['status'] === 0) {
+        if(this.errorVoid.errorMsg(data)){
           confirmFunc.init({
             'title': '提示' ,
             'mes': this.contractBool === false?'更改成功':'新增成功',
@@ -568,12 +539,6 @@ export class RepairComponent implements OnInit {
           this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
           this.contractCancel();
         }else if (data['status'] === 1) {
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': data['msg'],
-            'popType': 0 ,
-            'imgType': 2 ,
-          });
           this.contractName.contractBtime = this.contractName.contractBtime.replace(/\//g, "-");
           this.contractName.contractEtime = this.contractName.contractEtime.replace(/\//g, "-");
         }

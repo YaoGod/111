@@ -1,5 +1,6 @@
 .view{
-  min-height: calc(100% - 100px);
+  height: calc(100% - 120px);
+  min-height: 700px;
   padding:25px 2% 25px 2%;
 }
 .msg{
@@ -22,39 +23,55 @@
 .nav-msg{
   display: flex;
   height: 40px;
-  border-bottom: 3px solid #f7fafc;
+  margin-top:25px;
+  border-bottom: 1px solid #ddd;
 }
 .nav-msg>li{
-  width: 150px;
-  font-size: 16px;
+  line-height:40px;
+  font-size: 14px;
   text-align: center;
   cursor: pointer;
+  margin:0 4px -1px;
+  background-color: #fff;
+  position: relative;
+}
+.nav-msg>li:first-child{
+  margin-left:36px;
 }
 .nav-msg>li>h4{
-  height: 40px;
+  padding:0 15px;
+  border:1px solid #fff;
+  border-radius: 5px 5px 0 0;
+  margin-top:-1px;
+  color:#686868;
+  border-bottom-color:#ddd;
 }
-.nav-msg>li .active,.nav-msg>li:hover{
-  color: #ff6849;
-  height: 40px;
-  border-bottom: 3px solid #ff6849;
+.nav-msg>li>h4.active{
+  border-color: #ddd;
+  border-bottom:none;
 }
-.nav-msg>li .active + .msg-child{
+.nav-msg>li:hover>h4{
+  border-color: #ddd;
+
+}
+/*.nav-msg>li .active + .msg-child{
   top:0;
-}
+}*/
 h4{
   outline: none;
 }
 .content{
   height: auto;
   min-height: 400px;
- }
+}
 .msg-child{
   display: none;
-  position: relative;
-  top: 3px;
+  position: absolute;
+  top: 40px;
+  color:#686868;
+  width: 100%;
   background: #ffffff;
-  border: 3px solid #ff6849;
-  border-top: none;
+  border: 1px solid #ddd;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   z-index: 1;
@@ -78,8 +95,8 @@ h4{
 }
 .img-border{
   float: right;
-  width: 150px;
-  height: 100px;
+  width: 180px;
+  height: 110px;
   border-radius: 5px;
   box-shadow: 0 0 2px rgba(223, 223, 223, 0.32) inset;
   overflow: hidden;

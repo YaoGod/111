@@ -155,7 +155,6 @@ export class HomepageComponent implements OnInit {
   }
   /*页面显示区间5页*/
   pageLimit(page:number){
-    console.log(page);
     if(this.pages.length < 5){
       return false;
     } else if(page<=5 && this.pageNo <= 3){

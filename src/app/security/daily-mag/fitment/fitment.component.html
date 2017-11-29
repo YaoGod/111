@@ -127,6 +127,10 @@
           <span class="word">{{ctct.buildingName}}</span>
         </li>
         <li class="form-bar">
+          <span class="form-title">合同编号</span>
+          <span class="word">{{ctct.contractId}}</span>
+        </li>
+        <li class="form-bar">
           <span class="form-title">甲方</span>
           <span class="word">{{ctct.cmccName}}</span>
         </li>
@@ -283,7 +287,7 @@
       </div>
       <button value="确定" class="btn btn-determine" (click)="recordSubmit()">确定</button><button class="btn btn-cancel" value="取消" (click)="recordCancel()">取消</button>
     </form>
-    <div class="close" (click)="recordCancel()">X</div>
+    <div class="close" (click)="recordCancel()">×</div>
   </div>
 </div>
 <!--新增编辑合同弹窗-->
@@ -295,6 +299,13 @@
           <span class="form-label">大楼编号</span>
           <div class="form-inp">
             <input type="text" id="contractId" name="contractId" [(ngModel)]="contractName.buildingId" (blur)="verifyContractId()" required minlength="4" maxlength="4" placeholder="请输入四位数字">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control">
+          <span class="form-label">合同编号</span>
+          <div class="form-inp">
+            <input type="text" id="contractNum" name="contractNum" [(ngModel)]="contractName.contractId" (blur)="verifycontractNum()" required>
             <span class="errorMessage"></span>
           </div>
         </div>
@@ -359,7 +370,7 @@
         <div class="form-control">
           <span class="form-label">服务合同</span>
           <ul style="height:100px; min-width:160px; line-height: 20px; overflow-y: auto; background: #f7f7f7; float: left; color:#666; border-radius:4px;">
-            <li style="max-width: 160px;" *ngFor="let abc of contractName.fileName; let k=index">{{abc}}<a style="margin-left:6px; color:#ff0000" href="javascript:;" (click)="delFile(k)">X</a> </li>
+            <li style="max-width: 160px;" *ngFor="let abc of contractName.fileName; let k=index">{{abc}}<a style="margin-left:6px; color:#ff0000" href="javascript:;" (click)="delFile(k)">×</a> </li>
           </ul>
           <div class="form-inp" style="margin-left:130px; margin-top:10px;">
             <a href="javascript:;" style="color:#666; border-radius:4px; padding:5px 10px; background: #f7f7f7;" onclick="$('#prese').trigger('click')">上 传</a>
@@ -371,7 +382,7 @@
       </div>
       <button value="确定" class="btn btn-determine" (click)="contractSubmit()">确定</button><button class="btn btn-cancel" value="取消" (click)="contractCancel()">取消</button>
     </form>
-    <div class="close" (click)="contractCancel()">X</div>
+    <div class="close" (click)="contractCancel()">×</div>
   </div>
 </div>
 

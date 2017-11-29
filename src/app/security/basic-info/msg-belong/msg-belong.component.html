@@ -1,6 +1,6 @@
 <div class="view">
   <div class="top-right">
-    <a class="btn-edit" href="javascript:;" (click)="initEdit()"><i class="icon-pencil"></i> 编辑</a>
+    <button class="btn-edit" (click)="initEdit()"><i class="icon-pencil"></i> 编辑</button>
   </div>
   <ul class="form-msg">
     <li class="form-bar">
@@ -95,9 +95,7 @@
 </div>
 <div class="div-map" id="map"></div>
 <div class="box-option">
-  <input class="btn-close" type="button" value="取消"
-         (click)="closeEdit()">
-  <input class="btn-submit" type="button" value="提交"
-         (click)="submit()">
+  <button class="btn-submit" (click)="submit()">提交</button>
+  <button class="btn-close" (click)="closeEdit()">取消</button>
 </div>
 

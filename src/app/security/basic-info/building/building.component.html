@@ -7,14 +7,14 @@
     <p>编号：<span>{{building.buildingId | emptyValue:'暂无数据'}}</span></p>
     <p>地址：<span>{{building.address | emptyValue:'暂无数据'}}</span></p>
     <ul class="nav-msg">
-      <li><h4 routerLink="belong" routerLinkActive="active">大楼所属信息</h4></li>
-      <li><h4 routerLink="basic" routerLinkActive="active">大楼详细信息</h4></li>
-      <li><h4 routerLink="floor" routerLinkActive="active">大楼楼层信息</h4></li>
+      <li><h4 routerLink="belong" routerLinkActive="active">所属信息</h4></li>
+      <li><h4 routerLink="basic" routerLinkActive="active">详细信息</h4></li>
+      <li><h4 routerLink="floor" routerLinkActive="active">楼层信息</h4></li>
       <li>
-        <h4 [ngClass]="{'active':setNavActive()}">大楼合同信息</h4>
+        <h4 [ngClass]="{'active':setNavActive()}">合同信息&nbsp;&nbsp;&nbsp;<i class="icon-arrow-down-circle" style="font-size: 12px;"></i> </h4>
         <ol class="msg-child">
-          <li [routerLink]="['contract', type]" routerLinkActive="s-active"><h3>大楼自购/自建/租赁合同</h3></li>
-          <li [routerLink]="['contract', 'property']" routerLinkActive="s-active"><h3>大楼物业合同</h3></li>
+          <li [routerLink]="['contract', type]" routerLinkActive="s-active"><h3>自购/自建/租赁合同</h3></li>
+          <li [routerLink]="['contract', 'property']" routerLinkActive="s-active"><h3>物业合同</h3></li>
         </ol><!--routerLink="property"-->
       </li>
     </ul>
@@ -26,11 +26,10 @@
 
 
 <!--图片查看器-->
-<div class="view-img" style="display: none;">
+<div class="view-img" style="display: none;" [hidden]="isViewImg">
   <div class="back"></div>
   <span class="close" (click)="closeViewImg()"></span>
-  <img class="big-img" *ngIf="imgSrcView"
-       [ngStyle]="{'width':imgWidth+'px','margin-left':- imgWidth/2 +'px'}"
+  <img class="big-img" [ngStyle]="{'width':imgWidth+'px','margin-left':- imgWidth/2 +'px'}"
        [src]="imgSrcView">
   <div class="option-bar">
     <span class="enlarge" (click)="addImg()"></span>
