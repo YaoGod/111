@@ -12,7 +12,7 @@ const routes: Routes = [
     children: [
        {
        path:'',
-       redirectTo:'file',
+       redirectTo:'account',
        pathMatch:'full'
        },
       {

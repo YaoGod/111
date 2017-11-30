@@ -57,8 +57,6 @@
       </div>
       <div class="error"></div>
     </div>
-
-
     <div class="other" style="text-align:right;">
       <a href="javascript:;" (click)="findPassword()">忘记密码
         <i class="fa fa-question-circle" style="font-size:14px;"></i>
@@ -66,7 +64,8 @@
     </div>
     <input class="login" type="button" (click)="loginIn()" value="开始登录" />
     <div class="other">
-      <input id="in_save_passwd" type="checkbox" /><label for="in_save_passwd" style="color:#787878"> 记忆帐号和密码, 下次免输入</label>
+      <input id="in_save_passwd" type="checkbox" [(ngModel)]="save_passwd"/>
+      <label for="in_save_passwd" style="color:#787878"> 记忆帐号和密码, 下次免输入</label>
     </div>
   </div>
 

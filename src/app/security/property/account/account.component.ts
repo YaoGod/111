@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountComponent implements OnInit {
 
+  public pageNo     : number;
+  public pageSize   : number;
+  public pages      : Array<number>;
   constructor() { }
 
   ngOnInit() {

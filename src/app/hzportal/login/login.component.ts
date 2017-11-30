@@ -15,6 +15,7 @@ declare var $: any;
 })
 export class LoginComponent implements OnInit {
   public user: User;
+  public save_passwd:boolean;
   constructor(
     private router: Router,
     private errorResponse:ErrorResponseService,
@@ -24,6 +25,11 @@ export class LoginComponent implements OnInit {
   }
   ngOnInit() {
     this.user = new User();
+    this.save_passwd = sessionStorage.getItem("save_passwd")?true:false;
+    if(this.save_passwd) {
+      this.user.name = sessionStorage.getItem("username");
+      this.user.password = sessionStorage.getItem("password");
+    }
   }
   /*登陆*/
   loginIn() {
@@ -37,14 +43,21 @@ export class LoginComponent implements OnInit {
           if(this.errorResponse.errorMsg(data)) {
             if(data.data.result === 'illegal') {
               this.addErrorClass('password','密码错误');
+              sessionStorage.removeItem("save_passwd");
+              sessionStorage.removeItem("username");
+              sessionStorage.removeItem("password");
             }else {
               this.globalUserService.setVal(data.data.userInfo);
               sessionStorage.setItem("isLoginIn","Login");
+              this.save_passwd?sessionStorage.setItem("save_passwd","true"):sessionStorage.removeItem("save_passwd");
               sessionStorage.setItem("username",data.data.userInfo.username);
+              sessionStorage.setItem("password",this.user.password);
               this.router.navigate(['/hzportal/']);
             }
           }else {
-            console.log(data);
+            sessionStorage.removeItem("save_passwd");
+            sessionStorage.removeItem("username");
+            sessionStorage.removeItem("password");
           }
         });
     }
