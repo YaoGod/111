@@ -47,4 +47,21 @@ export class UtilBuildingService {
     xhr.send(form);
     return xhr;
   }
+  /*
+   文件上传
+   param: postData:file,
+   return:
+   */
+  importTemplate(postData) {
+    const url = '/proxy/building/energy/importTemplate/';
+    var form = new FormData();
+    if (typeof(postData) === 'object') {
+      form.append('file', postData);
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.withCredentials = true;
+    xhr.send(form);
+    return xhr;
+  }
 }

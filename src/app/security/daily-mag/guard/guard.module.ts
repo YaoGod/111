@@ -4,7 +4,8 @@ import {FormsModule} from "@angular/forms"
 import { GuardComponent } from './guard.component';
 import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
-;
+
+
 const routes: Routes = [
   {
     path: '',

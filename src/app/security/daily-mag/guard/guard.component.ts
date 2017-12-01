@@ -39,9 +39,8 @@ export class GuardComponent implements OnInit {
     this.searchArch = new Arch();
     this.pages = [];
     this.repairname.type = 'security';
-    this.contractName.personType = 'guard';
-    this.contractName.fileName = [];
-    this.contractName.filePath = [];
+    this.contractName.personType = 'security';
+    this.contractName.imgPath = '';
 
     if($('.guard-header a:last-child').hasClass('active')) {
       console.log('档案');
@@ -72,10 +71,11 @@ export class GuardComponent implements OnInit {
   }
   /*获取/查询保安人员档案*/
   private getRecordSecond(search, pageNo, pageSize) {
-    const SOFTWARES_URL = "/proxy/building/company/getCompanyList/" + pageNo + "/" + pageSize;
+    const SOFTWARES_URL = "/proxy/building/person/getPersonList/list/" + pageNo + "/" + pageSize;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
+    search.personType = "security";
     this.http.post(SOFTWARES_URL, search, options)
       .map(res => res.json())
       .subscribe(data => {
@@ -86,29 +86,43 @@ export class GuardComponent implements OnInit {
         }
       });
   }
-  /*新增保安公司*/
+  /*点击查询*/
+  repairSearch() {
+    if($('.guard-header a:last-child').hasClass('active')) {
+      console.log('查询人员档案');
+      this.pageNo = 1;
+      this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
+    }else {
+      console.log('查询公司');
+      this.pageNo = 1;
+      this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
+    }
+  }
+  /*点击新增*/
   addCompany() {
     if($('.guard-header a:last-child').hasClass('active')) {
+      this.contractBool = true;
       $('.mask-contract').fadeIn();
     }else {
+      this.editBool = true;
       $('.mask-repair').fadeIn();
     }
   }
   /*校验公司信息*/
   private verifyId() {
-    if (!this.isEmpty('Id', '信息不能为空')) {
+    if (!this.isEmpty('Id', '不能为空')) {
       return false;
     }
-    if (!this.verifyIsNumber('Id', '编号为纯数字')) {
+    if (!this.verifyIsNumber('Id', '编号为数字')) {
       return false;
     }
-    if (!this.verifyLength('Id', '请输入四位数字')) {
+    if (!this.verifyLength('Id', '请输入四位')) {
       return false;
     }
     return true;
   }
   private verifycompanyName() {
-    if (!this.isEmpty('companyName', '信息不能为空')) {
+    if (!this.isEmpty('companyName', '不能为空')) {
       return false;
     }
     return true;
@@ -137,7 +151,6 @@ export class GuardComponent implements OnInit {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
-    console.log(this.repairname);
     this.repairname.type = 'security';
     this.http.post(SOFTWARES_URL, this.repairname, options)
       .map(res => res.json())
@@ -172,11 +185,156 @@ export class GuardComponent implements OnInit {
     this.repairname = this.record[index];
     confirmFunc.init({
       'title': '提示' ,
-      'mes': '是否删除此记录？',
+      'mes': '是否删除？',
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = "/proxy/building/repair/deleteRepairRecord/" +this.repairname.id;
+        let SOFTWARES_URL = "/proxy/building/company/deleteServerCompany/" +this.repairname.id;
+        this.http.get(SOFTWARES_URL)
+          .map(res => res.json())
+          .subscribe(data => {
+            if(this.errorVoid.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示' ,
+                'mes': data['msg'],
+                'popType': 0 ,
+                'imgType': 1 ,
+                'callback': () => {
+                  this.repairname = new GuardName();
+                  this.pages =[];
+                  this.pageNo = 1;
+                  this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
+                }
+              });
+
+            }
+          });
+      }
+    });
+  }
+  /*点击公司*/
+  companyFade(event) {
+    this.pageNo = 1;
+    this.searchCompany = new Company();
+    $(event.target).addClass('active');
+    $(event.target).siblings('a').removeClass('active');
+    this.repairSearch();
+    $('.box1').show();
+    $('.box2').hide();
+    $('.guard-company').fadeIn();
+    $('.guard-arch').hide();
+  }
+  /*点击人员档案*/
+  archFade(event) {
+    this.pageNo = 1;
+    this.searchArch = new Arch();
+    $(event.target).addClass('active');
+    $(event.target).siblings('a').removeClass('active');
+    this.repairSearch();
+    $('.box1').hide();
+    $('.box2').show();
+    $('.guard-arch').fadeIn();
+    $('.guard-company').hide();
+  }
+  private verifycompanyName2() {
+    if (!this.isEmpty('companyName2', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifypersonId() {
+    if (!this.isEmpty('personId', '不能为空')) {
+      return false;
+    }
+    if (!this.verifyIsNumber('personId', '请输入数字')) {
+      return false;
+    }
+    return true;
+  }
+  private verifypersonName() {
+    if (!this.isEmpty('personName', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifypersonPhone() {
+    if (!this.isEmpty('personPhone', '不能为空')) {
+      return false;
+    }
+    if (!this.verifyIsTel('personPhone', '号码不正确')) {
+      return false;
+    }
+    return true;
+  }
+  private verifypersonIdcard() {
+    if (!this.isEmpty('personIdcard', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifypersonStatus() {
+    if (!this.isEmpty('personStatus', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  /*新增/编辑档案信息提交*/
+  contractSubmit() {
+    let SOFTWARES_URL;
+    if(this.contractBool === false) {
+      SOFTWARES_URL = "/proxy/building/person/updatePerson";
+    }else {
+      SOFTWARES_URL = "/proxy/building/person/addPerson/1";
+    }
+    if (!this.verifycompanyName2() || !this.verifypersonId() || !this.verifypersonName() || !this.verifypersonPhone() ||
+      !this.verifypersonIdcard() || !this.verifypersonStatus() ) {
+      return false;
+    }
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({headers: headers});
+    // JSON.stringify
+    this.contractName.personType = 'security';
+    this.http.post(SOFTWARES_URL, this.contractName, options)
+      .map(res => res.json())
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': this.contractBool === false?'更改成功':'新增成功',
+            'popType': 0 ,
+            'imgType': 1 ,
+          });
+          $('.mask-contract').hide();
+          this.contractName = new ArchName();
+          this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
+          this.contractCancel();
+        }
+      });
+  }
+  /*新增编辑档案信息的取消按钮*/
+  contractCancel() {
+    this.contractName = new ArchName();
+    $('.form-control').removeClass('form-error');
+    $('.errorMessage').html('');
+    $('.mask-contract').hide();
+  }
+  /* 编辑人员档案*/
+  editContract(index) {
+    this.contractBool = false;
+    this.contractName = this.contract[index];
+    $('.mask-contract').fadeIn();
+    $('.mask-contract .mask-head p').html('编辑人员档案');
+  }
+  /* 删除人员档案*/
+  delContract(index) {
+    this.contractName = this.contract[index];
+    confirmFunc.init({
+      'title': '提示' ,
+      'mes': '是否删除？',
+      'popType': 1 ,
+      'imgType': 3 ,
+      'callback': () => {
+        let SOFTWARES_URL = "/proxy/building/person/deletePerson/" +this.contractName.id;
         this.http.get(SOFTWARES_URL)
           .map(res => res.json())
           .subscribe(data => {
@@ -187,12 +345,78 @@ export class GuardComponent implements OnInit {
                 'popType': 0 ,
                 'imgType': 1 ,
               });
-              this.searchCompany = new Company();
-              this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
+              this.contractName = new ArchName();
+              this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
             }
           });
       }
     });
+  }
+  /*图片上传*/
+  prese_upload(files,index) {
+    var xhr = this.utilBuildingService.uploadImg(files[0],'person',-1);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
+        var data:any = JSON.parse(xhr.responseText);
+        if(this.errorVoid.errorMsg(data)) {
+          this.contractName.imgPath = data.msg;
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': '上传成功',
+            'popType': 0 ,
+            'imgType': 1,
+          });
+        }
+      }
+    };
+  }
+  /*文件上传*/
+  prese_upload2(files) {
+    var xhr = this.utilBuildingService.importTemplate(files[0]);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
+        var data:any = JSON.parse(xhr.responseText);
+        if(this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': '导入成功',
+            'popType': 0 ,
+            'imgType': 1,
+          });
+          $('#induction').hide();
+        }
+      }
+    };
+  }
+  /*点击导入按钮*/
+  private  inductionDialog() {
+    $('#induction').fadeIn();
+  }
+  /*关闭导入对话框*/
+  private closeInductionDialog()  {
+    $('#induction').fadeOut();
+    $('#uploadFileName').val('');
+  }
+  /*点击导出按钮*/
+  private exportFile() {
+    $('#deriving').fadeIn();
+  }
+  /*关闭导出对话框*/
+  private closeDerivingDialog() {
+    document.getElementById( 'deriving' ).style.display = 'none';
+  }
+  /*导出数据下载*/
+  private downDeriving(){
+    this.http.get("/proxy/building/person/exportTemplate")
+    // .map(res => res.json())
+      .subscribe(data => {
+        // window.location.href =
+        $('#deriving').fadeOut();
+      });
+  }
+  /*关闭导出对话框*/
+  private closeDeriving() {
+    $( '#deriving' ).hide();
   }
   /*页码初始化*/
   initPage(total) {
@@ -253,6 +477,20 @@ export class GuardComponent implements OnInit {
     }
   }
   /**
+   * 验证手机号码
+   * @return
+   */
+  private verifyIsTel(id: string, error?: string): boolean {
+    const data =  $('#' + id).val();
+    if (!String(data).match( /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/ )){
+      this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /**
    * 校验字符长度小于4
    * @param id
    * @param error
@@ -300,24 +538,26 @@ export class GuardName {
 }
 export class ArchName {
   id: number; // 本条信息ID
-  buildingId: string;
-  buildingName: string;
-  companyName: string; // 保安公司
-  personNum: 0; // 人数
-  personType:string; // 服务人员类别
-  filePath: string[]; // 合同路径
-  fileName: string[]; // 合同名字
+  companyName: string; // 公司名称
+  imgPath: string; // 头像地址
+  personAge: 0; // 年龄
+  personId:string; // 编号
+  personIdcard: 0; // 身份证号
+  personName:string; // 姓名
+  personPhone: 0; // 联系电话
+  personSex:string; // 性别
+  personStatus: string; // 人员状态
+  personType:string; // 人员类别
 }
 export class Company {
   buildingId: string; // 大楼编号
   buildingName: string;  // 大楼名称
-  tyoe: string;
-  companyType: string; // 服务公司类别
+  type: string;
   companyName: string; // 服务公司名称
 }
 export class Arch {
   buildingId: string; // 大楼编号
   buildingName: string;  // 大楼名称
-  contractBtime: string; // 合同开始时间
-  contractEtime: string; // 合同结束时间
+  type: string;
+  companyName: string; // 服务公司名称
 }

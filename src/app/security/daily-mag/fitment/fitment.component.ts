@@ -24,8 +24,8 @@ export class FitmentComponent implements OnInit {
   public pages: Array<number>;
   public searchRepair : SearchRecord;
   public searchContract : SearchContract;
-  private beginTime :string;
-  private endTime :string;
+  public beginTime :string;
+  public endTime :string;
   private editBool = true;
   private contractBool = true;
   constructor(private http: Http,
@@ -73,9 +73,11 @@ export class FitmentComponent implements OnInit {
   }
   /*点击新增*/
   repairNew() {
-    if($('.fitment-header a:last-child').hasClass('active')){
+    if($('.fitment-header a:last-child').hasClass('active')) {
+      this.contractBool = true;
       $('.mask-contract').fadeIn();
-    }else{
+    }else {
+      this.editBool = true;
       $('.mask-repair').fadeIn();
     }
   }
@@ -133,7 +135,7 @@ export class FitmentComponent implements OnInit {
     this.beginTime = '';
     this.endTime = '';
     this.searchRepair = new SearchRecord();
-;   $(event.target).addClass('active');
+    $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
     this.repairSearch();
     $('.box1').show();
@@ -168,7 +170,7 @@ export class FitmentComponent implements OnInit {
     this.repairname = this.record[index];
     confirmFunc.init({
       'title': '提示' ,
-      'mes': '是否删除此记录？',
+      'mes': '是否删除？',
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
@@ -176,14 +178,14 @@ export class FitmentComponent implements OnInit {
         this.http.get(SOFTWARES_URL)
           .map(res => res.json())
           .subscribe(data => {
-            if(this.errorVoid.errorMsg(data)){
+            if(this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示' ,
                 'mes': data['msg'],
                 'popType': 0 ,
                 'imgType': 1 ,
               });
-              this.searchRepair = new SearchRecord();
+              this.repairname = new RepairName();
               this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
             }
           });
@@ -199,11 +201,11 @@ export class FitmentComponent implements OnInit {
     $('.mask-contract').fadeIn();
   }
   /* 删除装修合同*/
-  delContract(index){
+  delContract(index) {
     this.contractName = this.contract[index];
     confirmFunc.init({
       'title': '提示' ,
-      'mes': '是否删除此记录？',
+      'mes': '是否删除？',
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
@@ -211,14 +213,14 @@ export class FitmentComponent implements OnInit {
         this.http.get(SOFTWARES_URL)
           .map(res => res.json())
           .subscribe(data => {
-            if(this.errorVoid.errorMsg(data)){
+            if(this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示' ,
                 'mes': data['msg'],
                 'popType': 0 ,
                 'imgType': 1 ,
               });
-              this.searchContract = new SearchContract();
+              this.contractName = new ContractName();
               this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
             }
           });
@@ -479,13 +481,14 @@ export class FitmentComponent implements OnInit {
       return false;
     }
 
-    if( this.contractName.filePath.length<1 ){
+    if( this.contractName.filePath.length<1 ) {
       confirmFunc.init({
         'title': '提示' ,
         'mes': '请上传文件信息',
         'popType': 0 ,
         'imgType': 2 ,
       });
+      return false;
     }
     this.contractName.contractBtime = this.contractName.contractBtime.replace(/-/g, "/");
     this.contractName.contractEtime = this.contractName.contractEtime.replace(/-/g, "/");

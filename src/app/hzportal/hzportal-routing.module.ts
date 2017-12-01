@@ -19,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'hzportal',
-    canActivate: [RouteGuardService],
+    /*canActivate: [RouteGuardService],*/
     component: HeaderComponent,
     children: [
       {
