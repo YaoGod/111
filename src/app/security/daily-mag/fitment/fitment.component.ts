@@ -58,7 +58,6 @@ export class FitmentComponent implements OnInit {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
-    const dataPost = search;
     search.decorateBtime = this.beginTime.replace(/-/g, "/");
     search.decorateEtime = this.endTime.replace(/-/g, "/");
     this.http.post(SOFTWARES_URL, this.searchRepair, options)
@@ -75,9 +74,11 @@ export class FitmentComponent implements OnInit {
   repairNew() {
     if($('.fitment-header a:last-child').hasClass('active')) {
       this.contractBool = true;
+      this.contractName = new ContractName();
       $('.mask-contract').fadeIn();
     }else {
       this.editBool = true;
+      this.repairname = new RepairName();
       $('.mask-repair').fadeIn();
     }
   }
@@ -87,8 +88,6 @@ export class FitmentComponent implements OnInit {
     $('.form-control').removeClass('form-error');
     $('.errorMessage').html('');
     $('.mask-repair').hide();
-    /*let url = '/knowledge/list/' + '';
-     this.router.navigate([url]);*/
   }
   /*获取/查询装修合同 */
   private getRecordSecond(search, pageNo, pageSize) {
@@ -114,10 +113,10 @@ export class FitmentComponent implements OnInit {
     if(((this.endTime === '' && this.beginTime !== '') || (this.endTime !== '' && this.beginTime === '') || ((this.beginTime !==
       '' &&  this.endTime !== '') && this.beginTime <= this.endTime)) || (this.beginTime === '' && this.endTime === '')) {
       if ($('.fitment-header a:last-child').hasClass('active')) {
-        console.log('执行合同');
+        // console.log('执行合同');
         this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
       } else {
-        console.log('执行记录');
+        // console.log('执行记录');
         this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
       }
     }else{
@@ -185,7 +184,8 @@ export class FitmentComponent implements OnInit {
                 'popType': 0 ,
                 'imgType': 1 ,
               });
-              this.repairname = new RepairName();
+              this.pages =[];
+              this.pageNo = 1;
               this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
             }
           });
@@ -220,7 +220,8 @@ export class FitmentComponent implements OnInit {
                 'popType': 0 ,
                 'imgType': 1 ,
               });
-              this.contractName = new ContractName();
+              this.pages =[];
+              this.pageNo = 1;
               this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
             }
           });
@@ -360,7 +361,6 @@ export class FitmentComponent implements OnInit {
             'popType': 0 ,
             'imgType': 1 ,
           });
-          this.searchRepair = new SearchRecord();
           this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
           this.recordCancel();
         }else if (data['status'] === 1) {
@@ -506,7 +506,6 @@ export class FitmentComponent implements OnInit {
             'popType': 0 ,
             'imgType': 1 ,
           });
-          this.searchContract = new SearchContract();
           this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
           this.contractCancel();
         }else if (data['status'] === 1) {

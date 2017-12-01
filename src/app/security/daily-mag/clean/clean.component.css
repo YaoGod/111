@@ -104,7 +104,7 @@ input{
   position: relative;
   transition: all .5s;
   margin:15px 0;
-  box-shadow: 0 3px 1px #ccc;
+  box-shadow: 0 0 1px #ccc;
 }
 .form-bar{
   -webkit-box-flex: 0;
@@ -123,10 +123,10 @@ input{
   float: left;
   font-weight: 300;
   -webkit-box-flex: 0;
-  -webkit-flex: 0 0 35%;
-  -ms-flex: 0 0 35%;
-  flex: 0 0 35%;
-  max-width:35%;
+  -webkit-flex: 0 0 40%;
+  -ms-flex: 0 0 40%;
+  flex: 0 0 40%;
+  max-width:40%;
 }
 .form-word{
   position: relative;
@@ -135,10 +135,10 @@ input{
   padding:10px;
   float: left;
   -webkit-box-flex: 0;
-  -webkit-flex: 0 0 65%;
-  -ms-flex: 0 0 65%;
-  flex: 0 0 65%;
-  max-width: 65%;
+  -webkit-flex: 0 0 60%;
+  -ms-flex: 0 0 60%;
+  flex: 0 0 60%;
+  max-width: 60%;
 }
 .form-btn{
   position: absolute;
@@ -319,6 +319,7 @@ button{
   height:100%;
   position: absolute;
   right:5%;
+  line-height:179px;
   top:0;
 }
 .form-photo img{
@@ -486,5 +487,146 @@ button{
 }
 .guard-company,.guard-arch{
   display: none;
+}
+/* modal */
+.modal-back{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000;
+  background-color: rgba(0,0,0,0.4);
+  display: none;
+  z-index: 25;
+}
+.modal{
+  height:auto;
+  width:465px;
+  margin:60px auto 5px;
+  background: white;
+  box-shadow:0px 0px 15px  #666666;
+  border-radius: 3px;
+}
+.modal-header{
+  position: relative;
+}
+.modal-title{
+  height: 50px;
+  line-height: 50px;
+  font-size: 16px;
+  font-weight: normal;
+  color: #666666;
+  background-color: #f1f2f2;
+  border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  text-align: center;
+}
+.modal-header .close{
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  border:none;
+  background-color: inherit;
+  font-size: 20px;
+  color:#4b87d4;
+}
+.modal-header .close:hover{
+  color: #1d72df;
+}
+.modal-body{
+  padding-top: 20px;
+}
+.modal-body .foot{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding:10px 15px;
+  background-color: #f1f5f8;
+}
+.modal-body .btn{
+  border: none;
+  background-color: #4b87d4;
+  color: #ffffff;
+  padding: 6px 25px;
+  margin: 7px 10px;
+}
+.modal-body .btn:hover{
+  background-color: #1d72df;
+  cursor: pointer;
+}
+/* excel-out */
+.excel-out{
+  padding-top: 60px;
+  background: url(../../../../assets/image/excel.png) center 10px no-repeat;
+}
+.excel-out p{
+  line-height: 24px;
+  font-size: 16px;
+  color: #010101;
+  margin: 15px;
+  text-align: center;
+}
+
+/* induction */
+.induction{
+  width: 520px;
+}
+.induction .form-label{
+  min-width: 120px;
+  float:left;
+  text-align: center;
+}
+.induction .form-control{
+  width: 100%;
+  min-height:100px;
+  line-height:100px;
+  float:left;
+}
+.induction input{
+  float: left;
+  width: 210px;
+}
+.induction .select-file{
+  position: relative;
+  float: left;
+  cursor: pointer;
+  margin-left:182px
+}
+.induction .download-file{
+  float: left;
+  margin-left:24px;
+  cursor: pointer;
+}
+.select-file input[type="file"]{
+  width: 68px;
+  height: 24px;
+  position: absolute;
+  opacity: 0;
+  filter:alpha(opacity=0);
+}
+.induction a{
+  background-color: #4b87d4;
+  padding: 8px 10px;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 12px;
+}
+.select-file input[type="file"]:hover ~ a{
+  background-color: #1d72df;
+}
+.induction a:hover{
+  background-color: #1d72df;
 }
 

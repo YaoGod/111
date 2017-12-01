@@ -57,30 +57,15 @@ export class RepairComponent implements OnInit {
       this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
     }
   }
-  /*setTimePicker() {
-    $('#datepicker').pickadate({
-      monthsFull: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
-      weekdaysShort: ['日', '一', '二', '三', '四', '五', '六'],
-      today: '今天',
-      clear: '清空',
-      close: '关闭',
-      firstDay: 1,
-      format: 'yyyy-mm-dd',
-      formatSubmit: 'yyyy-mm-dd',
-      max: true,
-      onSet: ( context => {
-        this.searchContract.contractBtime =  $('#datepicker').val();
-      })
-    });
-  }*/
-
   /*点击新增*/
   repairNew() {
     if($('.repair-header a:last-child').hasClass('active')) {
       this.contractBool = true;
+      this.contractName = new ContractName();
       $('.mask-contract').fadeIn();
     }else {
       this.editBool = true;
+      this.repairname = new RepairName();
       $('.mask-repair').fadeIn();
     }
   }
@@ -150,7 +135,6 @@ export class RepairComponent implements OnInit {
                 'popType': 0 ,
                 'imgType': 1 ,
               });
-              this.repairname = new RepairName();
               this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
             }
           });
@@ -300,7 +284,6 @@ export class RepairComponent implements OnInit {
             'popType': 0 ,
             'imgType': 1 ,
           });
-          this.searchRepair = new SearchRecord();
           this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
           this.recordCancel();
         }else if (data['status'] === 1) {
@@ -382,7 +365,6 @@ export class RepairComponent implements OnInit {
                 'popType': 0 ,
                 'imgType': 1 ,
               });
-              this.contractName = new ContractName();
               this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
             }
           });
@@ -536,7 +518,6 @@ export class RepairComponent implements OnInit {
             'popType': 0 ,
             'imgType': 1 ,
           });
-          this.searchContract = new SearchContract();
           this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
           this.contractCancel();
         }else if (data['status'] === 1) {

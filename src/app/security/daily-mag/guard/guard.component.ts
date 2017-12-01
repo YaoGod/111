@@ -71,7 +71,7 @@ export class GuardComponent implements OnInit {
   }
   /*获取/查询保安人员档案*/
   private getRecordSecond(search, pageNo, pageSize) {
-    const SOFTWARES_URL = "/proxy/building/person/getPersonList/list/" + pageNo + "/" + pageSize;
+    const SOFTWARES_URL = "/proxy/building/person/getPersonList/" + pageNo + "/" + pageSize;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
@@ -89,11 +89,9 @@ export class GuardComponent implements OnInit {
   /*点击查询*/
   repairSearch() {
     if($('.guard-header a:last-child').hasClass('active')) {
-      console.log('查询人员档案');
       this.pageNo = 1;
       this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
     }else {
-      console.log('查询公司');
       this.pageNo = 1;
       this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
     }
@@ -102,9 +100,11 @@ export class GuardComponent implements OnInit {
   addCompany() {
     if($('.guard-header a:last-child').hasClass('active')) {
       this.contractBool = true;
+      this.contractName = new ArchName();
       $('.mask-contract').fadeIn();
     }else {
       this.editBool = true;
+      this.repairname = new GuardName();
       $('.mask-repair').fadeIn();
     }
   }
@@ -162,7 +162,6 @@ export class GuardComponent implements OnInit {
             'popType': 0 ,
             'imgType': 1 ,
           });
-          this.searchCompany = new Company();
           this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
           this.recordCancel();
         }
@@ -199,14 +198,10 @@ export class GuardComponent implements OnInit {
                 'mes': data['msg'],
                 'popType': 0 ,
                 'imgType': 1 ,
-                'callback': () => {
-                  this.repairname = new GuardName();
-                  this.pages =[];
-                  this.pageNo = 1;
-                  this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
-                }
               });
-
+              this.pages =[];
+              this.pageNo = 1;
+              this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
             }
           });
       }
@@ -215,6 +210,7 @@ export class GuardComponent implements OnInit {
   /*点击公司*/
   companyFade(event) {
     this.pageNo = 1;
+    this.pages = [];
     this.searchCompany = new Company();
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
@@ -227,6 +223,7 @@ export class GuardComponent implements OnInit {
   /*点击人员档案*/
   archFade(event) {
     this.pageNo = 1;
+    this.pages = [];
     this.searchArch = new Arch();
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
@@ -305,7 +302,6 @@ export class GuardComponent implements OnInit {
             'imgType': 1 ,
           });
           $('.mask-contract').hide();
-          this.contractName = new ArchName();
           this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
           this.contractCancel();
         }
@@ -345,7 +341,8 @@ export class GuardComponent implements OnInit {
                 'popType': 0 ,
                 'imgType': 1 ,
               });
-              this.contractName = new ArchName();
+              this.pages =[];
+              this.pageNo = 1;
               this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
             }
           });
@@ -402,22 +399,23 @@ export class GuardComponent implements OnInit {
     $('#deriving').fadeIn();
   }
   /*关闭导出对话框*/
-  private closeDerivingDialog() {
-    document.getElementById( 'deriving' ).style.display = 'none';
+  private closeDeriving() {
+    $('#deriving').hide();
   }
   /*导出数据下载*/
   private downDeriving(){
-    this.http.get("/proxy/building/person/exportTemplate")
+    if((typeof this.searchArch.companyName) === 'undefined'){
+      this.searchArch.companyName = 'null';
+    }
+    this.http.get("/proxy/building/person/getPersonExcel/"+ this.searchArch.companyName +"/security")
     // .map(res => res.json())
       .subscribe(data => {
-        // window.location.href =
+        window.location.href = "/proxy/building/person/getPersonExcel/"+ this.searchArch.companyName +"/security";
+        this.searchArch = new Arch();
         $('#deriving').fadeOut();
       });
   }
-  /*关闭导出对话框*/
-  private closeDeriving() {
-    $( '#deriving' ).hide();
-  }
+
   /*页码初始化*/
   initPage(total) {
     this.pages = new Array(total);

@@ -24,14 +24,14 @@
       </div>
       <div class="box2">
         <ul class="company-search clearfix">
-          <li>
+          <!--<li>
             <label>大楼编号</label>
             <input type="text" class="search-ipt" [(ngModel)]="searchArch.buildingId">
           </li>
           <li >
             <label>大楼名称</label>
             <input type="text" class="search-ipt" [(ngModel)]="searchArch.buildingName">
-          </li>
+          </li>-->
           <li >
             <label>服务公司名称</label>
             <input type="text" class="search-ipt" [(ngModel)]="searchArch.companyName">
@@ -45,7 +45,6 @@
     <!--服务公司-->
     <div class="guard-container guard-company">
       <div class="row text-right">
-        <!--<a class="btn btn-lead" href="javascript:;"><i class="icon-docs"></i> 批量导入</a>-->
         <a class="btn btn-new" href="javascript:;" (click)="addCompany()"><i class="icon-plus"></i> 新 增</a>
       </div>
       <ul class="form-msg clearfix" *ngFor="let inner of record; let i=index">
@@ -76,46 +75,44 @@
         <a class="btn btn-new" href="javascript:;" (click)="exportFile()"><i class="icon-docs"></i> 导 出</a>
         <a class="btn btn-new" href="javascript:;" (click)="addCompany()"><i class="icon-plus"></i> 新 增</a>
       </div>
-      <ul class="form-msg clearfix"><!-- *ngFor="let inner of contract; let i=index"-->
+      <!--假数据-->
+      <!--<ul class="form-msg clearfix">
         <li class="form-bar">
           <span class="form-title text-right">服务公司名称</span>
-          <span class="form-word">4000<!--{{inner.companyName}}--></span>
+          <span class="form-word">4000</span>
         </li>
         <li class="form-bar">
           <span class="form-title text-right">人员姓名</span>
-          <span class="form-word">张三<!--{{inner.personName}}--></span>
+          <span class="form-word">张三</span>
         </li>
         <li class="form-bar">
           <span class="form-title text-right">人员编号</span>
-          <span class="form-word">88888888<!--{{inner.personId}}--></span>
+          <span class="form-word">88888888<</span>
         </li>
         <li class="form-bar">
           <span class="form-title text-right">联系电话</span>
-          <span class="form-word">18609787554<!--{{inner.personPhone}}--></span>
+          <span class="form-word">18609787554</span>
         </li>
         <li class="form-bar">
           <span class="form-title text-right">身份证号码</span>
-          <span class="form-word">376522198723451234<!--{{inner.personIdcard}}--></span>
+          <span class="form-word">376522198723451234</span>
         </li>
         <li class="form-bar">
           <span class="form-title text-right">年龄</span>
-          <span class="form-word">31<!--{{inner.personAge}}--></span>
+          <span class="form-word">31</span>
         </li>
         <li class="form-bar">
           <span class="form-title text-right">性别</span>
-          <span class="form-word">男<!--{{inner.personSex}}--></span>
+          <span class="form-word">男</span>
         </li>
         <li class="form-bar">
           <span class="form-title text-right">人员状态</span>
-          <span class="form-word">在职<!--{{inner.personStatus}}--></span>
+          <span class="form-word">在职</span>
         </li>
-        <li class="form-photo"><img src="../../../../assets/image/p1.jpg">
-          <!--<img [src]="+'/proxy'+inner.imgPath" *ngIf="inner.imgPath">-->
-
-        </li>
-        <li class="form-btn" onclick="$('.mask-contract').fadeIn()"><!--(click)="editContract(i)"--><i class="icon-pencil"></i></li>
-        <li class="form-btn form-del" (click)="editContract(i)"><i class="icon-trash"></i></li>
-      </ul>
+        <li class="form-photo"><img src="../../../../assets/image/p1.jpg"></li>
+        <li class="form-btn" onclick="$('.mask-contract').fadeIn()"><i class="icon-pencil"></i></li>
+        <li class="form-btn form-del"><i class="icon-trash"></i></li>
+      </ul>-->
       <ul class="form-msg clearfix" *ngFor="let inner of contract; let i=index">
         <li class="form-bar">
           <span class="form-title text-right">服务公司名称</span>
@@ -149,11 +146,11 @@
           <span class="form-title text-right">人员状态</span>
           <span class="form-word">{{inner.personStatus}}</span>
         </li>
-        <li class="form-photo"><!--<img src="../../../../assets/image/p1.jpg">-->
+        <li class="form-photo">
           <img [src]="+'/proxy'+inner.imgPath" *ngIf="inner.imgPath">
         </li>
-        <li class="form-btn" onclick="$('.mask-contract').fadeIn()"><!--(click)="editContract(i)"--><i class="icon-pencil"></i></li>
-        <li class="form-btn form-del" (click)="editContract(i)"><i class="icon-trash"></i></li>
+        <li class="form-btn" (click)="editContract(i)"><i class="icon-pencil"></i></li>
+        <li class="form-btn form-del" (click)="delContract(i)"><i class="icon-trash"></i></li>
       </ul>
     </div>
     <div class="turn" *ngIf="pages.length > 1">
@@ -294,7 +291,7 @@
                 <a onclick="$('#prese2').trigger('click')">选取文件</a>
               </div>
               <div class="download-file">
-                <a id="downLoadTemplate" target="_blank" href="http://10.71.246.86/proxy/building/person/exportTemplate">下载模板</a>
+                <a id="downLoadTemplate" target="_blank" href="/proxy/building/person/exportTemplate">下载模板</a>
               </div>
             </div>
           </div>
@@ -330,4 +327,3 @@
       </div>
     </div>
   </div>
-

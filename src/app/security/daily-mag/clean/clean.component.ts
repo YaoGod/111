@@ -40,15 +40,15 @@ export class CleanComponent implements OnInit {
     this.pages = [];
     this.repairname.type = 'clean';
     this.contractName.personType = 'clean';
-    this.contractName.imgPath = '';
+    // this.contractName.imgPath = '';
 
     if($('.guard-header a:last-child').hasClass('active')) {
       console.log('档案');
-      $('.guard-arch,.box2').fadeIn();
+      $('.guard-arch,.box2').fadeIn(100);
       this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
     }else {
       console.log('公司');
-      $('.guard-company,.box1').fadeIn();
+      $('.guard-company,.box1').fadeIn(100);
       this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
     }
   }
@@ -71,7 +71,7 @@ export class CleanComponent implements OnInit {
   }
   /*获取/查询保安人员档案*/
   private getRecordSecond(search, pageNo, pageSize) {
-    const SOFTWARES_URL = "/proxy/building/person/getPersonList/list/" + pageNo + "/" + pageSize;
+    const SOFTWARES_URL = "/proxy/building/person/getPersonList/" + pageNo + "/" + pageSize;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
@@ -89,11 +89,11 @@ export class CleanComponent implements OnInit {
   /*点击查询*/
   repairSearch() {
     if($('.guard-header a:last-child').hasClass('active')) {
-      console.log('查询人员档案');
+      // console.log('查询人员档案');
       this.pageNo = 1;
       this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
     }else {
-      console.log('查询公司');
+      // console.log('查询公司');
       this.pageNo = 1;
       this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
     }
@@ -102,9 +102,11 @@ export class CleanComponent implements OnInit {
   addCompany() {
     if($('.guard-header a:last-child').hasClass('active')) {
       this.contractBool = true;
+      this.contractName = new ArchName();
       $('.mask-contract').fadeIn();
     }else {
       this.editBool = true;
+      this.repairname = new GuardName();
       $('.mask-repair').fadeIn();
     }
   }
@@ -128,10 +130,10 @@ export class CleanComponent implements OnInit {
     return true;
   }
   private verifypersonNum() {
-    if (!this.isEmpty('personNum', '信息不能为空')) {
+    if (!this.isEmpty('personNum', '不能为空')) {
       return false;
     }
-    if (!this.verifyIsNumber('personNum', '请输入正确的人数')) {
+    if (!this.verifyIsNumber('personNum', '人数为数字')) {
       return false;
     }
     return true;
@@ -215,6 +217,7 @@ export class CleanComponent implements OnInit {
   /*点击公司*/
   companyFade(event) {
     this.pageNo = 1;
+    this.pages = [];
     this.searchCompany = new Company();
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
@@ -226,7 +229,7 @@ export class CleanComponent implements OnInit {
   }
   /*点击人员档案*/
   archFade(event) {
-    this.pageNo = 1;
+    this.pageNo = 1;this.pages = [];
     this.searchArch = new Arch();
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
@@ -284,7 +287,7 @@ export class CleanComponent implements OnInit {
     if(this.contractBool === false) {
       SOFTWARES_URL = "/proxy/building/person/updatePerson";
     }else {
-      SOFTWARES_URL = "/proxy/building/person/addPerson";
+      SOFTWARES_URL = "/proxy/building/person/addPerson/1";
     }
     if (!this.verifycompanyName2() || !this.verifypersonId() || !this.verifypersonName() || !this.verifypersonPhone() ||
       !this.verifypersonIdcard() || !this.verifypersonStatus() ) {
@@ -313,6 +316,7 @@ export class CleanComponent implements OnInit {
   /*新增编辑档案信息的取消按钮*/
   contractCancel() {
     this.contractName = new ArchName();
+    $('#prese').val('');
     $('.form-control').removeClass('form-error');
     $('.errorMessage').html('');
     $('.mask-contract').hide();
@@ -368,6 +372,54 @@ export class CleanComponent implements OnInit {
         }
       }
     };
+  }
+  /*文件上传*/
+  prese_upload2(files) {
+    var xhr = this.utilBuildingService.importTemplate(files[0]);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
+        var data:any = JSON.parse(xhr.responseText);
+        if(this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': '导入成功',
+            'popType': 0 ,
+            'imgType': 1,
+          });
+          $('#induction').hide();
+        }
+      }
+    };
+  }
+  /*点击导入按钮*/
+  private  inductionDialog() {
+    $('#induction').fadeIn();
+  }
+  /*关闭导入对话框*/
+  private closeInductionDialog()  {
+    $('#induction').fadeOut();
+    $('#uploadFileName').val('');
+  }
+  /*点击导出按钮*/
+  private exportFile() {
+    $('#deriving').fadeIn();
+  }
+  /*关闭导出对话框*/
+  private closeDeriving() {
+    $( '#deriving' ).hide();
+  }
+  /*导出数据下载*/
+  private downDeriving(){
+    if((typeof this.searchArch.companyName) === 'undefined'){
+      this.searchArch.companyName = 'null';
+    }
+    this.http.get("/proxy/building/person/getPersonExcel/"+ this.searchArch.companyName +"/clean")
+    // .map(res => res.json())
+      .subscribe(data => {
+        window.location.href = "/proxy/building/person/getPersonExcel/"+ this.searchArch.companyName +"/clean";
+        this.searchArch = new Arch();
+        $('#deriving').fadeOut();
+      });
   }
   /*页码初始化*/
   initPage(total) {

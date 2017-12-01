@@ -104,7 +104,7 @@ input{
   position: relative;
   transition: all .5s;
   margin:15px 0;
-  box-shadow: 0 3px 1px #ccc;
+  box-shadow: 0 0 1px #ccc;;
 }
 .form-bar{
   -webkit-box-flex: 0;

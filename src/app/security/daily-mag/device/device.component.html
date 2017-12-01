@@ -1,3 +1,369 @@
-<p>
-  device works!
-</p>
+<div class="device">
+  <div class="device-header clearfix">
+    <a href="javascript:;" class="active" (click)="deviceFade($event)">大型设备基础信息</a>
+    <a href="javascript:;" (click)="mainFade($event)">大型设备维护保养</a>
+  </div>
+  <div class="device-cont">
+    <div class="device-chandlery clearfix">
+      <div class="box1">
+        <ul class="company-search clearfix">
+          <li>
+            <label>大楼编号</label>
+            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchCompany.buildingId">
+          </li>
+          <li >
+            <label >大楼名称</label>
+            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchCompany.buildingName">
+          </li>
+          <li >
+            <label >设备名称</label>
+            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchCompany.name">
+          </li>
+        </ul>
+        <div class="search-right"><a href="javascript:;" class="search-btn" (click)="repairSearch()"><i class="icon-magnifier"></i> 查 询</a></div>
+      </div>
+      <!--<div class="box2">
+        <ul class="company-search clearfix">
+          <li>
+            <label>大楼编号</label>
+            <input type="text" class="search-ipt" [(ngModel)]="searchArch.buildingId">
+          </li>
+          <li >
+            <label>大楼名称</label>
+            <input type="text" class="search-ipt" [(ngModel)]="searchArch.buildingName">
+          </li>
+          <li >
+            <label>服务公司名称</label>
+            <input type="text" class="search-ipt" [(ngModel)]="searchArch.companyName">
+          </li>
+        </ul>
+        <div class="search-right">
+          <a href="javascript:;" class="search-btn" (click)="repairSearch()"><i class="icon-magnifier"></i> 查 询</a>
+        </div>
+      </div>-->
+    </div>
+    <!--设备基础信息-->
+    <div class="device-container guard-company">
+      <div class="row text-right">
+        <!--<a class="btn btn-lead" href="javascript:;"><i class="icon-docs"></i> 批量导入</a>-->
+        <a class="btn btn-new" href="javascript:;" (click)="addCompany()"><i class="icon-plus"></i> 新 增</a>
+      </div>
+      <ul class="form-msg clearfix">
+        <li class="form-bar">
+          <span class="form-title text-right">大楼编号</span>
+          <span class="form-word">4000</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">大楼名称</span>
+          <span class="form-word">阿顿斯马丁</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">设备名称</span>
+          <span class="form-word">deviceName</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">设备型号</span>
+          <span class="form-word">deviceVersion</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">设备供应商</span>
+          <span class="form-word">deviceSup</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">采购日期</span>
+          <span class="form-word">byDate</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">维保单位</span>
+          <span class="form-word">conpanyName</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">最近维保日期</span>
+          <span class="form-word">latelyDate</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">下次维保日期</span>
+          <span class="form-word">nextDate</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">维保责任人</span>
+          <span class="form-word">personLiable</span>
+        </li>
+        <li class="form-photo"><img src="../../../../assets/image/p1.jpg">
+          <!--<img [src]="+'/proxy'+inner.imgPath" *ngIf="inner.imgPath">-->
+        </li>
+        <li class="form-btn" (click)="editRecord(i)"><i class="icon-pencil"></i></li>
+        <li class="form-btn form-del" (click)="delRecord(i)"><i class="icon-trash"></i></li>
+      </ul>
+      <ul class="form-msg clearfix">
+        <li class="form-bar">
+          <span class="form-title text-right">大楼编号</span>
+          <span class="form-word">4000</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">大楼名称</span>
+          <span class="form-word">阿顿斯马丁</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">设备名称</span>
+          <span class="form-word">deviceName</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">设备型号</span>
+          <span class="form-word">deviceVersion</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">设备供应商</span>
+          <span class="form-word">deviceSup</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">采购日期</span>
+          <span class="form-word">byDate</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">维保单位</span>
+          <span class="form-word">conpanyName</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">最近维保日期</span>
+          <span class="form-word">latelyDate</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">下次维保日期</span>
+          <span class="form-word">nextDate</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">维保责任人</span>
+          <span class="form-word">personLiable</span>
+        </li>
+        <li class="form-photo"><img src="../../../../assets/image/p2.jpg">
+          <!--<img [src]="+'/proxy'+inner.imgPath" *ngIf="inner.imgPath">-->
+        </li>
+        <li class="form-btn" (click)="editRecord(i)"><i class="icon-pencil"></i></li>
+        <li class="form-btn form-del" (click)="delRecord(i)"><i class="icon-trash"></i></li>
+      </ul>
+      <!--<ul class="form-msg clearfix" *ngFor="let inner of record; let i=index">
+        <li class="form-bar">
+          <span class="form-title text-right">大楼编号</span>
+          <span class="form-word">{{inner.buildingId}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">大楼名称</span>
+          <span class="form-word">{{inner.buildingName}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">服务公司名称</span>
+          <span class="form-word">{{inner.companyName}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">派驻大楼保安人数</span>
+          <span class="form-word">{{inner.personNum}}</span>
+        </li>
+        <li class="form-btn" (click)="editRecord(i)"><i class="icon-pencil"></i></li>
+        <li class="form-btn form-del" (click)="delRecord(i)"><i class="icon-trash"></i></li>
+      </ul>-->
+    </div>
+    <!--人员档案-->
+    <div class="guard-container guard-arch">
+      <div class="row text-right">
+        <a class="btn btn-new" href="javascript:;" (click)="addCompany()"><i class="icon-plus"></i> 新 增</a>
+      </div>
+      <ul class="form-msg clearfix"><!-- *ngFor="let inner of contract; let i=index"-->
+        <li class="form-bar">
+          <span class="form-title text-right">大楼名称</span>
+          <span class="form-word">阿顿斯马丁<!--{{inner.companyName}}--></span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">大楼编号</span>
+          <span class="form-word">4000<!--{{inner.personName}}--></span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">大楼编号</span>
+          <span class="form-word">4000<!--{{inner.personName}}--></span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">大楼编号</span>
+          <span class="form-word">4000<!--{{inner.personName}}--></span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">大楼编号</span>
+          <span class="form-word">4000<!--{{inner.personName}}--></span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">人员编号</span>
+          <span class="form-word">88888888<!--{{inner.personId}}--></span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">联系电话</span>
+          <span class="form-word">18609787554<!--{{inner.personPhone}}--></span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">身份证号码</span>
+          <span class="form-word">376522198723451234<!--{{inner.personIdcard}}--></span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">年龄</span>
+          <span class="form-word">31<!--{{inner.personAge}}--></span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">性别</span>
+          <span class="form-word">男<!--{{inner.personSex}}--></span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">人员状态</span>
+          <span class="form-word">在职<!--{{inner.personStatus}}--></span>
+        </li>
+        <li class="form-photo"><img src="../../../../assets/image/p1.jpg">
+          <!--<img [src]="+'/proxy'+inner.imgPath" *ngIf="inner.imgPath">-->
+
+        </li>
+        <li class="form-btn" onclick="$('.mask-contract').fadeIn()"><!--(click)="editContract(i)"--><i class="icon-pencil"></i></li>
+        <li class="form-btn form-del" (click)="editContract(i)"><i class="icon-trash"></i></li>
+      </ul>
+      <!--<ul class="form-msg clearfix" *ngFor="let inner of contract; let i=index">
+        <li class="form-bar">
+          <span class="form-title text-right">服务公司名称</span>
+          <span class="form-word">{{inner.companyName}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">人员姓名</span>
+          <span class="form-word">{{inner.personName}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">人员编号</span>
+          <span class="form-word">{{inner.personId}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">联系电话</span>
+          <span class="form-word">{{inner.personPhone}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">身份证号码</span>
+          <span class="form-word">{{inner.personIdcard}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">年龄</span>
+          <span class="form-word">{{inner.personAge}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">性别</span>
+          <span class="form-word">{{inner.personSex}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">人员状态</span>
+          <span class="form-word">{{inner.personStatus}}</span>
+        </li>
+        <li class="form-photo">&lt;!&ndash;<img src="../../../../assets/image/p1.jpg">&ndash;&gt;
+          <img [src]="+'/proxy'+inner.imgPath" *ngIf="inner.imgPath">
+        </li>
+        <li class="form-btn" onclick="$('.mask-contract').fadeIn()">&lt;!&ndash;(click)="editContract(i)"&ndash;&gt;<i class="icon-pencil"></i></li>
+        <li class="form-btn form-del" (click)="editContract(i)"><i class="icon-trash"></i></li>
+      </ul>-->
+    </div>
+    <div class="turn" *ngIf="pages.length > 1">
+      <ul>
+        <li *ngFor="let i of pages"
+            [hidden] = "pageLimit(i)"
+            [ngClass]="{'active':i === pageNo}"
+            (click)="goPage(i);">
+          {{i}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!--新增设备信息-->
+<div class="mask mask-repair">
+  <div class="new-device">
+    <div class="mask-head"><i class="icon-film"></i> <p>新增大型设备信息</p>
+      <button class="close" (click)="contractCancel()">×</button>
+    </div>
+    <form method="post" name="topForm" class="arch-form clearfix">
+      <div class="form-left">
+        <div class="form-control clearfix">
+          <span class="form-label">大楼编号</span>
+          <div class="form-inp">
+            <input type="text" autocomplete="off" class="company-ipt" id="companyName2" name="companyName2" [(ngModel)]="contractName.companyName" (blur)="verifycompanyName2()" required>
+            <span class="errorMessage">不能为空</span>
+          </div>
+        </div>
+        <div class="form-control clearfix">
+          <span class="form-label">设备名称</span>
+          <div class="form-inp">
+            <input type="text" autocomplete="off" class="company-ipt" id="personName" name="personName" [(ngModel)]="contractName.personName" (blur)="verifypersonName()" required>
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control clearfix">
+          <span class="form-label">设备型号</span>
+          <div class="form-inp">
+            <input type="text" autocomplete="off" class="company-ipt" id="personId" name="personId" [(ngModel)]="contractName.personId" (blur)="verifypersonId()" required minlength="8">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control clearfix">
+          <span class="form-label">设备供应商</span>
+          <div class="form-inp">
+            <input type="text" autocomplete="off" class="company-ipt" id="personPhone" name="personPhone" [(ngModel)]="contractName.personPhone" (blur)="verifypersonPhone()" required>
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control clearfix">
+          <span class="form-label">采购日期</span>
+          <div class="form-inp">
+            <input type="date" autocomplete="off" class="company-ipt" id="personIdcard" name="personIdcard" [(ngModel)]="contractName.personIdcard" (blur)="verifypersonIdcard()" required>
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control clearfix">
+          <span class="form-label">维保单位</span>
+          <div class="form-inp">
+            <input type="date" autocomplete="off" class="company-ipt" id="personStatus" name="personStatus" [(ngModel)]="contractName.personStatus" (blur)="verifypersonStatus()" required>
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control clearfix">
+          <span class="form-label">最近维保日期</span>
+          <div class="form-inp">
+            <input type="date" autocomplete="off" class="company-ipt" id="personStatus" name="personStatus" [(ngModel)]="contractName.personStatus" (blur)="verifypersonStatus()" required>
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control clearfix">
+          <span class="form-label">下次维保日期</span>
+          <div class="form-inp">
+            <input type="date" autocomplete="off" class="company-ipt" id="personStatus" name="personStatus" [(ngModel)]="contractName.personStatus" (blur)="verifypersonStatus()" required>
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control clearfix">
+          <span class="form-label">维保责任人</span>
+          <div class="form-inp">
+            <input type="text" autocomplete="off" class="company-ipt" id="personStatus" name="personStatus" [(ngModel)]="contractName.personStatus" (blur)="verifypersonStatus()" required>
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+      </div>
+      <div class="form-right">
+        <div class="person-img">
+          <div class="dropify-wrapper">
+            <div class="dropify-message">
+              <img *ngIf="contractName.imgPath!==''" [src]="'/proxy/' + contractName.imgPath" />
+            </div>
+            <p>点击此处上传图片</p>
+            <input type="file" class="dropify" #prese id="prese"
+                   (change)="prese_upload(prese.files)">
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="mask-footer">
+      <button type="submit" class="btn-mask btn-info" (click)="contractSubmit()">保 存</button>
+      <button type="button" class="btn-mask btn-danger" (click)="contractCancel()">取 消</button>
+    </div>
+  </div>
+</div>
+<!--新增工单-->
+<div class="mask mask-device">
+
+</div>

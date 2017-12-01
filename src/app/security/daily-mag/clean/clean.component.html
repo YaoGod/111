@@ -24,14 +24,14 @@
       </div>
       <div class="box2">
         <ul class="company-search clearfix">
-          <li>
+          <!--<li>
             <label>大楼编号</label>
             <input type="text" class="search-ipt" [(ngModel)]="searchArch.buildingId">
           </li>
           <li >
             <label>大楼名称</label>
             <input type="text" class="search-ipt" [(ngModel)]="searchArch.buildingName">
-          </li>
+          </li>-->
           <li >
             <label>服务公司名称</label>
             <input type="text" class="search-ipt" [(ngModel)]="searchArch.companyName">
@@ -72,7 +72,8 @@
     <!--人员档案-->
     <div class="guard-container guard-arch">
       <div class="row text-right">
-        <a class="btn btn-lead" href="javascript:;"><i class="icon-docs"></i> 批量导入</a>
+        <a class="btn btn-lead" href="javascript:;" (click)="inductionDialog()"><i class="icon-docs"></i> 批量导入</a>
+        <a class="btn btn-new" href="javascript:;" (click)="exportFile()"><i class="icon-docs"></i> 导 出</a>
         <a class="btn btn-new" href="javascript:;" (click)="addCompany()"><i class="icon-plus"></i> 新 增</a>
       </div>
       <ul class="form-msg clearfix" *ngFor="let inner of contract; let i=index">
@@ -108,12 +109,12 @@
           <span class="form-title text-right">人员状态</span>
           <span class="form-word">{{inner.personStatus}}</span>
         </li>
-        <li class="form-photo"><img src="../../../../assets/image/p2.jpg">
+        <li class="form-photo">
           <img [src]="+'/proxy'+inner.imgPath" *ngIf="inner.imgPath">
 
         </li>
-        <li class="form-btn" onclick="$('.mask-contract').fadeIn()"><!--(click)="editContract(i)"--><i class="icon-pencil"></i></li>
-        <li class="form-btn form-del" (click)="editContract(i)"><i class="icon-trash"></i></li>
+        <li class="form-btn" (click)="editContract(i)"><i class="icon-pencil"></i></li>
+        <li class="form-btn form-del" (click)="delContract(i)"><i class="icon-trash"></i></li>
       </ul>
     </div>
     <div class="turn" *ngIf="pages.length > 1">
@@ -218,7 +219,7 @@
         <div class="person-img">
           <div class="dropify-wrapper">
             <div class="dropify-message">
-              <img *ngIf="contractName.imgPath!==''" [src]="'/proxy/' + contractName.imgPath" />
+              <img *ngIf="contractName.imgPath" [src]="'/proxy/' + contractName.imgPath"  />
             </div>
             <p>点击此处上传图片</p>
             <input type="file" class="dropify" #prese id="prese"
@@ -233,3 +234,61 @@
     </div>
   </div>
 </div>
+<!-- Induction 导入  -->
+<div class="modal-back" id="induction" style="display:none;">
+  <div class="modal induction">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">导入</h4>
+          <button type="button" class="close pull-right" (click)="closeInductionDialog()">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body clearfix">
+          <div class="form-control">
+            <!--<span class="form-label">文件名称</span>-->
+            <div class="form-inp clearfix">
+              <!--<input id="uploadFileName" type="text" value="" name="" style="border:1px solid #ccc;margin-top:34px; height:30px; text-indent: 2em; margin-right:8px;">-->
+              <div class="select-file">
+                <input type="file" value="" id="prese2" #prese2 (change)="prese_upload2(prese2.files)" accept="application/vnd.ms-excel,.xlsx">
+                <a onclick="$('#prese2').trigger('click')">选取文件</a>
+              </div>
+              <div class="download-file">
+                <a id="downLoadTemplate" target="_blank" href="/proxy/building/person/exportTemplate">下载模板</a>
+              </div>
+            </div>
+          </div>
+          <div class="foot" style="height:30px;">
+            <!-- <button type="submit" class="btn-mask btn-info" (click)="inductionUploadFile(prese2.files)">确 定</button>
+             <button type="button" class="btn-mask btn-danger" (click)="closeInductionDialog()">取 消</button>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Deriving 导出 -->
+<div class="modal-back" id= "deriving" style="_display:none;">
+  <div class="modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">导 出</h4>
+          <button type="button" class="close pull-right" (click)="closeDeriving()">×</button>
+        </div>
+        <div class="modal-body">
+          <!-- excel 导出 -->
+          <div class="excel-out">
+            <p>信息表.xls</p>
+          </div>
+          <!-- footer -->
+          <div class="foot">
+            <button type="submit" class="btn-mask btn-info" (click)="downDeriving()">确 定</button>
+            <button type="button" class="btn-mask btn-danger" (click)="closeDeriving()">取 消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
