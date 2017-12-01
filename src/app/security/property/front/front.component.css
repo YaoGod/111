@@ -41,6 +41,7 @@ li.active .tab{
   float: right;
   height: 35px;
   padding:0 3px;
+  margin-left: 20px;
   border-radius: 5px;
   background: #04a9f3;
 }

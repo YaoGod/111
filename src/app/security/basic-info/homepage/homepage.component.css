@@ -40,8 +40,10 @@ ul,li{
 .search-bar{
   color: #2b2b2b;
   background-color: #fff;
-  border-bottom: 1px solid rgba(120, 130, 140, .13);
+ /* border-bottom: 1px solid rgba(120, 130, 140, .13);*/
   border-radius: 0;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 .panel>ul{
   display: flex;
@@ -258,6 +260,10 @@ input[type=text]{
 }
 .text-muted>a{
   margin-right: 10px;
+  transition-duration: 200ms;
+}
+.text-muted>a:hover{
+  color: #4d565e;
 }
 .btn-detail{
   display: block;

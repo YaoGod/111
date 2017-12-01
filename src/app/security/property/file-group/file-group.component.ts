@@ -7,23 +7,23 @@ import { Router,ActivatedRoute} from '@angular/router';
 declare var $:any;
 declare var confirmFunc: any;
 @Component({
-  selector: 'app-account',
-  templateUrl: './account.component.html',
-  styleUrls: ['./account.component.css'],
+  selector: 'app-file-group',
+  templateUrl: './file-group.component.html',
+  styleUrls: ['./file-group.component.css'],
   providers: [Dossier,DossierBuildingService,ErrorResponseService,UtilBuildingService]
 })
-export class AccountComponent implements OnInit {
+export class FileGroupComponent implements OnInit {
 
   public dossiers   : Array<Dossier>;
   public newDossier : Dossier;
+  public buildings  : any;
+  public classes    : any;
   public pageNo     : number;
   public pageSize   : number;
   public pages      : Array<number>;
-  public buildings  : any;
-  public classes    : any;
   public search     : any;
   constructor(
-    public  router:Router,
+    private router:Router,
     private route:ActivatedRoute,
     private dossierBuildingService:DossierBuildingService,
     private errorResponseService:ErrorResponseService,
@@ -31,19 +31,22 @@ export class AccountComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.pageSize = 6;
+    this.pageSize = 10;
     this.search = {
       buildingId : "0",
-      classId    : "0"
+      classId    : "0",
+      text       : ""
     };
+    this.dossiers = new Array<Dossier>();
     this.newDossier = new Dossier();
     this.pages = new Array<number>();
+    this.getDossierClass();
+    this.getBuildingList();
     this.route.params.subscribe(data => {
+      this.pageNo = 1;
       this.search.classId  = data.classID;
       this.search.buildingId = data.buildingID;
-      this.pageNo = 1;
       this.getList();
-      console.log( document.body.offsetWidth);
     });
   }
   /*获取大楼名称列表*/
@@ -66,7 +69,7 @@ export class AccountComponent implements OnInit {
   }
   /*获取物业档案列表*/
   getList() {
-    this.dossierBuildingService.getPropertyDossier(this.search,this.pageNo,this.pageSize)
+    this.dossierBuildingService.getStandingBookInfoList(this.search,this.pageNo,this.pageSize)
       .subscribe(data => {
         if(this.errorResponseService.errorMsg(data)) {
           this.dossiers = data.data.infos;
@@ -75,9 +78,13 @@ export class AccountComponent implements OnInit {
         }
       })
   }
+  /*下载文件*/
+  download(url){
+    window.open("proxy/" + url);
+  }
   /*新增方法*/
   add() {
-    this.dossierBuildingService.addPropertyDossier(this.newDossier)
+    this.dossierBuildingService.addStandingBook(this.newDossier)
       .subscribe(data => {
         if(this.errorResponseService.errorMsg(data)) {
           confirmFunc.init({
@@ -94,40 +101,15 @@ export class AccountComponent implements OnInit {
         }
       })
   }
-  /*导出*/
-  exportList(classId,buildingId) {
-    confirmFunc.init({
-      'title': '提示',
-      'mes': '是否导出当前档案？',
-      'popType': 1,
-      'imgType': 3,
-      'callback': () => {
-        let postData = {
-          classId : classId,
-          buildingId : buildingId
-        };
-        this.dossierBuildingService.exportPropertyDossier(postData,this.pageNo,this.pageSize);
-
-      }
-    });
-  }
-  /*查看群组列表*/
-  linkGroupList(classId,buildingId) {
-    this.router.navigate(["/hzportal/security/property/account",classId,buildingId,"groupA"]);
-  }
-  /*查看档案详情*/
-  linkDetail(id){
-    this.router.navigate(["/hzportal/security/property/dossier",id]);
-  }
   /*删除群组内容*/
-  deleteGroup(classId,buildingId) {
+  delete(id) {
     confirmFunc.init({
       'title': '提示',
       'mes': '是否删除？',
       'popType': 1,
       'imgType': 3,
       'callback': () => {
-        this.dossierBuildingService.deleteDossierGroup(classId, buildingId)
+        this.dossierBuildingService.deleteStandingBook(id)
           .subscribe(data => {
             if (this.errorResponseService.errorMsg(data)) {
               confirmFunc.init({
@@ -172,15 +154,29 @@ export class AccountComponent implements OnInit {
   }
   /*编辑更新方法*/
   update() {
-
+    this.dossierBuildingService.updateStandingBook(this.newDossier)
+      .subscribe(data => {
+        if(this.errorResponseService.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data.msg,
+            'popType': 2,
+            'imgType': 1,
+            'callback': () => {
+              this.pageNo = 1;
+              this.closeNewView();
+              this.getList();
+            }
+          });
+        }
+      })
   }
   /*表单提交*/
   submit() {
     this.verifyEmpty(this.newDossier.buildingId,'buildingNum');
     this.verifyEmpty(this.newDossier.buildingId,'buildingName');
     this.verifyEmpty(this.newDossier.classId,'className');
-    this.verifyEmpty(this.newDossier.title,'title');
-    this.verifyEmpty(this.newDossier.content,'content');
+    this.verifyEmpty(this.newDossier.bookName,'bookName');
     this.verifyFileNone(this.newDossier.filePath, 'newImgPath');
     console.log(this.newDossier);
     if($('.red').length === 0) {
@@ -200,7 +196,7 @@ export class AccountComponent implements OnInit {
   }
   /*文件上传*/
   prese_upload(files) {
-    var xhr = this.utilBuildingService.uploadFile(files[0], 'dossier', -1);
+    var xhr = this.utilBuildingService.uploadFile(files[0], 'standingbook', -1);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
@@ -225,13 +221,15 @@ export class AccountComponent implements OnInit {
   }
   /*添加窗口弹出*/
   addNew() {
-    this.getBuildingList();
-    this.getDossierClass();
+    /* this.getBuildingList();
+     this.getDossierClass();*/
     this.newDossier = new Dossier();
     this.newDossier.buildingId = "";
     this.newDossier.classId = "";
     this.newDossier.filePath = [];
     this.newDossier.fileName = [];
+    this.newDossier.buildingId = this.search.buildingId;
+    this.newDossier.classId = this.search.classId;
     $('.mask').css('display','block');
   }
   /*添加窗口关闭*/
@@ -240,6 +238,14 @@ export class AccountComponent implements OnInit {
     $('.dropify-wrapper').removeClass('red');
     $('.error').fadeOut();
     $('.mask').css('display', 'none');
+  }
+  /*点击编辑按钮初始化编辑*/
+  editInit(data) {
+    this.addNew();
+    this.newDossier = JSON.parse(JSON.stringify(data));
+    this.newDossier.buildingId = this.search.buildingId;
+    this.newDossier.classId = this.search.classId;
+    console.log(this.newDossier);
   }
   /*文件是否为空*/
   verifyFileNone(value, id) {
@@ -260,6 +266,7 @@ export class AccountComponent implements OnInit {
   }
   /*判断是否为空*/
   verifyEmpty( value, id){
+    console.log(value);
     if(typeof (value) === "undefined" ||
       value === null ||
       value === ''){

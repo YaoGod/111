@@ -260,11 +260,7 @@ export class MsgContractComponent implements OnInit {
     if(typeof (value) === "undefined" ||
       value === null ||
       value === ''){
-      if(value.length === 0){
         this.addErrorClass(id,'请上传附件');
-      }else{
-        this.addErrorClass(id,'该值不能为空');
-      }
       return false;
     }else{
       if(value.length === 0){

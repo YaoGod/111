@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { FileComponent } from './file.component';
+import {FormsModule } from '@angular/forms';
+import { GroupListComponent } from './group-list.component';
 import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
+import { MinLengthPipe } from './min-length.pipe';
 const routes: Routes = [
   {
     path: '',
     canActivate: [RouteGuardService],
-    component: FileComponent,
+    component: GroupListComponent,
   }
 ];
 @NgModule({
@@ -18,6 +19,6 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   exports: [RouterModule],
-  declarations: [FileComponent]
+  declarations: [GroupListComponent, MinLengthPipe]
 })
-export class FileModule { }
+export class GroupListModule { }

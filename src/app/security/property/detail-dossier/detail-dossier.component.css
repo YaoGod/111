@@ -1,0 +1,28 @@
+.detail-panel{
+  min-height: 700px;
+  padding: 15px;
+  margin-top: 20px;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.detail-panel>h4{
+  height: 45px;
+  line-height: 45px;
+  font-size: 22px;
+  color: #2162B6;
+  border-bottom: 1px solid #dbdbdb;
+}
+.detail-panel>p{
+  line-height: 30px;
+  font-size: 12px;
+  color: #6b7474;
+}
+.detail-panel>h5{
+  padding: 10px 0;
+  font-size: 20px;
+  color: #b66490;
+}
+.detail-panel a{
+ cursor: pointer;
+}

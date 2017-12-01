@@ -1,0 +1,193 @@
+
+  <div class="form-panel">
+
+    <div class="front-bar">
+      <h3>物业档案细项</h3>
+      <div class="box-search">
+        <input type="text" [(ngModel)]="search.text">
+        <a (click)="getList()"><i class="icon-magnifier"></i>搜索</a>
+      </div>
+      <a class="btn-danger" (click)="addNew();">
+        <i class="icon-plus"></i>
+        新增
+      </a>
+    </div>
+    <div class="table-head">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row list-title">
+          <th width="6%">序号</th>
+          <th width="40%" class="text-left">细项名称</th>
+          <th width="20%" class="text-left">附件</th>
+          <th width="20%" class="text-left">细项说明</th>
+          <th width="14%">操作</th>
+        </tr>
+      </table>
+    </div>
+    <!--表格内容-->
+    <div class="table-content">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row" *ngFor="let dossier of dossiers;let i = index">
+          <td width="6%" >
+            {{i+1}}
+          </td>
+          <td width="40%" class="text-left">
+            {{dossier.title}}
+          </td>
+          <td width="20%" class="text-left">
+            <p class="file-list"
+              *ngFor="let file of dossier.fileName;let i = index">
+              {{file}}
+              <a class="download-file" (click)="download(dossier.filePath[i])">
+                <i class="icon-cloud-download"></i>下载
+              </a>
+            </p>
+          </td>
+          <td width="20%" class="text-left">
+            {{dossier.content | minLength: [10,'…'] }}
+            <a (click)="linkDetail(dossier.id)">
+              [<i class="icon-doc"></i>详情]
+            </a>
+          </td>
+          <td width="14%">
+            <a (click)="editInit(dossier)">
+              <i class="icon-pencil"></i>编辑
+            </a>
+            <a (click)="delete(dossier.id)">
+              <i class="icon-trash"></i>删除
+            </a>
+          </td>
+        </tr>
+      </table>
+      <div class="div-none" *ngIf="dossiers.length < 1">
+        <p>暂无信息</p>
+      </div>
+    </div>
+    <div class="turn-box">
+      <div class="turn">
+        <ul *ngIf="pages.length > 1">
+          <li *ngFor="let i of pages"
+              [hidden] = "pageLimit(i)"
+              [ngClass]="{'active':i === pageNo}"
+              (click)="goPage(i);">
+            {{i}}
+          </li>
+        </ul>
+        <div style="clear: both"></div>
+      </div>
+    </div>
+  </div>
+
+  <!--新建弹框-->
+  <div class="mask" style="display: none;">
+    <div  class="modal-content">
+      <div  class="modal-header">
+        <h4 class="modal-title"><i class="icon-home"></i>类型</h4>
+        <button class="modal-close" type="button" (click)="closeNewView()">×</button>
+      </div>
+      <form  class="form-building form-material ng-untouched ng-pristine ng-valid" novalidate="">
+        <div  class="modal-body clearfix">
+          <div   class="modal-right">
+            <div  class="form-group">
+              <label  class="control-label"><span>大楼编号</span>
+                <select class="form-control" id="newbuildingNum"
+                        name="newbuildingNum"
+                        [(ngModel)]="newDossier.buildingId"
+                        (blur)="verifyEmpty(newDossier.buildingId,'newbuildingNum');">
+                  <option value="">请选择</option>
+                  <option *ngFor="let building of buildings"
+                          [value]="building.ID">
+                    {{building.BUILDING_ID}}</option>
+                </select>
+              </label>
+              <div class="error"></div>
+            </div>
+            <div  class="form-group">
+              <label  class="control-label"><span>大楼名称</span>
+                <select class="form-control" id="buildingName"
+                        name="buildingName"
+                        [(ngModel)]="newDossier.buildingId"
+                        (blur)="verifyEmpty(newDossier.buildingId,'buildingName');">
+                  <option value="">请选择</option>
+                  <option *ngFor="let building of buildings"
+                          [value]="building.ID">
+                    {{building.NAME}}</option>
+                </select>
+              </label>
+              <div class="error"></div>
+            </div>
+            <div  class="form-group">
+              <label  class="control-label"><span>档案类型</span>
+                <select class="form-control" id="className"
+                        name="className"
+                        [(ngModel)]="newDossier.classId"
+                        (blur)="verifyEmpty(newDossier.classId,'className');">
+                  <option value="">请选择</option>
+                  <option *ngFor="let classname of classes"
+                          [value]="classname.id">
+                    {{classname.name}}
+                  </option>
+                </select>
+              </label>
+              <div class="error"></div>
+            </div>
+            <div  class="form-group">
+              <label  class="control-label"><span>细项名称</span>
+                <input class="form-control" id="title"
+                       name="title" placeholder="" type="text"
+                       [(ngModel)]="newDossier.title"
+                       (blur)="verifyEmpty(newDossier.title,'title');">
+              </label>
+              <div class="error"></div>
+            </div>
+            <div  class="form-group">
+              <label  class="control-label">
+                <span style="vertical-align: top;">细项说明</span>
+                <textarea class="form-control" id="content"
+                          name="content"
+                          style="height: 200px"
+                          placeholder=""
+                          [(ngModel)]="newDossier.content"
+                          (blur)="verifyEmpty(newDossier.content,'content');">
+              </textarea>
+              </label>
+              <div class="error"></div>
+            </div>
+            <div  class="form-group">
+              <label  class="control-label">
+                <span >附件</span>
+                <div class="dropify-edit">
+                  <a><i class="icon-cloud-upload"></i>上传附件
+                    <input  class="dropify" type="file" #pres id="fileUpload"
+                            (change)="prese_upload(pres.files)"
+                            (blur)="verifyFileNone(newDossier.filePath, 'newImgPath')"
+                    ></a>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div class="modal-left">
+            <div  class="dropify-wrapper" id = "newImgPath">
+              <div  class="dropify-message">
+              </div>
+              <ul class="dropify-list">
+                <li *ngFor="let name of newDossier.fileName;let i = index">
+                  <a (click)="deleteFile(i)">
+                    <i class="icon-trash"></i>删除
+                  </a>
+                  <p>{{name}}</p>
+                </li>
+              </ul>
+              <p></p>
+            </div>
+          </div>
+          <div class="error"></div>
+        </div>
+        <div  class="modal-footer">
+          <button  class="btn btn-danger" type="button"
+                   (click)="closeNewView()">取 消</button>
+          <button  class="btn btn-info" type="submit"
+                   (click)="submit()">保 存</button>
+        </div>
+      </form>
+    </div>
+  </div>

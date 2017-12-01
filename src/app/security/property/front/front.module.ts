@@ -12,16 +12,28 @@ const routes: Routes = [
     children: [
        {
        path:'',
-       redirectTo:'account',
+       redirectTo:'account/0/0',
        pathMatch:'full'
        },
       {
-        path:'file',
+        path:'account/:classID/:buildingID',
+        loadChildren:'../account/account.module#AccountModule'
+      },
+      {
+        path:'account/:classID/:buildingID/:group',
+        loadChildren:'../group-list/group-list.module#GroupListModule'
+      },
+      {
+        path:'file/:classID/:buildingID',
         loadChildren:'../file/file.module#FileModule'
       },
       {
-        path:'account',
-        loadChildren:'../account/account.module#AccountModule'
+        path:'file/:classID/:buildingID/:group',
+        loadChildren:'../file-group/file-group.module#FileGroupModule'
+      },
+      {
+        path:'dossier/:dossierId',
+        loadChildren: '../detail-dossier/detail-dossier.module#DetailDossierModule'
       }
     ]
   }

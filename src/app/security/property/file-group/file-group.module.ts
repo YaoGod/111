@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { FileComponent } from './file.component';
 import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
+import { FileGroupComponent } from './file-group.component';
 const routes: Routes = [
   {
     path: '',
     canActivate: [RouteGuardService],
-    component: FileComponent,
+    component: FileGroupComponent,
   }
 ];
 @NgModule({
@@ -18,6 +18,6 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   exports: [RouterModule],
-  declarations: [FileComponent]
+  declarations: [FileGroupComponent]
 })
-export class FileModule { }
+export class FileGroupModule { }

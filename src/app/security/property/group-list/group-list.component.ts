@@ -4,26 +4,27 @@ import { ErrorResponseService } from "../../../service/error-response/error-resp
 import { DossierBuildingService } from '../../../service/dossier-building/dossier-building.service';
 import { UtilBuildingService } from '../../../service/util-building/util-building.service';
 import { Router,ActivatedRoute} from '@angular/router';
+import { MinLengthPipe } from './min-length.pipe';
 declare var $:any;
 declare var confirmFunc: any;
 @Component({
-  selector: 'app-account',
-  templateUrl: './account.component.html',
-  styleUrls: ['./account.component.css'],
+  selector: 'app-group-list',
+  templateUrl: './group-list.component.html',
+  styleUrls: ['./group-list.component.css'],
   providers: [Dossier,DossierBuildingService,ErrorResponseService,UtilBuildingService]
 })
-export class AccountComponent implements OnInit {
+export class GroupListComponent implements OnInit {
 
   public dossiers   : Array<Dossier>;
   public newDossier : Dossier;
+  public buildings  : any;
+  public classes    : any;
   public pageNo     : number;
   public pageSize   : number;
   public pages      : Array<number>;
-  public buildings  : any;
-  public classes    : any;
   public search     : any;
   constructor(
-    public  router:Router,
+    private router:Router,
     private route:ActivatedRoute,
     private dossierBuildingService:DossierBuildingService,
     private errorResponseService:ErrorResponseService,
@@ -31,19 +32,22 @@ export class AccountComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.pageSize = 6;
+    this.pageSize = 10;
     this.search = {
       buildingId : "0",
-      classId    : "0"
+      classId    : "0",
+      text       : ""
     };
+    this.dossiers = new Array<Dossier>();
     this.newDossier = new Dossier();
     this.pages = new Array<number>();
+    this.getDossierClass();
+    this.getBuildingList();
     this.route.params.subscribe(data => {
+      this.pageNo = 1;
       this.search.classId  = data.classID;
       this.search.buildingId = data.buildingID;
-      this.pageNo = 1;
       this.getList();
-      console.log( document.body.offsetWidth);
     });
   }
   /*获取大楼名称列表*/
@@ -66,7 +70,7 @@ export class AccountComponent implements OnInit {
   }
   /*获取物业档案列表*/
   getList() {
-    this.dossierBuildingService.getPropertyDossier(this.search,this.pageNo,this.pageSize)
+    this.dossierBuildingService.getDossierDetailList(this.search,this.pageNo,this.pageSize)
       .subscribe(data => {
         if(this.errorResponseService.errorMsg(data)) {
           this.dossiers = data.data.infos;
@@ -74,6 +78,14 @@ export class AccountComponent implements OnInit {
           this.initPage(total);
         }
       })
+  }
+  /*下载文件*/
+  download(url){
+    window.open("proxy/" + url);
+  }
+  /*查看档案详情*/
+  linkDetail(id){
+    this.router.navigate(["/hzportal/security/property/dossier",id]);
   }
   /*新增方法*/
   add() {
@@ -94,40 +106,15 @@ export class AccountComponent implements OnInit {
         }
       })
   }
-  /*导出*/
-  exportList(classId,buildingId) {
-    confirmFunc.init({
-      'title': '提示',
-      'mes': '是否导出当前档案？',
-      'popType': 1,
-      'imgType': 3,
-      'callback': () => {
-        let postData = {
-          classId : classId,
-          buildingId : buildingId
-        };
-        this.dossierBuildingService.exportPropertyDossier(postData,this.pageNo,this.pageSize);
-
-      }
-    });
-  }
-  /*查看群组列表*/
-  linkGroupList(classId,buildingId) {
-    this.router.navigate(["/hzportal/security/property/account",classId,buildingId,"groupA"]);
-  }
-  /*查看档案详情*/
-  linkDetail(id){
-    this.router.navigate(["/hzportal/security/property/dossier",id]);
-  }
   /*删除群组内容*/
-  deleteGroup(classId,buildingId) {
+  delete(id) {
     confirmFunc.init({
       'title': '提示',
-      'mes': '是否删除？',
+      'mes': '是否删除该条细项？',
       'popType': 1,
       'imgType': 3,
       'callback': () => {
-        this.dossierBuildingService.deleteDossierGroup(classId, buildingId)
+        this.dossierBuildingService.deletePropertyDossier(id)
           .subscribe(data => {
             if (this.errorResponseService.errorMsg(data)) {
               confirmFunc.init({
@@ -172,7 +159,22 @@ export class AccountComponent implements OnInit {
   }
   /*编辑更新方法*/
   update() {
-
+    this.dossierBuildingService.updatePropertyDossier(this.newDossier)
+      .subscribe(data => {
+        if(this.errorResponseService.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data.msg,
+            'popType': 2,
+            'imgType': 1,
+            'callback': () => {
+              this.pageNo = 1;
+              this.closeNewView();
+              this.getList();
+            }
+          });
+        }
+      })
   }
   /*表单提交*/
   submit() {
@@ -225,13 +227,15 @@ export class AccountComponent implements OnInit {
   }
   /*添加窗口弹出*/
   addNew() {
-    this.getBuildingList();
-    this.getDossierClass();
+   /* this.getBuildingList();
+    this.getDossierClass();*/
     this.newDossier = new Dossier();
     this.newDossier.buildingId = "";
     this.newDossier.classId = "";
     this.newDossier.filePath = [];
     this.newDossier.fileName = [];
+    this.newDossier.buildingId = this.search.buildingId;
+    this.newDossier.classId = this.search.classId;
     $('.mask').css('display','block');
   }
   /*添加窗口关闭*/
@@ -240,6 +244,14 @@ export class AccountComponent implements OnInit {
     $('.dropify-wrapper').removeClass('red');
     $('.error').fadeOut();
     $('.mask').css('display', 'none');
+  }
+  /*点击编辑按钮初始化编辑*/
+  editInit(data) {
+    this.addNew();
+    this.newDossier = JSON.parse(JSON.stringify(data));
+    this.newDossier.buildingId = this.search.buildingId;
+    this.newDossier.classId = this.search.classId;
+    console.log(this.newDossier);
   }
   /*文件是否为空*/
   verifyFileNone(value, id) {
@@ -260,6 +272,7 @@ export class AccountComponent implements OnInit {
   }
   /*判断是否为空*/
   verifyEmpty( value, id){
+    console.log(value);
     if(typeof (value) === "undefined" ||
       value === null ||
       value === ''){

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Dossier } from '../../../mode/dossier/type-define.service';
+import { TypeDefine } from '../../../mode/type-define/type-define.service';
 import { DossierBuildingService } from "../../../service/dossier-building/dossier-building.service";
 import { ErrorResponseService } from "../../../service/error-response/error-response.service";
 declare var $:any;
@@ -8,12 +8,12 @@ declare var confirmFunc: any;
   selector: 'app-type-define',
   templateUrl: './type-define.component.html',
   styleUrls: ['./type-define.component.css'],
-  providers: [Dossier,DossierBuildingService,ErrorResponseService]
+  providers: [TypeDefine,DossierBuildingService,ErrorResponseService]
 })
 export class TypeDefineComponent implements OnInit {
 
-  public dossiers   : Array<Dossier> = new Array();
-  public newDossier : Dossier = new Dossier();
+  public dossiers   : Array<TypeDefine> = new Array();
+  public newDossier : TypeDefine = new TypeDefine();
   public search     : any = "";
   public pageNo     : number;
   public pageSize   : number;
@@ -140,7 +140,7 @@ export class TypeDefineComponent implements OnInit {
   }
   /*添加窗口弹出*/
   addNew() {
-    this.newDossier = new Dossier();
+    this.newDossier = new TypeDefine();
     $('.mask').css('display','block');
   }
   /*添加窗口关闭*/
