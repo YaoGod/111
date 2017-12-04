@@ -38,7 +38,7 @@
 }
 .form-panel{
   margin-top: 20px;
-  padding: 0 10px;
+  padding: 0 30px;
   min-height: 700px;
   background-color: #ffffff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
@@ -77,7 +77,7 @@
   clear: both;
 }
 .table-content{
-  min-height: 560px;
+  min-height: 530px;
 }
 .list-title{
   background-color: #f0f7fc;
@@ -120,6 +120,9 @@
 .row td a{
   cursor: pointer;
 }
+.row td a:hover{
+  color: #4b4b4b;
+}
 .row td a>i{
   padding-right:5px;
 }
@@ -152,6 +155,7 @@ td>img{
   text-align: center;
 }
 .download-file{
+  float: right;
   padding-left: 10px;
 }
 .file-list{

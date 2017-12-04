@@ -114,6 +114,7 @@
   padding-bottom: 10px;
   border-bottom: 1px dashed #e8e2e2;
   color: #4d565e;
+  overflow: hidden;
 }
 .word-panel>label{
   font-size: 16px;

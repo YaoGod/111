@@ -6,6 +6,8 @@ import { Building } from '../../../mode/building/building.service';
 import { Floor } from '../../../mode/floor/floor.service';
 import { Router } from '@angular/router';
 import { UtilBuildingService } from '../../../service/util-building/util-building.service';
+import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
+import { sndCatalog } from '../../../mode/catalog/catalog.service';
 import * as $ from 'jquery';
 declare var confirmFunc: any;
 declare var $:any;
@@ -13,7 +15,7 @@ declare var $:any;
   selector: 'app-msg-floor',
   templateUrl: './msg-floor.component.html',
   styleUrls: ['./msg-floor.component.css'],
-  providers:[InfoBuildingService,UtilBuildingService,Building,Floor]
+  providers:[InfoBuildingService,UtilBuildingService,Building,Floor,sndCatalog]
 })
 export class MsgFloorComponent implements OnInit {
 
@@ -31,7 +33,9 @@ export class MsgFloorComponent implements OnInit {
   public newFloor     : Floor = new Floor();
   public isOpenNewView: boolean =false;
   public file         : any;
+  public rule         : sndCatalog = new sndCatalog();
   constructor(
+    private globalCatalogService:GlobalCatalogService,
     private globalBuilding:GlobalBuildingService,
     private infoBuildingService:InfoBuildingService,
     private utilBuildingService:UtilBuildingService,
@@ -39,12 +43,18 @@ export class MsgFloorComponent implements OnInit {
     private errorVoid:ErrorResponseService
   ) {
     this.building = globalBuilding.getVal();
+    this.rule = this.globalCatalogService.getRole("security/basic");
   }
 
   ngOnInit() {
     this.globalBuilding.valueUpdated.subscribe(
       (val) =>{
         this.building = this.globalBuilding.getVal();
+      }
+    );
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("security/basic");
       }
     );
     this.initFloor();

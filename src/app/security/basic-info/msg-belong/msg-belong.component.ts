@@ -4,6 +4,8 @@ import { Building } from '../../../mode/building/building.service';
 import { GlobalBuildingService } from '../../../service/global-building/global-building.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import { InfoBuildingService } from '../../../service/info-building/info-building.service';
+import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
+import { sndCatalog } from '../../../mode/catalog/catalog.service';
 import * as $ from 'jquery';
 declare var AMap:any;
 declare var $:any;
@@ -12,20 +14,23 @@ declare var confirmFunc: any;
   selector: 'app-msg-belong',
   templateUrl: './msg-belong.component.html',
   styleUrls: ['./msg-belong.component.css'],
-  providers: [Building]
+  providers: [Building,sndCatalog]
 })
 export class MsgBelongComponent implements OnInit {
 
   public building:Building;  /*大楼信息*/
   public copyBuilding:Building = new Building();
   private mapEditStatus :boolean = false;
+  public rule : sndCatalog = new sndCatalog();
   constructor(
+    private globalCatalogService:GlobalCatalogService,
     private infoBuildingService:InfoBuildingService,
     private globalBuilding:GlobalBuildingService,
     private errorVoid:ErrorResponseService,
     private router: Router
   ) {
     this.building = globalBuilding.getVal();
+    this.rule = this.globalCatalogService.getRole("security/basic");
   }
 
   ngOnInit() {
@@ -33,6 +38,11 @@ export class MsgBelongComponent implements OnInit {
     this.globalBuilding.valueUpdated.subscribe(
       (val) =>{
         this.building = this.globalBuilding.getVal();
+      }
+    );
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("security/basic");
       }
     );
     let id = this.router.url.split('/')[5];

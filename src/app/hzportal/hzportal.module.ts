@@ -8,7 +8,8 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { HeaderComponent } from './header/header.component';
 import { ErrorResponseService } from '../service/error-response/error-response.service';
 import { GlobalUserService } from '../service/global-user/global-user.service';
-import {FormsModule} from "@angular/forms";
+import { FormsModule } from "@angular/forms";
+import { GlobalCatalogService } from "../service/global-catalog/global-catalog.service";
 @NgModule({
   declarations: [
     HzportalComponent,
@@ -22,7 +23,7 @@ import {FormsModule} from "@angular/forms";
     HzportalRoutingModule,
     FormsModule
   ],
-  providers: [ GlobalUserService,ErrorResponseService],
+  providers: [ GlobalUserService,GlobalCatalogService,ErrorResponseService],
   bootstrap: [HzportalComponent]
 })
 export class HzportalModule { }

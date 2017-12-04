@@ -4,13 +4,15 @@ import { ErrorResponseService } from "../../../service/error-response/error-resp
 import { DossierBuildingService } from '../../../service/dossier-building/dossier-building.service';
 import { UtilBuildingService } from '../../../service/util-building/util-building.service';
 import { Router,ActivatedRoute} from '@angular/router';
+import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
+import { sndCatalog } from '../../../mode/catalog/catalog.service';
 declare var $:any;
 declare var confirmFunc: any;
 @Component({
   selector: 'app-file',
   templateUrl: './file.component.html',
   styleUrls: ['./file.component.css'],
-  providers: [Dossier,DossierBuildingService,ErrorResponseService,UtilBuildingService]
+  providers: [Dossier,DossierBuildingService,ErrorResponseService,UtilBuildingService,sndCatalog]
 })
 export class FileComponent implements OnInit {
   public dossiers   : Array<Dossier>;
@@ -21,15 +23,25 @@ export class FileComponent implements OnInit {
   public buildings  : any;
   public classes    : any;
   public search     : any;
+  public rule : sndCatalog = new sndCatalog();
   constructor(
+    private globalCatalogService:GlobalCatalogService,
     public  router:Router,
     private route:ActivatedRoute,
     private dossierBuildingService:DossierBuildingService,
     private errorResponseService:ErrorResponseService,
     private utilBuildingService:UtilBuildingService,
-  ) { }
+  ) {
+    this.rule = this.globalCatalogService.getRole("security/property");
+  }
 
   ngOnInit() {
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("security/property");
+        console.log(this.rule);
+      }
+    );
     this.pageSize = 6;
     this.search = {
       buildingId : "0",
@@ -263,6 +275,15 @@ export class FileComponent implements OnInit {
       this.removeErrorClass(id);
       return true;
     }
+  }
+  /*字数限制*/
+  limitText(value,id,limit) {
+    console.log(value.length);
+    if(value.length > limit) {
+      this.addErrorClass(id,'超出限制，最大'+limit+'个字符');
+      return value.substr(0,limit);
+    }
+    return value;
   }
   /* 添加错误信息*/
   private addErrorClass(id: string, error: string)  {

@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DossierBuildingService } from '../../../service/dossier-building/dossier-building.service';
 import { ErrorResponseService } from "../../../service/error-response/error-response.service";
+import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
+import { sndCatalog } from '../../../mode/catalog/catalog.service';
 @Component({
   selector: 'app-front',
   templateUrl: './front.component.html',
   styleUrls: ['./front.component.css'],
-  providers: [DossierBuildingService,ErrorResponseService]
+  providers: [DossierBuildingService,ErrorResponseService,sndCatalog]
 })
 export class FrontComponent implements OnInit {
 
@@ -14,13 +16,23 @@ export class FrontComponent implements OnInit {
   public buildings  : any;
   public classes    : any;
   public search     : any;
+  public rule : sndCatalog = new sndCatalog();
   constructor(
+    private globalCatalogService:GlobalCatalogService,
     private router : Router,
     private dossierBuildingService : DossierBuildingService,
     private errorResponseService:ErrorResponseService
-  ) { }
+  ) {
+    this.rule = this.globalCatalogService.getRole("security/property");
+  }
 
   ngOnInit() {
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("security/property");
+        console.log(this.rule);
+      }
+    );
     this.watchType = true;
     this.search = {
       buildingId : "0",

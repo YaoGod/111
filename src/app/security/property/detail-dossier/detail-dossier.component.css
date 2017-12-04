@@ -14,15 +14,26 @@
   border-bottom: 1px solid #dbdbdb;
 }
 .detail-panel>p{
+  margin: 20px 0;
   line-height: 30px;
   font-size: 12px;
   color: #6b7474;
+  text-indent: 2em;
 }
 .detail-panel>h5{
   padding: 10px 0;
   font-size: 20px;
-  color: #b66490;
+  color: #776fb6;
+  border-bottom: 1px solid #dbdbdb;
 }
 .detail-panel a{
+  padding-left: 25px;
  cursor: pointer;
+}
+.detail-panel i{
+  padding-right: 10px;
+}
+.file-list{
+  margin-top: 20px;
+  color: #6b7474;
 }

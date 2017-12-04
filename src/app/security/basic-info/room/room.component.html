@@ -2,7 +2,9 @@
 <div class="limit-height">
   <div class="box-plus">
     <h3>当前楼层：{{floor.floorNum}}</h3>
-    <a class="btn-danger" (click)="addNewRoom()">
+    <a class="btn-danger"
+       *ngIf="rule&&rule.isInstall"
+       (click)="addNewRoom()">
       <i class="icon-plus"></i>
       新增
     </a>
@@ -13,8 +15,12 @@
         <h5> {{room.roomUse}}</h5>
         <div class="card-border">
           <h6>{{room.roomNum}}室
-            <i class="icon-pencil" (click)="initEdit(i)"> </i>
-            <i class="icon-trash"(click)="delRoom(room.id)"> </i>
+            <i class="icon-pencil"
+               *ngIf="rule&&rule.isUpdate"
+               (click)="initEdit(i)"></i>
+            <i class="icon-trash"
+               *ngIf="rule&&rule.isDelete"
+               (click)="delRoom(room.id)"> </i>
           </h6>
           <div class="card-left">
             <label>

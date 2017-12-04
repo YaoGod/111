@@ -6,6 +6,8 @@ import { Building } from '../../../mode/building/building.service';
 import { Floor } from '../../../mode/floor/floor.service';
 import { Room } from '../../../mode/room/room.service';
 import { UtilBuildingService } from '../../../service/util-building/util-building.service';
+import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
+import { sndCatalog } from '../../../mode/catalog/catalog.service';
 import * as $ from 'jquery';
 declare var confirmFunc: any;
 declare var $:any;
@@ -13,7 +15,7 @@ declare var $:any;
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.css'],
-  providers:[InfoBuildingService,UtilBuildingService,Building,Floor,Room]
+  providers:[InfoBuildingService,UtilBuildingService,Building,Floor,Room,sndCatalog]
 })
 export class RoomComponent implements OnInit {
   public floor        : Floor =  new Floor();
@@ -28,14 +30,16 @@ export class RoomComponent implements OnInit {
   public newRoom     : Room = new Room();
   public isOpenNewView: boolean =false;
   public title        : string = "新增";
+  public rule         : sndCatalog = new sndCatalog();
   constructor(
+    private globalCatalogService:GlobalCatalogService,
     private router: Router,
     private route:ActivatedRoute,
     private infoBuildingService:InfoBuildingService,
     private utilBuildingService:UtilBuildingService,
     private errorVoid:ErrorResponseService
-
   ) {
+    this.rule = this.globalCatalogService.getRole("security/basic");
   }
   ngOnInit() {
     this.route.params.subscribe(data => {
@@ -43,7 +47,11 @@ export class RoomComponent implements OnInit {
       this.getFloor(this.floor.id);
       this.initRoom();
     });
-
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("security/basic");
+      }
+    );
   }
   /*获取指定大楼信息*/
   getFloor(id) {

@@ -1,7 +1,10 @@
 
 <div class="view">
   <div class="top-right">
-    <a class="btn-edit" href="javascript:;" (click)="initEdit()"><i class="icon-pencil"></i> 编辑</a>
+    <a class="btn-edit" href="javascript:;"
+       *ngIf="rule&&rule.isUpdate"
+       (click)="initEdit()">
+      <i class="icon-pencil"></i> 编辑</a>
   </div>
   <ul class="form-msg">
     <li class="form-bar">

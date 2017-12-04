@@ -3,11 +3,13 @@
 
   <div class="front-bar">
     <h3>物业档案台账</h3>
-    <div class="box-search">
+    <div class="box-search" *ngIf="rule&&rule.isSelect">
       <input type="text" [(ngModel)]="search.text">
       <a (click)="getList()"><i class="icon-magnifier"></i>搜索</a>
     </div>
-    <a class="btn-danger" (click)="addNew();">
+    <a class="btn-danger"
+       *ngIf="rule&&rule.isInstall"
+       (click)="addNew();">
       <i class="icon-plus"></i>
       新增
     </a>
@@ -42,10 +44,12 @@
           </p>
         </td>
         <td width="14%">
-          <a (click)="editInit(dossier)">
+          <a *ngIf="rule&&rule.isUpdate"
+             (click)="editInit(dossier)">
             <i class="icon-pencil"></i>编辑
           </a>
-          <a (click)="delete(dossier.id)">
+          <a *ngIf="rule&&rule.isDelete"
+             (click)="delete(dossier.id)">
             <i class="icon-trash"></i>删除
           </a>
         </td>
@@ -128,7 +132,8 @@
               <input class="form-control" id="bookName"
                      name="bookName" placeholder="" type="text"
                      [(ngModel)]="newDossier.bookName"
-                     (blur)="verifyEmpty(newDossier.bookName,'bookName');">
+                     (blur)="verifyEmpty(newDossier.bookName,'bookName');"
+                     (keyup)="newDossier.bookName = limitText(newDossier.bookName,'bookName',50)">
             </label>
             <div class="error"></div>
           </div>

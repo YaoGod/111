@@ -1,6 +1,9 @@
 <div class="view">
   <div class="top-right">
-    <button class="btn-edit" (click)="initEdit()"><i class="icon-pencil"></i> 编辑</button>
+    <button class="btn-edit"
+            *ngIf="rule&&rule.isUpdate"
+            (click)="initEdit()">
+      <i class="icon-pencil"></i> 编辑</button>
   </div>
   <ul class="form-msg">
     <li class="form-bar">

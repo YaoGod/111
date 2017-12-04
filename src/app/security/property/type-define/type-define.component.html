@@ -5,7 +5,9 @@
       <input type="text" [(ngModel)]="search">
       <a (click)="getList()"><i class="icon-magnifier"></i>搜索</a>
     </div>
-    <a class="btn-danger" (click)="addNew();">
+    <a class="btn-danger"
+       *ngIf="rule&&rule.isInstall"
+       (click)="addNew();">
       <i class="icon-plus"></i>
       新增
     </a>
@@ -14,10 +16,14 @@
     <ul class="card-list">
       <li class="card-area" *ngFor="let dossier of dossiers">
         <div class="card-option">
-          <a class="edt" (click)="editInit(dossier)">
+          <a class="edt"
+             *ngIf="rule&&rule.isUpdate"
+             (click)="editInit(dossier)">
             <i class="icon-pencil"></i>编辑
           </a>
-          <a class="del" (click)="delete(dossier.id)">
+          <a class="del"
+             *ngIf="rule&&rule.isDelete"
+             (click)="delete(dossier.id)">
             <i class="icon-trash" ></i>删除
           </a>
         </div>

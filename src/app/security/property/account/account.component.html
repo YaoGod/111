@@ -1,10 +1,14 @@
 <div class="list-panel">
   <div class="front-bar">
-    <a class="btn-export" (click)="exportList(search.classId,search.buildingId);">
+    <a class="btn-export"
+       *ngIf="rule&&rule.isSelect"
+       (click)="exportList(search.classId,search.buildingId);">
       <i class="icon-cloud-download"></i>
       导出
     </a>
-    <a class="btn-danger" (click)="addNew();">
+    <a class="btn-danger"
+       *ngIf="rule&&rule.isInstall"
+       (click)="addNew();">
       <i class="icon-plus"></i>
       新增
     </a>
@@ -29,10 +33,12 @@
         <a (click)="linkGroupList(doc.classId,doc.buildingId)">
           <i class="icon-doc"></i>详情
         </a>
-        <a (click)="exportList(doc.classId,doc.buildingId)">
+        <a  *ngIf="rule&&rule.isSelect"
+          (click)="exportList(doc.classId,doc.buildingId)">
           <i class="icon-cloud-download"></i>导出
         </a>
-        <a (click)="deleteGroup(doc.classId,doc.buildingId)">
+        <a  *ngIf="rule&&rule.isDelete"
+          (click)="deleteGroup(doc.classId,doc.buildingId)">
           <i class="icon-trash"></i>删除
         </a>
       </div>
@@ -111,9 +117,11 @@
           <div  class="form-group">
             <label  class="control-label"><span>细项名称</span>
               <input class="form-control" id="title"
-                     name="title" placeholder="" type="text"
-                     [(ngModel)]="newDossier.title"
-                     (blur)="verifyEmpty(newDossier.title,'title');">
+               name="title" placeholder="" type="text"
+               [(ngModel)]="newDossier.title"
+               (blur)="verifyEmpty(newDossier.title,'title');"
+               (keyup)="newDossier.title = limitText(newDossier.title,'title',50)"
+              >
             </label>
             <div class="error"></div>
           </div>
@@ -121,11 +129,13 @@
             <label  class="control-label">
               <span style="vertical-align: top;">细项说明</span>
               <textarea class="form-control" id="content"
-                        name="content"
-                        style="height: 200px"
-                        placeholder=""
-                        [(ngModel)]="newDossier.content"
-                        (blur)="verifyEmpty(newDossier.content,'content');">
+                name="content"
+                style="height: 200px"
+                placeholder=""
+                [(ngModel)]="newDossier.content"
+                (blur)="verifyEmpty(newDossier.content,'content');"
+                (keyup)="newDossier.content = limitText(newDossier.content,'content',500)"
+              >
               </textarea>
             </label>
             <div class="error"></div>

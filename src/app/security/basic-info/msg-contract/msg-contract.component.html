@@ -1,6 +1,7 @@
 <div class="view">
   <!--搜索栏-->
-  <div class="search-bar" [hidden]="building.type != 'lease' && building.type != 'property'">
+  <div class="search-bar"
+       [hidden]="building.type != 'lease' && building.type != 'property'">
     <ul>
       <li [class]="watchType?'active':''">
         <input class="tab" type="button"
@@ -28,10 +29,14 @@
   <div *ngIf="pageStatus===1||pageStatus===3">
   <ul class="form-msg" *ngFor="let contract of contracts;let i = index">
     <li class="top-right">
-      <a class="btn-edit" href="javascript:;" (click)="initEdit(i)">
+      <a class="btn-edit" href="javascript:;"
+         *ngIf="rule&&rule.isUpdate"
+         (click)="initEdit(i)">
         <i class="icon-pencil"></i> 编辑
       </a>
-      <a class="btn-del" href="javascript:;" (click)="deleteContract(contract.id)">
+      <a class="btn-del" href="javascript:;"
+         *ngIf="rule&&rule.isDelete"
+         (click)="deleteContract(contract.id)">
         <i class="icon-trash"></i> 删除
       </a>
     </li>
@@ -225,10 +230,10 @@
   </ul>
     <div style="clear:both"></div>
   </div>
-  <div class="div-none" *ngIf="pageStatus===2">
+  <div class="div-none" *ngIf="pageStatus===2||(rule&&!rule.isInstall)">
     <p>暂无信息</p>
   </div>
-  <div class="div-add" *ngIf="pageStatus===0">
+  <div class="div-add" *ngIf="pageStatus===0&&(rule&&rule.isInstall)">
     <div class="add-border" (click)="addNewRoom()">
       <i class="icon-plus"></i>
       <p>添加</p>
@@ -311,7 +316,7 @@
               <input class="form-control" id="buyPhone"
                      name="floorNum" placeholder="" type="text"
                      [(ngModel)]="tempContract.buyPhone"
-                     (blur)="verifyEmpty(tempContract.buyContacts,'buyPhone');">
+                     (blur)="verifyEmpty(tempContract.buyContacts,'buyPhone');verifyIsTel('buyPhone');">
             </label>
             <div class="error"></div>
           </div>
@@ -428,7 +433,7 @@
               <input class="form-control" id="lPhone"
                      name="lPhone" placeholder="" type="text"
                      [(ngModel)]="tempContract.lPhone"
-                     (blur)="verifyEmpty(tempContract.lPhone,'lPhone');">
+                     (blur)="verifyEmpty(tempContract.lPhone,'lPhone');verifyIsTel('lPhone');">
             </label>
             <div class="error"></div>
           </div>
@@ -437,7 +442,7 @@
               <input class="form-control" id="lMail"
                      name="lMail" placeholder="" type="text"
                      [(ngModel)]="tempContract.lMail"
-                     (blur)="verifyEmpty(tempContract.lMail,'lMail');">
+                     (blur)="verifyEmpty(tempContract.lMail,'lMail');verifyIsEmail('lMail')">
             </label>
             <div class="error"></div>
           </div>
@@ -464,7 +469,7 @@
               <input class="form-control" id="cmccPhone"
                      name="cmccPhone" placeholder="" type="text"
                      [(ngModel)]="tempContract.cmccPhone"
-                     (blur)="verifyEmpty(tempContract.cmccPhone,'cmccPhone');">
+                     (blur)="verifyEmpty(tempContract.cmccPhone,'cmccPhone');verifyIsTel('cmccPhone');">
             </label>
             <div class="error"></div>
           </div>
@@ -491,7 +496,7 @@
               <input class="form-control" id="phone"
                      name="phone" placeholder="" type="text"
                      [(ngModel)]="tempContract.phone"
-                     (blur)="verifyEmpty(tempContract.phone,'phone');">
+                     (blur)="verifyEmpty(tempContract.phone,'phone');verifyIsTel('phone');">
             </label>
             <div class="error"></div>
           </div>
@@ -500,7 +505,7 @@
               <input class="form-control" id="mail"
                      name="mail" placeholder="" type="text"
                      [(ngModel)]="tempContract.mail"
-                     (blur)="verifyEmpty(tempContract.mail,'mail');">
+                     (blur)="verifyEmpty(tempContract.mail,'mail');verifyIsEmail('lMail')">
             </label>
             <div class="error"></div>
           </div>

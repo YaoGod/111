@@ -7,6 +7,8 @@ import { InfoBuildingService } from '../../../service/info-building/info-buildin
 import { Building } from '../../../mode/building/building.service';
 import { Contract } from '../../../mode/contract/contract.service';
 import { Router, ActivatedRoute, Params} from '@angular/router';
+import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
+import { sndCatalog } from '../../../mode/catalog/catalog.service';
 declare var confirmFunc: any;
 import * as $ from 'jquery';
 declare var $:any;
@@ -14,7 +16,7 @@ declare var $:any;
   selector: 'app-msg-contract',
   templateUrl: './msg-contract.component.html',
   styleUrls: ['./msg-contract.component.css'],
-  providers: [ ContractBuildingService, InfoBuildingService,UtilBuildingService ]
+  providers: [ ContractBuildingService, InfoBuildingService,UtilBuildingService,sndCatalog]
 })
 export class MsgContractComponent implements OnInit {
 
@@ -35,7 +37,9 @@ export class MsgContractComponent implements OnInit {
      }*/
   public watchType : boolean = true;
   public title = "";
+  public rule : sndCatalog = new sndCatalog();
   constructor(
+    private globalCatalogService:GlobalCatalogService,
     private infoBuildingService:InfoBuildingService,
     private contractBuildingService:ContractBuildingService,
     private utilBuildingService:UtilBuildingService,
@@ -45,6 +49,7 @@ export class MsgContractComponent implements OnInit {
     private route: ActivatedRoute,
   ) {
     this.building = globalBuilding.getVal();
+    this.rule = this.globalCatalogService.getRole("security/basic");
   }
   ngOnInit() {
     this.building = new Building();
@@ -56,6 +61,11 @@ export class MsgContractComponent implements OnInit {
       (val) =>{
         this.modeBuilding = this.globalBuilding.getVal();
         this.building.name = this.modeBuilding.name;
+      }
+    );
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("security/basic");
       }
     );
     this.building.id = Number(this.router.url.split('/')[5]);
@@ -149,6 +159,7 @@ export class MsgContractComponent implements OnInit {
     this.verifyEmpty(this.tempContract.buyName,'buyName');
     this.verifyEmpty(this.tempContract.buyContacts,'buyContacts');
     this.verifyEmpty(this.tempContract.buyContacts,'buyPhone');
+    this.verifyIsTel('buyPhone');
     this.verifyEmpty(this.tempContract.buyCost,'buyCost');
     this.verifyEmpty(this.tempContract.buyDate,'buyDate');
     this.verifyEmpty(this.tempContract.area,'area');
@@ -162,14 +173,19 @@ export class MsgContractComponent implements OnInit {
     this.verifyEmpty(this.tempContract.landlord,'landlord');
     this.verifyEmpty(this.tempContract.lContacts,'lContacts');
     this.verifyEmpty(this.tempContract.lPhone,'lPhone');
+    this.verifyIsTel('lPhone');
     this.verifyEmpty(this.tempContract.lMail,'lMail');
+    this.verifyIsEmail('lMail');
     this.verifyEmpty(this.tempContract.cmccName,'cmccName');
     this.verifyEmpty(this.tempContract.cmccContacts,'cmccContacts');
     this.verifyEmpty(this.tempContract.cmccPhone,'cmccPhone');
+    this.verifyIsTel('cmccPhone');
     this.verifyEmpty(this.tempContract.name,'name');
     this.verifyEmpty(this.tempContract.contacts,'contacts');
     this.verifyEmpty(this.tempContract.phone,'phone');
+    this.verifyIsTel('phone');
     this.verifyEmpty(this.tempContract.mail,'mail');
+    this.verifyIsEmail('mail');
     this.verifyEmpty(this.tempContract.contractBtime,'contractBtime');
     this.verifyEmpty(this.tempContract.contractEtime,'contractEtime');
     if (this.building.type ===  'lease' || this.building.type === 'property'){
@@ -371,5 +387,30 @@ export class MsgContractComponent implements OnInit {
   }
   openFile(url) {
     window.open("proxy"+ url);
+  }
+  /**
+   * 验证手机号码
+   * @return
+   */
+  private verifyIsTel(id: string, error?: string): boolean {
+    const data =  $('#' + id).val();
+    if (!String(data).match(/^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[7-9])|(18[0-9]))\d{8}$/))  {
+      this.addErrorClass(id, '请填写正确手机号');
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  // 校验是否是邮箱
+  private verifyIsEmail(id: string, error?: string): boolean {
+    const data =  $('#' + id).val();
+    if (!String(data).match(/^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/))  {
+      this.addErrorClass(id,  '请填写正确邮箱');
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
   }
 }

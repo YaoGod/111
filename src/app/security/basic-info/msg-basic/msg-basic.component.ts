@@ -4,6 +4,8 @@ import { InfoBuildingService } from '../../../service/info-building/info-buildin
 import { UtilBuildingService } from '../../../service/util-building/util-building.service';
 import { GlobalBuildingService } from '../../../service/global-building/global-building.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
+import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
+import { sndCatalog } from '../../../mode/catalog/catalog.service';
 import * as $ from 'jquery';
 declare var confirmFunc: any;
 declare var $: any;
@@ -11,7 +13,7 @@ declare var $: any;
   selector: 'app-msg-basic',
   templateUrl: './msg-basic.component.html',
   styleUrls: ['./msg-basic.component.css'],
-  providers: [Building, InfoBuildingService, UtilBuildingService],
+  providers: [Building, InfoBuildingService, UtilBuildingService,sndCatalog],
 })
 
 export class MsgBasicComponent implements OnInit {
@@ -20,19 +22,27 @@ export class MsgBasicComponent implements OnInit {
   public editStatus   : Boolean  = false;
   public isViewImg    : boolean = true;
   public imgWidth     : number = 500;
+  public rule : sndCatalog = new sndCatalog();
   constructor(
+    private globalCatalogService:GlobalCatalogService,
     private infoBuildingService:InfoBuildingService,
     private utilBuildingService:UtilBuildingService,
     private globalBuilding:GlobalBuildingService,
     private errorVoid:ErrorResponseService
   ) {
     this.building = globalBuilding.getVal();
+    this.rule = this.globalCatalogService.getRole("security/basic");
   }
   ngOnInit() {
     /*大楼信息更新订阅*/
     this.globalBuilding.valueUpdated.subscribe(
       (val) =>{
         this.building = this.globalBuilding.getVal();
+      }
+    );
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("security/basic");
       }
     );
   }

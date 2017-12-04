@@ -36,5 +36,10 @@ export class UserPortalService {
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
-
+  /*获取目录信息*/
+  getRoleCata(){
+    const url = "/proxy/portal/user/getRoleCata";
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
 }

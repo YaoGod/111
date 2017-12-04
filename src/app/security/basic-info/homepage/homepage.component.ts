@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Building } from '../../../mode/building/building.service';
 import { InfoBuildingService } from '../../../service/info-building/info-building.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
-
-import {UtilBuildingService} from "../../../service/util-building/util-building.service";
+import { UtilBuildingService } from "../../../service/util-building/util-building.service";
+import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
+import { sndCatalog } from '../../../mode/catalog/catalog.service';
 import * as $ from 'jquery';
 declare var $:any;
 declare var confirmFunc: any;
@@ -12,7 +13,7 @@ declare var confirmFunc: any;
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css'],
-  providers: [InfoBuildingService,UtilBuildingService,ErrorResponseService]
+  providers: [InfoBuildingService,UtilBuildingService,ErrorResponseService,sndCatalog]
 })
 export class HomepageComponent implements OnInit {
   public buildings :Array<Building>;
@@ -28,14 +29,23 @@ export class HomepageComponent implements OnInit {
     address: '',
     belongTo:'',
     type: ''
-  }
+  };
+  public rule : sndCatalog = new sndCatalog();
   constructor(
     private infoBuildingService:InfoBuildingService,
     private errorVoid:ErrorResponseService,
     private utilBuildingService:UtilBuildingService,
-  ) { }
+    private globalCatalogService:GlobalCatalogService,
+  ) {
+    this.rule = this.globalCatalogService.getRole("security/basic");
+  }
 
   ngOnInit() {
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("security/basic");
+      }
+    );
     this.search = new Building();
     this.search.type = '';
     this.pages = [];

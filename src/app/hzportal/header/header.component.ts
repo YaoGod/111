@@ -5,6 +5,7 @@ import { ErrorResponseService } from '../../service/error-response/error-respons
 import { UserPortalService } from '../../service/user-portal/user-portal.service';
 import { User } from '../../mode/user/user.service';
 import { GlobalUserService } from '../../service/global-user/global-user.service';
+import { GlobalCatalogService } from '../../service/global-catalog/global-catalog.service';
 declare var $: any;
 declare var confirmFunc: any;
 @Component({
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     public router: Router,
     private globalUserService : GlobalUserService,
+    private globalCatalogService : GlobalCatalogService,
     private errorResponse:ErrorResponseService,
     private userPortal: UserPortalService,
   ) {
@@ -34,7 +36,8 @@ export class HeaderComponent implements OnInit {
       }
     );
     this.user = this.globalUserService.getVal();
-    this.catalogs = [{
+    this.initCata();
+    /*this.catalogs = [{
         name: '大楼信息管理',
         childs: [
           {
@@ -50,25 +53,23 @@ export class HeaderComponent implements OnInit {
             routeUrl: 'security/property'
           }
         ]
-      },
-      {
-        name: '餐饮管理平台',
-        childs: [{
-          name: '餐饮1',
-          routeUrl: 'security/basic'
-        },
-          {
-            name: '餐饮2',
-            routeUrl: 'security/daily'
-          },
-          {
-            name: '餐饮3',
-            routeUrl: 'security/property'
-          }]
-      }];
+      }];*/
+  }
+  /*初始化目录列表*/
+  initCata(){
+    this.userPortal.getRoleCata()
+      .subscribe(data =>{
+        if(this.errorResponse.errorMsg(data)){
+          this.catalogs = data.data;
+          this.globalCatalogService.setVal(this.catalogs);
+        }
+      })
   }
 
-  private Listslider(event) {
+  private Listslider(event,url) {
+    if(typeof(url) !== "undefined" && url !== null && url !== "") {
+      this.router.navigate(["hzportal/" + url]);
+    }
     $('.menu-one').not($(event.target)).removeClass('active');
     $(event.target).toggleClass('active');
     $('.menu-second').removeClass('active');
@@ -164,7 +165,7 @@ export class HeaderComponent implements OnInit {
     }
   }
   /*匹配数字*/
-  private verifyIsNumber(id: string, error: string): boolean  {
+  private verifyIsNumber(id: string, error: string): boolean {
     const data =  $('#' + id).val();
     if (!String(data).match(/^[0-9]*$/))  {
       this.addErrorClass(id, error);
@@ -175,7 +176,7 @@ export class HeaderComponent implements OnInit {
     }
   }
   /*匹配长度*/
-  private verifyLength(id: string, error: string): boolean  {
+  private verifyLength(id: string, error: string): boolean {
     const data =  $('#' + id).val();
     if (data.length < 5)  {
       this.addErrorClass(id, error);

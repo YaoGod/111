@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { TypeDefine } from '../../../mode/type-define/type-define.service';
 import { DossierBuildingService } from "../../../service/dossier-building/dossier-building.service";
 import { ErrorResponseService } from "../../../service/error-response/error-response.service";
+import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
+import { sndCatalog } from '../../../mode/catalog/catalog.service';
 declare var $:any;
 declare var confirmFunc: any;
 @Component({
   selector: 'app-type-define',
   templateUrl: './type-define.component.html',
   styleUrls: ['./type-define.component.css'],
-  providers: [TypeDefine,DossierBuildingService,ErrorResponseService]
+  providers: [TypeDefine,DossierBuildingService,ErrorResponseService,sndCatalog]
 })
 export class TypeDefineComponent implements OnInit {
 
@@ -17,13 +19,23 @@ export class TypeDefineComponent implements OnInit {
   public search     : any = "";
   public pageNo     : number;
   public pageSize   : number;
-  public pages        : Array<number>;
+  public pages      : Array<number>;
+  public rule       : sndCatalog = new sndCatalog();
   constructor(
+    private globalCatalogService:GlobalCatalogService,
     private dossierBuildingService : DossierBuildingService,
     private errorResponseService : ErrorResponseService
-  ) { }
+  ) {
+    this.rule = this.globalCatalogService.getRole("security/property");
+  }
 
   ngOnInit() {
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("security/property");
+        console.log(this.rule);
+      }
+    );
     this.pageNo = 1;
     this.pageSize = 9;
     this.getList();

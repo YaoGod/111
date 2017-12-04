@@ -1,7 +1,7 @@
 <div class="limit-height">
   <!--大楼搜索栏-->
   <div class="view">
-    <div class="search-bar">
+    <div class="search-bar" *ngIf="rule && rule.isSelect">
       <div class="panel-head">
         <i class="icon-magnifier"></i>
             搜索
@@ -39,7 +39,8 @@
   <!--大楼列表展示-->
   <div class="view" style="min-height: 350px;">
     <div class="row">
-        <a class="btn btn-danger" (click)="fadeBom()" href="javascript:;"><i class="icon-plus"></i> 新增</a>
+        <a class="btn btn-danger" (click)="fadeBom()" href="javascript:;" *ngIf="rule&&rule.isInstall">
+          <i class="icon-plus"></i> 新增</a>
     </div>
     <ul class="page-area">
       <li class="card" *ngFor="let building of buildings;let idx=index">
@@ -51,11 +52,12 @@
         <div class="mark">
           <span>No.{{building.buildingId}}</span>
           <h3>{{building.name}}</h3>
-         <!-- <p>{{building.summary}}</p>-->
-         <!-- <a class="btn-detail" [routerLink]="['detail',building.id]">详情</a>-->
           <div class="text-muted">
             <a class="text-muted " [routerLink]="['detail',building.id]" ><i class="icon-doc"></i> 详情</a>
-            <a class="text-muted" href="javascript:;" (click)="delete(building.id)"><i class="icon-trash"></i> 删除</a>
+            <a class="text-muted" href="javascript:;"
+               *ngIf="rule&&rule.isDelete"
+               (click)="delete(building.id)">
+              <i class="icon-trash"></i> 删除</a>
           </div>
         </div>
       </li>

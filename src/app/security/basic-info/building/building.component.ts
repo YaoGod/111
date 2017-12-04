@@ -5,12 +5,14 @@ import { InfoBuildingService } from '../../../service/info-building/info-buildin
 import { Router, ActivatedRoute, Params} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
+import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
+import { sndCatalog } from '../../../mode/catalog/catalog.service';
 declare var $: any;
 @Component({
   selector: 'app-building',
   templateUrl: './building.component.html',
   styleUrls: ['./building.component.css'],
-  providers: [InfoBuildingService,Building]
+  providers: [InfoBuildingService,Building,sndCatalog]
 })
 export class BuildingComponent implements OnInit {
   public building : Building;  /*大楼信息*/
@@ -20,16 +22,25 @@ export class BuildingComponent implements OnInit {
   public isViewImg    : boolean = true;
   public imgWidth     : number = 500;
   public imgSrcView   : string;
+  public rule : sndCatalog = new sndCatalog();
   constructor(
+    private globalCatalogService:GlobalCatalogService,
     private infoBuildingService:InfoBuildingService,
     private globalBuilding: GlobalBuildingService,
     private errorVoid:ErrorResponseService,
     private route: ActivatedRoute,
     private router: Router,
-  ) { }
+  ) {
+    this.rule = this.globalCatalogService.getRole("security/basic");
+  }
 
   /*初始化时间钩子*/
   ngOnInit() {
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("security/basic");
+      }
+    );
     this.building = new Building;
     this.building.imgList = [];
     this.imgPaths = new Array<string>(1);
