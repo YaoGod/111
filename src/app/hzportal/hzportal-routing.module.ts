@@ -19,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'hzportal',
-    /*canActivate: [RouteGuardService],*/
+    canActivate: [RouteGuardService],
     component: HeaderComponent,
     children: [
       {
@@ -28,10 +28,12 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
+        /*大楼综合信息管理*/
         path: 'security',
         loadChildren: '../security/security.module#SecurityModule'
       },
       {
+        /*员工服务*/
         path: 'employ',
         loadChildren: '../employ/employ.module#EmployModule'
       }

@@ -1,0 +1,40 @@
+.header{
+  height: 60px;
+  padding: 0 20px;
+  box-shadow: 1px 1px 1px #999;
+  background-color: #04a9f3;
+}
+.header>img{
+  margin-right: 30px;
+  width: 16px;
+}
+.header>h2{
+  font-size: 16px;
+
+  display: inline;
+  margin: 0;
+  line-height:60px;
+  color: #ffffff;
+  font-weight: 500;
+}
+.header-right{
+  float: right;
+  padding: 0 10px;
+  text-align: center;
+  height: 60px;
+  line-height: 70px;
+  color: #ffffff;
+  cursor: pointer;
+}
+.header-right:hover{
+  background: rgba(0, 0, 0, .1);
+}
+.header-right>img{
+  width: 16px;
+}
+.main{
+  width: 100%;
+  height:auto;
+  min-height: calc(100% - 65px);
+  background-color: #edf1f5;
+}

@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+<div class="main">
+  <!--标题栏-->
+  <div class="header">
+    <img src="../../../../assets/image/icon_3line.png">
+    <h2>团购管理/商品订购</h2>
+    <div class="header-right">
+      <img src="../../../../assets/image/icon_wheel.png">
+    </div>
+    <div class="header-right">
+      <img src="../../../../assets/image/icon_email.png">
+    </div>
+
+  </div>
+  <!--物品搜索-->
+  <router-outlet>
+    <!--物品搜索栏-->
+    <div class="view">
+      <div class="search-bar">
+        <div class="panel-head">
+          <i class="icon-magnifier"></i>
+          搜索
+        </div>
+        <div class="panel">
+          <ul>
+            <li>
+              <label>商品名称</label>
+              <input type="text"[(ngModel)]="search" >
+            </li>
+
+          </ul>
+          <div class="panel-search">
+            <input class="btn-info" type="button" value="开始查询" (click)="getProductShowList()">
+          </div>
+          <div class="panel-order">
+            <input class="btn-info" type="button" [routerLink]="['../cart']" value="我的购物车">
+            <input class="btn-info" type="button" value="我的订单">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--商品展示-->
+    <div class="view" style="background-color: #ffffff;margin-top: 10px">
+      <!--getProductShowList接口-->
+
+
+
+    </div>
+  </router-outlet>
+
+</div>
+
+<global-footer></global-footer>
