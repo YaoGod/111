@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Http, RequestOptions, Headers} from '@angular/http';
+import { IpSettingService } from '../ip-setting/ip-setting.service';
 import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class InfoBuildingService {
@@ -11,6 +12,7 @@ export class InfoBuildingService {
   });
   constructor(
     private http: Http,
+    private ipSetting  : IpSettingService
   ) { }
   /*
     获取大楼列表
@@ -20,7 +22,7 @@ export class InfoBuildingService {
     return:              #大楼基础信息实体类列表
    */
   getBuildingList (pageNo:number,pageSize:number,search:any) {
-    const url = '/proxy/building/info/getBuildingList/'+pageNo+'/'+pageSize+'?search=';
+    const url = this.ipSetting.ip + '/building/info/getBuildingList/'+pageNo+'/'+pageSize+'?search=';
     const data = search;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -31,7 +33,7 @@ export class InfoBuildingService {
    return:   #大楼基础信息实体类
    */
   getBuildingMsg (id:number) {
-    const url = '/proxy/building/info/getBuildingInfo/'+id;
+    const url = this.ipSetting.ip + '/building/info/getBuildingInfo/'+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -43,7 +45,7 @@ export class InfoBuildingService {
    return:   #大楼基础信息实体类
    */
   getFloorListMsg (data:any,pageNo:number,pageSize:number) {
-    const url = '/proxy/building/info/getFloorList/'+pageNo+'/'+pageSize;
+    const url = this.ipSetting.ip + '/building/info/getFloorList/'+pageNo+'/'+pageSize;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
@@ -53,7 +55,7 @@ export class InfoBuildingService {
    return:   #大楼基础信息实体类
    */
   getFloorNameListMsg(id:number){
-    const url ='/proxy/building/info/getFloorNumList/'+id;
+    const url =this.ipSetting.ip + '/building/info/getFloorNumList/'+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -63,7 +65,7 @@ export class InfoBuildingService {
    return:   #大楼基础信息实体类
    */
   getFloorMsg (id:number) {
-    const url = '/proxy/building/info/getFloorInfo/'+id;
+    const url = this.ipSetting.ip + '/building/info/getFloorInfo/'+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -76,7 +78,7 @@ export class InfoBuildingService {
    return:   #大楼基础信息实体类
    */
   getRoomListMsg (floorId:number,pageNo: number,pageSize:number) {
-    const url = '/proxy/building/info/getRoomList/'+pageNo+'/'+pageSize;
+    const url = this.ipSetting.ip + '/building/info/getRoomList/'+pageNo+'/'+pageSize;
     var data = {floorId:floorId};
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -87,7 +89,7 @@ export class InfoBuildingService {
  return:
  */
   addBuilding(postData){
-    const url = '/proxy/building/info/addBuilding';
+    const url = this.ipSetting.ip + '/building/info/addBuilding';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -98,7 +100,7 @@ export class InfoBuildingService {
    return:
    */
   addFloor(postData){
-    const url = '/proxy/building/info/addFloor';
+    const url = this.ipSetting.ip + '/building/info/addFloor';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -109,7 +111,7 @@ export class InfoBuildingService {
    return:
    */
   addRoom(postData){
-    const url = '/proxy/building/info/addRoom';
+    const url = this.ipSetting.ip + '/building/info/addRoom';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -120,7 +122,7 @@ export class InfoBuildingService {
    return:
    */
   deleteBuilding (id:number) {
-    const url = '/proxy/building/info/deleteBuilding/'+id;
+    const url = this.ipSetting.ip + '/building/info/deleteBuilding/'+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -130,7 +132,7 @@ export class InfoBuildingService {
    return:
    */
   deleteFloor (id:number) {
-    const url = '/proxy/building/info/deleteFloor/'+id;
+    const url = this.ipSetting.ip + '/building/info/deleteFloor/'+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -140,7 +142,7 @@ export class InfoBuildingService {
    return:
    */
   deleteRoom (id:number) {
-    const url = '/proxy/building/info/deleteRoom/'+id;
+    const url = this.ipSetting.ip + '/building/info/deleteRoom/'+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -150,7 +152,7 @@ export class InfoBuildingService {
    return:
    */
   updateBuilding(postData){
-    const url = '/proxy/building/info/updateBuilding';
+    const url = this.ipSetting.ip + '/building/info/updateBuilding';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -161,7 +163,7 @@ export class InfoBuildingService {
    return:
    */
   updateFloor(postData){
-    const url = '/proxy/building/info/updateFloor';
+    const url = this.ipSetting.ip + '/building/info/updateFloor';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -172,7 +174,7 @@ export class InfoBuildingService {
    return:
    */
   updateRoom(postData){
-    const url = '/proxy/building/info/updateRoom';
+    const url = this.ipSetting.ip + '/building/info/updateRoom';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());

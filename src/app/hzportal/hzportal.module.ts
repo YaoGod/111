@@ -10,6 +10,7 @@ import { ErrorResponseService } from '../service/error-response/error-response.s
 import { GlobalUserService } from '../service/global-user/global-user.service';
 import { FormsModule } from "@angular/forms";
 import { GlobalCatalogService } from "../service/global-catalog/global-catalog.service";
+import { IpSettingService } from "../service/ip-setting/ip-setting.service";
 @NgModule({
   declarations: [
     HzportalComponent,
@@ -23,7 +24,7 @@ import { GlobalCatalogService } from "../service/global-catalog/global-catalog.s
     HzportalRoutingModule,
     FormsModule
   ],
-  providers: [ GlobalUserService,GlobalCatalogService,ErrorResponseService],
+  providers: [ GlobalUserService,GlobalCatalogService,ErrorResponseService,IpSettingService],
   bootstrap: [HzportalComponent]
 })
 export class HzportalModule { }

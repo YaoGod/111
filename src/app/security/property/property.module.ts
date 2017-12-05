@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../service/route-guard/route-guard.service';
 import { PropertyComponent } from './property.component';
 import { GlobalFooterModule } from '../basic-info/global-footer/global-footer.module';
+import { GlobalOptionService } from './global-option.service';
 const routes: Routes = [
   {
     path: '',
@@ -33,6 +34,7 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   exports: [RouterModule],
+  providers: [GlobalOptionService],
   declarations: [PropertyComponent]
 })
 export class PropertyModule { }

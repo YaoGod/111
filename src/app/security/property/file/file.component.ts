@@ -6,6 +6,7 @@ import { UtilBuildingService } from '../../../service/util-building/util-buildin
 import { Router,ActivatedRoute} from '@angular/router';
 import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
 import { sndCatalog } from '../../../mode/catalog/catalog.service';
+import { GlobalOptionService } from '../global-option.service';
 declare var $:any;
 declare var confirmFunc: any;
 @Component({
@@ -26,6 +27,7 @@ export class FileComponent implements OnInit {
   public rule : sndCatalog = new sndCatalog();
   constructor(
     private globalCatalogService:GlobalCatalogService,
+    private globalOptionService    : GlobalOptionService,
     public  router:Router,
     private route:ActivatedRoute,
     private dossierBuildingService:DossierBuildingService,
@@ -33,13 +35,14 @@ export class FileComponent implements OnInit {
     private utilBuildingService:UtilBuildingService,
   ) {
     this.rule = this.globalCatalogService.getRole("security/property");
+    this.search = this.globalOptionService.getVal();
   }
 
   ngOnInit() {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("security/property");
-        console.log(this.rule);
+        this.search = this.globalOptionService.getVal();
       }
     );
     this.pageSize = 6;
@@ -124,7 +127,12 @@ export class FileComponent implements OnInit {
   }
   /*查看群组列表*/
   linkGroupList(classId,buildingId) {
-    console.log(classId + buildingId);
+    let selectOption = {
+      classId : classId,
+      buildingId : buildingId,
+      group      : "groupA"
+    };
+    this.globalOptionService.setVal(selectOption);
     this.router.navigate(["/hzportal/security/property/file",classId,buildingId,"groupA"]);
   }
   /*删除群组内容*/

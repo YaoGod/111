@@ -32,17 +32,10 @@
   display: flex;
   flex-wrap: wrap;
   flex: 2%;
-  min-height: 700px;
+  min-height: 660px;
 }
-@media (min-width: 1400px) {
-  .msg-card {
-    width: 33.33333%;
-  }
-}
-@media (max-width: 1400px) {
-  .msg-card {
-    width: 50%;
-  }
+.msg-card {
+  width: 33.33333%;
 }
 .msg-card>h4{
   float: left;
@@ -69,10 +62,12 @@
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 .msg-panel>h5{
+  height: 35px;
+  line-height: 18px;
+  margin-top: 10px;
   color: #03a9f3;
   font-size: 18px;
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
-  margin: 10px 0;
   font-weight: 300;
   text-align: right;
 }
@@ -80,9 +75,10 @@
   padding-left: 5px;
   font-size: 10px;
   color: #4d565e;
+  word-break: keep-all;
 }
 .word-panel{
-  height: 200px;
+  height: 145px;
   line-height: 30px;
   padding-bottom: 10px;
   border-bottom: 1px dashed #e8e2e2;
@@ -352,6 +348,7 @@ select{
   border-right: 1px solid #e4e7ea;
   border-bottom: 1px solid #e4e7ea;
   color: #686868;
+  background: #ffffff;
   text-align: center;
   cursor: pointer;
 }
