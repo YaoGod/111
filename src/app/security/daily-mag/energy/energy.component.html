@@ -1,3 +1,150 @@
-<p>
-  energy works!
-</p>
+
+<div class="energy">
+  <div class="energy-header clearfix">
+    <a href="javascript:;" class="active" (click)="waterFade($event)">用电管理</a>
+    <a href="javascript:;" (click)="electricFade($event)">用水管理</a>
+    <a href="javascript:;" (click)="gasFade($event)">燃气管理</a>
+  </div>
+  <div class="energy-cont">
+    <div class="energy-chandlery clearfix">
+      <ul class="company-search clearfix">
+        <li>
+          <label>大楼编号</label>
+          <input type="text" name="searchA" class="search-ipt" [(ngModel)]="search.buildingId">
+        </li>
+        <li >
+          <label >大楼名称</label>
+          <input type="text" name="searchB" class="search-ipt" [(ngModel)]="search.buildingName">
+        </li>
+        <li >
+          <label >开始时间</label>
+          <input type="month" name="searchC" class="search-ipt" [(ngModel)]="search.beginT">
+        </li>
+        <li >
+          <label >结束时间</label>
+          <input type="month" name="searchD" class="search-ipt" [(ngModel)]="search.endT">
+        </li>
+      </ul>
+      <div class="search-right"><a href="javascript:;" class="search-btn" (click)="listSearch()"><i class="icon-magnifier"></i> 查 询</a></div>
+    </div>
+    <div class="row">
+      <a class="btn btn-lead" href="javascript:;" (click)="leadIn()"><i class="icon-docs"></i> 导 入</a>
+      <a class="btn btn-new" href="javascript:;" (click)="leadOut()"><i class="icon-docs"></i> 导 出</a>
+      <a class="btn btn-new" href="javascript:;" (click)="creatList()"><i class="icon-plus"></i> 新 增</a>
+    </div>
+    <!--用水信息-->
+    <div class="energy-container energy-water">
+      <div class="table-respons">
+        <table class="table" width="100%">
+          <thead>
+            <tr>
+              <th>大楼编号</th>
+              <th>大楼名称</th>
+              <th>月份</th>
+              <th>上期度数</th>
+              <th>本期度数</th>
+              <th>本月使用度数</th>
+              <th>单价</th>
+              <th>电费</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let inner of record; let i=index">
+            <td>{{inner.buildingId}}</td>
+            <td>{{inner.buildingName}}</td>
+            <td>{{inner.month}}</td>
+            <td>{{inner.lastNum}}</td>
+            <td>{{inner.nomNum}}</td>
+            <td>{{inner.useNum}}</td>
+            <td>{{inner.unitprice}}</td>
+            <td>{{inner.cost}}</td>
+            <td>
+              <a href="javascript:void(0)" class="text-inverse" (click)="editAttach(i);" style="padding-right: 10px;">
+                <i class="icon-pencil"></i>
+              </a>
+              <a href="javascript:void(0)" class="text-inverse" (click)="delAttach(i);">
+                <i class="icon-trash"></i>
+              </a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="turn" *ngIf="pages.length > 1">
+      <ul>
+        <li *ngFor="let i of pages"
+            [hidden] = "pageLimit(i)"
+            [ngClass]="{'active':i === pageNo}"
+            (click)="goPage(i);">
+          {{i}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!--新增能耗信息弹窗-->
+<div class="mask">
+  <div class="mask-cotainer">
+    <div class="mask-head"><i class="icon-film"></i> <p>新增能耗信息</p>
+      <button class="close" (click)="recordCancel()">×</button>
+    </div>
+    <form class="order-form clearfix" method="post" name="topForm" >
+      <div class="form-control clearfix">
+        <span class="form-label">大楼编号</span>
+        <div class="form-inp">
+          <input autocomplete="off" class="company-ipt" id="buildingId" name="buildingId" type="text" [(ngModel)]="repairname.buildingId" (blur)="verifyId()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control clearfix">
+        <span class="form-label">月份</span>
+        <div class="form-inp">
+          <input autocomplete="off" class="company-ipt" id="month" name="month" required type="month" [(ngModel)]="repairname.month" (blur)="verifymonth()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control clearfix">
+        <span class="form-label">上期度数</span>
+        <div class="form-inp">
+          <input autocomplete="off" class="company-ipt" id="lastNum" name="lastNum" required type="text" [(ngModel)]="repairname.lastNum" (blur)="verifylastNum()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control clearfix">
+        <span class="form-label">本期度数</span>
+        <div class="form-inp">
+          <input autocomplete="off" class="company-ipt" id="nomNum" name="nomNum" required type="text" [(ngModel)]="repairname.nomNum" (blur)="verifynomNum()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control clearfix">
+        <span class="form-label">本月使用度数</span>
+        <div class="form-inp">
+          <input autocomplete="off" class="company-ipt" id="useNum" name="useNum" required type="text" [(ngModel)]="repairname.useNum" (blur)="verifyuseNum()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control  clearfix">
+        <span class="form-label">单价</span>
+        <div class="form-inp">
+          <input autocomplete="off" class="company-ipt" id="unitprice" name="unitprice" required type="text" [(ngModel)]="repairname.unitprice" (blur)="verifyunitprice()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control clearfix">
+        <span class="form-label">费用</span>
+        <div class="form-inp">
+          <input  autocomplete="off" class="company-ipt" id="cost" name="cost" required type="text" [(ngModel)]="repairname.cost" (blur)="verifycost()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+    </form>
+
+    <div class="mask-footer">
+      <button type="submit" class="btn-mask btn-info" (click)="recordSubmit()">保 存</button>
+      <button type="button" class="btn-mask btn-danger" (click)="recordCancel()">取 消</button>
+    </div>
+  </div>
+</div>

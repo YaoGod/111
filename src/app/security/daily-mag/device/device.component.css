@@ -57,7 +57,7 @@ input{
   height: 20px;
   width: calc(100% - 115px);
   min-width: 70px;
-  padding: 3px 10px;
+  padding: 3px 5px;
   font-size: 12px;
   line-height: 1.5;
   border-radius: 3px;
@@ -133,14 +133,14 @@ button{
   left:50%;
   top:50%;
   width:650px;
-  height:600px;
-  margin-top:-300px;
+  height:646px;
+  margin-top:-323px;
   margin-left:-325px;
   background-color: #fff;
   border-radius:5px;
 }
 .arch-form{
-  margin:30px auto;
+  margin:10px auto;
   padding:0 32px;
 }
 .new-device .form-left{
@@ -169,7 +169,7 @@ button{
 }
 .new-device .form-inp{
   float: left;
-  width:250px;
+  width:280px;
 }
 
 .form-photo{
@@ -177,7 +177,7 @@ button{
   height:100%;
   position: absolute;
   right:5%;
-  line-height:179px;
+  line-height:261px;
   top:0;
 }
 .form-photo img{
@@ -306,7 +306,7 @@ button{
   border-color:#fb9678;
 }
 .device-container{
-  _display: none;
+  display: none;
 }
 
 /*新的信息列表*/
@@ -327,7 +327,7 @@ button{
 .form-bar{
   -webkit-box-flex: 0;
   flex: 1 0 40%;
-  max-width: 40%;
+  max-width: 50%;
   color:#8d9ea7;
   margin-bottom:5px;
   font-size:12px;
@@ -357,47 +357,12 @@ button{
   flex: 0 0 65%;
   max-width: 65%;
 }
-.full-line{
-  clear: both;
-  width: 100%;
-  height: auto;
+.form-alone{
+  flex: 1 0 100%;
+  max-width:100%;
 }
-.full-line .form-title{
-  float: left;
-}
-.form-photo{
-  width:14%;
-  height:100%;
-  position: absolute;
-  right:5%;
-  line-height:220px;
-  top:0;
-}
-.form-photo img{
-  width:100%;
-  vertical-align: middle;
-  max-height:100%;
-}
-.form-texarea{
-  height:120px;
-  width:100%;
-}
-.form-texarea .form-title{
-  float:left;
-}
-.form-texarea .word{
-  width: calc(100% - 150px);
-  height:120px;
-  line-height:24px;
-  display: -webkit-box;
-  display: box;
-
-  overflow:hidden;
-  text-overflow:ellipsis;
-  word-wrap:break-word;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp:5;
-  line-clamp:5;
+.form-alone .form-left{
+  max-width: 17.5%;
 }
 .box1,.box2,.guard-company,.guard-arch{
   display:none;
@@ -418,14 +383,60 @@ button{
   opacity:0;
   transition: all .5s;
 }
+.order-btn{
+  position: absolute;
+  right:28px;
+  top:140px;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: #fb9678;
+  color:#fff;
+  text-align: center;
+  border:1px solid #fff;
+  opacity:0;
+  padding: 6px 10px;
+  transition: all .5s;
+}
 .form-del{
   top:10px;
   background-color: #ccc;
 }
+.form-text{
+  height:110px;
+  line-height:20px;
+  max-width:82.5%;
+}
+.form-ipt{
+  border:1px solid #ccc;
+  border-radius:3px;
+  width:54%;
+  padding:5px 10px;
+  margin-left:10px;
+  transition: all .5s;
+}
+.form-area{
+  margin-left:10px;
+  width:77%;
+  border:1px solid #ccc;
+  padding:0px 10px;
+  max-width: 82.5%;
+  height:120px;
+  line-height: 24px;
+  overflow: auto;
+  border-radius: 3px;
+  transition: all .5s;
+}
+.form-ipt,.form-area{
+  display:none;
+}
+.form-ipt:focus,.form-area:focus{
+  cursor: pointer;
+  border-color:#2b2b2b;
+}
 .form-msg:hover{
   border-color:#ccc;
 }
-.form-msg:hover .form-btn{
+.form-msg:hover .form-btn,.form-msg:hover .order-btn{
   opacity: 1;
 }
 .form-btn:hover{
@@ -477,11 +488,7 @@ button{
   opacity:.8;
 }
 .errorMessage{
-  opacity: 0;
   color:#CE0004;
-}
-.form-error .errorMessage{
-  opacity: 1;
 }
 .turn{
   padding: 0 2% 20px 2%;
@@ -510,11 +517,97 @@ button{
   background: #04a9f3;
   border-color: #04a9f3;
 }
+.new-arch{
+  position: absolute;
+  left:50%;
+  top:50%;
+  width:750px;
+  height:496px;
+  margin-top:-248px;
+  margin-left:-375px;
+  background-color: #fff;
+  border-radius:5px;
+}
+.order-form{
+  padding:20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  border-radius: 4px;
+  position: relative;
+}
+.order-form .form-control{
+  -webkit-box-flex: 0;
+  -ms-flex: 1 0 50%;
+  flex: 1 0 50%;
+  max-width: 50%;
+  padding:0;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+.order-form .form-label {
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  background-color: #f8f8f8;
+  padding: 10px;
+  float: left;
+  font-weight: 300;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 30%;
+  flex: 0 0 30%;
+  max-width: 30%;
+}
+.order-form .form-inp{
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding: 0;
+  float: left;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 68%;
+  flex: 0 0 68%;
+  max-width: 68%;
+  margin-left:2%;
+}
+.order-form .company-ipt{
+  width:150px;
+  line-height: 37px;
+  background-image: linear-gradient(#03a9f3, #03a9f3), linear-gradient(rgba(120, 130, 140, .13), rgba(120, 130, 140, .13));
+  background-color: rgba(0, 0, 0, 0);
+  background-position: center bottom, center calc(99%);
+  background-repeat: no-repeat;
+  background-size: 0 1px, 100% 1px;
+  padding: 0;
+  transition: all .3s ease-out;
+}
+.order-form .company-ipt:focus{
+  background-size: 100% 1px, 100% 1px;
+}
+.order-form .form-alone{
+  -webkit-box-flex: 1;
+  -ms-flex: 1 0 100%;
+  flex: 1 0 100%;
+  max-width: 100%;
+}
+.order-form {
 
-
-
-
-
+}
+#liableNote{
+  width:100%;
+  height:100%;
+  line-height:24px;
+  font-size:12px;
+}
+.form-alone .form-label{
+  width:15%;
+}
+.form-alone .form-inp{
+  max-width:84%;
+  margin-left:1%;
+}
 
 
 

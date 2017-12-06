@@ -29,7 +29,8 @@ export class DeviceComponent implements OnInit {
   constructor(
     private http: Http,
     private errorVoid:ErrorResponseService,
-    private utilBuildingService:UtilBuildingService,) { }
+    private utilBuildingService:UtilBuildingService,
+  ) { }
 
   ngOnInit() {
     this.repairname = new GuardName();
@@ -38,7 +39,7 @@ export class DeviceComponent implements OnInit {
     this.searchArch = new Arch();
     this.pages = [];
 
-    if($('.guard-header a:last-child').hasClass('active')) {
+    if($('.device-header a:last-child').hasClass('active')) {
       console.log('保养信息');
       $('.guard-arch,.box2').fadeIn();
       // this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
@@ -54,7 +55,6 @@ export class DeviceComponent implements OnInit {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
-    console.log(search);
     this.http.post(SOFTWARES_URL, search, options)
       .map(res => res.json())
       .subscribe(data => {
@@ -67,11 +67,11 @@ export class DeviceComponent implements OnInit {
   }
   /*获取工单*/
   private getRecordSecond(search, pageNo, pageSize) {
-    const SOFTWARES_URL = "/proxy/building/person/getPersonList/" + pageNo + "/" + pageSize;
+    const SOFTWARES_URL = "/proxy/building/equipment/getEquipmentWO/" + pageNo + "/" + pageSize;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
-    search.personType = "clean";
+
     this.http.post(SOFTWARES_URL, search, options)
       .map(res => res.json())
       .subscribe(data => {
@@ -94,6 +94,24 @@ export class DeviceComponent implements OnInit {
       this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
     }
   }
+  /*点击新增*/
+  addCompany() {
+    if($('.device-header a:last-child').hasClass('active')) {
+      this.contractBool = true;
+      this.contractName = new ArchName();
+      $('.mask-contract').fadeIn();
+      $('.mask-contract .mask-head p').html('新增工单信息');
+      $('.form-entry').find('input').attr("disabled",false);
+      $('.form-disable').find('input,textarea').attr("disabled",true);
+      console.log('新增工单');
+    }else {
+      this.editBool = true;
+      this.repairname = new GuardName();
+      $('.mask-repair').fadeIn();
+
+      console.log('新增设备');
+    }
+  }
   /*点击设备基础信息*/
   deviceFade(event) {
     this.pageNo = 1;
@@ -105,39 +123,319 @@ export class DeviceComponent implements OnInit {
     $('.box1').show();
     $('.box2').hide();
     $('.guard-company').fadeIn();
-    $('.guard-arch').hide();
+    $('.device-arch').hide();// device-arch
   }
-  /*点击人员档案*/
+  /*点击工单*/
   mainFade(event) {
-    this.pageNo = 1;this.pages = [];
+    this.pageNo = 1;
+    this.pages = [];
     this.searchArch = new Arch();
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
     this.repairSearch();
     $('.box1').hide();
     $('.box2').show();
-    $('.guard-arch').fadeIn();
+    $('.device-arch').fadeIn();
     $('.guard-company').hide();
   }
-  /*点击新增*/
-  addCompany() {
-    if($('.decive-header a:last-child').hasClass('active')) {
-      this.contractBool = true;
-      this.contractName = new ArchName();
-      $('.mask-contract').fadeIn();
-    }else {
-      this.editBool = true;
-      this.repairname = new GuardName();
-      $('.mask-repair').fadeIn();
-    }
-  }
-  /*新增编辑档案信息的取消按钮*/
-  contractCancel() {
-    this.contractName = new ArchName();
-    $('#prese').val('');
-    $('.form-control').removeClass('form-error');
+
+  /*记录新增和编辑界面的取消按钮*/
+  recordCancel() {
+    this.repairname = new GuardName();
     $('.errorMessage').html('');
     $('.mask-repair').hide();
+  }
+  /*新增工单的取消按钮*/
+  contractCancel() {
+    this.contractName = new ArchName();
+    $('.form-control').removeClass('form-error');
+    $('.errorMessage').html('');
+    $('.mask-contract').hide();
+  }
+
+  /*图片上传*/
+  prese_upload(files,index) {
+    var xhr = this.utilBuildingService.uploadImg(files[0],'equip',-1);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
+        var data:any = JSON.parse(xhr.responseText);
+        if(this.errorVoid.errorMsg(data)) {
+          this.repairname.imgPath = data.msg;
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': '上传成功',
+            'popType': 0 ,
+            'imgType': 1,
+          });
+        }
+      }
+    };
+  }
+  /*校验设备信息*/
+  private verifybuildingId() {
+    if (!this.isEmpty('buildingId', '不能为空')) {
+      return false;
+    }
+    if (!this.verifyIsNumber('buildingId', '编号为数字')) {
+      return false;
+    }
+    if (!this.verifyLength('buildingId', '请输入四位')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyname() {
+    if (!this.isEmpty('name', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifymodel() {
+    if (!this.isEmpty('model', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifybuyDate() {
+    if (!this.isEmpty('buyDate', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifysupplier() {
+    if (!this.isEmpty('supplier', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifymaintenance() {
+    if (!this.isEmpty('maintenance', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifymLastDate() {
+    if (!this.isEmpty('mLastDate', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifymNextDate() {
+    if (!this.isEmpty('mNextDate', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyliablePerson() {
+    if (!this.isEmpty('liablePerson', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifylMail()  {
+    if (!this.isEmpty('lMail', '邮箱不能为空')) {
+      return false;
+    }
+    if (!this.verifyIsEmail('lMail', '邮箱格式不正确')) {
+      return false;
+    }
+    return true;
+  }
+  /*新增/编辑设备信息提交*/
+  recordSubmit() {
+    let SOFTWARES_URL;
+    if(this.editBool === false) {
+      this.pageNo = 1;
+      SOFTWARES_URL = "/proxy/building/equipment/updateEquipment";
+    }else {
+      SOFTWARES_URL = "/proxy/building/equipment/addEquipment";
+    }
+    if (!this.verifybuildingId() || !this.verifyname() || !this.verifymodel() || !this.verifybuyDate() || !this.verifysupplier()
+      || !this.verifymaintenance() || !this.verifymLastDate() || !this.verifymNextDate() || !this.verifyliablePerson() ||
+      !this.verifylMail()) {
+      return false;
+    }
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({headers: headers});
+    // JSON.stringify
+    this.repairname.buyDate = this.repairname.buyDate.replace(/-/g, "/");
+    this.repairname.mLastDate = this.repairname.mLastDate.replace(/-/g, "/");
+    this.repairname.mNextDate = this.repairname.mNextDate.replace(/-/g, "/");
+    console.log(this.repairname.imgPath);
+    this.http.post(SOFTWARES_URL, this.repairname, options)
+      .map(res => res.json())
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': this.editBool === false?'更新成功':'新增成功',
+            'popType': 0 ,
+            'imgType': 1 ,
+          });
+          this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
+          this.recordCancel();
+        }
+      });
+  }
+  /*编辑设备信息*/
+  editRecord(index) {
+    this.editBool = false;
+    this.repairname = this.record[index];
+    this.repairname.buyDate = this.repairname.buyDate.replace(/\//g, "-");
+    this.repairname.mLastDate = this.repairname.mLastDate.replace(/\//g, "-");
+    this.repairname.mNextDate = this.repairname.mNextDate.replace(/\//g, "-");
+    $('.mask-repair').fadeIn();
+  }
+  /*删除设备信息*/
+  delRecord(index) {
+    this.repairname = this.record[index];
+    confirmFunc.init({
+      'title': '提示' ,
+      'mes': '是否删除？',
+      'popType': 1 ,
+      'imgType': 3 ,
+      'callback': () => {
+        let SOFTWARES_URL = "/proxy/building/equipment/deleteEquipment/" +this.repairname.id;
+        this.http.get(SOFTWARES_URL)
+          .map(res => res.json())
+          .subscribe(data => {
+            if(this.errorVoid.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示' ,
+                'mes': data['msg'],
+                'popType': 0 ,
+                'imgType': 1 ,
+              });
+              this.pages =[];
+              this.pageNo = 1;
+              this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
+            }
+          });
+      }
+    });
+  }
+
+  /* 完善工单*/
+  editContract(index,event) {
+    this.contractBool = false;
+    this.contractName = this.contract[index];
+    console.log(this.contractName);
+    $('.form-disable').find('input,textarea').attr("disabled",false);
+    $('.form-entry').find('input').attr("disabled",true);
+    $('.mask-contract').fadeIn();
+    $('.mask-contract .mask-head p').html('完善工单信息');
+  }
+  /*工单信息校验*/
+  private verifyID() {
+    if (!this.isEmpty('ID', '不能为空')) {
+      return false;
+    }
+    if (!this.verifyIsNumber('ID', '编号为数字')) {
+      return false;
+    }
+    if (!this.verifyLength('ID', '请输入四位')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyequipmentName() {
+    if (!this.isEmpty('equipmentName', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyequipModel() {
+    if (!this.isEmpty('equipModel', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifymaintenance2() {
+    if (!this.isEmpty('maintenance2', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifymType() {
+    if (!this.isEmpty('mType', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyliablePerson2() {
+    if (!this.isEmpty('liablePerson2', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyliableBtime() {
+    if (!this.isEmpty('liableBtime', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyliableEtime() {
+    if (!this.isEmpty('liableEtime', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyliableNextTime() {
+    if (!this.isEmpty('liableNextTime', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyliableCost()  {
+    if (!this.isEmpty('liableCost', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  private verifyliableNote()  {
+  if (!this.isEmpty('liableNote', '不能为空')) {
+    return false;
+  }
+  return true;
+}
+  /*新增/编辑工单提交*/
+  contractSubmit() {
+    let SOFTWARES_URL;
+    if(this.contractBool === false) {
+      SOFTWARES_URL = "/proxy/building/equipment/updateEquipmentWO";
+      if ( !this.verifyliableBtime() || !this.verifyliableEtime() || !this.verifyliableNextTime() || !this.verifyliableCost() ||
+        !this.verifyliableNote() ) {
+        return false;
+      }
+      this.contractName.liableBtime = this.contractName.liableBtime.replace(/-/g, "/");
+      this.contractName.liableEtime = this.contractName.liableEtime.replace(/-/g, "/");
+      this.contractName.liableNextTime = this.contractName.liableNextTime.replace(/-/g, "/");
+      $('.device-arch .order-btn').attr("disable",true);
+    }else {
+      SOFTWARES_URL = "/proxy/building/equipment/addEquipmentWO";
+      if (!this.verifyID() || !this.verifyequipmentName() || !this.verifyequipModel() || !this.verifymaintenance2() ||
+        !this.verifymType() || !this.verifyliablePerson2() ) {
+        return false;
+      }
+    }
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({headers: headers});
+    // JSON.stringify
+    this.http.post(SOFTWARES_URL, this.contractName, options)
+      .map(res => res.json())
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': this.contractBool === false?'更改成功':'新增成功',
+            'popType': 0 ,
+            'imgType': 1 ,
+          });
+          this.contractName = new ArchName();
+          this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
+          this.contractCancel();
+        }
+      });
   }
   /*页码初始化*/
   initPage(total) {
@@ -164,7 +462,7 @@ export class DeviceComponent implements OnInit {
   /*跳页加载数据*/
   goPage(page:number) {
     this.pageNo = page;
-    if($('.guard-header a:last-child').hasClass('active')) {
+    if($('.device-header a:last-child').hasClass('active')) {
       this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
     }else {
       this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
@@ -175,6 +473,17 @@ export class DeviceComponent implements OnInit {
     const data =  $('#' + id).val();
     if (data.toString().trim() === '')  {
       this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /**邮箱格式校验*/
+  private verifyIsEmail(id: string, error?: string): boolean {
+    const data =  $('#' + id).val();
+    if (!String(data).match(/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/)) {
+      this.addErrorClass(id,  '请填写正确邮箱');
       return false;
     }else {
       this.removeErrorClass(id);
@@ -255,27 +564,29 @@ export class GuardName {
   buildingName: string;
   name: string; // 设备名称
   model: string;// 设备型号
-  supplie: string;// 设备供应商
+  supplier: string;// 设备供应商
   imgPath: string;// 设备图片
   buyDate: string;// 采购日期
   maintenance: string;// 维保单位
   mLastDate: string;// 最近维保日期
   mNextDate: string;// 下次维保日期
   liablePerson: string;// 维保责任人
-  lMai: string; // 邮箱
+  lMail: string; // 邮箱
 }
 export class ArchName {
   id: number; // 本条信息ID
-  companyName: string; // 公司名称
-  imgPath: string; // 头像地址
-  personAge: 0; // 年龄
-  personId:string; // 编号
-  personIdcard: 0; // 身份证号
-  personName:string; // 姓名
-  personPhone: 0; // 联系电话
-  personSex:string; // 性别
-  personStatus: string; // 人员状态
-  personType:string; // 人员类别
+  buildingId: string;
+  buildingName: string;
+  equipmentName:string; // 设备名称
+  equipModel: string;// 设备型号
+  maintenance:string; // 维保单位
+  mType: string; // 维保类型
+  liablePerson:string; // 维保责任人
+  liableBtime: string; // 维保开始日期
+  liableEtime: string; // 维保结束日期
+  liableNextTime: string;// 下次维保日期
+  liableCost:string; // 维保费用
+  liableNote: string; // 维保情况
 }
 export class Company {
   buildingId: string; // 大楼编号
