@@ -1,8 +1,8 @@
 
 <div class="energy">
   <div class="energy-header clearfix">
-    <a href="javascript:;" class="active" (click)="waterFade($event)">用电管理</a>
-    <a href="javascript:;" (click)="electricFade($event)">用水管理</a>
+    <a href="javascript:;" class="active" (click)="waterFade($event)">用水管理</a>
+    <a href="javascript:;" (click)="electricFade($event)">用电管理</a>
     <a href="javascript:;" (click)="gasFade($event)">燃气管理</a>
   </div>
   <div class="energy-cont">
@@ -18,11 +18,11 @@
         </li>
         <li >
           <label >开始时间</label>
-          <input type="month" name="searchC" class="search-ipt" [(ngModel)]="search.beginT">
+          <input type="month" name="searchC" class="search-ipt" [(ngModel)]="search.bTime">
         </li>
         <li >
           <label >结束时间</label>
-          <input type="month" name="searchD" class="search-ipt" [(ngModel)]="search.endT">
+          <input type="month" name="searchD" class="search-ipt" [(ngModel)]="search.eTime">
         </li>
       </ul>
       <div class="search-right"><a href="javascript:;" class="search-btn" (click)="listSearch()"><i class="icon-magnifier"></i> 查 询</a></div>
@@ -38,15 +38,7 @@
         <table class="table" width="100%">
           <thead>
             <tr>
-              <th>大楼编号</th>
-              <th>大楼名称</th>
-              <th>月份</th>
-              <th>上期度数</th>
-              <th>本期度数</th>
-              <th>本月使用度数</th>
-              <th>单价</th>
-              <th>电费</th>
-              <th>操作</th>
+              <th *ngFor="let inner of Head; let i=index">{{inner}}</th>
             </tr>
           </thead>
           <tbody>
@@ -148,3 +140,58 @@
     </div>
   </div>
 </div>
+<!-- Induction 导入  -->
+<div class="modal-back" id="induction" style="display:none;">
+  <div class="modal induction">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">导入</h4>
+          <button type="button" class="close pull-right" (click)="closeInduction()">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body clearfix">
+          <div class="form-control">
+            <div class="form-inp clearfix">
+              <div class="select-file">
+                <input type="file" value="" id="prese" #prese (change)="prese_upload(prese.files)" accept="application/vnd.ms-excel,.xlsx">
+                <a onclick="$('#prese').trigger('click')">选取文件</a>
+              </div>
+              <div class="download-file">
+                <a id="downLoadTemplate" href="/proxy/building/energy/exportTemplate">下载模板</a>
+              </div>
+            </div>
+          </div>
+          <div class="foot" style="height:30px;">
+            <!-- <button type="submit" class="btn-mask btn-info" (click)="inductionUploadFile(prese2.files)">确 定</button>
+             <button type="button" class="btn-mask btn-danger" (click)="closeInductionDialog()">取 消</button>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Deriving 导出 -->
+<div class="modal-back" id= "deriving" style="_display:none;">
+  <div class="modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">导 出</h4>
+          <button type="button" class="close pull-right" (click)="closeDeriving()">×</button>
+        </div>
+        <div class="modal-body">
+          <!-- excel 导出 -->
+          <div class="excel-out">
+            <p>信息表.xls</p>
+          </div>
+          <!-- footer -->
+          <div class="foot">
+            <button type="submit" class="btn-mask btn-info" (click)="downDeriving()">确 定</button>
+            <button type="button" class="btn-mask btn-danger" (click)="closeDeriving()">取 消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

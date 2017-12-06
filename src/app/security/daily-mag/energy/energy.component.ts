@@ -17,6 +17,10 @@ export class EnergyComponent implements OnInit {
   public search: Search;
   public record: Array<GuardName>;
   public pages: Array<number>;
+  public theadW: Array<string>;
+  public theadE: Array<string>;
+  public theadG: Array<string>;
+  public Head:Array<string>;
   public repairname: GuardName;
   public contractName: ArchName;
   private editBool = true;
@@ -33,9 +37,18 @@ export class EnergyComponent implements OnInit {
     this.repairname = new GuardName();
     this.contractName = new ArchName();
     this.pages = [];
-    this.repairname.energyType = 'water';
+    this.theadW = ['大楼编号','大楼名称','月份','上期度数','本期度数','本月使用度数','单价','水费','操作'];
+    this.theadE = ['大楼编号','大楼名称','月份','上期度数','本期度数','本月使用度数','单价','电费','操作'];
+    this.theadG = ['大楼编号','大楼名称','月份','上期度数','本期度数','本月使用度数','单价','燃气费','操作'];
+    this.Head = this.theadW;
+    if($('.energy-header a:nth-of-type(1)').hasClass('active')){
+      this.repairname.energyType = 'water';
+    }else if($('.energy-header a:nth-of-type(2)').hasClass('active')) {
+      this.repairname.energyType = 'electric';
+    }else{
+      this.repairname.energyType = 'gas';
+    }
     this.getRecord(this.search, this.pageNo, this.pageSize);
-
   }
   /*获取/查询能耗信息*/
   private getRecord(search, pageNo, pageSize) {
@@ -44,12 +57,19 @@ export class EnergyComponent implements OnInit {
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
     if($('.energy-header a:nth-of-type(1)').hasClass('active')){
-      console.log('用水');
+      search.energyType = 'water';
     }else if($('.energy-header a:nth-of-type(2)').hasClass('active')) {
-      console.log('用电');
+      search.energyType = 'electric';
     }else{
-      console.log('燃气');
+      search.energyType = 'gas';
     }
+    if((typeof search.bTime) === 'undefined' || (typeof search.eTime) === 'undefined'){
+      search.bTime = '';
+      search.eTime = '';
+    }
+    search.bTime = search.bTime.replace(/-/g, "/");
+    search.eTime = search.eTime.replace(/-/g, "/");
+
     this.http.post(SOFTWARES_URL, search, options)
       .map(res => res.json())
       .subscribe(data => {
@@ -65,47 +85,88 @@ export class EnergyComponent implements OnInit {
     this.pageNo = 1;
     this.pages = [];
     this.search = new Search();
+    this.Head = this.theadW;
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
     this.listSearch();
-    $('.energy-water').fadeIn();
-    $('.energy-gas,.energy-electric').hide();
   }
   /*用电管理*/
   electricFade(event) {
     this.pageNo = 1;
     this.pages = [];
     this.search = new Search();
+    this.Head = this.theadE;
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
     this.listSearch();
-    $('.energy-electric').fadeIn();
-    $('.energy-gas,.energy-water').hide();
   }
   /*燃气管理*/
   gasFade(event) {
     this.pageNo = 1;
     this.pages = [];
     this.search = new Search();
+    this.Head = this.theadG;
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
     this.listSearch();
-    $('.energy-gas').fadeIn();
-    $('.energy-electric,.energy-water').hide();
   }
   /*点击导入*/
   leadIn(){
-
+    $('#induction').fadeIn();
+  }
+  /*关闭导入对话框*/
+  private closeInduction()  {
+    $('#induction').fadeOut();
+    $('#prese').val('');
+  }
+  /*文件上传*/
+  prese_upload(files) {
+    var xhr = this.utilBuildingService.importTemplate(files[0]);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
+        var data:any = JSON.parse(xhr.responseText);
+        if(this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': '导入成功',
+            'popType': 0 ,
+            'imgType': 1,
+          });
+          $('#prese').val('');
+          $('#induction').hide();
+        }
+      }
+    };
   }
   /*点击导出*/
   leadOut(){
-
+    $('#deriving').fadeIn();
+  }
+  /*关闭导出对话框*/
+  private closeDeriving() {
+    $('#deriving').hide();
+  }
+  /*导出数据下载*/
+  private downDeriving(){
+    if((typeof this.search.energyType) === 'undefined'){
+      //this.search.companyName = 'null';
+    }
+    this.search.bTime = this.search.bTime.replace(/-/g, "/");
+    this.search.eTime = this.search.eTime.replace(/-/g, "/");
+    this.http.get("/proxy/building/energy/getEnergyExcel/"+this.search.energyType+"?bTime="+this.search.bTime+"&eTime="+this.search.eTime)
+    // .map(res => res.json())
+      .subscribe(data => {
+        window.location.href = "/proxy/building/energy/getEnergyExcel/"+this.search.energyType+"?bTime="+this.search.bTime+"&eTime="+this.search.eTime;
+        this.search = new Search();
+        $('#deriving').fadeOut();
+      });
   }
   /*点击新增*/
   creatList(){
     $('.mask').fadeIn(500);
+    this.repairname = new GuardName();
+    $('#buildingId').attr('disabled',false);
   }
-
   /*点击查询*/
   listSearch(){
       this.pageNo = 1;
@@ -163,12 +224,48 @@ export class EnergyComponent implements OnInit {
   }
   return true;
 }
+  /*编辑信息*/
+  editAttach(index){
+    this.editBool = false;
+    this.repairname = this.record[index];
+    this.repairname.month = this.repairname.month.replace(/\//g, "-");
+    $('.mask').fadeIn();
+    $('#buildingId').attr('disabled',true);
+  }
+  /*删除信息*/
+  delAttach(index){
+    this.repairname = this.record[index];
+    confirmFunc.init({
+      'title': '提示' ,
+      'mes': '是否删除？',
+      'popType': 1 ,
+      'imgType': 3 ,
+      'callback': () => {
+        let SOFTWARES_URL = "/proxy/building/energy/deleteEnergyRecord/" +this.repairname.id;
+        this.http.get(SOFTWARES_URL)
+          .map(res => res.json())
+          .subscribe(data => {
+            if(this.errorVoid.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示' ,
+                'mes': data['msg'],
+                'popType': 0 ,
+                'imgType': 1 ,
+              });
+              this.pages =[];
+              this.pageNo = 1;
+              this.getRecord(this.search, this.pageNo, this.pageSize);
+            }
+          });
+      }
+    });
+  }
   /*新增/编辑提交*/
   recordSubmit() {
     let SOFTWARES_URL;
     if(this.editBool === false) {
       this.pageNo = 1;
-      SOFTWARES_URL = "/proxy/building/energy/updateServerCompany";
+      SOFTWARES_URL = "/proxy/building/energy/updateEnergyRecord";
     }else {
       SOFTWARES_URL = "/proxy/building/energy/addEnergyRecord";
     }
@@ -316,8 +413,9 @@ export class EnergyComponent implements OnInit {
 export class Search {
   buildingId: string; // 大楼编号
   buildingName: string;  // 大楼名称
-  beginT: string; // 开始时间
-  endT: string; // 结束时间
+  bTime: string; // 开始时间
+  eTime: string; // 结束时间
+  energyType:string; // 类型
 }
 export class GuardName {
   id: number; // 本条信息ID
