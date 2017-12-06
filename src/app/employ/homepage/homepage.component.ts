@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { GlobalCatalogService } from '../../service/global-catalog/global-catalog.service';
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomepageComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private globalCatalogService: GlobalCatalogService
+  ) { }
 
   ngOnInit() {
+    this.globalCatalogService.setTitle("员工服务");
   }
 
 }

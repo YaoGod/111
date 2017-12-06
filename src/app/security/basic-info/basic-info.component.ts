@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { GlobalCatalogService } from '../../service/global-catalog/global-catalog.service';
 @Component({
   selector: 'app-basic-info',
   templateUrl: './basic-info.component.html',
@@ -7,13 +7,9 @@ import { Router } from '@angular/router';
 })
 export class BasicInfoComponent implements OnInit {
   constructor(
-    public router: Router
+    private globalCatalogService: GlobalCatalogService
   ) { }
   ngOnInit() {
-
-  }
-  loginOut() {
-    sessionStorage.setItem('isLoginIn', '');
-    this.router.navigate(['login']);
+    this.globalCatalogService.setTitle("大楼管理/大楼基础信息");
   }
 }

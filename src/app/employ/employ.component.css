@@ -1,0 +1,6 @@
+.main{
+  width: 100%;
+  height:auto;
+  min-height: calc(100% - 110px);
+  background-color: #edf1f5;
+}

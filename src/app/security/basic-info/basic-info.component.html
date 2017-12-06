@@ -1,22 +1,9 @@
 <div class="main">
   <!--标题栏-->
-<div class="header">
-  <img src="../../../assets/image/icon_3line.png">
-  <h2>大楼管理/大楼基础信息</h2>
-  <div class="header-right">
-    <a class="waves-effect waves-light" (click)="loginOut()">
-      <span class="hidden-xs">退出&nbsp;&nbsp;<i class="icon-close"></i></span> </a>
-  </div>
-  <div class="header-right">
-    <i class="icon-settings"></i>
-  </div>
-  <div class="header-right">
-    <i class="icon-envelope-letter"></i>
-  </div>
-</div>
+  <app-title></app-title>
   <div class="auto-height">
     <router-outlet></router-outlet>
-    <global-footer></global-footer>
+    <app-footer></app-footer>
   </div>
 </div>
 

@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../service/route-guard/route-guard.service';
 import { PropertyComponent } from './property.component';
-import { GlobalFooterModule } from '../basic-info/global-footer/global-footer.module';
+import { NavTitleModule } from '../../component/nav-title/nav-title.module';
+import { GlobalFooterModule } from '../../component/global-footer/global-footer.module';
 import { GlobalOptionService } from './global-option.service';
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    NavTitleModule,
     GlobalFooterModule,
     RouterModule.forChild(routes)
   ],

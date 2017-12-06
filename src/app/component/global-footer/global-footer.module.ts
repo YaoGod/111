@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GlobalFooterComponent } from '../global-footer/global-footer.component';
+import { GlobalFooterComponent } from './global-footer.component';
 @NgModule({
   imports: [
     CommonModule

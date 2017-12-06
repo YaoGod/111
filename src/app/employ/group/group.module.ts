@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { GroupNoticeService } from '../../service/group-notice/group-notice.service';
 import { GroupProductService } from '../../service/group-product/group-product.service';
 import { ProductComponent } from './product/product.component';
-import { GlobalFooterModule } from  '../../security/basic-info/global-footer/global-footer.module';
+import { GlobalFooterModule } from  '../../component/global-footer/global-footer.module';
 import { OrderComponent } from './order/order.component';
 import { GroupbuyComponent } from './groupbuy/groupbuy.component';
 import { NoticeComponent } from './notice/notice.component';

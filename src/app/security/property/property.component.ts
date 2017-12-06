@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { GlobalCatalogService } from '../../service/global-catalog/global-catalog.service';
 @Component({
   selector: 'app-property',
   templateUrl: './property.component.html',
@@ -8,13 +8,10 @@ import { Router } from '@angular/router';
 export class PropertyComponent implements OnInit {
 
   constructor(
-    private router : Router
+    private globalCatalogService: GlobalCatalogService
   ) { }
 
   ngOnInit() {
-  }
-  loginOut() {
-    sessionStorage.setItem('isLoginIn', '');
-    this.router.navigate(['login']);
+    this.globalCatalogService.setTitle("大楼管理/大楼物业档案管理")
   }
 }

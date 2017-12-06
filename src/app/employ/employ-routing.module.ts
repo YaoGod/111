@@ -4,6 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../service/route-guard/route-guard.service';
 import { HomepageComponent } from './homepage/homepage.component';
 import { EmployComponent } from './employ.component';
+import { NavTitleModule } from '../component/nav-title/nav-title.module';
+import { GlobalFooterModule } from '../component/global-footer/global-footer.module';
 const routes: Routes = [
   {
     path: '',
@@ -53,6 +55,8 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    NavTitleModule,
+    GlobalFooterModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

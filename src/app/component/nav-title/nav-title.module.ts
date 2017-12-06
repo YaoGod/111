@@ -6,6 +6,7 @@ import { NavTitleComponent } from './nav-title.component';
     CommonModule
   ],
   exports: [ NavTitleComponent ],
+  providers: [],
   declarations: [NavTitleComponent]
 })
 export class NavTitleModule { }

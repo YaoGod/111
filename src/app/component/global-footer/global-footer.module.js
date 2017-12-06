@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
-var global_footer_component_1 = require("../global-footer/global-footer.component");
+var global_footer_component_1 = require("./global-footer.component");
 var GlobalFooterModule = (function () {
     function GlobalFooterModule() {
     }
