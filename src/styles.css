@@ -25,6 +25,9 @@ sub { vertical-align: baseline; }
 legend { color: #000; }
 input, button, textarea, select {
   *font-size:100%; outline: none; font-family: 'Microsoft YaHei', 'Arial'; }
+button{
+  border:none;
+}
 select { height: 22px; line-height: 18px; padding: 2px 0; }
 a, a:visited { text-decoration: none; outline: none; blr:expression(this.onFocus=this.blur());
 }

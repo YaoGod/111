@@ -21,7 +21,7 @@ export class GuardComponent implements OnInit {
   public pages: Array<number>;
   public repairname: GuardName;
   public contractName: ArchName;
-
+  public buildings: any;
   private pageSize = 5;
   private pageNo = 1;
   private editBool = true;
@@ -41,16 +41,25 @@ export class GuardComponent implements OnInit {
     this.repairname.type = 'security';
     this.contractName.personType = 'security';
     this.contractName.imgPath = '';
-
+    this.getBuildings();
     if($('.guard-header a:last-child').hasClass('active')) {
-      console.log('档案');
       $('.guard-arch,.box2').fadeIn();
       this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
     }else {
-      console.log('公司');
       $('.guard-company,.box1').fadeIn();
       this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
     }
+  }
+  /*获取大楼列表*/
+  private getBuildings() {
+    const SOFTWARES_URL = "/proxy/building/util/getBuildingList";
+    this.http.get(SOFTWARES_URL)
+      .map(res => res.json())
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data)) {
+          this.buildings = data['data'];
+        }
+      });
   }
   /*获取/查询保安公司*/
   private getRecord(search, pageNo, pageSize) {
@@ -102,10 +111,12 @@ export class GuardComponent implements OnInit {
       this.contractBool = true;
       this.contractName = new ArchName();
       $('.mask-contract').fadeIn();
+      $('.mask-contract .mask-head p').html('新增人员档案');
     }else {
       this.editBool = true;
       this.repairname = new GuardName();
       $('.mask-repair').fadeIn();
+      $('.mask-repair .mask-head p').html('新增服务公司');
     }
   }
   /*校验公司信息*/
@@ -176,8 +187,9 @@ export class GuardComponent implements OnInit {
   /*编辑保安公司*/
   editRecord(index) {
     this.editBool = false;
-    this.repairname = this.record[index];
+    this.repairname = JSON.parse(JSON.stringify(this.record[index]));
     $('.mask-repair').fadeIn();
+    $('.mask-repair .mask-head p').html('编辑服务公司');
   }
   /*删除保安公司*/
   delRecord(index) {
@@ -246,6 +258,9 @@ export class GuardComponent implements OnInit {
     if (!this.verifyIsNumber('personId', '请输入数字')) {
       return false;
     }
+    if (!this.verifyLength8('personId', '请输入8位')) {
+      return false;
+    }
     return true;
   }
   private verifypersonName() {
@@ -267,12 +282,16 @@ export class GuardComponent implements OnInit {
     if (!this.isEmpty('personIdcard', '不能为空')) {
       return false;
     }
+    if (!this.verifyIsCard('personIdcard', '格式不对')) {
+      return false;
+    }
     return true;
   }
   private verifypersonStatus() {
     if (!this.isEmpty('personStatus', '不能为空')) {
       return false;
     }
+    console.log(this.contractName.personStatus);
     return true;
   }
   /*新增/编辑档案信息提交*/
@@ -310,6 +329,7 @@ export class GuardComponent implements OnInit {
   /*新增编辑档案信息的取消按钮*/
   contractCancel() {
     this.contractName = new ArchName();
+    // this.contractName
     $('.form-control').removeClass('form-error');
     $('.errorMessage').html('');
     $('.mask-contract').hide();
@@ -317,7 +337,7 @@ export class GuardComponent implements OnInit {
   /* 编辑人员档案*/
   editContract(index) {
     this.contractBool = false;
-    this.contractName = this.contract[index];
+    this.contractName = JSON.parse(JSON.stringify(this.contract[index]));
     $('.mask-contract').fadeIn();
     $('.mask-contract .mask-head p').html('编辑人员档案');
   }
@@ -369,7 +389,7 @@ export class GuardComponent implements OnInit {
   }
   /*文件上传*/
   prese_upload2(files) {
-    var xhr = this.utilBuildingService.importTemplate(files[0]);
+    var xhr = this.utilBuildingService.importTemplate2(files[0]);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
@@ -380,7 +400,11 @@ export class GuardComponent implements OnInit {
             'popType': 0 ,
             'imgType': 1,
           });
+          $('#prese2').val('');
           $('#induction').hide();
+          this.pages =[];
+          this.pageNo = 1;
+          this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
         }
       }
     };
@@ -425,15 +449,13 @@ export class GuardComponent implements OnInit {
   }
   /*页面显示区间5页*/
   pageLimit(page:number) {
-    if(this.pages.length < 5) {
+    if(this.pages.length < 5){
       return false;
-    }else if(this.pageNo < 5) {
-      return true;
-    }else if(page<=5 && this.pageNo <= 3) {
+    } else if(page<=5 && this.pageNo <= 3){
       return false;
-    }else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2) {
+    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
       return false;
-    }else if (page<=this.pageNo+2 && page>=this.pageNo-2) {
+    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
       return false;
     }
     return true;
@@ -450,12 +472,17 @@ export class GuardComponent implements OnInit {
   /**非空校验*/
   private isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
-    if (data.toString().trim() === '')  {
+    if(data === null){
       this.addErrorClass(id, error);
       return false;
-    }else {
-      this.removeErrorClass(id);
-      return true;
+    }else{
+      if (data.toString().trim() === '')  {
+        this.addErrorClass(id, error);
+        return false;
+      }else {
+        this.removeErrorClass(id);
+        return true;
+      }
     }
   }
   /**
@@ -488,6 +515,17 @@ export class GuardComponent implements OnInit {
       return true;
     }
   }
+  /** 验证身份证号码  */
+  private verifyIsCard(id: string, error?: string): boolean {
+    const data =  $('#' + id).val();
+    if (!String(data).match( /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/ )){
+      this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
   /**
    * 校验字符长度小于4
    * @param id
@@ -497,6 +535,17 @@ export class GuardComponent implements OnInit {
   private verifyLength(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data.length < 4)  {
+      this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /**校验字符长度小于8 */
+  private verifyLength8(id: string, error: string): boolean  {
+    const data =  $('#' + id).val();
+    if (data.length < 8)  {
       this.addErrorClass(id, error);
       return false;
     }else {

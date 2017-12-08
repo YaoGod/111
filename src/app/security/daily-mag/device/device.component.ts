@@ -21,7 +21,7 @@ export class DeviceComponent implements OnInit {
   public pages: Array<number>;
   public repairname: GuardName;
   public contractName: ArchName;
-
+  public buildings:any;
   private pageSize = 5;
   private pageNo = 1;
   private editBool = true;
@@ -40,14 +40,26 @@ export class DeviceComponent implements OnInit {
     this.pages = [];
 
     if($('.device-header a:last-child').hasClass('active')) {
-      console.log('保养信息');
+      // console.log('保养信息');
       $('.guard-arch,.box2').fadeIn();
       // this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
     }else {
-      console.log('设备基础信息');
+      // console.log('设备基础信息');
       $('.guard-company,.box1').fadeIn();
       this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
     }
+    this.getBuildings();
+  }
+  /*获取大楼列表*/
+  private getBuildings() {
+    const SOFTWARES_URL = "/proxy/building/util/getBuildingList";
+    this.http.get(SOFTWARES_URL)
+      .map(res => res.json())
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data)) {
+          this.buildings = data['data'];
+        }
+      });
   }
   /*获取/查询设备信息*/
   private getRecord(search, pageNo, pageSize) {
@@ -108,7 +120,7 @@ export class DeviceComponent implements OnInit {
       this.editBool = true;
       this.repairname = new GuardName();
       $('.mask-repair').fadeIn();
-
+      $('.mask-repair .mask-head p').html('新增大型设备信息');
       console.log('新增设备');
     }
   }
@@ -274,17 +286,22 @@ export class DeviceComponent implements OnInit {
           });
           this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
           this.recordCancel();
+        }else{
+          this.repairname.buyDate = this.repairname.buyDate.replace(/\//g, "-");
+          this.repairname.mLastDate = this.repairname.mLastDate.replace(/\//g, "-");
+          this.repairname.mNextDate = this.repairname.mNextDate.replace(/\//g, "-");
         }
       });
   }
   /*编辑设备信息*/
   editRecord(index) {
     this.editBool = false;
-    this.repairname = this.record[index];
+    this.repairname = JSON.parse(JSON.stringify(this.record[index]));
     this.repairname.buyDate = this.repairname.buyDate.replace(/\//g, "-");
     this.repairname.mLastDate = this.repairname.mLastDate.replace(/\//g, "-");
     this.repairname.mNextDate = this.repairname.mNextDate.replace(/\//g, "-");
     $('.mask-repair').fadeIn();
+    $('.mask-repair .mask-head p').html('编辑大型设备信息');
   }
   /*删除设备信息*/
   delRecord(index) {
@@ -318,8 +335,7 @@ export class DeviceComponent implements OnInit {
   /* 完善工单*/
   editContract(index,event) {
     this.contractBool = false;
-    this.contractName = this.contract[index];
-    console.log(this.contractName);
+    this.contractName = JSON.parse(JSON.stringify(this.contract[index]));
     $('.form-disable').find('input,textarea').attr("disabled",false);
     $('.form-entry').find('input').attr("disabled",true);
     $('.mask-contract').fadeIn();
@@ -434,6 +450,13 @@ export class DeviceComponent implements OnInit {
           this.contractName = new ArchName();
           this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
           this.contractCancel();
+        }else{
+          if(this.contractBool === false) {
+            this.contractName.liableBtime = this.contractName.liableBtime.replace(/\//g, "-");
+            this.contractName.liableEtime = this.contractName.liableEtime.replace(/\//g, "-");
+            this.contractName.liableNextTime = this.contractName.liableNextTime.replace(/\//g, "-");
+          }
+
         }
       });
   }
@@ -446,15 +469,13 @@ export class DeviceComponent implements OnInit {
   }
   /*页面显示区间5页*/
   pageLimit(page:number) {
-    if(this.pages.length < 5) {
+    if(this.pages.length < 5){
       return false;
-    }else if(this.pageNo < 5) {
-      return true;
-    }else if(page<=5 && this.pageNo <= 3) {
+    } else if(page<=5 && this.pageNo <= 3){
       return false;
-    }else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2) {
+    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
       return false;
-    }else if (page<=this.pageNo+2 && page>=this.pageNo-2) {
+    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
       return false;
     }
     return true;
@@ -471,19 +492,24 @@ export class DeviceComponent implements OnInit {
   /**非空校验*/
   private isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
-    if (data.toString().trim() === '')  {
+    if(data === null){
       this.addErrorClass(id, error);
       return false;
-    }else {
-      this.removeErrorClass(id);
-      return true;
+    }else{
+      if (data.toString().trim() === '')  {
+        this.addErrorClass(id, error);
+        return false;
+      }else {
+        this.removeErrorClass(id);
+        return true;
+      }
     }
   }
   /**邮箱格式校验*/
   private verifyIsEmail(id: string, error?: string): boolean {
     const data =  $('#' + id).val();
     if (!String(data).match(/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/)) {
-      this.addErrorClass(id,  '请填写正确邮箱');
+      this.addErrorClass(id,  '邮箱格式错误' );
       return false;
     }else {
       this.removeErrorClass(id);
@@ -591,10 +617,12 @@ export class ArchName {
 export class Company {
   buildingId: string; // 大楼编号
   buildingName: string;  // 大楼名称
-  name: string; // 设备名称
+  equipmentName: string; // 设备名称
+  liablePerson:string; // 维保责任人
 }
 export class Arch {
   buildingId: string; // 大楼编号
   buildingName: string;  // 大楼名称
-  name: string; // 设备名称
+  equipmentName: string; // 设备名称
+  liablePerson:string; // 维保责任人
 }

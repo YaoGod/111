@@ -28,6 +28,7 @@ export class RepairComponent implements OnInit {
   public searchContract : SearchContract;
   private editBool = true;
   public beginTime :string;
+  public buildings: any;
   public endTime :string;
   private contractBool = true;
   constructor(
@@ -44,11 +45,11 @@ export class RepairComponent implements OnInit {
     this.beginTime = '';
     this.endTime = '';
     this.pages = [];
-    this.repairname.repairType = '';
     this.contractName.contractType = 'repair';
     this.contractName.fileName = [];
     this.contractName.filePath = [];
 
+    this.getBuildings();
     if($('.repair-header a:last-child').hasClass('active')) {
       $('.repair-contract,.box2').fadeIn();
       this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
@@ -57,16 +58,31 @@ export class RepairComponent implements OnInit {
       this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
     }
   }
+  /*获取大楼列表*/
+  private getBuildings() {
+    const SOFTWARES_URL = "/proxy/building/util/getBuildingList";
+    this.http.get(SOFTWARES_URL)
+      .map(res => res.json())
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data)) {
+          this.buildings = data['data'];
+        }
+      });
+  }
   /*点击新增*/
   repairNew() {
     if($('.repair-header a:last-child').hasClass('active')) {
       this.contractBool = true;
       this.contractName = new ContractName();
+      this.contractName.fileName = [];
+      this.contractName.filePath = [];
       $('.mask-contract').fadeIn();
+      $('.mask-contract.mask-head p').html('新增维修合同');
     }else {
       this.editBool = true;
       this.repairname = new RepairName();
       $('.mask-repair').fadeIn();
+      $('.mask-repair .mask-head p').html('新增维修记录');
     }
   }
   /*获取/查询维修记录*/
@@ -110,10 +126,11 @@ export class RepairComponent implements OnInit {
   /*编辑维修记录*/
   editRecord(index) {
     this.editBool = false;
-    this.repairname = this.record[index];
+    this.repairname = JSON.parse(JSON.stringify(this.record[index]));
     this.repairname.repairBtime = this.repairname.repairBtime.replace(/\//g, "-");
     this.repairname.repairEtime = this.repairname.repairEtime.replace(/\//g, "-");
     $('.mask-repair').fadeIn();
+    $('.mask-repair .mask-head p').html('编辑维修记录');
   }
   /*删除装修记录*/
   delRecord(index) {
@@ -135,6 +152,8 @@ export class RepairComponent implements OnInit {
                 'popType': 0 ,
                 'imgType': 1 ,
               });
+              this.pages =[];
+              this.pageNo = 1;
               this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
             }
           });
@@ -146,100 +165,96 @@ export class RepairComponent implements OnInit {
     this.repairname = new RepairName();
     $('.form-control').removeClass('form-error');
     $('.errorMessage').html('');
-    this.repairname.repairType = '';
     $('.mask-repair').hide();
   }
 
   /*维修记录校验规则*/
   private verifyId() {
-    if (!this.isEmpty('Id', '大楼编号不能为空')) {
-      return false;
-    }
-    if (!this.verifyIsNumber('Id', '请输入纯数字编号')) {
-      return false;
-    }
-    if (!this.verifyLength('Id', '请输入四位数字')) {
+    if (!this.isEmpty('Id', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifyRecordId() {
-    if (!this.isEmpty('recordId', '编号不能为空')) {
+    if (!this.isEmpty('recordId', '不能为空')) {
       return false;
-    }/*if (!this.verifyIsBlend('recordId', '联系人不能包含特殊字符'))  {return false;}*/
+    }
+    if (!this.verifyRecoad('recordId', '格式不对')) {
+      return false;
+    }
     return true;
   }
   private verifyRepairType() {
-    if (!this.isEmpty('repairType', '维修类型不能为空')) {
+    if (!this.isEmpty('repairType', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifyCmccDepartment() {
-    if (!this.isEmpty('cmccDepartment', '部门不能为空')) {
+    if (!this.isEmpty('cmccDepartment', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifyCmccContacts() {
-    if (!this.isEmpty('cmccContacts', '部门联系人不能为空')) {
+    if (!this.isEmpty('cmccContacts', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifyCmccPhone()  {
-    if (!this.isEmpty('cmccPhone', '维修部门电话不能为空')) {
+    if (!this.isEmpty('cmccPhone', '不能为空')) {
       return false;
     }
-    if (!this.verifyIsTel('cmccPhone', '请输入正确的手机号')) {
+    if (!this.verifyIsTel('cmccPhone', '格式不正确')) {
       return false;
     }
     return true;
   }
   private verifyRepairDepartment() {
-    if (!this.isEmpty('repairDepartment', '维修商不能为空')) {
+    if (!this.isEmpty('repairDepartment', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifyRepairContacts() {
-    if (!this.isEmpty('repairContacts', '维修联系人不能为空')) {
+    if (!this.isEmpty('repairContacts', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifyRepairPhone()  {
-    if (!this.isEmpty('repairPhone', '电话不能为空')) {
+    if (!this.isEmpty('repairPhone', '不能为空')) {
       return false;
     }
-    if (!this.verifyIsTel('repairPhone', '请输入正确的手机号')) {
+    if (!this.verifyIsTel('repairPhone', '格式不正确')) {
       return false;
     }
     return true;
   }
   private verifyRepairBtime() {
-    if (!this.isEmpty('repairBtime', '时间不能为空')) {
+    if (!this.isEmpty('repairBtime', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifyRepairEtime() {
-    if (!this.isEmpty('repairEtime', '时间不能为空')) {
+    if (!this.isEmpty('repairEtime', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifyRepairCost() {
-    if (!this.isEmpty('repairCost', '费用不能为空')) {
+    if (!this.isEmpty('repairCost', '不能为空')) {
       return false;
     }
-    if (!this.verifyIsNumber('repairCost', '请输入正确的费用')) {
+    if (!this.verifyIsNumber('repairCost', '费用为整数')) {
       return false;
     }
     return true;
   }
   private verifyRepairNote() {
-    if (!this.isEmpty('repairNote', '维修详情不能为空')) {
+    if (!this.isEmpty('repairNote', '不能为空')) {
       return false;
     }
     return true;
@@ -297,6 +312,7 @@ export class RepairComponent implements OnInit {
     this.beginTime = '';
     this.endTime = '';
     this.pageNo = 1;
+    this.searchRepair = new SearchRecord();
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
     this.repairSearch();
@@ -323,8 +339,6 @@ export class RepairComponent implements OnInit {
     const SOFTWARES_URL = "/proxy/building/repair/getRepairContract/" + pageNo + "/" + pageSize;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
-    //search.contractType = 'repair';
-    // JSON.stringify
     this.searchContract.contractBtime = this.beginTime.replace(/-/g, "/");
     this.searchContract.contractEtime = this.endTime.replace(/-/g, "/");
     this.http.post(SOFTWARES_URL, search, options)
@@ -340,10 +354,11 @@ export class RepairComponent implements OnInit {
   /* 编辑维修合同*/
   editContract(index) {
     this.contractBool = false;
-    this.contractName = this.contract[index];
+    this.contractName = JSON.parse(JSON.stringify(this.contract[index]));
     this.contractName.contractBtime = this.contractName.contractBtime.replace(/\//g, "-");
     this.contractName.contractEtime = this.contractName.contractEtime.replace(/\//g, "-");
     $('.mask-contract').fadeIn();
+    $('.mask-contract .mask-head p').html('编辑维修合同');
   }
   /* 删除维修合同*/
   delContract(index) {
@@ -365,6 +380,8 @@ export class RepairComponent implements OnInit {
                 'popType': 0 ,
                 'imgType': 1 ,
               });
+              this.pages =[];
+              this.pageNo = 1;
               this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
             }
           });
@@ -400,73 +417,67 @@ export class RepairComponent implements OnInit {
   }
   /*合同信息校验*/
   private verifyContractId() {
-    if (!this.isEmpty('contractId', '大楼编号不能为空')) {
-      return false;
-    }
-    if (!this.verifyIsNumber('contractId', '请输入纯数字编号')) {
-      return false;
-    }
-    if (!this.verifyLength('contractId', '请输入四位数字')) {
+    if (!this.isEmpty('contractId', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifycontractNum() {
-  if (!this.isEmpty('contractNum', '合同编号不能为空')) {
+  if (!this.isEmpty('contractNum', '不能为空')) {
     return false;
   }
   return true;
 }
   private verifyCmccName() {
-    if (!this.isEmpty('cmccName', '甲方不能为空')) {
+    if (!this.isEmpty('cmccName', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifycontractcmccContacts() {
-    if (!this.isEmpty('contractcmccContacts', '甲方联系人不能为空')) {
+    if (!this.isEmpty('contractcmccContacts', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifycontractcmccPhone()  {
-    if (!this.isEmpty('contractcmccPhone', '甲方联系电话不能为空')) {
+    if (!this.isEmpty('contractcmccPhone', '不能为空')) {
       return false;
     }
-    if (!this.verifyIsTel('contractcmccPhone', '请输入正确的手机号')) {
+    if (!this.verifyIsTel('contractcmccPhone', '格式不对')) {
       return false;
     }
     return true;
   }
   private verifycontractname2() {
-    if (!this.isEmpty('contractname2', '乙方不能为空')) {
+    if (!this.isEmpty('contractname2', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifycontacts() {
-    if (!this.isEmpty('contacts', '乙方联系人不能为空')) {
+    if (!this.isEmpty('contacts', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifyphone()  {
-    if (!this.isEmpty('phone', '乙方联系电话不能为空')) {
+    if (!this.isEmpty('phone', '不能为空')) {
       return false;
     }
-    if (!this.verifyIsTel('phone', '请输入正确的手机号')) {
+    if (!this.verifyIsTel('phone', '格式不对')) {
       return false;
     }
     return true;
   }
   private verifycontractBtime() {
-    if (!this.isEmpty('contractBtime', '开始时间不能为空')) {
+    if (!this.isEmpty('contractBtime', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifycontractEtime() {
-    if (!this.isEmpty('contractEtime', '结束时间不能为空')) {
+    if (!this.isEmpty('contractEtime', '不能为空')) {
       return false;
     }
     return true;
@@ -543,20 +554,14 @@ export class RepairComponent implements OnInit {
     }
   }
   /*页面显示区间5页*/
-  pageLimit(page:number){
+  pageLimit(page:number) {
     if(this.pages.length < 5){
       return false;
-    }
-    else if(this.pageNo < 5){
-      return true;
-    }
-    else if(page<=5 && this.pageNo <= 3){
+    } else if(page<=5 && this.pageNo <= 3){
       return false;
-    }
-    else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
+    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
       return false;
-    }
-    else if (page<=this.pageNo+2 && page>=this.pageNo-2){
+    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
       return false;
     }
     return true;
@@ -573,12 +578,17 @@ export class RepairComponent implements OnInit {
   /**非空校验*/
   private isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
-    if (data.toString().trim() === '')  {
+    if(data === null){
       this.addErrorClass(id, error);
       return false;
-    }else {
-      this.removeErrorClass(id);
-      return true;
+    }else{
+      if (data.toString().trim() === '')  {
+        this.addErrorClass(id, error);
+        return false;
+      }else {
+        this.removeErrorClass(id);
+        return true;
+      }
     }
   }
   /**
@@ -628,6 +638,22 @@ export class RepairComponent implements OnInit {
     }
   }
   /**
+ * 校验维修单号
+ * @param id
+ * @param error
+ * @returns {boolean}
+ */
+private verifyRecoad(id: string, error: string): boolean {
+  const data =  $('#' + id).val();
+  if (!String(data).match(/^[A-Z]\d{4}$/))  {
+    this.addErrorClass(id, error);
+    return false;
+  }else {
+    this.removeErrorClass(id);
+    return true;
+  }
+}
+  /**
    * 校验字符长度小于4
    * @param id
    * @param error
@@ -649,7 +675,7 @@ export class RepairComponent implements OnInit {
    * @param error
    */
   private  addErrorClass(id: string, error?: string)  {
-    $('#' + id).parents('.form-control').addClass('form-error');
+    $('#' + id).parents('.form-inp').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
       $('#' + id).next('span').html('输入错误');
     }else {
@@ -661,8 +687,8 @@ export class RepairComponent implements OnInit {
    * @param id
    */
   private  removeErrorClass(id: string) {
-    $('#' + id).parents('.form-control').removeClass('form-error');
-    $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
+    $('#' + id).parents('.form-inp').removeClass('form-error');
+    $('#' + id).parents('.form-inp').children('.errorMessage').html('');
   }
 }
 export class RepairName {
@@ -703,7 +729,7 @@ export class ContractName {
 export class SearchRecord {
   buildingId: string; // 大楼编号
   buildingName: string;  // 大楼名称
-  fitmentNum: string; // 装修单编号
+  fitmentNum: string; // 维修单编号
   contractType: string; // 'decorate'
   decorateBtime: string; // 合同开始时间
   decorateEtime: string; // 合同结束时间

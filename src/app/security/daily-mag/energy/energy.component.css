@@ -171,8 +171,8 @@ button{
   left:50%;
   top:50%;
   width:650px;
-  height:525px;
-  margin-top:-267px;
+  height:360px;
+  margin-top:-180px;
   margin-left:-325px;
   background-color: #fff;
   border-radius:5px;
@@ -191,10 +191,10 @@ button{
   padding: 6px 10px;
   transition: all .5s;
 }
-.order-form{
+.repair-form{
   margin-top:20px;
 }
-.order-form .form-control {
+.repair-form .form-control {
   width: 440px;
   height: 45px;
   line-height: 45px;
@@ -202,7 +202,7 @@ button{
   color: #686868;
   font-weight: 300;
 }
-.order-form .form-label{
+.repair-form .form-label{
   float: left;
   background-color: #f8f8f8;
   height: 100%;
@@ -212,7 +212,7 @@ button{
   margin-bottom: 0;
   margin-right: 10px;
 }
-.order-form.form-inp{
+.repair-form.form-inp{
   float: left;
   width: 300px;
 }
@@ -416,4 +416,33 @@ button{
 }
 .induction a:hover{
   background-color: #1d72df;
+}
+.energy-container{
+  min-height:600px;
+}
+.turn{
+  padding: 0 2% 20px 2%;
+  background: #ffffff;
+}
+.turn>ul{
+  display: flex;
+  height: 35px;
+}
+.turn>ul>li{
+  height: 35px;
+  width: 30px;
+  line-height: 35px;
+  border: 1px solid #e4e7ea;
+  color: #686868;
+  text-align: center;
+  margin-left:-1px;
+  cursor: pointer;
+}
+.turn>ul>li:first-child{
+  margin-left: 0;
+}
+.turn>ul>li.active{
+  color: #ffffff;
+  background: #04a9f3;
+  border-color: #04a9f3;
 }

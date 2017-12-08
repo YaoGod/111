@@ -78,9 +78,17 @@
 .repair-chandlery .search-btn:hover{
   opacity:.8;
 }
-.repair-chandlery .new-btn{
-  _float: right;
-  background-color:#fb9678;
+.btn {
+  line-height: 50px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background-color: #fb9678;
+  border: 1px solid #fff;
+  transition: all .6s;
+}
+.btn:hover {
+  opacity: .8;
+  border-color: #fb9678;
 }
 .mask{
   display: none;
@@ -91,129 +99,200 @@
   height:100%;
   background-color:rgba(0,0,0,.4);
 }
-.new-repair-record{
-  position: absolute;
-  left:50%;
-  top:50%;
-  width:880px;
-  height:540px;
-  margin-top:-270px;
-  margin-left:-440px;
-  background-color: #fff;
-  border-radius:5px;
+.mask-head{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 15px;
+  background-color: #f1f5f8;
+  font-size:18px;
+}
+.mask-head p{
+  text-indent: 1em;
+}
+button{
+  border: none;
+  font-size: 18px;
+  background: none;
 }
 .close{
-  width:24px;
-  height:24px;
+  width: 24px;
+  height: 24px;
   position: absolute;
-  right:10px;
-  top:10px;
-  line-height:24px;
-  border-radius:50%;
-  background-color:#fff;
+  right: 10px;
+  top: 10px;
+  line-height: 24px;
+  border-radius: 50%;
   text-align: center;
   cursor: pointer;
 }
-.new-repair-form{
-  width:820px;
-  margin:0 auto;
-}
-.new-repair-contract{
-  padding-top:10px;
-  height:425px;
-}
-.form-left{
-  float:left;
-  margin-top:42px;
-}
-.form-control{
-  min-height:25px;
-  width: 430px;
-  padding:6px 0 6px 5px;
-  _border-bottom:1px solid #e1eaf2;
-}.form-right{
-   float: right;
-  width:360px;
- }
-.form-control:last-child{
-  border-bottom:0px solid #e1eaf2;
-}
-.form-control .form-inp{
-  position: relative;
-  float: left;
-}
-.form-control .form-label{
-  background-color: #cccccc73;
-  float: left;
-  line-height: 28px;
-  min-width: 120px;
-  font-size: 12px;
-  color: #666;
-  margin-right: 9px;
-  text-indent: 6px;
-  border-radius: 4px;
-}
-.form-control input{
-  width: 150px;
-  height: 26px;
-  color: #666;
-  padding: 0  5px;
-  border: 1px solid #cccccc;
-  background-color: #f7f7f7;
-  border-radius: 5px;
-  text-indent: 5px;
-}
-.form-control select{
-  width: 161px;
-  height: 28px;
-  color: #666;
-  padding-left: 10px;
-  border: 1px solid #cccccc;
-  background-color: #f7f7f7;
-  border-radius: 5px;
-}
-.form-control span{
-  display: inline;
-  font-size: 10px;
-  color: #fff;
-  line-height: 20px;
-}
-.form-control textarea{
-  width:350px;
-  line-height: 18px;
-  height:360px;
-  border-radius:4px;
-}
-.form-error input,.form-error select,.form-error textarea{
-  border-color: #ff0000;
-}
-.form-error span{
-  color: #ff0000;
-}
-.form-right .form-inp{
-  margin-top:15px;
-}
-.btn{
+.new-repair{
   position: absolute;
-  bottom: 20px;
-  padding: 10px 16px;
+  left:50%;
+  top:50%;
+  width:750px;
+  height:550px;
+  margin-top:-275px;
+  margin-left:-375px;
+  background-color: #fff;
+  border-radius:5px;
+}
+.repair-form{
+  padding: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
   border-radius: 4px;
+  position: relative;
+}
+.new-repair .form-control{
+  -webkit-box-flex: 0;
+  -ms-flex: 1 0 50%;
+  flex: 1 0 50%;
+  max-width: 50%;
+  padding: 0;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+.new-repair .form-label{
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  background-color: #f8f8f8;
+  padding: 10px;
+  float: left;
+  font-weight: 300;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 30%;
+  flex: 0 0 30%;
+  max-width: 30%;
+}
+.new-repair .form-inp{
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding: 0;
+  float: left;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 62%;
+  flex: 0 0 62%;
+  max-width: 62%;
+  margin-left: 2%;
+}
+.company-ipt{
+  width:150px;
+  line-height:36px;
+  background-image: linear-gradient(#03a9f3, #03a9f3), linear-gradient(rgba(120, 130, 140, .13), rgba(120, 130, 140, .13));
+  background-color: rgba(0, 0, 0, 0);
+  background-position: center bottom, center calc(99%);
+  background-repeat: no-repeat;
+  background-size: 0 1px, 100% 1px;
+  padding: 0;
+  transition: all .3s ease-out;
+}
+.company-sel{
+  height:36px;
+}
+.company-ipt:focus{
+  background-size: 100% 1px, 100% 1px;
+}
+.company-form{
+  margin:30px auto;
+}
+.errorMessage{
+  color:#CE0004;
+}
+input{
+  border:none;
+}
+.new-repair .form-alone {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 0 100%;
+  flex: 1 0 100%;
+  max-width: 100%;
+}
+.form-alone .form-label{
+   max-width: 15%;
+ }
+.form-alone .form-inp{
+  max-width: 81%;
+  margin-left: 1%;
+}
+#repairNote{
+  width: 100%;
+  height: 130px;
+  overflow: auto;
+  line-height: 20px;
+  font-size: 12px;
+}
+.mask-footer{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding: 15px;
+  background-color: #f1f5f8;
+}
+.btn-mask {
+  font-size: 14px;
+  padding: .6rem 1rem;
   background: #03a9f3;
-  border: none;
-  color: #fff;
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.25;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border-radius: .25rem;
+  transition: all .2s ease-in-out;
   cursor: pointer;
+  color: #fff;
 }
-.btn-determine{
-  right:220px;
+.btn-danger {
+  background-color: #fb9678;
+  margin-left: 20px;
 }
-.btn-cancel{
-  background: #fb9678;
-  right: 120px;
+.contract-list{
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding: 0;
+  float: left;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 80%;
+  flex: 0 0 80%;
+  max-width: 80%;
+  margin-left: 1%;
+  height:100px;
+  border:1px solid #f1f1f1;
 }
-.repair-container{
-  display: none;
+.contract-list li{
+  line-height:20px;
 }
-
+.contract-list li a{
+  margin-left:6px; color:#ff0000
+}
+.new-contract{
+  height:500px;
+  margin-top:-250px;
+}
 /*新的信息列表*/
 .form-msg{
   margin:10px 0;
@@ -325,25 +404,37 @@
   height: 35px;
   width: 30px;
   line-height: 35px;
-  border-top: 1px solid #e4e7ea;
-  border-right: 1px solid #e4e7ea;
-  border-bottom: 1px solid #e4e7ea;
+  border: 1px solid #e4e7ea;
   color: #686868;
   text-align: center;
+  margin-left:-1px;
   cursor: pointer;
 }
 .turn>ul>li:first-child{
-  border-left: 1px solid #e4e7ea;
+  margin-left: 0;
 }
 .turn>ul>li.active{
   color: #ffffff;
   background: #04a9f3;
   border-color: #04a9f3;
 }
+.row {
+  height: 50px;
+  text-align: right;
+  background-color: #fff;
+  box-shadow: 0 1px 0 0 #ccc;
+}
+.record-search li,.contract-search li{
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  max-width: 360px;
+}
 
-
-
-
+.repair-container{
+  display:none;
+  min-height:600px;
+}
 
 
 

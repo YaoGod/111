@@ -50,12 +50,29 @@ export class UtilBuildingService {
     return xhr;
   }
   /*
-   文件上传 (excel 导入)
+   能耗文件上传
    param: postData:file,
    return:
    */
   importTemplate(postData) {
-    const url = this.ipSetting.ip + "/building/energy/importTemplate/";
+    const url = this.ipSetting.ip +'/building/energy/importTemplate';
+    var form = new FormData();
+    if (typeof(postData) === 'object') {
+      form.append('file', postData);
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.withCredentials = true;
+    xhr.send(form);
+    return xhr;
+  }
+  /*
+   文件上传
+   param: postData:file,
+   return:
+   */
+  importTemplate2(postData) {
+    const url = this.ipSetting.ip + "/building/person/importTemplate";
     var form = new FormData();
     if (typeof(postData) === 'object') {
       form.append('file', postData);

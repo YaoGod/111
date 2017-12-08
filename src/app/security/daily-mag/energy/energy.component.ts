@@ -23,6 +23,7 @@ export class EnergyComponent implements OnInit {
   public Head:Array<string>;
   public repairname: GuardName;
   public contractName: ArchName;
+  public buildings:any;
   private editBool = true;
 
   private pageSize = 12;
@@ -48,7 +49,19 @@ export class EnergyComponent implements OnInit {
     }else{
       this.repairname.energyType = 'gas';
     }
+    this.getBuildings();
     this.getRecord(this.search, this.pageNo, this.pageSize);
+  }
+  /*获取大楼列表*/
+  private getBuildings() {
+    const SOFTWARES_URL = "/proxy/building/util/getBuildingList";
+    this.http.get(SOFTWARES_URL)
+      .map(res => res.json())
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data)) {
+          this.buildings = data['data'];
+        }
+      });
   }
   /*获取/查询能耗信息*/
   private getRecord(search, pageNo, pageSize) {
@@ -134,6 +147,11 @@ export class EnergyComponent implements OnInit {
           });
           $('#prese').val('');
           $('#induction').hide();
+          this.pages =[];
+          this.pageNo = 1;
+          this.getRecord(this.search, this.pageNo, this.pageSize);
+        }else{
+          $('#prese').val('');
         }
       }
     };
@@ -171,6 +189,7 @@ export class EnergyComponent implements OnInit {
   listSearch(){
       this.pageNo = 1;
       this.getRecord(this.search, this.pageNo, this.pageSize);
+      this.search = new Search();
   }
   /*校验信息*/
   private verifyId() {
@@ -191,20 +210,8 @@ export class EnergyComponent implements OnInit {
     }
     return true;
   }
-  private verifylastNum() {
-    if (!this.isEmpty('lastNum', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
   private verifynomNum() {
     if (!this.isEmpty('nomNum', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  private verifyuseNum() {
-    if (!this.isEmpty('useNum', '不能为空')) {
       return false;
     }
     return true;
@@ -218,16 +225,10 @@ export class EnergyComponent implements OnInit {
     }*/
     return true;
   }
-  private verifycost() {
-  if (!this.isEmpty('cost', '不能为空')) {
-    return false;
-  }
-  return true;
-}
   /*编辑信息*/
   editAttach(index){
     this.editBool = false;
-    this.repairname = this.record[index];
+    this.repairname = JSON.parse(JSON.stringify(this.record[index]));
     this.repairname.month = this.repairname.month.replace(/\//g, "-");
     $('.mask').fadeIn();
     $('#buildingId').attr('disabled',true);
@@ -269,8 +270,7 @@ export class EnergyComponent implements OnInit {
     }else {
       SOFTWARES_URL = "/proxy/building/energy/addEnergyRecord";
     }
-    if (!this.verifyId() || !this.verifymonth() || !this.verifylastNum() || !this.verifynomNum() || !this.verifyuseNum() ||
-      !this.verifyunitprice() || !this.verifycost()) {
+    if (!this.verifyId() || !this.verifymonth() || !this.verifynomNum() || !this.verifyunitprice()) {
       return false;
     }
     const headers = new Headers({ 'Content-Type': 'application/json' });
@@ -318,15 +318,13 @@ export class EnergyComponent implements OnInit {
   }
   /*页面显示区间5页*/
   pageLimit(page:number) {
-    if(this.pages.length < 5) {
+    if(this.pages.length < 5){
       return false;
-    }else if(this.pageNo < 5) {
-      return true;
-    }else if(page<=5 && this.pageNo <= 3) {
+    } else if(page<=5 && this.pageNo <= 3){
       return false;
-    }else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2) {
+    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
       return false;
-    }else if (page<=this.pageNo+2 && page>=this.pageNo-2) {
+    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
       return false;
     }
     return true;
@@ -343,12 +341,17 @@ export class EnergyComponent implements OnInit {
   /**非空校验*/
   private isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
-    if (data.toString().trim() === '')  {
+    if(data === null){
       this.addErrorClass(id, error);
       return false;
-    }else {
-      this.removeErrorClass(id);
-      return true;
+    }else{
+      if (data.toString().trim() === '')  {
+        this.addErrorClass(id, error);
+        return false;
+      }else {
+        this.removeErrorClass(id);
+        return true;
+      }
     }
   }
   /**邮箱格式校验*/

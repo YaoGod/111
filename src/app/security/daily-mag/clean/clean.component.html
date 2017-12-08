@@ -9,15 +9,15 @@
         <ul class="company-search clearfix">
           <li>
             <label>大楼编号</label>
-            <input type="text" name="dfdf" class="search-ipt" [(ngModel)]="searchCompany.buildingId">
+            <input type="text" name="dfdf" class="search-ipt" maxlength="4" [(ngModel)]="searchCompany.buildingId">
           </li>
           <li >
             <label >大楼名称</label>
-            <input type="text" name="drfg" class="search-ipt" [(ngModel)]="searchCompany.buildingName">
+            <input type="text" name="drfg" class="search-ipt" maxlength="22" [(ngModel)]="searchCompany.buildingName">
           </li>
           <li >
             <label >服务公司名称</label>
-            <input type="text" name="fghrr" class="search-ipt" [(ngModel)]="searchCompany.companyName">
+            <input type="text" name="fghrr" class="search-ipt" maxlength="22" [(ngModel)]="searchCompany.companyName">
           </li>
         </ul>
         <div class="search-right"><a href="javascript:;" class="search-btn" (click)="repairSearch()"><i class="icon-magnifier"></i> 查 询</a></div>
@@ -34,7 +34,7 @@
           </li>-->
           <li >
             <label>服务公司名称</label>
-            <input type="text" name="fghxcvv" class="search-ipt" [(ngModel)]="searchArch.companyName">
+            <input type="text" name="fghxcvv" class="search-ipt" maxlength="22" [(ngModel)]="searchArch.companyName">
           </li>
         </ul>
         <div class="search-right">
@@ -139,21 +139,25 @@
       <div class="form-control clearfix">
         <span class="form-label">大楼编号</span>
         <div class="form-inp">
-          <input type="text" autocomplete="off" class="company-ipt" id="Id" name="Id" [(ngModel)]="repairname.buildingId" (blur)="verifyId()" required minlength="4" maxlength="4" placeholder="请输入四位数字">
+          <select id="ID" name="ID" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" (blur)="verifyId()">
+            <option *ngFor="let num of buildings"
+                    [value]="num.BUILDING_ID">
+              {{num.BUILDING_ID}}</option>
+          </select>
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control clearfix">
         <span class="form-label">服务公司名称</span>
         <div class="form-inp">
-          <input type="text" autocomplete="off" class="company-ipt" id="companyName" name="companyName" [(ngModel)]="repairname.companyName" (blur)="verifycompanyName()" required minlength="4">
+          <input type="text" autocomplete="off" class="company-ipt" id="companyName" name="companyName" [(ngModel)]="repairname.companyName" (blur)="verifycompanyName()" required minlength="4" maxlength="22">
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control clearfix">
         <span class="form-label">派驻大楼保洁绿化人数</span>
         <div class="form-inp">
-          <input type="text" autocomplete="off" class="company-ipt" id="personNum" name="personNum" [(ngModel)]="repairname.personNum" (blur)="verifypersonNum()" required minlength="4">
+          <input type="text" autocomplete="off" class="company-ipt" id="personNum" name="personNum" [(ngModel)]="repairname.personNum" (blur)="verifypersonNum()" required minlength="4" maxlength="4">
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -175,21 +179,21 @@
         <div class="form-control clearfix">
           <span class="form-label">服务公司名称</span>
           <div class="form-inp">
-            <input type="text" autocomplete="off" class="company-ipt" id="companyName2" name="companyName2" [(ngModel)]="contractName.companyName" (blur)="verifycompanyName2()" required>
+            <input type="text" autocomplete="off" class="company-ipt" id="companyName2" name="companyName2" [(ngModel)]="contractName.companyName" (blur)="verifycompanyName2()" required maxlength="22">
             <span class="errorMessage">不能为空</span>
           </div>
         </div>
         <div class="form-control clearfix">
           <span class="form-label">人员姓名</span>
           <div class="form-inp">
-            <input type="text" autocomplete="off" class="company-ipt" id="personName" name="personName" [(ngModel)]="contractName.personName" (blur)="verifypersonName()" required>
+            <input type="text" autocomplete="off" class="company-ipt" id="personName" name="personName" [(ngModel)]="contractName.personName" (blur)="verifypersonName()" required maxlength="22">
             <span class="errorMessage"></span>
           </div>
         </div>
         <div class="form-control clearfix">
           <span class="form-label">人员编号</span>
           <div class="form-inp">
-            <input type="text" autocomplete="off" class="company-ipt" id="personId" name="personId" [(ngModel)]="contractName.personId" (blur)="verifypersonId()" required minlength="8">
+            <input type="text" autocomplete="off" class="company-ipt" id="personId" name="personId" [(ngModel)]="contractName.personId" (blur)="verifypersonId()" required minlength="8" maxlength="8">
             <span class="errorMessage"></span>
           </div>
         </div>
@@ -203,14 +207,19 @@
         <div class="form-control clearfix">
           <span class="form-label">身份证号</span>
           <div class="form-inp">
-            <input type="text" autocomplete="off" class="company-ipt" id="personIdcard" name="personIdcard" [(ngModel)]="contractName.personIdcard" (blur)="verifypersonIdcard()" required>
+            <input type="text" autocomplete="off" class="company-ipt" id="personIdcard" name="personIdcard" [(ngModel)]="contractName.personIdcard" (blur)="verifypersonIdcard()" required maxlength="18">
             <span class="errorMessage"></span>
           </div>
         </div>
         <div class="form-control clearfix">
           <span class="form-label">在职状态</span>
           <div class="form-inp">
-            <input type="text" autocomplete="off" class="company-ipt" id="personStatus" name="personStatus" [(ngModel)]="contractName.personStatus" (blur)="verifypersonStatus()" required>
+            <select class="company-ipt company-sel" id="personStatus" name="personStatus"
+                    [(ngModel)]="contractName.personStatus"
+                    (blur)="verifypersonStatus()">
+              <option value="在职">在职</option>
+              <option value="离职">离职</option>
+            </select>
             <span class="errorMessage"></span>
           </div>
         </div>
@@ -221,7 +230,7 @@
             <div class="dropify-message">
               <img *ngIf="contractName.imgPath" [src]="'/proxy/' + contractName.imgPath"  />
             </div>
-            <p>点击此处上传图片</p>
+            <p *ngIf="!contractName.imgPath">点击此处上传图片</p>
             <input type="file" class="dropify" #prese id="prese"
                    (change)="prese_upload(prese.files)">
           </div>
