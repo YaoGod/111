@@ -18,6 +18,8 @@ const routes: Routes = [
     children :[
       {
         path: '',
+        redirectTo: 'product',
+        pathMatch: 'full',
         component:HomepageComponent
       },
       {

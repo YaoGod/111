@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DossierBuildingService } from '../../../service/dossier-building/dossier-building.service';
+import { UtilBuildingService } from '../../../service/util-building/util-building.service';
 import { ErrorResponseService } from "../../../service/error-response/error-response.service";
 import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
 import { sndCatalog } from '../../../mode/catalog/catalog.service';
@@ -9,7 +10,7 @@ import { GlobalOptionService } from '../global-option.service';
   selector: 'app-front',
   templateUrl: './front.component.html',
   styleUrls: ['./front.component.css'],
-  providers: [DossierBuildingService,ErrorResponseService,sndCatalog]
+  providers: [DossierBuildingService,UtilBuildingService,ErrorResponseService,sndCatalog]
 })
 export class FrontComponent implements OnInit {
 
@@ -23,7 +24,8 @@ export class FrontComponent implements OnInit {
     private globalOptionService    : GlobalOptionService,
     private router                 : Router,
     private dossierBuildingService : DossierBuildingService,
-    private errorResponseService   : ErrorResponseService
+    private errorResponseService   : ErrorResponseService,
+    private utilBuildingService    : UtilBuildingService
   ) {
     this.rule = this.globalCatalogService.getRole("security/property");
     this.search = this.globalOptionService.getVal();
@@ -71,7 +73,7 @@ export class FrontComponent implements OnInit {
   }
   /*获取大楼名称列表*/
   getBuildingList() {
-    this.dossierBuildingService.getBuildingList()
+    this.utilBuildingService.getBuildingList()
       .subscribe(data => {
         if(this.errorResponseService.errorMsg(data)) {
           this.buildings = data.data;

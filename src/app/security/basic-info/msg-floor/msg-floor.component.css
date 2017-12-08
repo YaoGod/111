@@ -58,13 +58,13 @@ input[type=text]{
   padding: 0 10px;
 }
 .search-bar>ul>li>.search-btn{
-  padding-left: 40px;
-  padding-right: 20px;
+  padding: 10px 20px;
   height: 34px;
   border:none;
   border-radius: 5px;
   background: #04a9f3;
   color: #ffffff;
+  cursor: pointer;
 }
 .search-icon{
   position: absolute;

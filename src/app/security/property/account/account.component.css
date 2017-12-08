@@ -107,7 +107,7 @@
 .word-panel{
   height: 145px;
   line-height: 30px;
-  padding-bottom: 10px;
+  padding: 5px 0;
   border-bottom: 1px dashed #e8e2e2;
   color: #4d565e;
   overflow: hidden;
@@ -122,9 +122,12 @@
   transition-duration: 300ms;
   cursor: pointer;
 }
-.keyword>i{
+.keyword span i{
   position: relative;
   top: -5px;
+}
+.keyword span{
+  white-space: nowrap;
 }
 .keyword:hover{
   color: #4d565e;

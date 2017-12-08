@@ -170,6 +170,9 @@ confirmFunc={
 		};
     $(".closeFnDiv").on("click",function(){
       $(this).parents(".cpMasking").remove();
+      if(cancle){
+        cancle();
+      }
     });
 	},
 	closeFn:function(obj){

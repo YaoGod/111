@@ -63,7 +63,11 @@ export class TypeDefineComponent implements OnInit {
             'imgType': 1 ,
             'callback': ()=> {
               this.pageNo = 1;
-              this.pageSize = 9;
+              this.closeNewView();
+              this.getList();
+            },
+            'cancle': ()=> {
+              this.pageNo = 1;
               this.closeNewView();
               this.getList();
             }
@@ -82,6 +86,12 @@ export class TypeDefineComponent implements OnInit {
             'popType': 2,
             'imgType': 1,
             'callback': () => {
+              this.pageNo = 1;
+              this.pageSize = 9;
+              this.closeNewView();
+              this.getList();
+            },
+            'cancle': () => {
               this.pageNo = 1;
               this.pageSize = 9;
               this.closeNewView();
@@ -110,7 +120,10 @@ export class TypeDefineComponent implements OnInit {
                   'imgType': 1 ,
                   'callback': ()=> {
                     this.pageNo = 1;
-                    this.pageSize = 9;
+                    this.getList();
+                  },
+                  'cancle': ()=> {
+                    this.pageNo = 1;
                     this.getList();
                   }
                 });

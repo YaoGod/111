@@ -295,8 +295,8 @@
           </div>
           <div class="form-group" *ngIf="building.type === 'buy'">
             <label class="control-label"><span>购买方</span>
-              <input  class="form-control" id="buyName"
-                       name="buyName"
+              <input  class="form-control"  type="text"
+                      id="buyName" name="buyName"
                        [(ngModel)]="tempContract.buyName"
                        (blur)="verifyEmpty(tempContract.buyName,'buyName');">
             </label>
@@ -539,10 +539,8 @@
         </div>
       </div>
       <div  class="modal-footer">
-        <button  class="btn btn-danger" type="button"
-                 (click)="closeNewView()">取 消</button>
-        <button  class="btn btn-info" type="submit"
-                 (click)="submit()">保 存</button>
+        <button  class="btn btn-info" type="submit" (click)="submit()">保 存</button>
+        <button  class="btn btn-danger" type="button" (click)="closeNewView()">取 消</button>
       </div>
     </form>
   </div>

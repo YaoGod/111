@@ -27,10 +27,7 @@
       </select>
     </li>
     <li>
-      <div class="search-icon" >
-        <img src="../../../../assets/image/icon_search.png">
-      </div>
-      <input class="search-btn" type="button" value="查询" (click)="search();">
+      <a class="search-btn" (click)="search();"><i class="icon-magnifier"></i>查询</a>
     </li>
   </ul>
 </div>
@@ -200,10 +197,10 @@
         </div>
       </div>
       <div  class="modal-footer">
-        <button  class="btn btn-danger" type="button"
-                 (click)="closeNewView()">取 消</button>
         <button  class="btn btn-info" type="submit"
                  (click)="submit()">保 存</button>
+        <button  class="btn btn-danger" type="button"
+                 (click)="closeNewView()">取 消</button>
       </div>
     </form>
   </div>

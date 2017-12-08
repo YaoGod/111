@@ -16,6 +16,9 @@ export class ErrorResponseService {
         'imgType': 2 ,
         'callback':()=> {
           this.router.navigate(['login']);
+        },
+        'cancle': ()=> {
+          this.router.navigate(['login']);
         }
       });
       return false;
@@ -26,7 +29,6 @@ export class ErrorResponseService {
         'popType': 2 ,
         'imgType': 2 ,
       });
-      /*console.log('系统错误请稍后再试');*/
       return false;
     }else if (data === 103) {
       console.log('权限不足');

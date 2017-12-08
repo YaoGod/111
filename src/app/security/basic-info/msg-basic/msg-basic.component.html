@@ -42,7 +42,7 @@
     <li class="form-bar">
     <label>
       <span class="form-title">建筑面积</span>
-      <input type="text" name="area" class="ipt" disabled
+      <input type="text" name="area" class="ipt" [disabled]="building.type === '自购'"
              [(ngModel)]="copyBuilding.area">
       <span class="word">{{building.area | emptyValue:'暂无数据'}}</span>
     </label>

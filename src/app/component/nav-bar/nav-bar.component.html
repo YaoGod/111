@@ -1,0 +1,11 @@
+<nav>
+  <ul class="tab-brash">
+    <li *ngFor="let sndnav of navs;let j = index;"
+    [ngClass]="{'active':active===j}">
+      <a (click)="slide(j)">
+        <i class="icon-bell"></i>
+        {{sndnav.name}}
+      </a>
+    </li>
+  </ul>
+</nav>

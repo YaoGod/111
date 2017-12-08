@@ -25,10 +25,10 @@ export class LoginComponent implements OnInit {
   }
   ngOnInit() {
     this.user = new User();
-    this.save_passwd = sessionStorage.getItem("save_passwd")?true:false;
+    this.save_passwd = localStorage.getItem("save_passwd")?true:false;
     if(this.save_passwd) {
-      this.user.name = sessionStorage.getItem("username");
-      this.user.password = sessionStorage.getItem("password");
+      this.user.name = localStorage.getItem("username");
+      this.user.password = localStorage.getItem("password");
     }
   }
   /*登陆*/
@@ -44,20 +44,20 @@ export class LoginComponent implements OnInit {
             if(data.data.result === 'illegal') {
               this.addErrorClass('password','密码错误');
               sessionStorage.removeItem("save_passwd");
-              sessionStorage.removeItem("username");
-              sessionStorage.removeItem("password");
+              localStorage.removeItem("username");
+              localStorage.removeItem("password");
             }else {
               this.globalUserService.setVal(data.data.userInfo);
               sessionStorage.setItem("isLoginIn","Login");
-              this.save_passwd?sessionStorage.setItem("save_passwd","true"):sessionStorage.removeItem("save_passwd");
-              sessionStorage.setItem("username",data.data.userInfo.username);
-              sessionStorage.setItem("password",this.user.password);
+              this.save_passwd?localStorage.setItem("save_passwd","true"):localStorage.removeItem("save_passwd");
+              localStorage.setItem("username",data.data.userInfo.username);
+              localStorage.setItem("password",this.user.password);
               this.router.navigate(['/hzportal/']);
             }
           }else {
-            sessionStorage.removeItem("save_passwd");
-            sessionStorage.removeItem("username");
-            sessionStorage.removeItem("password");
+            localStorage.removeItem("save_passwd");
+            localStorage.removeItem("username");
+            localStorage.removeItem("password");
           }
         });
     }
@@ -154,7 +154,7 @@ export class LoginComponent implements OnInit {
             confirmFunc.init({
               'title': '提示' ,
               'mes': data.msg,
-              'popType': 2 ,
+              'popType': 0 ,
               'imgType': 1 ,
             });
           }

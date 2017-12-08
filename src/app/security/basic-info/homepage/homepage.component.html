@@ -40,7 +40,7 @@
   <div class="view" style="min-height: 350px;">
     <div class="row">
         <a class="btn btn-danger" (click)="fadeBom()" href="javascript:;" *ngIf="rule&&rule.isInstall">
-          <i class="icon-plus"></i> 新增</a>
+          <i class="icon-plus"></i>新增</a>
     </div>
     <ul class="page-area">
       <li class="card" *ngFor="let building of buildings;let idx=index">
@@ -91,51 +91,60 @@
               <input type="file" class="dropify" #prese id="prese"
                      (change)="prese_upload(prese.files)">
             </div>
+            <div class="error"></div>
           </div>
           <div class="modal-right">
               <div class="form-group">
-                <label class="control-label"><span>大楼编号</span><input type="text" min-length="4" name="newBuildingId" class="form-control" placeholder="" [(ngModel)]="newBuilding.buildingId"></label>
+                <label class="control-label">
+                  <span>大楼编号</span>
+                  <input type="text" min-length="4" name="newBuildingId" class="form-control" placeholder="" [(ngModel)]="newBuilding.buildingId">
+                </label>
+                <div class="error"></div>
               </div>
               <div class="form-group">
-                <label class="control-label"><span>大楼名称</span><input type="text" name="newBuildingName" class="form-control" placeholder="" [(ngModel)]="newBuilding.name"></label>
+                <label class="control-label">
+                  <span>大楼名称</span>
+                  <input type="text" name="newBuildingName" class="form-control" placeholder="" [(ngModel)]="newBuilding.name">
+                </label>
+                <div class="error"></div>
               </div>
               <div class="form-group">
                 <label class="control-label"><span>大楼性质</span>
                   <select [(ngModel)]="newBuilding.type" style="width:170px;padding:0 10px;" name="newBuildingName" class="form-control">
+                    <option value="">请选择</option>
                     <option value="自建">自建</option>
                     <option value="自购">自购</option>
                     <option value="租赁">租赁</option>
                   </select>
                 </label>
+                <div class="error"></div>
               </div>
               <div class="form-group">
                 <label class="control-label"><span>大楼归属</span>
-      <!--            <input type="text" name="belongTo" class="form-control" placeholder="" [(ngModel)]="newBuilding.belongTo">-->
-                  <select [(ngModel)]="newBuilding.belongTo" style="width:170px;padding:0 10px;" name="belongTo" class="form-control">
-                    <option>市公司</option>
-                    <option>县区分公司</option>
+                  <select  style="width:170px;padding:0 10px;" name="belongTo" class="form-control"
+                    [(ngModel)]="newBuilding.belongTo">
+                    <option value="">请选择</option>
+                    <option value="市公司">市公司</option>
+                    <option value="县区分公司">县区分公司</option>
                   </select>
                 </label>
+                <div class="error"></div>
               </div>
               <div class="form-group">
-                <label class="control-label"><span>地&nbsp;&nbsp;址</span><input type="text" name="address" class="form-control" placeholder="" [(ngModel)]="newBuilding.address"></label>
+                <label class="control-label">
+                  <span>地&nbsp;&nbsp;址</span>
+                  <input type="text" name="address" class="form-control" placeholder=""
+                         [(ngModel)]="newBuilding.address">
+                </label>
+                <div class="error"></div>
               </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" (click)="closeMask()">取 消</button>
           <button type="submit" class="btn btn-info" (click)="subBuilding()">保 存</button>
+          <button type="button" class="btn btn-danger" (click)="closeMask()">取 消</button>
         </div>
       </form>
     </div>
 </div>
-<!--<div class="confirm">
-  <div class="confirm-modal">
-    <div class="confirm-icon confirm-question">?</div>
-    <div class="confirm-content" >你确定要删除该大楼的信息吗?</div>
-    <hr style="margin-top: 20px; margin-bottom: 20px; height: 10px;color: transparent;border: 0;">
-    <button class="confirm-btn styled" (click)="okFunc()">确定</button>
-    <button class="confirm-btn cancel" (click)="noFunc()">取消</button>
-  </div>
-</div>-->
 

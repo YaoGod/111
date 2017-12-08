@@ -160,7 +160,6 @@ export class MsgFloorComponent implements OnInit {
     if(!this.copyFloors[index].editStatus){
       /*进入编辑*/
       this.copyFloors[index].editStatus = true;
-      console.log( this.copyFloors[index]);
     }else{
       /*取消编辑*/
       this.copyFloors[index] = JSON.parse(JSON.stringify(this.floors[index]));
@@ -171,6 +170,7 @@ export class MsgFloorComponent implements OnInit {
   save(index:number){
     if(this.copyFloors[index].editStatus){
       if($('.red').length === 0) {
+        this.copyFloors[index].buildingId = this.building.id;
         this.infoBuildingService.updateFloor(this.copyFloors[index])
           .subscribe(data => {
             if (this.errorVoid.errorMsg(data)) {
@@ -180,6 +180,11 @@ export class MsgFloorComponent implements OnInit {
                 'popType': 2 ,
                 'imgType': 1 ,
                 "callback": () => {
+                  this.floors[index] = this.copyFloors[index];
+                  $('#prese'+index).val('');
+                  this.copyFloors[index].editStatus = false;
+                },
+                "cancle": () => {
                   this.floors[index] = this.copyFloors[index];
                   $('#prese'+index).val('');
                   this.copyFloors[index].editStatus = false;
@@ -215,12 +220,14 @@ export class MsgFloorComponent implements OnInit {
                 'imgType': 1,
                 "callback": () => {
                   this.initFloor();
+                },
+                'cancle':() => {
+                  this.initFloor();
                 }
               });
-
             }
           });
-      }
+      },
     });
   }
   /*文件图片上传*/
@@ -251,6 +258,13 @@ export class MsgFloorComponent implements OnInit {
         if(this.errorVoid.errorMsg(data)){
          this.newFloor.imgPath = data.msg;
         }
+      }else if(xhr.readyState === 4 && xhr.status === 413 ){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '图片大小超出限制',
+          'popType': 1 ,
+          'imgType': 2 ,
+        });
       }
     };
   }
@@ -286,6 +300,11 @@ export class MsgFloorComponent implements OnInit {
               'popType': 2 ,
               'imgType': 1 ,
               "callback": () => {
+                $('#pressNew').val('');
+                this.closeNewView();
+                this.initFloor();
+              },
+              "cancle": () => {
                 $('#pressNew').val('');
                 this.closeNewView();
                 this.initFloor();

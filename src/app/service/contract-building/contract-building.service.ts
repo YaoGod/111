@@ -48,11 +48,11 @@ export class ContractBuildingService {
     if(path === 'build') {
       url = this.ipSetting.ip + '/building/contract/updateBuildContract';
     }else if(path === 'buy') {
-      url = this.ipSetting.ip + '/contract/updateBuyContract';
+      url = this.ipSetting.ip + '/building/contract/updateBuyContract';
     }else if(path === 'lease') {
-      url = this.ipSetting.ip + '/contract/updateLeaseContract';
+      url = this.ipSetting.ip + '/building/contract/updateLeaseContract';
     }else if(path === 'property'){
-      url = this.ipSetting.ip + '/contract/updatePropertyContract';
+      url = this.ipSetting.ip + '/building/contract/updatePropertyContract';
     }
     return this.http.post(url,data,this.options)
       .map(res => res.json());

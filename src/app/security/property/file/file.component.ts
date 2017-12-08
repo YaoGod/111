@@ -62,7 +62,7 @@ export class FileComponent implements OnInit {
   }
   /*获取大楼名称列表*/
   getBuildingList() {
-    this.dossierBuildingService.getBuildingList()
+    this.utilBuildingService.getBuildingList()
       .subscribe(data => {
         if(this.errorResponseService.errorMsg(data)) {
           this.buildings = data.data;
@@ -100,6 +100,11 @@ export class FileComponent implements OnInit {
             'popType': 2,
             'imgType': 1,
             'callback': () => {
+              this.pageNo = 1;
+              this.closeNewView();
+              this.getList();
+            },
+            'cancle': () => {
               this.pageNo = 1;
               this.closeNewView();
               this.getList();

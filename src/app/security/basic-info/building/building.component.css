@@ -3,7 +3,7 @@
   padding:25px 2% 25px 2%;
 }
 .msg{
-  height:  calc(100% - 43px);
+  height:  100%;
   padding: 2%;
   background: #ffffff;
   box-shadow: 0 0 2px rgba(181, 186, 193, 0.25);
@@ -53,9 +53,7 @@
   border-color: #ddd;
 
 }
-/*.nav-msg>li .active + .msg-child{
-  top:0;
-}*/
+
 h4{
   outline: none;
 }

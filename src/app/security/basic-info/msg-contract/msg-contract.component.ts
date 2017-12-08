@@ -209,7 +209,7 @@ export class MsgContractComponent implements OnInit {
       confirmFunc.init({
         'title': '提示' ,
         'mes': '表单数据填写不完全',
-        'popType': 2 ,
+        'popType': 0 ,
         'imgType': 2 ,
       });
     }
@@ -247,6 +247,12 @@ export class MsgContractComponent implements OnInit {
               this.pageNo = 1;
               this.closeNewView();
               this.getContract();
+            },
+            "cancle": () => {
+              $("#fileUpload").val("");
+              this.pageNo = 1;
+              this.closeNewView();
+              this.getContract();
             }
           });
         }
@@ -263,6 +269,12 @@ export class MsgContractComponent implements OnInit {
             'popType': 2 ,
             'imgType': 1 ,
             "callback": () => {
+              $("#fileUpload").val("");
+              this.pageNo = 1;
+              this.closeNewView();
+              this.getContract();
+            },
+            "cancle": () => {
               $("#fileUpload").val("");
               this.pageNo = 1;
               this.closeNewView();
@@ -346,9 +358,14 @@ export class MsgContractComponent implements OnInit {
               confirmFunc.init({
                 'title': '提示' ,
                 'mes': data.msg,
-                'popType': 1 ,
+                'popType': 2 ,
                 'imgType': 1 ,
                 "callback": () => {
+                  this.pageNo = 1;
+                  this.closeNewView();
+                  this.getContract();
+                },
+                'cancle':() => {
                   this.pageNo = 1;
                   this.closeNewView();
                   this.getContract();

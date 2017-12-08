@@ -141,6 +141,13 @@ export class MsgBelongComponent implements OnInit {
                 this.globalBuilding.setVal(this.building);
                 this.closeEdit();
               }
+            },
+            "cancle": () => {
+              if (data.msg === '更新成功') {
+                this.building = this.copyBuilding;
+                this.globalBuilding.setVal(this.building);
+                this.closeEdit();
+              }
             }
           })
         }

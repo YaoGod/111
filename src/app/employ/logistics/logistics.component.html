@@ -1,3 +1,17 @@
-<p>
-  logistics works!
-</p>
+<nav>
+  <ul class="tab-brash">
+    <li>
+      <a routerLink="laundry" routerLinkActive="active">
+        <i class="icon-bell"></i> 洗衣服务区
+      </a>
+    </li>
+    <li>
+      <a routerLink="property" routerLinkActive="active">
+        <i class="icon-bell"></i> 物业服务区
+      </a>
+    </li>
+  </ul>
+</nav>
+<div class="min-height">
+  <router-outlet></router-outlet>
+</div>

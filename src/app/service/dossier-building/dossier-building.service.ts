@@ -71,12 +71,6 @@ export class DossierBuildingService {
     /*return this.http.get(url,this.options)
       .map(res => res.json());*/
   }
-  /*获取大楼列表*/
-  getBuildingList() {
-    const url = this.ipSetting.ip + "/building/dossier/getBuildingList";
-    return this.http.get(url,this.options)
-      .map(res => res.json());
-  }
   /*获取档案类型列表*/
   getDossierClass(){
     const url =this.ipSetting.ip + "/building/dossier/getDossierClass";

@@ -80,7 +80,7 @@
 .word-panel{
   height: 145px;
   line-height: 30px;
-  padding-bottom: 10px;
+  padding: 5px 0;
   border-bottom: 1px dashed #e8e2e2;
   color: #4d565e;
 }
@@ -95,12 +95,12 @@
   transition-duration: 300ms;
   cursor: pointer;
 }
-.keyword>i{
+.keyword span i{
   position: relative;
   top: -5px;
 }
-.keyword:hover{
-  color: #4d565e;
+.keyword span{
+  white-space: nowrap;
 }
 .msg-count{
   color: #4d565e;

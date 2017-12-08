@@ -351,11 +351,11 @@ td>img{
   z-index: 999;
 }
 .modal-content{
-  width: 500px;
+  width: 520px;
   position: absolute;
   left: 50%;
   top: 100px;
-  margin-left: -250px;
+  margin-left: -260px;
 }
 .modal-header {
   display: -webkit-box;
@@ -390,7 +390,7 @@ td>img{
   float: left;
 }
 .modal-right {
-  width: 260px;
+  width: 270px;
   margin-left: 20px;
   float: left;
 }
@@ -468,7 +468,7 @@ td>img{
 }
 .control-label>span{
   display: inline-block;
-  width: 60px;
+  width: 80px;
   line-height: 38px;
   padding-right: 10px;
 }
@@ -491,7 +491,7 @@ td>img{
   float: none;
 }
 select{
-  width: calc(100% - 90px);
+  width: 173px;
   padding: 0 10px;
 }
 textarea.form-control{
@@ -501,9 +501,8 @@ textarea.form-control{
   width: 100%;
 }
 .error{
-  width: 276px;
-  /*  height: 18px;*/
-  padding-left: 75px;
+  width: 168px;
+  padding-left: 100px;
   font-size: 10px;
   color: #d75452;
 }
@@ -544,6 +543,7 @@ textarea.form-control{
 }
 .card-border{
   height: 100%;
+  max-height: 195px;
   margin-left: 20px;
   margin-right: 10px;
   padding: 15px;
@@ -578,13 +578,16 @@ textarea.form-control{
   text-align: center;
   vertical-align: top;
 }
+.long-text{
+  line-height: 24px;
+}
 .card-left>label{
   display: block;
   vertical-align: top;
 }
 .card-left>label>p{
   display: inline-block;
-  width: 60%;
+  width: calc(100% - 100px);
   line-height: 30px;
   font-size: 12px;
   color: #797979;

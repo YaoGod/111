@@ -509,6 +509,17 @@ button{
   background-color: #f1f5f8;
   /* border-top: 1px solid #eceeef; */
 }
+.error{
+  width: 276px;
+  /*  height: 18px;*/
+  padding-left: 75px;
+  font-size: 10px;
+  color: #d75452;
+}
+.red{
+  border: 0.5px solid #d75452;
+  border-radius: 5px;
+}
 .btn {
   font-size: 14px;
 

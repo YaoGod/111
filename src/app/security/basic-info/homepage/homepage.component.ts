@@ -181,10 +181,6 @@ export class HomepageComponent implements OnInit {
     this.pageNo = page;
     this.getBuildingMsg();
   }
-  /*折叠动画*/
-  slideToggle(){
-    $('.panel').slideToggle();
-  }
   delete(id:number){
     confirmFunc.init({
       'title': '提示' ,
@@ -201,6 +197,11 @@ export class HomepageComponent implements OnInit {
                 'popType': 2,
                 'imgType': 1,
                 'callback': () => {
+                  this.pages =[];
+                  this.pageNo = 1;
+                  this.getBuildingMsg();
+                },
+                'cancle': () => {
                   this.pages =[];
                   this.pageNo = 1;
                   this.getBuildingMsg();

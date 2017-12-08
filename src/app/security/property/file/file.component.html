@@ -13,11 +13,8 @@
       <div class="msg-panel">
         <h5>{{doc.buildingName}}<span>（编号:{{doc.buildingNum}}）</span></h5>
         <div class="word-panel">
-          <label>关键字：</label>
           <a class="keyword" *ngFor="let h of doc.bookName;let j = index">
-            <i class="fa fa-quote-left"></i>
-            <span>{{h}}</span>
-            <i class="fa fa-quote-right"></i>
+            <span><i class="fa fa-quote-left"></i>{{h}}<i class="fa fa-quote-right"></i></span>
           </a>
         </div>
         <div class="msg-count">共<span>{{doc.bookName.length}}</span>项</div>
@@ -145,10 +142,10 @@
         <div class="error"></div>
       </div>
       <div  class="modal-footer">
-        <button  class="btn btn-danger" type="button"
-                 (click)="closeNewView()">取 消</button>
         <button  class="btn btn-info" type="submit"
                  (click)="submit()">保 存</button>
+        <button  class="btn btn-danger" type="button"
+                 (click)="closeNewView()">取 消</button>
       </div>
     </form>
   </div>

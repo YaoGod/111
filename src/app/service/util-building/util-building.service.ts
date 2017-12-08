@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, Headers } from '@angular/http';
+import { IpSettingService } from '../ip-setting/ip-setting.service';
 import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class UtilBuildingService {
@@ -10,7 +11,8 @@ export class UtilBuildingService {
     withCredentials: true,
   });
   constructor(
-    public http:Http
+    public http:Http,
+    private ipSetting  : IpSettingService
   ) { }
 
   /*
@@ -19,7 +21,7 @@ export class UtilBuildingService {
    return:
    */
   uploadImg(postData,type,id){
-    const url = '/proxy/building/util/uploadImg/'+type+ '/' +id;
+    const url = this.ipSetting.ip + "/building/util/uploadImg/"+type+ "/" +id;
     var form = new FormData();
     if (typeof(postData) === 'object') {
       form.append('img', postData);
@@ -36,7 +38,7 @@ export class UtilBuildingService {
    return:
    */
   uploadFile(postData,type,id){
-    const url = '/proxy/building/util/uploadFile/'+type+ '/' +id;
+    const url = this.ipSetting.ip + "/building/util/uploadFile/"+type+ "/" +id;
     var form = new FormData();
     if (typeof(postData) === 'object') {
       form.append('file', postData);
@@ -48,12 +50,12 @@ export class UtilBuildingService {
     return xhr;
   }
   /*
-   文件上传
+   文件上传 (excel 导入)
    param: postData:file,
    return:
    */
   importTemplate(postData) {
-    const url = '/proxy/building/energy/importTemplate/';
+    const url = this.ipSetting.ip + "/building/energy/importTemplate/";
     var form = new FormData();
     if (typeof(postData) === 'object') {
       form.append('file', postData);
@@ -63,5 +65,11 @@ export class UtilBuildingService {
     xhr.withCredentials = true;
     xhr.send(form);
     return xhr;
+  }
+  /*获取大楼列表*/
+  getBuildingList() {
+    const url = this.ipSetting.ip + "/building/util/getBuildingList";
+    return this.http.get(url,this.options)
+      .map(res => res.json());
   }
 }

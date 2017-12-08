@@ -130,42 +130,11 @@ export class RoomComponent implements OnInit {
     }
   }
   /*初始化编辑*/
-  initEdit(index: number){
+  initEdit(index: number) {
     this.addNewRoom();
     this.title = "编辑";
     this.newRoom = this.copyRooms[index];
-    /*if(!this.copyRooms[index].editStatus){
-      /!*进入编辑*!/
-      this.copyRooms[index].editStatus = true;
-    }else{
-      /!*取消编辑*!/
-      this.copyRooms[index] = JSON.parse(JSON.stringify(this.rooms[index]));
-      this.copyRooms[index].editStatus = false;
-    }*/
-
   }
-  /*保存*/
-  /*save(){
-        this.infoBuildingService.updateRoom(this.copyRooms[index])
-          .subscribe(data => {
-            if(this.errorVoid.errorMsg(data)){
-              confirmFunc.init({
-                'title': '提示',
-                'mes': data.msg,
-                'popType': 2,
-                'imgType': 1,
-                "callback": () => {
-                  if(data.msg = '更新成功'){
-                    this.copyRooms[index] = this.copyRooms[index];
-                    this.copyRooms[index].editStatus = false;
-                    this.rooms[index] =JSON.parse(JSON.stringify(this.copyRooms[index]));
-                  }
-                  $("#prese"+index).val('');
-                }
-              });
-            }
-          })
-  }*/
   /*删除信息*/
   delRoom(id) {
     confirmFunc.init({
@@ -184,7 +153,10 @@ export class RoomComponent implements OnInit {
                 'imgType': 1,
                 "callback": () => {
                   this.initRoom();
-                }
+                },
+                'cancle':() => {
+                this.initRoom();
+               }
               });
 
             }
@@ -209,6 +181,13 @@ export class RoomComponent implements OnInit {
           'popType': 1 ,
           'imgType': 2 ,
         });
+      }else if(xhr.readyState === 4 && xhr.status === 413 ){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '图片大小超出限制',
+          'popType': 1 ,
+          'imgType': 2 ,
+        });
       }
     };
   }
@@ -221,6 +200,13 @@ export class RoomComponent implements OnInit {
         if(this.errorVoid.errorMsg(data)){
           this.newRoom.imgPath = data.msg;
         }
+      }else if(xhr.readyState === 4 && xhr.status === 413 ){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '图片大小超出限制',
+          'popType': 1 ,
+          'imgType': 2 ,
+        });
       }
     };
   }
@@ -229,6 +215,8 @@ export class RoomComponent implements OnInit {
     this.title = "新建";
     this.newRoom = new Room();
     this.newRoom.floorId = this.floor.id;
+    this.newRoom.roomUse = "";
+    this.newRoom.roomUseReal = "";
     this.isOpenNewView = true;
     $('.mask').css('display','block');
   }
@@ -266,6 +254,11 @@ export class RoomComponent implements OnInit {
                   $('#pres').val('');
                   this.closeNewView();
                   this.initRoom();
+                },
+                'cancle': () => {
+                  $('#pres').val('');
+                  this.closeNewView();
+                  this.initRoom();
                 }
               });
             }
@@ -280,6 +273,13 @@ export class RoomComponent implements OnInit {
                 'popType': 2,
                 'imgType': 1,
                 "callback": () => {
+                  if(data.msg = '更新成功'){
+                    $('#pres').val('');
+                    this.closeNewView();
+                    this.initRoom();
+                  }
+                },
+                "cancle": () =>{
                   if(data.msg = '更新成功'){
                     $('#pres').val('');
                     this.closeNewView();

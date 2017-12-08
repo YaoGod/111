@@ -5,7 +5,7 @@ export class Catalog {
   /* 门户页一级目录 */
   name  : string;             /* 门户页一级目录名称 */
   routeUrl: string;
-  childs: Array<sndCatalog>;  /* 门户页二级目录列表 */
+  childs: Array<Catalog>;  /* 门户页二级目录列表 */
   isInstall: boolean;
   isDelete : boolean;
   isSelect : boolean;
