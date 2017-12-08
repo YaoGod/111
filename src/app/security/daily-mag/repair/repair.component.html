@@ -69,7 +69,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="rule&&rule.isSelect">
       <a href="javascript:;" class="btn btn-new" (click)="repairNew()"><i class="icon-plus"></i> 新 增</a>
     </div>
     <!--维修记录-->

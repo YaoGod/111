@@ -6,6 +6,8 @@ import 'rxjs/add/operator/switchMap';
 import {InfoBuildingService} from "../../../service/info-building/info-building.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
+import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {sndCatalog} from "../../../mode/catalog/catalog.service";
 
 declare var $: any;
 declare var confirmFunc: any;
@@ -14,7 +16,7 @@ declare var confirmFunc: any;
   selector: 'app-repair',
   templateUrl: './repair.component.html',
   styleUrls: ['./repair.component.css'],
-  providers: [InfoBuildingService,ErrorResponseService,UtilBuildingService]
+  providers: [InfoBuildingService,ErrorResponseService,UtilBuildingService,GlobalCatalogService,sndCatalog]
 })
 export class RepairComponent implements OnInit {
   public repairname: RepairName;
@@ -31,13 +33,25 @@ export class RepairComponent implements OnInit {
   public buildings: any;
   public endTime :string;
   private contractBool = true;
+  public rule : sndCatalog = new sndCatalog();
   constructor(
     private http: Http,
     private errorVoid:ErrorResponseService,
     private utilBuildingService:UtilBuildingService,
-  ) { }
+    private globalCatalogService:GlobalCatalogService,
+  ) {
+    this.rule = this.globalCatalogService.getRole("daily");
+    console.log(this.rule);
+  }
 
   ngOnInit() {
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("daily");
+        console.log(this.rule)
+      }
+    );
+
     this.repairname = new RepairName();
     this.contractName = new ContractName();
     this.searchRepair = new SearchRecord();

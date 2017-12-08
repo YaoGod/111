@@ -379,7 +379,18 @@ export class CleanComponent implements OnInit {
             'popType': 0 ,
             'imgType': 1,
           });
+          $('#prese').val('');
+        }else{
+          $('#prese').val('');
         }
+      }else if (xhr.readyState === 4 && xhr.status === 413){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '文件太大',
+          'popType': 0 ,
+          'imgType': 2,
+        });
+        $('#prese').val('');
       }
     };
   }
@@ -396,12 +407,22 @@ export class CleanComponent implements OnInit {
             'popType': 0 ,
             'imgType': 1,
           });
-          $('#prese').val('');
+          $('#prese2').val('');
           $('#induction').hide();
           this.pages =[];
           this.pageNo = 1;
           this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
+        }else{
+          $('#prese2').val('');
         }
+      }else if (xhr.readyState === 4 && xhr.status === 413){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '文件太大',
+          'popType': 0 ,
+          'imgType': 2,
+        });
+        $('#prese2').val('');
       }
     };
   }
