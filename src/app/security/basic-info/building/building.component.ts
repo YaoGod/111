@@ -73,6 +73,7 @@ export class BuildingComponent implements OnInit {
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)){
           this.building = data.data.buildingInfo;
+          this.globalCatalogService.setTitle("大楼管理/大楼基础信息/"+this.building.name);
           this.building.imgList = [];
           if(this.building.imgPath != null){
             this.building.imgList = this.building.imgPath.split(',');

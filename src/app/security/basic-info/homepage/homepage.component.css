@@ -96,7 +96,7 @@ ul,li{
 select:focus{
   outline: none!important;
 }
-input[type=text]{
+input[type=text],input[type=number]{
   padding: 0 10px;
   background-clip: padding-box;
 }

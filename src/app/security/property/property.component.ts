@@ -12,6 +12,6 @@ export class PropertyComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.globalCatalogService.setTitle("大楼管理/大楼物业档案管理")
+    this.globalCatalogService.setTitle("大楼管理/物业档案管理");
   }
 }

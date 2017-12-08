@@ -30,6 +30,7 @@ export class TypeDefineComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.globalCatalogService.setTitle("大楼管理/物业档案管理/类型管理");
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("security/property");

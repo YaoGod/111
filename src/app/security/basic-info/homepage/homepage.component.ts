@@ -41,6 +41,7 @@ export class HomepageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.globalCatalogService.setTitle("大楼管理/大楼基础信息");
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("security/basic");
@@ -211,5 +212,60 @@ export class HomepageComponent implements OnInit {
           });
       }
     });
+  }
+  verifyImgPath(value,id){
+    if(typeof (value) === "undefined" ||
+      value === null ||
+      value === ''){
+      this.addErrorClass(id,'请上传图片');
+      return false;
+    }else{
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  verifyEmpty( value, id){
+    if(typeof (value) === "undefined" ||
+      value === null ||
+      value === ''){
+      this.addErrorClass(id,'该值不能为空');
+      return false;
+    }else{
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  verifyMaxLength( value, id, len){
+    if(typeof (value) === "undefined" ||
+      value === null ||
+      value === ''){
+      this.addErrorClass(id, '该值不能为空');
+      return false;
+    }else if ( value.length > len) {
+      this.addErrorClass(id, '不能超过' + len + '个字');
+      return false;
+    }
+    else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+
+  /* 添加错误信息*/
+  private addErrorClass(id: string, error: string)  {
+    $('#' + id).addClass('red');
+    $('#' + id).parent().next('.error').fadeIn().html(error);
+  }
+  /*去除错误信息*/
+  private  removeErrorClass(id: string) {
+    $('#' + id).removeClass('red');
+    $('#' + id).parent().next('.error').fadeOut();
+  }
+  /*字数限制*/
+  limitText(value,limit) {
+    if(value.length > limit) {
+      return value.substr(0,limit);
+    }
+    return value;
   }
 }

@@ -39,6 +39,7 @@ export class FileComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.globalCatalogService.setTitle("大楼管理/物业档案台账管理");
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("security/property");
