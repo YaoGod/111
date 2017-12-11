@@ -62,6 +62,9 @@ nav .active{
   color: #fb9678;
   border-bottom: 5px solid #fb9678;
 }
+nav a:hover{
+  color: #fb9678;
+}
 nav a span {
   vertical-align: middle;
   font-weight: 500;

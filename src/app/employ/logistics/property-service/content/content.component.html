@@ -1,3 +1,56 @@
-<p>
-  content works!
-</p>
+<div class="cont">
+  <ul class="cont-nav clearfix">
+    <li>
+      <a class="active">物业服务管理列表<span></span></a>
+    </li>
+  </ul>
+</div>
+<!--搜索栏-->
+<div class="search-bar" >
+  <ul>
+    <li>
+      <input type="text" placeholder="请输入查询内容">
+    </li>
+    <li>
+      <a class="search-btn" (click)="search();"><i class="icon-magnifier"></i>查询</a>
+    </li>
+    <li>
+      <a class="search-btn" (click)="search();"><i class="icon-magnifier"></i>新增</a>
+    </li>
+  </ul>
+</div>
+<!--表头-->
+<!--
+<div class="table-head">
+  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+    <tr class="row list-title" style="height:45px;">
+      <th width="25%" class="text-left">大楼名称</th>
+      <th width="15%">楼层</th>
+      <th width="20%" class="text-left">楼层功能</th>
+      <th width="25%">楼层平面图</th>
+      <th width="15%">操作</th>
+    </tr>
+  </table>
+</div>
+&lt;!&ndash;表格内容&ndash;&gt;
+<div class="table-content" style="height: 390px">
+  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+    <tr class="row"  style="height:45px;">
+      <td></td>
+    </tr>
+  </table>
+  <div class="div-none" *ngIf="copyFloors.length < 1">
+    <p>暂无信息</p>
+  </div>
+</div>
+&lt;!&ndash;翻页&ndash;&gt;
+<div class="turn" *ngIf="pages.length > 1">
+  <ul>
+    <li *ngFor="let i of pages"
+        [hidden] = "pageLimit(i)"
+        [ngClass]="{'active':i === pageNo}"
+        (click)="goPage(i);">
+      {{i}}
+    </li>
+  </ul>
+</div>-->

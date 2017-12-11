@@ -16,7 +16,7 @@ declare var confirmFunc: any;
   selector: 'app-repair',
   templateUrl: './repair.component.html',
   styleUrls: ['./repair.component.css'],
-  providers: [InfoBuildingService,ErrorResponseService,UtilBuildingService,GlobalCatalogService,sndCatalog]
+  providers: [InfoBuildingService,ErrorResponseService,UtilBuildingService,sndCatalog]
 })
 export class RepairComponent implements OnInit {
   public repairname: RepairName;
@@ -40,15 +40,15 @@ export class RepairComponent implements OnInit {
     private utilBuildingService:UtilBuildingService,
     private globalCatalogService:GlobalCatalogService,
   ) {
-    this.rule = this.globalCatalogService.getRole("daily");
+    this.rule = this.globalCatalogService.getRole("security/daily");
     console.log(this.rule);
   }
 
   ngOnInit() {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
-        this.rule = this.globalCatalogService.getRole("daily");
-        console.log(this.rule)
+        this.rule = this.globalCatalogService.getRole("security/daily");
+        console.log(this.rule);
       }
     );
 
