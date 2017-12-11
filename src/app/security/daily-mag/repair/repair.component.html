@@ -69,7 +69,7 @@
         </div>
       </div>
     </div>
-    <div class="row" *ngIf="rule&&rule.isSelect">
+    <div class="row" *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
       <a href="javascript:;" class="btn btn-new" (click)="repairNew()"><i class="icon-plus"></i> 新 增</a>
     </div>
     <!--维修记录-->
@@ -131,8 +131,8 @@
             <span class="form-title">维修详细内容</span>
             <span class="word">{{inner.repairNote}}</span>
         </li>
-        <li class="form-btn" (click)="editRecord(i)">编&nbsp;&nbsp;辑</li>
-        <li class="form-btn form-btn2" (click)="delRecord(i)">删&nbsp;&nbsp;除</li>
+        <li *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" class="form-btn" (click)="editRecord(i)">编&nbsp;&nbsp;辑</li>
+        <li *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" class="form-btn form-btn2" (click)="delRecord(i)">删&nbsp;&nbsp;除</li>
       </ul>
     </div>
     <!--维修合同-->
@@ -190,8 +190,8 @@
           <span class="form-title">服务合同</span>
           <a style="color:#686868; margin-left:20px; color: #1eaaf0" [href]="+'/proxy'+ ctct.filePath[j] " *ngFor="let abc of ctct.fileName; let j=index">{{abc}}</a>
         </li>
-        <li class="form-btn" (click)="editContract(i)">编&nbsp;&nbsp;辑</li>
-        <li class="form-btn form-btn2" (click)="delContract(i)">删&nbsp;&nbsp;除</li>
+        <li *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" class="form-btn" (click)="editContract(i)">编&nbsp;&nbsp;辑</li>
+        <li *ngIf="rule&&jurisdiction&&!jurisdiction.isDelete" class="form-btn form-btn2" (click)="delContract(i)">删&nbsp;&nbsp;除</li>
       </ul>
     </div>
     <div class="turn" *ngIf="pages.length > 1">

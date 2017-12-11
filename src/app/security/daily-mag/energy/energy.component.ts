@@ -3,6 +3,8 @@ import {Http, RequestOptions, Headers} from '@angular/http';
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 import {InfoBuildingService} from "../../../service/info-building/info-building.service";
+import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 
 
 declare var $: any;
@@ -24,6 +26,8 @@ export class EnergyComponent implements OnInit {
   public repairname: GuardName;
   public contractName: ArchName;
   public buildings:any;
+  public rule : any;
+  public jurisdiction:any;
   private editBool = true;
 
   private pageSize = 12;
@@ -31,9 +35,20 @@ export class EnergyComponent implements OnInit {
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
               private utilBuildingService:UtilBuildingService,
-  ) { }
+              private globalCatalogService:GlobalCatalogService,
+              private ipSetting  : IpSettingService
+  ) {
+    this.rule = this.globalCatalogService.getRole("security/daily");
+    this.getQuan();
+  }
 
   ngOnInit() {
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("security/daily");
+        this.getQuan();
+      }
+    );
     this.search = new Search();
     this.repairname = new GuardName();
     this.contractName = new ArchName();
@@ -52,9 +67,22 @@ export class EnergyComponent implements OnInit {
     this.getBuildings();
     this.getRecord(this.search, this.pageNo, this.pageSize);
   }
+  /*获取权限*/
+  private getQuan(){
+    if(this.rule!=null){
+      const SOFTWARES_URL = this.ipSetting.ip + "/portal/user/getCata/"+this.rule.ID+"/repair";
+      this.http.get(SOFTWARES_URL)
+        .map(res => res.json())
+        .subscribe(data => {
+          if(this.errorVoid.errorMsg(data)) {
+            this.jurisdiction = data['data'][0];
+          }
+        });
+    }
+  }
   /*获取大楼列表*/
   private getBuildings() {
-    const SOFTWARES_URL = "/proxy/building/util/getBuildingList";
+    const SOFTWARES_URL = this.ipSetting.ip + "/building/util/getBuildingList";
     this.http.get(SOFTWARES_URL)
       .map(res => res.json())
       .subscribe(data => {
@@ -65,7 +93,7 @@ export class EnergyComponent implements OnInit {
   }
   /*获取/查询能耗信息*/
   private getRecord(search, pageNo, pageSize) {
-    const SOFTWARES_URL = "/proxy/building/energy/getEnergy/" + pageNo + "/" + pageSize;
+    const SOFTWARES_URL = this.ipSetting.ip + "/building/energy/getEnergy/" + pageNo + "/" + pageSize;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
@@ -171,10 +199,10 @@ export class EnergyComponent implements OnInit {
     }
     this.search.bTime = this.search.bTime.replace(/-/g, "/");
     this.search.eTime = this.search.eTime.replace(/-/g, "/");
-    this.http.get("/proxy/building/energy/getEnergyExcel/"+this.search.energyType+"?bTime="+this.search.bTime+"&eTime="+this.search.eTime)
+    this.http.get(this.ipSetting.ip + "/building/energy/getEnergyExcel/"+this.search.energyType+"?bTime="+this.search.bTime+"&eTime="+this.search.eTime)
     // .map(res => res.json())
       .subscribe(data => {
-        window.location.href = "/proxy/building/energy/getEnergyExcel/"+this.search.energyType+"?bTime="+this.search.bTime+"&eTime="+this.search.eTime;
+        window.location.href = this.ipSetting.ip + "/building/energy/getEnergyExcel/"+this.search.energyType+"?bTime="+this.search.bTime+"&eTime="+this.search.eTime;
         this.search = new Search();
         $('#deriving').fadeOut();
       });
@@ -242,7 +270,7 @@ export class EnergyComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = "/proxy/building/energy/deleteEnergyRecord/" +this.repairname.id;
+        let SOFTWARES_URL = this.ipSetting.ip + "/building/energy/deleteEnergyRecord/" +this.repairname.id;
         this.http.get(SOFTWARES_URL)
           .map(res => res.json())
           .subscribe(data => {
@@ -266,9 +294,9 @@ export class EnergyComponent implements OnInit {
     let SOFTWARES_URL;
     if(this.editBool === false) {
       this.pageNo = 1;
-      SOFTWARES_URL = "/proxy/building/energy/updateEnergyRecord";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/energy/updateEnergyRecord";
     }else {
-      SOFTWARES_URL = "/proxy/building/energy/addEnergyRecord";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/energy/addEnergyRecord";
     }
     if (!this.verifyId() || !this.verifymonth() || !this.verifynomNum() || !this.verifyunitprice()) {
       return false;
@@ -335,7 +363,7 @@ export class EnergyComponent implements OnInit {
     if($('.energy-header a:last-child').hasClass('active')) {
       // this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
     }else {
-     // this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
+     this.getRecord(this.search, this.pageNo, this.pageSize);
     }
   }
   /**非空校验*/

@@ -19,7 +19,6 @@ export class GlobalCatalogService {
   }
   /*获取页面权限*/
   getRole(path:string): sndCatalog{
-    console.log(1);
     for(let i = 0; i<this.catalog.length; i++){
       for(let j = 0; j<this.catalog[i].childs.length; j++){
         if(this.catalog[i].childs[j].routeUrl === path){

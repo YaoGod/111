@@ -1,7 +1,7 @@
 <div class="guard">
   <div class="guard-header clearfix">
-    <a href="javascript:;" class="active" (click)="companyFade($event)">保安公司</a>
-    <a href="javascript:;" (click)="archFade($event)">保安人员档案</a>
+    <a href="javascript:;" class="active" (click)="companyFade($event)">服务公司</a>
+    <a href="javascript:;" (click)="archFade($event)">服务人员档案</a>
   </div>
   <div class="guard-cont">
     <div class="guard-chandlery clearfix">
@@ -9,15 +9,15 @@
         <ul class="company-search clearfix">
           <li>
             <label>大楼编号</label>
-            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchCompany.buildingId">
+            <input type="text" name="app" class="search-ipt" [(ngModel)]="searchCompany.buildingId">
           </li>
           <li >
             <label >大楼名称</label>
-            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchCompany.buildingName">
+            <input type="text" name="aoo" class="search-ipt" [(ngModel)]="searchCompany.buildingName">
           </li>
           <li >
             <label >服务公司名称</label>
-            <input type="text" placeholder="" class="search-ipt" [(ngModel)]="searchCompany.companyName">
+            <input type="text" name="aii" class="search-ipt" [(ngModel)]="searchCompany.companyName">
           </li>
         </ul>
         <div class="search-right"><a href="javascript:;" class="search-btn" (click)="repairSearch()"><i class="icon-magnifier"></i> 查 询</a></div>
@@ -27,14 +27,20 @@
           <!--<li>
             <label>大楼编号</label>
             <input type="text" class="search-ipt" [(ngModel)]="searchArch.buildingId">
-          </li>
-          <li >
-            <label>大楼名称</label>
-            <input type="text" class="search-ipt" [(ngModel)]="searchArch.buildingName">
           </li>-->
           <li >
             <label>服务公司名称</label>
-            <input type="text" class="search-ipt" [(ngModel)]="searchArch.companyName">
+            <input type="text" class="search-ipt" name="searchArchCompanyName" [(ngModel)]="searchArch.companyName">
+          </li>
+          <li >
+            <label>人员类型</label>
+            <select name="searchArchType" class="search-ipt" [(ngModel)]="searchArch.personType">
+              <option value="">全部</option>
+              <option value="security">保安</option>
+              <option value="clean">保洁</option>
+              <option value="green">绿化</option>
+              <option value="repair">物业维修</option>
+            </select>
           </li>
         </ul>
         <div class="search-right">
@@ -44,7 +50,7 @@
     </div>
     <!--服务公司-->
     <div class="guard-container guard-company">
-      <div class="row text-right">
+      <div class="row text-right" *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
         <a class="btn btn-new" href="javascript:;" (click)="addCompany()"><i class="icon-plus"></i> 新 增</a>
       </div>
       <ul class="form-msg clearfix" *ngFor="let inner of record; let i=index">
@@ -61,62 +67,28 @@
           <span class="form-word">{{inner.companyName}}</span>
         </li>
         <li class="form-bar">
-          <span class="form-title text-right">派驻大楼保安人数</span>
+          <span class="form-title text-right">派驻大楼人数</span>
           <span class="form-word">{{inner.personNum}}</span>
         </li>
-        <li class="form-btn" (click)="editRecord(i)"><i class="icon-pencil"></i></li>
-        <li class="form-btn form-del" (click)="delRecord(i)"><i class="icon-trash"></i></li>
+        <li class="form-btn"  *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" (click)="editRecord(i)"><i class="icon-pencil"></i></li>
+        <li class="form-btn form-del" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delRecord(i)"><i class="icon-trash"></i></li>
       </ul>
     </div>
     <!--人员档案-->
     <div class="guard-container guard-arch">
-      <div class="row text-right">
+      <div class="row text-right" *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
         <a class="btn btn-lead" href="javascript:;" (click)="inductionDialog()"><i class="icon-docs"></i> 批量导入</a>
         <a class="btn btn-new" href="javascript:;" (click)="exportFile()"><i class="icon-docs"></i> 导 出</a>
         <a class="btn btn-new" href="javascript:;" (click)="addCompany()"><i class="icon-plus"></i> 新 增</a>
       </div>
-      <!--假数据-->
-      <!--<ul class="form-msg clearfix">
-        <li class="form-bar">
-          <span class="form-title text-right">服务公司名称</span>
-          <span class="form-word">4000</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title text-right">人员姓名</span>
-          <span class="form-word">张三</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title text-right">人员编号</span>
-          <span class="form-word">88888888<</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title text-right">联系电话</span>
-          <span class="form-word">18609787554</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title text-right">身份证号码</span>
-          <span class="form-word">376522198723451234</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title text-right">年龄</span>
-          <span class="form-word">31</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title text-right">性别</span>
-          <span class="form-word">男</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title text-right">人员状态</span>
-          <span class="form-word">在职</span>
-        </li>
-        <li class="form-photo"><img src="../../../../assets/image/p1.jpg"></li>
-        <li class="form-btn" onclick="$('.mask-contract').fadeIn()"><i class="icon-pencil"></i></li>
-        <li class="form-btn form-del"><i class="icon-trash"></i></li>
-      </ul>-->
       <ul class="form-msg clearfix" *ngFor="let inner of contract; let i=index">
         <li class="form-bar">
           <span class="form-title text-right">服务公司名称</span>
           <span class="form-word">{{inner.companyName}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">人员类型</span>
+          <span class="form-word">{{inner.personType}}</span>
         </li>
         <li class="form-bar">
           <span class="form-title text-right">人员姓名</span>
@@ -149,8 +121,8 @@
         <li class="form-photo">
           <img [src]="+'/proxy'+inner.imgPath" *ngIf="inner.imgPath">
         </li>
-        <li class="form-btn" (click)="editContract(i)"><i class="icon-pencil"></i></li>
-        <li class="form-btn form-del" (click)="delContract(i)"><i class="icon-trash"></i></li>
+        <li class="form-btn"  *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" (click)="editContract(i)"><i class="icon-pencil"></i></li>
+        <li class="form-btn form-del" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delContract(i)"><i class="icon-trash"></i></li>
       </ul>
     </div>
     <div class="turn" *ngIf="pages.length > 1">
@@ -186,12 +158,24 @@
       <div class="form-control clearfix">
         <span class="form-label">服务公司名称</span>
         <div class="form-inp">
-          <input type="text" autocomplete="off" class="company-ipt" id="companyName" name="companyName" [(ngModel)]="repairname.companyName" (blur)="verifycompanyName()" required minlength="4" maxlength="22">
+          <input type="text" autocomplete="off" id="companyName" class="company-ipt" name="companyName" [(ngModel)]="repairname.companyName" (blur)="verifycompanyName()" required minlength="4" maxlength="22">
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control clearfix">
-        <span class="form-label">派驻大楼保安人数</span>
+        <span class="form-label">公司性质</span>
+        <div class="form-inp">
+          <select id="type" name="type" class="company-ipt company-sel" [(ngModel)]="repairname.type" (blur)="verifytype()" >
+            <option value="保安">保安</option>
+            <option value="保洁">保洁</option>
+            <option value="绿化">绿化</option>
+            <option value="物业维修">物业维修</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control clearfix">
+        <span class="form-label">派驻大楼人数</span>
         <div class="form-inp">
           <input type="text" autocomplete="off" class="company-ipt" id="personNum" name="personNum" [(ngModel)]="repairname.personNum" (blur)="verifypersonNum()" required minlength="4" maxlength="4">
           <span class="errorMessage"></span>
@@ -215,7 +199,24 @@
         <div class="form-control clearfix">
           <span class="form-label">服务公司名称</span>
           <div class="form-inp">
-            <input type="text" autocomplete="off" class="company-ipt" id="companyName2" name="companyName2" [(ngModel)]="contractName.companyName" (blur)="verifycompanyName2()" required maxlength="22">
+            <select id="companyName2" name="companyName2" class="company-ipt company-sel" [(ngModel)]="contractName.companyName" (blur)="verifycompanyName2()">
+              <option *ngFor="let num of serviceCom; let k=index"
+                      [value]="num.companyName">
+                {{num.companyName}}</option>
+            </select>
+            <span class="errorMessage">不能为空</span>
+          </div>
+        </div>
+        <div class="form-control clearfix">
+          <span class="form-label">人员类型</span>
+          <div class="form-inp">
+            <!--<input id="personType" name="personType" class="company-ipt company-sel" [(ngModel)]="contractName.personType" (blur)="verifypersonType()" disabled="disabled">-->
+            <select id="personType" name="personType" class="company-ipt company-sel" [(ngModel)]="contractName.personType" (blur)="verifypersonType()">
+              <option value="保安">保安</option>
+              <option value="保洁">保洁</option>
+              <option value="绿化">绿化</option>
+              <option value="物业维修">物业维修</option>
+            </select>
             <span class="errorMessage">不能为空</span>
           </div>
         </div>

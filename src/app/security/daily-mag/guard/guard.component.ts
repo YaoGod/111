@@ -3,6 +3,8 @@ import {Http, RequestOptions, Headers} from '@angular/http';
 import {InfoBuildingService} from "../../../service/info-building/info-building.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
+import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 
 declare var $: any;
 declare var confirmFunc: any;
@@ -22,24 +24,37 @@ export class GuardComponent implements OnInit {
   public repairname: GuardName;
   public contractName: ArchName;
   public buildings: any;
+  public rule : any;
+  public jurisdiction:any;
   private pageSize = 5;
   private pageNo = 1;
   private editBool = true;
   private contractBool = true;
+  public serviceCom:any;
   constructor(
     private http: Http,
     private errorVoid:ErrorResponseService,
     private utilBuildingService:UtilBuildingService,
-  ) { }
+    private globalCatalogService:GlobalCatalogService,
+    private ipSetting  : IpSettingService
+  ) {
+    this.rule = this.globalCatalogService.getRole("security/daily");
+    this.getQuan();
+  }
 
   ngOnInit() {
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("security/daily");
+        // console.log(this.rule);
+        this.getQuan();
+      }
+    );
     this.repairname = new GuardName();
     this.contractName = new ArchName();
     this.searchCompany =  new Company();
     this.searchArch = new Arch();
     this.pages = [];
-    this.repairname.type = 'security';
-    this.contractName.personType = 'security';
     this.contractName.imgPath = '';
     this.getBuildings();
     if($('.guard-header a:last-child').hasClass('active')) {
@@ -50,9 +65,22 @@ export class GuardComponent implements OnInit {
       this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
     }
   }
+  /*获取权限*/
+  private getQuan(){
+    if(this.rule!=null){
+      const SOFTWARES_URL =  this.ipSetting.ip + "/portal/user/getCata/"+this.rule.ID+"/repair";
+      this.http.get(SOFTWARES_URL)
+        .map(res => res.json())
+        .subscribe(data => {
+          if(this.errorVoid.errorMsg(data)) {
+            this.jurisdiction = data['data'][0];
+          }
+        });
+    }
+  }
   /*获取大楼列表*/
   private getBuildings() {
-    const SOFTWARES_URL = "/proxy/building/util/getBuildingList";
+    const SOFTWARES_URL =  this.ipSetting.ip + "/building/util/getBuildingList";
     this.http.get(SOFTWARES_URL)
       .map(res => res.json())
       .subscribe(data => {
@@ -61,13 +89,11 @@ export class GuardComponent implements OnInit {
         }
       });
   }
-  /*获取/查询保安公司*/
+  /*获取/查询服务公司*/
   private getRecord(search, pageNo, pageSize) {
-    const SOFTWARES_URL = "/proxy/building/company/getCompanyList/" + pageNo + "/" + pageSize;
+    const SOFTWARES_URL =  this.ipSetting.ip + "/building/company/getCompanyList/" + pageNo + "/" + pageSize;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
-    // JSON.stringify
-    search.type = 'security';
     this.http.post(SOFTWARES_URL, search, options)
       .map(res => res.json())
       .subscribe(data => {
@@ -78,13 +104,28 @@ export class GuardComponent implements OnInit {
         }
       });
   }
+  /*获取全部服务公司*/
+  private getCompany() {
+    const SOFTWARES_URL =  this.ipSetting.ip + "/building/company/getCompany";
+    this.http.get(SOFTWARES_URL)
+      .map(res => res.json())
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data)) {
+          this.serviceCom = data.data;
+          console.log(this.serviceCom);
+          /*for(let i=0;i<data['data'].length;i++){
+            this.serviceCom.push(data['data'][i].companyName);
+          }*/
+        }
+      });
+  }
   /*获取/查询保安人员档案*/
   private getRecordSecond(search, pageNo, pageSize) {
-    const SOFTWARES_URL = "/proxy/building/person/getPersonList/" + pageNo + "/" + pageSize;
+    const SOFTWARES_URL =  this.ipSetting.ip + "/building/person/getPersonList/" + pageNo + "/" + pageSize;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
-    search.personType = "security";
+    //search.personType = "security";
     this.http.post(SOFTWARES_URL, search, options)
       .map(res => res.json())
       .subscribe(data => {
@@ -108,6 +149,7 @@ export class GuardComponent implements OnInit {
   /*点击新增*/
   addCompany() {
     if($('.guard-header a:last-child').hasClass('active')) {
+      this.getCompany();
       this.contractBool = true;
       this.contractName = new ArchName();
       $('.mask-contract').fadeIn();
@@ -138,6 +180,12 @@ export class GuardComponent implements OnInit {
     }
     return true;
   }
+  private verifytype() {
+  if (!this.isEmpty('type', '不能为空')) {
+    return false;
+  }
+  return true;
+}
   private verifypersonNum() {
     if (!this.isEmpty('personNum', '信息不能为空')) {
       return false;
@@ -152,17 +200,16 @@ export class GuardComponent implements OnInit {
     let SOFTWARES_URL;
     if(this.editBool === false) {
       this.pageNo = 1;
-      SOFTWARES_URL = "/proxy/building/company/updateServerCompany";
+      SOFTWARES_URL =  this.ipSetting.ip + "/building/company/updateServerCompany";
     }else {
-      SOFTWARES_URL = "/proxy/building/company/addServerCompany";
+      SOFTWARES_URL =  this.ipSetting.ip + "/building/company/addServerCompany";
     }
-    if (!this.verifyId() || !this.verifycompanyName() || !this.verifypersonNum()) {
+    if (!this.verifyId()|| !this.verifytype() || !this.verifycompanyName() || !this.verifypersonNum()) {
       return false;
     }
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
-    this.repairname.type = 'security';
     this.http.post(SOFTWARES_URL, this.repairname, options)
       .map(res => res.json())
       .subscribe(data => {
@@ -178,7 +225,7 @@ export class GuardComponent implements OnInit {
         }
       });
   }
-  /*记录新增和编辑界面的取消按钮*/
+  /*公司新增和编辑界面的取消按钮*/
   recordCancel() {
     this.repairname = new GuardName();
     $('.errorMessage').html('');
@@ -188,6 +235,7 @@ export class GuardComponent implements OnInit {
   editRecord(index) {
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
+    console.log(this.repairname.type);
     $('.mask-repair').fadeIn();
     $('.mask-repair .mask-head p').html('编辑服务公司');
   }
@@ -200,7 +248,7 @@ export class GuardComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = "/proxy/building/company/deleteServerCompany/" +this.repairname.id;
+        let SOFTWARES_URL =  this.ipSetting.ip + "/building/company/deleteServerCompany/" +this.repairname.id;
         this.http.get(SOFTWARES_URL)
           .map(res => res.json())
           .subscribe(data => {
@@ -291,25 +339,29 @@ export class GuardComponent implements OnInit {
     if (!this.isEmpty('personStatus', '不能为空')) {
       return false;
     }
-    console.log(this.contractName.personStatus);
+    return true;
+  }
+  private verifypersonType() {
+    if (!this.isEmpty('personType', '不能为空')) {
+      return false;
+    }
     return true;
   }
   /*新增/编辑档案信息提交*/
   contractSubmit() {
     let SOFTWARES_URL;
     if(this.contractBool === false) {
-      SOFTWARES_URL = "/proxy/building/person/updatePerson";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/person/updatePerson";
     }else {
-      SOFTWARES_URL = "/proxy/building/person/addPerson/1";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/person/addPerson/1";
     }
-    if (!this.verifycompanyName2() || !this.verifypersonId() || !this.verifypersonName() || !this.verifypersonPhone() ||
-      !this.verifypersonIdcard() || !this.verifypersonStatus() ) {
+    if (!this.verifycompanyName2() || !this.verifypersonType() || !this.verifypersonId() || !this.verifypersonName() ||
+      !this.verifypersonPhone() || !this.verifypersonIdcard() || !this.verifypersonStatus()||this.contractName.imgPath ==='') {
       return false;
     }
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
-    this.contractName.personType = 'security';
     this.http.post(SOFTWARES_URL, this.contractName, options)
       .map(res => res.json())
       .subscribe(data => {
@@ -329,15 +381,16 @@ export class GuardComponent implements OnInit {
   /*新增编辑档案信息的取消按钮*/
   contractCancel() {
     this.contractName = new ArchName();
-    // this.contractName
     $('.form-control').removeClass('form-error');
     $('.errorMessage').html('');
     $('.mask-contract').hide();
   }
   /* 编辑人员档案*/
   editContract(index) {
+    this.getCompany();
     this.contractBool = false;
     this.contractName = JSON.parse(JSON.stringify(this.contract[index]));
+    console.log(this.contractName.personType)
     $('.mask-contract').fadeIn();
     $('.mask-contract .mask-head p').html('编辑人员档案');
   }
@@ -350,7 +403,7 @@ export class GuardComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = "/proxy/building/person/deletePerson/" +this.contractName.id;
+        let SOFTWARES_URL = this.ipSetting.ip + "/building/person/deletePerson/" +this.contractName.id;
         this.http.get(SOFTWARES_URL)
           .map(res => res.json())
           .subscribe(data => {
@@ -449,13 +502,36 @@ export class GuardComponent implements OnInit {
   }
   /*导出数据下载*/
   private downDeriving(){
+    let InductURL;
     if((typeof this.searchArch.companyName) === 'undefined'){
       this.searchArch.companyName = 'null';
     }
-    this.http.get("/proxy/building/person/getPersonExcel/"+ this.searchArch.companyName +"/security")
+    if((typeof this.searchArch.personType) === 'undefined'){
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '请选择导出人员类型',
+        'popType': 0 ,
+        'imgType': 2,
+      });
+      $('#deriving').hide();
+      this.searchArch = new Arch();
+      return false;
+    }
+    if(this.searchArch.personType === "保安"){
+      InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ this.searchArch.companyName +"/security"
+    }else if(this.searchArch.personType === "保洁"){
+      InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ this.searchArch.companyName +"/clean"
+    }else if(this.searchArch.personType === "绿化"){
+      InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ this.searchArch.companyName +"/green"
+    }else if(this.searchArch.personType === "物业维修"){
+      InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ this.searchArch.companyName +"/repair"
+    }if(this.searchArch.personType === ""){
+      InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ this.searchArch.companyName +"/null"
+    }
+    this.http.get( InductURL )
     // .map(res => res.json())
       .subscribe(data => {
-        window.location.href = "/proxy/building/person/getPersonExcel/"+ this.searchArch.companyName +"/security";
+        window.location.href =  InductURL;
         this.searchArch = new Arch();
         $('#deriving').fadeOut();
       });
@@ -522,10 +598,7 @@ export class GuardComponent implements OnInit {
       return true;
     }
   }
-  /**
-   * 验证手机号码
-   * @return
-   */
+  /**验证手机号码   */
   private verifyIsTel(id: string, error?: string): boolean {
     const data =  $('#' + id).val();
     if (!String(data).match( /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/ )){
@@ -547,12 +620,7 @@ export class GuardComponent implements OnInit {
       return true;
     }
   }
-  /**
-   * 校验字符长度小于4
-   * @param id
-   * @param error
-   * @returns {boolean}
-   */
+  /** 校验字符长度小于4 */
   private verifyLength(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data.length < 4)  {
@@ -574,11 +642,7 @@ export class GuardComponent implements OnInit {
       return true;
     }
   }
-  /**
-   * 添加错误信息class
-   * @param id
-   * @param error
-   */
+  /** 添加错误信息class   */
   private  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
@@ -587,10 +651,7 @@ export class GuardComponent implements OnInit {
       $('#' + id).next('span').html(error);
     }
   }
-  /**
-   * 去除错误信息class
-   * @param id
-   */
+  /** 去除错误信息class */
   private  removeErrorClass(id: string) {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
@@ -626,6 +687,6 @@ export class Company {
 export class Arch {
   buildingId: string; // 大楼编号
   buildingName: string;  // 大楼名称
-  type: string;
+  personType: string;
   companyName: string; // 服务公司名称
 }

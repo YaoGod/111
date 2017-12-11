@@ -3,6 +3,8 @@ import {Http, RequestOptions, Headers} from '@angular/http';
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 import {InfoBuildingService} from "../../../service/info-building/info-building.service";
+import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 
 
 declare var $: any;
@@ -15,6 +17,7 @@ declare var confirmFunc: any;
   providers: [InfoBuildingService,ErrorResponseService,UtilBuildingService]
 })
 export class FitmentComponent implements OnInit {
+  public jurisdiction: any;
   public repairname: RepairName;
   public record: Array<RepairName>;
   public contractName: ContractName;
@@ -29,12 +32,24 @@ export class FitmentComponent implements OnInit {
   public buildings: any;
   private editBool = true;
   private contractBool = true;
+  public rule: any;
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
-              private utilBuildingService:UtilBuildingService
-  ) { }
+              private utilBuildingService:UtilBuildingService,
+              private globalCatalogService:GlobalCatalogService,
+              private ipSetting  : IpSettingService
+  ) {
+    this.rule = this.globalCatalogService.getRole("security/daily");
+    this.getQuan();
+  }
 
   ngOnInit() {
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("security/daily");
+        this.getQuan();
+      }
+    );
     this.searchRepair = new SearchRecord();
     this.searchContract = new SearchContract();
     this.repairname = new RepairName();
@@ -54,9 +69,23 @@ export class FitmentComponent implements OnInit {
       this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
     }
   }
+
+  /*获取权限*/
+  private getQuan(){
+    if(this.rule!=null){
+      const SOFTWARES_URL = this.ipSetting.ip + "/portal/user/getCata/"+this.rule.ID+"/repair";
+      this.http.get(SOFTWARES_URL)
+        .map(res => res.json())
+        .subscribe(data => {
+          if(this.errorVoid.errorMsg(data)) {
+            this.jurisdiction = data['data'][0];
+          }
+        });
+    }
+  }
   /*获取大楼列表*/
   private getBuildings() {
-    const SOFTWARES_URL = "/proxy/building/util/getBuildingList";
+    const SOFTWARES_URL = this.ipSetting.ip + "/building/util/getBuildingList";
     this.http.get(SOFTWARES_URL)
       .map(res => res.json())
       .subscribe(data => {
@@ -83,10 +112,9 @@ export class FitmentComponent implements OnInit {
   }
   /*获取/查询装修记录*/
   private getRecord(search, pageNo, pageSize) {
-    const SOFTWARES_URL = "/proxy/building/decorate/getDecorateList/" + pageNo + "/" + pageSize;
+    const SOFTWARES_URL = this.ipSetting.ip + "/building/decorate/getDecorateList/" + pageNo + "/" + pageSize;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
-    // JSON.stringify
     search.decorateBtime = this.beginTime.replace(/-/g, "/");
     search.decorateEtime = this.endTime.replace(/-/g, "/");
     this.http.post(SOFTWARES_URL, this.searchRepair, options)
@@ -101,7 +129,7 @@ export class FitmentComponent implements OnInit {
   }
   /*获取/查询装修合同 */
   private getRecordSecond(search, pageNo, pageSize) {
-    let SOFTWARES_URL = "/proxy/building/decorate/getDecorateContract/" + pageNo + "/" + pageSize;
+    let SOFTWARES_URL = this.ipSetting.ip + "/building/decorate/getDecorateContract/" + pageNo + "/" + pageSize;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({headers: headers});
     this.searchContract.contractType = 'decorate';
@@ -190,7 +218,7 @@ export class FitmentComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = "/proxy/building/decorate/deleteDecorateRecord/" +this.repairname.id;
+        let SOFTWARES_URL = this.ipSetting.ip + "/building/decorate/deleteDecorateRecord/" +this.repairname.id;
         this.http.get(SOFTWARES_URL)
           .map(res => res.json())
           .subscribe(data => {
@@ -227,7 +255,7 @@ export class FitmentComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = "/proxy/building/decorate/deleteDecorateContract/" +this.contractName.id;
+        let SOFTWARES_URL = this.ipSetting.ip + "/building/decorate/deleteDecorateContract/" +this.contractName.id;
         this.http.get(SOFTWARES_URL)
           .map(res => res.json())
           .subscribe(data => {
@@ -263,76 +291,76 @@ export class FitmentComponent implements OnInit {
     return true;
   }
   private verifydecorateFloor() {
-    if (!this.isEmpty('decorateFloor', '装修楼层不能为空')) {
+    if (!this.isEmpty('decorateFloor', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifyCmccDepartment() {
-    if (!this.isEmpty('cmccDepartment', '装修部门不能为空')) {
+    if (!this.isEmpty('cmccDepartment', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifyCmccContacts() {
-    if (!this.isEmpty('cmccContacts', '装修部门联系人不能为空')) {
+    if (!this.isEmpty('cmccContacts', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifyCmccPhone()  {
-    if (!this.isEmpty('cmccPhone', '装修部门电话不能为空')) {
+    if (!this.isEmpty('cmccPhone', '不能为空')) {
       return false;
     }
-    if (!this.verifyIsTel('cmccPhone', '请输入正确的手机号')) {
+    if (!this.verifyIsTel('cmccPhone', '格式不对')) {
       return false;
     }
     return true;
   }
   private verifydecorateDepartment() {
-    if (!this.isEmpty('decorateDepartment', '装修公司不能为空')) {
+    if (!this.isEmpty('decorateDepartment', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifydecorateContacts() {
-    if (!this.isEmpty('decorateContacts', '装修联系人不能为空')) {
+    if (!this.isEmpty('decorateContacts', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifydecoratePhone()  {
-    if (!this.isEmpty('decoratePhone', '装修公司电话不能为空')) {
+    if (!this.isEmpty('decoratePhone', '不能为空')) {
       return false;
     }
-    if (!this.verifyIsTel('decoratePhone', '请输入正确的手机号')) {
+    if (!this.verifyIsTel('decoratePhone', '格式不对')) {
       return false;
     }
     return true;
   }
   private verifydecorateBtime() {
-    if (!this.isEmpty('decorateBtime', '装修开始时间不能为空')) {
+    if (!this.isEmpty('decorateBtime', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifydecorateEtime() {
-    if (!this.isEmpty('decorateEtime', '装修结束时间不能为空')) {
+    if (!this.isEmpty('decorateEtime', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifydecorateCost() {
-    if (!this.isEmpty('decorateCost', '装修费用不能为空')) {
+    if (!this.isEmpty('decorateCost', '不能为空')) {
       return false;
     }
-    if (!this.verifyIsNumber('decorateCost', '请输入正确的费用')) {
+    if (!this.verifyIsNumber('decorateCost', '请输入整数')) {
       return false;
     }
     return true;
   }
   private verifydecorateNote() {
-    if (!this.isEmpty('repairNote', '装修详情不能为空')) {
+    if (!this.isEmpty('repairNote', '不能为空')) {
       return false;
     }
     return true;
@@ -342,9 +370,9 @@ export class FitmentComponent implements OnInit {
   recordSubmit() {
     var SOFTWARES_URL;
     if(this.editBool === false){
-      SOFTWARES_URL = "/proxy/building/decorate/updateDecorateRecord";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/decorate/updateDecorateRecord";
     }else{
-      SOFTWARES_URL = "/proxy/building/decorate/addDecorateRecord";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/decorate/addDecorateRecord";
     }
     if (!this.verifyId() || !this.verifyRecordId() || !this.verifydecorateFloor() || !this.verifyCmccDepartment() ||
       !this.verifyCmccContacts() || !this.verifyCmccPhone() || !this.verifydecorateDepartment()
@@ -352,7 +380,7 @@ export class FitmentComponent implements OnInit {
       !this.verifydecorateEtime() || !this.verifydecorateCost() || !this.verifydecorateNote()) {
       return false;
     }
-    if(this.repairname.decorateBtime > this.repairname.decorateEtime){
+    /*if(this.repairname.decorateBtime > this.repairname.decorateEtime){
       confirmFunc.init({
         'title': '提示' ,
         'mes': '开始时间要小于结束时间',
@@ -360,7 +388,7 @@ export class FitmentComponent implements OnInit {
         'imgType': 2 ,
       });
       return false;
-    }
+    }*/
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
@@ -386,73 +414,67 @@ export class FitmentComponent implements OnInit {
   }
   /*合同信息校验*/
   private verifyContractId() {
-    if (!this.isEmpty('contractId', '大楼编号不能为空')) {
-      return false;
-    }
-    if (!this.verifyIsNumber('contractId', '请输入纯数字编号')) {
-      return false;
-    }
-    if (!this.verifyLength('contractId', '请输入四位数字')) {
+    if (!this.isEmpty('contractId', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifycontractNum() {
-    if (!this.isEmpty('contractNum', '合同编号不能为空')) {
+    if (!this.isEmpty('contractNum', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifyCmccName() {
-    if (!this.isEmpty('cmccName', '甲方不能为空')) {
+    if (!this.isEmpty('cmccName', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifycontractcmccContacts() {
-    if (!this.isEmpty('contractcmccContacts', '联系人不能为空')) {
+    if (!this.isEmpty('contractcmccContacts', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifycontractcmccPhone()  {
-    if (!this.isEmpty('contractcmccPhone', '联系电话不能为空')) {
+    if (!this.isEmpty('contractcmccPhone', '不能为空')) {
       return false;
     }
-    if (!this.verifyIsTel('contractcmccPhone', '请输入正确的手机号')) {
+    if (!this.verifyIsTel('contractcmccPhone', '格式不对')) {
       return false;
     }
     return true;
   }
   private verifycontractname2() {
-    if (!this.isEmpty('contractname2', '乙方不能为空')) {
+    if (!this.isEmpty('contractname2', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifycontacts() {
-    if (!this.isEmpty('contacts', '联系人不能为空')) {
+    if (!this.isEmpty('contacts', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifyphone()  {
-    if (!this.isEmpty('phone', '联系电话不能为空')) {
+    if (!this.isEmpty('phone', '不能为空')) {
       return false;
     }
-    if (!this.verifyIsTel('phone', '手机号码不正确')) {
+    if (!this.verifyIsTel('phone', '格式不对')) {
       return false;
     }
     return true;
   }
   private verifycontractBtime() {
-    if (!this.isEmpty('contractBtime', '时间不能为空')) {
+    if (!this.isEmpty('contractBtime', '不能为空')) {
       return false;
     }
     return true;
   }
   private verifycontractEtime() {
-    if (!this.isEmpty('contractEtime', '时间不能为空')) {
+    if (!this.isEmpty('contractEtime', '不能为空')) {
       return false;
     }
     return true;
@@ -494,9 +516,9 @@ export class FitmentComponent implements OnInit {
   contractSubmit() {
     let SOFTWARES_URL;
     if(this.contractBool === false){
-      SOFTWARES_URL = "/proxy/building/decorate/updateDecorateContract";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/decorate/updateDecorateContract";
     }else{
-      SOFTWARES_URL = "/proxy/building/decorate/addDecorateContract";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/decorate/addDecorateContract";
     }
     if (!this.verifyContractId() || !this.verifycontractNum() || !this.verifyCmccName() || !this.verifycontractcmccContacts() ||
       !this.verifycontractcmccPhone() || !this.verifycontractname2() || !this.verifycontacts() || !this.verifyphone() ||
@@ -517,7 +539,6 @@ export class FitmentComponent implements OnInit {
     this.contractName.contractEtime = this.contractName.contractEtime.replace(/-/g, "/");
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
-    // JSON.stringify
     this.http.post(SOFTWARES_URL, this.contractName, options)
       .map(res => res.json())
       .subscribe(data => {

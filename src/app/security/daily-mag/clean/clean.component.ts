@@ -3,6 +3,7 @@ import {Http, RequestOptions, Headers} from '@angular/http';
 import {InfoBuildingService} from "../../../service/info-building/info-building.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
+import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 
 declare var $: any;
 declare var confirmFunc: any;
@@ -22,6 +23,8 @@ export class CleanComponent implements OnInit {
   public repairname: GuardName;
   public contractName: ArchName;
   public buildings:any;
+  public rule : any;
+  public jurisdiction:any;
   private pageSize = 5;
   private pageNo = 1;
   private editBool = true;
@@ -30,9 +33,19 @@ export class CleanComponent implements OnInit {
     private http: Http,
     private errorVoid:ErrorResponseService,
     private utilBuildingService:UtilBuildingService,
-  ) { }
+    private globalCatalogService:GlobalCatalogService,
+  ) {
+    this.rule = this.globalCatalogService.getRole("security/daily");
+    this.getQuan();
+  }
 
   ngOnInit() {
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("security/daily");
+        this.getQuan();
+      }
+    );
     this.repairname = new GuardName();
     this.contractName = new ArchName();
     this.searchCompany =  new Company();
@@ -49,6 +62,19 @@ export class CleanComponent implements OnInit {
       this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
     }
     this.getBuildings();
+  }
+  /*获取权限*/
+  private getQuan(){
+    if(this.rule!=null){
+      const SOFTWARES_URL = "/proxy/portal/user/getCata/"+this.rule.ID+"/repair";
+      this.http.get(SOFTWARES_URL)
+        .map(res => res.json())
+        .subscribe(data => {
+          if(this.errorVoid.errorMsg(data)) {
+            this.jurisdiction = data['data'][0];
+          }
+        });
+    }
   }
   /*获取大楼列表*/
   private getBuildings() {

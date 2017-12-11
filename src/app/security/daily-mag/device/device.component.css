@@ -401,6 +401,9 @@ button{
   padding: 6px 10px;
   transition: all .5s;
 }
+.order-del{
+  padding:5px; font-size: 16px; position: absolute;right:5px; top:5px; cursor:pointer;
+}
 .form-del{
   top:10px;
   background-color: #ccc;

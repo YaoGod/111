@@ -228,6 +228,10 @@ button{
   padding: 0;
   transition: all .3s ease-out;
 }
+.company-sel{
+  height:43px;
+}
+
 .company-ipt:focus{
   background-size: 100% 1px, 100% 1px;
 }
@@ -418,7 +422,7 @@ button{
   background-color: #1d72df;
 }
 .energy-container{
-  min-height:600px;
+  min-height:542px;
 }
 .turn{
   padding: 0 2% 20px 2%;

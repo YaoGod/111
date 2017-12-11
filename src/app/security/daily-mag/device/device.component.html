@@ -48,8 +48,7 @@
     </div>
     <!--设备基础信息-->
     <div class="device-container guard-company">
-      <div class="row text-right">
-        <!--<a class="btn btn-lead" href="javascript:;"><i class="icon-docs"></i> 批量导入</a>-->
+      <div class="row text-right" *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
         <a class="btn btn-new" href="javascript:;" (click)="addCompany()"><i class="icon-plus"></i> 新 增</a>
       </div>
       <ul class="form-msg clearfix" *ngFor="let inner of record; let i=index">
@@ -98,13 +97,13 @@
           <span class="form-word">{{inner.lMail}}</span>
         </li>
         <li class="form-photo"><img [src]="+'/proxy'+inner.imgPath" *ngIf="inner.imgPath"></li>
-        <li class="form-btn" (click)="editRecord(i)"><i class="icon-pencil"></i></li>
-        <li class="form-btn form-del" (click)="delRecord(i)"><i class="icon-trash"></i></li>
+        <li class="form-btn" *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" (click)="editRecord(i)"><i class="icon-pencil"></i></li>
+        <li class="form-btn form-del" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delRecord(i)"><i class="icon-trash"></i></li>
       </ul>
     </div>
     <!--工单-->
     <div class="device-container device-arch">
-      <div class="row text-right">
+      <div class="row text-right" *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
         <!--<a class="btn btn-lead" href="javascript:;"><i class="icon-docs"></i> 批量导入</a>-->
         <a class="btn btn-new" href="javascript:;" (click)="addCompany()"><i class="icon-plus"></i> 新 增</a>
       </div>
@@ -157,60 +156,9 @@
           <span class="form-title form-left text-right">维保情况</span>
           <span class="form-word form-text form-visiable">{{inner.liableNote}}</span>
         </li>
-
-        <li class="order-btn" *ngIf="!inner.liableBtime" (click)="editContract(i)"><i class="icon-pencil"></i> 完善工单</li>
+        <li class="form-btn form-del" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delOrder(i)"><i class="icon-trash"></i></li>
+        <li class="order-btn" *ngIf="!inner.liableBtime && (rule&&jurisdiction&&jurisdiction.isUpdate)" (click)="editContract(i)"><i class="icon-pencil"></i> 完善工单</li>
       </ul>
-      <!--<ul class="form-msg clearfix">
-        <li class="form-bar">
-          <span class="form-title text-right">大楼名称</span>
-          <span class="form-word">阿斯蒂芬</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title text-right">大楼编号</span>
-          <span class="form-word">4000</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title text-right">设备名称</span>
-          <span class="form-word">阿道夫</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title text-right">设备型号</span>
-          <span class="form-word">KA-duon99</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title text-right">维保单位</span>
-          <span class="form-word">电棍发</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title text-right">维保类型</span>
-          <span class="form-word">有托幼机构</span>
-        </li>
-        <li class="form-bar form-alone">
-          <span class="form-title form-left text-right">维保责任人</span>
-          <span class="form-word">顽固</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title text-right">维保开始日期</span>
-          <span class="form-word form-visiable"></span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title text-right">维保结束日期</span>
-          <span class="form-word form-visiable"></span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title text-right">下次维保日期</span>
-          <span class="form-word form-visiable"></span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title text-right">维保费用</span>
-          <span class="form-word form-visiable"></span>
-        </li>
-        <li class="form-bar form-alone">
-          <span class="form-title form-left text-right">维保情况</span>
-          <span class="form-word form-text form-visiable"></span>
-        </li>
-        <li class="order-btn" (click)="editContract($event)"><i class="icon-pencil"></i> 完善工单</li>
-      </ul>-->
     </div>
     <div class="turn" *ngIf="pages.length > 1">
       <ul>
@@ -225,7 +173,7 @@
   </div>
 </div>
 <!--新增设备信息-->
-<div class="mask mask-repair">
+<div class="mask mask-repair" *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
   <div class="new-device">
     <div class="mask-head"><i class="icon-film"></i> <p>新增大型设备信息</p>
       <button class="close" (click)="recordCancel()">×</button>
@@ -327,7 +275,7 @@
   </div>
 </div>
 <!--新增工单弹窗-->
-<div class="mask mask-contract">
+<div class="mask mask-contract" *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
   <div class="new-arch">
     <div class="mask-head"><i class="icon-film"></i> <p>新增工单</p>
       <button class="close" (click)="contractCancel()">×</button>

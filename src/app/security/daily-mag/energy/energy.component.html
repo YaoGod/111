@@ -27,7 +27,7 @@
       </ul>
       <div class="search-right"><a href="javascript:;" class="search-btn" (click)="listSearch()"><i class="icon-magnifier"></i> 查 询</a></div>
     </div>
-    <div class="row">
+    <div class="row" ><!--*ngIf="rule&&jurisdiction&&jurisdiction.isInstall"-->
       <a class="btn btn-lead" href="javascript:;" (click)="leadIn()"><i class="icon-docs"></i> 导 入</a>
       <a class="btn btn-new" href="javascript:;" (click)="leadOut()"><i class="icon-docs"></i> 导 出</a>
       <a class="btn btn-new" href="javascript:;" (click)="creatList()"><i class="icon-plus"></i> 新 增</a>
@@ -52,10 +52,10 @@
             <td>{{inner.unitprice}}</td>
             <td>{{inner.cost}}</td>
             <td>
-              <a href="javascript:void(0)" class="text-inverse" (click)="editAttach(i);" style="padding-right: 10px;">
+              <a href="javascript:void(0)" class="text-inverse" *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" (click)="editAttach(i);" style="padding-right: 10px;">
                 <i class="icon-pencil"></i>
               </a>
-              <a href="javascript:void(0)" class="text-inverse" (click)="delAttach(i);">
+              <a href="javascript:void(0)" class="text-inverse" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delAttach(i);">
                 <i class="icon-trash"></i>
               </a>
             </td>
@@ -82,7 +82,7 @@
     <div class="mask-head"><i class="icon-film"></i> <p>新增能耗信息</p>
       <button class="close" (click)="recordCancel()">×</button>
     </div>
-    <form class="order-form clearfix" method="post" name="topForm" >
+    <form class="repair-form clearfix" method="post" name="topForm" >
       <div class="form-control clearfix">
         <span class="form-label">大楼编号</span>
         <div class="form-inp">

@@ -3,6 +3,8 @@ import {Http, RequestOptions, Headers} from '@angular/http';
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 import {InfoBuildingService} from "../../../service/info-building/info-building.service";
+import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 
 
 declare var $: any;
@@ -22,6 +24,8 @@ export class DeviceComponent implements OnInit {
   public repairname: GuardName;
   public contractName: ArchName;
   public buildings:any;
+  public rule : any;
+  public jurisdiction:any;
   private pageSize = 5;
   private pageNo = 1;
   private editBool = true;
@@ -30,9 +34,20 @@ export class DeviceComponent implements OnInit {
     private http: Http,
     private errorVoid:ErrorResponseService,
     private utilBuildingService:UtilBuildingService,
-  ) { }
+    private globalCatalogService:GlobalCatalogService,
+    private ipSetting  : IpSettingService
+  ) {
+    this.rule = this.globalCatalogService.getRole("security/daily");
+    this.getQuan();
+  }
 
   ngOnInit() {
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("security/daily");
+        this.getQuan();
+      }
+    );
     this.repairname = new GuardName();
     this.contractName = new ArchName();
     this.searchCompany =  new Company();
@@ -50,9 +65,22 @@ export class DeviceComponent implements OnInit {
     }
     this.getBuildings();
   }
+  /*获取权限*/
+  private getQuan(){
+    if(this.rule!=null){
+      const SOFTWARES_URL = this.ipSetting.ip + "/portal/user/getCata/"+this.rule.ID+"/repair";
+      this.http.get(SOFTWARES_URL)
+        .map(res => res.json())
+        .subscribe(data => {
+          if(this.errorVoid.errorMsg(data)) {
+            this.jurisdiction = data['data'][0];
+          }
+        });
+    }
+  }
   /*获取大楼列表*/
   private getBuildings() {
-    const SOFTWARES_URL = "/proxy/building/util/getBuildingList";
+    const SOFTWARES_URL = this.ipSetting.ip + "/building/util/getBuildingList";
     this.http.get(SOFTWARES_URL)
       .map(res => res.json())
       .subscribe(data => {
@@ -63,7 +91,7 @@ export class DeviceComponent implements OnInit {
   }
   /*获取/查询设备信息*/
   private getRecord(search, pageNo, pageSize) {
-    const SOFTWARES_URL = "/proxy/building/equipment/getEquipmentList/" + pageNo + "/" + pageSize;
+    const SOFTWARES_URL = this.ipSetting.ip + "/building/equipment/getEquipmentList/" + pageNo + "/" + pageSize;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
@@ -79,7 +107,7 @@ export class DeviceComponent implements OnInit {
   }
   /*获取工单*/
   private getRecordSecond(search, pageNo, pageSize) {
-    const SOFTWARES_URL = "/proxy/building/equipment/getEquipmentWO/" + pageNo + "/" + pageSize;
+    const SOFTWARES_URL = this.ipSetting.ip + "/building/equipment/getEquipmentWO/" + pageNo + "/" + pageSize;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
@@ -97,11 +125,9 @@ export class DeviceComponent implements OnInit {
   /*点击查询*/
   repairSearch() {
     if($('.device-header a:last-child').hasClass('active')) {
-      // console.log('查询人员档案');
       this.pageNo = 1;
       this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
     }else {
-      // console.log('查询公司');
       this.pageNo = 1;
       this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
     }
@@ -115,13 +141,11 @@ export class DeviceComponent implements OnInit {
       $('.mask-contract .mask-head p').html('新增工单信息');
       $('.form-entry').find('input').attr("disabled",false);
       $('.form-disable').find('input,textarea').attr("disabled",true);
-      console.log('新增工单');
     }else {
       this.editBool = true;
       this.repairname = new GuardName();
       $('.mask-repair').fadeIn();
       $('.mask-repair .mask-head p').html('新增大型设备信息');
-      console.log('新增设备');
     }
   }
   /*点击设备基础信息*/
@@ -269,9 +293,9 @@ export class DeviceComponent implements OnInit {
     let SOFTWARES_URL;
     if(this.editBool === false) {
       this.pageNo = 1;
-      SOFTWARES_URL = "/proxy/building/equipment/updateEquipment";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/equipment/updateEquipment";
     }else {
-      SOFTWARES_URL = "/proxy/building/equipment/addEquipment";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/equipment/addEquipment";
     }
     if (!this.verifybuildingId() || !this.verifyname() || !this.verifymodel() || !this.verifybuyDate() || !this.verifysupplier()
       || !this.verifymaintenance() || !this.verifymLastDate() || !this.verifymNextDate() || !this.verifyliablePerson() ||
@@ -280,11 +304,9 @@ export class DeviceComponent implements OnInit {
     }
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
-    // JSON.stringify
     this.repairname.buyDate = this.repairname.buyDate.replace(/-/g, "/");
     this.repairname.mLastDate = this.repairname.mLastDate.replace(/-/g, "/");
     this.repairname.mNextDate = this.repairname.mNextDate.replace(/-/g, "/");
-    console.log(this.repairname.imgPath);
     this.http.post(SOFTWARES_URL, this.repairname, options)
       .map(res => res.json())
       .subscribe(data => {
@@ -323,7 +345,7 @@ export class DeviceComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = "/proxy/building/equipment/deleteEquipment/" +this.repairname.id;
+        let SOFTWARES_URL = this.ipSetting.ip + "/building/equipment/deleteEquipment/" +this.repairname.id;
         this.http.get(SOFTWARES_URL)
           .map(res => res.json())
           .subscribe(data => {
@@ -342,7 +364,34 @@ export class DeviceComponent implements OnInit {
       }
     });
   }
-
+  /*删除工单*/
+  delOrder(index){
+    this.contractName = this.contract[index];
+    confirmFunc.init({
+      'title': '提示' ,
+      'mes': '是否删除？',
+      'popType': 1 ,
+      'imgType': 3 ,
+      'callback': () => {
+        let SOFTWARES_URL = this.ipSetting.ip + "/building/equipment/deleteEquipmentWO/" +this.contractName.id;
+        this.http.get(SOFTWARES_URL)
+          .map(res => res.json())
+          .subscribe(data => {
+            if(this.errorVoid.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示' ,
+                'mes': data['msg'],
+                'popType': 0 ,
+                'imgType': 1 ,
+              });
+              this.pages =[];
+              this.pageNo = 1;
+              this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
+            }
+          });
+      }
+    });
+  }
   /* 完善工单*/
   editContract(index,event) {
     this.contractBool = false;
@@ -429,7 +478,7 @@ export class DeviceComponent implements OnInit {
   contractSubmit() {
     let SOFTWARES_URL;
     if(this.contractBool === false) {
-      SOFTWARES_URL = "/proxy/building/equipment/updateEquipmentWO";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/equipment/updateEquipmentWO";
       if ( !this.verifyliableBtime() || !this.verifyliableEtime() || !this.verifyliableNextTime() || !this.verifyliableCost() ||
         !this.verifyliableNote() ) {
         return false;
@@ -439,7 +488,7 @@ export class DeviceComponent implements OnInit {
       this.contractName.liableNextTime = this.contractName.liableNextTime.replace(/-/g, "/");
       $('.device-arch .order-btn').attr("disable",true);
     }else {
-      SOFTWARES_URL = "/proxy/building/equipment/addEquipmentWO";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/equipment/addEquipmentWO";
       if (!this.verifyID() || !this.verifyequipmentName() || !this.verifyequipModel() || !this.verifymaintenance2() ||
         !this.verifymType() || !this.verifyliablePerson2() ) {
         return false;

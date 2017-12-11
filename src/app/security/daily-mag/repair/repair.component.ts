@@ -7,7 +7,8 @@ import {InfoBuildingService} from "../../../service/info-building/info-building.
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
-import {sndCatalog} from "../../../mode/catalog/catalog.service";
+import { sndCatalog} from "../../../mode/catalog/catalog.service";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 
 declare var $: any;
 declare var confirmFunc: any;
@@ -33,15 +34,17 @@ export class RepairComponent implements OnInit {
   public buildings: any;
   public endTime :string;
   private contractBool = true;
-  public rule : sndCatalog = new sndCatalog();
+  public rule : any;
+  public jurisdiction:any;
   constructor(
     private http: Http,
     private errorVoid:ErrorResponseService,
     private utilBuildingService:UtilBuildingService,
     private globalCatalogService:GlobalCatalogService,
+    private ipSetting  : IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("security/daily");
-    console.log(this.rule);
+    this.getQuan();
   }
 
   ngOnInit() {
@@ -49,9 +52,9 @@ export class RepairComponent implements OnInit {
       (val) =>{
         this.rule = this.globalCatalogService.getRole("security/daily");
         console.log(this.rule);
+        this.getQuan();
       }
     );
-
     this.repairname = new RepairName();
     this.contractName = new ContractName();
     this.searchRepair = new SearchRecord();
@@ -62,7 +65,6 @@ export class RepairComponent implements OnInit {
     this.contractName.contractType = 'repair';
     this.contractName.fileName = [];
     this.contractName.filePath = [];
-
     this.getBuildings();
     if($('.repair-header a:last-child').hasClass('active')) {
       $('.repair-contract,.box2').fadeIn();
@@ -72,9 +74,23 @@ export class RepairComponent implements OnInit {
       this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
     }
   }
+  /*获取权限*/
+  private getQuan(){
+    if(this.rule!=null){
+      const SOFTWARES_URL = this.ipSetting.ip + "/portal/user/getCata/"+this.rule.ID+"/repair";
+      this.http.get(SOFTWARES_URL)
+        .map(res => res.json())
+        .subscribe(data => {
+          if(this.errorVoid.errorMsg(data)) {
+            console.log(data.data[0]);
+            this.jurisdiction = data['data'][0];
+          }
+        });
+    }
+  }
   /*获取大楼列表*/
   private getBuildings() {
-    const SOFTWARES_URL = "/proxy/building/util/getBuildingList";
+    const SOFTWARES_URL = this.ipSetting.ip + "/building/util/getBuildingList";
     this.http.get(SOFTWARES_URL)
       .map(res => res.json())
       .subscribe(data => {
@@ -101,7 +117,7 @@ export class RepairComponent implements OnInit {
   }
   /*获取/查询维修记录*/
   private getRecord(search, pageNo, pageSize) {
-    const SOFTWARES_URL = "/proxy/building/repair/getRepairList/" + pageNo + "/" + pageSize;
+    const SOFTWARES_URL = this.ipSetting.ip + "/building/repair/getRepairList/" + pageNo + "/" + pageSize;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
@@ -155,7 +171,7 @@ export class RepairComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = "/proxy/building/repair/deleteRepairRecord/" +this.repairname.id;
+        let SOFTWARES_URL = this.ipSetting.ip + "/building/repair/deleteRepairRecord/" +this.repairname.id;
         this.http.get(SOFTWARES_URL)
           .map(res => res.json())
           .subscribe(data => {
@@ -279,9 +295,9 @@ export class RepairComponent implements OnInit {
     let SOFTWARES_URL;
     if(this.editBool === false) {
       this.pageNo = 1;
-      SOFTWARES_URL = "/proxy/building/repair/updateRepairRecord";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/repair/updateRepairRecord";
     }else {
-      SOFTWARES_URL = "/proxy/building/repair/addRepairRecord";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/repair/addRepairRecord";
     }
     if (!this.verifyId() || !this.verifyRecordId() || !this.verifyRepairType() || !this.verifyCmccDepartment() ||
       !this.verifyCmccContacts() || !this.verifyCmccPhone() || !this.verifyRepairDepartment() || !this.verifyRepairContacts() ||
@@ -350,7 +366,7 @@ export class RepairComponent implements OnInit {
   }
   /*获取/查询维修合同*/
   private getRecordSecond(search, pageNo, pageSize) {
-    const SOFTWARES_URL = "/proxy/building/repair/getRepairContract/" + pageNo + "/" + pageSize;
+    const SOFTWARES_URL = this.ipSetting.ip + "/building/repair/getRepairContract/" + pageNo + "/" + pageSize;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     this.searchContract.contractBtime = this.beginTime.replace(/-/g, "/");
@@ -383,7 +399,7 @@ export class RepairComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = "/proxy/building/repair/deleteRepairContract/" +this.contractName.id;
+        let SOFTWARES_URL = this.ipSetting.ip + "/building/repair/deleteRepairContract/" +this.contractName.id;
         this.http.get(SOFTWARES_URL)
           .map(res => res.json())
           .subscribe(data => {
@@ -501,9 +517,9 @@ export class RepairComponent implements OnInit {
   contractSubmit() {
     let SOFTWARES_URL;
     if(this.contractBool === false){
-      SOFTWARES_URL = "/proxy/building/repair/updateRepairContract";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/repair/updateRepairContract";
     }else{
-      SOFTWARES_URL = "/proxy/building/repair/addRepairContract";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/repair/addRepairContract";
     }
     if (!this.verifyContractId() ||!this.verifycontractNum() || !this.verifyCmccName() || !this.verifycontractcmccContacts() ||
       !this.verifycontractcmccPhone() || !this.verifycontractname2() || !this.verifycontacts() || !this.verifyphone() ||

@@ -44,8 +44,7 @@
     </div>
     <!--服务公司-->
     <div class="guard-container guard-company">
-      <div class="row text-right">
-        <!--<a class="btn btn-lead" href="javascript:;"><i class="icon-docs"></i> 批量导入</a>-->
+      <div class="row text-right" *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
         <a class="btn btn-new" href="javascript:;" (click)="addCompany()"><i class="icon-plus"></i> 新 增</a>
       </div>
       <ul class="form-msg clearfix" *ngFor="let inner of record; let i=index">
@@ -65,13 +64,13 @@
           <span class="form-title text-right">派驻大楼保洁绿化人数</span>
           <span class="form-word">{{inner.personNum}}</span>
         </li>
-        <li class="form-btn" (click)="editRecord(i)"><i class="icon-pencil"></i></li>
-        <li class="form-btn form-del" (click)="delRecord(i)"><i class="icon-trash"></i></li>
+        <li class="form-btn" *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" (click)="editRecord(i)"><i class="icon-pencil"></i></li>
+        <li class="form-btn form-del" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delRecord(i)"><i class="icon-trash"></i></li>
       </ul>
     </div>
     <!--人员档案-->
     <div class="guard-container guard-arch">
-      <div class="row text-right">
+      <div class="row text-right" *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
         <a class="btn btn-lead" href="javascript:;" (click)="inductionDialog()"><i class="icon-docs"></i> 批量导入</a>
         <a class="btn btn-new" href="javascript:;" (click)="exportFile()"><i class="icon-docs"></i> 导 出</a>
         <a class="btn btn-new" href="javascript:;" (click)="addCompany()"><i class="icon-plus"></i> 新 增</a>
@@ -113,8 +112,8 @@
           <img [src]="+'/proxy'+inner.imgPath" *ngIf="inner.imgPath">
 
         </li>
-        <li class="form-btn" (click)="editContract(i)"><i class="icon-pencil"></i></li>
-        <li class="form-btn form-del" (click)="delContract(i)"><i class="icon-trash"></i></li>
+        <li class="form-btn" *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" (click)="editContract(i)"><i class="icon-pencil"></i></li>
+        <li class="form-btn form-del" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delContract(i)"><i class="icon-trash"></i></li>
       </ul>
     </div>
     <div class="turn" *ngIf="pages.length > 1">
@@ -130,7 +129,7 @@
   </div>
 </div>
 <!--新增服务公司弹窗-->
-<div class="mask mask-repair">
+<div class="mask mask-repair" *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
   <div class="new-company">
     <div class="mask-head"><i class="icon-film"></i> <p>新增服务公司</p>
       <button class="close" (click)="recordCancel()">×</button>
@@ -169,7 +168,7 @@
   </div>
 </div>
 <!--新增档案信息弹窗-->
-<div class="mask mask-contract">
+<div class="mask mask-contract" *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
   <div class="new-arch">
     <div class="mask-head"><i class="icon-film"></i> <p>新增人员档案</p>
       <button class="close" (click)="contractCancel()">×</button>
@@ -256,9 +255,7 @@
         </div>
         <div class="modal-body clearfix">
           <div class="form-control">
-            <!--<span class="form-label">文件名称</span>-->
             <div class="form-inp clearfix">
-              <!--<input id="uploadFileName" type="text" value="" name="" style="border:1px solid #ccc;margin-top:34px; height:30px; text-indent: 2em; margin-right:8px;">-->
               <div class="select-file">
                 <input type="file" value="" id="prese2" #prese2 (change)="prese_upload2(prese2.files)" accept="application/vnd.ms-excel,.xlsx">
                 <a onclick="$('#prese2').trigger('click')">选取文件</a>
@@ -269,8 +266,6 @@
             </div>
           </div>
           <div class="foot" style="height:30px;">
-            <!-- <button type="submit" class="btn-mask btn-info" (click)="inductionUploadFile(prese2.files)">确 定</button>
-             <button type="button" class="btn-mask btn-danger" (click)="closeInductionDialog()">取 消</button>-->
           </div>
         </div>
       </div>

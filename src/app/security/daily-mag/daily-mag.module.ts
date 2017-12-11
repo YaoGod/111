@@ -30,10 +30,10 @@ const routes: Routes = [
         path: 'device',
         loadChildren: './device/device.module#DeviceModule'
       },
-      {
+      /*{
         path: 'clean',
         loadChildren: './clean/clean.module#CleanModule'
-      },
+      },*/
       {
         path: 'energy',
         loadChildren: './energy/energy.module#EnergyModule'
