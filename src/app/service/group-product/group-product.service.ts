@@ -20,7 +20,8 @@ export class GroupProductService {
    return:              #公告*/
 
   getProductList(pageNo:number,pageSize:number,search:any) {
-    const url = '/proxy/mmall/group/getProductList/'+pageNo+'/'+pageSize+'?search=';
+    console.log(search);
+    const url = '/proxy/mmall/group/getProductList/'+pageNo+'/'+pageSize;
     const data = search;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -87,5 +88,62 @@ updateGroupbuyProduct(postData){
     xhr.withCredentials = true;
     xhr.send(form);
     return xhr;
+  }
+
+  /* 获取商品列表
+
+   return:              #商品*/
+
+  getProductShowList(pageNo:number,pageSize:number,search:any) {
+    const url = '/proxy/mmall/group/getProductShowList/'+pageNo+'/'+pageSize;
+    const data = search;
+    console.log(data);
+    return this.http.post(url,data,this.options)
+      .map(res => res.json());
+  }
+
+  addToCart(cart:any) {
+    const url = '/proxy/mmall/cart/addGroupbuyCart';
+    const data = cart;
+    console.log(data);
+    return this.http.post(url,data,this.options)
+      .map(res => res.json());
+  }
+
+  getCartList(){
+    const url = '/proxy/mmall/cart/getCartList/';
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+
+  deleteGroupCart(id:number){
+    const url = '/proxy/mmall/cart/deleteGroupbuyCart/'+id;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+
+  updateGroupCart(postData){
+    const url = '/proxy/mmall/cart/updateGroupbuyCart';
+    const data = postData;
+    return this.http.post(url,data,this.options)
+      .map(res => res.json());
+  }
+
+  submitCart(){
+    const url = '/proxy/mmall/order/addGroupOrder';
+    return this.http.post(url,this.options)
+      .map(res => res.json());
+  }
+  /*
+   审核商品信息
+   param: id:number,     #大楼ID
+   return:
+   */
+  checkGroupbuyProduct(postData){
+    console.log(postData);
+    const url = '/proxy/mmall/group/updateGroupbuyProduct';
+    const data = postData;
+    return this.http.post(url,data,this.options)
+      .map(res => res.json());
   }
 }

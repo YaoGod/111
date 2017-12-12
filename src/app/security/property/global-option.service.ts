@@ -13,7 +13,6 @@ export class GlobalOptionService {
   constructor() { }
 
   setVal(val:any){
-    console.log(val);
     this.option = val === "0"?initValue:val;
     this.valueUpdated.next(this.option);
   }

@@ -1,0 +1,89 @@
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+<script>
+  $('.list-table dl').click(function () {
+    $(this).addClass('blueself').siblings().removeClass('blueself').find('.ope-list').addClass('hid');
+    $(this).find('.ope-list').removeClass('hid');
+  })
+  $('.right').css('width',$(window).width()-222);
+  $(window).resize(function () {
+    $('.right').css('width',$(window).width()-222);
+  })
+  if($('.wrap-b').height()<1000){
+    $('.wrap-b').css('height',1000);
+  }
+
+</script>
+<div class="main">
+  <!--标题栏-->
+  <router-outlet>
+    <!--购物车-->
+    <div class="right">
+      <div class="wrap-content">
+        <div class="wrap-space">
+          <div class="wrap-b">
+            <div class="b-head">
+              <span>确认订单</span>
+            </div>
+            <div class="b-con tuanmenu">
+
+              <div class="list-table">
+                <table class="table-head">
+                  <td class="fir">商品信息</td>
+                  <td class="sec">单价(元)</td>
+                  <td class="three">数量</td>
+                  <td class="four">合计（元）</td>
+                </table>
+                <dl  *ngFor="let cart of carts;let idx=index">
+                  <dt>
+                    <span>商品编码：{{cart.productId}}</span>
+                  <div class="ope-list">
+
+                  </div>
+                  </dt>
+                  <dd>
+                    <table>
+                      <td class="fir">
+                        <img *ngIf="cart.image!==''" [src]="'/proxy/' + cart.image"/>
+                        <p class="headtxt">{{cart.name}}</p>
+                      </td>
+                      <td class="sec">{{cart.price}}</td>
+                      <td class="three">
+                        <ul class="btn-numbox">
+                          <li><span class="number"></span></li>
+                          <li>
+                            <ul class="count">
+                              <li><input type="text" class="input-num" readonly id="input-num-{{idx}}" [ngModelOptions]="{standalone: true}"  [(ngModel)]="cart.quantity" /></li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </td>
+                      <td class="six">
+                        <label id="unionPrice">￥{{cart.totalPrice}}</label>
+                      </td>
+                    </table>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+            <div class="b-address">
+              <span>配送信息</span>
+            </div>
+            <div class="address">
+              <div class="info"><label>姓名：</label> <span>{{userInfo.username}}</span></div>
+              <div class="info"><label>号码：</label> <span>{{userInfo.teleNum}}</span></div>
+              <div class="info"><label>地址：</label> <span>{{userInfo.homeAddr}}</span></div>
+            </div>
+            <div class="b-foot">
+              <div class="total"><label>总计：</label> <span>￥{{mutipalPrice}}</span>
+                <button type="button" class="btn btn-info" (click)="submitCart()">提交订单</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </router-outlet>
+
+</div>

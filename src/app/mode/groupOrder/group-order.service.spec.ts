@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { GroupOrderService } from './group-order.service';
+import { GroupOrder } from './group-order.service';
 
 describe('GroupOrderService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [GroupOrderService]
+      providers: [GroupOrder]
     });
   });
 
-  it('should be created', inject([GroupOrderService], (service: GroupOrderService) => {
+  it('should be created', inject([GroupOrder], (service: GroupOrder) => {
     expect(service).toBeTruthy();
   }));
 });

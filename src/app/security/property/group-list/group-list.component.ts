@@ -41,7 +41,6 @@ export class GroupListComponent implements OnInit {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("security/property");
-        console.log(this.rule);
       }
     );
     this.pageSize = 10;

@@ -8,7 +8,7 @@ export class UserPortalService {
   private headers = new Headers({'Content-Type': 'application/json'});
   private options =  new RequestOptions({
     headers: this.headers,
-    withCredentials: true
+    withCredentials: true,
   });
   constructor(
     private http: Http,

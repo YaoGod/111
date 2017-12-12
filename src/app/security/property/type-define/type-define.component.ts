@@ -34,7 +34,6 @@ export class TypeDefineComponent implements OnInit {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("security/property");
-        console.log(this.rule);
       }
     );
     this.pageNo = 1;

@@ -1,3 +1,17 @@
-<p>
-  welfare works!
-</p>
+<nav>
+  <ul class="tab-brash">
+    <li>
+      <a routerLink="discount" routerLinkActive="active">
+        <i class="icon-bell"></i> 优惠信息服务
+      </a>
+    </li>
+    <li>
+      <a routerLink="staffWelfare" routerLinkActive="active">
+        <i class="icon-rocket"></i> 员工福利服务
+      </a>
+    </li>
+  </ul>
+</nav>
+<div class="min-height">
+  <router-outlet></router-outlet>
+</div>

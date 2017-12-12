@@ -1,0 +1,89 @@
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+<script>
+  $('.right').css('width',$(window).width()-222);
+  $(window).resize(function () {
+    $('.right').css('width',$(window).width()-222);
+  })
+
+  if($('.wrap-b').height()<1000){
+    $('.wrap-b').css('height',1000);
+  }
+</script>
+<div class="main">
+  <!--标题栏-->
+  <div class="header">
+    <img src="../../../assets/image/icon_3line.png">
+    <h2>团购管理/公告管理</h2>
+    <div class="header-right">
+      <img src="../../../assets/image/icon_wheel.png">
+    </div>
+    <div class="header-right">
+      <img src="../../../assets/image/icon_email.png">
+    </div>
+  </div>
+  <!--大楼搜索栏-->
+  <router-outlet>
+    <div class="right">
+      <div class="wrap-content">
+        <div class="wrap-space">
+          <div class="wrap-b">
+            <div class="b-head">
+              <span>订单信息</span>
+            </div>
+            <!--<div class="path">
+              <img src="assets/image/bg-path.png" />
+              <ul>
+                <li class="one active">订购中</li>
+                <li class="two">已发货</li>
+                <li class="three">确认收货</li>
+                <li class="four">交易成功</li>
+              </ul>
+            </div>-->
+            <div class="b-con tuanmenu">
+              <div class="list-table" *ngFor="let order of orders;let idx=index">
+                <dt>
+                  <table class="table-head0">
+                    <tr>
+                      <td class="zero">订单编号：{{order.id}}</td>
+                      <td class="zero">下单时间：{{order.payTime}}</td>
+                      <td class="zero">订单价格：{{order.payment}}元</td>
+                      <td class="zero" *ngIf="order.status=='0'">订单状态：订购中</td>
+                      <td class="zero" *ngIf="order.status=='1'">订单状态：已到货</td>
+                      <td class="zero" *ngIf="order.status=='2'">订单状态：退单</td>
+                    </tr>
+                  </table>
+                </dt>
+                <dl>
+                  <dt>
+                   <table class="table-head">
+                      <tr>
+                        <td class="fir">商品信息</td>
+                        <td class="sec">单价（元）</td>
+                        <td class="three">数量</td>
+                        <td class="four">合计（元）</td>
+                      </tr>
+                   </table>
+                  </dt>
+                  <dd *ngFor="let orderItem of order.groupOrderItems;let idx=index">
+                    <table style="width:100%;">
+                      <td class="eight">
+                        <img *ngIf="orderItem.imagePath!==''" [src]="'/proxy/' + orderItem.imagePath"/>
+                     </td>
+                      <td class="sec" style="text-align: left"> <p class="headtxt">{{orderItem.productName}}</p></td>
+                      <td class="sec">￥{{orderItem.unitPrice}}</td>
+                      <td class="three">{{orderItem.quantity}}</td>
+                      <td class="four">￥{{orderItem.totalPrice}}</td>
+                    </table>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </router-outlet>
+
+</div>
+

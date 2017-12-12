@@ -20,11 +20,8 @@ export class GroupNoticeService {
 
   return:              #公告*/
 
-  getNoticeList (title:string) {
-    if(title==undefined){
-      title=="";
-    }
-    const url = '/proxy/mmall/notice/getNoticeList/';
+  getNoticeList (title:any) {
+    const url = '/proxy/mmall/notice/getNoticeList';
     const data = title;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -66,6 +63,12 @@ export class GroupNoticeService {
     const url = '/proxy/mmall/notice/updateGroupNotice';
     const data = postData;
     return this.http.post(url,data,this.options)
+      .map(res => res.json());
+  }
+
+  getNoticeShowList(){
+    const url = '/proxy/mmall/notice/getNoticeShowList/';
+    return this.http.get(url,this.options)
       .map(res => res.json());
   }
 }

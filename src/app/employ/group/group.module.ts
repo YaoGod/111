@@ -12,6 +12,8 @@ import { NoticeComponent } from './notice/notice.component';
 import { FormsModule } from "@angular/forms";
 import { CartComponent } from './cart/cart.component';
 import { GroupComponent } from './group.component';
+import {ConfirmCartComponent} from "./confirm-cart/confirm-cart.component";
+import {MyorderComponent} from "./myorder/myorder.component";
 const routes: Routes = [
   { path: '',
     component : GroupComponent,
@@ -41,6 +43,14 @@ const routes: Routes = [
       {
         path:'cart',
         component:CartComponent
+      },
+      {
+        path:'confirmCart',
+        component:ConfirmCartComponent
+      },
+      {
+        path:'myorder',
+        component:MyorderComponent
       }
     ]
   }
@@ -53,6 +63,6 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   exports:[RouterModule],
-  declarations: [HomepageComponent, ProductComponent, OrderComponent, GroupbuyComponent, NoticeComponent, CartComponent, GroupComponent]
+  declarations: [HomepageComponent, ProductComponent, OrderComponent, GroupbuyComponent, NoticeComponent, CartComponent, GroupComponent, ConfirmCartComponent, MyorderComponent]
 })
 export class GroupModule { }
