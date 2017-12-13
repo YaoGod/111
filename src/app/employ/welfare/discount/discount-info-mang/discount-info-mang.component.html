@@ -54,7 +54,7 @@
           {{discount.effectBtime+" - "+discount.effectEtime}}
         </span>
       </td>
-      <td width="10%" ngStyle="">
+      <td width="10%" [ngStyle]="{'color':discount.status === '失效'?'red':'green'}">
         {{discount.status}}
       </td>
       <td width="15%" class="box-option">

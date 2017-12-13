@@ -2,7 +2,6 @@ import {Component, OnInit } from '@angular/core';
 import { GroupNotice } from '../../../mode/groupNotice/group-notice.service';
 import { GroupNoticeService } from '../../../service/group-notice/group-notice.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
-
 import * as $ from 'jquery';
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 declare var $:any;
@@ -17,7 +16,7 @@ declare var tinymce: any;
 })
 export class NoticeComponent implements OnInit {
   public groupNotice: GroupNotice;
-  public search: string;
+  public search: GroupNotice;
   /*搜索*/
   public groupNotices: Array<GroupNotice>;
   /*列表*/
@@ -45,11 +44,11 @@ export class NoticeComponent implements OnInit {
 
   ngOnInit() {
     this.groupNotice = new GroupNotice();
+    this.search = new GroupNotice();
     this.getNoticeList();
-    this.search = this.groupNotice.title;
   }
 
-  /*获取大楼列表*/
+  /*获取列表*/
   getNoticeList() {
     this.groupNoticeService.getNoticeList(this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
@@ -80,25 +79,25 @@ export class NoticeComponent implements OnInit {
       });
       return false;
     }
-       this.groupNoticeService.addGroupBuyNotice(this.newGroupNotice)
-     .subscribe(data => {
-     if(data['status'] === 0){
-       alert("新增成功")
-    /* confirmFunc.init({
-     'title': '提示' ,
-     'mes': '新增成功',
-     });*/
-     this.closeMask();
-     this.getNoticeList();
-     }else{
-       alert("新增失败")
-       this.closeMask();
-    /* confirmFunc.init({
-     'title': '提示' ,
-     'mes': data['msg'],
-     });*/
-     }
-     })
+    this.groupNoticeService.addGroupBuyNotice(this.newGroupNotice)
+      .subscribe(data => {
+        if(data['status'] === 0){
+          alert("新增成功")
+          /* confirmFunc.init({
+           'title': '提示' ,
+           'mes': '新增成功',
+           });*/
+          this.closeMask();
+          this.getNoticeList();
+        }else{
+          alert("新增失败")
+          this.closeMask();
+          /* confirmFunc.init({
+           'title': '提示' ,
+           'mes': data['msg'],
+           });*/
+        }
+      })
   }
 
   /*删除*/
@@ -143,7 +142,7 @@ export class NoticeComponent implements OnInit {
   }
   updateGroupNotice() {
     if (this.upGroupNotice.title === '' || this.upGroupNotice.notice === '' || this.upGroupNotice.status === '') {
-     alert("请把信息填完整")
+      alert("请把信息填完整")
       return false;
     }
     console.log(this.upGroupNotice);

@@ -1,10 +1,112 @@
 .nav-title{
   margin-bottom: 10px;
   font-size: 14px;
+  border-bottom: 2px solid #f7fafc;
 }
 .nav-title>a>h4{
   display: inline-block;
   line-height: 30px;
   color: #fb9678;
   border-bottom: 2px solid #fb9678;
+}
+.warp{
+  padding: 15px;
+}
+.warp-left{
+  float: left;
+  padding: 10px;
+  width: 300px;
+  height: 300px;
+  line-height: 300px;
+  border: 1px solid #f7fafc;
+  text-align: center;
+  overflow: hidden;
+}
+.warp-left>img{
+  width: 300px;
+  vertical-align: middle;
+}
+.warp-right{
+  float: left;
+  margin-left: 40px;
+  line-height: 26px;
+  font-size: 12px;
+  color: #8d9ea7;
+}
+.warp-right>h4{
+  height: 40px;
+  line-height: 40px;
+  font-size: 20px;
+  color: #3c3a3a;
+}
+.time-bar{
+  padding: 0 20px;
+  margin:10px 0;
+  width: 306px;
+  height: 60px;
+  line-height: 60px;
+  color: #fb3e3e;
+  font-size: 16px;
+  background-color: #f8f8f8;
+  box-shadow: 1px 2px 5px #e4d8d8;
+}
+.time-bar:after{
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0px;
+  line-height: 0;
+  border-width: 30px 30px;
+  border-style: solid;
+  border-left-width: 0;
+  border-color: #f8f8f8 #ffffff #f8f8f8 #f8f8f8;
+}
+.time-bar>a{
+  display: inline-block;
+  width: 300px;
+}
+.form-title{
+  display: inline-block;
+  width: 80px;
+  padding-right:10px;
+  margin-right: 10px;
+  color: #5d5d5d;
+  font-weight: 300;
+  font-size: 12px;
+  text-align: left;
+}
+.word{
+  text-indent:2em;
+}
+.cont{
+  padding: 15px;
+  clear: both;
+}
+.cont>h5{
+  height: 40px;
+  background-color: #f8f8f8;
+  color: #8d9ea7;
+}
+.cont>h5>span{
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 10px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #2a85e9;
+  box-shadow: 1px 2px 5px #999;
+}
+.summary-text{
+  width: auto;
+  padding: 10px 7.5px;
+  font-weight: 300;
+  word-break: break-all;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
+  margin: 0;
+  overflow-x: hidden;
+  color: #5d5d5d;
+  font-size: 12px;
+  letter-spacing: 2.5px;
+  line-height: 2;
 }

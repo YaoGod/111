@@ -1,38 +1,104 @@
 <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+<script>
+  //    $('.list-nav ul li').click(function () {
+  //        $('.list-nav ul li').removeClass('active');
+  //        $(this).addClass('active');
+  //    })
+  //    $('.left .list-nav>li>a').click(function () {
+  //        $(this).parent('li').addClass('active').siblings().removeClass('active');
+  //        $(this).next('ul').slideToggle();
+  //    })
+  $('.right').css('width',$(window).width()-222);
+  $(window).resize(function () {
+    $('.right').css('width',$(window).width()-222);
+  })
+  if($('.wrap-b').height()<1000){
+    $('.wrap-b').css('height',1000);
+  }
+</script>
 <div class="main">
+  <!--标题栏-->
   <!--物品搜索-->
   <router-outlet>
-    <!--物品搜索栏-->
-    <div class="view">
-      <div class="search-bar">
-        <div class="panel-head">
-          <i class="icon-magnifier"></i>
-          搜索
-        </div>
-        <div class="panel">
-          <ul>
-            <li>
-              <label>商品名称</label>
-              <input type="text"[(ngModel)]="search" >
-            </li>
+    <div class="right">
+      <div class="wrap-content">
+        <div class="wrap-space">
+          <div class="wrap-b">
+            <div class="wrap">
+              <div class="iptgroup">
+                <input  [(ngModel)]="search.name"/>
+                <a href="javascript: void(0);" class="ipt-search"></a>
+              </div>
+              <a class="search" href="javascript: void(0);"(click)="getProductShowList()">查询</a>
+              <!-- <input class="search" type="button" value="查询" (click)="getProductShowList()">-->
+            </div>
+            <div class="b-head">
+              <span>团购商品</span>
+              <div class="b-head-right">
+                <div class="content-box" [routerLink]="['../myorder']"><img src="../../../assets/image/icon-order.png" alt="">我的订单</div>
+                <div class="content-box" [routerLink]="['../cart']"><img src="../../../assets/image/icon-shop.png" alt="">
+                  购物车
+                  <sup>{{cartsize}}</sup>
+                </div>
+                <div class="content-box" (click)="viewNotice()"><img src="../../../assets/image/icon-notice.png" alt="">公告</div>
+              </div>
+            </div>
+            <div class="b-con tuan" *ngFor="let groupProduct of groupProducts;let idx=index">
+              <div class="row mt20 mb30">
+                <dl>
+                  <dt class="showpic">
+                    <img *ngIf="groupProduct.image!==''" [src]="'/proxy/' + groupProduct.image"/>
+                  </dt>
+                  <dd>
+                    <span class="name-great">{{groupProduct.name}}</span>
+                    <ul class="line-nav">
+                      <li>{{groupProduct.label}}</li>
+                    </ul>
+                    <div class="bg-value">
+                      <span class="value">¥ {{groupProduct.price}}</span>
+                      <a class="yudingbtn" href="javascript: void(0);" (click)="addToCart(groupProduct.code)">马上预订</a>
+                    </div>
+                    <div class="time"><span>团购时间：</span><span>{{groupProduct.startTime}}至{{groupProduct.endTime}}</span></div>
+                    <ul class="list-txt">
+                      <li><span class="txt-name">团购联系人:</span><span class="txt-value">{{groupProduct.contact}}</span></li>
+                      <li><span class="txt-name">团购联系电话:</span><span class="txt-value">{{groupProduct.phone}}</span></li>
+                    </ul>
+                  </dd>
+                </dl>
 
-          </ul>
-          <div class="panel-search">
-            <input class="btn-info" type="button" value="开始查询" (click)="getProductShowList()">
-          </div>
-          <div class="panel-order">
-            <input class="btn-info" type="button" [routerLink]="['../cart']" value="我的购物车">
-            <input class="btn-info" type="button" value="我的订单">
+              </div>
+              <div class="clearb"></div>
+              <div class="line-txt">
+                <span>商品描述</span>
+              </div>
+              <div class="txt">
+                <p>{{groupProduct.detail}}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <!--商品展示-->
-    <div class="view" style="background-color: #ffffff;margin-top: 10px">
-      <!--getProductShowList接口-->
 
 
-
+    <div class="mask3">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">查看公告</h4>
+          <button type="button" class="close"(click)="closeMask3()">×</button>
+        </div>
+        <div class="modal-body clearfix" *ngFor="let notice of groupNotices;let idx=index">
+          <div style="text-align: center;padding-top: 20px;">
+            <label style="text-align: center"> {{notice.title}}</label>
+          </div>
+          <div class="modal-right2">
+              <textarea name="notice" ui-tinymce
+                        class="form-control" rows="10"
+                        style="width: 85%;!important;background-color: #ffffff !important;border: none;" readonly='true' value="{{notice.notice}}" >
+               </textarea>
+          </div>
+        </div>
+      </div>
     </div>
   </router-outlet>
 

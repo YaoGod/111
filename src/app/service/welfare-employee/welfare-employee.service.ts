@@ -3,7 +3,7 @@ import { Http, RequestOptions, Headers } from '@angular/http';
 import { IpSettingService } from '../ip-setting/ip-setting.service';
 import 'rxjs/add/operator/toPromise';
 @Injectable()
-export class DiscountEmployeeService {
+export class WelfareEmployeeService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
   private options =  new RequestOptions({
@@ -20,7 +20,7 @@ export class DiscountEmployeeService {
    return:
    */
   uploadImg(postData,id){
-    const url = this.ipSetting.ip + "/employee/discount/uploadImg/" +id;
+    const url = this.ipSetting.ip + "/employee/Welfare/uploadImg/" +id;
     var form = new FormData();
     if (typeof(postData) === 'object') {
       form.append('img', postData);
@@ -31,23 +31,28 @@ export class DiscountEmployeeService {
     xhr.send(form);
     return xhr;
   }
+  getTargetIdList(){
+    const url = this.ipSetting.ip + "/employee/Welfare/getTargetId";
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
   /*
    新增优惠信息
-   param: postData:Discount,
+   param: postData:Welfare,
    return: res.json
    */
-  addDiscount(data){
-    const url = this.ipSetting.ip + "/employee/discount/addDiscount";
+  addWelfare(data){
+    const url = this.ipSetting.ip + "/employee/Welfare/addWelfare";
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
   /*
    编辑优惠信息
-   param: postData:Discount,
+   param: postData:Welfare,
    return: res.json
    */
-  updateDiscount(data){
-    const url = this.ipSetting.ip + "/employee/discount/updateDiscount";
+  updateWelfare(data){
+    const url = this.ipSetting.ip + "/employee/Welfare/updateWelfare";
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
@@ -58,8 +63,8 @@ export class DiscountEmployeeService {
    param: pageSize: number,
    return: res.json
    */
-  getDiscountList(search,pageNo:number,pageSize:number){
-    const url = this.ipSetting.ip + "/employee/discount/getDiscount/"+pageNo+ "/" + pageSize + "?search=" + search;
+  getWelfareList(dataType,search,pageNo:number,pageSize:number){
+    const url = this.ipSetting.ip + "/employee/Welfare/getWelfare/"+dataType+"/"+pageNo+ "/" + pageSize + "?search=" + search;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -68,8 +73,8 @@ export class DiscountEmployeeService {
    param: id:number,
    return: res.json
    */
-  deleteDiscount(id:number){
-    const url = this.ipSetting.ip + "/employee/discount/deleteDiscount/"+id;
+  deleteWelfare(id:number){
+    const url = this.ipSetting.ip + "/employee/Welfare/deleteWelfare/"+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -78,8 +83,8 @@ export class DiscountEmployeeService {
    param: id:number,
    return: res.json
    */
-  getDiscount(id){
-    const url = this.ipSetting.ip + "/employee/discount/getDiscountInfo/"+id;
+  getWelfare(id){
+    const url = this.ipSetting.ip + "/employee/Welfare/getWelfareInfo/"+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }

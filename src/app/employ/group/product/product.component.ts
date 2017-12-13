@@ -16,28 +16,57 @@ declare var tinymce: any;
 })
 export class ProductComponent implements OnInit {
   public groupProducts: Array<GroupProduct>;
-  public groupProduct: GroupProduct;
   public search: GroupProduct;
   private code: any;
   private pageNo: number = 1;
   /*当前页码*/
-  private pageSize: number = 6;
+  private pageSize: number = 5;
+  public pages: Array<number>;
+  public  productview={
+    code:'',
+    name: '',
+    image: '',
+    detail:'',
+    price: '',
+    status: '',
+    startTime: '',
+    endTime:'',
+    contact:'',
+    phone: '',
+    payaccount:'',
+    label:'',
+    producttype: ''
+  };
+  public  productCheck={
+    code:'',
+    name: '',
+    image: '',
+    detail:'',
+    price: '',
+    status: '',
+    startTime: '',
+    endTime:'',
+    contact:'',
+    phone:    '',
+    payaccount:'',
+    label:  '',
+    producttype: ''
+  };
   public upGroupProduct={
-    code: '',
-  name: '',
-  image: '',
-  detail:'',
-  price: '',
-  status: '',
-  startTime: '',
-  endTime:'',
-  contact:'',
-  phone:    '',
-  payaccount:'',
-  label:  '',
-  producttype: ''
-
-}
+    code:'',
+    name: '',
+    image: '',
+    detail:'',
+    price: '',
+    status: '',
+    startTime: '',
+    endTime:'',
+    contact:'',
+    phone:    '',
+    payaccount:'',
+    label:  '',
+    producttype: ''
+  };
   public newGroupProduct={
     name: '',
     image: '',
@@ -51,115 +80,73 @@ export class ProductComponent implements OnInit {
     payaccount:'',
     label:  '',
     producttype: ''
-
-  }
+  };
   constructor(private groupProductService: GroupProductService,
               private errorVoid: ErrorResponseService,) {
   }
   ngOnInit() {
     this.search = new GroupProduct();
+    this.pages = [];
     this.getProductList();
   }
   getProductList(){
     this.groupProductService.getProductList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.groupProducts = data.data.infos;
+        console.log( this.groupProducts);
+        let total = Math.ceil(data.data.total / this.pageSize);
+        this.initPage(total);
       }
     });
   }
   fadeBom() {
+
     $('.mask').show();
   }
   closeMask() {
     $('.mask').hide();
-    $('#prese').val('');
-    this.newGroupProduct = {
-      name: '',
-      image: '',
-      detail:'',
-      price: '',
-      status: '',
-      startTime: '',
-      endTime:'',
-      contact:'',
-      phone:    '',
-      payaccount:'',
-      label:  '',
-      producttype: ''
-
-    }
+    $('#prese1').val('');
   }
   /*维修记录校验规则*/
-  private verifyImage() {
-    if (!this.isEmpty('image', '商品图片不能为空')) {
+  private verifyImage(id) {
+    // if (!this.isEmpty('image', '商品图片不能为空')) {
+    //   return false;
+    // }
+    // return true;
+    alert($('#' + id).val());
+  }
+  private verifyEmpty(id,label) {
+
+    if (!this.isEmpty(id, label)) {
+      return false;
+    }else{
+      if(id=="upprice"){
+        return  this.verifyProductPrice(id);
+      }
+      if(id=="upphone"){
+        return this.verifyPhone(id);
+      }
+      return true;
+    }
+  }
+  private verifyProductPrice(id) {
+    if (!this.verifyIsNumber(id, '请输入正确的费用格式')) {
       return false;
     }
     return true;
   }
-  private verifyName() {
-    if (!this.isEmpty('name', '商品名称不能为空')) {
+
+  private verifyPhone(id)  {
+    if (!this.verifyIsTel(id, '请输入正确的手机号')) {
       return false;
     }
     return true;
   }
-  private verifyProductPrice() {
-    if (!this.isEmpty('price', '费用不能为空')) {
-      return false;
-    }
-    if (!this.verifyIsNumber('price', '请输入正确的费用')) {
-      return false;
-    }
-    return true;
-  }
-  private verifyStatus() {
-    if (!this.isEmpty('status', '商品标签不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  private verifyBtime() {
-    if (!this.isEmpty('startTime', '时间不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  private verifyEtime() {
-    if (!this.isEmpty('endTime', '时间不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  private verifyContact() {
-    if (!this.isEmpty('contact', '团购联系人不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  private verifyPhone()  {
-    if (!this.isEmpty('phone', '联系电话不能为空')) {
-      return false;
-    }
-    if (!this.verifyIsTel('phone', '请输入正确的手机号')) {
-      return false;
-    }
-    return true;
-  }
-  private verifyPayaccount() {
-    if (!this.isEmpty('payaccount', '收款账号不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  private verifyDetail() {
-    if (!this.isEmpty('detail', '商品详情不能为空')) {
-      return false;
-    }
-    return true;
-  }
+
   /**非空校验*/
   private isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
-    if (data.toString().trim() === '')  {
+    if (data==null||data==''||data.trim() === '')  {
       this.addErrorClass(id, error);
       return false;
     }else {
@@ -189,7 +176,7 @@ export class ProductComponent implements OnInit {
    */
   private verifyIsNumber(id: string, error: string): boolean  {
     const data =  $('#' + id).val();// /^[0-9]*$/
-    if (!String(data).match(/^[0-9]*$/))  {
+    if (!String(data).match(/^[1-9]\d(\.\d+){0,2}$/))  {
       this.addErrorClass(id, error);
       return false;
     }else {
@@ -217,18 +204,19 @@ export class ProductComponent implements OnInit {
   private  removeErrorClass(id: string) {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
+    $('#' + id).next('span').html('');
   }
 
   subGroupProduct() {
-    if (this.newGroupProduct.image==''||this.newGroupProduct.name==''||this.newGroupProduct.price=='' || this.newGroupProduct.status=='' || this.newGroupProduct.startTime=='' ||
-     this.newGroupProduct.endTime=='' || this.newGroupProduct.contact=='' || this.newGroupProduct.phone=='' || this.newGroupProduct.payaccount || this.newGroupProduct.detail=='') {
-      alert("请把信息填写完整");
-      return false;
-    }
+    // if (this.newGroupProduct.name==''||this.newGroupProduct.price=='' || this.newGroupProduct.status=='' || this.newGroupProduct.startTime=='' ||
+    //    this.newGroupProduct.endTime=='' || this.newGroupProduct.contact=='' || this.newGroupProduct.phone=='' || this.newGroupProduct.payaccount || this.newGroupProduct.detail=='') {
+    //     alert("请把信息填写完整");
+    //     return false;
+    //   }
     this.groupProductService.addGroupBuyProduct(this.newGroupProduct)
       .subscribe(data => {
         if(data['status'] === 0){
-          alert("新增成功")
+          alert("新增成功");
           /* confirmFunc.init({
            'title': '提示' ,
            'mes': '新增成功',
@@ -236,7 +224,7 @@ export class ProductComponent implements OnInit {
           this.closeMask();
           this.getProductList();
         }else{
-          alert("新增失败")
+          alert("新增失败");
           this.closeMask();
           /* confirmFunc.init({
            'title': '提示' ,
@@ -277,26 +265,30 @@ export class ProductComponent implements OnInit {
         if(data['status']==0){
           //this.updateNotice = data.data;
           console.log(data.data);
-          this.upGroupProduct.image=data.data.image;
-          this.upGroupProduct.code  = data.data.code;
-          this.upGroupProduct.name = data.data.name;
-          this.upGroupProduct.price = data.data.price;
-          this.upGroupProduct.detail = data.data.detail;
-          this.upGroupProduct.startTime=data.data.startTime;
-          this.upGroupProduct.endTime=data.data.endTime;
-          this.upGroupProduct.contact=data.data.contact;
-          this.upGroupProduct.phone=data.data.phone;
+          this.upGroupProduct = data.data;
         }
         $('.mask2').show();
       })
   }
+
+  check(code: string){
+    this.groupProductService.getGroupProduct(code)
+      .subscribe(data => {
+        if(data['status']==0){
+          this.productCheck = data.data;
+          console.log(data.data);
+        }
+        $('.mask0').show();
+      })
+  }
   updateGroupProduct() {
-    if (!this.verifyImage()||!this.verifyName() ||!this.verifyProductPrice() || !this.verifyStatus() || !this.verifyBtime() ||
-      !this.verifyEtime() || !this.verifyContact() || !this.verifyPhone() || !this.verifyPayaccount() ||
-      !this.verifyDetail()) {
-      alert("请把信息填完整")
+    if (!this.verifyEmpty('upnewname','商品名称不能为空')||!this.verifyEmpty('upnewprice','费用不能为空')||!this.verifyEmpty('upnewstartTime','不能为空')||
+      !this.verifyEmpty('upnewendTime','不能为空')||!this.verifyEmpty('upnewpconcant','联系人不能为空')||!this.verifyEmpty('upnewphone','不能为空')||
+      !this.verifyEmpty('upnewpayaccount','收款账户不能为空')||!this.verifyEmpty('upnewesetail','商品详情不能为空')) {
+
       return false;
     }
+
     this.groupProductService.updateGroupbuyProduct(this.upGroupProduct)
       .subscribe(data => {
         console.log(data);
@@ -318,35 +310,40 @@ export class ProductComponent implements OnInit {
         }
       })
   }
+
+  checkGroupProduct() {
+    // this.upGroupProduct.status = $("#checknewstatus").val();
+    this.groupProductService.checkGroupbuyProduct(this.productCheck)
+      .subscribe(data => {
+        if(data['status'] === 0){
+          alert("保存成功");
+          this.closeMask0();
+          this.getProductList();
+        }else{
+          alert("保存失败")
+          this.closeMask0();
+        }
+      })
+  }
   view(code:string){
     this.groupProductService.getGroupProduct(code)
       .subscribe(data => {
         if (data['status']==0) {
-          this.upGroupProduct = data.data;
+          this.productview = data.data;
+          console.log(this.productview);
+          $('.mask3').show();
         }
-        $('.mask3').show();
+
       })
   }
   closeMask2() {
     $('.mask2').hide();
     $('#prese').val('');
-    this.upGroupProduct = {
-      code: '',
-      name: '',
-      image: '',
-      detail:'',
-      price: '',
-      status: '',
-      startTime: '',
-      endTime:'',
-      contact:'',
-      phone:    '',
-      payaccount:'',
-      label:  '',
-      producttype: ''
-    }
   }
-
+  closeMask0() {
+    $('.mask0').hide();
+    $('#prese0').val('');
+  }
   closeMask3() {
     $('.mask3').hide();
   }
@@ -377,5 +374,47 @@ export class ProductComponent implements OnInit {
     };
   }
 
+  /*审核文件图片上传*/
+  prese_upload3(files,index){
+    var xhr = this.groupProductService.uploadImg(files[0],'group',-2);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
+        var data:any = JSON.parse(xhr.responseText);
+        if(this.errorVoid.errorMsg(data.status)){
+          this.productCheck.image = data.msg;
+          alert("上传成功");
+        }
+      }
+    };
+  }
 
+  /*页码初始化*/
+  initPage(total){
+    this.pages = new Array(total);
+    console.log(this.pages);
+    for(let i = 0;i< total ;i++){
+      this.pages[i] = i+1;
+    }
+  }
+  /*页面显示区间5页*/
+  pageLimit(page:number){
+    if(this.pages.length < 5){
+      return false;
+    } else if(page<=5 && this.pageNo <= 3){
+      return false;
+    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
+      return false;
+    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
+      return false;
+    }
+    return true;
+  }
+  /*跳页加载数据*/
+  goPage(page:number){
+    this.pageNo = page;
+    if(this.search==null){
+      this.search = new GroupProduct();
+    }
+    this.getProductList();
+  }
 }

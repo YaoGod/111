@@ -543,7 +543,6 @@ select{
 .opt-other>a{
   cursor: pointer;
   transition-duration: 500ms;
-  opacity: 0;
 }
 .btn-add{
   color: #04b2ff;

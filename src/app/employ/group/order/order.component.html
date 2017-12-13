@@ -1,72 +1,140 @@
 <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+<script>
+  $('.right').css('width',$(window).width()-222);
+  $(window).resize(function () {
+    $('.right').css('width',$(window).width()-222);
+  })
+
+  if($('.wrap-b').height()<1000){
+    $('.wrap-b').css('height',1000);
+  }
+</script>
 <div class="main">
   <!--标题栏-->
   <!--大楼搜索栏-->
   <router-outlet>
-    <!--大楼搜索栏-->
-    <div class="view">
-      <div class="search-bar">
-        <div class="panel-head">
-          <div class="orderdetail">
-          订单信息
+    <div class="right">
+      <div class="wrap-content">
+        <div class="wrap-space">
+          <div class="wrap-b">
+            <div class="b-head">
+              <span>订单信息</span>
             </div>
-        </div>
-        <div class="jindu">
+            <div class="b-con tuanmenu">
+              <div class="wrap">
 
-        </div>
-        <div>
-        </div>
-      </div>
-      <div>
-        <table class="table" style="line-height: 37px;">
-          <thead>
-            <th>商品编号：</th>
-            <th>单价</th>
-            <th>数量</th>
-            <th>状态</th>
-            <th>支付方式</th>
-            <th>付款状态</th>
-            <th>订单状态</th>
-          </thead>
-          <tbody>
-          <tr>
-            <td>
-              <div><img></div>
-              <blockquote>
-                <h4 class="newcartitle">ssss</h4>
-                <p class="company_name">dddddddddddddddddddddddddd</p>
-              </blockquote>
-            </td>
-            <td>3.33</td>
-            <td>5</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>
-              <div><img></div>
-              <blockquote>
-                <h4 class="newcartitle">ssss</h4>
-                <p class="company_name">dddddddddddddddddddddddddd</p>
-              </blockquote>
-            </td>
-            <td>3.33</td>
-            <td>5</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          </tbody>
-        </table>
+                <ul>
+                  <li>
+                    <label>商品名称：</label>
+                    <input type="text" [(ngModel)]="productName">
+                  </li>
+                  <li>
+                    <label>订单编号</label>
+                    <input type="text" [(ngModel)]="orderId">
+                  </li>
+                  <li>
+                    <label>商品编号</label>
+                    <input type="text" [(ngModel)]="productId">
+                  </li>
+                  <li><a class="search" href="javascript: void(0);" (click)="getOrderAllList()" >查询</a></li>
+                </ul>
+              </div>
+              <div class="list-table" *ngFor="let order of orders;let idx=index">
+                <dt>
+                <table class="table-head0">
+                  <tr>
+                    <td class="zero">订单编号：{{order.id}}</td>
+                    <td class="zero">下单人编号：{{order.userId}}</td>
+                    <td class="zero">下单时间：{{order.payTime}}</td>
+                    <td class="zero">订单价格：{{order.payment}}元</td>
+                    <td class="zero" *ngIf="order.status=='0'">订单状态：订购中</td>
+                    <td class="zero" *ngIf="order.status=='1'">订单状态：已到货</td>
+                    <td class="zero" *ngIf="order.status=='2'">订单状态：退单</td>
 
+                  </tr>
+                </table>
+                </dt>
+                <dl>
+                  <dt>
+                  <table class="table-head">
+                    <tr>
+                      <td class="fir">商品信息</td>
+                      <td class="sec">单价（元）</td>
+                      <td class="three">数量</td>
+                      <td class="four">合计（元）</td>
+                      <td class="zero" *ngIf="order.status!='2' " >
+                        <a class="two"  title="修改" href="javascript:void(0);" (click)="update(order.id,order.status)"></a>
+                      </td>
+                      <td class="zero">
+                        <a class="tre"  title="删除" href="javascript:void(0);" (click)="delete(order.id)"></a>
+                      </td>
+                    </tr>
+                  </table>
+                  </dt>
+                  <dd *ngFor="let orderItem of order.groupOrderItems;let idx=index">
+                    <table style="width:100%;">
+                      <td class="eight">
+                        <img *ngIf="orderItem.imagePath!==''" [src]="'/proxy/' + orderItem.imagePath"/>
+                      </td>
+                      <td class="sec" style="text-align: left"> <p class="headtxt">{{orderItem.productName}}</p></td>
+                      <td class="sec">￥{{orderItem.unitPrice}}</td>
+                      <td class="three">{{orderItem.quantity}}</td>
+                      <td class="four">￥{{orderItem.totalPrice}}</td>
+                    </table>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
+
+    <div class="mask">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">修改订单</h4>
+          <button type="button" class="close"(click)="closeMask()">×</button>
+        </div>
+        <form class="form-building form-material">
+          <input type="hidden" name="updateOrder.id"  [(ngModel)]="updateOrder.id">
+          <div class="modal-body clearfix">
+            <div>
+              <label>订单状态：</label>
+              <select class="bor"  name="orderstatus" [(ngModel)]="updateOrder.status">
+                <option value="0">订购中</option>
+                <option value="1">已到货</option>
+                <option value="2">退单</option>
+              </select>
+            </div>
+
+            <div class="modal-right">
+              <label style="float: left">情况说明：</label>
+              <textarea name="notice" ui-tinymce
+                        class="form-control" rows="10"
+                        style="width: 85%;!important;"   [(ngModel)]="updateOrder.note" >
+               </textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="closeMask()">取 消</button>
+            <button type="submit" class="btn btn-info" (click)="updateOrders()" >保 存</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="confirm">
+      <div class="confirm-modal">
+        <div class="confirm-icon confirm-question">?</div>
+        <div class="confirm-content" >你确定要删除该订单吗?</div>
+        <hr style="margin-top: 20px; margin-bottom: 20px; height: 10px;color: transparent;border: 0;">
+        <button class="confirm-btn styled" (click)="okFunc()">确定</button>
+        <button class="confirm-btn cancel" (click)="noFunc()">取消</button>
+      </div>
+    </div>
   </router-outlet>
 
 </div>
-
 
