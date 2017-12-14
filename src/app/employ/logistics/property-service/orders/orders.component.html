@@ -1,3 +1,132 @@
-<p>
-  orders works!
-</p>
+<div class="container clearfix">
+  <div class="chandlery clearfix">
+    <ul class="search clearfix">
+      <li>
+        <label>大楼编号</label>
+        <input type="text" name="searchbuildingId" class="search-ipt" [(ngModel)]="searchArch.buildingId">
+      </li>
+      <li>
+        <label>大楼名称</label>
+        <input type="text" name="searchbuildingName" class="search-ipt" [(ngModel)]="searchArch.buildingName">
+      </li>
+      <li>
+        <label>订单号</label>
+        <input type="text" name="searchorderNum" class="search-ipt" [(ngModel)]="searchArch.orderNum">
+      </li>
+      <li>
+        <label>订单状态</label>
+        <select name="searchorderState" class="search-ipt search-sel" [(ngModel)]="searchArch.orderState">
+          <option value="订购中">订购中</option>
+          <option value="退单">退单</option>
+          <option value="已完成">已完成</option>
+        </select>
+      </li>
+      <li>
+        <label>开始时间</label>
+        <input type="date" name="searchbTime" class="search-ipt" [(ngModel)]="searchArch.bTime">
+      </li>
+      <li>
+        <label>结束时间</label>
+        <input type="date" name="searcheTime" class="search-ipt" [(ngModel)]="searchArch.eTime">
+      </li>
+      <li>
+        <label>订单人</label>
+        <input type="text" name="searchorderPerson" class="search-ipt" [(ngModel)]="searchArch.orderPerson">
+      </li>
+      <li>
+        <label>订单部门</label>
+        <input type="text" name="searchorderDepart" class="search-ipt" [(ngModel)]="searchArch.orderDepart">
+      </li>
+    </ul>
+    <div class="search-right"><a href="javascript:;" class="search-btn" (click)="repairSearch()"><i class="icon-magnifier"></i> 查 询</a></div>
+  </div>
+  <div class="row text-right" ><!--*ngIf="rule&&jurisdiction&&jurisdiction.isInstall"-->
+    <a class="btn btn-new" href="javascript:;" (click)="outOrder()"><i class="icon-docs"></i> 导 出</a>
+    <a class="btn btn-new" href="javascript:;" (click)="addOrder()"><i class="icon-plus"></i> 新 增</a>
+  </div>
+</div>
+<!--新增订单弹窗-->
+<div class="mask">
+  <div class="new-order">
+    <div class="mask-head"><i class="icon-film"></i> <p>新增物业订单</p>
+      <button class="close" (click)="contractCancel()">×</button>
+    </div>
+    <form method="post" name="topForm" class="repair-form">
+      <div class="form-control">
+        <span class="form-label">大楼编号</span>
+        <div class="form-inp">
+          <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" (blur)="verifybuildingId()">
+            <option *ngFor="let num of buildings"
+                    [value]="num.BUILDING_ID">
+              {{num.BUILDING_ID}}</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">楼层</span>
+        <div class="form-inp">
+          <input type="text" id="buildingFloor" class="company-ipt" name="buildingFloor" [(ngModel)]="repairname.buildingFloor" (blur)="verifybuildingFloor()" required maxlength="5">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">房间号</span>
+        <div class="form-inp">
+          <input type="text" id="roomNum" class="company-ipt" name="roomNum" [(ngModel)]="repairname.roomNum" required maxlength="5">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">服务类型</span>
+        <div class="form-inp">
+          <select id="servername" name="servername" class="company-ipt company-sel" [(ngModel)]="repairname.servername" (blur)="verifyservername()">
+            <option value="保洁服务">保洁服务</option>
+            <option value="报修服务">报修服务</option>
+            <option value="住家服务">住家服务</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+
+      <div class="form-control">
+        <span class="form-label">员工部门</span>
+        <div class="form-inp">
+          <input type="text" id="employeeDepart" class="company-ipt" name="employeeDepart" [(ngModel)]="repairname.employeeDepart" (blur)="verifyemployeeDepart()" required maxlength="25">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">员工电话</span>
+        <div class="form-inp">
+          <input id="employeePhone" name="employeePhone" class="company-ipt" [(ngModel)]="repairname.employeePhone" (blur)="verifyemployeePhone()" type="text">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone">
+        <span class="form-label">具体服务内容</span>
+        <div class="form-inp form-text">
+          <textarea id="liableNote" maxlength="100" name="liableNote" class="company-ipt" [(ngModel)]="repairname.detail" (blur)="verifydetail()">
+          </textarea>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone">
+        <span class="form-label">附件</span>
+        <ul class="contract-list">
+          <li *ngFor="let abc of repairname.filePath; let k=index">{{abc}}<a  href="javascript:;" (click)="delFile(k)">×</a> </li>
+        </ul>
+        <div class="form-inp" style=" margin-top:5px;">
+          <a href="javascript:;" style="color:#666; margin-left:127px; border-radius:4px; padding:5px 10px; background: #f6f6f6;" onclick="$('#prese').trigger('click')">上 传</a>
+          <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;"
+                 (change)="prese_upload(prese.files)">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+    </form>
+    <div class="mask-footer">
+      <button type="submit" class="btn-mask btn-info" (click)="contractSubmit()">保 存</button>
+      <button type="button" class="btn-mask btn-danger" (click)="contractCancel()">取 消</button>
+    </div>
+  </div>
+</div>

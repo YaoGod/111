@@ -27,7 +27,7 @@
       </ul>
       <div class="search-right"><a href="javascript:;" class="search-btn" (click)="listSearch()"><i class="icon-magnifier"></i> 查 询</a></div>
     </div>
-    <div class="row" ><!--*ngIf="rule&&jurisdiction&&jurisdiction.isInstall"-->
+    <div class="row" *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
       <a class="btn btn-lead" href="javascript:;" (click)="leadIn()"><i class="icon-docs"></i> 导 入</a>
       <a class="btn btn-new" href="javascript:;" (click)="leadOut()"><i class="icon-docs"></i> 导 出</a>
       <a class="btn btn-new" href="javascript:;" (click)="creatList()"><i class="icon-plus"></i> 新 增</a>

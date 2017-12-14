@@ -1,49 +1,74 @@
-<div class="cont">
+<!--<div class="cont">
   <ul class="cont-nav clearfix">
     <li>
       <a class="active">物业服务管理列表<span></span></a>
     </li>
   </ul>
-</div>
+</div>-->
 <!--搜索栏-->
-<div class="search-bar" >
-  <ul>
-    <li>
-      <input type="text" placeholder="请输入查询内容">
-    </li>
-    <li>
-      <a class="search-btn" (click)="search();"><i class="icon-magnifier"></i>查询</a>
-    </li>
-    <li>
-      <a class="search-btn" (click)="search();"><i class="icon-magnifier"></i>新增</a>
-    </li>
-  </ul>
-</div>
-<!--表头-->
-<!--
-<div class="table-head">
-  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
-    <tr class="row list-title" style="height:45px;">
-      <th width="25%" class="text-left">大楼名称</th>
-      <th width="15%">楼层</th>
-      <th width="20%" class="text-left">楼层功能</th>
-      <th width="25%">楼层平面图</th>
-      <th width="15%">操作</th>
-    </tr>
-  </table>
-</div>
-&lt;!&ndash;表格内容&ndash;&gt;
-<div class="table-content" style="height: 390px">
-  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
-    <tr class="row"  style="height:45px;">
-      <td></td>
-    </tr>
-  </table>
-  <div class="div-none" *ngIf="copyFloors.length < 1">
-    <p>暂无信息</p>
+<div class="container clearfix">
+  <div class="chandlery clearfix">
+    <ul class="search clearfix">
+      <li>
+        <label>大楼名称</label>
+        <input type="text" class="search-ipt" name="searchArchBuildingName" [(ngModel)]="searchArch.buildingName">
+      </li>
+      <li>
+        <label>物业公司</label>
+        <input type="text" class="search-ipt" name="searchArchCompanyName" [(ngModel)]="searchArch.companyName">
+      </li>
+      <li>
+        <label>服务内容</label>
+        <select name="searchArchType" class="search-ipt search-sel" [(ngModel)]="searchArch.servername">
+          <option value="">全部</option>
+          <option value="保洁服务">保洁服务</option>
+          <option value="报修服务">报修服务</option>
+          <option value="住家服务">住家服务</option>
+        </select>
+      </li>
+    </ul>
+    <div class="search-right"><a href="javascript:;" class="search-btn" (click)="repairSearch()"><i class="icon-magnifier"></i> 查 询</a></div>
+  </div>
+  <div class="row text-right" ><!--*ngIf="rule&&jurisdiction&&jurisdiction.isInstall"-->
+    <a class="btn btn-new" href="javascript:;" (click)="addCompany()"><i class="icon-plus"></i> 新 增</a>
   </div>
 </div>
-&lt;!&ndash;翻页&ndash;&gt;
+<div class="energy-container">
+  <div class="table-respons">
+    <table class="table" width="100%">
+      <thead>
+      <tr>
+        <th>大楼编号</th>
+        <th>大楼名称</th>
+        <th>服务公司名称</th>
+        <th>服务内容</th>
+        <th>服务公司状态</th>
+        <th>服务详情</th>
+        <th>操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let inner of record; let i=index">
+        <td>{{inner.buildingId}}</td>
+        <td>{{inner.buildingName}}</td>
+        <td>{{inner.companyName}}</td>
+        <td>{{inner.servername}}</td>
+        <td>{{inner.serverstatus==='execute'?'正常':'失效'}}</td>
+        <td width="40%">{{inner.detail}}</td>
+        <td>
+          <a href="javascript:void(0)" class="text-inverse" *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" (click)="editAttach(i);" style="padding-right: 10px;">
+            <i class="icon-pencil"></i>
+          </a>
+          <a href="javascript:void(0)" class="text-inverse" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delAttach(i);">
+            <i class="icon-trash"></i>
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <div class="turn" *ngIf="pages.length > 1">
   <ul>
     <li *ngFor="let i of pages"
@@ -53,4 +78,70 @@
       {{i}}
     </li>
   </ul>
-</div>-->
+</div>
+<!--新增信息弹窗-->
+<div class="mask">
+  <div class="mask-cotainer">
+    <div class="mask-head"><i class="icon-film"></i> <p>新增物业服务</p>
+      <button class="close" (click)="recordCancel()">×</button>
+    </div>
+    <form class="repair-form clearfix" method="post" name="topForm" >
+      <div class="form-control clearfix">
+        <span class="form-label">大楼编号</span>
+        <div class="form-inp">
+          <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" (blur)="verifyId()">
+            <option *ngFor="let num of buildings"
+                    [value]="num.BUILDING_ID">
+              {{num.BUILDING_ID}}</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control  clearfix">
+        <span class="form-label">服务公司名称</span>
+        <div class="form-inp">
+          <select id="companyName" name="companyName" class="company-ipt company-sel" [(ngModel)]="repairname.companyId" (blur)="verifycompanyName()" ><!--(change)="queryId(repairname.companyId)"-->
+            <option *ngFor="let num of serviceCom"
+                    [value]="num.id">
+              {{num.companyName}}</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control  clearfix">
+        <span class="form-label">物业服务内容</span>
+        <div class="form-inp">
+          <select id="servername" name="servername" class="company-ipt company-sel" [(ngModel)]="repairname.servername" (blur)="verifyservername()">
+            <option value="保洁服务">保洁服务</option>
+            <option value="报修服务">报修服务</option>
+            <option value="住家服务">住家服务</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control  clearfix">
+        <span class="form-label">服务公司状态</span>
+        <div class="form-inp">
+          <select id="serverstatus" name="serverstatus" class="company-ipt company-sel" [(ngModel)]="repairname.serverstatus" (blur)="verifyserverstatus()">
+            <option value="execute">正常</option>
+            <option value="end">失效</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control clearfix">
+        <span class="form-label">服务描述</span>
+        <div class="form-inp">
+          <textarea id="detail" name="detail" class="company-ipt company-text" [(ngModel)]="repairname.detail" maxlength="90" (blur)="verifydetail()">
+          </textarea>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+    </form>
+
+    <div class="mask-footer">
+      <button type="submit" class="btn-mask btn-info" (click)="recordSubmit()">保 存</button>
+      <button type="button" class="btn-mask btn-danger" (click)="recordCancel()">取 消</button>
+    </div>
+  </div>
+</div>

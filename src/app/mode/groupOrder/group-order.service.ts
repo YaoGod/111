@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {GroupOrderItem} from '../../mode/groupOrderItem/group-orderItem.service'
+import {GroupOrderItem} from '../groupOrderItem/group-orderItem.service'
 @Injectable()
 export class GroupOrder {
 

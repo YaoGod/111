@@ -19,7 +19,7 @@ const routes: Routes = [
       {
         path: 'laundry',
         loadChildren: './laundry/laundry.module#LaundryModule'
-      },
+},
       {
         path: 'property',
         loadChildren: './property-service/property-service.module#PropertyServiceModule'

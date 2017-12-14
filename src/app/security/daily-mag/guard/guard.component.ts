@@ -235,7 +235,6 @@ export class GuardComponent implements OnInit {
   editRecord(index) {
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
-    console.log(this.repairname.type);
     $('.mask-repair').fadeIn();
     $('.mask-repair .mask-head p').html('编辑服务公司');
   }

@@ -6,6 +6,6 @@ import { EmployRoutingModule } from './employ-routing.module';
     CommonModule,
     EmployRoutingModule
   ],
-  declarations: []
+  declarations: [ ]
 })
 export class EmployModule { }

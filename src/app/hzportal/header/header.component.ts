@@ -37,23 +37,6 @@ export class HeaderComponent implements OnInit {
     );
     this.user = this.globalUserService.getVal();
     this.initCata();
-    /*this.catalogs = [{
-        name: '大楼信息管理',
-        childs: [
-          {
-            name: '大楼基础信息',
-            routeUrl: 'security/basic'
-          },
-          {
-            name: '大楼日常管理',
-            routeUrl: 'security/daily'
-          },
-          {
-            name: '物业档案管理',
-            routeUrl: 'security/property'
-          }
-        ]
-      }];*/
   }
   /*初始化目录列表*/
   initCata(){
