@@ -21,6 +21,7 @@ export class StaffWelfareMangComponent implements OnInit {
   public  tempOther: Array<any>;
   public  search: string;      /*搜索字段*/
   public  targets: Array<any>;
+  public winTitle: string;
   constructor(
     private router: Router,
     private globalCatalogService: GlobalCatalogService,
@@ -36,6 +37,7 @@ export class StaffWelfareMangComponent implements OnInit {
     this.search = "";
     this.targets = [];
     this.getWelfare();
+    this.winTitle = "";
   }
   getWelfare() {
     this.welfareEmployeeService.getWelfareList("list",this.search,this.pageNo,this.pageSize)
@@ -62,7 +64,9 @@ export class StaffWelfareMangComponent implements OnInit {
   }
   fadeBom(){
     this.copyWelfare.others = new Array<Other>();
+    this.copyWelfare.targetId = [];
     this.tempOther = [];
+    this.winTitle = "新增";
     $('.mask').show();
   }
   closeMask(){
@@ -109,9 +113,13 @@ export class StaffWelfareMangComponent implements OnInit {
     this.tempOther[index].isShow = false;
   }
   submit(){
+    console.log(this.copyWelfare);
     this.verifyImgPath();
     this.verifyEmpty(this.copyWelfare.title,'title');
     this.verifyEmpty(this.copyWelfare.content,'content');
+    this.verifyEmptyArray(this.copyWelfare.targetId,'targetId');
+    this.verifyEmpty(this.copyWelfare.feedBack,'feedback2');
+    this.verifyEmpty(this.copyWelfare.status,'status2');
     if($('.red').length === 0) {
       let j = 0;
       this.copyWelfare.others = [];
@@ -128,6 +136,7 @@ export class StaffWelfareMangComponent implements OnInit {
         this.welfareEmployeeService.addWelfare(postdata)
           .subscribe(data => {
             if (this.errorResponseService.errorMsg(data)) {
+              console.log(111);
               confirmFunc.init({
                 'title': '提示',
                 'mes': data.msg,
@@ -149,7 +158,9 @@ export class StaffWelfareMangComponent implements OnInit {
       }else{
         this.welfareEmployeeService.updateWelfare(postdata)
           .subscribe(data => {
+
             if (this.errorResponseService.errorMsg(data)) {
+              console.log(222);
               confirmFunc.init({
                 'title': '提示',
                 'mes': data.msg,
@@ -175,6 +186,7 @@ export class StaffWelfareMangComponent implements OnInit {
   edit(data){
     this.copyWelfare = JSON.parse(JSON.stringify(data));
     this.fadeBom();
+    this.winTitle = "编辑";
     this.tempOther = JSON.parse(JSON.stringify(data.others));
     for(let i = 0;i< this.tempOther.length;i++){
       this.tempOther[i].isShow = true;
@@ -246,6 +258,21 @@ export class StaffWelfareMangComponent implements OnInit {
       return false;
     }else{
       this.removeErrorClass('newImgPath');
+      return true;
+    }
+  }
+  /*数组非空验证*/
+  verifyEmptyArray( value, id){
+    if(typeof (value) === "undefined" ||
+      value === null ||
+      value === ''){
+      this.addErrorClass(id,'该值不能为空');
+      return false;
+    }if(value.length === 0){
+      this.addErrorClass(id,'请选择');
+      return false;
+    }else{
+      this.removeErrorClass(id);
       return true;
     }
   }

@@ -731,7 +731,7 @@ ul,li{
   width: 184px;
   height: 54px;
   margin: 12px auto 19px auto;
-  /*background: url('../../../assets/image/logo.jpg') no-repeat;*/
+  background: url('../../../../assets/image/logo.jpg') no-repeat;
 }
 .user-info{
   text-align: center;
@@ -740,12 +740,12 @@ ul,li{
   width: 70px;
   height: 70px;
   display: inline-block;
- /* background: url('../../../assets/image/user.jpg') no-repeat;*/
+  background: url('../../../../assets/image/user.jpg') no-repeat;
 }
 .user-txt{
   display: block;
   margin: 8px 0;
- /* background-image: url('../../../assets/image/icon-down.jpg');*/
+  background-image: url('../../../../assets/image/icon-down.jpg');
   background-repeat: no-repeat;
   background-position-x: 130px;
 }
@@ -778,7 +778,7 @@ select{
   text-indent: 50px;
   background-repeat: no-repeat;
   background-color: #fff;
-  /*background-image: url('../../../assets/image/icon-right.jpg');*/
+  background-image: url('../../../../assets/image/icon-right.jpg');
   background-position-x: 180px;
   background-position-y: 13px;
   height: 50px;
@@ -787,7 +787,7 @@ select{
 }
 .list-nav>li.active>a{
   background-color: #f9f9f9;
-  /*background-image: url('../../../assets/image/icon-down.jpg');*/
+  background-image: url('../../../../assets/image/icon-down.jpg');
 }
 .list-nav ul li {
   color: #888;
@@ -810,7 +810,7 @@ select{
   left: 18px;
   top: 13px;
   display: inline-block;
- /* background: url('../../../assets/image/icon-home.jpg') no-repeat;*/
+  background: url('../../../../assets/image/icon-home.jpg') no-repeat;
 }
 .right{
 
@@ -828,17 +828,17 @@ select{
 .menu{
   top: 18px;
   left: 20px;
-  /*background: url('../../../assets/image/icon-list.jpg') no-repeat;*/
+  background: url('../../../../assets/image/icon-list.jpg') no-repeat;
 }
 .set{
   top: 18px;
   right: 20px;
-  /*background: url('../../../assets/image/icon-set.jpg') no-repeat;*/
+  background: url('../../../../assets/image/icon-set.jpg') no-repeat;
 }
 .email{
   top: 18px;
   right: 70px;
-  /*background: url('../../../assets/image/icon-email.jpg') no-repeat;*/
+  background: url('../../../../assets/image/icon-email.jpg') no-repeat;
 }
 .wrap-content{
   width: 100%;
@@ -983,7 +983,7 @@ select{
 .tuan .bg-value{
   width: 573px;
   height: 67px;
- /* background: url(../../../assets/image/icon-price.png) no-repeat;*/
+  background: url(../../../../assets/image/icon-price.png) no-repeat;
   position: relative;
 }
 .tuan .value{
@@ -1016,7 +1016,7 @@ select{
   height: 25px;
   line-height: 26px;
   text-indent: 25px;
- /* background: url('../../../assets/image/icon-time.jpg') no-repeat;*/
+  background: url('../../../../assets/image/icon-time.jpg') no-repeat;
 }
 .tuan .list-txt{
   margin: 10px 0;
@@ -1054,7 +1054,7 @@ select{
 .b-con .iptgroup .ipt-search{
   width: 26px;
   height: 26px;
- /* background: url('../../../assets/image/icon-search.jpg') no-repeat;*/
+  background: url('../../../../assets/image/icon-search.jpg') no-repeat;
   position: absolute;
   top: 0;
   right: 7px;
@@ -1182,18 +1182,18 @@ select{
   display: inline-block;
 }
 .list-table dt .ope-list a.one{
-  /*background: url('../../../assets/image/icon-view.png') no-repeat;*/
+  background: url('../../../../assets/image/icon-view.png') no-repeat;
   margin: 0 10px;
 }
 .list-table dt .ope-list a.two{
- /* background: url('../../../assets/image/icon-edit.png') no-repeat;*/
+  background: url('../../../../assets/image/icon-edit.png') no-repeat;
   margin: 0 10px;
 }
 .list-table dt .ope-list a.tre{
- /* background: url('../../../assets/image/icon-del.png') no-repeat;*/
+  background: url('../../../../assets/image/icon-del.png') no-repeat;
 }
 .list-table dt .ope-list a.four{
- /* background: url('../../../assets/image/check.png') no-repeat;*/
+  background: url('../../../../assets/image/check.png') no-repeat;
 }
 .list-table dd{
   /*display: table;*/
@@ -1301,7 +1301,7 @@ select{
   height: 22px;
   line-height: 22px;
   text-indent: 20px;
- /* background: url('../../../assets/image/icon-add.png') no-repeat;*/
+  background: url('../../../../assets/image/icon-add.png') no-repeat;
 }
 .wuyelist .four .ope-list2 li .two{
   display: inline-block;
@@ -1309,7 +1309,7 @@ select{
   line-height: 22px;
   text-indent: 20px;
   width: 55px;
- /* background: url('../../../assets/image/icon-edit.png') no-repeat;*/
+  background: url('../../../../assets/image/icon-edit.png') no-repeat;
 }
 .wuyelist .four .ope-list2 li .tre{
   display: inline-block;
@@ -1317,19 +1317,19 @@ select{
   height: 22px;
   line-height: 22px;
   text-indent: 25px;
-  /*background: url('../../../assets/image/icon-del.png') no-repeat;*/
+  background: url('../../../../assets/image/icon-del.png') no-repeat;
 }
 .wuyelist .four .ope-list2 li.active .one{
   color: #66cdff;
-  /*background: url('../../../assets/image/icon-add-a.png') no-repeat;*/
+  background: url('../../../../assets/image/icon-add-a.png') no-repeat;
 }
 .wuyelist .four .ope-list2 li.active .two{
   color: #66cdff;
-  /*background: url('../../../assets/image/icon-edit-a.png') no-repeat;*/
+  background: url('../../../../assets/image/icon-edit-a.png') no-repeat;
 }
 .wuyelist .four .ope-list2 li.active .tre{
   color: #66cdff;
-  /*background: url('../../../assets/image/icon-del-a.png') no-repeat;*/
+  background: url('../../../../assets/image/icon-del-a.png') no-repeat;
 }
 
 /*物业服务预订列表*/
@@ -1429,35 +1429,35 @@ select{
   color: #ff5400;
 }
 .wrap-b .path li.one{
-  /*background: url('../../../assets/image/step-1.jpg') no-repeat;*/
+  background: url('../../../../assets/image/step-1.jpg') no-repeat;
   left: 10%;
 }
 .wrap-b .path li.two{
-  /*background: url('../../../assets/image/step-2.jpg') no-repeat;*/
+  background: url('../../../../assets/image/step-2.jpg') no-repeat;
   left: 35%;
 }
 .wrap-b .path li.three{
-  /*background: url('../../../assets/image/step-3.jpg') no-repeat;*/
+  background: url('../../../../assets/image/step-3.jpg') no-repeat;
   left: 58%;
 }
 .wrap-b .path li.four{
- /* background: url('../../../assets/image/step-4.jpg') no-repeat;*/
+  background: url('../../../../assets/image/step-4.jpg') no-repeat;
   left: 80%;
 }
 .wrap-b .path li.one.active{
-  /*background: url('../../../assets/image/step-11.jpg') no-repeat;*/
+  background: url('../../../../assets/image/step-11.jpg') no-repeat;
   left: 10%;
 }
 .wrap-b .path li.two.active{
-  /*background: url('../../../assets/image/step-22.jpg') no-repeat;*/
+  background: url('../../../../assets/image/step-22.jpg') no-repeat;
   left: 10%;
 }
 .wrap-b .path li.three.active{
-  /*background: url('../../../assets/image/step-33.jpg') no-repeat;*/
+  background: url('../../../../assets/image/step-33.jpg') no-repeat;
   left: 10%;
 }
 .wrap-b .path li.four.active{
-  /*background: url('../../../assets/image/step-44.jpg') no-repeat;*/
+  background: url('../../../../assets/image/step-44.jpg') no-repeat;
   left: 10%;
 }
 
