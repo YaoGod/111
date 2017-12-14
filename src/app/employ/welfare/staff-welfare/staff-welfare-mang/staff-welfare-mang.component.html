@@ -131,7 +131,7 @@
             <label  class="control-label" style="height: 50px;">
               <span>享受对象</span>
               <select class="form-control" multiple
-                      style="height: 50px"
+                      style="height: 50px;width: 275px;"
                       id="targetId" name="targetId"
                       [(ngModel)]="copyWelfare.targetId"
                       (blur)="verifyEmptyArray(copyWelfare.targetId,'targetId')">
@@ -142,11 +142,12 @@
             <div class="error"></div>
           </div>
           <div  class="form-group">
-            <label  class="control-label"><span>是否需反馈</span>
-              <label>
+            <div  class="control-label"><span>是否需反馈</span>
+              <label (click)="openFeedback()">
                 <input id="feedback1" name="feedback"
                      type="radio" value="是"
                      [(ngModel)]="copyWelfare.feedBack"
+                     (change)="openFeedback()"
                      (blur)="verifyEmpty(copyWelfare.feedBack,'feedback1')">
                 是
               </label>
@@ -157,9 +158,46 @@
                      (blur)="verifyEmpty(copyWelfare.feedBack,'feedback2')">
                 否
               </label>
-              <div class="error" style="position: absolute;margin-top: -40px;padding-left: 285px;width: auto;"></div>
-            </label>
-
+              <label style="float: right" *ngIf="copyWelfare.feedBack==='是'">
+                <a class="btn-add" (click)="openFeedback()">
+                  <i class="icon-bell"></i>需反馈的信息
+                </a>
+              </label>
+              <div class="error" style="position: absolute;right: 0;margin-top: -40px;padding-right: 50px;width: auto;"></div>
+            </div>
+            <div class="modal-more" id="feedbackModal"
+                 *ngIf="copyWelfare.feedBack==='是'">
+              <div class="table-head">
+                <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+                  <tr class="row list-title" style="height:45px;">
+                    <th width="50%" class="text-left">反馈信息</th>
+                    <th width="50%" class="text-left">备注</th>
+                  </tr>
+                </table>
+              </div>
+              <div  class="form-group" *ngFor="let other of tempFeedbackMsg;let i = index;">
+                <label  class="control-label" *ngIf="other.isShow">
+                  <input class="form-title" type="text" style="width: 130px;"
+                         [name]="'otherKey'+i" [(ngModel)]="other.key">
+                  <input class="form-control" type="text" style="width: 130px;"
+                         [name]="'otherValue'+i" [(ngModel)]="other.msg">
+                  <a class="btn-close" (click)="delFeedbackLine(i)">
+                    <i class="icon-close"></i>
+                  </a>
+                </label>
+                <div class="error"></div>
+              </div>
+              <div class="opt-other">
+                <a class="btn-add" (click)="addFeedbackLine()">
+                  <i class="icon-plus"></i>
+                  添加反馈字段
+                </a>
+              </div>
+              <div  class="modal-more-footer">
+                <button  class="btn btn-info" type="submit"
+                         (click)="closeFeedback()">完 成</button>
+              </div>
+            </div>
           </div>
           <div  class="form-group">
             <label  class="control-label"><span>状态</span>
@@ -177,7 +215,7 @@
                        (blur)="verifyEmpty(copyWelfare.status,'status2')">
                 失效
               </label>
-              <div class="error" style="position: absolute;margin-top: -40px;padding-left: 285px;width: auto;"></div>
+              <div class="error" style="position: absolute;right: 0;margin-top: -40px;padding-right: 50px;width: auto;"></div>
             </label>
           </div>
           <div  class="form-group" *ngFor="let other of tempOther;let i = index;">
@@ -195,6 +233,7 @@
           <div class="opt-other">
             <a class="btn-add" (click)="addLine()">
               <i class="icon-plus"></i>
+              添加自定义字段
             </a>
           </div>
         </div>

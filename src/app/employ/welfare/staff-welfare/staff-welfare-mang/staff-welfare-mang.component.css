@@ -250,6 +250,7 @@ i{
 .btn-add{
   height: 36px;
   line-height: 36px;
+  cursor: pointer;
 }
 .btn-danger{
   padding: 6px 10px;
@@ -296,7 +297,6 @@ i{
   color: #fff;
   background: #fb9678;
   border: 1px solid #fb9678;
-
   cursor: pointer;
 }
 .img-upload{
@@ -552,4 +552,28 @@ select{
 }
 .btn-close{
   color: #d75452;
+  cursor: pointer;
+}
+#feedbackModal{
+  display: none;
+}
+.modal-more{
+  position: absolute;
+  width: 320px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 6px 0 6px rgba(0,0,0,.1),-6px 0 6px rgba(0,0,0,.1),0 6px 6px rgba(0,0,0,.1);
+  z-index: 2;
+}
+.modal-more-footer{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
 }

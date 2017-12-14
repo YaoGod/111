@@ -19,9 +19,10 @@ export class StaffWelfareMangComponent implements OnInit {
   public  welfares: Array<Welfare>;
   public  copyWelfare: Welfare;
   public  tempOther: Array<any>;
+  public  tempFeedbackMsg: Array<any>;
   public  search: string;      /*搜索字段*/
   public  targets: Array<any>;
-  public winTitle: string;
+  public  winTitle: string;
   constructor(
     private router: Router,
     private globalCatalogService: GlobalCatalogService,
@@ -64,8 +65,8 @@ export class StaffWelfareMangComponent implements OnInit {
   }
   fadeBom(){
     this.copyWelfare.others = new Array<Other>();
-    this.copyWelfare.targetId = [];
     this.tempOther = [];
+    this.tempFeedbackMsg = [];
     this.winTitle = "新增";
     $('.mask').show();
   }
@@ -97,6 +98,7 @@ export class StaffWelfareMangComponent implements OnInit {
       }
     };
   }
+  /*添加自定义字段*/
   addLine(){
     let length = 0;
     for(let i = 0;i<this.tempOther.length;i++){
@@ -112,25 +114,65 @@ export class StaffWelfareMangComponent implements OnInit {
   delLine(index){
     this.tempOther[index].isShow = false;
   }
+  /*添加反馈字段*/
+  addFeedbackLine(){
+    let length = 0;
+    for(let i = 0;i<this.tempFeedbackMsg.length;i++){
+      if(this.tempFeedbackMsg[i].isShow){
+        length++;
+      }
+    }
+    if(length<5){
+      let object = {isShow: true,key:"",msg:"",value:""};
+      this.tempFeedbackMsg.push(object);
+    }
+  }
+  /*删除临时反馈字段*/
+  delFeedbackLine(index){
+    this.tempFeedbackMsg[index].isShow = false;
+  }
+  /*打开反馈信息*/
+  openFeedback(){
+    this.copyWelfare.feedBack = "是";
+    $('#feedbackModal').show();
+  }
+  /*取消反馈*/
+  closeFeedback(){
+    $('#feedbackModal').fadeOut();
+  }
   submit(){
     console.log(this.copyWelfare);
     this.verifyImgPath();
     this.verifyEmpty(this.copyWelfare.title,'title');
     this.verifyEmpty(this.copyWelfare.content,'content');
     this.verifyEmptyArray(this.copyWelfare.targetId,'targetId');
-    this.verifyEmpty(this.copyWelfare.feedBack,'feedback2');
+    let j = 0;
+    this.copyWelfare.others = [];
+    for (let i = 0; i < this.tempOther.length; i++) {
+      if (this.tempOther[i].isShow &&this.tempOther[i].key!==""&&this.tempOther[i].value!==""){
+        this.copyWelfare.others[j] = new Other();
+        this.copyWelfare.others[j].key = this.tempOther[i].key;
+        this.copyWelfare.others[j].value = this.tempOther[i].value;
+        j++;
+      }
+    }
+    j= 0;
+    this.copyWelfare.feedBackMsg = [];
+    for (let i = 0; i < this.tempFeedbackMsg.length; i++) {
+      if (this.tempFeedbackMsg[i].isShow &&this.tempFeedbackMsg[i].key!==""){
+        this.copyWelfare.feedBackMsg[j] = new Other();
+        this.copyWelfare.feedBackMsg[j].key = this.tempFeedbackMsg[i].key;
+        this.copyWelfare.feedBackMsg[j].msg = this.tempFeedbackMsg[i].msg;
+        j++;
+      }
+    }
+    if(this.verifyEmpty(this.copyWelfare.feedBack,'feedback2')&&this.copyWelfare.feedBack === "是"){
+      if(!this.verifyEmptyArray(this.copyWelfare.feedBackMsg,'feedback2')){
+        $('#feedbackModal').show();
+      }
+    }
     this.verifyEmpty(this.copyWelfare.status,'status2');
     if($('.red').length === 0) {
-      let j = 0;
-      this.copyWelfare.others = [];
-      for (let i = 0; i < this.tempOther.length; i++) {
-        if (this.tempOther[i].isShow &&this.tempOther[i].key!==""&&this.tempOther[i].value!==""){
-          this.copyWelfare.others[j] = new Other();
-          this.copyWelfare.others[j].key = this.tempOther[i].key;
-          this.copyWelfare.others[j].value = this.tempOther[i].value;
-          j++;
-        }
-      }
       let postdata = JSON.parse(JSON.stringify(this.copyWelfare));
       if(typeof (postdata.id) === "undefined" || postdata.id === null) {
         this.welfareEmployeeService.addWelfare(postdata)
@@ -191,6 +233,11 @@ export class StaffWelfareMangComponent implements OnInit {
     for(let i = 0;i< this.tempOther.length;i++){
       this.tempOther[i].isShow = true;
     }
+    this.tempFeedbackMsg = JSON.parse(JSON.stringify(data.feedBackMsg));
+    for(let i = 0;i< this.tempFeedbackMsg.length;i++){
+      this.tempFeedbackMsg[i].isShow = true;
+    }
+
   }
   /*删除*/
   delete(id:number){

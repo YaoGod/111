@@ -549,4 +549,5 @@ select{
 }
 .btn-close{
   color: #d75452;
+  cursor: pointer;
 }
