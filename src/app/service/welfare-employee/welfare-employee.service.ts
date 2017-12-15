@@ -63,8 +63,8 @@ export class WelfareEmployeeService {
    param: pageSize: number,
    return: res.json
    */
-  getWelfareList(dataType,search,pageNo:number,pageSize:number){
-    const url = this.ipSetting.ip + "/employee/Welfare/getWelfare/"+dataType+"/"+pageNo+ "/" + pageSize + "?search=" + search;
+  getWelfareList(search,pageNo:number,pageSize:number){
+    const url = this.ipSetting.ip + "/employee/Welfare/getWelfare/"+pageNo+ "/" + pageSize + "?search=" + search;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }

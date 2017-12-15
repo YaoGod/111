@@ -1,3 +1,81 @@
-<p>
-  staff-welfare-statistics works!
-</p>
+<!--页面标题-->
+<div class="nav-title">
+  <a><h4>福利信息统计</h4></a>
+</div>
+<!--搜索栏-->
+<div class="search-bar">
+  <ul>
+    <li>
+      <input type="text" name="search" [(ngModel)]="search">
+      <a (click)="searchInfo();"><i class="icon-magnifier"></i>查询</a>
+    </li>
+    <li>
+      <a class="btn-danger"
+         (click)="fadeBom()">
+        <i class="icon-plus"></i>
+        添加
+      </a>
+    </li>
+  </ul>
+</div>
+<!--表头-->
+<div class="table-head" style="margin-top: 10px">
+  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+    <tr class="row list-title" style="height:45px;">
+      <th width="10%" class="text-left">标题</th>
+      <th width="25%" class="text-left">内容介绍</th>
+      <th width="20%">图片</th>
+      <th width="20%">优惠有效期</th>
+      <th width="10%">状态</th>
+      <th width="15%">操作</th>
+    </tr>
+  </table>
+</div>
+<!--表格内容-->
+<div class="table-content" style="min-height: 500px">
+  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+    <tr class="row"  style="height:100px;" *ngFor="let discount of discounts;let i = index">
+      <td width="10%" class="text-left">
+        <span>
+          {{discount.title}}
+        </span>
+      </td>
+      <td width="25%" class="text-left">
+        <p class="tb-text">
+          {{discount.summary}}
+        </p>
+      </td>
+      <td width="20%" class="box-demo">
+        <img *ngIf="discount.imgPath"
+             [src]="'/proxy' + discount.imgPath">
+      </td>
+      <td width="20%">
+        <span>
+          {{discount.effectBtime+" - "+discount.effectEtime}}
+        </span>
+      </td>
+      <td width="10%" [ngStyle]="{'color':discount.status === '失效'?'red':'green'}">
+        {{discount.status}}
+      </td>
+      <td width="15%" class="box-option">
+        <a (click)="linkDetail(discount.id)">
+          <i class="icon-screen-desktop"></i>详情
+        </a>
+      </td>
+    </tr>
+  </table>
+  <div class="div-none" *ngIf="discounts&&discounts.length < 1">
+    <p>暂无信息</p>
+  </div>
+</div>
+<!--翻页-->
+<div class="turn" *ngIf="pages.length > 1">
+  <ul>
+    <li *ngFor="let i of pages"
+        [hidden] = "pageLimit(i)"
+        [ngClass]="{'active':i === pageNo}"
+        (click)="goPage(i);">
+      {{i}}
+    </li>
+  </ul>
+</div>

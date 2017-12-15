@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { WelfareComponent } from './welfare.component';
 import { RouteGuardService } from '../../service/route-guard/route-guard.service';
 import { Routes, RouterModule } from '@angular/router';
-import {} from './staff-welfare/staff-welfare.module'
+import {} from './staff-welfare/staff-welfare.module';
+import { IndexWelfareComponent } from './index-welfare/index-welfare.component'
 const routes: Routes = [
   {
     path: '',
@@ -12,8 +13,12 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'discount',
+        redirectTo: 'index',
         pathMatch: 'full'
+      },
+      {
+        path: 'index',
+        component: IndexWelfareComponent
       },
       {
         path: 'discount',
@@ -33,6 +38,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
-  declarations: [WelfareComponent]
+  declarations: [WelfareComponent, IndexWelfareComponent]
 })
 export class WelfareModule { }

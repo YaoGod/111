@@ -1,7 +1,7 @@
 <!--页面标题-->
-<!--<div class="nav-title">
-  <a><h4>优惠信息管理</h4></a>
-</div>-->
+<div class="nav-title">
+  <a><h4>福利信息管理</h4></a>
+</div>
 <!--搜索栏-->
 <div class="search-bar">
   <ul>
@@ -58,6 +58,9 @@
       <td width="15%" class="box-option">
         <a (click)="linkDetail(discount.id)">
           <i class="icon-screen-desktop"></i>详情
+        </a>
+        <a (click)="linkStatistics(discount.id)">
+          <i class="icon-chart"></i>统计
         </a>
         <a (click)="edit(discount)">
           <i class="icon-pencil"></i>编辑

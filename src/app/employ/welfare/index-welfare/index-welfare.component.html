@@ -1,0 +1,78 @@
+
+<div class="goods-area">
+  <div class="goods-inner">
+    <h4 class="goods-hd">
+      <em class="fn1">找优惠</em>
+      <p>
+        <span class="subtitle">极致优惠不容错过</span>
+      </p>
+      <span class="tb-fn">
+        <a class="btn-fn3" (click)="linkDiscountMag()">
+          管&nbsp;&nbsp;理
+        </a>
+        <a class="btn-fn1">换一换</a>
+      </span>
+    </h4>
+    <ul class="goods-list">
+      <li *ngFor="let discount of discounts">
+        <a (click)="linkDiscount(discount.id)">
+          <div class="img-wrap">
+            <img [src]="IpSetting.ip+discount.imgPath">
+          </div>
+          <div class="goods-msg">
+            <h5>{{discount.title}}</h5>
+            <p>{{discount.summary}}</p>
+          </div>
+          <div class="goods-extra">
+          </div>
+        </a>
+      </li>
+    </ul>
+    <div class="div-none" *ngIf="discounts && discounts.length === 0">
+      <p>此处空空如也</p>
+    </div>
+  </div>
+  <div class="goods-inner">
+    <h4 class="goods-hd">
+      <em class="fn2">有福利</em>
+      <p>
+        <span class="subtitle">优质福利火速领取中</span>
+      </p>
+      <span class="tb-fn">
+        <a class="btn-fn3" (click)="linkWelfareMag()">
+          管&nbsp;&nbsp;理
+        </a>
+        <a class="btn-fn2">换一换</a>
+      </span>
+    </h4>
+    <ul class="goods-list">
+      <li *ngFor="let welfare of welfares">
+        <a (click)="linkWelfare(welfare.id)">
+          <div class="img-wrap">
+            <img [src]="IpSetting.ip+welfare.imgPath">
+          </div>
+          <div class="goods-msg">
+            <h5>{{welfare.title}}</h5>
+            <p>{{welfare.content}}</p>
+          </div>
+          <div class="goods-extra">
+            <span class="response" *ngIf="welfare.details==='否'&&welfare.feedBack==='是'">
+              <i class="icon-diamond"></i>需要反馈
+            </span>
+            <span class="finish" *ngIf="welfare.details==='是'&&welfare.feedBack==='是'">
+              <i class="icon-check"></i>我已反馈
+            </span>
+            <span class="wait" *ngIf="welfare.feedBack==='否'">
+              <i class="icon-clock"></i>静候佳音
+            </span>
+          </div>
+        </a>
+      </li>
+    </ul>
+    <div class="div-none" *ngIf="welfares && welfares.length === 0">
+      <p>此处空空如也</p>
+    </div>
+  </div>
+  <div class="clearBoth"></div>
+</div>
+

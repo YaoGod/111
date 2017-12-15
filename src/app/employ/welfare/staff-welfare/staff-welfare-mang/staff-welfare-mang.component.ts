@@ -31,7 +31,7 @@ export class StaffWelfareMangComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.globalCatalogService.setTitle("员工服务/福利专区/优惠信息管理");
+    this.globalCatalogService.setTitle("员工服务/福利专区/福利信息管理");
     this.welfares = new Array<Welfare>();
     this.copyWelfare = new Welfare();
     this.pages = new Array<number>();
@@ -41,7 +41,7 @@ export class StaffWelfareMangComponent implements OnInit {
     this.winTitle = "";
   }
   getWelfare() {
-    this.welfareEmployeeService.getWelfareList("list",this.search,this.pageNo,this.pageSize)
+    this.welfareEmployeeService.getWelfareList(this.search,this.pageNo,this.pageSize)
       .subscribe(data =>{
         if(this.errorResponseService.errorMsg(data)){
           this.welfares = data.data.infos;
@@ -270,7 +270,10 @@ export class StaffWelfareMangComponent implements OnInit {
     });
   }
   linkDetail(id){
-    this.router.navigate(['/hzportal/employ/welfare/Welfare/detail',id]);
+    this.router.navigate(['/hzportal/employ/welfare/staffWelfare/detail',id]);
+  }
+  linkStatistics(id){
+    this.router.navigate(['/hzportal/employ/welfare/staffWelfare/statistics',id]);
   }
   /*页码初始化*/
   initPage(total){

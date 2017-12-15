@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router';
-import { Discount, Other } from '../../../../mode/discount/discount.service';
+import { Discount } from '../../../../mode/discount/discount.service';
 import { GlobalCatalogService } from '../../../../service/global-catalog/global-catalog.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
 import { DiscountEmployeeService } from '../../../../service/discount-employee/discount-employee.service';

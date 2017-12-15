@@ -9,6 +9,7 @@ import { StaffWelfareSearchComponent } from './staff-welfare-search/staff-welfar
 import { StaffWelfareStatisticsComponent } from './staff-welfare-statistics/staff-welfare-statistics.component';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import { WelfareEmployeeService } from '../../../service/welfare-employee/welfare-employee.service';
+import { StaffWelfareDetailComponent } from './staff-welfare-detail/staff-welfare-detail.component';
 const routes: Routes = [
   {
     path: '',
@@ -25,11 +26,15 @@ const routes: Routes = [
         component: StaffWelfareMangComponent
       },
       {
+        path: 'detail/:id',
+        component: StaffWelfareDetailComponent
+      },
+      {
         path: 'search',
         component: StaffWelfareSearchComponent
       },
       {
-        path: 'statistics',
+        path: 'statistics/:id',
         component: StaffWelfareStatisticsComponent
       }
     ]
@@ -43,6 +48,6 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [ErrorResponseService,WelfareEmployeeService],
-  declarations: [StaffWelfareComponent, StaffWelfareMangComponent, StaffWelfareSearchComponent, StaffWelfareStatisticsComponent]
+  declarations: [StaffWelfareComponent, StaffWelfareMangComponent, StaffWelfareSearchComponent, StaffWelfareStatisticsComponent, StaffWelfareDetailComponent]
 })
 export class StaffWelfareModule { }

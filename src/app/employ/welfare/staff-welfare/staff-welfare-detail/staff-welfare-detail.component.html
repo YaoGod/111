@@ -1,0 +1,45 @@
+<!--页面标题-->
+<div class="nav-title">
+  <a><h4>福利信息</h4></a>
+</div>
+<!--信息内容-->
+<div class="warp">
+  <div class="warp-left">
+    <img [src]="'proxy/'+welfare.imgPath" *ngIf="welfare&&welfare.imgPath">
+  </div>
+  <div class="warp-right">
+    <h4>{{welfare.title}}</h4>
+    <ul>
+      <li *ngFor="let other of welfare.others">
+        <span class="form-title">{{other.key}}</span>
+        <span class="word">{{other.value}}</span>
+      </li>
+    </ul>
+    <div class="form-back" *ngIf="welfare.feedBackMsg&&welfare.feedBackMsg.length>0">
+      <h5>需反馈信息</h5>
+      <ul>
+        <li>
+          <span class="form-title">名称</span>
+          <span class="word">备注</span>
+        </li>
+        <li *ngFor="let feedbackMsg of welfare.feedBackMsg">
+          <span class="form-title">{{feedbackMsg.key}}</span>
+          <span class="word">{{feedbackMsg.msg}}</span>
+        </li>
+      </ul>
+      <div class="form-back">
+      <div class="btn-form-back">
+        <a><i class="icon-earphones"></i>填写反馈信息</a>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="cont">
+  <h5><span>详情介绍</span></h5>
+  <div class="summary-text word">
+    <i class="fa fa-quote-left" style="font-size: 18px; color:#e8e8e8;"></i>
+    {{welfare.content}}
+    <i class="fa fa-quote-right" style="font-size: 18px; color:#e8e8e8;"></i>
+  </div>
+</div>
