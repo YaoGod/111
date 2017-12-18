@@ -407,6 +407,96 @@ input{
 .form-attach{
   right:5%;
 }
-.form-attach a{
+.form-attach,.form-attach a{
   color:#8d9ea7;
+}
+/* modal */
+.modal-back{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000;
+  background-color: rgba(0,0,0,0.4);
+  display: none;
+  z-index: 25;
+}
+.modal{
+  height:auto;
+  width:465px;
+  margin:60px auto 5px;
+  background: white;
+  box-shadow:0px 0px 15px  #666666;
+  border-radius: 3px;
+}
+.modal-header{
+  position: relative;
+}
+.modal-title{
+  height: 50px;
+  line-height: 50px;
+  font-size: 16px;
+  font-weight: normal;
+  color: #666666;
+  background-color: #f1f2f2;
+  border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  text-align: center;
+}
+.modal-header .close{
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  border:none;
+  background-color: inherit;
+  font-size: 20px;
+  color:#4b87d4;
+}
+.modal-header .close:hover{
+  color: #1d72df;
+}
+.modal-body{
+  padding-top: 20px;
+}
+.modal-body .foot{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding:10px 15px;
+  background-color: #f1f5f8;
+}
+.modal-body .btn{
+  border: none;
+  background-color: #4b87d4;
+  color: #ffffff;
+  padding: 6px 25px;
+  margin: 7px 10px;
+}
+.modal-body .btn:hover{
+  background-color: #1d72df;
+  cursor: pointer;
+}
+/* excel-out */
+.excel-out{
+  padding-top: 60px;
+  background: url(../../../../../assets/image/excel.png) center 10px no-repeat;
+}
+.excel-out p{
+  line-height: 24px;
+  font-size: 16px;
+  color: #010101;
+  margin: 15px;
+  text-align: center;
 }

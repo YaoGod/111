@@ -35,15 +35,15 @@ export class OrdersComponent implements OnInit {
               private globalCatalogService:GlobalCatalogService,
               private ipSetting  : IpSettingService
   ) {
-    this.rule = this.globalCatalogService.getRole("security/daily");
+    this.rule = this.globalCatalogService.getRole("property/orders");
     this.getQuan();
   }
 
   ngOnInit() {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
-        this.rule = this.globalCatalogService.getRole("security/daily");
-        // console.log(this.rule);
+        this.rule = this.globalCatalogService.getRole("property/orders");
+        console.log(this.rule);
         this.getQuan();
       }
     );
@@ -81,10 +81,37 @@ export class OrdersComponent implements OnInit {
         }
       });
   }
-  /*获取/查询服务公司*/
+  /*获取/查询物业服务订单*/
   private getRecord(search, pageNo, pageSize) {
-    const SOFTWARES_URL =  this.ipSetting.ip + "/employee/property/getOrder/list/" + pageNo + "/" + pageSize+"?orderNum="+
-      search.orderNum+"&";
+    if((typeof search.buildingNum) === 'undefined'){
+      search.buildingNum = '';
+    }
+    if((typeof search.buildingName) === 'undefined'){
+      search.buildingName = '';
+    }
+    if((typeof search.orderId) === 'undefined'){
+      search.orderId = '';
+    }
+    if((typeof search.orderStatus) === 'undefined'){
+      search.orderStatus = '';
+    }
+    if((typeof search.startTime) === 'undefined'){
+      search.startTime = '';
+    }
+    if((typeof search.finshTime) === 'undefined'){
+      search.finshTime = '';
+    }
+    if((typeof search.serverUserid) === 'undefined'){
+      search.serverUserid = '';
+    }
+    if((typeof search.userDept) === 'undefined'){
+      search.userDept = '';
+    }
+
+    const SOFTWARES_URL =  this.ipSetting.ip + "/employee/property/getOrder/list/" + pageNo + "/" + pageSize+"?buildingNum="+
+      search.buildingNum+"&buildingName="+search.buildingName+"&orderId="+search.orderId+"&orderStatus="+
+      search.orderStatus+"&startTime="+search.startTime+"&finshTime="+search.finshTime+"&serverUserid="+search.serverUserid+
+    "&userDept="+search.userDept;
     this.http.get(SOFTWARES_URL)
       .map(res => res.json())
       .subscribe(data => {
@@ -95,13 +122,21 @@ export class OrdersComponent implements OnInit {
         }
       });
   }
+  /*点击查询*/
+  private repairSearch(){
+    this.getRecord(this.searchArch, this.pageNo, this.pageSize)
+  }
+  /*删除信息*/
+  delAttach(){
+
+  }
   /*编辑信息*/
   editAttach(index){
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
     /*虚拟员工部门电话*/
-    this.repairname.employeeDepart = '市场管理部';
-    this.repairname.employeePhone = '13598768978';
+    this.repairname.employeeDepart = localStorage.getItem("deptName");
+    this.repairname.employeePhone = localStorage.getItem("teleNum");
 
     $('.mask').fadeIn();
     $('.mask-head p').html('编辑物业订单');
@@ -113,8 +148,8 @@ export class OrdersComponent implements OnInit {
     this.repairname.filePath = [];
 
     /*虚拟员工部门电话*/
-    this.repairname.employeeDepart = '市场管理部';
-    this.repairname.employeePhone = '13598768978';
+    this.repairname.employeeDepart = localStorage.getItem("deptName");
+    this.repairname.employeePhone = localStorage.getItem("teleNum");
 
     this.editBool = true;
     $('.mask').fadeIn();
@@ -240,6 +275,37 @@ export class OrdersComponent implements OnInit {
     this.repairname.filePath = [];
     $('.mask').hide();
   }
+
+  /*点击导出*/
+  outOrder(){
+    $('#deriving').fadeIn();
+  }
+  /*关闭导出对话框*/
+  private closeDeriving() {
+    $('#deriving').hide();
+  }
+  /*导出数据下载*/
+  private downDeriving(){
+    if((typeof this.searchArch.startTime) === 'undefined' || (typeof this.searchArch.finshTime) === 'undefined'){
+      this.searchArch.startTime = '';
+      this.searchArch.finshTime = '';
+    }
+    this.searchArch.startTime = this.searchArch.startTime.replace(/-/g, "/");
+    this.searchArch.finshTime = this.searchArch.finshTime.replace(/-/g, "/");
+    this.http.get(this.ipSetting.ip + "/employee/property/getOrder/excel/"+ this.pageNo +"/"+ this.pageSize +"?buildingNum="+
+      this.searchArch.buildingNum+"&buildingName="+this.searchArch.buildingName+"&orderId="+this.searchArch.orderId+
+      "&orderStatus="+ this.searchArch.orderStatus+"&startTime="+this.searchArch.startTime+"&finshTime="+
+      this.searchArch.finshTime+"&serverUserid="+this.searchArch.serverUserid+ "&userDept="+this.searchArch.userDept)
+    // .map(res => res.json())
+      .subscribe(data => {
+        window.location.href = this.ipSetting.ip + "/employee/property/getOrder/list/"+ this.pageNo +"/"+ this.pageSize +"?buildingNum="+
+          this.searchArch.buildingNum+"&buildingName="+this.searchArch.buildingName+"&orderId="+this.searchArch.orderId+
+          "&orderStatus="+ this.searchArch.orderStatus+"&startTime="+this.searchArch.startTime+"&finshTime="+
+          this.searchArch.finshTime+"&serverUserid="+this.searchArch.serverUserid+ "&userDept="+this.searchArch.userDept;
+        this.searchArch = new Arch();
+        $('#deriving').fadeOut();
+      });
+  }
   /*页码初始化*/
   initPage(total) {
     this.pages = new Array(total);
@@ -332,12 +398,13 @@ export class OrdersComponent implements OnInit {
 export class GuardName {
   id: number; // 本条信息ID
   buildingId: string;
+  buildingNum: string;
   buildingName: string;
   floorId: string; // 楼层
   roomId:string; // 房间号
   employeeDepart:string; // 员工部门
   employeePhone: string; // 电话
-  porpertyId:string; // 服务类型
+  porpertyId:number; // 服务类型
   porpertyContent:string; // 服务详情
   orderId:string;     // 订单号
   filePath: string[]; // 文件路径
@@ -345,7 +412,8 @@ export class GuardName {
   orderStatus:string; // 订单状态
 }
 export class Arch {
-  buildingId: string; // 大楼编号
+  buildingId: string; // 大楼Id
+  buildingNum:string; // 大楼编号
   buildingName: string;// 大楼名称
   orderId:string;     // 订单号
   orderStatus:string;   // 订单状态

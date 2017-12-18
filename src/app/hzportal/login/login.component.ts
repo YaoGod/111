@@ -52,6 +52,8 @@ export class LoginComponent implements OnInit {
               this.save_passwd?localStorage.setItem("save_passwd","true"):localStorage.removeItem("save_passwd");
               localStorage.setItem("username",data.data.userInfo.username);
               localStorage.setItem("password",this.user.password);
+              localStorage.setItem("teleNum",data.data.userInfo.teleNum);
+              localStorage.setItem("deptName",data.data.userInfo.deptName);
               this.router.navigate(['/hzportal/']);
             }
           }else {
