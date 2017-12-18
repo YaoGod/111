@@ -83,6 +83,24 @@ export class UtilBuildingService {
     xhr.send(form);
     return xhr;
   }
+
+  /*
+   文件上传物业服务附件
+   param: postData:file,
+   return:
+   */
+  importEmployee(postData,type,id) {
+    const url = this.ipSetting.ip + "/employee/property/uploadFile/"+ type +"/"+id;
+    var form = new FormData();
+    if (typeof(postData) === 'object') {
+      form.append('file', postData);
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.withCredentials = true;
+    xhr.send(form);
+    return xhr;
+  }
   /*获取大楼列表*/
   getBuildingList() {
     const url = this.ipSetting.ip + "/building/util/getBuildingList";

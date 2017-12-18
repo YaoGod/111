@@ -99,12 +99,23 @@ export class OrdersComponent implements OnInit {
   editAttach(index){
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
+    /*虚拟员工部门电话*/
+    this.repairname.employeeDepart = '市场管理部';
+    this.repairname.employeePhone = '13598768978';
+
     $('.mask').fadeIn();
     $('.mask-head p').html('编辑物业订单');
   }
   /*点击新增*/
   addOrder(){
     this.repairname = new GuardName();
+    this.repairname.fileName = [];
+    this.repairname.filePath = [];
+
+    /*虚拟员工部门电话*/
+    this.repairname.employeeDepart = '市场管理部';
+    this.repairname.employeePhone = '13598768978';
+
     this.editBool = true;
     $('.mask').fadeIn();
     $('.mask-head p').html('新增物业订单');
@@ -149,9 +160,9 @@ export class OrdersComponent implements OnInit {
     }
     return true;
   }
-  /*合同上传*/
+  /*附件上传*/
   prese_upload(files){
-    var xhr = this.utilBuildingService.uploadFile(files[0],'decorate',-1);
+    var xhr = this.utilBuildingService.importEmployee(files[0],'property',-1);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
@@ -322,22 +333,24 @@ export class GuardName {
   id: number; // 本条信息ID
   buildingId: string;
   buildingName: string;
-  buildingFloor: string; // 楼层
-  roomNum:string; // 房间号
+  floorId: string; // 楼层
+  roomId:string; // 房间号
   employeeDepart:string; // 员工部门
   employeePhone: string; // 电话
-  servername:string; // 服务类型
-  detail:string; // 服务详情
+  porpertyId:string; // 服务类型
+  porpertyContent:string; // 服务详情
+  orderId:string;     // 订单号
   filePath: string[]; // 文件路径
   fileName:string[]; // 文件名
+  orderStatus:string; // 订单状态
 }
 export class Arch {
   buildingId: string; // 大楼编号
   buildingName: string;// 大楼名称
-  orderNum:string;     // 订单号
-  orderState:string;   // 订单状态
-  bTime:string;        // 订单生成时间
-  eTime:string;        // 订单结束时间
-  orderPerson:string;  // 订单人
-  orderDepart:string;  // 订单部门
+  orderId:string;     // 订单号
+  orderStatus:string;   // 订单状态
+  startTime:string;        // 订单生成时间
+  finshTime:string;        // 订单结束时间
+  serverUserid:string;  // 订单人
+  userDept:string;  // 订单部门
 }
