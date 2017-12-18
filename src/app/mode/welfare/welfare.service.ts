@@ -12,7 +12,7 @@ export class Welfare {
   feedBackMsg : any;              /*需反馈的信息*/
   status      : string;           /*状态*/
   others      : Array<Other>;     /*自定义字段*/
-  details     : string;           /*是否反馈*/
+  details     : any;           /*是否反馈*/
 }
 
 export class Other {

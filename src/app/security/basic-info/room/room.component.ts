@@ -154,7 +154,7 @@ export class RoomComponent implements OnInit {
                 "callback": () => {
                   this.initRoom();
                 },
-                'cancle':() => {
+                'cancel':() => {
                 this.initRoom();
                }
               });
@@ -255,7 +255,7 @@ export class RoomComponent implements OnInit {
                   this.closeNewView();
                   this.initRoom();
                 },
-                'cancle': () => {
+                'cancel': () => {
                   $('#pres').val('');
                   this.closeNewView();
                   this.initRoom();
@@ -279,7 +279,7 @@ export class RoomComponent implements OnInit {
                     this.initRoom();
                   }
                 },
-                "cancle": () =>{
+                "cancel": () =>{
                   if(data.msg = '更新成功'){
                     $('#pres').val('');
                     this.closeNewView();

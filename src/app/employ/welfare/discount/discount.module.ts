@@ -8,6 +8,7 @@ import { DiscountInfoMangComponent } from './discount-info-mang/discount-info-ma
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import { DiscountEmployeeService } from '../../../service/discount-employee/discount-employee.service';
 import { DiscountInfoDetailComponent } from './discount-info-detail/discount-info-detail.component';
+import { DiscountInfoListComponent } from './discount-info-list/discount-info-list.component';
 const routes: Routes = [
   {
     path: '',
@@ -26,7 +27,11 @@ const routes: Routes = [
       {
         path: 'detail/:id',
         component: DiscountInfoDetailComponent
-      }
+      },
+      {
+        path: 'list',
+        component: DiscountInfoListComponent
+      },
     ]
   }
 ];
@@ -38,6 +43,6 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [ErrorResponseService,DiscountEmployeeService],
-  declarations: [DiscountComponent, DiscountInfoMangComponent, DiscountInfoDetailComponent]
+  declarations: [DiscountComponent, DiscountInfoMangComponent, DiscountInfoDetailComponent, DiscountInfoListComponent]
 })
 export class DiscountModule { }

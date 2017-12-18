@@ -23,11 +23,6 @@ const routes: Routes = [
     component: HeaderComponent,
     children: [
       {
-        path: '',
-        redirectTo: 'security',
-        pathMatch: 'full'
-      },
-      {
         /*大楼综合信息管理*/
         path: 'security',
         loadChildren: '../security/security.module#SecurityModule'

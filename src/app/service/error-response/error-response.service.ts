@@ -17,7 +17,7 @@ export class ErrorResponseService {
         'callback':()=> {
           this.router.navigate(['login']);
         },
-        'cancle': ()=> {
+        'cancel': ()=> {
           this.router.navigate(['login']);
         }
       });

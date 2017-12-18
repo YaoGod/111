@@ -17,9 +17,15 @@ declare var $: any;
 })
 export class IndexWelfareComponent implements OnInit {
 
+  public rule;
   public  discounts: Array<Discount>;
   public  welfares: Array<Welfare>;
   public  ip: string;
+  public pageSize:number;
+  public pageNoD: number;
+  public maxPageNoD: number;
+  public pageNoW: number;
+  public maxPageNoW: number;
   constructor(
     private router: Router,
     public IpSetting:IpSettingService,
@@ -27,18 +33,31 @@ export class IndexWelfareComponent implements OnInit {
     private errorResponseService:ErrorResponseService,
     private discountEmployeeService:DiscountEmployeeService,
     private welfareEmployeeService:WelfareEmployeeService
-  ) { }
+  ) {
+    this.rule = this.globalCatalogService.getRole("employ/welfare");
+  }
 
   ngOnInit() {
     this.globalCatalogService.setTitle("员工服务/福利专区");
-    this.getDiscount("",1,6);
-    this.getWelfare("",1,6);
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("employ/welfare");
+      }
+    );
+    this.pageNoD = 1;
+    this.pageNoW = 1;
+    this.pageSize = 6;
+    this.discounts = [];
+    this.welfares = [];
+    this.getDiscount("",this.pageNoD,this.pageSize);
+    this.getWelfare("",this.pageNoW,this.pageSize);
   }
   getDiscount(search,pageNo,pageSize) {
     this.discountEmployeeService.getDiscountList(search,pageNo,pageSize)
       .subscribe(data =>{
         if(this.errorResponseService.errorMsg(data)){
           this.discounts = data.data.infos;
+          this.maxPageNoD = data.data.total;
         }
       });
   }
@@ -47,6 +66,7 @@ export class IndexWelfareComponent implements OnInit {
       .subscribe(data =>{
         if(this.errorResponseService.errorMsg(data)){
           this.welfares = data.data.infos;
+          this.maxPageNoW = data.data.total;
         }
       });
   }
@@ -56,10 +76,35 @@ export class IndexWelfareComponent implements OnInit {
   linkDiscountMag(){
     this.router.navigate(['/hzportal/employ/welfare/discount/manage']);
   }
+  linkDiscountList(){
+    this.router.navigate(['/hzportal/employ/welfare/discount/list']);
+  }
   linkWelfare(id){
     this.router.navigate(['/hzportal/employ/welfare/staffWelfare/detail',id]);
   }
   linkWelfareMag(){
     this.router.navigate(['/hzportal/employ/welfare/staffWelfare/manage']);
+  }
+  linkWelfareList(){
+    this.router.navigate(['/hzportal/employ/welfare/staffWelfare/list']);
+  }
+  rand(pageNo,total):number{
+    let pages = Math.ceil(total/6);
+    if(pages === 1){
+      return 1;
+    }
+    let tempNo =  Math.ceil(Math.random()*pages);
+    while(tempNo === pageNo){
+      tempNo =  Math.ceil(Math.random()*pages);
+    }
+    return tempNo;
+  }
+  randGetDiscount(){
+    this.pageNoD = this.rand(this.pageNoD,this.maxPageNoD);
+    this.getDiscount("",this.pageNoD,this.pageSize);
+  }
+  randGetWelfare(){
+    this.pageNoW = this.rand(this.pageNoW,this.maxPageNoW);
+    this.getWelfare("",this.pageNoW,this.pageSize);
   }
 }

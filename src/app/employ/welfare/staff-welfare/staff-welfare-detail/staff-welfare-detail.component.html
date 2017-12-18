@@ -9,29 +9,50 @@
   </div>
   <div class="warp-right">
     <h4>{{welfare.title}}</h4>
+    <div class="form-back-end"
+         *ngIf="welfare.details&&!(welfare.feedBack === '是'&&welfare.details.length===0)">
+      <p>(您的福利商品发放中，请到相关人员处领取)</p>
+    </div>
     <ul>
       <li *ngFor="let other of welfare.others">
         <span class="form-title">{{other.key}}</span>
         <span class="word">{{other.value}}</span>
       </li>
     </ul>
-    <div class="form-back" *ngIf="welfare.feedBackMsg&&welfare.feedBackMsg.length>0">
-      <h5>需反馈信息</h5>
+    <div *ngIf="welfare.feedBack === '是'">
+      <div class="btn-form-back">
+        <a (click)="showFeedbackWin()">
+          <i class="icon-earphones"></i>填写反馈信息
+        </a>
+      </div>
+      <div class="form-back" id="forms" style="display: none;"
+           *ngIf="welfare.feedBackMsg&&welfare.feedBackMsg.length>0">
+        <h5>需反馈信息</h5>
+        <ul>
+          <li *ngFor="let feedbackMsg of welfare.feedBackMsg">
+            <span class="form-title">{{feedbackMsg.key}}</span>
+            <span class="word">{{feedbackMsg.msg}}</span>
+            <span>
+              <input class="form-control" id="title" [(ngModel)] = "feedbackMsg.value"
+                         name="title" type="text">
+            </span>
+          </li>
+        </ul>
+        <div class="form-back-footer">
+          <a class="footer-btn-submit" (click)="submitFeedbackMsg()">提交</a>
+          <a class="footer-btn-close" (click)="closeFeedbackMsg()">取消</a>
+        </div>
+      </div>
+    </div>
+    <div class="form-back-msg"
+         *ngIf="welfare.feedBack === '是'&&welfare.details&&welfare.details.length>0">
+      <h5>我的反馈信息</h5>
       <ul>
-        <li>
-          <span class="form-title">名称</span>
-          <span class="word">备注</span>
-        </li>
-        <li *ngFor="let feedbackMsg of welfare.feedBackMsg">
-          <span class="form-title">{{feedbackMsg.key}}</span>
-          <span class="word">{{feedbackMsg.msg}}</span>
+        <li *ngFor="let detail of welfare.details">
+          <span class="form-title">{{detail.key}}</span>
+          <span class="word">{{detail.value}}</span>
         </li>
       </ul>
-      <div class="form-back">
-      <div class="btn-form-back">
-        <a><i class="icon-earphones"></i>填写反馈信息</a>
-      </div>
-      </div>
     </div>
   </div>
 </div>
@@ -39,7 +60,7 @@
   <h5><span>详情介绍</span></h5>
   <div class="summary-text word">
     <i class="fa fa-quote-left" style="font-size: 18px; color:#e8e8e8;"></i>
-    {{welfare.content}}
+    {{welfare.content | formatSpace}}
     <i class="fa fa-quote-right" style="font-size: 18px; color:#e8e8e8;"></i>
   </div>
 </div>

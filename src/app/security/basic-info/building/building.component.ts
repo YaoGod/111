@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Building} from '../../../mode/building/building.service';
+import { Building } from '../../../mode/building/building.service';
 import { GlobalBuildingService } from '../../../service/global-building/global-building.service';
 import { InfoBuildingService } from '../../../service/info-building/info-building.service';
 import { Router, ActivatedRoute, Params} from '@angular/router';

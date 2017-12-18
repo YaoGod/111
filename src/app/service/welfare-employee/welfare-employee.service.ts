@@ -88,4 +88,9 @@ export class WelfareEmployeeService {
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
+  updateWelfareFeed(data){
+    const url =  this.ipSetting.ip + "/employee/Welfare/updateWelfareFeed";
+    return this.http.post(url,data,this.options)
+      .map(res => res.json());
+  }
 }

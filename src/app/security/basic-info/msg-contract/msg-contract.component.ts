@@ -248,7 +248,7 @@ export class MsgContractComponent implements OnInit {
               this.closeNewView();
               this.getContract();
             },
-            "cancle": () => {
+            "cancel": () => {
               $("#fileUpload").val("");
               this.pageNo = 1;
               this.closeNewView();
@@ -274,7 +274,7 @@ export class MsgContractComponent implements OnInit {
               this.closeNewView();
               this.getContract();
             },
-            "cancle": () => {
+            "cancel": () => {
               $("#fileUpload").val("");
               this.pageNo = 1;
               this.closeNewView();
@@ -365,7 +365,7 @@ export class MsgContractComponent implements OnInit {
                   this.closeNewView();
                   this.getContract();
                 },
-                'cancle':() => {
+                'cancel':() => {
                   this.pageNo = 1;
                   this.closeNewView();
                   this.getContract();

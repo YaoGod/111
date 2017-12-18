@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Catalog, sndCatalog } from "../../mode/catalog/catalog.service";
+import { Router} from '@angular/router';
 import { Subject } from 'rxjs';
 @Injectable()
 export class GlobalCatalogService {
@@ -7,11 +8,19 @@ export class GlobalCatalogService {
   private title: string = "统一信息平台";
   valueUpdated:Subject<any> = new Subject<any>();
   titleUpdate :Subject<string> = new Subject<string>();
-  constructor() { }
+  constructor(
+    private router:Router
+  ) { }
   /*目录结构*/
   setVal(val:Array<Catalog>){
     this.catalog = val;
     this.valueUpdated.next(this.catalog);
+    if(this.catalog[0].routeUrl!==null){
+      this.router.navigate([this.catalog[0].routeUrl]);
+    }else{
+
+      this.router.navigate(['hzportal/'+this.catalog[0].childs[0].routeUrl]);
+    }
   }
   /*获取目录列表*/
   getVal():Array<Catalog>{

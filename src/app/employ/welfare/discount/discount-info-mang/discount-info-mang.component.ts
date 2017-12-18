@@ -131,7 +131,7 @@ export class DiscountInfoMangComponent implements OnInit {
                   this.pageNo = 1;
                   this.getDiscount();
                 },
-                "cancle": () => {
+                "cancel": () => {
                   this.closeMask();
                   this.pageNo = 1;
                   this.getDiscount();
@@ -153,7 +153,7 @@ export class DiscountInfoMangComponent implements OnInit {
                   this.pageNo = 1;
                   this.getDiscount();
                 },
-                "cancle": () => {
+                "cancel": () => {
                   this.closeMask();
                   this.pageNo = 1;
                   this.getDiscount();
@@ -195,7 +195,7 @@ export class DiscountInfoMangComponent implements OnInit {
                   this.pageNo = 1;
                   this.getDiscount();
                 },
-                "cancle": () => {
+                "cancel": () => {
                   this.pageNo = 1;
                   this.getDiscount();
                 }

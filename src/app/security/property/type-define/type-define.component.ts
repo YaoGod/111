@@ -66,7 +66,7 @@ export class TypeDefineComponent implements OnInit {
               this.closeNewView();
               this.getList();
             },
-            'cancle': ()=> {
+            'cancel': ()=> {
               this.pageNo = 1;
               this.closeNewView();
               this.getList();
@@ -91,7 +91,7 @@ export class TypeDefineComponent implements OnInit {
               this.closeNewView();
               this.getList();
             },
-            'cancle': () => {
+            'cancel': () => {
               this.pageNo = 1;
               this.pageSize = 9;
               this.closeNewView();
@@ -122,7 +122,7 @@ export class TypeDefineComponent implements OnInit {
                     this.pageNo = 1;
                     this.getList();
                   },
-                  'cancle': ()=> {
+                  'cancel': ()=> {
                     this.pageNo = 1;
                     this.getList();
                   }

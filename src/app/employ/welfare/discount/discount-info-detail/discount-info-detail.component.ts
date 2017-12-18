@@ -33,19 +33,28 @@ export class DiscountInfoDetailComponent implements OnInit {
       .subscribe(data=> {
         if(this.errorResponseService.errorMsg(data)){
           this.discount = data.data;
-          this.timeDjs(this.discount.effectEtime);
+          this.timeDjs(this.discount.effectBtime,this.discount.effectEtime);
         }
       })
   }
-  timeDjs(date){
-    let EndTime  = Date.parse(date);
+  timeDjs(bDate,eDate){
+    let BeginTime = Date.parse(bDate);
+    let EndTime  = Date.parse(eDate);
     let nowTime = Date.parse(new Date().toString());
-    let leftTime = EndTime - nowTime;
-    this.time = this.readTime(leftTime);
-    setInterval(()=>{
-      leftTime  = leftTime -1000;
-      this.time = this.readTime(leftTime);
-    },1000);
+    if(BeginTime>nowTime){
+      this.time = "活动暂未开始，敬请期待。";
+    }else{
+      let leftTime = EndTime - nowTime;
+      if(leftTime>0){
+        this.time = this.readTime(leftTime);
+        setInterval(()=>{
+          leftTime  = leftTime -1000;
+          this.time = this.readTime(leftTime);
+        },1000);
+      }else{
+        this.time = "活动已结束";
+      }
+    }
   }
   readTime(leftTime){
     let days = parseInt((leftTime / 1000 / 60 / 60 / 24).toString(), 10);  /*计算剩余的天数*/

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TextareaModule } from '../../../pipe/textarea/textarea.module';
 import { StaffWelfareComponent } from './staff-welfare.component';
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
 import { Routes, RouterModule } from '@angular/router';
@@ -10,6 +11,7 @@ import { StaffWelfareStatisticsComponent } from './staff-welfare-statistics/staf
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import { WelfareEmployeeService } from '../../../service/welfare-employee/welfare-employee.service';
 import { StaffWelfareDetailComponent } from './staff-welfare-detail/staff-welfare-detail.component';
+import { SraffWelfareListComponent } from './sraff-welfare-list/sraff-welfare-list.component';
 const routes: Routes = [
   {
     path: '',
@@ -34,6 +36,10 @@ const routes: Routes = [
         component: StaffWelfareSearchComponent
       },
       {
+        path: 'list',
+        component: SraffWelfareListComponent
+      },
+      {
         path: 'statistics/:id',
         component: StaffWelfareStatisticsComponent
       }
@@ -44,10 +50,17 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    TextareaModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
   providers: [ErrorResponseService,WelfareEmployeeService],
-  declarations: [StaffWelfareComponent, StaffWelfareMangComponent, StaffWelfareSearchComponent, StaffWelfareStatisticsComponent, StaffWelfareDetailComponent]
+  declarations: [
+    StaffWelfareComponent,
+    StaffWelfareMangComponent,
+    StaffWelfareSearchComponent,
+    StaffWelfareStatisticsComponent,
+    StaffWelfareDetailComponent,
+    SraffWelfareListComponent]
 })
 export class StaffWelfareModule { }

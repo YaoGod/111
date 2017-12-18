@@ -189,7 +189,7 @@ export class StaffWelfareMangComponent implements OnInit {
                   this.pageNo = 1;
                   this.getWelfare();
                 },
-                "cancle": () => {
+                "cancel": () => {
                   this.closeMask();
                   this.pageNo = 1;
                   this.getWelfare();
@@ -213,7 +213,7 @@ export class StaffWelfareMangComponent implements OnInit {
                   this.pageNo = 1;
                   this.getWelfare();
                 },
-                "cancle": () => {
+                "cancel": () => {
                   this.closeMask();
                   this.pageNo = 1;
                   this.getWelfare();
@@ -259,7 +259,7 @@ export class StaffWelfareMangComponent implements OnInit {
                   this.pageNo = 1;
                   this.getWelfare();
                 },
-                "cancle": () => {
+                "cancel": () => {
                   this.pageNo = 1;
                   this.getWelfare();
                 }

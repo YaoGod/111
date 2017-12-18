@@ -5,7 +5,7 @@ confirmFunc={
 	"dom":null,
 	"btnDom":null,
 	"callback":null,
-	"cancle":null,
+	"cancel":null,
 	"callbackSinleBtn":null,
 	"thisPointer":"window",
 	init:function(jsonData){
@@ -14,7 +14,7 @@ confirmFunc={
 		if(jsonData){
 			this.ownData=jsonData;
 			this.callback=jsonData.callback;
-			this.cancle=jsonData.cancle;
+			this.cancel=jsonData.cancel;
 			this.creatDom(jsonData);
 		}else{
 			alert("参数不存在！");
@@ -144,7 +144,7 @@ confirmFunc={
 		var thatData=this.ownData;
 		var thatParent=this.dom;
 		var callback=this.callback;
-		var cancle=this.cancle;
+		var cancel=this.cancel;
 		if(this.ownData.popType==0){//0表示只有一个确返回按钮的提示框
 			$(".confirmBtn").on("click",function(){
 				$(this).parents(".cpMasking").remove();
@@ -156,8 +156,8 @@ confirmFunc={
 			});
 			$(".confirmFaulse").on("click",function(){
 				$(this).parents(".cpMasking").remove();
-				if(cancle){
-					cancle();
+				if(cancel){
+					cancel();
 				}
 			});
 		}else if(this.ownData.popType==2){//2表示有回到函数的一个确定按钮
@@ -170,8 +170,8 @@ confirmFunc={
 		};
     $(".closeFnDiv").on("click",function(){
       $(this).parents(".cpMasking").remove();
-      if(cancle){
-        cancle();
+      if(cancel){
+        cancel();
       }
     });
 	},

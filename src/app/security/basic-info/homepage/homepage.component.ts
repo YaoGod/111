@@ -202,7 +202,7 @@ export class HomepageComponent implements OnInit {
                   this.pageNo = 1;
                   this.getBuildingMsg();
                 },
-                'cancle': () => {
+                'cancel': () => {
                   this.pages =[];
                   this.pageNo = 1;
                   this.getBuildingMsg();

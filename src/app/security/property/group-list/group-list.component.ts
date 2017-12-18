@@ -137,7 +137,7 @@ export class GroupListComponent implements OnInit {
                   this.pageNo = 1;
                   this.getList();
                 },
-                'cancle': () => {
+                'cancel': () => {
                   this.pageNo = 1;
                   this.getList();
                 }

@@ -184,7 +184,7 @@ export class MsgFloorComponent implements OnInit {
                   $('#prese'+index).val('');
                   this.copyFloors[index].editStatus = false;
                 },
-                "cancle": () => {
+                "cancel": () => {
                   this.floors[index] = this.copyFloors[index];
                   $('#prese'+index).val('');
                   this.copyFloors[index].editStatus = false;
@@ -221,7 +221,7 @@ export class MsgFloorComponent implements OnInit {
                 "callback": () => {
                   this.initFloor();
                 },
-                'cancle':() => {
+                'cancel':() => {
                   this.initFloor();
                 }
               });
@@ -304,7 +304,7 @@ export class MsgFloorComponent implements OnInit {
                 this.closeNewView();
                 this.initFloor();
               },
-              "cancle": () => {
+              "cancel": () => {
                 $('#pressNew').val('');
                 this.closeNewView();
                 this.initFloor();

@@ -105,7 +105,7 @@ export class FileComponent implements OnInit {
               this.closeNewView();
               this.getList();
             },
-            'cancle': () => {
+            'cancel': () => {
               this.pageNo = 1;
               this.closeNewView();
               this.getList();
