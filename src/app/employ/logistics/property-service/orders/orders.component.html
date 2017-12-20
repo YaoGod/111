@@ -88,7 +88,7 @@
           <li *ngFor="let abc of inner.fileName; let j=index">{{abc}} <a [href]="+'/proxy'+ inner.filePath[j]"><i class="icon-cloud-download"></i>下载</a> </li>
         </ol>
       </div>
-      <div class="form-btn" (click)="editAttach(i)"><i class="icon-pencil"></i></div>
+      <div class="form-btn" *ngIf="inner.orderStatus==='订购中'" (click)="editAttach(i)"><i class="icon-pencil"></i></div>
       <div class="form-btn form-del" (click)="delAttach(i)"><i class="icon-trash"></i></div>
     </div>
   </div>

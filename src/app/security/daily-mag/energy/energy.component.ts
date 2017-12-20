@@ -210,8 +210,10 @@ export class EnergyComponent implements OnInit {
   /*点击新增*/
   creatList(){
     $('.mask').fadeIn(500);
+    $('.mask .mask-head p').html('新增能耗信息');
     this.repairname = new GuardName();
     $('#buildingId').attr('disabled',false);
+
   }
   /*点击查询*/
   listSearch(){
@@ -260,6 +262,7 @@ export class EnergyComponent implements OnInit {
     this.repairname.month = this.repairname.month.replace(/\//g, "-");
     $('.mask').fadeIn();
     $('#buildingId').attr('disabled',true);
+    $('.mask .mask-head p').html('编辑能耗信息');
   }
   /*删除信息*/
   delAttach(index){

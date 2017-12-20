@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {GlobalCatalogService} from "../../service/global-catalog/global-catalog.service";
 
 @Component({
   selector: 'app-daily-mag',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DailyMagComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private globalCatalogService: GlobalCatalogService
+  ) { }
 
   ngOnInit() {
+    this.globalCatalogService.setTitle("大楼管理/大楼日常管理");
   }
 
 }

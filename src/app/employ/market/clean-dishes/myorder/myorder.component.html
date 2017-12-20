@@ -1,0 +1,70 @@
+
+  <!--大楼搜索栏-->
+    <div class="right">
+      <div class="wrap-content">
+        <div class="wrap-space">
+          <div class="wrap-b">
+            <div class="b-head">
+              <span>我的订单</span>
+            </div>
+            <!--<div class="path">
+              <img src="assets/image/bg-path.png" />
+              <ul>
+                <li class="one active">订购中</li>
+                <li class="two">已发货</li>
+                <li class="three">确认收货</li>
+                <li class="four">交易成功</li>
+              </ul>
+            </div>-->
+            <div class="b-con tuanmenu">
+              <div class="list-table" *ngFor="let order of orders;let idx=index">
+                <dt>
+                <table class="table-head0">
+                  <tr>
+                    <td class="zero">订单编号：{{order.id}}</td>
+                    <td class="zero">下单时间：{{order.payTime}}</td>
+                    <td class="zero">订单价格：￥{{order.payment}}</td>
+                    <td class="zero" *ngIf="order.status=='0'">订单状态：已付款</td>
+                    <td class="zero" *ngIf="order.status=='4'">订单状态：已配货</td>
+                    <td class="zero" *ngIf="order.status=='1'">订单状态：已到货</td>
+                    <td class="zero" *ngIf="order.status=='2'">订单状态：退单</td>
+                  </tr>
+                </table>
+                </dt>
+                <dl>
+                  <dt>
+                  <table class="table-head">
+                    <tr>
+                      <td class="fir">商品信息</td>
+                      <td class="sec">单价（元）</td>
+                      <td class="three">数量</td>
+                      <td class="four">合计（元）</td>
+                      <td class="zero"  *ngIf="order.status=='4'" >
+                        <button type="button" class="btn btn-info" style="padding: 2px 2px" (click)="updateOrders(order.id,'1')">确认收货</button>
+                      </td>
+                    </tr>
+                  </table>
+                  </dt>
+                  <!--  <dd *ngFor="let orderItem of order.groupOrderItems;let idx=index">-->
+                  <dd  *ngFor="let vegetableOrderItem of order.vegetableOrderItems;let idx=index">
+                    <table style="width:100%;">
+                      <td class="eight">
+                         <img *ngIf="vegetableOrderItem.imagePath!==''" [src]="'/proxy/' + vegetableOrderItem.imagePath"/>
+                      </td>
+                      <td class="sec" style="text-align: left"> <p class="headtxt">{{vegetableOrderItem.productName}}</p></td>
+                      <td class="sec">￥{{vegetableOrderItem.unitPrice}}</td>
+                      <td class="three">{{vegetableOrderItem.quantity}}</td>
+                      <td class="four">￥{{vegetableOrderItem.totalPrice}}</td>
+                    </table>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+

@@ -3,11 +3,23 @@
     <ul class="search clearfix">
       <li>
         <label>大楼编号</label>
-        <input type="text" name="searchbuildingId" class="search-ipt" [(ngModel)]="searchArch.buildingNum">
+        <!--<input type="text" name="searchbuildingId" class="search-ipt" [(ngModel)]="searchArch.buildingNum">-->
+        <select  name="searchbuildingId" class="search-ipt search-sel" [(ngModel)]="searchArch.buildingNum" size="1">
+          <option value="">全部</option>
+          <option *ngFor="let num of buildings"
+                  [value]="num.BUILDING_ID">
+            {{num.BUILDING_ID}}</option>
+        </select>
       </li>
       <li>
         <label>大楼名称</label>
-        <input type="text" name="searchbuildingName" class="search-ipt" [(ngModel)]="searchArch.buildingName">
+        <!--<input type="text" name="searchbuildingName" class="search-ipt" [(ngModel)]="searchArch.buildingName">-->
+        <select  name="searchbuildingName" class="search-ipt search-sel" [(ngModel)]="searchArch.buildingName">
+          <option value="">全部</option>
+          <option *ngFor="let num of buildings"
+                  [value]="num.NAME">
+            {{num.NAME}}</option>
+        </select>
       </li>
       <li>
         <label>订单号</label>
@@ -17,10 +29,10 @@
         <label>订单状态</label>
         <select name="searchorderState" class="search-ipt search-sel" [(ngModel)]="searchArch.orderStatus">
           <option value="">全部</option>
-          <option value="订购中">订购中</option>
-          <option value="退单">退单</option>
-          <option value="已执行">已执行</option>
-          <option value="结单">结单</option>
+          <option value="1">订购中</option>
+          <option value="3">退单</option>
+          <option value="2">已执行</option>
+          <option value="4">结单</option>
         </select>
       </li>
       <li>
@@ -162,12 +174,12 @@
         </div>
       </div>
       <div class="form-control">
-        <span class="form-label">员工电话</span>
+        <span class="form-label">审核情况</span>
         <div class="form-inp">
           <select id="exam" name="exam" class="company-ipt company-sel" [(ngModel)]="repairname.orderStatus" (blur)="verifyexam()">
-            <option value=1>退单</option>
+            <option value=3>退单</option>
             <option value=2>通过</option>
-            <option value=3>结单</option>
+            <option value=4>结单</option>
           </select>
           <span class="errorMessage"></span>
         </div>

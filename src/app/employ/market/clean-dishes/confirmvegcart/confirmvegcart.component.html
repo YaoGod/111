@@ -1,0 +1,69 @@
+
+    <!--购物车-->
+    <div class="right">
+      <div class="wrap-content">
+        <div class="wrap-space">
+          <div class="wrap-b">
+            <div class="b-head">
+              <span>确认订单</span>
+            </div>
+            <div class="b-con tuanmenu">
+
+              <div class="list-table">
+                <table class="table-head">
+                  <td class="fir">净菜信息</td>
+                  <td class="sec">单价(元)</td>
+                  <td class="three">数量</td>
+                  <td class="four">合计（元）</td>
+                </table>
+                <dl  *ngFor="let cart of carts;let idx=index">
+                  <dt>
+                    <span>净菜名称：{{cart.vname}}</span>
+                  <div class="ope-list">
+                    <a class="tre" href="javascript:void(0)" ></a>
+                  </div>
+                  </dt>
+                  <dd>
+                    <table class="list-body">
+                      <td class="fir">
+                        <img *ngIf="cart.vimage!==''" [src]="'/proxy/' + cart.vimage"/>
+                      </td>
+                      <td class="sec">￥{{cart.price}}</td>
+                      <td class="three">
+                              {{cart.quantity}}
+                      </td>
+                      <td class="six">
+                        <label id="unionPrice">￥{{cart.totalPrice}}</label>
+                      </td>
+                    </table>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+            <div class="b-address">
+              <span>配送信息</span>
+            </div>
+            <div class="address">
+              <div class="info"><label>姓名：</label> <span>{{userInfo.username}}</span></div>
+          <div class="info"><label>号码：</label> <span>{{userInfo.teleNum}}</span></div>
+          <div class="info"><label>地址：</label> <span>{{userInfo.homeAddr}}</span></div>
+        </div>
+        <div class="b-address">
+          <span>服务中心</span>
+        </div>
+            <div class="fuwu">
+              <input type="radio" name="fuwuname" value="环北服务中心"  [(ngModel)]="order.serviceCenter">环北服务中心
+              <input type="radio" name="fuwuname" value="江干服务中心"  [(ngModel)]="order.serviceCenter">江干服务中心
+              <input type="radio" name="fuwuname" value="下沙服务中心"  [(ngModel)]="order.serviceCenter">下沙服务中心
+            </div>
+            <div class="b-foot">
+              <div class="leftmoney"><label>账户余额：</label><span>￥{{leftMoney}}</span></div>
+              <div class="total">
+                <label>总计：</label> <span>￥{{mutipalPrice}}</span>
+                <button type="button" class="btn btn-info" (click)="submitCart()">提交订单</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

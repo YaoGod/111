@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 10.71.246.84",
+    "start": "ng serve --host 10.71.246.86",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -22,12 +22,10 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "angular-ckeditor": "^0.3.1",
-    "angular2-baidu-map": "^4.0.0",
     "core-js": "^2.4.1",
     "echarts": "^3.6.1",
     "jquery": "^3.1.1",
     "ng2-file-upload": "^1.2.1",
-    "pickadate": "^3.5.6",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },

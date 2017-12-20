@@ -21,9 +21,8 @@
         <label>服务内容</label>
         <select name="searchArchType" class="search-ipt search-sel" [(ngModel)]="searchArch.servername">
           <option value="">全部</option>
-          <option value="保洁服务">保洁服务</option>
-          <option value="报修服务">报修服务</option>
-          <option value="住家服务">住家服务</option>
+          <option *ngFor="let te of serverName;"
+                  [value]="te">{{te}}</option>
         </select>
       </li>
     </ul>

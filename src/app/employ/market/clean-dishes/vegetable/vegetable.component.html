@@ -1,0 +1,321 @@
+<div class="right">
+  <div class="wrap-content">
+    <div class="wrap-space">
+      <div class="wrap-b">
+        <div class="b-head">
+          <span>净菜商品管理</span>
+        </div>
+        <div class="b-con tuanmenu">
+          <div class="wrap">
+            <div class="iptgroup">
+              <input placeholder="请输入净菜名称"  [(ngModel)]="search.vname"  />
+              <a href="javascript: void(0);" class="ipt-search"></a>
+            </div>
+            <a class="search" href="javascript: void(0);"  (click)="getVegetableList()"  >查询</a>
+          </div>
+          <div class="row">
+            <a class="btn btn-danger" (click)="add()" href="javascript:;" style="padding: 6px 22px;"><i class="icon-plus"></i> 新增</a>
+          </div>
+          <div class="list-table">
+            <table class="table-head">
+              <td class="fir">净菜信息</td>
+              <td class="sec">净菜单价(元)</td>
+              <td class="three">净菜状态</td>
+              <td class="three">预定时间</td>
+              <td class="four">限购数量</td>
+            </table>
+            <dl *ngFor="let vegetable of vegetables;let idx=index">
+              <dt><span>净菜名称：{{vegetable.vname}}</span>
+              <div class="ope-list">
+                <a class="one"   title="查看" href="javascript:void(0);"(click)="view(vegetable.code)"></a>
+                <a class="two"   title="修改" href="javascript:void(0);"(click)="update(vegetable.code)"></a>
+                <a class="tre"   title="删除" href="javascript:void(0);"(click)="delete(vegetable.code)"></a>
+              </div>
+              </dt>
+              <dd>
+                <table style="width: 100%;">
+                  <tr>
+                    <td class="fir">
+                      <img  *ngIf="vegetable.vimage!==''"  [src]="'/proxy/' + vegetable.vimage" />
+                    </td>
+                    <td class="sec">￥{{vegetable.price}}</td>
+                    <td class="three" *ngIf="vegetable.status=='1'">上架</td>
+                    <td class="three" *ngIf="vegetable.status=='2'">下架</td>
+                    <td class="three">{{vegetable.saletime}}</td>
+                    <td class="four">{{vegetable.limitnum}}</td>
+                  </tr>
+                  <tr>
+                    <td  style="text-align: left" colspan="5" > <label>简介：</label> <p class="con">{{vegetable.detail}}</p></td>
+                  </tr>
+                </table>
+              </dd>
+            </dl>
+          </div>
+          <div class="turn" name="pages" *ngIf="pages.length > 1">
+            <ul>
+              <li *ngFor="let i of pages"
+                  [hidden] = "pageLimit(i)"
+                  [ngClass]="{'active':i === pageNo}"
+                  (click)="goPage(i);">
+                {{i}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="maskAdd">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">新增净菜</h4>
+      <button type="button" class="close"(click)="closeMaskAdd()">×</button>
+    </div>
+    <form class="form-material">
+      <div class="modal-body clearfix">
+        <div class="protop">
+          <div class="pimg">
+            <div class="dropify-wrapper">
+              <div class="dropify-message">
+                <img *ngIf="vegetableAdd.vimage!==''"  [src]="'/proxy/' + vegetableAdd.vimage" />
+              </div>
+              <p>点击此处上传图片</p>
+              <input type="file" class="dropify" #prese1  id="prese1"  (change)="prese_upload(prese1.files)">
+              <span class="errorMessage"></span>
+            </div>
+          </div>
+          <div class="pdetail">
+            <div>
+              <label>净菜名称：</label>
+              <input type="text" id="vnewnane" name="vnewnane" (blur)="verifyEmpty('vnewnane','净菜名称不能为空')" class="noticetext" placeholder="" [(ngModel)]="vegetableAdd.vname">
+              <span class="errorMessage"></span>
+            </div>
+            <div style="margin-top: 15px;">
+              <div>
+                <label>净菜价格：</label>
+                <input type="text" class="producttext" id="vprice" name="vprice" (blur)="verifyEmpty('vprice','价格不能为空')"   [(ngModel)]="vegetableAdd.price">&nbsp;&nbsp;元
+                <span class="errorMessage"></span>
+              </div>
+            </div>
+            <div style="margin-top: 15px;">
+              <div>
+                <label>限购数量：</label>
+                <input type="text" class="producttext" id="vnewLimitnum" name="vnewLimitnum"  (blur)="verifyEmpty('vnewLimitnum','限购数量不能为空')"    placeholder="" [(ngModel)]="vegetableAdd.limitnum">
+                <span class="errorMessage"></span>
+              </div>
+            </div>
+            <div style="margin-top: 15px;">
+              <div>
+                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态：</label>
+                <input type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="vegetableAdd.status" value="1">上架
+                <input type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="vegetableAdd.status" value="2">下架
+              </div>
+            </div>
+            <div style="margin-top: 15px;">
+              <div>
+                <label style="float: left">预定时间：</label>
+                <ul class="saletime">
+                  <li>
+                    <button type="button" class="btn1 btn-danger1" id="newsale1" (click)="chang('newsale1')" >星期一</button>
+                  </li>
+                  <li>
+                    <button type="button" class="btn1 btn-danger1"  id="newsale2" (click)="chang('newsale2')" >星期二</button>
+                  </li>
+                  <li>
+                    <button type="button" class="btn1 btn-danger1" id="newsale3" (click)="chang('newsale3')">星期三</button>
+                  </li>
+                  <li>
+                    <button type="button" class="btn1 btn-danger1"  id="newsale4" (click)="chang('newsale4')" >星期四</button>
+                  </li>
+                  <li>
+                    <button type="button" class="btn1 btn-danger1"  id="newsale5" (click)="chang('newsale5')" >星期五</button>
+                  </li>
+                  <li>
+                    <button type="button" class="btn1 btn-danger1" id="newsale6" (click)="chang('newsale6')" >星期六</button>
+                  </li>
+                  <li>
+                    <button type="button" class="btn1 btn-danger1" id="newsale7" (click)="chang('newsale7')" >星期日</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-right2">
+          <label>净菜详情：</label>
+          <textarea name="upnewesetail" ui-tinymce
+                    class="form-control" rows="10"
+                    id="adddetail" name="adddetail" (blur)="verifyEmpty('adddetail','详情不能为空')"  [(ngModel)]="vegetableAdd.detail"
+                    style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;">
+           </textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeMaskAdd()">取 消</button>
+        <button type="submit" class="btn btn-info"(click)="addVegetable()" >保 存</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="maskUpdate">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">修改商品</h4>
+      <button type="button" class="close"(click)="closeMaskUp()">×</button>
+    </div>
+    <form class="form-building form-material">
+      <div class="modal-body clearfix">
+        <div class="protop">
+          <div class="pimg">
+            <div class="dropify-wrapper">
+              <div class="dropify-message">
+                <img *ngIf="vegetableUp.vimage!==''" [src]="'/proxy/' + vegetableUp.vimage" />
+              </div>
+              <p>点击此处上传图片</p>
+              <input type="file" class="dropify"  #prese2  id="prese2" (change)="prese_upload2(prese2.files)">
+            </div>
+          </div>
+          <div class="pdetail">
+            <div>
+              <label>净菜名称：</label>
+              <input type="text" class="producttext" id="upnewname" name="upnewname"  (blur)="verifyEmpty('upnewname','商品名称不能为空')"   [(ngModel)]="vegetableUp.vname">
+              <span class="errorMessage"></span>
+            </div>
+            <div style="margin-top: 15px;">
+              <div>
+                <label>净菜价格：</label>
+                <input type="text" class="producttext" id="vupprice" name="vupprice" (blur)="verifyEmpty('vupprice','费用不能为空')"   [(ngModel)]="vegetableUp.price">
+                <span class="errorMessage"></span>
+              </div>
+            </div>
+            <div style="margin-top: 15px;">
+              <div>
+                <label>限购数量：</label>
+                <input type="text" class="producttext" id="vupLimitnum" name="vupLimitnum"  (blur)="verifyEmpty('vupLimitnum','限购数量不能为空')"    placeholder="" [(ngModel)]="vegetableUp.limitnum">
+                <span class="errorMessage"></span>
+              </div>
+            </div>
+            <div style="margin-top: 15px;">
+              <div>
+                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态：</label>
+                <input type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="vegetableUp.status" value="1">上架
+                <input type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="vegetableUp.status" value="2">下架
+              </div>
+            </div>
+            <div style="margin-top: 15px;">
+              <div>
+                <label style="float: left">预定时间：</label>
+                <ul class="saletime">
+                  <li>
+                    <button type="button" class="btn1 btn-danger1" id="upsale1" (click)="chang('upsale1')" >星期一</button>
+                  </li>
+                  <li>
+                    <button type="button" class="btn1 btn-danger1"  id="upsale2" (click)="chang('upsale2')" >星期二</button>
+                  </li>
+                  <li>
+                    <button type="button" class="btn1 btn-danger1" id="upsale3" (click)="chang('upsale3')">星期三</button>
+                  </li>
+                  <li>
+                    <button type="button" class="btn1 btn-danger1"  id="upsale4" (click)="chang('upsale4')" >星期四</button>
+                  </li>
+                  <li>
+                    <button type="button" class="btn1 btn-danger1"  id="upsale5" (click)="chang('upsale5')" >星期五</button>
+                  </li>
+                  <li>
+                    <button type="button" class="btn1 btn-danger1" id="upsale6" (click)="chang('upsale6')" >星期六</button>
+                  </li>
+                  <li>
+                    <button type="button" class="btn1 btn-danger1" id="upsale7" (click)="chang('upsale7')" >星期日</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-right2">
+          <label>净菜详情：</label>
+          <textarea name="upnewesetail" ui-tinymce
+                    class="form-control" rows="10"
+                    id="updetail" name="updetail" (blur)="verifyEmpty('updetail','详情不能为空')"  [(ngModel)]="vegetableUp.detail"
+                    style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;"  value="{{vegetableUp.detail}}" >
+           </textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeMaskUp()">取 消</button>
+        <button type="submit" class="btn btn-info"   (click)="updateVegetable()" >保 存</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="maskView">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">查看净菜</h4>
+      <button type="button" class="close"(click)="closeMaskView()">×</button>
+    </div>
+    <form class="form-building form-material">
+      <div class="modal-body clearfix">
+        <div class="protop">
+          <div class="pimg">
+            <div class="dropify-wrapper">
+              <div class="dropify-message">
+                <img *ngIf="vegetableView.vimage!==''" [src]="'/proxy/' + vegetableView.vimage" />
+              </div>
+            </div>
+          </div>
+          <div class="pdetail">
+            <div>
+              <label>净菜名称：</label>
+              {{vegetableView.vname}}
+            </div>
+            <div style="margin-top: 15px;">
+              <div  style="width: 48%">
+                <label>净菜价格：</label>
+                ￥{{vegetableView.price}}
+              </div>
+            </div>
+            <div style="margin-top: 15px;">
+              <div style="width: 52%">
+                <label>限购数量：</label>
+                {{vegetableView.limitnum}}
+              </div>
+            </div>
+            <div style="margin-top: 15px;">
+              <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态：</label>
+              <span class="three" *ngIf="vegetableView.status=='1'">上架</span>
+              <span class="three" *ngIf="vegetableView.status=='2'">下架</span>
+            </div>
+            <div style="margin-top: 15px;">
+              <div  style="width: 48%">
+                <label>预定时间：</label>
+                {{vegetableView.saletime}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-right2">
+          <label>净菜详情：</label>
+          <textarea name="notice" ui-tinymce
+                    class="form-control" rows="10"
+                    style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;" readonly="true" value="{{vegetableView.detail}}" >
+           </textarea>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="confirm">
+  <div class="confirm-modal">
+    <div class="confirm-icon confirm-question">?</div>
+    <div class="confirm-content" >你确定要删除该商品吗?</div>
+    <hr style="margin-top: 20px; margin-bottom: 20px; height: 10px;color: transparent;border: 0;">
+    <button class="confirm-btn styled" (click)="okFunc()">确定</button>
+    <button class="confirm-btn cancel" (click)="noFunc()">取消</button>
+  </div>
+</div>
+
+
+

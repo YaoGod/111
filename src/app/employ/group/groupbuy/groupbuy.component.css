@@ -333,7 +333,7 @@ ul,li{
 .right{
   width: 100%;
   height: auto;
-  float: right;
+  _float: right;
   background: #edf1f5;
 }
 .logo{

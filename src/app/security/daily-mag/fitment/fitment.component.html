@@ -122,7 +122,7 @@
       </ul>
     </div>
     <!--维修合同-->
-    <div class="repair-container repair-contract clearfix">
+    <div class="repair-container repair-contract clearfix" style="display: none">
       <ul class="form-msg clearfix" *ngFor="let ctct of contract; let i=index">
         <li class="form-bar">
           <span class="form-title">大楼编号</span>
@@ -174,7 +174,10 @@
         </li>
         <li class="form-bar form-texarea">
           <span class="form-title">服务合同</span>
-          <a style="color:#686868; margin-left:20px; color: #1eaaf0" [href]="+'/proxy'+ ctct.filePath[j] " *ngFor="let abc of ctct.fileName; let j=index">{{abc}}</a>
+          <ol *ngIf="ctct.fileName" class="word" style="overflow-y: auto;">
+            <li *ngFor="let abc of ctct.fileName; let j=index">{{abc}} <a style="margin-left:8px;" [href]="'/proxy'+ ctct.filePath[j]"><i class="icon-cloud-download"></i>下载</a> </li>
+          </ol>
+          <!--<a style="margin-left:20px; color: #1eaaf0" [href]="+'/proxy'+ ctct.filePath[j] " *ngFor="let abc of ctct.fileName; let j=index">{{abc}}</a>-->
         </li>
         <li class="form-btn" *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" (click)="editContract(i)">编&nbsp;&nbsp;辑</li>
         <li class="form-btn form-btn2" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delContract(i)">删&nbsp;&nbsp;除</li>

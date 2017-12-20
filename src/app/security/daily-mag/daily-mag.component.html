@@ -1,6 +1,6 @@
 
 <div class="main">
-  <div class="header">
+  <!--<div class="header">
     <img src="../../../assets/image/icon_3line.png">
     <h2>大楼管理/大楼日常管理</h2>
     <div class="header-right">
@@ -9,8 +9,8 @@
     <div class="header-right">
       <img src="../../../assets/image/icon_email.png">
     </div>
-
-  </div>
+  </div>-->
+  <app-title></app-title>
   <!--大楼列表展示-->
   <div class="cont">
     <!--<div class="cont-header">
@@ -20,32 +20,34 @@
     </div>-->
     <ul class="cont-nav clearfix">
       <li>
-        <a routerLink="repair" routerLinkActive="active">大楼维修管理<span></span></a>
+        <a routerLink="repair" routerLinkActive="active">大楼维修记录<span></span></a>
 
       </li>
       <li>
-        <a routerLink="fitment" routerLinkActive="active">大楼装修管理<span></span></a>
+        <a routerLink="fitment" routerLinkActive="active">大楼装修记录<span></span></a>
 
       </li>
       <li>
-        <a routerLink="guard" routerLinkActive="active">大楼服务管理<span></span></a>
+        <a routerLink="guard" routerLinkActive="active">大楼服务公司人员<span></span></a>
       </li>
       <li>
-        <a routerLink="device" routerLinkActive="active">大楼设备管理<span></span></a>
+        <a routerLink="device" routerLinkActive="active">大楼大型设备<span></span></a>
       </li>
       <!--<li>
         <a routerLink="clean" routerLinkActive="active">大楼保洁绿化管理<span></span></a>
       </li>-->
       <li>
-        <a routerLink="energy" routerLinkActive="active">大楼能耗管理<span></span></a>
+        <a routerLink="energy" routerLinkActive="active">大楼能耗信息<span></span></a>
       </li>
     </ul>
     <div class="cont-inner">
       <router-outlet></router-outlet>
+      <div class="footer">
+        2017&copy; 中国移动集团浙江有限公司杭州分公司
+      </div>
     </div>
   </div>
-  <div class="footer">
-    2017&copy; 中国移动集团浙江有限公司杭州分公司
-  </div>
+
+
 </div>
 

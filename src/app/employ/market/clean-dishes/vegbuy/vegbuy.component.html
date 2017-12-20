@@ -1,0 +1,62 @@
+
+    <div class="right">
+      <div class="wrap-content">
+        <div class="wrap-space">
+          <div class="wrap-b">
+            <div class="wrap">
+              <div class="iptgroup">
+                <input placeholder="请输入净菜名称"  [(ngModel)]="search.vname"  />
+              </div>
+              <a class="search" href="javascript: void(0);" (click)="getVegetableShowList()">查询</a>
+            </div>
+            <div class="b-head">
+              <span>净菜预定</span>
+              <div class="b-head-right">
+                <div class="content-box" [routerLink]="['../myorder']"><img src="../../../../../assets/image/icon-order.png" alt="">我的订单</div>
+                <div class="content-box" [routerLink]="['../vegcart']"><img src="../../../../../assets/image/icon-shop.png" alt="">
+                  购物车
+                  <sup>{{cartsize}}</sup>
+                </div>
+              </div>
+            </div>
+            <div class="b-con tuan"  *ngFor="let vegetable of vegetables;let idx=index">
+              <div class="row mt20 mb30">
+                <dl>
+                  <dt class="showpic">
+                    <img *ngIf="vegetable.vimage!==''" [src]="'/proxy/' + vegetable.vimage"/>
+                  </dt>
+                  <dd>
+                    <span class="name-great">{{vegetable.vname}}</span>
+                    <div class="bg-value">
+                      <span class="value">¥{{vegetable.price}}</span>
+                      <a class="yudingbtn" href="javascript: void(0);" (click)="addToCart(vegetable.code)">预订</a>
+                    </div>
+                    <div class="time"><span>预定时间：</span><span>{{vegetable.saletime}}</span></div>
+                    <ul class="list-txt">
+                      <li><span class="txt-name">限购数量：</span><span class="txt-value">{{vegetable.limitnum}}</span></li>
+                    </ul>
+                  </dd>
+                </dl>
+              </div>
+              <div class="clearb"></div>
+              <div class="line-txt">
+                <span>净菜描述</span>
+              </div>
+              <div class="txt">
+                <p>{{vegetable.detail}}</p>
+              </div>
+            </div>
+            <div class="turn" *ngIf="pages.length > 1">
+              <ul>
+                <li *ngFor="let i of pages"
+                    [hidden] = "pageLimit(i)"
+                    [ngClass]="{'active':i === pageNo}"
+                    (click)="goPage(i);">
+                  {{i}}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

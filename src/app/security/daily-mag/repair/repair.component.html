@@ -188,7 +188,10 @@
         </li>
         <li class="form-bar form-texarea">
           <span class="form-title">服务合同</span>
-          <a style="color:#686868; margin-left:20px; color: #1eaaf0" [href]="+'/proxy'+ ctct.filePath[j] " *ngFor="let abc of ctct.fileName; let j=index">{{abc}}</a>
+          <ol *ngIf="ctct.fileName" class="word" style="overflow-y: auto;">
+            <li *ngFor="let abc of ctct.fileName; let j=index">{{abc}} <a [href]="'/proxy'+ ctct.filePath[j]"><i class="icon-cloud-download"></i>下载</a> </li>
+          </ol>
+          <!--<a style="color:#686868; margin-left:20px; color: #1eaaf0" [href]="+'/proxy'+ ctct.filePath[j] " *ngFor="let abc of ctct.fileName; let j=index">{{abc}}</a>-->
         </li>
         <li *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" class="form-btn" (click)="editContract(i)">编&nbsp;&nbsp;辑</li>
         <li *ngIf="rule&&jurisdiction&&!jurisdiction.isDelete" class="form-btn form-btn2" (click)="delContract(i)">删&nbsp;&nbsp;除</li>

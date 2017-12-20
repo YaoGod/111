@@ -27,6 +27,7 @@ export class ContentComponent implements OnInit {
   private pageSize = 10;
   private pageNo = 1;
   private editBool = true;
+  public serverName:any;
 
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
@@ -49,7 +50,7 @@ export class ContentComponent implements OnInit {
     this.searchArch = new Arch();
     this.repairname = new GuardName();
     this.pages = [];
-
+    this.serverName = ['保洁服务','报修服务','住家服务']
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
   }
   /*获取权限*/

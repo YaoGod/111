@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { DailyMagComponent } from './daily-mag.component';
 import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../service/route-guard/route-guard.service';
+import {HttpModule} from "@angular/http";
+import {NavTitleModule} from "../../component/nav-title/nav-title.module";
+import {GlobalFooterModule} from "../../component/global-footer/global-footer.module";
 const routes: Routes = [
   {
     path: '',
@@ -44,6 +47,9 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    HttpModule,
+    NavTitleModule,
+    GlobalFooterModule,
     RouterModule.forChild(routes)
   ],
   exports: [RouterModule],

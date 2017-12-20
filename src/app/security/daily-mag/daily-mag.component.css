@@ -35,25 +35,24 @@
   min-width:980px;
   height:100%;
   position: relative;
-  background-color: #edf1f5;
+  _background-color: #edf1f5;
 }
 .cont{
-  position: absolute;
+  /*position: absolute;
   top: 90px;
   bottom: 60px;
   left: 2.2%;
   right: 2.2%;
-  min-width:980px;
   overflow: auto;
-  background-color:#fff;
+  */
+  height: calc(100% - 60px);
+  min-width:980px;
+  overflow-y: auto;
 }
 .footer{
   width:100%;
   color:#666;
   line-height:60px;
-  position: absolute;
-  left:0;
-  bottom:0;
   text-align: center;
 }
 .cont-header{
