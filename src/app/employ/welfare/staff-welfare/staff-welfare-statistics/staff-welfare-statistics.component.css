@@ -551,3 +551,23 @@ select{
   color: #d75452;
   cursor: pointer;
 }
+.goods-box{
+  height: 100px;
+  padding: 0 10px;
+}
+.goods-box p{
+  padding: 5px 0;
+  font-size: 12px;
+  color: #8e9ea8;
+}
+.goods-img{
+  float: right;
+  width: auto;
+  height: 100px;
+  border-radius: 5px;
+  box-shadow: 0 0 2px rgba(223, 223, 223, 0.32) inset;
+  overflow: hidden;
+}
+.goods-img>img{
+  height: 100%;
+}

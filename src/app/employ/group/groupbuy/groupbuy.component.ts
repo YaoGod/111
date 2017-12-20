@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router} from '@angular/router';
 import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
 import { GroupProduct } from '../../../mode/groupProduct/group-product.service';
 import { GroupProductService } from '../../../service/group-product/group-product.service';
@@ -31,14 +32,16 @@ export class GroupbuyComponent implements OnInit {
   constructor( private globalCatalogService: GlobalCatalogService,
   private groupProductService: GroupProductService,
               private groupNoticeService: GroupNoticeService,
-              private errorVoid: ErrorResponseService,) {
+              private errorVoid: ErrorResponseService,
+  private router:Router){
   }
 
   ngOnInit() {
+    this.search = new GroupProduct();
     this.globalCatalogService.setTitle("员工服务/团购管理/商品订购");
+    this.getProductShowList();
   }
   getProductShowList(){
-
     this.groupProductService.getProductShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.groupProducts = data.data.infos;
@@ -72,5 +75,11 @@ export class GroupbuyComponent implements OnInit {
 
   closeMask3() {
     $('.mask3').hide();
+  }
+  linkMyOrder(){
+    this.router.navigate(["/hzportal/employ/group/myorder"]);
+  }
+  linkCart(){
+    this.router.navigate(["/hzportal/employ/group/cart"]);
   }
 }

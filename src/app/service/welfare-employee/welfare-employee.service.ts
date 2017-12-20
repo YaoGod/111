@@ -93,4 +93,20 @@ export class WelfareEmployeeService {
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
+  /*
+   获取指定福利信息的统计信息（包含反馈信息）
+   param: id:number,
+   param: type:string(list or excel)
+   return: res.json
+   */
+  getWelfareCount(id,type,pageNo,pageSize,search){
+    const url = this.ipSetting.ip + "/employee/Welfare/getWelfareCount/"
+      +id+"/"+type+"/"+pageNo+ "/" + pageSize +"?search=" + search;
+    if(type === "excel"){
+      window.open(url);
+    }else{
+      return this.http.get(url,this.options)
+        .map(res => res.json());
+    }
+  }
 }

@@ -26,7 +26,7 @@
           <div class="wrap-b">
             <div class="wrap">
               <div class="iptgroup">
-                <input  [(ngModel)]="search.name"/>
+                <input  name="search" [(ngModel)]="search.name"/>
                 <a href="javascript: void(0);" class="ipt-search"></a>
               </div>
               <a class="search" href="javascript: void(0);"(click)="getProductShowList()">查询</a>
@@ -35,8 +35,8 @@
             <div class="b-head">
               <span>团购商品</span>
               <div class="b-head-right">
-                <div class="content-box" [routerLink]="['../myorder']"><img src="../../../assets/image/icon-order.png" alt="">我的订单</div>
-                <div class="content-box" [routerLink]="['../cart']"><img src="../../../assets/image/icon-shop.png" alt="">
+                <div class="content-box" (click)="linkMyOrder()"><img src="../../../assets/image/icon-order.png" alt="">我的订单</div>
+                <div class="content-box" (click)="linkCart()"><img src="../../../assets/image/icon-shop.png" alt="">
                   购物车
                   <sup>{{cartsize}}</sup>
                 </div>
@@ -85,7 +85,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">查看公告</h4>
-          <button type="button" class="close"(click)="closeMask3()">×</button>
+          <button type="button" class="close" (click)="closeMask3()">×</button>
         </div>
         <div class="modal-body clearfix" *ngFor="let notice of groupNotices;let idx=index">
           <div style="text-align: center;padding-top: 20px;">

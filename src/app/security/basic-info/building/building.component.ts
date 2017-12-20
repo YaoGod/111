@@ -120,12 +120,12 @@ export class BuildingComponent implements OnInit {
   }
   /*查看图片*/
   viewImg(url:string) {
-    $('.view-img').css('display','block');
+    $('.view-img-src').css('display','block');
    /* this.isViewImg = false;*/
     this.imgSrcView = '/proxy' + url;
   }
   closeViewImg(){
-    $('.view-img').css('display','none');
+    $('.view-img-src').css('display','none');
     this.isViewImg = true;
   }
   /*放大图片*/

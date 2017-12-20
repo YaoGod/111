@@ -15,12 +15,6 @@ export class GlobalCatalogService {
   setVal(val:Array<Catalog>){
     this.catalog = val;
     this.valueUpdated.next(this.catalog);
-    if(this.catalog[0].routeUrl!==null){
-      this.router.navigate([this.catalog[0].routeUrl]);
-    }else{
-
-      this.router.navigate(['hzportal/'+this.catalog[0].childs[0].routeUrl]);
-    }
   }
   /*获取目录列表*/
   getVal():Array<Catalog>{

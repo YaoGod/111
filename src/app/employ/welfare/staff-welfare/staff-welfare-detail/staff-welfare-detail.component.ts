@@ -13,6 +13,7 @@ declare var $:any;
 })
 export class StaffWelfareDetailComponent implements OnInit {
 
+  public rule;
   public welfare :Welfare;
   constructor(
     private router: Router,
@@ -20,15 +21,23 @@ export class StaffWelfareDetailComponent implements OnInit {
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
     private welfareEmployeeService:WelfareEmployeeService
-  ) { }
+  ) {
+    this.rule = this.globalCatalogService.getRole("employ/welfare");
+  }
 
   ngOnInit() {
+    this.globalCatalogService.setTitle("员工服务/福利专区/福利信息");
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("employ/welfare");
+      }
+    );
     this.welfare = new Welfare();
     this.route.params.subscribe(data => {
-      this.getDiscount(data.id);
+      this.getWelfare(data.id);
     });
   }
-  getDiscount(id){
+  getWelfare(id){
     this.welfareEmployeeService.getWelfare(id)
       .subscribe(data=> {
         if(this.errorResponseService.errorMsg(data)){
@@ -47,11 +56,11 @@ export class StaffWelfareDetailComponent implements OnInit {
             'imgType': 1 ,
             "callback": ()=>{
               $('#forms').fadeOut();
-              this.getDiscount(this.welfare.id);
+              this.getWelfare(this.welfare.id);
             },
             "cancel": ()=>{
               $('#forms').fadeOut();
-              this.getDiscount(this.welfare.id);
+              this.getWelfare(this.welfare.id);
             }
           });
 
@@ -61,7 +70,9 @@ export class StaffWelfareDetailComponent implements OnInit {
   showFeedbackWin(){
     if(this.welfare.details&&this.welfare.details.length>0){
       for(let i = 0;i<this.welfare.feedBackMsg.length;i++){
-        this.welfare.feedBackMsg[i].value = this.welfare.details[i].value;
+        if(typeof (this.welfare.details[i])!=="undefined"){
+          this.welfare.feedBackMsg[i].value = this.welfare.details[i].value;
+        }
       }
     }
     $('#forms').show();
@@ -71,5 +82,8 @@ export class StaffWelfareDetailComponent implements OnInit {
       this.welfare.feedBackMsg[i].value = "";
     }
     $('#forms').fadeOut();
+  }
+  linkDiscountStatistics(){
+      this.router.navigate(['/hzportal/employ/welfare/staffWelfare/statistics/',this.welfare.id]);
   }
 }

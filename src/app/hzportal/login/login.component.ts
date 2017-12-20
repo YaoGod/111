@@ -16,6 +16,7 @@ declare var $: any;
 export class LoginComponent implements OnInit {
   public user: User;
   public save_passwd:boolean;
+  public catalogs:any;
   constructor(
     private router: Router,
     private errorResponse:ErrorResponseService,
@@ -54,7 +55,7 @@ export class LoginComponent implements OnInit {
               localStorage.setItem("password",this.user.password);
               localStorage.setItem("teleNum",data.data.userInfo.teleNum);
               localStorage.setItem("deptName",data.data.userInfo.deptName);
-              this.router.navigate(['/hzportal/']);
+              this.navigateUrl();
             }
           }else {
             localStorage.removeItem("save_passwd");
@@ -63,6 +64,21 @@ export class LoginComponent implements OnInit {
           }
         });
     }
+  }
+  private navigateUrl(){
+    this.userPortal.getRoleCata()
+      .subscribe(data =>{
+        if(this.errorResponse.errorMsg(data)){
+          this.catalogs = data.data;
+          if(this.catalogs!==null&&this.catalogs.length>0){
+            if(this.catalogs[0].routeUrl!==null){
+              this.router.navigate([this.catalogs[0].routeUrl]);
+            }else{
+              this.router.navigate(['hzportal/'+this.catalogs[0].childs[0].routeUrl]);
+            }
+          }
+        }
+      });
   }
 
   private verifyUserName(id:string){

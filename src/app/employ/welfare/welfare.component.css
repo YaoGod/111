@@ -72,5 +72,6 @@ nav a span {
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
 }
 .min-height{
+  position: relative;
   height: 100%;
 }

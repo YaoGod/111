@@ -1,4 +1,5 @@
 .nav-title{
+  position: relative;
   margin-bottom: 10px;
   font-size: 14px;
   border-bottom: 2px solid #f7fafc;
@@ -195,4 +196,27 @@
   font-size: 12px;
   letter-spacing: 2.5px;
   line-height: 2;
+}
+.tb-fn {
+  position: absolute;
+  top: 0;
+  right: 20px;
+  line-height: 24px;
+  font-size: 10px;
+  color: #999;
+  text-align: right;
+  cursor: pointer;
+}
+.btn-fn3 {
+  display: inline-block;
+  border-radius: 11px;
+  border: 2px solid #999;
+  height: 20px;
+  line-height: 20px;
+  padding: 0 10px;
+  transition-duration: 200ms;
+}
+.btn-fn3:hover{
+  color: #bfbfbf;
+  border-color: #bfbfbf;
 }
