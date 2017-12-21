@@ -28,6 +28,7 @@
 }
 .warp-right{
   float: left;
+  width: calc(100% - 380px);
   margin-left: 40px;
   line-height: 26px;
   font-size: 12px;
@@ -65,18 +66,25 @@
   display: inline-block;
   width: 300px;
 }
+.warp-right li{
+  margin-bottom: 7px;
+}
 .form-title{
   display: inline-block;
   width: 80px;
+  line-height: 20px;
   padding-right:10px;
   margin-right: 10px;
   color: #5d5d5d;
   font-weight: 300;
   font-size: 12px;
   text-align: left;
+  word-wrap: break-word;
+  vertical-align: top;
 }
 .word{
-  text-indent:2em;
+  display: inline-block;
+  max-width: calc(100% - 120px);
 }
 .cont{
   padding: 15px;

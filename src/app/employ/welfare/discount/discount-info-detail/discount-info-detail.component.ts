@@ -75,4 +75,11 @@ export class DiscountInfoDetailComponent implements OnInit {
     }
     return i;
   }
+  print(){
+    let oldstr =window.document.body.innerHTML;
+    let newstr = document.getElementById("print").innerHTML;
+    document.body.innerHTML =newstr;
+    window.print();
+    document.body.innerHTML = oldstr;
+  }
 }

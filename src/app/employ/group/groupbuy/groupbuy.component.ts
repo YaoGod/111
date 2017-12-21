@@ -38,7 +38,7 @@ export class GroupbuyComponent implements OnInit {
 
   ngOnInit() {
     this.search = new GroupProduct();
-    this.globalCatalogService.setTitle("员工服务/团购管理/商品订购");
+    this.globalCatalogService.setTitle("员工服务/员工团购网/商品订购");
     this.getProductShowList();
   }
   getProductShowList(){

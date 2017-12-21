@@ -39,3 +39,6 @@
   min-height: calc(100% - 65px);
   background-color: #edf1f5;
 }
+.waves-light{
+  color: #ffffff;
+}

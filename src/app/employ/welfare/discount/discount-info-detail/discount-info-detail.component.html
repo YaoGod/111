@@ -1,13 +1,16 @@
+<!--startprint-->
 <!--页面标题-->
 <div class="nav-title">
   <a><h4>优惠信息</h4></a>
+  <!--<a (click)="print()"> 打印</a>-->
 </div>
+<div id="print">
 <!--信息内容-->
 <div class="warp">
   <div class="warp-left">
     <img [src]="'proxy/'+discount.imgPath" *ngIf="discount&&discount.imgPath">
   </div>
-  <div class="warp-right">
+  <div class="warp-right" *ngIf="discount&&discount.title">
     <h4>{{discount.title}}</h4>
     <div class="time-bar">
       <a><i class="icon-clock"></i>还剩：<span>{{time}}</span></a>
@@ -26,9 +29,11 @@
 </div>
 <div class="cont">
   <h5><span>详情介绍</span></h5>
-  <div class="summary-text word">
+  <div class="summary-text">
     <i class="fa fa-quote-left" style="font-size: 18px; color:#e8e8e8;"></i>
     {{discount.summary}}
     <i class="fa fa-quote-right" style="font-size: 18px; color:#e8e8e8;"></i>
   </div>
+</div>
+<!--endprint-->
 </div>

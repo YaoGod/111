@@ -20,6 +20,7 @@ export class DiscountInfoMangComponent implements OnInit {
   public  copyDiscount: Discount;
   public  tempOther: Array<any>;
   public  search: string;      /*搜索字段*/
+  public navtitle:string;
   constructor(
     private router: Router,
     private globalCatalogService: GlobalCatalogService,
@@ -33,6 +34,7 @@ export class DiscountInfoMangComponent implements OnInit {
     this.copyDiscount = new Discount();
     this.pages = new Array<number>();
     this.search = "";
+    this.navtitle = "新增";
     this.getDiscount();
   }
   getDiscount() {
@@ -52,6 +54,7 @@ export class DiscountInfoMangComponent implements OnInit {
   fadeBom(){
     this.copyDiscount.others = new Array<Other>();
     this.tempOther = [];
+    this.navtitle = "新增";
     $('.mask').show();
   }
   closeMask(){
@@ -170,6 +173,7 @@ export class DiscountInfoMangComponent implements OnInit {
     this.copyDiscount.effectBtime = this.copyDiscount.effectBtime.replace(/\//g,'-');
     this.copyDiscount.effectEtime = this.copyDiscount.effectEtime.replace(/\//g,'-');
     this.fadeBom();
+    this.navtitle = "编辑";
     this.tempOther = JSON.parse(JSON.stringify(data.others));
     for(let i = 0;i< this.tempOther.length;i++){
       this.tempOther[i].isShow = true;

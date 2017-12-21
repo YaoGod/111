@@ -20,7 +20,7 @@ const routes: Routes = [
     children :[
       {
         path: '',
-        redirectTo: 'product',
+        redirectTo: 'groupbuy',
         pathMatch: 'full',
         component:HomepageComponent
       },

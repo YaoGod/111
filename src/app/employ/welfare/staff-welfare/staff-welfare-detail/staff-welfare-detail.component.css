@@ -29,6 +29,7 @@
 }
 .warp-right{
   float: left;
+  width: calc(100% - 380px);
   margin-left: 40px;
   line-height: 26px;
   font-size: 12px;
@@ -136,17 +137,20 @@
 .form-title{
   display: inline-block;
   width: 80px;
+  line-height: 20px;
   padding-right:10px;
   margin-right: 10px;
   color: #5d5d5d;
   font-weight: 300;
   font-size: 12px;
   text-align: left;
+  word-wrap: break-word;
+  vertical-align: top;
 }
 .word{
   display: inline-block;
-  width: 150px;
-  max-width: 100%;
+  /*width: 150px;*/
+  max-width: calc(100% - 120px);
 }
 .form-control {
   float: none;
