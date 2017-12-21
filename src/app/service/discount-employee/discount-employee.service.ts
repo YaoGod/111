@@ -58,8 +58,8 @@ export class DiscountEmployeeService {
    param: pageSize: number,
    return: res.json
    */
-  getDiscountList(search,pageNo:number,pageSize:number){
-    const url = this.ipSetting.ip + "/employee/discount/getDiscount/"+pageNo+ "/" + pageSize + "?search=" + search;
+  getDiscountList(type,search,pageNo:number,pageSize:number){
+    const url = this.ipSetting.ip + "/employee/discount/getDiscount/"+type+ "/" +pageNo+ "/" + pageSize + "?search=" + search;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }

@@ -138,8 +138,8 @@
                       id="targetId" name="targetId"
                       [(ngModel)]="copyWelfare.targetId"
                       (blur)="verifyEmptyArray(copyWelfare.targetId,'targetId')">
-                <option *ngFor="let target of targets" [value]="target.userid">
-                  {{target.username}}</option>
+                <option *ngFor="let target of targets" [value]="target.ID">
+                  {{target.NAME}}</option>
               </select>
             </label>
             <div class="error"></div>

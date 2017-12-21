@@ -53,7 +53,7 @@ export class IndexWelfareComponent implements OnInit {
     this.getWelfare("",this.pageNoW,this.pageSize);
   }
   getDiscount(search,pageNo,pageSize) {
-    this.discountEmployeeService.getDiscountList(search,pageNo,pageSize)
+    this.discountEmployeeService.getDiscountList('execute',search,pageNo,pageSize)
       .subscribe(data =>{
         if(this.errorResponseService.errorMsg(data)){
           this.discounts = data.data.infos;

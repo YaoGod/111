@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Vegetable} from '../../../../mode/vegetable/Vegetable.service';
+import {Vegetable} from '../../../../mode/vegetableInfo/vegetableInfo.service';
 import {VegetableCart} from '../../../../mode/vegetableCart/vegetable-cart.service';
 import { VegetableInfoService } from '../../../../service/vegetable-info/vegetable-info.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';

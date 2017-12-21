@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { Vegetable } from './vegetable.service';
+import { Vegetable } from './vegetableInfo.service';
 
 describe('Vegetable', () => {
   beforeEach(() => {

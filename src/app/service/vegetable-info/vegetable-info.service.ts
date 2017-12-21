@@ -17,7 +17,7 @@ export class VegetableInfoService {
 
   getVegetableList(pageNo:number,pageSize:number,search:any) {
     console.log(search);
-    const url = '/proxy/mmall/vegetable/getVegetableList/'+pageNo+'/'+pageSize;
+    const url = '/proxy/mmall/vegetableInfo/getVegetableList/'+pageNo+'/'+pageSize;
     const data = search;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -29,7 +29,7 @@ export class VegetableInfoService {
    return:
    */
   getVegetable(code:string){
-    const url = '/proxy/mmall/vegetable/getVegetable/'+code;
+    const url = '/proxy/mmall/vegetableInfo/getVegetable/'+code;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -39,7 +39,7 @@ export class VegetableInfoService {
    */
   addVegetable(postData){
     console.log(postData);
-    const url = '/proxy/mmall/vegetable/addVegetable';
+    const url = '/proxy/mmall/vegetableInfo/addVegetable';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -51,7 +51,7 @@ export class VegetableInfoService {
    */
   updateVegetable(postData){
     console.log(postData);
-    const url = '/proxy/mmall/vegetable/updateVegetable';
+    const url = '/proxy/mmall/vegetableInfo/updateVegetable';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -62,7 +62,7 @@ export class VegetableInfoService {
    return:
    */
   deleteVegetable (code:string) {
-    const url = '/proxy/mmall/vegetable/deleteVegetable/'+code;
+    const url = '/proxy/mmall/vegetableInfo/deleteVegetable/'+code;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -93,7 +93,7 @@ export class VegetableInfoService {
    * @returns {OperatorFunction<T, R>}
    */
   getVegetableShowList(pageNo:number,pageSize:number,search:any) {
-    const url = '/proxy/mmall/vegetable/getVegetableShowList/'+pageNo+'/'+pageSize;
+    const url = '/proxy/mmall/vegetableInfo/getVegetableShowList/'+pageNo+'/'+pageSize;
     const data = search;
     console.log(data);
     return this.http.post(url,data,this.options)

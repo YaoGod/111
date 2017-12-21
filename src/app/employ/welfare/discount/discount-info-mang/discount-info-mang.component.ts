@@ -36,7 +36,7 @@ export class DiscountInfoMangComponent implements OnInit {
     this.getDiscount();
   }
   getDiscount() {
-    this.discountEmployeeService.getDiscountList(this.search,this.pageNo,this.pageSize)
+    this.discountEmployeeService.getDiscountList('end',this.search,this.pageNo,this.pageSize)
       .subscribe(data =>{
         if(this.errorResponseService.errorMsg(data)){
           this.discounts = data.data.infos;

@@ -54,7 +54,7 @@ export class DiscountInfoListComponent implements OnInit {
     this.getDiscount("",this.pageNo,this.pageSize);
   }
   getDiscount(search,pageNo,pageSize) {
-    this.discountEmployeeService.getDiscountList(search,pageNo,pageSize)
+    this.discountEmployeeService.getDiscountList('execute',search,pageNo,pageSize)
       .subscribe(data =>{
         if(this.errorResponseService.errorMsg(data)){
           for(let i= 0;i< data.data.infos.length;i++){

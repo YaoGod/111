@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Http, RequestOptions, Headers} from '@angular/http';
-import { Vegetable } from '../../../../mode/vegetable/vegetable.service';
+import { Vegetable } from '../../../../mode/vegetableInfo/vegetableInfo.service';
 import { VegetableInfoService } from '../../../../service/vegetable-info/vegetable-info.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
 
@@ -356,7 +356,7 @@ chang(value) {
   }
   /*新增页面文件图片上传*/
   prese_upload(files,index){
-    var xhr = this.vegetableInfoService.uploadImg(files[0],'vegetable',-3);
+    var xhr = this.vegetableInfoService.uploadImg(files[0],'vegetableInfo',-3);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
@@ -370,7 +370,7 @@ chang(value) {
   }
   /*修改文件图片上传*/
   prese_upload2(files,index){
-    var xhr = this.vegetableInfoService.uploadImg(files[0],'vegetable',-3);
+    var xhr = this.vegetableInfoService.uploadImg(files[0],'vegetableInfo',-3);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
