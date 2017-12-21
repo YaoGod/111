@@ -52,6 +52,7 @@ export class OrdersComponent implements OnInit {
     this.pages = [];
     this.repairname.fileName = [];
     this.repairname.filePath = [];
+    this.searchArch.orderStatus = "";
     this.getBuildings();
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
 
@@ -162,12 +163,6 @@ export class OrdersComponent implements OnInit {
     }
     return true;
   }
-  private verifybuildingFloor() {
-    if (!this.isEmpty('buildingFloor', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
   private verifyservername() {
     if (!this.isEmpty('servername', '不能为空')) {
       return false;
@@ -236,8 +231,8 @@ export class OrdersComponent implements OnInit {
     }else{
       SOFTWARES_URL = this.ipSetting.ip + "/employee/property/addOrder";
     }
-    if (!this.verifybuildingId() || !this.verifybuildingFloor() || !this.verifyservername() || !this.verifyemployeeDepart() ||
-      !this.verifyemployeePhone() || !this.verifydetail()) {
+    if (!this.verifybuildingId() || !this.verifyservername() || !this.verifyemployeePhone() ||
+      !this.verifydetail()) {
       return false;
     }
 

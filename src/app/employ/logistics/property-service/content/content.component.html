@@ -43,7 +43,7 @@
         <th>服务内容</th>
         <th>服务公司状态</th>
         <th>服务详情</th>
-        <th>操作</th>
+        <th *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate">操作</th>
       </tr>
       </thead>
       <tbody>

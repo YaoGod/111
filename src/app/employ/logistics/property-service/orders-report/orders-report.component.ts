@@ -26,7 +26,8 @@ export class OrdersReportComponent implements OnInit {
   private pageSize = 10;
   private pageNo = 1;
   private editBool = true;
-
+  public pin:string;
+  public aot:string[];
 
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
@@ -126,34 +127,41 @@ export class OrdersReportComponent implements OnInit {
     this.getRecord(this.searchArch, this.pageNo, this.pageSize)
   }
   /*删除信息*/
-  delAttach(){
-
+  delAttach(){  }
+  /*获取人员下拉*/ //GET /building/person/getPersonInfoList/{personType}
+  private getPersonInfoList() {
+    if(this.repairname.porpertyId==0){
+      this.pin = 'clean';
+    }else if(this.repairname.porpertyId==1){
+      this.pin = 'repair';
+    }else if(this.repairname.porpertyId==2){
+      this.pin = 'clean';
+    }
+    const SOFTWARES_URL =  this.ipSetting.ip + "/building/person/getPersonInfoList/"+this.pin;
+    this.http.get(SOFTWARES_URL )
+      .map(res => res.json())
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data)) {
+          this.aot = data['data'];
+        }
+      });
   }
   /*编辑信息*/
   editAttach(index){
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
-    /*虚拟员工部门电话*/
-    this.repairname.employeeDepart = localStorage.getItem("deptName");
-    this.repairname.employeePhone = localStorage.getItem("teleNum");
-
+    this.getPersonInfoList();
+    if(this.repairname.orderStatus === '已执行'){
+      this.repairname.orderStatus = '2';
+    }else if(this.repairname.orderStatus === '结单'){
+      this.repairname.orderStatus = '4';
+    }if(this.repairname.orderStatus === '退单'){
+      this.repairname.orderStatus = '3';
+    }
     $('.mask').fadeIn();
-    $('.mask-head p').html('编辑物业订单');
+    $('.mask-head p').html('物业订单审批');
   }
-  /*点击新增*/
-  addOrder(){
-    this.repairname = new GuardName();
-    this.repairname.fileName = [];
-    this.repairname.filePath = [];
 
-    /*虚拟员工部门电话*/
-    this.repairname.employeeDepart = localStorage.getItem("deptName");
-    this.repairname.employeePhone = localStorage.getItem("teleNum");
-
-    this.editBool = true;
-    $('.mask').fadeIn();
-    $('.mask-head p').html('新增物业订单');
-  }
   /*合同信息校验*/
   private verifybuildingId() {
     if (!this.isEmpty('buildingId', '不能为空')) {
@@ -242,7 +250,7 @@ export class OrdersReportComponent implements OnInit {
       SOFTWARES_URL = this.ipSetting.ip + "/employee/property/addOrder";
     }
     if (!this.verifybuildingId() || !this.verifybuildingFloor() || !this.verifyservername() || !this.verifyemployeeDepart() ||
-      !this.verifyemployeePhone() || !this.verifydetail() || !this.verifyexam()) {
+      !this.verifydetail() || !this.verifyexam()) {
       return false;
     }
 
@@ -407,14 +415,18 @@ export class GuardName {
   buildingName: string;
   floorId: string; // 楼层
   roomId:string; // 房间号
-  employeeDepart:string; // 员工部门
+  username:string; // 订单人
+  userDept:string; // 订单部门
   employeePhone: string; // 电话
   porpertyId:number; // 服务类型
   porpertyContent:string; // 服务详情
+  serverUserid:string;
   orderId:string;     // 订单号
   filePath: string[]; // 文件路径
   fileName:string[]; // 文件名
   orderStatus:string; // 订单状态
+  startTime:string;        // 订单生成时间
+  finshTime:string;        // 订单结束时间
 }
 export class Arch {
   buildingId: string; // 大楼Id

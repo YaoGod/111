@@ -1,16 +1,15 @@
 <div class="container clearfix">
   <div class="chandlery clearfix">
     <ul class="search clearfix">
-      <li>
+      <!--<li>
         <label>大楼编号</label>
-        <!--<input type="text" name="searchbuildingId" class="search-ipt" [(ngModel)]="searchArch.buildingNum">-->
         <select  name="searchbuildingId" class="search-ipt search-sel" [(ngModel)]="searchArch.buildingNum" size="1">
           <option value="">全部</option>
           <option *ngFor="let num of buildings"
                   [value]="num.BUILDING_ID">
             {{num.BUILDING_ID}}</option>
         </select>
-      </li>
+      </li>-->
       <li>
         <label>大楼名称</label>
         <!--<input type="text" name="searchbuildingName" class="search-ipt" [(ngModel)]="searchArch.buildingName">-->
@@ -66,28 +65,36 @@
           <span class="form-word">{{inner.orderId}}</span>
         </li>
         <li class="form-bar">
+          <span class="form-title text-right">大楼名称</span>
+          <span class="form-word">{{inner.buildingName}}</span>
+        </li>
+        <!--<li class="form-bar">
           <span class="form-title text-right">大楼编号</span>
           <span class="form-word">{{inner.buildingNum}}</span>
-        </li>
+        </li>-->
         <li class="form-bar">
           <span class="form-title text-right">订单状态</span>
           <span class="form-word">{{inner.orderStatus}}</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title text-right">大楼名称</span>
-          <span class="form-word">{{inner.buildingName}}</span>
         </li>
         <li class="form-bar">
           <span class="form-title text-right">物业服务内容</span>
           <span class="form-word">{{inner.porpertyId === 0?"保洁服务": inner.porpertyId === 1?"报修服务": "住家服务"}}</span>
         </li>
         <li class="form-bar">
-          <span class="form-title text-right">服务楼层</span>
-          <span class="form-word">{{inner.floorId}}</span>
+          <span class="form-title text-right">订单人</span>
+          <span class="form-word">{{inner.username}}</span>
         </li>
         <li class="form-bar">
-          <span class="form-title text-right">服务房间</span>
-          <span class="form-word">{{inner.roomId}}</span>
+          <span class="form-title text-right">订单部门</span>
+          <span class="form-word">{{inner.userDept}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">开始时间</span>
+          <span class="form-word">{{inner.startTime}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">结束时间</span>
+          <span class="form-word">{{inner.finshTime}}</span>
         </li>
       </ul>
       <div class="form-detail">
@@ -100,8 +107,8 @@
           <li *ngFor="let abc of inner.fileName; let j=index">{{abc}} <a [href]="+'/proxy'+ inner.filePath[j]"><i class="icon-cloud-download"></i>下载</a> </li>
         </ol>
       </div>
-      <div class="form-btn" (click)="editAttach(i)"><i class="icon-pencil"></i></div>
-      <div class="form-btn form-del" (click)="delAttach(i)"><i class="icon-trash"></i></div>
+      <div class="form-btn" *ngIf="inner.orderStatus!=='结单'" (click)="editAttach(i)"><i class="icon-pencil"></i></div>
+      <!--<div class="form-btn form-del" (click)="delAttach(i)"><i class="icon-trash"></i></div>-->
     </div>
   </div>
   <div class="turn" *ngIf="pages.length > 1">
@@ -150,7 +157,7 @@
       <div class="form-control">
         <span class="form-label">服务类型</span>
         <div class="form-inp">
-          <select id="servername" name="servername" class="company-ipt company-sel" [(ngModel)]="repairname.porpertyId" (blur)="verifyservername()">
+          <select id="servername" name="servername" class="company-ipt company-sel" [(ngModel)]="repairname.porpertyId" (change)="getPersonInfoList()" (blur)="verifyservername()"  >
             <option value=0>保洁服务</option>
             <option value=1>报修服务</option>
             <option value=2>住家服务</option>
@@ -158,28 +165,43 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-
       <div class="form-control">
-        <span class="form-label">员工部门</span>
+        <span class="form-label">订单人</span>
         <div class="form-inp">
-          <input type="text" id="employeeDepart" class="company-ipt" name="employeeDepart" [(ngModel)]="repairname.employeeDepart" (blur)="verifyemployeeDepart()" required maxlength="25" disabled="disabled">
+          <input type="text" id="username" class="company-ipt" name="employeeDepart" [(ngModel)]="repairname.username" required maxlength="25" disabled="disabled">
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control">
+        <span class="form-label">订单部门</span>
+        <div class="form-inp">
+          <input type="text" id="employeeDepart" class="company-ipt" name="employeeDepart" [(ngModel)]="repairname.userDept" (blur)="verifyemployeeDepart()" required maxlength="25" disabled="disabled">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <!--<div class="form-control">
         <span class="form-label">员工电话</span>
         <div class="form-inp">
           <input id="employeePhone" name="employeePhone" class="company-ipt" [(ngModel)]="repairname.employeePhone" (blur)="verifyemployeePhone()" type="text" disabled="disabled">
           <span class="errorMessage"></span>
         </div>
-      </div>
+      </div>-->
       <div class="form-control">
         <span class="form-label">审核情况</span>
         <div class="form-inp">
           <select id="exam" name="exam" class="company-ipt company-sel" [(ngModel)]="repairname.orderStatus" (blur)="verifyexam()">
-            <option value=3>退单</option>
-            <option value=2>通过</option>
-            <option value=4>结单</option>
+            <option value='3'>退单</option>
+            <option value='2'>通过</option>
+            <option value='4'>结单</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control" *ngIf="repairname.orderStatus === '2'">
+        <span class="form-label">指定人员</span>
+        <div class="form-inp">
+          <select name="PersonInfo" class="company-ipt company-sel" [(ngModel)]="repairname.serverUserid">
+            <option *ngFor="let wer of aot" [value]="wer.id">{{wer.personName}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>

@@ -50,7 +50,8 @@ export class ContentComponent implements OnInit {
     this.searchArch = new Arch();
     this.repairname = new GuardName();
     this.pages = [];
-    this.serverName = ['保洁服务','报修服务','住家服务']
+    this.searchArch.servername = "";
+    this.serverName = ['保洁服务','报修服务','住家服务'];
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
   }
   /*获取权限*/
@@ -119,6 +120,7 @@ export class ContentComponent implements OnInit {
     this.getCompany();
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
     $('.mask').fadeIn();
+    $('.mask-head p').html('编辑物业服务');
   }
   /*删除信息*/
   delAttach(index){
@@ -155,7 +157,7 @@ export class ContentComponent implements OnInit {
     this.getBuildings();
     this.getCompany();
     $('.mask').fadeIn();
-    $('.mask-head p').html('新增人员档案');
+    $('.mask-head p').html('新增物业服务');
   }
   /*新增和编辑界面的取消按钮*/
   recordCancel() {

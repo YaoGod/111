@@ -17,10 +17,10 @@
         <label>订单状态</label>
         <select name="searchorderState" class="search-ipt search-sel" [(ngModel)]="searchArch.orderStatus">
           <option value="">全部</option>
-          <option value="订购中">订购中</option>
-          <option value="退单">退单</option>
-          <option value="已执行">已执行</option>
-          <option value="结单">结单</option>
+          <option value="1">订购中</option>
+          <option value="2">已执行</option>
+          <option value="3">退单</option>
+          <option value="4">结单</option>
         </select>
       </li>
       <li *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
@@ -113,9 +113,9 @@
       <div class="form-control">
         <span class="form-label">大楼编号</span>
         <div class="form-inp">
-          <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingNum" (blur)="verifybuildingId()">
+          <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" (blur)="verifybuildingId()">
             <option *ngFor="let num of buildings"
-                    [value]="num.BUILDING_ID">
+                    [value]="num.ID">
               {{num.BUILDING_ID}}</option>
           </select>
           <span class="errorMessage"></span>
@@ -124,14 +124,14 @@
       <div class="form-control">
         <span class="form-label">服务楼层</span>
         <div class="form-inp">
-          <input type="text" id="buildingFloor" class="company-ipt" name="buildingFloor" [(ngModel)]="repairname.floorId" (blur)="verifybuildingFloor()" required maxlength="5">
+          <input type="text" id="buildingFloor" class="company-ipt" name="buildingFloor" [(ngModel)]="repairname.floorId" maxlength="9">
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">服务房间</span>
         <div class="form-inp">
-          <input type="text" id="roomNum" class="company-ipt" name="roomNum" [(ngModel)]="repairname.roomId" required maxlength="5">
+          <input type="text" id="roomNum" class="company-ipt" name="roomNum" [(ngModel)]="repairname.roomId" required maxlength="9">
           <span class="errorMessage"></span>
         </div>
       </div>

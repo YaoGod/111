@@ -28,7 +28,7 @@
       <div class="row">
         <a class="btn btn-danger"(click)="fadeBom()"  href="javascript:;"><i class="icon-plus"></i> 新增</a>
       </div>
-      <table class="table table-bordered table-striped table-hover dataTable no-footer" style="margin-top: 20px;text-align: center">
+      <table width="100%" class="table table-bordered table-striped table-hover dataTable no-footer" style=" margin-top: 20px;text-align: center">
         <thead>
         <tr>
           <th style="text-align: center!important;color: #428bca">序号</th>
@@ -42,7 +42,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr  *ngFor="let groupNotice of groupNotices;let idx=index">
+        <tr style="height: 36px;" *ngFor="let groupNotice of groupNotices;let idx=index">
           <td>{{idx+1}}</td>
           <td>{{groupNotice.title}}</td>
           <td>{{groupNotice.insertUser}}</td>
