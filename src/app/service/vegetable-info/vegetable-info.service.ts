@@ -50,7 +50,6 @@ export class VegetableInfoService {
    return:
    */
   updateVegetable(postData){
-    console.log(postData);
     const url = '/proxy/mmall/vegetableInfo/updateVegetable';
     const data = postData;
     return this.http.post(url,data,this.options)

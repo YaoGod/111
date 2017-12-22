@@ -23,6 +23,10 @@ const routes: Routes = [
         loadChildren: './reserve/reserve.module#ReserveModule'
       },
       {
+        path: 'supermarket',
+        loadChildren: './supermarket/supermarket.module#SupermarketModule'
+      },
+      {
         path: 'cleanDishes',
         loadChildren: './clean-dishes/clean-dishes.module#CleanDishesModule'
       }

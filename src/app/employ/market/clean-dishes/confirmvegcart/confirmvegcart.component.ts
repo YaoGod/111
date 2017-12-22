@@ -38,7 +38,7 @@ export class ConfirmvegcartComponent implements OnInit {
         this.carts = data.data.infos;
         this.mutipalPrice=data.data.mutipalPrice;
         this.userInfo=data.data.userInfo;
-        this.leftMoney=data.data.leftMoney;
+        this.leftMoney= data.data.leftMoney;
         if(this.carts.length==0){
           $(".b-foot").hide();
         }else{

@@ -19,15 +19,15 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'veg',
+        redirectTo: 'vegbuy',
         pathMatch: 'full'
       },
       {
-        path: 'veg',
+        path: 'vegtable',
         component:VegetableComponent
       },
       {
-        path: 'order',
+        path: 'vegorder',
         component:VegorderComponent
       },
       {

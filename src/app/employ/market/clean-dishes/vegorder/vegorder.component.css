@@ -7,26 +7,29 @@
 .wrap-b{
   background: #fff;
   padding: 20px;
-  /*height: 1000px;*/
-  display: inline-block;
 }
 .b-head{
   border-bottom: 2px solid #f7fbfe;
 }
 .b-head span{
   font-size: 16px;
-  height: 19px;
-  line-height: 0;
+  line-height: 36px;
   padding: 0 20px;
   display: inline-block;
+  color: #04a9f3;
+  cursor: pointer;
+}
+.b-head span.active{
   color: #ff5c39;
   border-bottom: 3px solid #ff5c39;
 }
-.b-con{
-  width: 98%;
-  margin-left: 2%;
-  display: inline-block;
-}
+
+.b-head-right{float: right;right: 40px;margin-top: -40px;}
+.b-head-right .content-box{float: left; padding-left: 10px;padding-right: 10px;border:1px solid #eee;margin-right:10px;line-height: 36px;border-radius: 3px;font-size: 15px;color: #ff3c00;}
+.b-head-right .content-box i{font-size:14px;}
+.b-head-right .content-box img{margin-right: 4px;vertical-align: -3px}
+.b-head-right .content-box:hover{cursor: pointer;border-color: #ff3c00;}
+
 .b-con h2{
   font-weight: normal;
   margin: 40px 0 28px 0;
@@ -96,134 +99,12 @@
   color: #fff;
   background: #66cdff;
 }
-
-/*团购*/
-.clearb{
-  clear: both;
-}
-.mt20{
-  margin-top: 20px;
-}
-.tuan .txt p{
-  text-indent: 32px;
-  color: #999;
-}
-.tuan dl{
-
-}
-.tuan dt{
-  display: inline-block;
-  float: left;
-  border: 1px solid #eee;
-}
-.tuan dd{
-  display: inline-block;
-  padding: 2px 0 0 30px;
-}
-.tuan .name-great{
-  color: #333;
-  font-size: 16px;
-}
-.tuan .line-nav{
-  margin:24px 0;
-}
-.tuan .line-nav li{
-  display: inline-block;
-  /*float*/
-  margin-right: 10px;
-  padding: 5px 10px;
-  background: #fc9778;
-  border-radius: 3px;
-  color: #fff;
-  font-size: 14px;
-}
-.tuan .bg-value{
-  width: 573px;
-  height: 67px;
-  background: url('../../../../../assets/image/icon-price.png') no-repeat;
-  position: relative;
-}
-.tuan .value{
-  height: 67px;
-  line-height: 67px;
-}
-.tuan .yudingbtn{
-  text-decoration: none;
-  color: #fff;
-  font-size: 16px;
-  padding: 8px 30px;
-  background: #ff5400;
-  border-radius: 6px;
-  float: right;
-  margin: 16px 40px 0 0;
-}
-.tuan .yudingbtn:hover{
-  color: #fff;
-  background: #ff3c00;
-}
-.tuan .bg-value .value{
-  color: #ff5c39;
-  font-size: 33px;
-  text-indent: 25px;
-  display: inline-block;
-}
-.tuan .time{
-  margin: 15px 0 35px 0;
-  font-size: 14px;
-  height: 25px;
-  line-height: 26px;
-  text-indent: 25px;
-  background: url('../../../../../assets/image/icon-time.jpg') no-repeat;
-}
-.tuan .list-txt{
-  margin: 10px 0;
-}
-.tuan .list-txt li{
-  margin: 10px 0;
-}
-.tuan .txt-name{
-  width: 100px;
-  display: inline-block;
-  margin-right: 20px;
-  color: #999;
-}
-.tuan .txt-value{
-  color: #333;
-}
-.tuan .line-txt{
-  margin-top: 30px;
-}
-
 /*团购商品管理*/
 .b-con .wrap{
-  margin: 20px 0;
-  display: inline-block;
-}
-.b-con .iptgroup{
-  width: 200px;
-  height: 27px;
-  border: 1px solid #66cdff;
-  border-radius: 3px;
-  /*margin: 20px 0;*/
-  float: left;
   position: relative;
-}
-.b-con .iptgroup .ipt-search{
-  width: 26px;
-  height: 26px;
-  background: url('../../../../../assets/image/icon-search.jpg') no-repeat;
-  position: absolute;
-  top: 0;
-  right: 7px;
-}
-.b-con .iptgroup input{
-  width: 165px;
-  height: 26px;
-  border: none;
-  outline: none;
-  position: absolute;
-  top: 1px;
-  left: 10px;
+  padding: 15px 115px 15px 0;
+  background-color: #f8f8f8;
+  margin-top: 10px;
 }
 .b-con .search{
   text-decoration: none;
@@ -427,80 +308,7 @@
   color: #fff;
   border: 1px solid #ff4401;
 }
-
-
-/*物业服务预订列表*/
-.yuding .four a{
-  text-decoration: none;
-  color: #fff;
-  padding: 10px 25px;
-  border-radius: 5px;
-  letter-spacing: 2px;
-  font-size: 14px;
-  background: #ff5400;
-}
-.yuding .table-head{
-  width: 100%;
-}
-.yuding .table-head0{
-  width: 100%;
-}
-.yuding .four a:hover{
-  background: #ff3c00;
-}
-.yuding .zero{
-  width: 33%;
-  font-size: 12px;
-}
-
-.yuding .sec{
-  width: 15%;
-  font-size: 16px;
-  color: #ff5400;
-}
-
-.yuding .seven{
-  width: 10%;
-}
-.yuding .list-table .table-head li{
-  text-indent: 0;
-}
-.yuding dd {
-  border-top: none;
-}
-.yuding .table-head{
-  text-align: center;
-  text-indent: 0;
-}
-.yuding .table-head0{
-  text-align: center;
-  text-indent: 0;
-}
-
-.yuding dd td{
-  text-align: center;
-}
-.yuding .txt-left{
-  float: left;
-  color: #999;
-  font-size: 12px;
-}
-.yuding .txt-left span{
-  margin: 0 20px;
-}
-.yuding .txt-right{
-  float: right;
-}
-.yuding .value{
-  font-weight: bold;
-  font-size: 18px;
-  color: #ff5400;
-}
-.yuding .txt{
-  color: #666;
-}
 .wrap-b{
-  width: 100%;
 }
 .wrap-b .path{
   width: 85%;
@@ -558,50 +366,9 @@
   background: url('../../../../../assets/image/step-44.jpg') no-repeat;
   left: 10%;
 }
-
-
-
-/*物业服务订单界面*/
-.wuye .wrap-b{
-  width: 100%;
-  padding:0 0 20px 0;
-}
-.wuye .wrap-b .b-head{
-  margin: 20px 0 0 20px;
-}
-.wuye .b-head {
-  width: 96%;
-  margin-left: 2%;
-  margin-right: 2%;
-  display: inline-block;
-}
-.wuye .b-con {
-  width: 96%;
-  margin-right: 2%;
-}
-.wuye dd table{
-  width: 100%;
-  padding: 10px 0;
-}
-.wuye .sec {
-  font-size: 12px;
-  /* color: #;*/
-}
 .wrap>ul{
   display: flex;
   flex-wrap:wrap;
-}
-@media (min-width: 1000px ) {
-  .wrap > ul > li {
-    /* width: 20%;*/
-    height: 36px;
-  }
-}
-@media (max-width: 1000px ){
-  .wrap>ul>li{
-    float: left;
-    height: 36px;
-  }
 }
 .wrap>ul>li>label{
   float: left;

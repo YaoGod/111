@@ -2,23 +2,33 @@
   <div class="wrap-content">
     <div class="wrap-space">
       <div class="wrap-b">
-        <div class="b-head">
-          <span>净菜商品管理</span>
-        </div>
+        <div class="b-head clearfix">
+            <div class="b-head-left">
+              <span class="active">净菜商品管理</span>
+              <span [routerLink]="['../vegorder']">管理员订单</span>
+            </div>
+            <div class="b-head-right">
+              <div class="content-box" [routerLink]="['../vegbuy']"><i class="icon-action-undo"></i> 继续订购</div>
+              <div class="content-box" [routerLink]="['../myorder']"><i class="icon-film"></i> 我的订单</div>
+              <div class="content-box" [routerLink]="['../vegcart']"><i class="icon-basket-loaded"></i> 购物车 <strong>(22)</strong>
+              </div>
+            </div>
+          </div>
         <div class="b-con tuanmenu">
-          <div class="wrap">
+          <div class="wrap clearfix">
             <div class="iptgroup">
               <input placeholder="请输入净菜名称"  [(ngModel)]="search.vname"  />
               <a href="javascript: void(0);" class="ipt-search"></a>
             </div>
             <a class="search" href="javascript: void(0);"  (click)="getVegetableList()"  >查询</a>
+            <div class="row">
+              <a class="btn btn-danger" (click)="add()" href="javascript:;" style="padding: 6px 22px;"><i class="icon-plus"></i> 新增</a>
+            </div>
           </div>
-          <div class="row">
-            <a class="btn btn-danger" (click)="add()" href="javascript:;" style="padding: 6px 22px;"><i class="icon-plus"></i> 新增</a>
-          </div>
+
           <div class="list-table">
             <table class="table-head">
-              <td class="fir">净菜信息</td>
+              <td class="fir" width="20%">净菜信息</td>
               <td class="sec">净菜单价(元)</td>
               <td class="three">净菜状态</td>
               <td class="three">预定时间</td>
@@ -35,7 +45,7 @@
               <dd>
                 <table style="width: 100%;">
                   <tr>
-                    <td class="fir">
+                    <td width="20%" class="fir">
                       <img  *ngIf="vegetable.vimage!==''"  [src]="'/proxy/' + vegetable.vimage" />
                     </td>
                     <td class="sec">￥{{vegetable.price}}</td>
@@ -45,7 +55,7 @@
                     <td class="four">{{vegetable.limitnum}}</td>
                   </tr>
                   <tr>
-                    <td  style="text-align: left" colspan="5" > <label>简介：</label> <p class="con">{{vegetable.detail}}</p></td>
+                    <td  style="text-align: left; text-indent: 10px;" colspan="5" > <label>简介：</label> <p class="con">{{vegetable.detail}}</p></td>
                   </tr>
                 </table>
               </dd>
@@ -82,7 +92,7 @@
                 <img *ngIf="vegetableAdd.vimage!==''"  [src]="'/proxy/' + vegetableAdd.vimage" />
               </div>
               <p>点击此处上传图片</p>
-              <input type="file" class="dropify" #prese1  id="prese1"  (change)="prese_upload(prese1.files)">
+              <input type="file" class="dropify" #prese1  id="prese1"  (change)="prese_upload(prese1.files)"  accept="image/gif, image/jpeg, image/png, image/jpg" >
               <span class="errorMessage"></span>
             </div>
           </div>
@@ -154,7 +164,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeMaskAdd()">取 消</button>
-        <button type="submit" class="btn btn-info"(click)="addVegetable()" >保 存</button>
+        <button type="submit" class="btn btn-info" (click)="addVegetable()" >保 存</button>
       </div>
     </form>
   </div>

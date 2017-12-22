@@ -385,7 +385,6 @@ chang(value) {
   /*页码初始化*/
   initPage(total){
     this.pages = new Array(total);
-    console.log(this.pages);
     for(let i = 0;i< total ;i++){
       this.pages[i] = i+1;
     }

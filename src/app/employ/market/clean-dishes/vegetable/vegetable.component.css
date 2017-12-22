@@ -1,5 +1,5 @@
 .turn{
-  padding: 0 2% 20px 2%;
+  padding: 10px 2% 20px 2%;
   background: #ffffff;
 }
 .turn>ul{
@@ -26,10 +26,12 @@
   border-color: #04a9f3;
 }
 .row{
+  position: absolute;
+  right:0; top:0;
   height: 36px;
+  display: inline-block;
   line-height: 20px;
   background-color: #ffffff;
-  padding: 10px 0 0 3%;
 }
 .btn-danger{
   padding: .5rem 1.2rem;
@@ -124,6 +126,10 @@
   background-color: #f1f5f8;
   /* border-bottom: 1px solid #eceeef; */
 }
+.con{
+  text-indent: 0;
+  padding:0 10px 10px;
+}
 button{
   border:none;
   font-size:18px;
@@ -154,7 +160,7 @@ button{
   overflow: hidden;
   width: 100%;
   max-width: 100%;
-  height: 190px;
+  height: 200px;
   font-size: 14px;
   line-height: 22px;
   color: #777;
@@ -402,16 +408,25 @@ button{
 }
 .b-head span{
   font-size: 16px;
-  height: 19px;
-  line-height: 0;
+  line-height: 36px;
   padding: 0 20px;
   display: inline-block;
+  color: #04a9f3;
+  cursor: pointer;
+}
+.b-head span.active{
   color: #ff5c39;
   border-bottom: 3px solid #ff5c39;
 }
-.b-con{
 
-}
+.b-head-right{float: right;right: 40px;margin-top: -40px;}
+.b-head-right .content-box{float: left; padding-left: 10px;padding-right: 10px;border:1px solid #eee;margin-right:10px;line-height: 36px;border-radius: 3px;font-size: 15px;color: #ff3c00;}
+.b-head-right .content-box:last-child{
+  margin-right:0;}
+.b-head-right .content-box i{font-size:14px;}
+.b-head-right .content-box img{margin-right: 4px;vertical-align: -3px}
+.b-head-right .content-box:hover{cursor: pointer;border-color: #ff3c00;}
+
 .b-con h2{
   font-weight: normal;
   margin: 40px 0 28px 0;
@@ -448,11 +463,12 @@ button{
   display: block;
 }
 .btn{
-  padding: 13px 30px;
+  padding: 13px 20px;
   border-radius: 5px;
   color: #fff;
   outline:none;
   cursor: pointer;
+ transition: all .5s;
 }
 .btn-yd{
   background: #ff5400;
@@ -582,7 +598,7 @@ button{
 /*团购商品管理*/
 .b-con .wrap{
   margin: 20px 0;
-  display: inline-block;
+  position: relative;
 }
 .b-con .iptgroup{
   width: 200px;
@@ -633,6 +649,7 @@ button{
 }
 .list-table{
   width: 100%;
+  min-height:500px;
   margin-top: 10px;
 }
 .list-table .table-head{
@@ -672,10 +689,11 @@ button{
 .list-table .fir img{
   width:auto;
   height:auto;
-  max-width:100%;
-  max-height:100%;
+  max-width:96%;
+  max-height:96%;
+  margin-left:4%;
+  margin-top:4%;
   border: 1px solid #eee;
-  margin: 5px;
   float: left;
 }
 .list-table .fir span{
@@ -747,7 +765,7 @@ button{
   vertical-align: middle;
   color: #666;
   font-size: 12px;
-  padding-left: 10px;
+  box-sizing: border-box;
 }
 .list-table dd span{
   display: block;

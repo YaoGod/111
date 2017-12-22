@@ -3,24 +3,25 @@
       <div class="wrap-content">
         <div class="wrap-space">
           <div class="wrap-b">
-            <div class="wrap">
-              <div class="iptgroup">
-                <input placeholder="请输入净菜名称"  [(ngModel)]="search.vname"  />
+            <div class="b-head clearfix">
+              <div class="b-head-left">
+                <span class="active">净菜预定</span>
               </div>
-              <a class="search" href="javascript: void(0);" (click)="getVegetableShowList()">查询</a>
-            </div>
-            <div class="b-head">
-              <span>净菜预定</span>
               <div class="b-head-right">
-                <div class="content-box" [routerLink]="['../myorder']"><img src="../../../../../assets/image/icon-order.png" alt="">我的订单</div>
-                <div class="content-box" [routerLink]="['../vegcart']"><img src="../../../../../assets/image/icon-shop.png" alt="">
-                  购物车
-                  <sup>{{cartsize}}</sup>
+                <div class="content-box" [routerLink]="['../vegtable']"><i class="icon-grid"></i> 进入管理</div>
+                <div class="content-box" [routerLink]="['../myorder']"><i class="icon-film"></i> 我的订单</div>
+                <div class="content-box" [routerLink]="['../vegcart']"><i class="icon-basket-loaded"></i> 购物车 <strong>({{cartsize}})</strong>
                 </div>
               </div>
             </div>
+            <div class="wrap clearfix">
+              <div class="iptgroup">
+                <input placeholder="请输入净菜名称" name="vname"  [(ngModel)]="search.vname"  />
+              </div>
+              <a class="search" href="javascript: void(0);" (click)="getVegetableShowList()">查询</a>
+            </div>
             <div class="b-con tuan"  *ngFor="let vegetable of vegetables;let idx=index">
-              <div class="row mt20 mb30">
+              <div class="row mt20">
                 <dl>
                   <dt class="showpic">
                     <img *ngIf="vegetable.vimage!==''" [src]="'/proxy/' + vegetable.vimage"/>

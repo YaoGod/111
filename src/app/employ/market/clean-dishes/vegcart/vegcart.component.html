@@ -5,7 +5,13 @@
         <div class="wrap-space">
           <div class="wrap-b">
             <div class="b-head">
-              <span>购物车管理</span>
+              <div class="b-head-left">
+                <span class="active">我的购物车</span>
+              </div>
+              <div class="b-head-right">
+                <div class="content-box" [routerLink]="['../vegbuy']"><i class="icon-action-undo"></i> 继续订购</div>
+                <div class="content-box" [routerLink]="['../myorder']"><i class="icon-film"></i> 我的订单</div>
+              </div>
             </div>
             <div class="b-con tuanmenu">
               <div class="list-table">
@@ -52,7 +58,7 @@
             </div>
             <div class="b-foot">
               <div class="total"><label>总计：</label> <span>￥{{mutipalPrice}}</span>
-                <button type="button" class="btn btn-info" [routerLink]="['../confirmvegcart']" >结 算</button>
+                <button type="button" class="btn btn-info" [routerLink]="['../confirmvegcart']" >确认订单</button>
               </div>
             </div>
           </div>

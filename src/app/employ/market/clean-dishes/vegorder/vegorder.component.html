@@ -3,8 +3,17 @@
       <div class="wrap-content">
         <div class="wrap-space">
           <div class="wrap-b">
-            <div class="b-head">
-              <span>订单信息</span>
+            <div class="b-head clearfix">
+              <div class="b-head-left">
+                <span [routerLink]="['../vegtable']">净菜商品管理</span>
+                <span class="active">管理员订单</span>
+              </div>
+              <div class="b-head-right">
+                  <div class="content-box" [routerLink]="['../vegbuy']"><i class="icon-action-undo"></i> 继续订购</div>
+                  <div class="content-box" [routerLink]="['../myorder']"><i class="icon-film"></i> 我的订单</div>
+                  <div class="content-box" [routerLink]="['../vegcart']"><i class="icon-basket-loaded"></i> 购物车 <strong>(22)</strong>
+                  </div>
+              </div>
             </div>
             <div class="b-con tuanmenu">
               <div class="wrap">

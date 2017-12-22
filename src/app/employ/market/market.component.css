@@ -1,10 +1,10 @@
 .header{
-  padding-top:15px;
-  width:80%;
-  margin:0 auto;
+  padding:15px 0;
+  width:100%;
+  background-color:#fff;
 }
+
 .parallelogram {
-  width: 200px;
   height: 50px;;
   position: relative;
   line-height: 50px;
@@ -18,21 +18,58 @@
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
   background-color: #d4d4d4;
-  transform: skewX(-45deg);
+  transform: skewX(-30deg);
   z-index: -1;
 }
 .parallelogram.active:before{
   background-color: #26ecb5;
 }
 .cleanDishes:before{
-  transform: skewX(45deg);
+  transform: skewX(30deg);
+}
+.supermarket{
+  text-align:center;
+  color:#fff;
+  line-height:50px;
+  background-color:#d4d4d4;
+  position:relative;
+}
+.supermarket:before{
+  content:'';
+  display:block;
+  width:35px;
+  height:50px;
+  position:absolute;
+  transform:skewX(-30deg);
+  background:#d4d4d4;
+  left:-20px;
+  top:0;
+}
+.supermarket:after{
+  content:'';
+  display:block;
+  width:35px;
+  height:50px;
+  position:absolute;
+  transform:skewX(30deg);
+  background:#d4d4d4;
+  top:0;
+  right:-20px;
+}
+.supermarket.active,.supermarket.active:before,.supermarket.active:after{
+  background:#26ecb5;
+}
+.tab-brash{
+  width:80%;
+  margin: 0 auto;
 }
 .tab-brash>li{
-  width:35%;
+  width:26%;
   float: left;
+  margin-left:11%;
 }
-.tab-brash>li:last-child{
-  margin-left:30%;
+.tab-brash>li:first-child{
+  margin-left:0;
 }
 .tab-brash>li>a{
   color:#000;
