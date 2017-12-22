@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { HomepageComponent } from './homepage.component';
 import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
-import {FormsModule} from "@angular/forms";
+import { FormsModule} from "@angular/forms";
+import { TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
 const routes: Routes = [
   {
     path: '',
@@ -15,6 +16,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    TurnBarModule,
     RouterModule.forChild(routes)
   ],
   exports: [RouterModule],

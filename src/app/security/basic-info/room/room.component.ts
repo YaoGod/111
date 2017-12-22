@@ -20,9 +20,9 @@ declare var $:any;
 export class RoomComponent implements OnInit {
   public floor        : Floor =  new Floor();
   public rooms        : Array<Room>;
-  private pageNo      : number = 1;
-  private pageSize    : number = 6;
-  public pages        : Array<number>;
+  public pageNo      : number = 1;
+  public pageSize    : number = 6;
+  public total        : number =0;
   public isViewImg    : boolean = true;
   public imgWidth     : number = 500;
   public copyRooms   : any;
@@ -45,7 +45,6 @@ export class RoomComponent implements OnInit {
     this.route.params.subscribe(data => {
       this.floor.id = data.id;
       this.getFloor(this.floor.id);
-      this.initRoom();
     });
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
@@ -59,19 +58,19 @@ export class RoomComponent implements OnInit {
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.floor = data.data;
+          this.initRoom();
         }
       })
   }
   initRoom() {
-    this.pageNo = 1;
     this.rooms = new Array<Room>();
     this.copyRooms =[];
-    this.pages = [];
-    this.getRoomInfo(this.pageNo,this.pageSize);
+    this.getRoomInfo(1);
   }
   /*获取楼层信息*/
-  getRoomInfo(pageNo:number,pageSize:number){
-    this.infoBuildingService.getRoomListMsg( this.floor.id, pageNo,pageSize)
+  getRoomInfo(pageNo:number){
+    this.pageNo = pageNo;
+    this.infoBuildingService.getRoomListMsg( this.floor.id, pageNo,this.pageSize)
       .subscribe(data =>{
         if(this.errorVoid.errorMsg(data)) {
           this.rooms = data.data.infos;
@@ -79,35 +78,9 @@ export class RoomComponent implements OnInit {
           for( var i = 0;i<this.copyRooms.length;i++){
             this.copyRooms[i].editStatus = false;
           }
-          let total = Math.ceil(data.data.total / pageSize);
-          this.initPage(total);
+          this.total = data.data.total;
         }
       });
-  }
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
-    for(let i = 0;i< total;i++){
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
-  }
-  /*跳页加载数据*/
-  goPage(page:number){
-    this.pageNo = page;
-    this.getRoomInfo(this.pageNo,this.pageSize);
   }
   /*查看图片*/
   viewImg(url:string){

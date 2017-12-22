@@ -1,0 +1,10 @@
+<div class="turn" *ngIf="pages.length>1">
+  <ul>
+    <li *ngFor="let i of pages"
+        [hidden] = "pageLimit(i)"
+        [ngClass]="{'active':i === pageNo}"
+        (click)="goPage(i);">
+      {{i}}
+    </li>
+  </ul>
+</div>

@@ -22,7 +22,7 @@ ul,li{
   border-radius: 0;
   font-weight: 300;
   text-transform: uppercase;
-  padding: 20px 25px;
+  padding: 15px 25px;
 }
 .panel-action{
   float: right;
@@ -139,13 +139,11 @@ input[type=text],input[type=number]{
 .page-area{
   display: flex;
   flex-wrap: wrap;
-  padding: 20px 2%;
-  min-height: inherit;
+  min-height: 520px;
   background-color: #ffffff;
 }
 .card{
   margin:0  1%;
-  padding-bottom: 20px;
   width: 31.33%;
 }
 
@@ -301,11 +299,16 @@ input[type=text],input[type=number]{
   background: #04a9f3;
   border-color: #04a9f3;
 }
+.page-panel{
+  padding: 0 2%;
+  padding-bottom: 10px;
+  background-color: #ffffff;
+}
 .row{
   height: 36px;
   line-height: 36px;
   background-color: #ffffff;
-  padding: 25px 0 0 3%;
+  padding: 15px 3%;
 }
 .btn-danger{
   padding: .5rem 1.2rem;
@@ -534,7 +537,7 @@ button{
 
 }
 .btn-danger{
-  padding: 10px 16px;
+  padding: 7px 16px;
   border-radius: 4px;
   color: #fff;
 }

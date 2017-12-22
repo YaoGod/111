@@ -1,0 +1,114 @@
+<div class="limit-height">
+  <!--账户余额显示栏-->
+  <div class="view">
+    <div style="position: relative;">
+      <div class="panel-head" style="color: #cccccc">
+        <h6>账户余额</h6>
+        <div>
+          <label style="color: red; font-size: 30px"><strong>￥2389.31</strong></label>
+        </div>
+      </div>
+      <div class="panel">
+        <ul>
+          <li>
+            <label>查询类型</label>
+            <select (change)="queryTypeClick(queryType)">  <!-- [(ngModel)]="queryType"-->
+              <option value="消费记录">消费记录</option>
+              <option value="充值记录">充值记录</option>
+            </select>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!--消费充值记录列表展示-->
+  <div class="view" style="min-height: 350px;">
+    <div class="div-none" *ngIf="rooms.length < 1"> <!--copyRooms-->
+      <p>暂无记录</p>
+    </div>
+
+    <div class="room-list">
+      <ul class="clearfix">
+        <li class="room-card" *ngFor="let room of rooms;let i = index">
+          <!--消费记录-->
+          <div class="card-border-xiaofei" *ngIf="queryType === 1">
+            <div class="card-left">
+              <label>
+                <span class="form-title">人员姓名</span>
+                <p>王大锤</p>
+              </label>
+              <label>
+                <span class="form-title">员工编号</span>
+                <p>No.{{room.roomArea}}</p>
+              </label>
+              <label>
+                <span class="form-title">部门</span>
+                <p class="long-text">{{room.roomUse}}</p>
+              </label>
+              <label>
+                <span class="form-title">消费类型</span>
+                <p class="long-text">{{room.roomUse}}</p>
+              </label>
+              <label>
+                <span class="form-title">消费时间</span>
+                <p class="long-text">2017.12.13</p>
+              </label>
+              <label>
+                <span class="form-title">消费金额</span>
+                <p class="long-text">￥ {{room.roomNum}}</p>
+              </label>
+              <label>
+                <span class="form-title">消费明细</span>
+                <p class="long-text">{{room.roomUseReal}}</p>
+              </label>
+            </div>
+          </div>
+          <!--充值记录-->
+          <div class="card-border-xiyi" *ngIf="queryType === 0">
+            <div class="card-left">
+              <label>
+                <span class="form-title">人员姓名</span>
+                <p>王大锤</p>
+              </label>
+              <label>
+                <span class="form-title">员工编号</span>
+                <p>No.{{room.roomArea}}</p>
+              </label>
+              <label>
+                <span class="form-title">部门</span>
+                <p class="long-text">{{room.roomUse}}</p>
+              </label>
+              <label>
+                <span class="form-title">充值时间</span>
+                <p class="long-text">2017.12.13</p>
+              </label>
+              <label>
+                <span class="form-title">充值金额</span>
+                <p class="long-text">￥ {{room.roomNum}}</p>
+              </label>
+              <label>
+                <span class="form-title">备注</span>
+                <p class="long-text">{{room.roomUseReal}}</p>
+              </label>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!--翻页-->
+    <div class="turn-box">
+      <div class="turn">
+        <ul *ngIf="pages.length > 0">
+          <li *ngFor="let i of pages"
+              [hidden]="pageLimit(i)"
+              [ngClass]="{'active':i === 1}"
+              (click)="goPage(i);">
+            {{i}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+

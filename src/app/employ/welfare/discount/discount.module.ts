@@ -9,6 +9,7 @@ import { ErrorResponseService } from '../../../service/error-response/error-resp
 import { DiscountEmployeeService } from '../../../service/discount-employee/discount-employee.service';
 import { DiscountInfoDetailComponent } from './discount-info-detail/discount-info-detail.component';
 import { DiscountInfoListComponent } from './discount-info-list/discount-info-list.component';
+import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
 const routes: Routes = [
   {
     path: '',
@@ -39,6 +40,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    TurnBarModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

@@ -18,10 +18,10 @@ declare var confirmFunc: any;
 export class HomepageComponent implements OnInit {
   public buildings :Array<Building>;
   public imgPaths : any;
-  private pageNo = 1; /*当前页码*/
-  private pageSize = 6; /*显示页数*/
+  public pageNo = 1; /*当前页码*/
+  public pageSize = 6; /*显示页数*/
+  public total = 0;
   public search    :Building ; /*搜索字段*/
-  public pages: Array<number>;
   public newBuilding = {
     imgPath: '',
     buildingId: '',
@@ -49,17 +49,16 @@ export class HomepageComponent implements OnInit {
     );
     this.search = new Building();
     this.search.type = '';
-    this.pages = [];
-    this.getBuildingMsg();
+    this.getBuildingMsg(1);
   }
   /*获取大楼列表*/
-  getBuildingMsg(){
-    this.infoBuildingService.getBuildingList(this.pageNo,this.pageSize,this.search)
+  getBuildingMsg(pageNo){
+    this.pageNo = pageNo;
+    this.infoBuildingService.getBuildingList(pageNo,this.pageSize,this.search)
       .subscribe(data =>{
         if(this.errorVoid.errorMsg(data)){
           this.buildings = data.data.infos;
-          let total = Math.ceil(data.data.total / this.pageSize);
-          this.initPage(total);
+          this.total = data.data.total ;
           this.splitImgPaths(this.buildings);
         }
       });
@@ -120,7 +119,7 @@ export class HomepageComponent implements OnInit {
               'imgType': 1 ,
             });
             this.closeMask();
-            this.getBuildingMsg();
+            this.getBuildingMsg(1);
           }else{
             confirmFunc.init({
               'title': '提示' ,
@@ -157,31 +156,7 @@ export class HomepageComponent implements OnInit {
       }
     };
   }
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
-    for(let i = 0;i< total ;i++){
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
-  }
-  /*跳页加载数据*/
-  goPage(page:number){
-    this.pageNo = page;
-    this.getBuildingMsg();
-  }
+
   delete(id:number){
     confirmFunc.init({
       'title': '提示' ,
@@ -198,14 +173,10 @@ export class HomepageComponent implements OnInit {
                 'popType': 2,
                 'imgType': 1,
                 'callback': () => {
-                  this.pages =[];
-                  this.pageNo = 1;
-                  this.getBuildingMsg();
+                  this.getBuildingMsg(1);
                 },
                 'cancel': () => {
-                  this.pages =[];
-                  this.pageNo = 1;
-                  this.getBuildingMsg();
+                  this.getBuildingMsg(1);
                 }
               });
             }

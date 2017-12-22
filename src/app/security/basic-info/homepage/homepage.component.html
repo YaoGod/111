@@ -42,6 +42,7 @@
         <a class="btn btn-danger" (click)="fadeBom()" href="javascript:;" *ngIf="rule&&rule.isInstall">
           <i class="icon-plus"></i>新增</a>
     </div>
+    <div class="page-panel">
     <ul class="page-area">
       <li class="card" *ngFor="let building of buildings;let idx=index">
         <div class="card-img" [routerLink]="['detail',building.id]">
@@ -62,15 +63,12 @@
         </div>
       </li>
     </ul>
-    <div class="turn" *ngIf="pages.length>1">
-      <ul>
-        <li *ngFor="let i of pages"
-            [hidden] = "pageLimit(i)"
-            [ngClass]="{'active':i === pageNo}"
-            (click)="goPage(i);">
-          {{i}}
-        </li>
-      </ul>
+    <app-turn-bar
+      [pageNo]="pageNo"
+      [pageSize]="pageSize"
+      [total]="total"
+      (turnEvent)="getBuildingMsg($event)">
+    </app-turn-bar>
     </div>
   </div>
 </div>

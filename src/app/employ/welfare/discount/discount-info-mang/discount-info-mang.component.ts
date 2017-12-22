@@ -13,13 +13,15 @@ declare var $: any;
 })
 export class DiscountInfoMangComponent implements OnInit {
 
-  private pageNo = 1;           /*当前页码*/
-  private pageSize = 5;         /*显示页数*/
-  public  pages: Array<number>; /*页码*/
-  public  discounts: Array<Discount>;
-  public  copyDiscount: Discount;
-  public  tempOther: Array<any>;
-  public  search: string;      /*搜索字段*/
+  public pageNo = 1;           /*当前页码*/
+  public pageSize = 5;         /*显示页数*/
+  public total = 0;
+  public length = 5;
+  public pages: Array<number>; /*页码*/
+  public discounts: Array<Discount>;
+  public copyDiscount: Discount;
+  public tempOther: Array<any>;
+  public search: string;      /*搜索字段*/
   public navtitle:string;
   constructor(
     private router: Router,
@@ -35,21 +37,17 @@ export class DiscountInfoMangComponent implements OnInit {
     this.pages = new Array<number>();
     this.search = "";
     this.navtitle = "新增";
-    this.getDiscount();
+    this.getDiscount(1);
   }
-  getDiscount() {
-    this.discountEmployeeService.getDiscountList('end',this.search,this.pageNo,this.pageSize)
+  getDiscount(pageNo) {
+    this.pageNo = pageNo;
+    this.discountEmployeeService.getDiscountList('end',this.search,pageNo,this.pageSize)
       .subscribe(data =>{
         if(this.errorResponseService.errorMsg(data)){
           this.discounts = data.data.infos;
-          let total = Math.ceil(data.data.total / this.pageSize);
-          this.initPage(total);
+          this.total = data.data.total;
         }
       });
-  }
-  searchInfo(){
-    this.pageNo = 1;
-    this.getDiscount();
   }
   fadeBom(){
     this.copyDiscount.others = new Array<Other>();
@@ -131,13 +129,11 @@ export class DiscountInfoMangComponent implements OnInit {
                 'imgType': 1,
                 "callback": () => {
                   this.closeMask();
-                  this.pageNo = 1;
-                  this.getDiscount();
+                  this.getDiscount(1);
                 },
                 "cancel": () => {
                   this.closeMask();
-                  this.pageNo = 1;
-                  this.getDiscount();
+                  this.getDiscount(1);
                 }
               });
             }
@@ -153,13 +149,11 @@ export class DiscountInfoMangComponent implements OnInit {
                 'imgType': 1,
                 "callback": () => {
                   this.closeMask();
-                  this.pageNo = 1;
-                  this.getDiscount();
+                  this.getDiscount(1);
                 },
                 "cancel": () => {
                   this.closeMask();
-                  this.pageNo = 1;
-                  this.getDiscount();
+                  this.getDiscount(1);
                 }
               });
             }
@@ -196,12 +190,10 @@ export class DiscountInfoMangComponent implements OnInit {
                 'popType': 2,
                 'imgType': 1,
                 "callback": () => {
-                  this.pageNo = 1;
-                  this.getDiscount();
+                  this.getDiscount(1);
                 },
                 "cancel": () => {
-                  this.pageNo = 1;
-                  this.getDiscount();
+                  this.getDiscount(1);
                 }
               });
             }
@@ -211,31 +203,6 @@ export class DiscountInfoMangComponent implements OnInit {
   }
   linkDetail(id){
     this.router.navigate(['/hzportal/employ/welfare/discount/detail',id]);
-  }
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
-    for(let i = 0;i< total ;i++){
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
-  }
-  /*跳页加载数据*/
-  goPage(page:number){
-    this.pageNo = page;
-    this.getDiscount();
   }
   verifyImgPath(){
     if(typeof (this.copyDiscount.imgPath) === "undefined" ||

@@ -23,9 +23,9 @@ export class MsgFloorComponent implements OnInit {
   public floors       : Array<Floor>;   /*大楼楼层列表*/
   public floorNames   : Array<any>;  /*大楼楼层名称列表*/
   public searchFloor  : Floor;
-  private pageNo      : number = 1;
-  private pageSize    : number = 5;
-  public pages        : Array<number>;
+  public pageNo       : number;
+  public pageSize     : number = 5;
+  public total        : number = 0;
   public isViewImg    : boolean = true;
   public imgWidth     : number = 500;
   public imgSrcView   : string;
@@ -60,25 +60,24 @@ export class MsgFloorComponent implements OnInit {
     this.initFloor();
   }
   initFloor(){
-    this.pageNo = 1;
     this.floors = new Array<Floor>();
     this.copyFloors =[];
-    this.pages = [];
     let id =Number( this.router.url.split('/')[5]);
     this.searchFloor = new Floor();
     this.searchFloor.buildingId = id;
     this.searchFloor.floorNum = '';
     this.searchFloor.floorUse = '';
     this.getFloorNameListInfo(id);
-    this.getFloorInfo(this.pageNo,this.pageSize);
+    this.getFloorInfo(1);
   }
   /*获取楼层信息*/
-  getFloorInfo(pageNo:number,pageSize:number) {
+  getFloorInfo(pageNo:number) {
+    this.pageNo = pageNo;
     let copySearch = JSON.parse(JSON.stringify(this.searchFloor));
     if(this.searchFloor.floorNum === '') {
       copySearch.floorNum = undefined;
     }
-    this.infoBuildingService.getFloorListMsg( copySearch, pageNo,pageSize)
+    this.infoBuildingService.getFloorListMsg( copySearch, pageNo,this.pageSize)
       .subscribe(data =>{
         if(this.errorVoid.errorMsg(data)) {
           this.floors = data.data.infos;
@@ -86,8 +85,7 @@ export class MsgFloorComponent implements OnInit {
           for( let i = 0;i<this.copyFloors.length;i++) {
             this.copyFloors[i].editStatus = false;
           }
-          let total = Math.ceil(data.data.total / pageSize);
-          this.initPage(total);
+          this.total = data.data.total;
         }
       });
   }
@@ -101,34 +99,7 @@ export class MsgFloorComponent implements OnInit {
       });
   }
   search(){
-    this.pageNo = 1;
-    this.pages = [];
-    this.getFloorInfo(this.pageNo,this.pageSize);
-  }
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
-    for(let i = 0;i< total ;i++){
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
-  }
-  /*跳页加载数据*/
-  goPage(page:number){
-    this.pageNo = page;
-    this.getFloorInfo(this.pageNo,this.pageSize);
+    this.getFloorInfo(1);
   }
   /*查看大楼房间信息*/
   goToRoom(id){

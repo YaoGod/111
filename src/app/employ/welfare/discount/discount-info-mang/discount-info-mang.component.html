@@ -7,7 +7,7 @@
   <ul>
     <li>
       <input type="text" name="search" [(ngModel)]="search">
-      <a (click)="searchInfo();"><i class="icon-magnifier"></i>查询</a>
+      <a (click)="getDiscount(1);"><i class="icon-magnifier"></i>查询</a>
     </li>
     <li>
         <a class="btn-danger"
@@ -75,16 +75,12 @@
   </div>
 </div>
 <!--翻页-->
-<div class="turn" *ngIf="pages.length > 1">
-  <ul>
-    <li *ngFor="let i of pages"
-        [hidden] = "pageLimit(i)"
-        [ngClass]="{'active':i === pageNo}"
-        (click)="goPage(i);">
-      {{i}}
-    </li>
-  </ul>
-</div>
+<app-turn-bar
+  [pageNo] = "pageNo"
+  [pageSize] = "pageSize"
+  [total] = "total"
+  (turnEvent) = "getDiscount($event)">
+</app-turn-bar>
 
 <!--新建-->
 <div class="mask" style="display: none;">

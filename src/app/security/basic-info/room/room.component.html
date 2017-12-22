@@ -10,7 +10,7 @@
     </a>
   </div>
   <div class="room-list" *ngIf="rooms">
-    <ul>
+    <ul style="min-height: 720px">
       <li class="room-card" *ngFor="let room of rooms;let i = index">
         <h5> {{room.roomUse}}</h5>
         <div class="card-border">
@@ -52,23 +52,16 @@
         </div>
       </li>
     </ul>
-  </div>
-  <div class="div-none" *ngIf="copyRooms.length < 1">
+    <div class="div-none" *ngIf="copyRooms.length < 1">
     <p>暂无信息</p>
-  </div>
-  <!--翻页-->
-  <div class="turn-box">
-    <div class="turn">
-      <ul *ngIf="pages.length > 1">
-        <li *ngFor="let i of pages"
-            [hidden] = "pageLimit(i)"
-            [ngClass]="{'active':i === pageNo}"
-            (click)="goPage(i);">
-          {{i}}
-        </li>
-      </ul>
-      <div style="clear: both"></div>
     </div>
+    <!--翻页-->
+    <app-turn-bar
+      [pageNo]="pageNo"
+      [pageSize]="pageSize"
+      [total]="total"
+      (turnEvent)="getRoomInfo($event)">
+    </app-turn-bar>
   </div>
 </div>
 <!--新建-->

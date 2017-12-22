@@ -12,6 +12,7 @@ import { ErrorResponseService } from '../../../service/error-response/error-resp
 import { WelfareEmployeeService } from '../../../service/welfare-employee/welfare-employee.service';
 import { StaffWelfareDetailComponent } from './staff-welfare-detail/staff-welfare-detail.component';
 import { SraffWelfareListComponent } from './sraff-welfare-list/sraff-welfare-list.component';
+import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
 const routes: Routes = [
   {
     path: '',
@@ -51,6 +52,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     TextareaModule,
+    TurnBarModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

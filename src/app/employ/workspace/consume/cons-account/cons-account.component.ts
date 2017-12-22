@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import {InfoBuildingService} from "../../../service/info-building/info-building.service";
-import {Room} from "../../../mode/room/room.service";
+import {InfoBuildingService} from "../../../../service/info-building/info-building.service";
+import {Room} from "../../../../mode/room/room.service";
 
 @Component({
-  selector: 'app-orderhand',
-  templateUrl: './orderhand.component.html',
-  styleUrls: ['./orderhand.component.css'],
+  selector: 'app-cons-account',
+  templateUrl: './cons-account.component.html',
+  styleUrls: ['./cons-account.component.css'],
   providers: [InfoBuildingService]
 })
-export class OrderhandComponent implements OnInit {
+export class ConsAccountComponent implements OnInit {
 
-  // public rooms: Array<Room>;
-  public rooms = new Array<number>();
+  public rooms: Array<Room>;
   public pages: Array<number>;
   private pageNo      : number = 1;
   private pageSize    : number = 10;
+  private queryType    : number;
 
   constructor(
     private infoBuildingService:InfoBuildingService
@@ -27,13 +27,26 @@ export class OrderhandComponent implements OnInit {
   }
 
   initConsume() {
-    // this.rooms = new Array<Room>();
-    this.rooms = new Array<number>();
+    this.rooms = new Array<Room>();
     this.pageNo = 1;
     this.pages = [];
 
-    // this.rooms = [1,2,3,4,5,6];
-    this.getRoomInfo(this.pageNo,this.pageSize);
+    /*查询类型*/
+    this.queryType = 1;
+
+    this.getConsumeInfo(this.pageNo,this.pageSize);
+  }
+
+  /*选择查询类型*/
+  queryTypeClick(queryType) {
+    if (queryType === 0) {
+      console.log('消费记录==='+this.queryType);
+      this.queryType = 1;
+    }else {
+      console.log('充值记录==='+this.queryType);
+      this.queryType = 0;
+    }
+    this.getConsumeInfo(this.pageNo,this.pageSize);
   }
 
   /*页码初始化*/
@@ -45,17 +58,12 @@ export class OrderhandComponent implements OnInit {
   }
 
   /*获取消费记录信息*/
-  getRoomInfo(pageNo: number, pageSize: number) {
+  getConsumeInfo(pageNo: number, pageSize: number) {
     this.infoBuildingService.getRoomListMsg(44, pageNo, pageSize)
       .subscribe(data => {
-        console.log(data);
         this.rooms = data.data.infos;
-
-        // for (var i = 0; i < data.data.infos.length; i++) {
-        //   this.rooms.push(data.data.infos[i]);
-        // }
         console.log(this.rooms);
-        let total = Math.ceil(80 / pageSize);
+        let total = Math.ceil(data.data.total / pageSize);
         this.initPage(total);
       });
   }
@@ -76,7 +84,7 @@ export class OrderhandComponent implements OnInit {
   /*跳页加载数据*/
   goPage(page:number){
     this.pageNo = page;
-    this.getRoomInfo(this.pageNo,this.pageSize);
+    this.getConsumeInfo(this.pageNo,this.pageSize);
   }
 
 }

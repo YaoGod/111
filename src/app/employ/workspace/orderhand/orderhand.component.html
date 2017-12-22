@@ -1,3 +1,60 @@
-<p>
-  订单处理
-</p>
+<div class="limit-height">
+  <div class="view">
+    <div class="energy-container">
+      <div class="table-respons">
+        <table class="table" width="100%">
+          <thead>
+          <tr>
+            <th>订单编号</th>
+            <th>订单状态</th>
+            <th>创建时间</th>
+            <th>支付时间</th>
+            <th>订单金额</th>
+            <th>订单处理</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let inner of rooms; let i=index">
+            <td>No.{{inner.roomNum}}</td>  <!--订单编号-->
+            <td>{{inner.roomUse}}</td>  <!--订单状态-->
+            <td>2017/12/14<br>04:21</td>  <!--创建时间-->
+            <td>2017.12.15<br>18:43</td>  <!--支付时间-->
+            <td style="color: red">￥ {{inner.roomNum}}</td>  <!--订单金额-->
+
+            <!--<div class="row text-right">-->
+              <!--<a class="btn btn-new" href="javascript:;" (click)="addCompany()">支付</a>-->
+            <!--</div>-->
+
+            <td>
+              <a href="javascript:void(0)" class="btn" (click)="editAttach(i);">
+                <i class="icon-people">支付</i>
+              </a>
+              <a href="javascript:void(0)" class="btn" (click)="delAttach(i);">
+                <i class="icon-trash">取消</i>
+              </a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="div-none" *ngIf="rooms.length < 1"> <!--copyRooms-->
+          <p>暂无记录</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--翻页-->
+  <div class="turn-box">
+    <div class="turn">
+      <ul *ngIf="pages.length > 0">
+        <li *ngFor="let i of pages"
+            [hidden]="pageLimit(i)"
+            [ngClass]="{'active':i === pageNo}"
+            (click)="goPage(i);">
+          {{i}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!--</div>-->
+

@@ -1,0 +1,28 @@
+.turn{
+  padding: 10px 0;
+  clear: both;
+}
+.turn>ul{
+  display: flex;
+  height: 35px;
+}
+.turn>ul>li{
+  height: 35px;
+  width: 30px;
+  line-height: 35px;
+  border-top: 1px solid #e4e7ea;
+  border-right: 1px solid #e4e7ea;
+  border-bottom: 1px solid #e4e7ea;
+  color: #686868;
+  background-color: #ffffff;
+  text-align: center;
+  cursor: pointer;
+}
+.turn>ul{
+  border-left: 1px solid #e4e7ea;
+}
+.turn>ul>li.active{
+  color: #ffffff;
+  background: #04a9f3;
+  border-color: #04a9f3;
+}

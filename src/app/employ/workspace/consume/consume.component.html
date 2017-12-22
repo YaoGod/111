@@ -1,12 +1,13 @@
 
-<ul>
-  <li>
-    我的余额
-  </li>
-  <li>
-    消费记录
-  </li>
-  <li>
-    充值记录
-  </li>
-</ul>
+<div class="nav-panel">
+  <!--导航-->
+  <ul class="nav-msg">
+    <li><h4 routerLink="consAccount" routerLinkActive="active">消费账户及记录查询</h4></li>
+    <li><h4 routerLink="washAccount" routerLinkActive="active">洗衣账户及记录查询</h4></li>
+  </ul>
+  <!--内容-->
+  <div class="route-panel">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+

@@ -52,7 +52,7 @@
   </table>
 </div>
 <!--表格内容-->
-<div class="table-content" style="height: 390px">
+<div class="table-content" style="min-height: 390px">
   <table border="0" cellspacing="0" cellpadding="0" class="list-box">
     <tr class="row"  style="height:45px;" *ngFor="let floor of floors;let i = index">
       <td width="25%" class="text-left">
@@ -133,16 +133,14 @@
   </div>
 </div>
 <!--翻页-->
-<div class="turn" *ngIf="pages.length > 1">
-  <ul>
-    <li *ngFor="let i of pages"
-        [hidden] = "pageLimit(i)"
-        [ngClass]="{'active':i === pageNo}"
-        (click)="goPage(i);">
-      {{i}}
-    </li>
-  </ul>
-</div>
+<app-turn-bar
+  [pageNo]="pageNo"
+  [pageSize]="pageSize"
+  [total]="total"
+  [length] = 5
+  (turnEvent)="getFloorInfo($event,pageSize)">
+</app-turn-bar>
+
 <!--新建-->
 <div class="mask" style="display: none;">
   <div  class="modal-content">

@@ -24,9 +24,9 @@ export class MsgContractComponent implements OnInit {
   public modeBuilding: Building;
   public contracts: Array<Contract>;
   public tempContract: Contract;
-  private pageNo: number = 1;
-  private pageSize: number = 5;
-  public pages: Array<number>;
+  public pageNo: number = 1;
+  public pageSize: number = 5;
+  public total = 0;
   public pageStatus: number = 2;
   private temp: any = '';
   private type = '';
@@ -54,7 +54,6 @@ export class MsgContractComponent implements OnInit {
   ngOnInit() {
     this.building = new Building();
     this.contracts = [];
-    this.pages = [];
     this.tempContract = new Contract;
     /*大楼信息更新订阅*/
     this.globalBuilding.valueUpdated.subscribe(
@@ -86,6 +85,7 @@ export class MsgContractComponent implements OnInit {
         if(this.errorVoid.errorMsg(data)){
           this.contracts = [];
           this.contracts[0] = data.data;
+          this.total = 1;
           if(typeof (this.contracts[0].id) === "undefined" || this.contracts[0].id === null){
             this.pageStatus = 0;
             this.title = "新增";
@@ -98,17 +98,17 @@ export class MsgContractComponent implements OnInit {
     this.getBuildingInfo(this.building.id);
   }
   /*获取历史合同*/
-  getContractList(){
+  getContractList(pageNo){
     this.watchType = false;
     this.pageStatus = 2;
+    this.pageNo = pageNo;
     this.contractBuildingService.getContractList(
-      Number(this.router.url.split('/')[5]),this.building.type,this.pageNo,this.pageSize)
+      Number(this.router.url.split('/')[5]),this.building.type,pageNo,this.pageSize)
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.contracts = data.data.infos;
           this.pageStatus = this.contracts.length>0?3:2;
-          let total = Math.ceil(data.data.total / this.pageSize);
-          this.initPage(total);
+          this.total =data.data.total ;
         }
       });
   }
@@ -375,32 +375,6 @@ export class MsgContractComponent implements OnInit {
           })
       }
     });
-  }
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
-    for(let i = 0;i< total ;i++){
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    console.log(page);
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this                                                                                                                                                                 .pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
-  }
-  /*跳页加载数据*/
-  goPage(page:number){
-    this.pageNo = page;
-    this.getContractList();
   }
   openFile(url) {
     window.open("proxy"+ url);

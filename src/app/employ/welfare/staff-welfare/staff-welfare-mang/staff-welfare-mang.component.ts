@@ -13,9 +13,9 @@ declare var $: any;
 })
 export class StaffWelfareMangComponent implements OnInit {
 
-  private pageNo = 1;           /*当前页码*/
-  private pageSize = 5;         /*显示页数*/
-  public  pages: Array<number>; /*页码*/
+  public pageNo = 1;           /*当前页码*/
+  public pageSize = 5;         /*显示页数*/
+  public total = 0;
   public  welfares: Array<Welfare>;
   public  copyWelfare: Welfare;
   public  tempOther: Array<any>;
@@ -34,20 +34,18 @@ export class StaffWelfareMangComponent implements OnInit {
     this.globalCatalogService.setTitle("员工服务/福利专区/福利信息管理");
     this.welfares = new Array<Welfare>();
     this.copyWelfare = new Welfare();
-    this.pages = new Array<number>();
     this.search = "";
     this.targets = [];
-    this.getWelfare();
+    this.getWelfare(1);
     this.winTitle = "";
   }
-  getWelfare() {
-    this.welfareEmployeeService.getWelfareList(this.search,this.pageNo,this.pageSize)
+  getWelfare(pageNo) {
+    this.pageNo = pageNo;
+    this.welfareEmployeeService.getWelfareList(this.search,pageNo,this.pageSize)
       .subscribe(data =>{
         if(this.errorResponseService.errorMsg(data)){
           this.welfares = data.data.infos;
-          let total = Math.ceil(data.data.total / this.pageSize);
-          this.initPage(total);
-          this.getTargetIdList();
+          this.total =data.data.total;
         }
       });
   }
@@ -58,10 +56,6 @@ export class StaffWelfareMangComponent implements OnInit {
           this.targets = data.data;
         }
       });
-  }
-  searchInfo(){
-    this.pageNo = 1;
-    this.getWelfare();
   }
   fadeBom(){
     this.copyWelfare.others = new Array<Other>();
@@ -186,13 +180,11 @@ export class StaffWelfareMangComponent implements OnInit {
                 'imgType': 1,
                 "callback": () => {
                   this.closeMask();
-                  this.pageNo = 1;
-                  this.getWelfare();
+                  this.getWelfare(1);
                 },
                 "cancel": () => {
                   this.closeMask();
-                  this.pageNo = 1;
-                  this.getWelfare();
+                  this.getWelfare(1);
                 }
               });
             }
@@ -210,13 +202,11 @@ export class StaffWelfareMangComponent implements OnInit {
                 'imgType': 1,
                 "callback": () => {
                   this.closeMask();
-                  this.pageNo = 1;
-                  this.getWelfare();
+                  this.getWelfare(1);
                 },
                 "cancel": () => {
                   this.closeMask();
-                  this.pageNo = 1;
-                  this.getWelfare();
+                  this.getWelfare(1);
                 }
               });
             }
@@ -256,12 +246,10 @@ export class StaffWelfareMangComponent implements OnInit {
                 'popType': 2,
                 'imgType': 1,
                 "callback": () => {
-                  this.pageNo = 1;
-                  this.getWelfare();
+                  this.getWelfare(1);
                 },
                 "cancel": () => {
-                  this.pageNo = 1;
-                  this.getWelfare();
+                  this.getWelfare(1);
                 }
               });
             }
@@ -274,31 +262,6 @@ export class StaffWelfareMangComponent implements OnInit {
   }
   linkStatistics(id){
     this.router.navigate(['/hzportal/employ/welfare/staffWelfare/statistics',id]);
-  }
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
-    for(let i = 0;i< total ;i++){
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
-  }
-  /*跳页加载数据*/
-  goPage(page:number){
-    this.pageNo = page;
-    this.getWelfare();
   }
   verifyImgPath(){
     if(typeof (this.copyWelfare.imgPath) === "undefined" ||
