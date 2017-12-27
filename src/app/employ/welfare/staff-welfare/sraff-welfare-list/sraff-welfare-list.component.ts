@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IpSettingService } from '../../../../service/ip-setting/ip-setting.service';
-import { Discount } from '../../../../mode/discount/discount.service';
-import { Welfare } from '../../../../mode/welfare/Welfare.service';
+import { Welfare } from '../../../../mode/welfare/welfare.service';
 import { GlobalCatalogService } from '../../../../service/global-catalog/global-catalog.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
 import { DiscountEmployeeService } from '../../../../service/discount-employee/discount-employee.service';
@@ -79,6 +78,9 @@ export class SraffWelfareListComponent implements OnInit {
     this.pageNo = 1;
     this.welfares = [];
     this.getWelfare(this.search,this.pageNo,this.pageSize);
+  }
+  back(){
+    history.go(-1);
   }
 }
 

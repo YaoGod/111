@@ -1,5 +1,14 @@
-<div class="limit-height">
-  <div class="view">
+<div class="back">
+<!--页面标题-->
+<div class="head-box">
+  <div class="nav-title">
+    <a><h4>消费账户及记录查询</h4></a>
+    <div class="b-head-right">
+      <div class="content-box" tabindex="0" (click)="back()">
+        <i class="icon-reload"></i> 返回
+      </div>
+    </div>
+  </div>
     <div class="energy-container">
       <div class="table-respons">
         <table class="table" width="100%">
@@ -40,21 +49,14 @@
           <p>暂无记录</p>
         </div>
       </div>
+
     </div>
+    <app-turn-bar
+      [pageNo] = "pageNo"
+      [pageSize] = "pageSize"
+      [total] = "total"
+      (turnEvent) = "getRoomInfo($event)">
+    </app-turn-bar>
   </div>
   <!--翻页-->
-  <div class="turn-box">
-    <div class="turn">
-      <ul *ngIf="pages.length > 0">
-        <li *ngFor="let i of pages"
-            [hidden]="pageLimit(i)"
-            [ngClass]="{'active':i === pageNo}"
-            (click)="goPage(i);">
-          {{i}}
-        </li>
-      </ul>
-    </div>
-  </div>
 </div>
-<!--</div>-->
-

@@ -5,7 +5,7 @@
       </div>
       <div class="total-price">
         <p>总资产（元）</p>
-        <span>325.67</span>
+        <span>{{count | number:'1.2-4'}}</span>
       </div>
     </div>
   </div>
@@ -13,8 +13,9 @@
     <div class="section-panel pending-panel">
       <h3>待办事项</h3>
       <ul class="pending">
-        <li>待处理工单<sup>0</sup></li>
-        <li (click)="linkPendingCost()">待处理订单<sup>3</sup></li>
+        <li *ngFor="let pending of pendings" (click)="linkPendingCost(pending.key)">
+          {{pending.key}}<sup>{{pending.value}}</sup>
+        </li>
       </ul>
     </div>
   </div>
@@ -38,9 +39,9 @@
     <div class="section-panel">
       <h3>服务中心</h3>
       <table class="service-list">
-       <tr>
-         <td>服务中心</td>
-         <td>环城北路</td>
+       <tr *ngFor="let service of serviceCenters">
+         <td>{{service.name}}</td>
+         <td>环城北路{{service.id}}号</td>
          <td>周一至周五 上午9：00-11：00 下午14:00-16:00</td>
        </tr>
       </table>

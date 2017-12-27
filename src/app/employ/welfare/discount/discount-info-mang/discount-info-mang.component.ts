@@ -237,4 +237,7 @@ export class DiscountInfoMangComponent implements OnInit {
     $('#' + id).removeClass('red');
     $('#' + id).parent().next('.error').fadeOut();
   }
+  back(){
+    history.go(-1);
+  }
 }

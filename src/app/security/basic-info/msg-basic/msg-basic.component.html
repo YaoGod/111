@@ -26,7 +26,7 @@
     <li class="form-bar">
       <label>
         <span class="form-title">楼层数</span>
-        <input type="text" name="floorNum" class="ipt"
+        <input type="number" name="floorNum" class="ipt"
                [(ngModel)]="copyBuilding.floorNum">
         <span class="word">{{building.floorNum | emptyValue:'暂无数据'}}</span>
       </label>
@@ -34,15 +34,15 @@
     <li class="form-bar">
       <label>
         <span class="form-title">楼高</span>
-        <input type="text" name="height" class="ipt"
+        <input type="number" name="height" class="ipt"
                [(ngModel)]="copyBuilding.height">
         <span class="word">{{building.height | emptyValue:'暂无数据'}}</span>
       </label>
     </li>
     <li class="form-bar">
     <label>
-      <span class="form-title">建筑面积</span>
-      <input type="text" name="area" class="ipt" [disabled]="building.type === '自购'"
+      <span class="form-title">建筑面积(平米)</span>
+      <input type="number" name="area" class="ipt" [disabled]="building.type === '自购'"
              [(ngModel)]="copyBuilding.area">
       <span class="word">{{building.area | emptyValue:'暂无数据'}}</span>
     </label>

@@ -334,5 +334,7 @@ export class RoomComponent implements OnInit {
     }
     return value;
   }
-
+  back(){
+    history.go(-1);
+  }
 }

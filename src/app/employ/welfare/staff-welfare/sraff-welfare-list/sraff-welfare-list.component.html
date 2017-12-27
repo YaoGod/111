@@ -1,17 +1,24 @@
 
 <div class="goods-inner">
+  <div class="b-head-right">
+    <div class="content-box" tabindex="0" (click)="back()">
+      <i class="icon-reload"></i> 返回
+    </div>
+  </div>
   <h4 class="goods-hd">
-    <em class="fn2">有福利</em>
+    <em class="fn2">爱统计</em>
     <p>
-      <span class="subtitle">优质福利火速领取中</span>
+      <span class="subtitle">量身质造为您提供优质服务</span>
     </p>
-    <span class="tb-fn">
-        <div class="box-search" >
-          <input type="text" [(ngModel)]="search">
-          <a (click)="searchDiscount()"><i class="icon-magnifier"></i>搜索</a>
-        </div>
-      </span>
   </h4>
+  <div class="opt-box">
+     <span class="tb-fn">
+      <div class="box-search" >
+        <input type="text" [(ngModel)]="search">
+        <a (click)="searchDiscount()"><i class="icon-magnifier"></i>搜索</a>
+      </div>
+    </span>
+  </div>
   <ul class="goods-list" *ngIf="welfares && welfares.length >0">
     <li *ngFor="let welfare of welfares">
       <a (click)="linkWelfare(welfare.id)">

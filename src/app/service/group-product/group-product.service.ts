@@ -20,7 +20,6 @@ export class GroupProductService {
    return:              #公告*/
 
   getProductList(pageNo:number,pageSize:number,search:any) {
-    console.log(search);
     const url = '/proxy/mmall/group/getProductList/'+pageNo+'/'+pageSize;
     const data = search;
     return this.http.post(url,data,this.options)

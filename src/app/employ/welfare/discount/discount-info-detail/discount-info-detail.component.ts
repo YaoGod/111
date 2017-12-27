@@ -82,4 +82,7 @@ export class DiscountInfoDetailComponent implements OnInit {
     window.print();
     document.body.innerHTML = oldstr;
   }
+  back(){
+    history.go(-1);
+  }
 }

@@ -80,7 +80,7 @@
     <li class="form-bar">
       <label>
         <span class="form-title">纬度</span>
-        <input type="text" name="lon" class="ipt" (blur)="updateMarker()"
+        <input type="number" name="lon" class="ipt" (blur)="updateMarker()"
                [(ngModel)]="copyBuilding.lon">
         <span class="word">{{building.lon | emptyValue:'暂无数据'}}</span>
       </label>
@@ -88,7 +88,7 @@
     <li class="form-bar">
       <label>
         <span class="form-title">经度</span>
-        <input type="text" name="lat" class="ipt" (blur)="updateMarker()"
+        <input type="number" name="lat" class="ipt" (blur)="updateMarker()"
                [(ngModel)]="copyBuilding.lat">
         <span class="word">{{building.lat | emptyValue:'暂无数据'}}</span>
       </label>

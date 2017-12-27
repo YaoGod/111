@@ -630,3 +630,26 @@ textarea.form-control{
 .limit-height{
   min-height: calc(100% - 50px);
 }
+.b-head-right{
+  position: relative;
+  float: right;
+  top: 10px;
+}
+.content-box{
+  float: left;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid #fb9678;
+  margin-right: 10px;
+  line-height: 28px;
+  border-radius: 3px;
+  font-size: 15px;
+  color: #fb9678;
+  background: #ffffff;
+  outline: none;
+  cursor: pointer;
+}
+.content-box:hover{
+  color: #ff3c00;
+  border-color: #ff3c00;
+}

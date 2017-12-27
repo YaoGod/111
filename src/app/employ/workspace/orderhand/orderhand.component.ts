@@ -1,23 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import {InfoBuildingService} from "../../../service/info-building/info-building.service";
-import {Room} from "../../../mode/room/room.service";
+import {WorkspaceMydeskService} from "../../../service/workspace-mydesk/workspace-mydesk.service";
 
 @Component({
   selector: 'app-orderhand',
   templateUrl: './orderhand.component.html',
   styleUrls: ['./orderhand.component.css'],
-  providers: [InfoBuildingService]
+  providers: [WorkspaceMydeskService]
 })
 export class OrderhandComponent implements OnInit {
 
   // public rooms: Array<Room>;
   public rooms = new Array<number>();
-  public pages: Array<number>;
-  private pageNo      : number = 1;
-  private pageSize    : number = 10;
-
+  public pageNo      : number = 1;
+  public pageSize    : number = 10;
+  public total       : number = 0;
   constructor(
-    private infoBuildingService:InfoBuildingService
+    private workspaceMydeskService:WorkspaceMydeskService
   ) {
 
   }
@@ -27,56 +25,20 @@ export class OrderhandComponent implements OnInit {
   }
 
   initConsume() {
-    // this.rooms = new Array<Room>();
     this.rooms = new Array<number>();
     this.pageNo = 1;
-    this.pages = [];
-
-    // this.rooms = [1,2,3,4,5,6];
-    this.getRoomInfo(this.pageNo,this.pageSize);
+    this.getRoomInfo(1);
   }
-
-  /*页码初始化*/
-  initPage(total) {
-    this.pages = new Array(total);
-    for (let i = 0; i < total; i++) {
-      this.pages[i] = i + 1;
-    }
-  }
-
   /*获取消费记录信息*/
-  getRoomInfo(pageNo: number, pageSize: number) {
-    this.infoBuildingService.getRoomListMsg(44, pageNo, pageSize)
+  getRoomInfo(pageNo: number) {
+    this.pageNo = pageNo;
+    this.workspaceMydeskService.getHandlingOrder()
       .subscribe(data => {
-        console.log(data);
-        this.rooms = data.data.infos;
-
-        // for (var i = 0; i < data.data.infos.length; i++) {
-        //   this.rooms.push(data.data.infos[i]);
-        // }
-        console.log(this.rooms);
-        let total = Math.ceil(80 / pageSize);
-        this.initPage(total);
+        /*this.rooms = data.data.infos;
+        this.total = data.data.total;*/
       });
   }
-
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
+  back(){
+    history.go(-1);
   }
-  /*跳页加载数据*/
-  goPage(page:number){
-    this.pageNo = page;
-    this.getRoomInfo(this.pageNo,this.pageSize);
-  }
-
 }

@@ -4,7 +4,37 @@
   background: #ffffff;
   border-bottom: 1px solid rgba(120, 130, 140, .13);
 }
+.nav-title{
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.nav-title>a>h4{
+  display: inline-block;
+  line-height: 30px;
+  color: #fb9678;
+  border-bottom: 2px solid #fb9678;
+}
+.b-head-right{
+  float: right;
+}
+.content-box{
+  float: left;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid #eee;
+  margin-right: 10px;
+  line-height: 28px;
+  border-radius: 3px;
+  font-size: 15px;
+  color: #ff3c00;
+  outline: none;
+  cursor: pointer;
+}
+.content-box:hover{
+  border-color: #ff3c00;
+}
 .panel-head {
+  display: inline-block;
   color: #2b2b2b;
   background-color: #fff;
   border-radius: 0;
@@ -25,9 +55,7 @@
 }
 
 .panel {
-  position: absolute;
-  right: 40px;
-  top: 35px;
+  float: right;
 }
 
 .panel > ul {

@@ -54,4 +54,7 @@ export class ConsAccountComponent implements OnInit {
         this.total = data.data.total;
       });
   }
+  back(){
+    history.go(-1);
+  }
 }

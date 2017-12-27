@@ -11,6 +11,7 @@
   margin-top: 20px;
   margin-bottom: 20px;
   line-height: 20px;
+  width: 60%;
   font-weight: 600;
 }
 .wrap-fixed{
@@ -46,7 +47,7 @@
 .tb-fn {
   position: absolute;
   top: 0;
-  right: 20px;
+  right: 0;
   line-height: 24px;
   font-size: 10px;
   color: #999;
@@ -68,6 +69,7 @@
   margin: 0 auto;
   min-height: 564px;
   overflow: hidden;
+  clear: both;
 }
 .goods-list a{
   display: block;
@@ -250,7 +252,7 @@
 .box-search{
   display: inline-block;
   padding: 3px;
-  margin-right: 20px;
+  margin-right: 10px;
   line-height: 30px;
   border-radius: 5px;
   background-color: #04a9f3;
@@ -274,4 +276,30 @@
   color: #ffffff;
   font-size: 12px;
   cursor: pointer;
+}
+.opt-box{
+  position: relative;
+  height: 50px;
+  margin-bottom: 10px;
+  z-index: 5;
+}
+.b-head-right{
+  position: relative;
+  float: right;
+}
+.content-box{
+  float: left;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid #eee;
+  margin-right: 10px;
+  line-height: 28px;
+  border-radius: 3px;
+  font-size: 15px;
+  color: #ff3c00;
+  outline: none;
+  cursor: pointer;
+}
+.content-box:hover{
+  border-color: #ff3c00;
 }

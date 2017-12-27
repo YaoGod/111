@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router';
-import { Welfare } from '../../../../mode/welfare/Welfare.service';
+import { Welfare } from '../../../../mode/welfare/welfare.service';
 import { GlobalCatalogService } from '../../../../service/global-catalog/global-catalog.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
 import { WelfareEmployeeService } from '../../../../service/welfare-employee/welfare-employee.service';
@@ -85,5 +85,8 @@ export class StaffWelfareDetailComponent implements OnInit {
   }
   linkDiscountStatistics(){
       this.router.navigate(['/hzportal/employ/welfare/staffWelfare/statistics/',this.welfare.id]);
+  }
+  back(){
+    history.go(-1);
   }
 }

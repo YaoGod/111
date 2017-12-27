@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import { Welfare } from '../../../../mode/welfare/Welfare.service';
+import { Welfare } from '../../../../mode/welfare/welfare.service';
 import { GlobalCatalogService } from '../../../../service/global-catalog/global-catalog.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
 import { WelfareEmployeeService } from '../../../../service/welfare-employee/welfare-employee.service';
@@ -99,6 +99,9 @@ export class StaffWelfareStatisticsComponent implements OnInit {
   /*跳页加载数据*/
   goPage(page:number){
     this.pageNo = page;
+  }
+  back(){
+    history.go(-1);
   }
 }
 export class UserTarget{

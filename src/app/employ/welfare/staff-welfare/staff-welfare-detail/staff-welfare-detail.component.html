@@ -1,11 +1,22 @@
 <!--页面标题-->
 <div class="nav-title">
   <a><h4>福利信息</h4></a>
-  <span class="tb-fn" *ngIf="rule&&rule.isInstall&&rule.isDelete&&rule.isUpdate">
+  <div class="b-head-right">
+    <div class="content-box" tabindex="0"
+       *ngIf="rule&&rule.isInstall&&rule.isDelete&&rule.isUpdate"
+       (click)="linkDiscountStatistics()">
+      <i class="icon-doc"></i> 统计
+    </div>
+    <div class="content-box" tabindex="0" (click)="back()">
+      <i class="icon-reload"></i> 返回
+    </div>
+
+  </div>
+  <!--<span class="tb-fn" *ngIf="rule&&rule.isInstall&&rule.isDelete&&rule.isUpdate">
     <a class="btn-fn3" (click)="linkDiscountStatistics()">
-      统&nbsp;&nbsp;计
+
     </a>
-  </span>
+  </span>-->
 </div>
 <!--信息内容-->
 <div class="warp">

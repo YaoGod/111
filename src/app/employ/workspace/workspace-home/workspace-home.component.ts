@@ -1,21 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import * as echarts from 'echarts';
+import {WorkspaceMydeskService} from "../../../service/workspace-mydesk/workspace-mydesk.service";
+import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 @Component({
   selector: 'app-workspace-home',
   templateUrl: './workspace-home.component.html',
-  styleUrls: ['./workspace-home.component.css']
+  styleUrls: ['./workspace-home.component.css'],
+  providers: [WorkspaceMydeskService, ErrorResponseService]
 })
 export class WorkspaceHomeComponent implements OnInit {
 
+  public count          : number;
+  public pendings       : Array<any>;
+  public serviceCenters : Array<any>;
   constructor(
-    private router:Router
+    private router:Router,
+    private errorResponseService: ErrorResponseService,
+    private workspaceMydeskService:WorkspaceMydeskService
   ) { }
 
   ngOnInit() {
-    this.priceChartInit("priceChart");
+    this.count = 0;
+    this.pendings = [];
     this.costChart("costHistoryChart");
     this.costChart("costDashHistoryChart");
+    this.getBalance();
+    this.getHandlingOrder();
+    this.getServiceCenter();
   }
 
   linkCost(){
@@ -24,11 +36,31 @@ export class WorkspaceHomeComponent implements OnInit {
   linkCostDash(){
     this.router.navigate(['/hzportal/employ/workspace/consume/washAccount']);
   }
-  linkPendingCost(){
-    this.router.navigate(['/hzportal/employ/workspace/orderhand']);
+  linkPendingCost(key){
+    if(key === "待处理订单"){
+      this.router.navigate(['/hzportal/employ/workspace/orderhand']);
+    }
+  }
+  /*获取用户总资产*/
+  getBalance(){
+    this.workspaceMydeskService.getBalance()
+      .subscribe((data) => {
+        if(this.errorResponseService.errorMsg(data)){
+          this.priceChartInit("priceChart",data.data);
+        }
+    })
   }
   /*总资产分布情况 饼图*/
-  priceChartInit(id){
+  priceChartInit(id,data){
+    let legendData = [];
+    let seriesData = [];
+    for(let i = 0; i < data.length;i++){
+      legendData[i] = data[i].key;
+      seriesData[i] = {};
+      seriesData[i].name = data[i].key;
+      seriesData[i].value = data[i].value;
+      this.count += seriesData[i].value;
+    }
     let option = {
       tooltip : {
         trigger: 'item',
@@ -40,7 +72,7 @@ export class WorkspaceHomeComponent implements OnInit {
         right: '10%',
         orient : 'vertical',
         type : 'scroll',
-        data:[]
+        data:legendData
       },
       calculable : true,
       series : [
@@ -75,18 +107,23 @@ export class WorkspaceHomeComponent implements OnInit {
               }
             }
           },
-          data:[]
+          data:seriesData
         }
       ]
     };
-    option.legend.data = ["消费账户","洗衣账户"];
-    option.series[0].data = [
-      {value:102.32, name:'消费账户'},
-      {value:240.24, name:'洗衣账户'},
-    ];
     let includePriceChart = echarts.init(document.getElementById(id));
     includePriceChart.setOption(option);
   }
+  /*待处理事项列表*/
+  getHandlingOrder(){
+    this.workspaceMydeskService.getHandlingOrder()
+      .subscribe((data)=>{
+        if(this.errorResponseService.errorMsg(data)){
+          this.pendings = data.data;
+        }
+      })
+  }
+  /*资产明细统计表*/
   costChart(id){
     let option = {
       tooltip : {
@@ -148,5 +185,13 @@ export class WorkspaceHomeComponent implements OnInit {
     };
     let includeCostChart = echarts.init(document.getElementById(id));
     includeCostChart.setOption(option);
+  }
+  getServiceCenter(){
+    this.workspaceMydeskService.getServiceCenter()
+      .subscribe((data)=>{
+        if(this.errorResponseService.errorMsg(data)){
+          this.serviceCenters = data.data;
+        }
+      });
   }
 }

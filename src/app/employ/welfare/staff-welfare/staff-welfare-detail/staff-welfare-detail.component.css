@@ -6,9 +6,28 @@
 }
 .nav-title>a>h4{
   display: inline-block;
-  line-height: 30px;
+  line-height: 35px;
   color: #fb9678;
   border-bottom: 2px solid #fb9678;
+}
+.b-head-right{
+  float: right;
+}
+.content-box{
+  float: left;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid #eee;
+  margin-right: 10px;
+  line-height: 28px;
+  border-radius: 3px;
+  font-size: 15px;
+  color: #ff3c00;
+  outline: none;
+  cursor: pointer;
+}
+.content-box:hover{
+  border-color: #ff3c00;
 }
 .warp{
   padding: 15px;

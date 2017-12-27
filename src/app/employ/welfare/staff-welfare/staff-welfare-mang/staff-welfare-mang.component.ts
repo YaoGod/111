@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Welfare, Other } from '../../../../mode/welfare/Welfare.service';
+import { Welfare, Other } from '../../../../mode/welfare/welfare.service';
 import { GlobalCatalogService } from '../../../../service/global-catalog/global-catalog.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
 import { WelfareEmployeeService } from '../../../../service/welfare-employee/welfare-employee.service';
@@ -311,5 +311,7 @@ export class StaffWelfareMangComponent implements OnInit {
     $('#' + id).removeClass('red');
     $('#' + id).parent().next('.error').fadeOut();
   }
-
+  back(){
+    history.go(-1);
+  }
 }

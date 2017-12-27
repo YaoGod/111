@@ -14,7 +14,26 @@
   color: #fb9678;
   border-bottom: 2px solid #fb9678;
 }
+.b-head-right{
+  float: right;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid #eee;
+  margin-right: 10px;
+  line-height: 34px;
+  border-radius: 3px;
+  font-size: 15px;
+  color: #ff3c00;
+  cursor: pointer;
+}
+.b-head-right:hover{
+  border-color: #ff3c00;
+}
+.content-box{
+  outline: none;
+}
 .panel-head {
+  display: inline-block;
   color: #2b2b2b;
   background-color: #fff;
   border-radius: 0;
@@ -35,9 +54,7 @@
 }
 
 .panel {
-  position: absolute;
-  right: 40px;
-  top: 35px;
+  float: right;
 }
 
 .panel > ul {
