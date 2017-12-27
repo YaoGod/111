@@ -12,34 +12,19 @@ const routes: Routes = [
     canActivate: [RouteGuardService],
     component: WorkspaceComponent,
     children: [
-      /*{
+      {
         path: '',
-        canActivate: [RouteGuardService],
-        redirectTo: 'consume',
+        redirectTo: 'homepage',
         pathMatch: 'full'
       },
       {
-        path: 'consume',
-        component: ConsumeComponent,
-      },
-      {
-        path: 'orderhand',
-        component: OrderhandComponent,
-      }*/
-      {
-        path: '',
-        redirectTo: 'consume',
-        pathMatch: 'full'
+        path: 'homepage',
+        loadChildren: './workspace-home/workspace-home.module#WorkspaceHomeModule'
       },
       {
         path: 'consume',
         loadChildren: './consume/consume.module#ConsumeModule'
-      }/*,
-      {
-        path: 'orderhand',
-        loadChildren: './orderhand/orderhand.module#OrderhandModule'
-      }*/
-      ,
+      }      ,
       {
         path: 'orderhand',
         component: OrderhandComponent,

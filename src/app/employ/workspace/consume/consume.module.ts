@@ -5,7 +5,8 @@ import {RouteGuardService} from "../../../service/route-guard/route-guard.servic
 import {ConsAccountComponent} from "./cons-account/cons-account.component";
 import {WashAccountComponent} from "./wash-account/wash-account.component";
 import {ConsumeComponent} from "./consume.component";
-import {FormsModule} from "@angular/forms";  /*使用[(ngModel)]所用的依赖*/
+import {FormsModule} from "@angular/forms";
+import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";  /*使用[(ngModel)]所用的依赖*/
 
 const routes: Routes = [
   {
@@ -38,6 +39,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    TurnBarModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

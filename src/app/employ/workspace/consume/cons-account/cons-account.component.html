@@ -1,24 +1,26 @@
-<div class="limit-height">
+
   <!--账户余额显示栏-->
-  <div class="view">
-    <div style="position: relative;">
-      <div class="panel-head" style="color: #cccccc">
-        <h6>账户余额</h6>
-        <div>
-          <label style="color: red; font-size: 30px"><strong>￥2389.31</strong></label>
-        </div>
+    <!--页面标题-->
+  <div class="head-box">
+    <div class="nav-title">
+      <a><h4>消费账户及记录查询</h4></a>
+    </div>
+    <div class="panel-head" style="color: #cccccc">
+      <h6>账户余额</h6>
+      <div>
+        <label style="color: red; font-size: 30px"><strong>￥2389.31</strong></label>
       </div>
-      <div class="panel">
-        <ul>
-          <li>
-            <label>查询类型</label>
-            <select (change)="queryTypeClick(queryType)">  <!-- [(ngModel)]="queryType"-->
-              <option value="消费记录">消费记录</option>
-              <option value="充值记录">充值记录</option>
-            </select>
-          </li>
-        </ul>
-      </div>
+    </div>
+    <div class="panel">
+      <ul>
+        <li>
+          <label>查询类型</label>
+          <select (change)="queryTypeClick(queryType)">  <!-- [(ngModel)]="queryType"-->
+            <option value="消费记录">消费记录</option>
+            <option value="充值记录">充值记录</option>
+          </select>
+        </li>
+      </ul>
     </div>
   </div>
 
@@ -97,18 +99,11 @@
       </ul>
     </div>
     <!--翻页-->
-    <div class="turn-box">
-      <div class="turn">
-        <ul *ngIf="pages.length > 0">
-          <li *ngFor="let i of pages"
-              [hidden]="pageLimit(i)"
-              [ngClass]="{'active':i === 1}"
-              (click)="goPage(i);">
-            {{i}}
-          </li>
-        </ul>
-      </div>
-    </div>
+    <app-turn-bar  [pageNo] = "pageNo"
+                   [pageSize] = "pageSize"
+                   [total] = "total"
+                   (turnEvent) = "getConsumeInfo($event)">
+
+    </app-turn-bar>
   </div>
-</div>
 

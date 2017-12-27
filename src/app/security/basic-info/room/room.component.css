@@ -478,11 +478,11 @@ td>img{
   line-height: 38px;
   min-height: 38px;
   max-width: 100%;
+  padding-left: 5px;
   background-color: rgba(0, 0, 0, 0);
   background-position: center bottom, center calc(99%);
   background-repeat: no-repeat;
   background-size: 0 1px, 100% 1px;
-  padding: 0;
   transition: background 0s ease-out 0s;
   background-image: linear-gradient(#03a9f3, #03a9f3), linear-gradient(rgba(120, 130, 140, .13), rgba(120, 130, 140, .13));
   border: 0;
@@ -490,9 +490,8 @@ td>img{
   box-shadow: none;
   float: none;
 }
-select{
-  width: 173px;
-  padding: 0 10px;
+select,input[type=number]{
+  width: 160px;
 }
 textarea.form-control{
   padding: 0 7px;

@@ -1,0 +1,27 @@
+<a class="touch-area" (click)="print()"></a>
+<div id="print">
+  <h1>{{title}}</h1>
+  <div *ngFor="let form of formData">
+    <h2>{{form.title}}</h2>
+    <ul *ngIf="form.type === 'bold'" class="bold">
+      <li *ngFor="let head of form.hd;let i = index">
+        <p>{{head}}：<span>{{form.data[i]}}</span></p>
+      </li>
+    </ul>
+    <ul *ngIf="form.type === 'text'">
+      <li *ngFor="let head of form.hd;let i = index">
+        <p>{{head}}：<span>{{form.data[i]}}</span></p>
+      </li>
+    </ul>
+    <table border="1" cellspacing="0" cellpadding="0" class="tb-origin"
+    *ngIf="form.type === 'form'">
+      <tr>
+        <td *ngFor="let head of form.hd" >{{head}}</td>
+      </tr>
+      <tr *ngFor="let list of form.data">
+        <th *ngFor="let data of list">{{data}}</th>
+      </tr>
+    </table>
+  </div>
+</div>
+

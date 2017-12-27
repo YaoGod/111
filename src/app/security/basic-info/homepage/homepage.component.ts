@@ -97,8 +97,8 @@ export class HomepageComponent implements OnInit {
     }
   }
   subBuilding(){
-    if(this.newBuilding.buildingId === '' || this.newBuilding.imgPath === '' ||
-      this.newBuilding.name === '' || this.newBuilding.address === '' || this.newBuilding.belongTo === '' ||
+    if(this.newBuilding.imgPath === '' ||this.newBuilding.name === ''
+      || this.newBuilding.address === '' || this.newBuilding.belongTo === '' ||
       this.newBuilding.type === ''){
       confirmFunc.init({
         'title': '提示' ,

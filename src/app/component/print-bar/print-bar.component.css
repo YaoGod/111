@@ -1,0 +1,37 @@
+.touch-area{
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+h1{
+  margin: 10px 0;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+}
+h2{
+  margin: 10px 0;
+  font-weight: 500;
+}
+p{
+  margin: 10px  0;
+  padding-left: 20px;
+}
+.bold{
+  font-size: 18px;
+}
+.bold p{
+  padding: 0;
+}
+.tb-origin{
+  width: 100%;
+  text-align: center;
+}
+.tb-origin>tr>td,.tb-origin>tr>th{
+  padding: 0 10px;
+}
+#print{
+  display: none;
+}

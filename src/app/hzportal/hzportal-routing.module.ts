@@ -33,6 +33,10 @@ const routes: Routes = [
         loadChildren: '../employ/employ.module#EmployModule'
       }
     ]
+  },
+  {
+    path:"demo",
+    loadChildren: '../demo/demo.module#DemoModule'
   }
 
 ];

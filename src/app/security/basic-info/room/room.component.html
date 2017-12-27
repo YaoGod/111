@@ -88,7 +88,7 @@
           <div  class="form-group">
             <label  class="control-label"><span>房间号</span>
               <input class="form-control" id="newRoomNum"
-                     name="roomNum" placeholder="" type="text"
+                     name="roomNum" placeholder="" type="number"
                      [(ngModel)]="newRoom.roomNum"
                      (blur)="verifyEmpty(newRoom.roomNum,'newRoomNum');">
             </label>
@@ -127,9 +127,9 @@
             <div class="error"></div>
           </div>
           <div  class="form-group">
-            <label  class="control-label"><span>房间面积</span>
+            <label  class="control-label"><span>面积(平米)</span>
               <input class="form-control" id="newRoomArea"
-                     name="roomArea" placeholder="" type="text"
+                     name="roomArea" placeholder="" type="number"
                      [(ngModel)]="newRoom.roomArea"
                      (blur)="verifyEmpty(newRoom.roomArea,'newRoomArea');">
             </label>

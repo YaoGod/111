@@ -11,11 +11,10 @@ import {InfoBuildingService} from "../../../../service/info-building/info-buildi
 export class WashAccountComponent implements OnInit {
 
   public rooms: Array<Room>;
-  public pages: Array<number>;
-  private pageNo      : number = 1;
-  private pageSize    : number = 10;
-  private queryType    : number;
-
+  public pageNo       : number = 1;
+  public pageSize     : number = 10;
+  public queryType    : number;
+  public total        : number = 0;
   constructor(
     private infoBuildingService:InfoBuildingService
   ) {
@@ -28,13 +27,9 @@ export class WashAccountComponent implements OnInit {
 
   initConsume() {
     this.rooms = new Array<Room>();
-    this.pageNo = 1;
-    this.pages = [];
-
     /*查询类型*/
     this.queryType = 1;
-
-    this.getConsumeInfo(this.pageNo,this.pageSize);
+    this.getConsumeInfo(1);
   }
 
   /*选择查询类型*/
@@ -46,47 +41,18 @@ export class WashAccountComponent implements OnInit {
       console.log('充值记录==='+queryType);
       this.queryType = 0;
     }
-    this.getConsumeInfo(this.pageNo,this.pageSize);
+    this.getConsumeInfo(1);
   }
 
-  /*页码初始化*/
-  initPage(total) {
-    this.pages = new Array(total);
-    for (let i = 0; i < total; i++) {
-      this.pages[i] = i + 1;
-    }
-  }
 
   /*获取消费记录信息*/
-  getConsumeInfo(pageNo: number, pageSize: number) {
-    this.infoBuildingService.getRoomListMsg(44, pageNo, pageSize)
+  getConsumeInfo(pageNo: number) {
+    this.pageNo = pageNo
+    this.infoBuildingService.getRoomListMsg(44, this.pageNo, this.pageSize)
       .subscribe(data => {
         this.rooms = data.data.infos;
-        // for (var i = 0; i < data.data.infos.length; i++) {
-        //   this.rooms.push(data.data.infos[i]);
-        // }
-        console.log(this.rooms);
-        let total = Math.ceil(data.data.total / pageSize);
-        this.initPage(total);
+        this.total = data.data.total;
       });
   }
 
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
-  }
-  /*跳页加载数据*/
-  goPage(page:number){
-    this.pageNo = page;
-    this.getConsumeInfo(this.pageNo,this.pageSize);
-  }
 }

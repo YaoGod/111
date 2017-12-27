@@ -1,0 +1,89 @@
+.part{
+  float: left;
+  width: 100%;
+  padding: 20px 20px 0 20px;
+  box-sizing: border-box;
+  clear: both;
+}
+.part-end{
+  padding-bottom: 20px;
+  clear: both;
+}
+.section{
+  float: left;
+  color: #2b2b2b;
+  border-radius: 0;
+  box-sizing: border-box;
+}
+.section-panel{
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.section-panel>h3>a{
+  float: right;
+  display: inline-block;
+  border-radius: 11px;
+  border: 2px solid #999;
+  height: 20px;
+  line-height: 20px;
+  padding: 0 10px;
+  transition-duration: 200ms;
+  font-size: 10px;
+  color: #999;
+  cursor: pointer;
+}
+.total-price{
+  height: 170px;
+}
+.total-price>span{
+ position: relative;
+  top: 40px;
+  left: 20px;
+  font-size: 32px;
+  color: #f9bf16;
+}
+.total-chart{
+  float: right;
+  width: 500px;
+  height: 170px;
+}
+.pending-panel{
+  min-height: 170px;
+}
+.pending>li{
+  display: block;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #eee;
+  margin-right: 10px;
+  line-height: 30px;
+  border-radius: 3px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.pending>li:hover{
+  background-color: #f8f8f8;
+}
+sup{
+  margin-left: 10px;
+  background: red;
+  color: white;
+  border-radius: 5px;
+  padding: 0 3px;
+  top: -1em;
+  left: 1em;
+}
+.history-chart{
+  height: 300px;
+}
+.service-list{
+  width: 100%;
+  color: #999;
+}
+.service-list tr{
+  height: 35px;
+}
+.service-list tr td{
+  text-align: center;
+}

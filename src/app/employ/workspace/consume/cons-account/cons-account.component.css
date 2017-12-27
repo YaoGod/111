@@ -1,25 +1,22 @@
-
-.limit-height {
-  min-height: calc(100% - 50px);
+.head-box{
+  position: relative;
+  padding: 10px;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(120, 130, 140, .13);
 }
-.view {
-  /*  min-width: 1180px;*/
-  /*padding-left: .2%;*/
-  /*padding-right: .2%;*/
-  padding-bottom: 15px;
-  margin-bottom: 5px;
-  background-color: #edf1f5;
+.nav-title{
+  margin-bottom: 10px;
+  font-size: 14px;
 }
-
-.view:first-child {
-  padding-top: 25px;
-  margin: 0;
+.nav-title>a>h4{
+  display: inline-block;
+  line-height: 30px;
+  color: #fb9678;
+  border-bottom: 2px solid #fb9678;
 }
-
 .panel-head {
   color: #2b2b2b;
   background-color: #fff;
-  border-bottom: 1px solid rgba(120, 130, 140, .13);
   border-radius: 0;
   font-weight: 300;
   text-transform: uppercase;

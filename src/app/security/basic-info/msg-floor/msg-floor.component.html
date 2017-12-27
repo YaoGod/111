@@ -70,7 +70,7 @@
         <span *ngIf="!copyFloors[i].editStatus">
           {{floor.floorNum}}
         </span>
-        <input type="text" name="floorNum" [id]="'floorNum' + i"
+        <input type="number" name="floorNum" [id]="'floorNum' + i"
                *ngIf="copyFloors[i].editStatus"
                [(ngModel)]="copyFloors[i].floorNum"
                (blur)="verifyEmpty(copyFloors[i].floorNum,'floorNum' + i)"
@@ -167,7 +167,7 @@
           <div  class="form-group">
             <label  class="control-label"><span>楼层</span>
               <input class="form-control" id="newFloorNum"
-                     name="floorNum" placeholder="" type="text"
+                     name="floorNum" placeholder="" type="number"
                      [(ngModel)]="newFloor.floorNum"
                      (blur)="verifyFloorNum()">
             </label>

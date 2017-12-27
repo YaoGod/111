@@ -100,7 +100,7 @@ input[type=text]{
   font-weight: 300;
   text-align: center;
 }
-.row td>input[type=text]{
+.row td>input[type=text],.row td>input[type=number]{
   width: calc(100% - 20px);
   min-width: 30px;
   border: 1px solid #e1eaf2;

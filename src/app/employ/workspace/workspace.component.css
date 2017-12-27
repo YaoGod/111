@@ -1,4 +1,4 @@
-nav {
+/*nav {
   background: #f7fafc;
 }
 nav ul{
@@ -53,7 +53,7 @@ nav a {
   -webkit-transition: color .3s, -webkit-transform .3s;
   transition: color .3s, transform .3s;
   overflow: hidden;
-  /* text-overflow: ellipsis;*/
+  !* text-overflow: ellipsis;*!
   white-space: nowrap;
   color: #686868;
   cursor: pointer;
@@ -70,7 +70,8 @@ nav a span {
   font-weight: 500;
   font-size: 14px;
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
-}
+}*/
 .min-height{
   height: 100%;
 }
+

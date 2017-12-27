@@ -23,7 +23,7 @@
     "@angular/router": "^4.0.0",
     "angular-ckeditor": "^0.3.1",
     "core-js": "^2.4.1",
-    "echarts": "^3.6.1",
+    "echarts": "^3.8.5",
     "jquery": "^3.1.1",
     "ng2-file-upload": "^1.2.1",
     "rxjs": "^5.1.0",
