@@ -46,6 +46,7 @@ export class NoticeComponent implements OnInit {
     this.groupNotice = new GroupNotice();
     this.search = new GroupNotice();
     this.getNoticeList();
+    console.log(this.newGroupNotice);
   }
 
   /*获取列表*/
@@ -129,7 +130,7 @@ export class NoticeComponent implements OnInit {
     this.groupNoticeService.getNotice(id)
       .subscribe(data => {
         if(data['status']==0){
-          //this.updateNotice = data.data;
+          // this.updateNotice = data.data;
           console.log(data.data);
           this.upGroupNotice.title = data.data.title;
           this.upGroupNotice.notice = data.data.notice;
@@ -170,8 +171,10 @@ export class NoticeComponent implements OnInit {
   view(id: number){
     this.groupNoticeService.getNotice(id)
       .subscribe(data => {
+        console.log(data)
         if (data['status']==0) {
           this.updateNotice = data.data;
+          console.log(this.updateNotice);
         }
         $('.mask3').show();
       })

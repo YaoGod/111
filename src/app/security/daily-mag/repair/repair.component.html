@@ -3,7 +3,7 @@
     <a href="javascript:;" class="active" (click)="recordFade($event)">大楼维修记录</a>
     <a href="javascript:;" (click)="contractFade($event)">大楼维修合同</a>
   </div>
-  <!--<div>
+  <div>
     <i class="icon-action-redo"></i><i class="icon-action-undo"></i><i class="icon-anchor"></i><i class="icon-arrow-down-circle"></i><i class="icon-arrow-left-circle"></i><i class="icon-arrow-right-circle"></i><i class="icon-arrow-up-circle"></i><i class="icon-badge"></i><i class="icon-bag"></i><i class="icon-ban"></i><i class="icon-basket"></i><i class="icon-basket-loaded"></i><i class="icon-bell"></i><i class="icon-book-open"></i><i class="icon-briefcase"></i><i class="icon-bubble"></i><i class="icon-bubbles"></i><i class="icon-calculator"></i><i class="icon-bulb"></i><i class="icon-calender"></i><i class="icon-call-end"></i><i class="icon-chart"></i><i class="icon-check"></i><i class="icon-chemistry"></i>
     <i class="icon-clock"></i><i class="icon-close"></i><i class="icon-cloud-download"></i><i class="icon-cloud-upload"></i><i class="icon-compass"></i><i class="icon-control-end"></i><i class="icon-control-forward"></i><i class="icon-control-pause"></i><i class="icon-control-play"></i><i class="icon-control-rewind"></i><i class="icon-control-start"></i><i class="icon-credit-card"></i><i class="icon-crop"></i><i class="icon-cup"></i><i class="icon-cursor"></i><i class="icon-cursor-move"></i><i class="icon-diamond"></i>
     <i class="icon-direction"></i><i class="icon-directions"></i><i class="icon-disc"></i><i class="icon-dislike"></i><i class="icon-doc"></i><i class="icon-docs"></i><i class="icon-drawar"></i><i class="icon-drop"></i><i class="icon-earphones"></i><i class="icon-earphones-alt"></i><i class="icon-emotsmile"></i><i class="icon-energy"></i><i class="icon-envelope"></i>
@@ -16,7 +16,7 @@
     <i class="icon-symble-female"></i><i class="icon-symbol-male"></i><i class="icon-tag"></i><i class="icon-target"></i><i class="icon-trash"></i><i class="icon-trophy"></i><i class="icon-umbrella"></i><i class="icon-user"></i><i class="icon-user-female"></i><i class="icon-user-follow"></i><i class="icon-user-following"></i>
     <i class="icon-user-unfollow"></i><i class="icon-vector"></i><i class="icon-volume-1"></i><i class="icon-volume-2"></i><i class="icon-volume-off"></i><i class="icon-wallet"></i><i class="icon-wrench"></i>
     <i class="icon-call-in"></i><i class="icon-call-out"></i><i class="icon-camera"></i><i class="icon-camrecorder"></i>
-  </div>-->
+  </div>
   <div class="repair-cont">
     <div class="box1">
       <div class="repair-chandlery clearfix">
@@ -191,22 +191,18 @@
           <ol *ngIf="ctct.fileName" class="word" style="overflow-y: auto;">
             <li *ngFor="let abc of ctct.fileName; let j=index">{{abc}} <a [href]="'/proxy'+ ctct.filePath[j]"><i class="icon-cloud-download"></i>下载</a> </li>
           </ol>
-          <!--<a style="color:#686868; margin-left:20px; color: #1eaaf0" [href]="+'/proxy'+ ctct.filePath[j] " *ngFor="let abc of ctct.fileName; let j=index">{{abc}}</a>-->
         </li>
         <li *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" class="form-btn" (click)="editContract(i)">编&nbsp;&nbsp;辑</li>
         <li *ngIf="rule&&jurisdiction&&!jurisdiction.isDelete" class="form-btn form-btn2" (click)="delContract(i)">删&nbsp;&nbsp;除</li>
       </ul>
     </div>
-    <div class="turn" *ngIf="pages.length > 1">
-      <ul>
-        <li *ngFor="let i of pages"
-            [hidden] = "pageLimit(i)"
-            [ngClass]="{'active':i === pageNo}"
-            (click)="goPage(i);">
-          {{i}}
-        </li>
-      </ul>
-    </div>
+    <app-turn-bar
+      [pageNo]="pageNo"
+      [pageSize]="pageSize"
+      [total]="total"
+      [length] = 5
+      (turnEvent)="goPage($event)">
+    </app-turn-bar>
   </div>
 </div>
 <!--新增编辑弹窗-->
@@ -217,12 +213,12 @@
     </div>
     <form method="post" name="topForm" class="repair-form">
         <div class="form-control">
-          <span class="form-label">大楼编号</span>
+          <span class="form-label">大楼名称</span>
           <div class="form-inp">
-            <select id="Id" name="Id" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" (blur)="verifyId()">
+            <select id="Id" name="Id" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" onmousedown="if(this.options.length>6){this.size=7}" onblur="this.size=0" onchange="this.size=0" (blur)="verifyId()">
               <option *ngFor="let num of buildings"
                       [value]="num.BUILDING_ID">
-                {{num.BUILDING_ID}}</option>
+                {{num.NAME}}</option>
             </select>
             <span class="errorMessage"></span>
           </div>
@@ -305,7 +301,7 @@
         <div class="form-control">
           <span class="form-label">维修费用</span>
           <div class="form-inp">
-            <input id="repairCost" class="company-ipt" name="repairCost" [(ngModel)]="repairname.repairCost" onkeypress="return event.keyCode>=48&&event.keyCode<=57" (blur)="verifyRepairCost()" type="text" maxlength="9">
+            <input id="repairCost" class="company-ipt" name="repairCost" [(ngModel)]="repairname.repairCost"  (blur)="verifyRepairCost()" type="number" maxlength="9"><!--onkeypress="return event.keyCode>=48&&event.keyCode<=57"-->
             <span class="errorMessage"></span>
           </div>
         </div>
@@ -331,12 +327,12 @@
     </div>
     <form method="post" name="topForm" class="repair-form">
       <div class="form-control">
-        <span class="form-label">大楼编号</span>
+        <span class="form-label">大楼名称</span>
         <div class="form-inp">
           <select id="contractId" name="contractId" class="company-ipt company-sel" [(ngModel)]="contractName.buildingId" (blur)="verifyContractId()">
             <option *ngFor="let num of buildings"
                     [value]="num.BUILDING_ID">
-              {{num.BUILDING_ID}}</option>
+              {{num.NMAE}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>

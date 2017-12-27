@@ -4,6 +4,7 @@ import { RepairComponent } from './repair.component';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
+import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
 const routes: Routes = [
   {
     path: '',
@@ -15,6 +16,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    TurnBarModule,
     RouterModule.forChild(routes)
   ],
   exports: [RouterModule],

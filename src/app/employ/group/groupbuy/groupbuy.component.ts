@@ -45,6 +45,7 @@ export class GroupbuyComponent implements OnInit {
     this.groupProductService.getProductShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.groupProducts = data.data.infos;
+        console.log(this.groupProducts);
         this.cartsize = data.data.cartsize;
       }
     });
@@ -55,31 +56,54 @@ export class GroupbuyComponent implements OnInit {
     this.cart.productId = id;
     this.groupProductService.addToCart(this.cart)
       .subscribe(data => {
-        if(data['status']==0){
+        if(data['status']===0){
           this.cartsize = data.data.cartsize;
           alert("预定成功:已加入购物车！");
         }
       })
   }
-
+  onclikadd(idxx:number,productId:number){
+    if($("#input-num-"+idxx+"").val().toString().trim()===""){
+      $("#input-num-"+idxx+"").val(1);
+    }else{
+      $("#input-num-"+idxx+"").val(parseInt( $("#input-num-"+idxx+"").val()) + 1);
+    }
+    this.cul($("#input-num-"+idxx+"").val(),productId);
+  }
+  onclikjian(idxx:number,productId:number){
+    if($("#input-num-"+idxx+"").val().toString().trim()===""){
+      $("#input-num-"+idxx+"").val(1);
+    }
+    if( $("#input-num-"+idxx+"").val() <= 1) {
+      alert("提示：商品数量不能小于1");
+      $("#input-num-"+idxx+"").val(1);
+    } else {
+      $("#input-num-"+idxx).val(parseInt( $("#input-num-"+idxx).val()) - 1);
+    }
+    this.cul($("#input-num-"+idxx+"").val(),productId);
+  }
+  cul(nums:number,productId:number){
+    this.cart = new GroupCart();
+    this.cart.productId = productId;
+    this.cart.quantity = nums;
+    this.groupProductService.updateGroupCart(this.cart)
+      .subscribe(data => {
+        if (this.errorVoid.errorMsg(data.status)) {
+        }
+       // this.getCartList();
+      });
+  }
   viewNotice(){
-
     this.groupNoticeService.getNoticeShowList().subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.groupNotices = data.data.infos;
         console.log(this.groupNotices);
       }
     });
-    $('.mask3').show();
+    $('.mask').show();
   }
 
-  closeMask3() {
-    $('.mask3').hide();
-  }
-  linkMyOrder(){
-    this.router.navigate(["/hzportal/employ/group/myorder"]);
-  }
-  linkCart(){
-    this.router.navigate(["/hzportal/employ/group/cart"]);
+  closeMask() {
+    $('.mask').hide();
   }
 }

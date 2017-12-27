@@ -323,7 +323,6 @@ input[type=text]{
   border-color: #04a9f3;
 }
 .row{
-  height: 36px;
   line-height: 20px;
   background-color: #ffffff;
   padding: 10px 0 0 3%;
@@ -582,51 +581,6 @@ button{
   border-radius: 4px;
   color: #fff;
 }
-.confirm{
-  width:100%;
-  height:100%;
-  background-color:rgba(0,0,0,.4);
-  position: fixed;
-  left: 0;
-  top:0;
-  z-index: 99;
-  display: none;
-}
-.confirm .confirm-modal{
-  width:420px;
-  padding:17px;
-  background-color:#fff;
-  position: absolute;
-  left:50%;
-  top:50%;
-  border-radius: 6px;
-  height:240px;
-  margin-top:-137px;
-  margin-left:-227px;
-  text-align: center;
-}
-.confirm-icon{
-  width: 80px;
-  height: 80px;
-  border: 4px solid grey;
-  border-radius: 50%;
-  margin: 5px auto 20px;
-  box-sizing: content-box;
-  cursor: default;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-.confirm-question{
-  font-size: 60px;
-  line-height: 80px;
-  text-align: center;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #c9dae1;
-  border-color: #c9dae1;
-}
 .noticetext{
   width:60%;
   text-indent: 5px;
@@ -865,11 +819,7 @@ select{
   color: #ff5c39;
   border-bottom: 3px solid #ff5c39;
 }
-.b-con{
-  width: 98%;
-  margin-left: 2%;
-  display: inline-block;
-}
+.b-con{  }
 .b-con h2{
   font-weight: normal;
   margin: 40px 0 28px 0;
@@ -1039,8 +989,7 @@ select{
 
 /*团购商品管理*/
 .b-con .wrap{
-  margin: 20px 0;
-  display: inline-block;
+  margin: 15px 0;
 }
 .b-con .iptgroup{
   width: 200px;

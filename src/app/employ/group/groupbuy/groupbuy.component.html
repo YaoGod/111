@@ -1,73 +1,71 @@
-<div class="main">
-  <!--标题栏-->
-  <!--物品搜索-->
-  <router-outlet>
+ <!--物品搜索-->
     <div class="right">
       <div class="wrap-content">
         <div class="wrap-space">
-          <div class="wrap-b">
-            <div class="wrap">
+          <div class="wrap-b clearfix">
+            <div class="b-head">
+              <span>团购商品</span>
+              <div class="b-head-right">
+                <div class="content-box" [routerLink]="['../product']"><i class="icon-grid"></i> 进入管理</div>
+                <div class="content-box" [routerLink]="['../myorder']"><i class="icon-film"></i> 我的订单</div>
+                <div class="content-box" [routerLink]="['../cart']"><i class="icon-basket-loaded"></i> 购物车 <strong>({{cartsize}})</strong></div>
+                <!--<div class="content-box" (click)="viewNotice()"><i class="icon-volume-2"></i> 公告</div>-->
+              </div>
+            </div>
+            <div class="wrap clearfix">
               <div class="iptgroup">
-                <input  name="search" [(ngModel)]="search.name"/>
+                <input type="text" name="search" [(ngModel)]="search.name"/>
                 <a href="javascript: void(0);" class="ipt-search"></a>
               </div>
               <a class="search" href="javascript: void(0);"(click)="getProductShowList()">查询</a>
               <!-- <input class="search" type="button" value="查询" (click)="getProductShowList()">-->
             </div>
-            <div class="b-head">
-              <span>团购商品</span>
-              <div class="b-head-right">
-                <div class="content-box" (click)="linkMyOrder()"><img src="../../../assets/image/icon-order.png" alt="">我的订单</div>
-                <div class="content-box" (click)="linkCart()"><img src="../../../assets/image/icon-shop.png" alt="">
-                  购物车
-                  <sup>{{cartsize}}</sup>
-                </div>
-                <div class="content-box" (click)="viewNotice()"><img src="../../../assets/image/icon-notice.png" alt="">公告</div>
-              </div>
-            </div>
-            <div class="b-con tuan" *ngFor="let groupProduct of groupProducts;let idx=index">
-              <div class="row mt20 mb30">
-                <dl>
+            <div class="b-con">
+              <div class="tuan" *ngFor="let groupProduct of groupProducts;let idx=index">
+                <dl class="clearfix">
                   <dt class="showpic">
                     <img *ngIf="groupProduct.image!==''" [src]="'/proxy/' + groupProduct.image"/>
                   </dt>
                   <dd>
-                    <span class="name-great">{{groupProduct.name}}</span>
+                    <h4 class="name-great">{{groupProduct.name}}</h4>
                     <ul class="line-nav">
                       <li>{{groupProduct.label}}</li>
                     </ul>
-                    <div class="bg-value">
-                      <span class="value">¥ {{groupProduct.price}}</span>
-                      <a class="yudingbtn" href="javascript: void(0);" (click)="addToCart(groupProduct.code)">马上预订</a>
-                    </div>
-                    <div class="time"><span>团购时间：</span><span>{{groupProduct.startTime}}至{{groupProduct.endTime}}</span></div>
-                    <ul class="list-txt">
-                      <li><span class="txt-name">团购联系人:</span><span class="txt-value">{{groupProduct.contact}}</span></li>
-                      <li><span class="txt-name">团购联系电话:</span><span class="txt-value">{{groupProduct.phone}}</span></li>
+                    <div class="bg-value">¥ {{groupProduct.price}}</div>
+                    <p><span class="txt-name">联系人:</span><span class="txt-value">{{groupProduct.contact}}</span></p>
+                    <p><span class="txt-name">联系电话:</span><span class="txt-value">{{groupProduct.phone}}</span></p>
+                    <ul class="count">
+                      <li>数量：</li>
+                      <li (click)="onclikjian(idx,groupProduct.code)"><span id="num-jian" class="num-jian">-</span></li>
+                      <li><input type="text" class="input-num" readonly id="input-num-{{idx}}" [ngModelOptions]="{standalone: true}"  [(ngModel)]="groupProduct.quantity"/></li>
+                      <li  (click)="onclikadd(idx,groupProduct.code)"><span id="num-jia" class="num-jia">+</span></li>
                     </ul>
+
                   </dd>
                 </dl>
+                <div class="time clearfix"><i class="icon-clock"></i>
+                  <span>团购时间：</span><span>{{groupProduct.startTime}}至{{groupProduct.endTime}}</span>
+                  <a class="yudingbtn" href="javascript: void(0);" (click)="addToCart(groupProduct.code)">马上预订</a>
+                </div>
+                <div class="line-txt">
+                  <span>商品描述</span>
+                  <p>{{groupProduct.detail}}</p>
+                </div>
+                <div class="txt">
 
+                </div>
               </div>
-              <div class="clearb"></div>
-              <div class="line-txt">
-                <span>商品描述</span>
-              </div>
-              <div class="txt">
-                <p>{{groupProduct.detail}}</p>
-              </div>
+
             </div>
           </div>
         </div>
       </div>
     </div>
-
-
-    <div class="mask3">
+    <!--<div class="mask">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">查看公告</h4>
-          <button type="button" class="close" (click)="closeMask3()">×</button>
+          <button type="button" class="close" (click)="closeMask()">×</button>
         </div>
         <div class="modal-body clearfix" *ngFor="let notice of groupNotices;let idx=index">
           <div style="text-align: center;padding-top: 20px;">
@@ -81,7 +79,4 @@
           </div>
         </div>
       </div>
-    </div>
-  </router-outlet>
-
-</div>
+    </div>-->

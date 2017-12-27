@@ -13,6 +13,7 @@ export class GroupProduct {
   contact:             string;/*联系方式*/
   phone:               string;/*手机*/
   payaccount:          string;/*付款账号*/
+  quantity:            string;/*数量*/
   label:                string;/*商品标签*/
   producttype:             string;/*商品类型*/
 

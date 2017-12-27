@@ -6,6 +6,7 @@ import { RouteGuardService } from '../../service/route-guard/route-guard.service
 import {HttpModule} from "@angular/http";
 import {NavTitleModule} from "../../component/nav-title/nav-title.module";
 import {GlobalFooterModule} from "../../component/global-footer/global-footer.module";
+import {TurnBarModule} from "../../component/turn-bar/turn-bar.module";
 const routes: Routes = [
   {
     path: '',
@@ -49,6 +50,7 @@ const routes: Routes = [
     CommonModule,
     HttpModule,
     NavTitleModule,
+    TurnBarModule,
     GlobalFooterModule,
     RouterModule.forChild(routes)
   ],

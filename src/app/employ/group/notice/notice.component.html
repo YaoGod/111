@@ -14,7 +14,7 @@
           <ul>
             <li>
               <label>公告标题</label>
-              <input type="text"[(ngModel)]="search" >
+              <input type="text" name="search" [(ngModel)]="search" >
             </li>
           </ul>
           <div class="panel-search">
@@ -102,7 +102,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">修改公告</h4>
-          <button type="button" class="close"(click)="closeMask2()">×</button>
+          <button type="button" class="close" (click)="closeMask2()">×</button>
         </div>
         <form class="form-building form-material">
           <input type="hidden" [ngModelOptions]="{standalone: true}"  [(ngModel)]="upGroupNotice.id">
@@ -133,11 +133,11 @@
       </div>
     </div>
 
-    <div class="mask3">
+    <!--<div class="mask3" style="display: none;">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">查看公告</h4>
-          <button type="button" class="close"(click)="closeMask3()">×</button>
+          <button type="button" class="close" (click)="closeMask3()">×</button>
         </div>
           <div class="modal-body clearfix">
             <div style="text-align: center">
@@ -151,7 +151,7 @@
             </div>
           </div>
       </div>
-    </div>
+    </div>-->
 
 
     <div class="confirm">

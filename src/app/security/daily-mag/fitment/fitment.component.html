@@ -203,12 +203,12 @@
     </div>
     <form method="post" name="topForm" class="repair-form">
       <div class="form-control">
-        <span class="form-label">大楼编号</span>
+        <span class="form-label">大楼名称</span>
         <div class="form-inp">
-          <select id="Id" name="Id" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" (blur)="verifyId()">
+          <select id="Id" name="Id" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" (blur)="verifyId()" onmousedown="if(this.options.length>6){this.size=7}" onblur="this.size=0" onchange="this.size=0">
             <option *ngFor="let num of buildings"
                     [value]="num.BUILDING_ID">
-              {{num.BUILDING_ID}}</option>
+              {{num.NAME}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>
@@ -286,7 +286,7 @@
       <div class="form-control">
         <span class="form-label">装修费用</span>
         <div class="form-inp">
-          <input id="decorateCost" name="decorateCost" class="company-ipt" [(ngModel)]="repairname.decorateCost" onkeypress="return event.keyCode>=48&&event.keyCode<=57" (blur)="verifydecorateCost()" type="text" maxlength="9">
+          <input id="decorateCost" name="decorateCost" class="company-ipt" [(ngModel)]="repairname.decorateCost" (blur)="verifydecorateCost()" type="number" maxlength="9">
           <span class="errorMessage"></span>
         </div>
       </div>

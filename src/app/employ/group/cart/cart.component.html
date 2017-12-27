@@ -1,21 +1,4 @@
 <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
-<script>
-  $('.list-table dl').click(function () {
-    $(this).addClass('blueself').siblings().removeClass('blueself').find('.ope-list').addClass('hid');
-    $(this).find('.ope-list').removeClass('hid');
-  })
-  $('.right').css('width',$(window).width()-222);
-  $(window).resize(function () {
-    $('.right').css('width',$(window).width()-222);
-  })
-  if($('.wrap-b').height()<1000){
-    $('.wrap-b').css('height',1000);
-  }
-
-</script>
-<div class="main">
-  <!--标题栏-->
-  <router-outlet>
     <!--购物车-->
     <div class="right">
       <div class="wrap-content">
@@ -37,11 +20,11 @@
                   <dt>
                     <span>商品编码：{{cart.productId}}</span>
                   <div class="ope-list">
-                    <a class="tre" href="javascript:void()" (click)="del(cart.id)"></a>
+                    <a class="tre" href="javascript:;" (click)="del(cart.id)"></a>
                   </div>
                   </dt>
                   <dd>
-                    <table>
+                    <table width="100%">
                       <td class="fir">
                         <img *ngIf="cart.image!==''" [src]="'/proxy/' + cart.image"/>
                         <p class="headtxt">{{cart.name}}</p>
@@ -77,8 +60,3 @@
         </div>
       </div>
     </div>
-
-
-  </router-outlet>
-
-</div>
