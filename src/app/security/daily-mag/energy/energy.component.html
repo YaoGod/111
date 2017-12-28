@@ -64,16 +64,13 @@
         </table>
       </div>
     </div>
-    <div class="turn" *ngIf="pages.length > 1">
-      <ul>
-        <li *ngFor="let i of pages"
-            [hidden] = "pageLimit(i)"
-            [ngClass]="{'active':i === pageNo}"
-            (click)="goPage(i);">
-          {{i}}
-        </li>
-      </ul>
-    </div>
+    <app-turn-bar
+      [pageNo]="pageNo"
+      [pageSize]="pageSize"
+      [total]="total"
+      [length] = 5
+      (turnEvent)="goPage($event)">
+    </app-turn-bar>
   </div>
 </div>
 <!--新增能耗信息弹窗-->
@@ -84,12 +81,12 @@
     </div>
     <form class="repair-form clearfix" method="post" name="topForm" >
       <div class="form-control clearfix">
-        <span class="form-label">大楼编号</span>
+        <span class="form-label">大楼名称</span>
         <div class="form-inp">
           <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" (blur)="verifyId()">
             <option *ngFor="let num of buildings"
                     [value]="num.BUILDING_ID">
-              {{num.BUILDING_ID}}</option>
+              {{num.NAME}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>

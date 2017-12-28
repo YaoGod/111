@@ -38,8 +38,9 @@ export class MyorderComponent implements OnInit {
   }
 
   getOrderList(){
+    this.search = new GroupOrder();
     this.groupOrderService.getOrderList().subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
         console.log(this.orders);
       }
@@ -47,7 +48,8 @@ export class MyorderComponent implements OnInit {
   }
   getProductShowList(){
     this.groupProductService.getProductShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      console.log();
+      if (this.errorVoid.errorMsg(data)) {
         this.cartsize = data.data.cartsize;
       }
     });

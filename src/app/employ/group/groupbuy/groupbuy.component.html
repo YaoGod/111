@@ -2,6 +2,17 @@
     <div class="right">
       <div class="wrap-content">
         <div class="wrap-space">
+          <div class="banner clearfix">
+            <div class="banner-img"><!--<img src="../../../../assets/image/z1.jpg">-->
+            <app-slide-img></app-slide-img>
+            </div>
+            <div class="banner-list">
+              <h2>公告</h2>
+              <ul>
+                <li *ngFor="let groupNotice of groupNotices;let idx=index">{{idx+1}}、{{groupNotice.title}}</li>
+              </ul>
+            </div>
+          </div>
           <div class="wrap-b clearfix">
             <div class="b-head">
               <span>团购商品</span>
@@ -17,7 +28,7 @@
                 <input type="text" name="search" [(ngModel)]="search.name"/>
                 <a href="javascript: void(0);" class="ipt-search"></a>
               </div>
-              <a class="search" href="javascript: void(0);"(click)="getProductShowList()">查询</a>
+              <a class="search" href="javascript: void(0);" (click)="getProductShowList()">查询</a>
               <!-- <input class="search" type="button" value="查询" (click)="getProductShowList()">-->
             </div>
             <div class="b-con">
@@ -34,12 +45,12 @@
                     <div class="bg-value">¥ {{groupProduct.price}}</div>
                     <p><span class="txt-name">联系人:</span><span class="txt-value">{{groupProduct.contact}}</span></p>
                     <p><span class="txt-name">联系电话:</span><span class="txt-value">{{groupProduct.phone}}</span></p>
-                    <ul class="count">
+                    <!--<ul class="count">
                       <li>数量：</li>
                       <li (click)="onclikjian(idx,groupProduct.code)"><span id="num-jian" class="num-jian">-</span></li>
                       <li><input type="text" class="input-num" readonly id="input-num-{{idx}}" [ngModelOptions]="{standalone: true}"  [(ngModel)]="groupProduct.quantity"/></li>
                       <li  (click)="onclikadd(idx,groupProduct.code)"><span id="num-jia" class="num-jia">+</span></li>
-                    </ul>
+                    </ul>-->
 
                   </dd>
                 </dl>

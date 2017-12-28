@@ -160,16 +160,13 @@
         <li class="order-btn" *ngIf="!inner.liableBtime && (rule&&jurisdiction&&jurisdiction.isUpdate)" (click)="editContract(i)"><i class="icon-pencil"></i> 完善工单</li>
       </ul>
     </div>
-    <div class="turn" *ngIf="pages.length > 1">
-      <ul>
-        <li *ngFor="let i of pages"
-            [hidden] = "pageLimit(i)"
-            [ngClass]="{'active':i === pageNo}"
-            (click)="goPage(i);">
-          {{i}}
-        </li>
-      </ul>
-    </div>
+    <app-turn-bar
+      [pageNo]="pageNo"
+      [pageSize]="pageSize"
+      [total]="total"
+      [length] = 5
+      (turnEvent)="goPage($event)">
+    </app-turn-bar>
   </div>
 </div>
 <!--新增设备信息-->
@@ -181,12 +178,12 @@
     <form method="post" name="topForm" class="arch-form clearfix">
       <div class="form-left">
         <div class="form-control clearfix">
-          <span class="form-label">大楼编号</span>
+          <span class="form-label">大楼名称</span>
           <div class="form-inp">
             <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" (blur)="verifybuildingId()">
               <option *ngFor="let num of buildings"
                       [value]="num.BUILDING_ID">
-                {{num.BUILDING_ID}}</option>
+                {{num.NAME}}</option>
             </select>
             <span class="errorMessage"></span>
           </div>
@@ -282,12 +279,12 @@
     </div>
     <form method="post" name="topForm" class="order-form clearfix">
       <div class="form-control clearfix">
-        <span class="form-label">大楼编号</span>
+        <span class="form-label">大楼名称</span>
         <div class="form-inp">
           <select id="ID" name="ID" class="company-ipt company-sel" [(ngModel)]="contractName.buildingId" (blur)="verifyID()">
             <option *ngFor="let num of buildings"
                     [value]="num.BUILDING_ID">
-              {{num.BUILDING_ID}}</option>
+              {{num.NAME}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>

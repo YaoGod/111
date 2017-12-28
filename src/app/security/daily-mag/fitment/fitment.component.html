@@ -183,16 +183,13 @@
         <li class="form-btn form-btn2" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delContract(i)">删&nbsp;&nbsp;除</li>
       </ul>
     </div>
-    <div class="turn" *ngIf="pages.length > 1">
-      <ul>
-        <li *ngFor="let i of pages"
-            [hidden] = "pageLimit(i)"
-            [ngClass]="{'active':i === pageNo}"
-            (click)="goPage(i);">
-          {{i}}
-        </li>
-      </ul>
-    </div>
+    <app-turn-bar
+      [pageNo]="pageNo"
+      [pageSize]="pageSize"
+      [total]="total"
+      [length] = 5
+      (turnEvent)="goPage($event)">
+    </app-turn-bar>
   </div>
 </div>
 <!--新增编辑记录弹框-->
@@ -312,12 +309,12 @@
     </div>
     <form method="post" name="topForm" class="repair-form">
       <div class="form-control">
-        <span class="form-label">大楼编号</span>
+        <span class="form-label">大楼名称</span>
         <div class="form-inp">
           <select id="contractId" name="contractId" class="company-ipt company-sel" [(ngModel)]="contractName.buildingId" (blur)="verifyContractId()">
             <option *ngFor="let num of buildings"
                     [value]="num.BUILDING_ID">
-              {{num.BUILDING_ID}}</option>
+              {{num.NAME}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>
@@ -325,7 +322,7 @@
       <div class="form-control">
         <span class="form-label">合同编号</span>
         <div class="form-inp">
-          <input type="text" id="contractNum" class="company-ipt" name="contractNum" [(ngModel)]="contractName.contractId" (blur)="verifycontractNum()" required maxlength="25">
+          <input type="text" id="contractNum" class="company-ipt" name="contractNum" [(ngModel)]="contractName.contractId" (blur)="verifycontractNum()" required maxlength="18">
           <span class="errorMessage"></span>
         </div>
       </div>

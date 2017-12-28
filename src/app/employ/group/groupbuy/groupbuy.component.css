@@ -90,6 +90,41 @@ input[type=text]{
   background: #fff;
   padding: 20px;
 }
+.banner{
+  margin-bottom:15px;
+  height:200px;
+}
+.banner-img{
+  width:62%;
+  height:200px;
+  float: left;
+}
+.banner-img img{
+  width:100%;
+  height:100%;
+}
+.banner-list{
+  width:33%;
+  padding:5px 10px;
+  box-sizing: border-box;
+  height:200px;
+  overflow-y: auto;
+  background-color: pink;
+  float: right;
+}
+.banner-list h2{
+  font-weight: normal; font-size: 26px; text-align: center; color:darkblue;
+  line-height:30px;
+}
+.banner-list ul{
+  height:150px;
+  margin-top:10px;
+  overflow-y: auto;
+}
+.banner-list li{
+  line-height: 20px;
+  margin-bottom:10px;
+}
 .b-head{
   border-bottom: 2px solid #f7fbfe;
   padding-bottom: 10px;

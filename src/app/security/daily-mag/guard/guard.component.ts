@@ -26,8 +26,10 @@ export class GuardComponent implements OnInit {
   public buildings: any;
   public rule : any;
   public jurisdiction:any;
-  private pageSize = 5;
-  private pageNo = 1;
+  public pageSize = 5;
+  public pageNo = 1;
+  public total = 0;
+  public length = 5;
   private editBool = true;
   private contractBool = true;
   public serviceCom:any;
@@ -99,8 +101,7 @@ export class GuardComponent implements OnInit {
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.record = data['data']['infos'];
-          let total = Math.ceil(data.data.total / this.pageSize);
-          this.initPage(total);
+          this.total = data.data.total;
         }
       });
   }
@@ -112,7 +113,6 @@ export class GuardComponent implements OnInit {
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.serviceCom = data.data;
-          console.log(this.serviceCom);
           /*for(let i=0;i<data['data'].length;i++){
             this.serviceCom.push(data['data'][i].companyName);
           }*/
@@ -124,15 +124,12 @@ export class GuardComponent implements OnInit {
     const SOFTWARES_URL =  this.ipSetting.ip + "/building/person/getPersonList/" + pageNo + "/" + pageSize;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
-    // JSON.stringify
-    //search.personType = "security";
     this.http.post(SOFTWARES_URL, search, options)
       .map(res => res.json())
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.contract = data['data']['infos'];
-          let total = Math.ceil(data.data.total / this.pageSize);
-          this.initPage(total);
+          this.total = data.data.total;
         }
       });
   }
@@ -534,27 +531,6 @@ export class GuardComponent implements OnInit {
         this.searchArch = new Arch();
         $('#deriving').fadeOut();
       });
-  }
-
-  /*页码初始化*/
-  initPage(total) {
-    this.pages = new Array(total);
-    for(let i = 0;i< total ;i++) {
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number) {
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
   }
   /*跳页加载数据*/
   goPage(page:number) {

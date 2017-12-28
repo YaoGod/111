@@ -1,28 +1,16 @@
-<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
-<script>
-  $('.list-table dl').click(function () {
-    $(this).addClass('blueself').siblings().removeClass('blueself').find('.ope-list').addClass('hid');
-    $(this).find('.ope-list').removeClass('hid');
-  })
-  $('.right').css('width',$(window).width()-222);
-  $(window).resize(function () {
-    $('.right').css('width',$(window).width()-222);
-  })
-  if($('.wrap-b').height()<1000){
-    $('.wrap-b').css('height',1000);
-  }
 
-</script>
-<div class="main">
-  <!--标题栏-->
-  <router-outlet>
-    <!--购物车-->
     <div class="right">
       <div class="wrap-content">
         <div class="wrap-space">
           <div class="wrap-b">
             <div class="b-head">
               <span>确认订单</span>
+              <div class="b-head-right">
+                <div class="content-box" [routerLink]="['../groupbuy']"><i class="icon-action-undo"></i> 继续订购</div>
+                <div class="content-box" [routerLink]="['../myorder']"><i class="icon-film"></i> 我的订单</div>
+                <div class="content-box" [routerLink]="['../cart']"><i class="icon-basket-loaded"></i> 返回购物车 <!--<strong>({{cartsize}})</strong>--></div>
+                <!--<div class="content-box" (click)="viewNotice()"><i class="icon-volume-2"></i> 公告</div>-->
+              </div>
             </div>
             <div class="b-con tuanmenu">
 
@@ -82,8 +70,3 @@
         </div>
       </div>
     </div>
-
-
-  </router-outlet>
-
-</div>

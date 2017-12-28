@@ -30,8 +30,10 @@ export class EnergyComponent implements OnInit {
   public jurisdiction:any;
   private editBool = true;
 
-  private pageSize = 12;
-  private pageNo = 1;
+  public pageSize = 12;
+  public pageNo = 1;
+  public total = 0;
+  public length = 5;
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
               private utilBuildingService:UtilBuildingService,
@@ -53,9 +55,9 @@ export class EnergyComponent implements OnInit {
     this.repairname = new GuardName();
     this.contractName = new ArchName();
     this.pages = [];
-    this.theadW = ['大楼编号','大楼名称','月份','上期度数','本期度数','本月使用度数','单价','水费','操作'];
-    this.theadE = ['大楼编号','大楼名称','月份','上期度数','本期度数','本月使用度数','单价','电费','操作'];
-    this.theadG = ['大楼编号','大楼名称','月份','上期度数','本期度数','本月使用度数','单价','燃气费','操作'];
+    this.theadW = ['大楼编号','大楼名称','月份','上期度数','本期度数','本月使用数','单价','水费','操作'];
+    this.theadE = ['大楼编号','大楼名称','月份','上期度数','本期度数','本月使用数','单价','电费','操作'];
+    this.theadG = ['大楼编号','大楼名称','月份','上期度数','本期度数','本月使用数','单价','燃气费','操作'];
     this.Head = this.theadW;
     if($('.energy-header a:nth-of-type(1)').hasClass('active')){
       this.repairname.energyType = 'water';
@@ -116,8 +118,7 @@ export class EnergyComponent implements OnInit {
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.record = data['data']['infos'];
-          let total = Math.ceil(data.data.total / this.pageSize);
-          this.initPage(total);
+          this.total = data.data.total;
         }
       });
   }

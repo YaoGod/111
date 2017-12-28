@@ -22,9 +22,11 @@ export class NoticeComponent implements OnInit {
   /*列表*/
   private delId: any;
   public updateNotice: GroupNotice;
-  private pageNo: number = 1;
-  /*当前页码*/
-  private pageSize: number = 6;
+  public pages: Array<number>;
+  public pageSize = 5;
+  public pageNo = 1;
+  public total = 0;
+  public length = 5;
   /*显示页数*/
   public newGroupNotice = {
     title: '',
@@ -45,14 +47,14 @@ export class NoticeComponent implements OnInit {
   ngOnInit() {
     this.groupNotice = new GroupNotice();
     this.search = new GroupNotice();
+    this.pages = [];
     this.getNoticeList();
-    console.log(this.newGroupNotice);
   }
 
   /*获取列表*/
   getNoticeList() {
     this.groupNoticeService.getNoticeList(this.search).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      if (this.errorVoid.errorMsg(data)) {
         this.groupNotices = data.data.infos;
       }
     });
@@ -113,24 +115,37 @@ export class NoticeComponent implements OnInit {
       });
   }
 
-  noFunc() {
-    $('.confirm').fadeOut();
-  }
 
-  delete(id: number) {
-    /*let d = confirm("是否删除该大楼");
-     if(d){
-
-     }*/
-    this.delId = id;
-    $('.confirm').fadeIn();
+  delete(index: number) {
+    confirmFunc.init({
+      'title': '提示' ,
+      'mes': '是否删除？',
+      'popType': 1 ,
+      'imgType': 3 ,
+      'callback': () => {
+        this.groupNoticeService.deleteGroupbuyNotice(index)
+          .subscribe(data => {
+            if (this.errorVoid.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data['msg'],
+                'popType': 0,
+                'imgType': 1,
+              });
+              this.pages = [];
+              this.pageNo = 1;
+            }
+            this.getNoticeList();
+          });
+      }
+    });
   }
 
   update(id: number) {
     this.groupNoticeService.getNotice(id)
       .subscribe(data => {
         if(data['status']==0){
-          // this.updateNotice = data.data;
+          this.updateNotice = data.data;
           console.log(data.data);
           this.upGroupNotice.title = data.data.title;
           this.upGroupNotice.notice = data.data.notice;
@@ -171,10 +186,8 @@ export class NoticeComponent implements OnInit {
   view(id: number){
     this.groupNoticeService.getNotice(id)
       .subscribe(data => {
-        console.log(data)
         if (data['status']==0) {
           this.updateNotice = data.data;
-          console.log(this.updateNotice);
         }
         $('.mask3').show();
       })

@@ -392,32 +392,6 @@ input{
 .box1,.box2{
   display:none;
 }
-.turn{
-  padding: 0 2% 20px 2%;
-  background: #ffffff;
-}
-.turn>ul{
-  display: flex;
-  height: 35px;
-}
-.turn>ul>li{
-  height: 35px;
-  width: 30px;
-  line-height: 35px;
-  border: 1px solid #e4e7ea;
-  color: #686868;
-  text-align: center;
-  margin-left:-1px;
-  cursor: pointer;
-}
-.turn>ul>li:first-child{
-  margin-left: 0;
-}
-.turn>ul>li.active{
-  color: #ffffff;
-  background: #04a9f3;
-  border-color: #04a9f3;
-}
 .row {
   height: 50px;
   text-align: right;

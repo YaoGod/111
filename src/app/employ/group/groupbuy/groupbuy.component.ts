@@ -40,10 +40,11 @@ export class GroupbuyComponent implements OnInit {
     this.search = new GroupProduct();
     this.globalCatalogService.setTitle("员工服务/员工团购网/商品订购");
     this.getProductShowList();
+    this.getNoticeList();
   }
   getProductShowList(){
     this.groupProductService.getProductShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      if (this.errorVoid.errorMsg(data)) {
         this.groupProducts = data.data.infos;
         console.log(this.groupProducts);
         this.cartsize = data.data.cartsize;
@@ -51,6 +52,14 @@ export class GroupbuyComponent implements OnInit {
     });
   }
 
+  /*获取公告列表*/
+  getNoticeList() {
+    this.groupNoticeService.getNoticeList(this.search).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        this.groupNotices = data.data.infos;
+      }
+    });
+  }
   addToCart(id: number){
     this.cart = new GroupCart();
     this.cart.productId = id;
@@ -98,14 +107,14 @@ export class GroupbuyComponent implements OnInit {
     this.cart.quantity = nums;
     this.groupProductService.updateGroupCart(this.cart)
       .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
+        if (this.errorVoid.errorMsg(data)) {
         }
        // this.getCartList();
       });
   }
   viewNotice(){
     this.groupNoticeService.getNoticeShowList().subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      if (this.errorVoid.errorMsg(data)) {
         this.groupNotices = data.data.infos;
         console.log(this.groupNotices);
       }

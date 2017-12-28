@@ -7,6 +7,9 @@ import {GroupOrderItem} from '../../../mode/groupOrderItem/group-orderItem.servi
 import { GroupOrderItemService } from '../../../service/group-orderItem/group-order-item.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import {forEach} from "@angular/router/src/utils/collection";
+
+declare var $:any;
+declare var confirmFunc: any;
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
@@ -51,11 +54,9 @@ export class OrderComponent implements OnInit {
       this.productId = this.productId.trim();
     }
     this.groupOrderService.getOrderAllList(this.productName,this.orderId,this.productId,this.pageNo,this.pageSize).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
-        console.log(this.orders);
-
-      }
+       }
     });
   }
 
@@ -66,41 +67,54 @@ export class OrderComponent implements OnInit {
   }
 
   updateOrders(){
-    this.groupOrderService.updateOrder(this.updateOrder) .subscribe(data => {
-      console.log(data);
-      if(data['status'] === 0){
-        alert("修改成功")
-        this.closeMask();
-        this.getOrderAllList();
-      }else{
-        alert("修改失败")
-        this.closeMask();
-      }
-    });
+    this.groupOrderService.updateOrder(this.updateOrder)
+      .subscribe(data => {
+        if(data['status'] === 0){
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '修改成功',
+            'popType': 0,
+            'imgType': 1,
+          });
+          this.closeMask();
+          this.getOrderAllList();
+        }else{
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '修改失败',
+            'popType': 0,
+            'imgType': 2,
+          });
+          this.closeMask();
+        }
+      });
 
   }
 
   delete(orderid:number){
-    this.delId = orderid;
-    $('.confirm').fadeIn();
-  }
-
-  /*删除*/
-  okFunc() {
-    $('.confirm').hide();
-    this.groupOrderService.deleteOrder( this.delId)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
-          alert("删除成功");
-        }
-        this.getOrderAllList();
-      });
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否删除？',
+      'popType': 1,
+      'imgType': 3,
+      'callback': () => {
+        this.groupOrderService.deleteOrder(orderid)
+          .subscribe(data => {
+            if (this.errorVoid.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data['msg'],
+                'popType': 0,
+                'imgType': 1,
+              });
+            }
+            this.getOrderAllList();
+          });
+      }
+    });
   }
 
   closeMask() {
     $('.mask').hide();
-  }
-  noFunc() {
-    $('.confirm').fadeOut();
   }
 }

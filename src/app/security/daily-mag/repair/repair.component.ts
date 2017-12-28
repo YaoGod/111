@@ -53,7 +53,7 @@ export class RepairComponent implements OnInit {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("security/daily");
-        console.log(this.rule);
+        // console.log(this.rule);
         this.getQuan();
       }
     );
@@ -109,7 +109,7 @@ export class RepairComponent implements OnInit {
       this.contractName.fileName = [];
       this.contractName.filePath = [];
       $('.mask-contract').fadeIn();
-      $('.mask-contract.mask-head p').html('新增维修合同');
+      $('.mask-contract .mask-head p').html('新增维修合同');
     }else {
       this.editBool = true;
       this.repairname = new RepairName();
@@ -722,7 +722,7 @@ export class ContractName {
   id: number; // 本条信息ID
   buildingId: string;
   buildingName: string;
-  contractId: string; //合同编号
+  contractId: string; // 合同编号
   cmccName: string; // 甲方（各级移动公司）
   cmccContacts: string; // 甲方联系人
   cmccPhone: string; // 甲方联系人电话

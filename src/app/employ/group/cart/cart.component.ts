@@ -5,6 +5,9 @@ import { GroupCart} from '../../../mode/groupCart/group-cart.service';
 import { GroupProductService } from '../../../service/group-product/group-product.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import {Router} from "@angular/router";
+
+declare var $:any;
+declare var confirmFunc: any;
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -27,9 +30,9 @@ export class CartComponent implements OnInit {
 
   ngOnInit() {
     this.globalCatalogService.setTitle("团购管理/我的购物车");
-    this.getCartList1();
+    this.getCartList();
   }
-  getCartList1(){
+  getCartList(){
     this.groupProductService.getCartList().subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.carts = data.data.infos;
@@ -49,9 +52,9 @@ export class CartComponent implements OnInit {
     this.cart.quantity = nums;
     this.groupProductService.updateGroupCart(this.cart)
       .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
+        if (this.errorVoid.errorMsg(data)) {
         }
-        this.getCartList1();
+        this.getCartList();
       });
   }
 
@@ -68,7 +71,12 @@ export class CartComponent implements OnInit {
       $("#input-num-"+idxx+"").val(1);
     }
     if( $("#input-num-"+idxx+"").val() <= 1) {
-      alert("提示：商品数量不能小于1");
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '提示：商品数量不能小于1',
+        'popType': 0,
+        'imgType': 2,
+      });
       $("#input-num-"+idxx+"").val(1);
     } else {
       $("#input-num-"+idxx+"").val(parseInt( $("#input-num-"+idxx+"").val()) - 1);
@@ -77,13 +85,27 @@ export class CartComponent implements OnInit {
   }
 
   del(id:number){
-    this.groupProductService.deleteGroupCart(id)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
-          alert("删除成功");
-        }
-        this.getCartList1();
-      });
+    confirmFunc.init({
+      'title': '提示' ,
+      'mes': '是否删除？',
+      'popType': 1 ,
+      'imgType': 3 ,
+      'callback': () => {
+        this.groupProductService.deleteGroupCart(id)
+          .subscribe(data => {
+            if (this.errorVoid.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data['msg'],
+                'popType': 0,
+                'imgType': 1,
+              });
+            }
+            this.getCartList();
+          });
+      }
+    });
+
   }
   linkConfirmCart(){
     this.router.navigate(["/hzportal/employ/group/confirmCart"]);

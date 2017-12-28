@@ -7,10 +7,8 @@
             <div class="b-head">
               <span>我的订单</span>
               <div class="b-head-right">
-                <div class="content-box" [routerLink]="['../product']"><i class="icon-grid"></i> 进入管理</div>
                 <div class="content-box" [routerLink]="['../groupbuy']"><i class="icon-action-undo"></i> 继续订购</div>
-                <div class="content-box" [routerLink]="['../cart']"><i class="icon-basket-loaded"></i> 购物车 <strong>({{cartsize}})</strong></div>
-                <!--<div class="content-box" (click)="viewNotice()"><i class="icon-volume-2"></i> 公告</div>-->
+                <div class="content-box" [routerLink]="['../cart']"><i class="icon-basket-loaded"></i> 购物车 <strong>({{cartsize?cartsize:0}})</strong></div>
               </div>
             <!--<div class="path">
               <img src="assets/image/bg-path.png" />

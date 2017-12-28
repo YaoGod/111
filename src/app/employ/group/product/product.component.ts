@@ -151,7 +151,7 @@ export class ProductComponent implements OnInit {
   private verifyIsTel(id: string, error?: string): boolean {
     const data =  $('#' + id).val();/*/^1(3[4-9]|5[0-2]|8[0-3,78])\d{8}$/ 移动号段*/
     if (!String(data).match( /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/ ))  {
-      this.addErrorClass(id, '请填写正确手机号');
+      this.addErrorClass(id, error);
       return false;
     }else {
       this.removeErrorClass(id);
@@ -198,28 +198,31 @@ export class ProductComponent implements OnInit {
   }
 
   subGroupProduct() {
-    // if (this.newGroupProduct.name==''||this.newGroupProduct.price=='' || this.newGroupProduct.status=='' || this.newGroupProduct.startTime=='' ||
-    //    this.newGroupProduct.endTime=='' || this.newGroupProduct.contact=='' || this.newGroupProduct.phone=='' || this.newGroupProduct.payaccount || this.newGroupProduct.detail=='') {
+    // if (this.newGroupProduct.name==''||this.newGroupProduct.price=='' || this.newGroupProduct.status=='' ||
+    // this.newGroupProduct.startTime=='' ||this.newGroupProduct.endTime=='' || this.newGroupProduct.contact=='' ||
+    // this.newGroupProduct.phone=='' || this.newGroupProduct.payaccount || this.newGroupProduct.detail=='') {
     //     alert("请把信息填写完整");
     //     return false;
     //   }
     this.groupProductService.addGroupBuyProduct(this.newGroupProduct)
       .subscribe(data => {
         if(data['status'] === 0){
-          alert("新增成功");
-          /* confirmFunc.init({
-           'title': '提示' ,
-           'mes': '新增成功',
-           });*/
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data['msg'],
+            'popType': 0,
+            'imgType': 1,
+          });
           this.closeMask();
           this.getProductList();
         }else{
-          alert("新增失败");
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data['msg'],
+            'popType': 0,
+            'imgType': 2,
+          });
           this.closeMask();
-          /* confirmFunc.init({
-           'title': '提示' ,
-           'mes': data['msg'],
-           });*/
         }
       })
   }
@@ -256,26 +259,27 @@ export class ProductComponent implements OnInit {
       .subscribe(data => {
         console.log(data);
         if(data['status'] === 0){
-          alert("修改成功")
-          /* confirmFunc.init({
-           'title': '提示' ,
-           'mes': '新增成功',
-           });*/
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data['msg'],
+            'popType': 0,
+            'imgType': 1,
+          });
           this.closeMask2();
           this.getProductList();
         }else{
-          alert("修改失败")
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data['msg'],
+            'popType': 0,
+            'imgType': 2,
+          });
           this.closeMask2();
-          /* confirmFunc.init({
-           'title': '提示' ,
-           'mes': data['msg'],
-           });*/
         }
       })
   }
 
   checkGroupProduct() {
-    // this.upGroupProduct.status = $("#checknewstatus").val();
     this.groupProductService.checkGroupbuyProduct(this.productCheck)
       .subscribe(data => {
         if(data['status'] === 0){
@@ -360,7 +364,7 @@ export class ProductComponent implements OnInit {
       'callback': () => {
         this.groupProductService.deleteGroupbuyProduct(index)
           .subscribe(data => {
-            if (this.errorVoid.errorMsg(data.status)) {
+            if (this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示',
                 'mes': data['msg'],
