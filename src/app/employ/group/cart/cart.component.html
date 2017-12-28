@@ -5,8 +5,11 @@
         <div class="wrap-space">
           <div class="wrap-b">
             <div class="b-head">
-              <span>购物车管理</span>
-            </div>
+              <span>我的购物车</span>
+              <div class="b-head-right">
+                <div class="content-box" [routerLink]="['../groupbuy']"><i class="icon-action-undo"></i> 继续订购</div>
+                <div class="content-box" [routerLink]="['../myorder']"><i class="icon-film"></i> 我的订单</div>
+              </div>
             <div class="b-con tuanmenu">
 
               <div class="list-table">

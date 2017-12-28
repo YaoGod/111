@@ -1,25 +1,17 @@
-<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
-<script>
-  $('.right').css('width',$(window).width()-222);
-  $(window).resize(function () {
-    $('.right').css('width',$(window).width()-222);
-  })
+<!--<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">-->
 
-  if($('.wrap-b').height()<1000){
-    $('.wrap-b').css('height',1000);
-  }
-</script>
-<div class="main">
-  <!--标题栏-->
-  <!--大楼搜索栏-->
-  <router-outlet>
     <div class="right">
       <div class="wrap-content">
         <div class="wrap-space">
           <div class="wrap-b">
             <div class="b-head">
-              <span>订单信息</span>
-            </div>
+              <span>我的订单</span>
+              <div class="b-head-right">
+                <div class="content-box" [routerLink]="['../product']"><i class="icon-grid"></i> 进入管理</div>
+                <div class="content-box" [routerLink]="['../groupbuy']"><i class="icon-action-undo"></i> 继续订购</div>
+                <div class="content-box" [routerLink]="['../cart']"><i class="icon-basket-loaded"></i> 购物车 <strong>({{cartsize}})</strong></div>
+                <!--<div class="content-box" (click)="viewNotice()"><i class="icon-volume-2"></i> 公告</div>-->
+              </div>
             <!--<div class="path">
               <img src="assets/image/bg-path.png" />
               <ul>
@@ -73,7 +65,4 @@
       </div>
     </div>
 
-  </router-outlet>
-
-</div>
 

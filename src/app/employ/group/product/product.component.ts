@@ -18,9 +18,10 @@ export class ProductComponent implements OnInit {
   public groupProducts: Array<GroupProduct>;
   public search: GroupProduct;
   private code: any;
-  private pageNo: number = 1;
-  /*当前页码*/
-  private pageSize: number = 5;
+  public pageSize = 5;
+  public pageNo = 1;
+  public total = 0;
+  public length = 5;
   public pages: Array<number>;
   public  productview={
     code:'',
@@ -93,27 +94,16 @@ export class ProductComponent implements OnInit {
     this.groupProductService.getProductList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.groupProducts = data.data.infos;
-        console.log( this.groupProducts);
-        let total = Math.ceil(data.data.total / this.pageSize);
-        this.initPage(total);
+        this.total = data.data.total;
       }
     });
   }
   fadeBom() {
-
     $('.mask').show();
   }
   closeMask() {
     $('.mask').hide();
     $('#prese1').val('');
-  }
-  /*维修记录校验规则*/
-  private verifyImage(id) {
-    // if (!this.isEmpty('image', '商品图片不能为空')) {
-    //   return false;
-    // }
-    // return true;
-    alert($('#' + id).val());
   }
   private verifyEmpty(id,label) {
 
@@ -234,37 +224,10 @@ export class ProductComponent implements OnInit {
       })
   }
 
-  /*删除*/
-  okFunc() {
-    $('.confirm').hide();
-    this.groupProductService.deleteGroupbuyProduct(this.code)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
-          alert("删除成功");
-        }
-        this.getProductList();
-      });
-  }
-
-  noFunc() {
-    $('.confirm').fadeOut();
-  }
-
-  delete(code: number) {
-    /*let d = confirm("是否删除该大楼");
-     if(d){
-
-     }*/
-    this.code = code;
-    $('.confirm').fadeIn();
-  }
-
   update(code: string) {
     this.groupProductService.getGroupProduct(code)
       .subscribe(data => {
-        if(data['status']==0){
-          //this.updateNotice = data.data;
-          console.log(data.data);
+        if(data['status']===0){
           this.upGroupProduct = data.data;
         }
         $('.mask2').show();
@@ -282,10 +245,10 @@ export class ProductComponent implements OnInit {
       })
   }
   updateGroupProduct() {
-    if (!this.verifyEmpty('upnewname','商品名称不能为空')||!this.verifyEmpty('upnewprice','费用不能为空')||!this.verifyEmpty('upnewstartTime','不能为空')||
-      !this.verifyEmpty('upnewendTime','不能为空')||!this.verifyEmpty('upnewpconcant','联系人不能为空')||!this.verifyEmpty('upnewphone','不能为空')||
-      !this.verifyEmpty('upnewpayaccount','收款账户不能为空')||!this.verifyEmpty('upnewesetail','商品详情不能为空')) {
-
+    if (!this.verifyEmpty('upnewname','名称不能为空')||!this.verifyEmpty('upnewprice','不能为空')||!this.verifyEmpty('upnewstartTime'
+        ,'不能为空')|| !this.verifyEmpty('upnewendTime','不能为空')||!this.verifyEmpty('upnewpconcant','联系人不能为空')||
+      !this.verifyEmpty('upnewphone','不能为空')|| !this.verifyEmpty('upnewpayaccount','收款账户不能为空')||!this.verifyEmpty(
+        'upnewesetail','商品详情不能为空')) {
       return false;
     }
 
@@ -387,27 +350,30 @@ export class ProductComponent implements OnInit {
       }
     };
   }
-
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
-    console.log(this.pages);
-    for(let i = 0;i< total ;i++){
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
+  /*删除商品*/
+  delete(index) {
+    confirmFunc.init({
+      'title': '提示' ,
+      'mes': '是否删除？',
+      'popType': 1 ,
+      'imgType': 3 ,
+      'callback': () => {
+        this.groupProductService.deleteGroupbuyProduct(index)
+          .subscribe(data => {
+            if (this.errorVoid.errorMsg(data.status)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data['msg'],
+                'popType': 0,
+                'imgType': 1,
+              });
+              this.pages = [];
+              this.pageNo = 1;
+            }
+            this.getProductList();
+          });
+      }
+    });
   }
   /*跳页加载数据*/
   goPage(page:number){

@@ -58,7 +58,12 @@ export class GroupbuyComponent implements OnInit {
       .subscribe(data => {
         if(data['status']===0){
           this.cartsize = data.data.cartsize;
-          alert("预定成功:已加入购物车！");
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': '预定成功:已加入购物车！',
+            'popType': 0 ,
+            'imgType': 1 ,
+          });
         }
       })
   }
@@ -75,7 +80,12 @@ export class GroupbuyComponent implements OnInit {
       $("#input-num-"+idxx+"").val(1);
     }
     if( $("#input-num-"+idxx+"").val() <= 1) {
-      alert("提示：商品数量不能小于1");
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '提示：商品数量不能小于1',
+        'popType': 0 ,
+        'imgType': 1 ,
+      });
       $("#input-num-"+idxx+"").val(1);
     } else {
       $("#input-num-"+idxx).val(parseInt( $("#input-num-"+idxx).val()) - 1);

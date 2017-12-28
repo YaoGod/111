@@ -1,35 +1,29 @@
-<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
-<script>
-  $('.list-table dl').click(function () {
-    $(this).addClass('blueself').siblings().removeClass('blueself').find('.ope-list').addClass('hid');
-    $(this).find('.ope-list').removeClass('hid');
-  })
-  $('.right').css('width',$(window).width()-222);
-  $(window).resize(function () {
-    $('.right').css('width',$(window).width()-222);
-  })
-  if($('.wrap-b').height()<1000){
-    $('.wrap-b').css('height',1000);
-  }
-</script>
+<!--<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">-->
     <div class="right">
       <div class="wrap-content">
         <div class="wrap-space">
           <div class="wrap-b">
-            <div class="b-head">
-              <span>团购商品管理</span>
+            <div class="b-head clearfix">
+              <div class="b-head-left">
+                <span class="active">团购商品管理</span>
+                <span [routerLink]="['../order']">订单管理</span>
+              </div>
+              <div class="b-head-right">
+                <div class="content-box" [routerLink]="['../groupbuy']"><i class="icon-action-undo"></i> 继续订购</div>
+              </div>
             </div>
             <div class="b-con tuanmenu">
-              <div class="wrap">
+              <div class="wrap clearfix">
                 <div class="iptgroup">
                   <input placeholder="请输入查询信息" [(ngModel)]="search.name" />
                   <a href="javascript: void(0);" class="ipt-search"></a>
                 </div>
                 <a class="search" href="javascript: void(0);" (click)="getProductList()" >查询</a>
+                <div class="row">
+                  <a class="btn btn-danger" (click)="fadeBom()"  href="javascript:;" style="padding: 6px 22px;"><i class="icon-plus"></i> 新增</a>
+                </div>
               </div>
-              <div class="row">
-                <a class="btn btn-danger"(click)="fadeBom()"  href="javascript:;" style="padding: 6px 22px;"><i class="icon-plus"></i> 新增</a>
-              </div>
+
               <div class="list-table">
                 <table class="table-head">
                   <td class="fir">商品信息</td>
@@ -43,7 +37,7 @@
                   <dt><span>商品名称：{{product.name}}</span>
                   <div class="ope-list">
                     <a class="four"  title="审核" href="javascript:void(0);"(click)="check(product.code)"></a>
-                    <a class="one"   title="查看" href="javascript:void(0);"(click)="view(product.code)"></a>
+                    <!--<a class="one"   title="查看" href="javascript:void(0);"(click)="view(product.code)"></a>-->
                     <a class="two"   title="修改" href="javascript:void(0);"(click)="update(product.code)"></a>
                     <a class="tre"   title="删除" href="javascript:void(0);"(click)="delete(product.code)"></a>
                   </div>
@@ -71,28 +65,24 @@
                         </td>
                       </tr>
                       <tr>
-                        <td  style="text-align: left" colspan="5" > <label>简介：</label> <p class="con">{{product.detail}}</p></td>
+                        <td  style="text-align: left; padding:0 10px 10px;" colspan="6" > 简介：<p class="con">{{product.detail}}</p></td>
                       </tr>
                     </table>
                   </dd>
                 </dl>
               </div>
-              <div class="turn" name="pages" *ngIf="pages.length > 1">
-                <ul>
-                  <li *ngFor="let i of pages"
-                      [hidden] = "pageLimit(i)"
-                      [ngClass]="{'active':i === pageNo}"
-                      (click)="goPage(i);">
-                    {{i}}
-                  </li>
-                </ul>
-              </div>
+              <app-turn-bar
+                [pageNo]="pageNo"
+                [pageSize]="pageSize"
+                [total]="total"
+                [length] = 5
+                (turnEvent)="goPage($event)">
+              </app-turn-bar>
             </div>
           </div>
         </div>
       </div>
     </div>
-
     <div class="mask">
       <div class="modal-content">
         <div class="modal-header">
@@ -100,8 +90,8 @@
           <button type="button" class="close"(click)="closeMask()">×</button>
         </div>
         <form class="form-material">
-          <div class="modal-body clearfix">
-            <div class="protop">
+          <div class="modal-body ">
+            <div class="protop clearfix">
               <div class="pimg">
                 <div class="dropify-wrapper">
                   <div class="dropify-message">
@@ -183,8 +173,8 @@
           <button type="button" class="close"(click)="closeMask2()">×</button>
         </div>
         <form class="form-building form-material">
-          <div class="modal-body clearfix">
-            <div class="protop">
+          <div class="modal-body ">
+            <div class="protop clearfix">
               <div class="pimg">
                 <div class="dropify-wrapper">
                   <div class="dropify-message">
@@ -266,8 +256,8 @@
           <button type="button" class="close"(click)="closeMask0()">×</button>
         </div>
         <form class="form-building form-material">
-          <div class="modal-body clearfix">
-            <div class="protop">
+          <div class="modal-body ">
+            <div class="protop clearfix">
               <div class="pimg">
                 <div class="dropify-wrapper">
                   <div class="dropify-message">
@@ -299,7 +289,7 @@
                   </div>
                   <div style="width: 50%">
                     <label>商品价格：</label>
-                    <input type="text" class="producttext" id="checknewprice" name="checknewprice" (blur)="verifyEmpty('checknewprice','费用不能为空')"  [(ngModel)]="productCheck.price">
+                    <input type="number" class="producttext" id="checknewprice" name="checknewprice" (blur)="verifyEmpty('checknewprice','费用不能为空')"  [(ngModel)]="productCheck.price">
                     <span class="errorMessage"></span>
                   </div>
                 </div>
@@ -348,89 +338,8 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" (click)="closeMask0()">取 消</button>
-            <button type="submit" class="btn btn-info"(click)="checkGroupProduct()" >保存</button>
+            <button type="submit" class="btn btn-info" (click)="checkGroupProduct()" >保存</button>
           </div>
         </form>
       </div>
     </div>
-
-    <div class="mask3">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">查看商品</h4>
-          <button type="button" class="close"(click)="closeMask3()">×</button>
-        </div>
-        <form class="form-building form-material">
-          <div class="modal-body clearfix">
-            <div class="protop">
-              <div class="pimg">
-                <div class="dropify-wrapper">
-                  <div class="dropify-message">
-                    <img *ngIf="productview.image!==''" [src]="'/proxy/' + productview.image" />
-                  </div>
-                </div>
-              </div>
-              <div class="pdetail">
-                <div class="for">
-                  <label>商品名称：</label>
-                  {{productview.name}}
-                </div>
-                <div class="for">
-                  <div  style="width: 48%">
-                    <label>商品价格：</label>
-                    {{productview.price}}
-                  </div>
-                  <div style="width: 52%">
-                    <label>商品标签：</label>
-                    {{productview.label}}
-                  </div>
-                </div>
-                <div class="for">
-                  <label>团购时间：</label>
-                  {{productview.startTime}}
-                  <label>至</label>
-                  {{productview.endTime}}
-                </div>
-                <div class="for">
-                  <div  style="width: 48%">
-                    <label>联  系  人：</label>
-                    {{productview.contact}}
-                  </div>
-                  <div  style="width: 52%">
-                    <label>联系电话：</label>
-                    {{productview.phone}}
-                  </div>
-                </div>
-                <div class="for">
-                  <label>收款账号：</label>
-                  {{productview.payaccount}}
-                </div>
-                <div class="for">
-                  <label>状态：</label>
-                  <span class="three" *ngIf="productview.status=='0'">录入</span>
-                  <span class="three" *ngIf="productview.status=='1'">上架</span>
-                  <span class="three" *ngIf="productview.status=='2'">下架</span>
-                  <span class="three" *ngIf="productview.status=='3'">不通过</span>
-                </div>
-              </div>
-            </div>
-            <div class="modal-right2">
-              <label>商品详情：</label>
-              <textarea name="notice" ui-tinymce
-                        class="form-control" rows="10"
-                        style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;" readonly="true" value="{{productview.detail}}" >
-               </textarea>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-    <!--<div class="confirm">
-      <div class="confirm-modal">
-        <div class="confirm-icon confirm-question">?</div>
-        <div class="confirm-content" >你确定要删除该商品吗?</div>
-        <hr style="margin-top: 20px; margin-bottom: 20px; height: 10px;color: transparent;border: 0;">
-        <button class="confirm-btn styled" (click)="okFunc()">确定</button>
-        <button class="confirm-btn cancel" (click)="noFunc()">取消</button>
-      </div>
-    </div>-->

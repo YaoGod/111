@@ -430,8 +430,6 @@ export class RepairComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)){
-          // this.newBuilding.imgPath = data.msg;
-
           this.contractName.fileName.push(files[0].name);
           this.contractName.filePath.push(data.msg);
           console.log(this.contractName.fileName);

@@ -14,6 +14,7 @@ import { CartComponent } from './cart/cart.component';
 import { GroupComponent } from './group.component';
 import {ConfirmCartComponent} from "./confirm-cart/confirm-cart.component";
 import {MyorderComponent} from "./myorder/myorder.component";
+import {TurnBarModule} from "../../component/turn-bar/turn-bar.module";
 const routes: Routes = [
   { path: '',
     component : GroupComponent,
@@ -59,10 +60,12 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    TurnBarModule,
     GlobalFooterModule,
     RouterModule.forChild(routes)
   ],
   exports:[RouterModule],
-  declarations: [HomepageComponent, ProductComponent, OrderComponent, GroupbuyComponent, NoticeComponent, CartComponent, GroupComponent, ConfirmCartComponent, MyorderComponent]
+  declarations: [HomepageComponent, ProductComponent, OrderComponent, GroupbuyComponent, NoticeComponent, CartComponent,
+    GroupComponent, ConfirmCartComponent, MyorderComponent]
 })
 export class GroupModule { }

@@ -21,10 +21,6 @@ export class VegcartComponent implements OnInit {
   ngOnInit() {
     this.getCartList();
 
-    $('.list-table dl').click(function () {
-      $(this).addClass('blueself').siblings().removeClass('blueself').find('.ope-list').addClass('hid');
-      $(this).find('.ope-list').removeClass('hid');
-    })
   }
   getCartList(){
     this.vegetableInfoService.getCartList().subscribe(data => {

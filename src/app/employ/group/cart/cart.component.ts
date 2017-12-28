@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css'],
-  providers:[GroupProductService,ErrorResponseService]
+  providers:[GroupProductService,ErrorResponseService,GlobalCatalogService]
 })
 export class CartComponent implements OnInit {
 
@@ -26,16 +26,15 @@ export class CartComponent implements OnInit {
 
 
   ngOnInit() {
-    this.globalCatalogService.setTitle("团购管理/购物车");
-    this.getCartList();
+    this.globalCatalogService.setTitle("团购管理/我的购物车");
+    this.getCartList1();
   }
-  getCartList(){
+  getCartList1(){
     this.groupProductService.getCartList().subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
-        console.log(data);
+      if (this.errorVoid.errorMsg(data)) {
         this.carts = data.data.infos;
         this.mutipalPrice=data.data.mutipalPrice;
-        if(this.carts.length==0){
+        if(this.carts.length<1){
           $(".b-foot").hide();
         }else{
           $(".b-foot").show();
@@ -52,7 +51,7 @@ export class CartComponent implements OnInit {
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data.status)) {
         }
-        this.getCartList();
+        this.getCartList1();
       });
   }
 
@@ -83,7 +82,7 @@ export class CartComponent implements OnInit {
         if (this.errorVoid.errorMsg(data.status)) {
           alert("删除成功");
         }
-        this.getCartList();
+        this.getCartList1();
       });
   }
   linkConfirmCart(){
