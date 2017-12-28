@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {InfoBuildingService} from "../../../../service/info-building/info-building.service";
 import {Room} from "../../../../mode/room/room.service";
+import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 
 @Component({
   selector: 'app-cons-account',
@@ -17,12 +18,14 @@ export class ConsAccountComponent implements OnInit {
   public queryType    : number;
 
   constructor(
-    private infoBuildingService:InfoBuildingService
+    private infoBuildingService:InfoBuildingService,
+    private globalCatalogService: GlobalCatalogService
   ) {
 
   }
 
   ngOnInit() {
+    this.globalCatalogService.setTitle("员工服务/我的工作台/消费账户");
     this.initConsume();
   }
 

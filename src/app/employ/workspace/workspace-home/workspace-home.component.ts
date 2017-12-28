@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import * as echarts from 'echarts';
 import {WorkspaceMydeskService} from "../../../service/workspace-mydesk/workspace-mydesk.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
+import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 @Component({
   selector: 'app-workspace-home',
   templateUrl: './workspace-home.component.html',
@@ -16,6 +17,7 @@ export class WorkspaceHomeComponent implements OnInit {
   public serviceCenters : Array<any>;
   constructor(
     private router:Router,
+    private globalCatalogService: GlobalCatalogService,
     private errorResponseService: ErrorResponseService,
     private workspaceMydeskService:WorkspaceMydeskService
   ) { }
@@ -23,11 +25,12 @@ export class WorkspaceHomeComponent implements OnInit {
   ngOnInit() {
     this.count = 0;
     this.pendings = [];
-    this.costChart("costHistoryChart");
-    this.costChart("costDashHistoryChart");
+    this.globalCatalogService.setTitle("员工服务/我的工作台");
+    this.costChart("costDashHistoryChart",[]);
     this.getBalance();
     this.getHandlingOrder();
     this.getServiceCenter();
+    this.getUserConsume();
   }
 
   linkCost(){
@@ -123,8 +126,22 @@ export class WorkspaceHomeComponent implements OnInit {
         }
       })
   }
+  getUserConsume(){
+    this.workspaceMydeskService.getUserConsume()
+      .subscribe((data)=>{
+        if(this.errorResponseService.errorMsg(data)){
+          this.costChart("costHistoryChart",data.data);
+        }
+      })
+  }
   /*资产明细统计表*/
-  costChart(id){
+  costChart(id,data){
+    let legendData = [];
+    let seriesData = [];
+    for(let i = 0; i < data.length;i++){
+      legendData[i] = data[i].CONSUME_TIME;
+      seriesData[i] = data[i].CONSUME_NUM;
+    }
     let option = {
       tooltip : {
         trigger: 'axis',
@@ -147,7 +164,7 @@ export class WorkspaceHomeComponent implements OnInit {
             fontSize: 20,
             color: '#999'
           },
-          data : ['7月','8月','9月','10月','11月','12月']
+          data : /*legendData*/ ['7月','8月','9月','10月','11月','12月']
         }
       ],
       series : [
@@ -179,7 +196,7 @@ export class WorkspaceHomeComponent implements OnInit {
               }
             }
           },
-          data:[320, 302, 341, 374, 390, 450]
+          data: /*seriesData*/ [320, 302, 341, 374, 390, 450]
         }
       ]
     };

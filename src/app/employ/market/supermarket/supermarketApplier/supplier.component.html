@@ -1,0 +1,232 @@
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+<script>
+  $('.list-table dl').click(function () {
+    $(this).addClass('blueself').siblings().removeClass('blueself').find('.ope-list').addClass('hid');
+    $(this).find('.ope-list').removeClass('hid');
+  })
+  $('.right').css('width',$(window).width()-222);
+  $(window).resize(function () {
+    $('.right').css('width',$(window).width()-222);
+  })
+  if($('.wrap-b').height()<1000){
+    $('.wrap-b').css('height',1000);
+  }
+</script>
+<div class="main">
+
+  <router-outlet>
+    <div class="right">
+      <div class="wrap-content">
+        <div class="wrap-space">
+          <div class="wrap-b">
+            <div class="b-head">
+              <span>供应商管理</span>
+            </div>
+            <div class="b-con tuanmenu">
+
+              <div class="row">
+                <a class="btn btn-danger"(click)="add()"   href="javascript:;" style="padding: 6px 22px;"><i class="icon-plus"></i> 新增</a>
+              </div>
+              <div class="list-table">
+                <table class="table-head">
+                  <td class="fir">供应商名称</td>
+                  <td class="sec">供应商编号</td>
+                  <td class="three">合作开始时间</td>
+                  <td class="four">合作结束时间</td>
+                  <td class="four">合同附件上传</td>
+                </table>
+                  <dl *ngFor="let applier of appliers;let idx=index">
+                  <dt>
+                  <div class="ope-list">
+                   <a class="one"   title="查看" href="javascript:void(0);"(click)="view(applier.applyId)"></a>
+                    <a class="two"   title="修改" href="javascript:void(0);"(click)="update(applier.applyId)"></a>
+                    <a class="tre"   title="删除" href="javascript:void(0);"(click)="delete(applier.applyId)"></a>
+
+                  </div>
+                  </dt>
+                  <dd>
+                    <table style="width: 100%;">
+                      <tr>
+                        <td class="fir">{{applier.applyName}}</td>
+                        <td class="sec">{{applier.applyId}}</td>
+                        <td class="three">{{applier.copStarttime}}</td>
+                        <td class="three">{{applier.copEndtime}}</td>
+                        <td class="four">{{applier.applyDesc| minLength: [10,'…']}}</td>
+                      </tr>
+                    </table>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="maskAdd">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">新增供应商</h4>
+          <button type="button" class="close"(click)="closeMaskAdd()">×</button>
+        </div>
+        <form class="form-material">
+          <div class="modal-body clearfix">
+            <div class="protop">
+              <div class="pdetail">
+                <div style="margin-left: 15px;">
+                  <label>供应商编号：</label>
+                  <input type="text" id="supplieId" name="supplieId" (blur)="verifyEmpty('supplieId','供应商编号不能为空')" class="noticetext" placeholder="" [(ngModel)]="applierAdd.applyId">
+                  <span class="errorMessage"></span>
+                </div>
+                <div style="margin-left: 15px;">
+                  <label>供应商名称：</label>
+                  <input type="text" id="suppliername" name="suppliername" (blur)="verifyEmpty('suppliername','供应商名称不能为空')" class="noticetext" placeholder="" [(ngModel)]="applierAdd.applyName">
+                  <span class="errorMessage"></span>
+                </div>
+
+                <div style="margin-top: 15px;margin-left: 16px;">
+                  <label>合 作 时 间：</label>
+                  <input type="date" class="producttext" name="supplierstarttime"  id="supplierstarttime" (blur)="verifyEmpty('supplierstarttime','不能为空')" style="width:115px !important;"   [(ngModel)]="applierAdd.copStarttime" >
+                  <span class="errorMessage"></span>
+                  至
+                  <input type="date" class="producttext" name="supplierendtime" id="supplierendtime" (blur)="verifyEmpty('supplierendtime','不能为空')" style="width:115px !important;margin-left: 5px"  [(ngModel)]="applierAdd.copEndtime" >
+                  <span class="errorMessage"></span>
+                </div>
+                <div style="margin-top: 15px;margin-left: 15px;">
+                  <label>供应商介绍：</label>
+                  <textarea id="supplierdetail" name="supplierdetail" (blur)="verifyEmpty('supplierdetail','供应商介绍不能为空')" class="noticetext" placeholder="" [(ngModel)]="applierAdd.applyDesc" rows="10"></textarea>
+                  <span class="errorMessage"></span>
+                </div>
+                <div  style="margin-top: 15px;margin-left: 16px;">
+                  <label>合 同 附 件：</label>
+                  <a href="javascript:;" style="color:#666; border-radius:4px; padding:5px 10px; background: #f6f6f6;" (click)="uploadbutton()">上 传</a>
+                  <input type="file" class="dropify" #prese id="prese" (change)="upload(prese.files)">
+                  <ul style="height:100px; min-width:160px; line-height: 20px; overflow-y: auto; background: #f6f6f6; color:#666; border-radius:4px;margin-left: 130px">
+                    <li style="max-width: 160px;" *ngFor="let abc of applierAdd.fileName; let k=index">{{abc}}<a style="margin-left:6px; color:#ff0000" href="javascript:;" (click)="delFile(k,applierAdd.fileId)">×</a></li>
+                  </ul>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="closeMaskAdd()">取 消</button>
+            <button type="submit" class="btn btn-info"(click)="addAppliar()" >保 存</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+
+    <div class="maskView">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">供应商信息查看</h4>
+          <button type="button" class="close"(click)="closeMaskView()">×</button>
+        </div>
+        <form class="form-material">
+          <div class="modal-body clearfix">
+            <div class="protop">
+              <div class="pdetail">
+                <div style="margin-left: 15px;">
+                  <label>供应商名称：</label>
+                  {{applierView.applyName}}
+                </div>
+
+                <div style="margin-top: 15px;margin-left: 16px;">
+                  <label>合 作 时 间：</label>
+                  {{applierView.copStarttime}}
+                  至
+                  {{applierView.copEndtime}}
+                  <span class="errorMessage"></span>
+                </div>
+
+                <div  style="margin-top: 15px;margin-left: 16px;">
+                  <label>合 同 附 件：</label>
+                  <ul style="height:100px; min-width:160px; line-height: 20px; overflow-y: auto; background: #f6f6f6;  color:#666; border-radius:4px;margin-left: 130px">
+                    <li style="max-width: 160px;" *ngFor="let f of file; let k=index">
+                      {{f.fileName}}
+                      <a style="margin-left:6px;cursor: pointer;" (click)="download(f.fileAddress)" >
+                        <i class="icon-cloud-download"></i>下载
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="closeMaskView()">关 闭</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+
+    <div class="maskUpdate">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">修改供应商</h4>
+          <button type="button" class="close"(click)="closemaskUpdate()">×</button>
+        </div>
+        <form class="form-material">
+          <div class="modal-body clearfix">
+            <div class="protop">
+              <div class="pdetail">
+                <div style="margin-left: 15px;">
+                  <label>供应商名称：</label>
+                  <input type="text" id="vnewnane" name="vnewnane" (blur)="verifyEmpty('vnewnane','供应商名称不能为空')" class="noticetext" placeholder="" [(ngModel)]="applierEdit.applyName">
+                  <span class="errorMessage"></span>
+                </div>
+
+                <div style="margin-top: 15px;margin-left: 16px;">
+                  <label>合 作 时 间：</label>
+                  <input type="date" class="producttext" name="upnewstartTime"  id="upnewstartTime" (blur)="verifyEmpty('upnewstartTime','不能为空')" style="width:160px !important;"   [(ngModel)]="applierEdit.copStarttime" >
+                  <span class="errorMessage"></span>
+                  至
+                  <input type="date" class="producttext" name="upnewendTime" id="upnewendTime" (blur)="verifyEmpty('upnewendTime','不能为空')" style="width:160px !important;margin-left: 5px"  [(ngModel)]="applierEdit.copEndtime" >
+                  <span class="errorMessage"></span>
+                </div>
+
+                <div style="margin-top: 15px;margin-left: 15px;">
+                  <label>供应商介绍：</label>
+                  <textarea id="supplierdetailup" name="supplierdetailup" (blur)="verifyEmpty('supplierdetailup','供应商介绍不能为空')" class="noticetext" placeholder="" [(ngModel)]="applierEdit.applyDesc" rows="10"></textarea>
+                  <span class="errorMessage"></span>
+                </div>
+                <div  style="margin-top: 15px;margin-left: 16px;">
+                  <label>合 同 附 件：</label>
+                  <a href="javascript:;" style="color:#666; border-radius:4px; padding:5px 10px; background: #f6f6f6;" (click)="uploadbutton1()">上 传</a>
+                  <input type="file" class="dropify" #prese1 id="prese1" (change)="upload1(prese1.files)">
+                  <ul style="height:100px; min-width:160px; line-height: 20px; overflow-y: auto; background: #f6f6f6; color:#666; border-radius:4px;margin-left: 130px">
+                    <li style="max-width: 160px;" *ngFor="let abc of applierEdit.fileName1; let k=index">{{abc}}<a style="margin-left:6px; color:#ff0000" href="javascript:;" (click)="delFile1(k,applierEdit.fileId)">×</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="closemaskUpdate()">取 消</button>
+            <button type="submit" class="btn btn-info"(click)="updateAppliar()" >保 存</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="confirm">
+      <div class="confirm-modal">
+        <div class="confirm-icon confirm-question">?</div>
+        <div class="confirm-content" >你确定要删除该商品吗?</div>
+        <hr style="margin-top: 20px; margin-bottom: 20px; height: 10px;color: transparent;border: 0;">
+        <button class="confirm-btn styled" (click)="okFunc()">确定</button>
+        <button class="confirm-btn cancel" (click)="noFunc()">取消</button>
+      </div>
+    </div>
+  </router-outlet>
+</div>
+
+
+
+
+

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Room} from "../../../../mode/room/room.service";
 import {InfoBuildingService} from "../../../../service/info-building/info-building.service";
+import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 
 @Component({
   selector: 'app-wash-account',
@@ -16,12 +17,14 @@ export class WashAccountComponent implements OnInit {
   public queryType    : number;
   public total        : number = 0;
   constructor(
-    private infoBuildingService:InfoBuildingService
+    private infoBuildingService:InfoBuildingService,
+    private globalCatalogService: GlobalCatalogService
   ) {
 
   }
 
   ngOnInit() {
+    this.globalCatalogService.setTitle("员工服务/我的工作台/洗衣账户");
     this.initConsume();
   }
 

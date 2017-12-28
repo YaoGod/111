@@ -1,0 +1,74 @@
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+<script>
+  $('.right').css('width',$(window).width()-222);
+  $(window).resize(function () {
+    $('.right').css('width',$(window).width()-222);
+  })
+
+  if($('.wrap-b').height()<1000){
+    $('.wrap-b').css('height',1000);
+  }
+</script>
+<div class="main">
+  <router-outlet>
+    <div class="right">
+      <div class="wrap-content">
+        <div class="wrap-space">
+          <div class="wrap-b">
+            <div class="b-head">
+              <span>订单信息</span>
+            </div>
+            <div class="b-con tuanmenu">
+              <div class="list-table" *ngFor="let order of orders;let idx=index">
+                <dt>
+                <table class="table-head0">
+                  <tr>
+                    <td class="zero">订单编号：{{order.id}}</td>
+                    <td class="zero">下单时间：{{order.payTime}}</td>
+                    <td class="zero">订单价格：￥{{order.payment}}</td>
+                    <td class="zero" *ngIf="order.status=='0'">订单状态：已付款</td>
+                    <td class="zero" *ngIf="order.status=='4'">订单状态：已配货</td>
+                    <td class="zero" *ngIf="order.status=='1'">订单状态：已到货</td>
+                    <td class="zero" *ngIf="order.status=='2'">订单状态：退单</td>
+                  </tr>
+                </table>
+                </dt>
+                <dl>
+                  <dt>
+                  <table class="table-head">
+                    <tr>
+                      <td class="fir">商品信息</td>
+                      <td class="sec">单价（元）</td>
+                      <td class="three">数量</td>
+                      <td class="four">合计（元）</td>
+                      <td class="zero"  *ngIf="order.status=='4'" >
+                        <button type="button" class="btn btn-info" style="padding: 2px 2px" (click)="updateOrders(order.id,'1')">确认收货</button>
+                      </td>
+                    </tr>
+                  </table>
+                  </dt>
+                  <dd  *ngFor="let item of order.orderItems;let idx=index">
+                    <table style="width:100%;">
+                      <td class="eight">
+                        <img *ngIf="item.imagePath!==''" [src]="'/proxy/' + item.imagePath"/>
+                      </td>
+                      <td class="sec" style="text-align: left"> <p class="headtxt">{{item.productName}}</p></td>
+                      <td class="sec">￥{{item.unitPrice}}</td>
+                      <td class="three">{{item.quantity}}</td>
+                      <td class="four">￥{{item.totalPrice}}</td>
+                    </table>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </router-outlet>
+
+</div>
+
+
+
+
