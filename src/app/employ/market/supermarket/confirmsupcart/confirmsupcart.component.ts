@@ -4,6 +4,7 @@ import {SupermarketManagerService} from "../../../../service/supermarket-manager
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {SupermarketCart} from "../../../../mode/supermarketCart/supermarket-cart.service";
 import {SupermarketOrder} from "../../../../mode/supermarketOrder/supermarket-order.service";
+import {ActivatedRoute, Router} from "@angular/router";
 @Component({
   selector: 'app-confirmsupcart',
   templateUrl: './confirmsupcart.component.html',
@@ -25,7 +26,9 @@ export class ConfirmsupcartComponent implements OnInit {
   }
   public order:SupermarketOrder;
   constructor(private supermarketManagerService: SupermarketManagerService,
-              private errorVoid: ErrorResponseService) { }
+              private errorVoid: ErrorResponseService,
+  private router:Router,
+  private route:ActivatedRoute) { }
   ngOnInit() {
     this.getCartList();
     this.order = new SupermarketOrder();
@@ -61,10 +64,11 @@ export class ConfirmsupcartComponent implements OnInit {
         alert(data.msg);
       }else{
         alert(data.msg);
-        this.getCartList();
+       /* this.getCartList();*/
         $(".address").hide();
         $(".b-address").hide();
         $(".fuwu").hide();
+        this.router.navigate(['../supbuy'],{relativeTo: this.route});
       }
     });
   }

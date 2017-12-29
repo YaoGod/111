@@ -170,9 +170,9 @@ select{outline:medium;}
   padding: 30px;
 }
 .wrap-b{
+  width: 100%;
   background: #fff;
   padding: 20px;
-  /*height: 1000px;*/
   display: inline-block;
 }
 .b-head{
@@ -180,7 +180,7 @@ select{outline:medium;}
 }
 .b-head span{
   font-size: 16px;
-  height: 19px;
+  height: 36px;
   line-height: 0;
   padding: 0 20px;
   display: inline-block;
@@ -592,7 +592,15 @@ select{outline:medium;}
   color: #fff;
   border: 1px solid #ff4401;
 }
-
+.b-head-right{float: right;right: 40px;}
+.b-head-right .content-box{float: left; padding-left: 10px;padding-right: 10px;border:1px solid #eee;margin-right:10px;line-height: 36px;border-radius: 3px;font-size: 15px;color: #ff3c00;
+  outline:none;}
+.b-head-right .content-box:last-child{
+  margin-right:0;
+}
+.b-head-right .content-box i{font-size:14px;}
+.b-head-right .content-box img{margin-right: 4px;vertical-align: -3px}
+.b-head-right .content-box:hover{cursor: pointer;border-color: #ff3c00;}
 
 /*物业服务预订列表*/
 

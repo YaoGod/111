@@ -1,80 +1,64 @@
-<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
-<script>
-  $('.list-table dl').click(function () {
-    $(this).addClass('blueself').siblings().removeClass('blueself').find('.ope-list').addClass('hid');
-    $(this).find('.ope-list').removeClass('hid');
-  })
-  $('.right').css('width',$(window).width()-222);
-  $(window).resize(function () {
-    $('.right').css('width',$(window).width()-222);
-  })
-  if($('.wrap-b').height()<1000){
-    $('.wrap-b').css('height',1000);
-  }
 
-</script>
-<div class="main">
-  <router-outlet>
-    <!--购物车-->
-    <div class="right">
-      <div class="wrap-content">
-        <div class="wrap-space">
-          <div class="wrap-b">
-            <div class="b-head">
-              <span>购物车管理</span>
-            </div>
-            <div class="b-con tuanmenu">
+<!--购物车-->
+<div class="right">
+  <div class="wrap-content">
+    <div class="wrap-space">
+      <div class="wrap-b">
+        <div class="b-head">
+          <span>我的购物车</span>
+          <div class="b-head-right">
+            <div class="content-box" onclick="history.go(-1)"><i class="icon-reload"></i>返回</div>
+          </div>
+        </div>
+        <div class="b-con tuanmenu">
 
-              <div class="list-table">
-                <table class="table-head">
-                  <td class="fir">商品信息</td>
-                  <td class="sec">单价(元)</td>
-                  <td class="three">数量</td>
-                  <td class="four">合计（元）</td>
-                </table>
-                <dl  *ngFor="let cart of carts;let idx=index">
-                  <dt>
-                    <span>商品名称：{{cart.product.sname}}</span>
-                  <div class="ope-list">
-                    <a class="tre" href="javascript:void(0)" (click)="del(cart.id)"></a>
-                  </div>
-                  <div class="clearfix"></div>
-                  </dt>
-                  <dd>
-                    <table class="list-body">
-                      <td class="fir">
-                        <img *ngIf="cart.product.simage!==''" [src]="'/proxy/' + cart.product.simage"/>
-                      </td>
-                      <td class="sec">￥{{cart.product.price}}</td>
-                      <td class="three">
-                        <ul class="btn-numbox">
-                          <li><span class="number"></span></li>
-                          <li>
-                            <ul class="count">
-                              <li (click)="onclikjian(idx,cart.productId)"><span id="num-jian" class="num-jian">-</span></li>
-                              <li><input type="text" class="input-num" readonly id="input-num-{{idx}}" [ngModelOptions]="{standalone: true}"  [(ngModel)]="cart.quantity" /></li>
-                              <li  (click)="onclikadd(idx,cart.productId)"><span id="num-jia" class="num-jia">+</span></li>
-                            </ul>
-                          </li>
+          <div class="list-table">
+            <table class="table-head">
+              <td class="fir">商品信息</td>
+              <td class="sec">单价(元)</td>
+              <td class="three">数量</td>
+              <td class="four">合计（元）</td>
+            </table>
+            <dl  *ngFor="let cart of carts;let idx=index">
+              <dt>
+                <span>商品名称：{{cart.product.sname}}</span>
+              <div class="ope-list">
+                <a class="tre" href="javascript:void(0)" (click)="del(cart.id)"></a>
+              </div>
+              <div class="clearfix"></div>
+              </dt>
+              <dd>
+                <table class="list-body">
+                  <td class="fir">
+                    <img *ngIf="cart.product.simage!==''" [src]="'/proxy/' + cart.product.simage"/>
+                  </td>
+                  <td class="sec">￥{{cart.product.price}}</td>
+                  <td class="three">
+                    <ul class="btn-numbox">
+                      <li><span class="number"></span></li>
+                      <li>
+                        <ul class="count">
+                          <li (click)="onclikjian(idx,cart.productId)"><span id="num-jian" class="num-jian">-</span></li>
+                          <li><input type="text" class="input-num" readonly id="input-num-{{idx}}" [ngModelOptions]="{standalone: true}"  [(ngModel)]="cart.quantity" /></li>
+                          <li  (click)="onclikadd(idx,cart.productId)"><span id="num-jia" class="num-jia">+</span></li>
                         </ul>
-                      </td>
-                      <td class="six">
-                        <label id="unionPrice">￥{{cart.totalPrice}}</label>
-                      </td>
-                    </table>
-                  </dd>
-                </dl>
-              </div>
-            </div>
-            <div class="b-foot">
-              <div class="total"><label>总计：</label> <span>￥{{mutipalPrice}}</span>
-                <button type="button" class="btn btn-info" [routerLink]="['../confirmcart']" >结 算</button>
-              </div>
-            </div>
+                      </li>
+                    </ul>
+                  </td>
+                  <td class="six">
+                    <label id="unionPrice">￥{{cart.totalPrice}}</label>
+                  </td>
+                </table>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="b-foot">
+          <div class="total"><label>总计：</label> <span>￥{{mutipalPrice}}</span>
+            <button type="button" class="btn btn-info" [routerLink]="['../confirmcart']" >结 算</button>
           </div>
         </div>
       </div>
     </div>
-  </router-outlet>
-
+  </div>
 </div>

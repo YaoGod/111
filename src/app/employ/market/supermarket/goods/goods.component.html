@@ -1,345 +1,327 @@
-<script>
-  $('.list-table dl').click(function () {
-    $(this).addClass('blueself').siblings().removeClass('blueself').find('.ope-list').addClass('hid');
-    $(this).find('.ope-list').removeClass('hid');
-  })
-  $('.right').css('width',$(window).width()-222);
-  $(window).resize(function () {
-    $('.right').css('width',$(window).width()-222);
-  })
-  if($('.wrap-b').height()<1000){
-    $('.wrap-b').css('height',1000);
-  }
-</script>
-<div class="main">
-    <div class="right">
-      <div class="wrap-content">
-        <div class="wrap-space">
-          <div class="wrap-b">
-            <div class="b-head clearfix">
-              <div class="b-head-left">
-                <span class="active">超市商品管理</span>
-                <span [routerLink]="['../supermarketApplier']">供应商管理</span>
-                <span [routerLink]="['../order']">订单管理</span>
-              </div>
-              <div class="b-head-right">
-                <div class="content-box" [routerLink]="['../supbuy']"><i class="icon-action-undo"></i> 继续订购</div>
-              </div>
+
+<div class="right">
+  <div class="wrap-content">
+    <div class="wrap-space">
+      <div class="wrap-b">
+        <div class="b-head">
+          <span>超市商品管理</span>
+          <div class="b-head-right">
+            <div class="content-box" onclick="history.go(-1)"><i class="icon-reload"></i>返回</div>
+          </div>
+        </div>
+        <div class="b-con tuanmenu">
+          <div class="wrap">
+            <div class="iptgroup">
+              <input placeholder="请输入商品名称"  [(ngModel)]="search.sname"/>
+              <a href="javascript: void(0);" class="ipt-search"></a>
             </div>
-            <div class="b-con tuanmenu">
-              <div class="wrap">
-                <div class="iptgroup">
-                  <input placeholder="请输入商品名称"  [(ngModel)]="search.sname"/>
-                  <a href="javascript: void(0);" class="ipt-search"></a>
-                </div>
-                <a class="search" href="javascript: void(0);"  (click)="getSupermarketList()"  >查询</a>
-                <a class="btn btn-danger"  (click)="add()" href="javascript:;" style="padding: 6px 22px;float: right;"><i class="icon-plus"></i> 新增</a>
+            <a class="search" href="javascript: void(0);"  (click)="getSupermarketList()"  >查询</a>
+            <a class="btn btn-danger"  (click)="add()" href="javascript:;" style="padding: 6px 22px;float: right;"><i class="icon-plus"></i> 新增</a>
+          </div>
+          <div class="list-table">
+            <table class="table-head">
+              <td class="fir">商品信息</td>
+              <td class="sec">商品单价(元)</td>
+              <td class="three">商品状态</td>
+              <td class="three">商品分类</td>
+              <td class="four">库存状态</td>
+              <td class="five">商家名称</td>
+            </table>
+            <dl *ngFor="let product of products;let idx=index">
+              <dt><span>商品名称：{{product.sname}}</span>
+                <span style="padding-left: 10px">商品编码：{{product.code}}</span>
+              <div class="ope-list">
+                <a class="one"   title="查看" href="javascript:void(0);" (click)="view(product.id)"></a>
+                <a class="two"   title="修改" href="javascript:void(0);" (click)="update(product.id)"></a>
+                <a class="tre"   title="删除" href="javascript:void(0);" (click)="delete(product.id)"></a>
               </div>
-              <div class="list-table">
-                <table class="table-head">
-                  <td class="fir">商品信息</td>
-                  <td class="sec">商品单价(元)</td>
-                  <td class="three">商品状态</td>
-                  <td class="three">商品分类</td>
-                  <td class="four">库存状态</td>
-                  <td class="five">商家名称</td>
+              </dt>
+              <dd>
+                <table style="width: 100%;">
+                  <tr>
+                    <td class="fir">
+                      <img *ngIf="product.simage!==''"  [src]="'/proxy/' + product.simage" />
+                    </td>
+                    <td class="sec">￥{{product.price}}</td>
+                    <td class="three" *ngIf="product.pstatus=='1'">上架</td>
+                    <td class="three" *ngIf="product.pstatus=='2'">下架</td>
+                    <td class="four">{{product.category}}</td>
+                    <td class="four"  *ngIf="product.leftstatus=='1'">充足</td>
+                    <td class="four"  *ngIf="product.leftstatus=='2'">少量</td>
+                    <td class="four"  *ngIf="product.leftstatus=='3'">缺货</td>
+                    <td class="five">{{product.applier}}</td>
+                  </tr>
+                  <tr>
+                    <td  style="text-align: left" colspan="5" > <label>商品详情：</label> <p class="con">{{product.detail}}</p></td>
+                  </tr>
                 </table>
-                <dl *ngFor="let product of products;let idx=index">
-                  <dt><span>商品名称：{{product.sname}}</span>
-                    <span style="padding-left: 10px">商品编码：{{product.code}}</span>
-                  <div class="ope-list">
-                    <a class="one"   title="查看" href="javascript:void(0);" (click)="view(product.id)"></a>
-                    <a class="two"   title="修改" href="javascript:void(0);" (click)="update(product.id)"></a>
-                    <a class="tre"   title="删除" href="javascript:void(0);" (click)="delete(product.id)"></a>
-                  </div>
-                  </dt>
-                  <dd>
-                    <table style="width: 100%;">
-                      <tr>
-                        <td class="fir">
-                          <img *ngIf="product.simage!==''"  [src]="'/proxy/' + product.simage" />
-                        </td>
-                        <td class="sec">￥{{product.price}}</td>
-                        <td class="three" *ngIf="product.pstatus=='1'">上架</td>
-                        <td class="three" *ngIf="product.pstatus=='2'">下架</td>
-                        <td class="four">{{product.category}}</td>
-                        <td class="four"  *ngIf="product.leftstatus=='1'">充足</td>
-                        <td class="four"  *ngIf="product.leftstatus=='2'">少量</td>
-                        <td class="four"  *ngIf="product.leftstatus=='3'">缺货</td>
-                        <td class="five">{{product.applier}}</td>
-                      </tr>
-                      <tr>
-                        <td  style="text-align: left" colspan="5" > <label>商品详情：</label> <p class="con">{{product.detail}}</p></td>
-                      </tr>
-                    </table>
-                  </dd>
-                </dl>
-              </div>
-              <div class="turn" name="pages" *ngIf="pages.length > 1">
-                <ul>
-                  <li *ngFor="let i of pages"
-                      [hidden] = "pageLimit(i)"
-                      [ngClass]="{'active':i === pageNo}"
-                      (click)="goPage(i);">
-                    {{i}}
-                  </li>
-                </ul>
-              </div>
-            </div>
+              </dd>
+            </dl>
+          </div>
+          <div class="turn" name="pages" *ngIf="pages.length > 1">
+            <ul>
+              <li *ngFor="let i of pages"
+                  [hidden] = "pageLimit(i)"
+                  [ngClass]="{'active':i === pageNo}"
+                  (click)="goPage(i);">
+                {{i}}
+              </li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="maskAdd">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">新增商品</h4>
-          <button type="button" class="close"(click)="closeMaskAdd()">×</button>
-        </div>
-        <form class="form-material">
-          <div class="modal-body clearfix">
-            <div class="protop">
-              <div class="pimg">
-                <div class="dropify-wrapper">
-                  <div class="dropify-message">
-                    <img *ngIf="productAdd.simage!==''"  [src]="'/proxy/' + productAdd.simage" />
-                  </div>
-                  <p>点击此处上传图片</p>
-                  <input type="file" class="dropify" #prese1  id="prese1"  (change)="prese_upload(prese1.files)">
-                  <span class="errorMessage"></span>
-                </div>
+<div class="maskAdd">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">新增商品</h4>
+      <button type="button" class="close"(click)="closeMaskAdd()">×</button>
+    </div>
+    <form class="form-material">
+      <div class="modal-body clearfix">
+        <div class="protop">
+          <div class="pimg">
+            <div class="dropify-wrapper">
+              <div class="dropify-message">
+                <img *ngIf="productAdd.simage!==''"  [src]="'/proxy/' + productAdd.simage" />
               </div>
-              <div class="pdetail">
-                <div>
-                  <div>
-                    <label>供  应  商：</label>
-                    <select   id="supplierId_add" name="supplierId_add" [(ngModel)]="productAdd.supplierId" (blur)="verifyEmpty('supplierId_add','供应商不能为空')">
-                      <option value="">-请选择-</option>
-                    <option *ngFor="let applier of applierList;let idx=index" value="{{applier.applyId}}">{{applier.applyName}}</option>
-                    </select>
-                    <span class="errorMessage"></span>
-                  </div>
-                  <div>
-                    <label>商品类型：</label>
-                    <select id="stype_add" name="stype_add" [(ngModel)]="productAdd.stype" (blur)="verifyEmpty('stype_add','商品类型不能为空')">
-                      <option value="">-请选择-</option>
-                      <option *ngFor="let categor of categories;let idx=index"  value="{{categor.cid}}">{{categor.cname}}</option>
-                    </select>
-                    <span class="errorMessage"></span>
-                  </div>
-                </div>
-                <div>
-                  <label>商品编码：</label>
-                  <input type="text" id="code_add" name="code_add" (blur)="verifyEmpty('code_add','商品编码不能为空')"   [(ngModel)]="productAdd.code">
-                  <span class="errorMessage"></span>
-                </div>
-                <div>
-                  <label>商品名称：</label>
-                  <input type="text" id="sname_add" name="sname_add" (blur)="verifyEmpty('sname_add','商品名称不能为空')"   [(ngModel)]="productAdd.sname">
-                  <span class="errorMessage"></span>
-                </div>
-                <div>
-                <div>
-                  <label>商品价格：</label>
-                  <input type="text" id="price_add" name="price_add" (blur)="verifyEmpty('price_add','价格不能为空')"
-                         [(ngModel)]="productAdd.price">元
-                  <span class="errorMessage"></span>
-                </div>
-              </div>
-
-                <div>
-                  <div>
-                    <label>销售状态：</label>
-                    <input name="new_pstatus1" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productAdd.pstatus" value="1">上架
-                    <input name="new_pstatus2" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productAdd.pstatus" value="2">下架
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <label>库存情况：</label>
-                    <input name="new_leftstatus1" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productAdd.leftstatus" value="1">充足
-                    <input name="new_leftstatus2" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productAdd.leftstatus" value="2">少量
-                    <input name="new_leftstatus3" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productAdd.leftstatus" value="3">缺货
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="modal-right2">
-              <label>商品详情：</label>
-              <textarea name="upnewesetail" ui-tinymce
-                        class="form-control" rows="10"
-                        id="detail_add" name="detail_add" (blur)="verifyEmpty('detail_add','详情不能为空')"  [(ngModel)]="productAdd.detail"
-                        style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;">
-               </textarea>
+              <p>点击此处上传图片</p>
+              <input type="file" class="dropify" #prese1  id="prese1"  (change)="prese_upload(prese1.files)">
               <span class="errorMessage"></span>
             </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" (click)="closeMaskAdd()">取 消</button>
-            <button type="submit" class="btn btn-info"(click)="addProduct()" >保 存</button>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="maskUpdate">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">修改商品</h4>
-          <button type="button" class="close"(click)="closeMaskUp()">×</button>
-        </div>
-        <form class="form-building form-material">
-          <div class="modal-body clearfix">
-            <div class="protop">
-              <div class="pimg">
-                <div class="dropify-wrapper">
-                  <div class="dropify-message">
-                    <img *ngIf="productUp.simage!==''" [src]="'/proxy/' + productUp.simage" />
-                  </div>
-                  <p>点击此处上传图片</p>
-                  <input type="file" class="dropify"  #prese2  id="prese2" (change)="prese_upload2(prese2.files)">
-                </div>
+          <div class="pdetail">
+            <div>
+              <div>
+                <label>供  应  商：</label>
+                <select   id="supplierId_add" name="supplierId_add" [(ngModel)]="productAdd.supplierId" (blur)="verifyEmpty('supplierId_add','供应商不能为空')">
+                  <option value="">-请选择-</option>
+                  <option *ngFor="let applier of applierList;let idx=index" value="{{applier.applyId}}">{{applier.applyName}}</option>
+                </select>
+                <span class="errorMessage"></span>
               </div>
-              <div class="pdetail">
-                <div>
-                  <div>
-                    <label>供  应  商：</label>
-                    <select id="supplierId_edit" name="supplierId_edit" [(ngModel)]="productUp.supplierId" (blur)="verifyEmpty('supplierId_edit','供应商不能为空')">
-                      <option value="">-请选择-</option>
-                      <option *ngFor="let applier of applierList;let idx=index" value="{{applier.applyId}}">{{applier.applyName}}</option>
-                    </select>
-                    <span class="errorMessage"></span>
-                  </div>
-                  <div>
-                    <label>商品类型：</label>
-                    <select id="stype_edit" name="stype_edit" [(ngModel)]="productUp.stype" (blur)="verifyEmpty('stype_edit','商品类型不能为空')">
-                      <option value="">-请选择-</option>
-                      <option *ngFor="let categor of categories;let idx=index"  value="{{categor.cid}}">{{categor.cname}}</option>
-                    </select>
-                    <span class="errorMessage"></span>
-                  </div>
-                </div>
-                <div>
-                  <label>商品编码：</label>
-                  <input type="text" id="code_edit" name="code_edit" (blur)="verifyEmpty('code_edit','商品编码不能为空')"  [(ngModel)]="productUp.code">
-                  <span class="errorMessage"></span>
-                </div>
-                <div>
-                  <label>商品名称：</label>
-                  <input type="text" class="producttext" id="sname_edit" name="sname_edit"  (blur)="verifyEmpty('sname_edit','商品名称不能为空')"
-                         [(ngModel)]="productUp.sname">
-                  <span class="errorMessage"></span>
-                </div>
-                <div>
-                  <div>
-                    <label>商品价格：</label>
-                    <input type="text" id="price_edit" name="price_edit" (blur)="verifyEmpty('price_edit','商品价格不能为空')"
-                           [(ngModel)]="productUp.price">
-                    <span class="errorMessage"></span>
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <label>销售状态：</label>
-                    <input name="up_pstatus1" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productUp.pstatus" value="1">上架
-                    <input name="up_pstatus2" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productUp.pstatus" value="2">下架
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <label>库存情况：</label>
-                    <input  name="up_leftstatus1" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productUp.leftstatus" value="1">充足
-                    <input  name="up_leftstatus2" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productUp.leftstatus" value="2">少量
-                    <input  name="up_leftstatus3" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productUp.leftstatus" value="3">缺货
-                  </div>
-                </div>
+              <div>
+                <label>商品类型：</label>
+                <select id="stype_add" name="stype_add" [(ngModel)]="productAdd.stype" (blur)="verifyEmpty('stype_add','商品类型不能为空')">
+                  <option value="">-请选择-</option>
+                  <option *ngFor="let categor of categories;let idx=index"  value="{{categor.cid}}">{{categor.cname}}</option>
+                </select>
+                <span class="errorMessage"></span>
               </div>
             </div>
-            <div class="modal-right2">
-              <label>商品详情：</label>
-              <textarea name="upnewesetail" ui-tinymce
-                        class="form-control" rows="10"
-                        id="detail_edit" name="detail_edit" (blur)="verifyEmpty('detail_edit','详情不能为空')"  [(ngModel)]="productUp.detail"
-                        style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;"  value="{{productUp.detail}}" >
-               </textarea>
+            <div>
+              <label>商品编码：</label>
+              <input type="text" id="code_add" name="code_add" (blur)="verifyEmpty('code_add','商品编码不能为空')"   [(ngModel)]="productAdd.code">
               <span class="errorMessage"></span>
             </div>
+            <div>
+              <label>商品名称：</label>
+              <input type="text" id="sname_add" name="sname_add" (blur)="verifyEmpty('sname_add','商品名称不能为空')"   [(ngModel)]="productAdd.sname">
+              <span class="errorMessage"></span>
+            </div>
+            <div>
+              <div>
+                <label>商品价格：</label>
+                <input type="text" id="price_add" name="price_add" (blur)="verifyEmpty('price_add','价格不能为空')"
+                       [(ngModel)]="productAdd.price">元
+                <span class="errorMessage"></span>
+              </div>
+            </div>
+
+            <div>
+              <div>
+                <label>销售状态：</label>
+                <input name="new_pstatus1" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productAdd.pstatus" value="1">上架
+                <input name="new_pstatus2" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productAdd.pstatus" value="2">下架
+              </div>
+            </div>
+            <div>
+              <div>
+                <label>库存情况：</label>
+                <input name="new_leftstatus1" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productAdd.leftstatus" value="1">充足
+                <input name="new_leftstatus2" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productAdd.leftstatus" value="2">少量
+                <input name="new_leftstatus3" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productAdd.leftstatus" value="3">缺货
+              </div>
+            </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" (click)="closeMaskUp()">取 消</button>
-            <button type="submit" class="btn btn-info"   (click)="updateProduct()" >保 存</button>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="maskView">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">查看商品</h4>
-          <button type="button" class="close"(click)="closeMaskView()">×</button>
         </div>
-        <form class="form-building form-material">
-          <div class="modal-body clearfix">
-            <div class="protop">
-              <div class="pimg">
-                <div class="dropify-wrapper">
-                  <div class="dropify-message">
-                    <img *ngIf="productView.simage!==''" [src]="'/proxy/' + productView.simage" />
-                  </div>
-                </div>
+        <div class="modal-right2">
+          <label>商品详情：</label>
+          <textarea name="upnewesetail" ui-tinymce
+                    class="form-control" rows="10"
+                    id="detail_add" name="detail_add" (blur)="verifyEmpty('detail_add','详情不能为空')"  [(ngModel)]="productAdd.detail"
+                    style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;">
+           </textarea>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeMaskAdd()">取 消</button>
+        <button type="submit" class="btn btn-info"(click)="addProduct()" >保 存</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="maskUpdate">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">修改商品</h4>
+      <button type="button" class="close"(click)="closeMaskUp()">×</button>
+    </div>
+    <form class="form-building form-material">
+      <div class="modal-body clearfix">
+        <div class="protop">
+          <div class="pimg">
+            <div class="dropify-wrapper">
+              <div class="dropify-message">
+                <img *ngIf="productUp.simage!==''" [src]="'/proxy/' + productUp.simage" />
               </div>
-              <div class="pdetail">
-                <div>
-                  <label>供  应  商：</label>
-                  {{productView.applier}}
-                </div>
-                <div>
-                  <label>商品类型：</label>
-                  {{productView.category}}
-                </div>
-                <div>
-                  <label>商品编码：</label>
-                  {{productView.code}}
-                </div>
-                <div>
-                  <label>商品名称：</label>
-                  {{productView.sname}}
-                </div>
-                <div>
-                    <label>商品价格：</label>
-                    ￥{{productView.price}}
-                </div>
-                <div>
-                  <label>销售状态：</label>
-                  <span class="three" *ngIf="productView.pstatus=='1'">上架</span>
-                  <span class="three" *ngIf="productView.pstatus=='2'">下架</span>
-                </div>
-                <div>
-                  <label>库存情况：</label>
-                  <span class="three" *ngIf="productView.leftstatus=='1'">充足</span>
-                  <span class="three" *ngIf="productView.leftstatus=='2'">少量</span>
-                  <span class="three" *ngIf="productView.leftstatus=='3'">缺货</span>
-                </div>
-              </div>
-            </div>
-            <div class="modal-right2">
-              <label>商品详情：</label>
-              <textarea name="notice" ui-tinymce
-                        class="form-control" rows="10"
-                        style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;" readonly="true" value="{{productView.detail}}" >
-               </textarea>
+              <p>点击此处上传图片</p>
+              <input type="file" class="dropify"  #prese2  id="prese2" (change)="prese_upload2(prese2.files)">
             </div>
           </div>
-        </form>
+          <div class="pdetail">
+            <div>
+              <div>
+                <label>供  应  商：</label>
+                <select id="supplierId_edit" name="supplierId_edit" [(ngModel)]="productUp.supplierId" (blur)="verifyEmpty('supplierId_edit','供应商不能为空')">
+                  <option value="">-请选择-</option>
+                  <option *ngFor="let applier of applierList;let idx=index" value="{{applier.applyId}}">{{applier.applyName}}</option>
+                </select>
+                <span class="errorMessage"></span>
+              </div>
+              <div>
+                <label>商品类型：</label>
+                <select id="stype_edit" name="stype_edit" [(ngModel)]="productUp.stype" (blur)="verifyEmpty('stype_edit','商品类型不能为空')">
+                  <option value="">-请选择-</option>
+                  <option *ngFor="let categor of categories;let idx=index"  value="{{categor.cid}}">{{categor.cname}}</option>
+                </select>
+                <span class="errorMessage"></span>
+              </div>
+            </div>
+            <div>
+              <label>商品编码：</label>
+              <input type="text" id="code_edit" name="code_edit" (blur)="verifyEmpty('code_edit','商品编码不能为空')"  [(ngModel)]="productUp.code">
+              <span class="errorMessage"></span>
+            </div>
+            <div>
+              <label>商品名称：</label>
+              <input type="text" class="producttext" id="sname_edit" name="sname_edit"  (blur)="verifyEmpty('sname_edit','商品名称不能为空')"
+                     [(ngModel)]="productUp.sname">
+              <span class="errorMessage"></span>
+            </div>
+            <div>
+              <div>
+                <label>商品价格：</label>
+                <input type="text" id="price_edit" name="price_edit" (blur)="verifyEmpty('price_edit','商品价格不能为空')"
+                       [(ngModel)]="productUp.price">
+                <span class="errorMessage"></span>
+              </div>
+            </div>
+            <div>
+              <div>
+                <label>销售状态：</label>
+                <input name="up_pstatus1" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productUp.pstatus" value="1">上架
+                <input name="up_pstatus2" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productUp.pstatus" value="2">下架
+              </div>
+            </div>
+            <div>
+              <div>
+                <label>库存情况：</label>
+                <input  name="up_leftstatus1" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productUp.leftstatus" value="1">充足
+                <input  name="up_leftstatus2" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productUp.leftstatus" value="2">少量
+                <input  name="up_leftstatus3" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productUp.leftstatus" value="3">缺货
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-right2">
+          <label>商品详情：</label>
+          <textarea name="upnewesetail" ui-tinymce
+                    class="form-control" rows="10"
+                    id="detail_edit" name="detail_edit" (blur)="verifyEmpty('detail_edit','详情不能为空')"  [(ngModel)]="productUp.detail"
+                    style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;"  value="{{productUp.detail}}" >
+           </textarea>
+          <span class="errorMessage"></span>
+        </div>
       </div>
-    </div>
-    <div class="confirm">
-      <div class="confirm-modal">
-        <div class="confirm-icon confirm-question">?</div>
-        <div class="confirm-content" >你确定要删除该商品吗?</div>
-        <hr style="margin-top: 20px; margin-bottom: 20px; height: 10px;color: transparent;border: 0;">
-        <button class="confirm-btn styled" (click)="okFunc()">确定</button>
-        <button class="confirm-btn cancel" (click)="noFunc()">取消</button>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeMaskUp()">取 消</button>
+        <button type="submit" class="btn btn-info"   (click)="updateProduct()" >保 存</button>
       </div>
+    </form>
+  </div>
+</div>
+<div class="maskView">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">查看商品</h4>
+      <button type="button" class="close"(click)="closeMaskView()">×</button>
     </div>
+    <form class="form-building form-material">
+      <div class="modal-body clearfix">
+        <div class="protop">
+          <div class="pimg">
+            <div class="dropify-wrapper">
+              <div class="dropify-message">
+                <img *ngIf="productView.simage!==''" [src]="'/proxy/' + productView.simage" />
+              </div>
+            </div>
+          </div>
+          <div class="pdetail">
+            <div>
+              <label>供  应  商：</label>
+              {{productView.applier}}
+            </div>
+            <div>
+              <label>商品类型：</label>
+              {{productView.category}}
+            </div>
+            <div>
+              <label>商品编码：</label>
+              {{productView.code}}
+            </div>
+            <div>
+              <label>商品名称：</label>
+              {{productView.sname}}
+            </div>
+            <div>
+              <label>商品价格：</label>
+              ￥{{productView.price}}
+            </div>
+            <div>
+              <label>销售状态：</label>
+              <span class="three" *ngIf="productView.pstatus=='1'">上架</span>
+              <span class="three" *ngIf="productView.pstatus=='2'">下架</span>
+            </div>
+            <div>
+              <label>库存情况：</label>
+              <span class="three" *ngIf="productView.leftstatus=='1'">充足</span>
+              <span class="three" *ngIf="productView.leftstatus=='2'">少量</span>
+              <span class="three" *ngIf="productView.leftstatus=='3'">缺货</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-right2">
+          <label>商品详情：</label>
+          <textarea name="notice" ui-tinymce
+                    class="form-control" rows="10"
+                    style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;" readonly="true" value="{{productView.detail}}" >
+           </textarea>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="confirm">
+  <div class="confirm-modal">
+    <div class="confirm-icon confirm-question">?</div>
+    <div class="confirm-content" >你确定要删除该商品吗?</div>
+    <hr style="margin-top: 20px; margin-bottom: 20px; height: 10px;color: transparent;border: 0;">
+    <button class="confirm-btn styled" (click)="okFunc()">确定</button>
+    <button class="confirm-btn cancel" (click)="noFunc()">取消</button>
+  </div>
 </div>

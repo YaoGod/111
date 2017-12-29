@@ -1,86 +1,71 @@
-<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
-<script>
-  $('.right').css('width',$(window).width()-222);
-  $(window).resize(function () {
-    $('.right').css('width',$(window).width()-222);
-  })
-  if($('.wrap-b').height()<1000){
-    $('.wrap-b').css('height',1000);
-  }
-</script>
-<div class="main">
-
-  <!--搜索-->
-  <router-outlet>
-    <div class="right">
-      <div class="wrap-content">
-        <div class="wrap-space">
-          <div class="wrap-b">
-            <div class="wrap">
-              <div class="iptgroup">
-                <input placeholder="请输入商品名称"  />
-              </div>
-              <a class="search" href="javascript: void(0);">查询</a>
+<!--搜索-->
+<div class="right">
+  <div class="wrap-content">
+    <div class="wrap-space">
+      <div class="wrap-b">
+        <div class="wrap">
+          <div class="iptgroup">
+            <input placeholder="请输入商品名称"  />
+          </div>
+          <a class="search" href="javascript: void(0);">查询</a>
+        </div>
+        <div class="b-head">
+          <span>商品预定</span>
+          <div class="b-head-right">
+            <div class="content-box" [routerLink]="['../myorder']"><img src="../../../assets/image/icon-order.png" alt="">我的订单</div>
+            <div class="content-box" [routerLink]="['../../cleanDishes/vegcart']"><img src="../../../assets/image/icon-shop.png" alt="">
+              购物车
+              <sup>11</sup>
             </div>
-            <div class="b-head">
-              <span>商品预定</span>
-              <div class="b-head-right">
-                <div class="content-box" [routerLink]="['../myorder']"><img src="../../../assets/image/icon-order.png" alt="">我的订单</div>
-                <div class="content-box" [routerLink]="['../../cleanDishes/vegcart']"><img src="../../../assets/image/icon-shop.png" alt="">
-                  购物车
-                  <sup>11</sup>
+          </div>
+        </div>
+        <div class="b-con tuan">
+          <div class="row mt20 mb30">
+            <dl>
+              <dt class="showpic">
+                <!--<img *ngIf="vegetable.vimage!==''" [src]="'/proxy/' + vegetable.vimage"/>-->
+                <img src="../../../assets/image/desk.jpg">
+              </dt>
+              <dd>
+                <span class="name-great">啊啊啊</span>
+                <div class="bg-value">
+                  <span class="number kucun2">库存：</span>
+                  <span style="margin-left: 33px;height: 49px;line-height: 49px;">aa</span>
+                  <span class="value">¥11</span>
                 </div>
-              </div>
-            </div>
-            <div class="b-con tuan">
-              <div class="row mt20 mb30">
-                <dl>
-                  <dt class="showpic">
-                    <!--<img *ngIf="vegetable.vimage!==''" [src]="'/proxy/' + vegetable.vimage"/>-->
-                    <img src="../../../assets/image/desk.jpg">
-                  </dt>
-                  <dd>
-                    <span class="name-great">啊啊啊</span>
-                    <div class="bg-value">
-                      <span class="number kucun2">库存：</span>
-                      <span style="margin-left: 33px;height: 49px;line-height: 49px;">aa</span>
-                      <span class="value">¥11</span>
-                    </div>
-                    <div class="time">
-                      <span class="number">供应商：</span>
-                      <span style="margin-left: 20px;">啊啊啊</span>
-                    </div>
-                    <ul class="btn-numbox">
-                      <li><span class="number">数量：</span></li>
-                      <li>
-                        <ul class="count">
-                          <li (click)="onclikjian(cart.productId)"><span id="num-jian" class="num-jian">-</span></li>
-                          <li><input type="text" class="input-num" readonly id="input-num-{{idx}}" [ngModelOptions]="{standalone: true}"  [(ngModel)]="cart.quantity" /></li>
-                          <li  (click)="onclikadd(cart.productId)"><span id="num-jia" class="num-jia">+</span></li>
-                        </ul>
-                      </li>
+                <div class="time">
+                  <span class="number">供应商：</span>
+                  <span style="margin-left: 20px;">啊啊啊</span>
+                </div>
+                <ul class="btn-numbox">
+                  <li><span class="number">数量：</span></li>
+                  <li>
+                    <ul class="count">
+                      <li (click)="onclikjian(cart.productId)"><span id="num-jian" class="num-jian">-</span></li>
+                      <li><input type="text" class="input-num" readonly id="input-num-{{idx}}" [ngModelOptions]="{standalone: true}"  [(ngModel)]="cart.quantity" /></li>
+                      <li  (click)="onclikadd(cart.productId)"><span id="num-jia" class="num-jia">+</span></li>
                     </ul>
-                    <div class="addcart">
-                      <a class="yudingbtn" href="javascript: void(0);">加入购物车</a>
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div class="clearb"></div>
-              <div class="line-txt">
-                <span>净菜描述</span>
-              </div>
-              <div class="txt">
-                <p>aaaaaaaaa</p>
-              </div>
-            </div>
+                  </li>
+                </ul>
+                <div class="addcart">
+                  <a class="yudingbtn" href="javascript: void(0);">加入购物车</a>
+                </div>
+              </dd>
+            </dl>
+          </div>
+          <div class="clearb"></div>
+          <div class="line-txt">
+            <span>净菜描述</span>
+          </div>
+          <div class="txt">
+            <p>aaaaaaaaa</p>
           </div>
         </div>
       </div>
     </div>
-  </router-outlet>
-
+  </div>
 </div>
+
 <script>
   $(function() {
     var offset = $("#end").offset();
