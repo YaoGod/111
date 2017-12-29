@@ -10,65 +10,60 @@
   }
 </script>
 <div class="main">
-
-  <!--物品搜索-->
-  <router-outlet>
-    <div class="right">
-      <div class="wrap-content">
-        <div class="wrap-space">
-          <div class="wrap-b">
-            <div class="wrap">
-              <div class="iptgroup">
-                <input placeholder="请输入商品名称"  [(ngModel)]="search.sname"/>
-                <a href="javascript: void(0);" class="ipt-search"></a>
+  <div class="right">
+    <div class="wrap-content">
+      <div class="wrap-space">
+        <div class="wrap-b">
+          <div class="b-head">
+            <span>超市商品</span>
+            <div class="b-head-right">
+              <div class="content-box" [routerLink]="['../goods']"><i class="icon-grid"></i> 进入管理</div>
+              <div class="content-box" [routerLink]="['../myorder']"><i class="icon-film"></i>我的订单</div>
+              <div class="content-box" [routerLink]="['../mycart']"><i class="icon-basket-loaded"></i> 购物车 <strong>({{cartsize}})</strong>
               </div>
-              <a class="search" href="javascript: void(0);"  (click)="getMarketShowList()"  >查询</a>
-            </div>
-            <div class="b-head">
-              <span>超市商品</span>
-              <div class="b-head-right">
-                <div class="content-box" [routerLink]="['../myorder']"><img src="../../../../../assets/image/icon-order.png" alt="">我的订单</div>
-                <div class="content-box" [routerLink]="['../mycart']"><img src="../../../../../assets/image/icon-shop.png" alt="">
-                  购物车
-                  <sup>{{cartsize}}</sup>
-                </div>
-              </div>
-            </div>
-            <div id="J-listContainer" class="mainItemsList">
-              <h2 class="offScreen">商品列表</h2>
-              <ul id="J_ProductList" class="product-list">
-                <li  *ngFor="let product of products;let idx=index"   class="product" >
-                  <div class="productInfo">
-                    <div class="product-img">
-                      <a href="javascript: void(0);" target="_blank">
-                        <img *ngIf="product.simage!==''"  [src]="'/proxy/' + product.simage" />
-                      </a>
-                    </div>
-                    <h3 class="product-title">
-                      <a href="javascript:void(0)" [routerLink]="['../supbuysimple']" target="_blank">
-                        {{product.sname}}
-                      </a>
-                    </h3>
-                    <div class="item-summary">
-                      <div class="item-price">
-                        <span class="ui-price">
-                            <span class="price-icon">¥</span>
-                            <strong>{{product.price}}</strong>
-                        </span>
-                      </div>
-                      <a  href="javascript: void(0);"  class="addCart j_AddCart" (click)="addToCart(product.id)">
-                        <img src="../../../../../assets/image/cart.png">
-                      </a>
-                    </div>
-                  </div>
-                </li>
-              </ul>
             </div>
           </div>
-      </div>
+          <div class="wrap">
+            <div class="iptgroup">
+              <input placeholder="请输入商品名称"  [(ngModel)]="search.sname"/>
+              <a href="javascript: void(0);" class="ipt-search"></a>
+            </div>
+            <a class="search" href="javascript: void(0);"  (click)="getMarketShowList()"  >查询</a>
+          </div>
+          <div id="J-listContainer" class="mainItemsList">
+            <h2 class="offScreen">商品列表</h2>
+            <ul id="J_ProductList" class="product-list">
+              <li  *ngFor="let product of products;let idx=index"   class="product" >
+                <div class="productInfo">
+                  <div class="product-img">
+                    <a href="javascript: void(0);" target="_blank">
+                      <img *ngIf="product.simage!==''"  [src]="'/proxy/' + product.simage" />
+                    </a>
+                  </div>
+                  <h3 class="product-title">
+                    <a href="javascript:void(0)" [routerLink]="['../supbuysimple']" target="_blank">
+                      {{product.sname}}
+                    </a>
+                  </h3>
+                  <div class="item-summary">
+                    <div class="item-price">
+                      <span class="ui-price">
+                          <span class="price-icon">¥</span>
+                          <strong>{{product.price}}</strong>
+                      </span>
+                    </div>
+                    <a  href="javascript: void(0);"  class="addCart j_AddCart" (click)="addToCart(product.id)">
+                      <img src="../../../assets/image/cart.png">
+                    </a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
     </div>
-    </div>
-  </router-outlet>
+  </div>
+  </div>
 
 </div>
 

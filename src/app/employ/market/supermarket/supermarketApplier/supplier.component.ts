@@ -28,7 +28,7 @@ export class SupplierComponent implements OnInit {
     fileId:[],
     fileName: [],
     filePath: []
-};
+  };
   public  applierView={
     applyId:   '',
     applyName:    '',

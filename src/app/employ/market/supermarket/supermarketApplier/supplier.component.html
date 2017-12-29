@@ -14,13 +14,19 @@
 </script>
 <div class="main">
 
-  <router-outlet>
     <div class="right">
       <div class="wrap-content">
         <div class="wrap-space">
           <div class="wrap-b">
             <div class="b-head">
-              <span>供应商管理</span>
+              <div class="b-head-left">
+                <span [routerLink]="['../goods']">超市商品管理</span>
+                <span class="active">供应商管理</span>
+                <span [routerLink]="['../order']">订单管理</span>
+              </div>
+              <div class="b-head-right">
+                <div class="content-box" [routerLink]="['../supbuy']"><i class="icon-action-undo"></i> 继续订购</div>
+              </div>
             </div>
             <div class="b-con tuanmenu">
 
@@ -223,7 +229,6 @@
         <button class="confirm-btn cancel" (click)="noFunc()">取消</button>
       </div>
     </div>
-  </router-outlet>
 </div>
 
 

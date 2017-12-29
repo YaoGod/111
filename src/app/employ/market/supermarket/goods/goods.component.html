@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
 <script>
   $('.list-table dl').click(function () {
     $(this).addClass('blueself').siblings().removeClass('blueself').find('.ope-list').addClass('hid');
@@ -13,13 +12,19 @@
   }
 </script>
 <div class="main">
-  <router-outlet>
     <div class="right">
       <div class="wrap-content">
         <div class="wrap-space">
           <div class="wrap-b">
-            <div class="b-head">
-              <span>超市商品管理</span>
+            <div class="b-head clearfix">
+              <div class="b-head-left">
+                <span class="active">超市商品管理</span>
+                <span [routerLink]="['../supermarketApplier']">供应商管理</span>
+                <span [routerLink]="['../order']">订单管理</span>
+              </div>
+              <div class="b-head-right">
+                <div class="content-box" [routerLink]="['../supbuy']"><i class="icon-action-undo"></i> 继续订购</div>
+              </div>
             </div>
             <div class="b-con tuanmenu">
               <div class="wrap">
@@ -337,5 +342,4 @@
         <button class="confirm-btn cancel" (click)="noFunc()">取消</button>
       </div>
     </div>
-  </router-outlet>
 </div>
