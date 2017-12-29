@@ -1,0 +1,173 @@
+
+<!--大楼搜索栏-->
+<div class="view">
+  <div class="b-head clearfix">
+    <div class="b-head-left">
+      <span [routerLink]="['../goods']">商品管理</span>
+      <span [routerLink]="['../supplier']">供应商管理</span>
+      <span [routerLink]="['../goodsordermanage']">订单管理</span>
+      <span class="active">公告管理</span>
+    </div>
+    <div class="b-head-right">
+      <div class="content-box" [routerLink]="['../goodsbuy']"><i class="icon-action-undo"></i> 继续订购</div>
+    </div>
+  </div>
+  <div class="search-bar">
+    <div class="panel-head">
+      <i class="icon-magnifier"></i>
+      搜索
+    </div>
+    <div class="panel">
+      <ul>
+        <li>
+          <label>公告标题</label>
+          <input type="text"[(ngModel)]="search.title" >
+        </li>
+      </ul>
+      <div class="panel-search">
+        <input class="btn-info" type="button" value="开始查询" (click)="getNoticeList()">
+      </div>
+    </div>
+  </div>
+</div>
+<!--大楼列表展示-->
+<div class="view" style="background-color: #ffffff;margin-top: 10px">
+  <div class="row">
+    <a class="btn btn-danger"(click)="fadeBom()"  href="javascript:;"><i class="icon-plus"></i> 新增</a>
+  </div>
+  <table width="100%" class="table table-bordered table-striped table-hover dataTable no-footer" style=" margin-top: 20px;text-align: center">
+    <thead>
+    <tr>
+      <th style="text-align: center!important;color: #428bca">序号</th>
+      <th style="text-align: center!important;color: #428bca">标题</th>
+      <th style="text-align: center!important;color: #428bca">创建人</th>
+      <th style="text-align: center!important;color: #428bca">创建时间</th>
+      <th style="text-align: center!important;color: #428bca">更新人</th>
+      <th style="text-align: center!important;color: #428bca">修改时间</th>
+      <th style="text-align: center!important;color: #428bca">状态</th>
+      <th style="text-align: center!important;color: #428bca">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr style="height: 36px;" *ngFor="let groupNotice of groupNotices;let idx=index">
+      <td>{{idx+1}}</td>
+      <td>{{groupNotice.title}}</td>
+      <td>{{groupNotice.insertUser}}</td>
+      <td>{{groupNotice.insertTime}}</td>
+      <td>{{groupNotice.updateUser}}</td>
+      <td>{{groupNotice.updateTime}}</td>
+      <td *ngIf="groupNotice.status;else elseBlock">显示</td>
+      <ng-template #elseBlock>不显示</ng-template>
+      <td>
+        <span>
+          <a href="javascript:;"  (click)="view(groupNotice.id)"><font color="#428bca">查看</font></a>&nbsp;&nbsp;&nbsp;
+          <a href="javascript:;" (click)="update(groupNotice.id)"><font color="#428bca">修改</font></a>&nbsp;&nbsp;&nbsp;
+          <a href="javascript:;" (click)="delete(groupNotice.id)"><font color="#428bca">删除</font></a></span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="mask">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">新增公告</h4>
+      <button type="button" class="close"(click)="closeMask()">×</button>
+    </div>
+    <form class="form-building form-material">
+      <div class="modal-body clearfix">
+        <div>
+          <label>公告标题：</label>
+          <input type="text" class="noticetext" [ngModelOptions]="{standalone: true}"  placeholder="" [(ngModel)]="newGroupNotice.title">
+          <label>状态：</label>
+          <select class="bor"[ngModelOptions]="{standalone: true}"  [(ngModel)]="newGroupNotice.status">
+            <option value="01">显示</option>
+            <option value="02">不显示</option>
+          </select>
+        </div>
+
+        <div class="modal-right">
+          <label style="float: left">公告内容：</label>
+          <textarea
+            id="post_editor"
+            name="notice" ui-tinymce
+            class="form-control" rows="10"
+            style="width: 85%;!important;" [ngModelOptions]="{standalone: true}"  [(ngModel)]="newGroupNotice.notice" >
+           </textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeMask()">取 消</button>
+        <button type="submit" class="btn btn-info"(click)="subGroupNotice()" >保 存</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div class="mask2">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">修改公告</h4>
+      <button type="button" class="close"(click)="closeMask2()">×</button>
+    </div>
+    <form class="form-building form-material">
+      <input type="hidden" [ngModelOptions]="{standalone: true}"  [(ngModel)]="upGroupNotice.id">
+      <div class="modal-body clearfix">
+        <div>
+          <label>公告标题：</label>
+          <input type="text" class="noticetext"  [ngModelOptions]="{standalone: true}"  placeholder="" [(ngModel)]="upGroupNotice.title">
+          <label>状态：</label>
+          <select class="bor"  [ngModelOptions]="{standalone: true}"  [(ngModel)]="upGroupNotice.status">
+            <option value="01">显示</option>
+            <option value="02">不显示</option>
+          </select>
+        </div>
+
+        <div class="modal-right">
+          <label style="float: left">公告内容：</label>
+          <textarea name="notice" ui-tinymce
+                    class="form-control" rows="10"
+                    style="width: 85%;!important;" [ngModelOptions]="{standalone: true}"  [(ngModel)]="upGroupNotice.notice" >
+           </textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeMask2()">取 消</button>
+        <button type="submit" class="btn btn-info"(click)="updateGroupNotice()" >保 存</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="mask3">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">查看公告</h4>
+      <button type="button" class="close"(click)="closeMask3()">×</button>
+    </div>
+    <div class="modal-body clearfix">
+      <div style="text-align: center">
+        <label style="text-align: center"> {{updateNotice.title}}</label>
+      </div>
+      <div class="modal-right2">
+          <textarea name="notice" ui-tinymce
+                    class="form-control" rows="10"
+                    style="width: 85%;!important;background-color: #ffffff !important;" readonly='true' value="{{updateNotice.notice}}" >
+           </textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="confirm">
+  <div class="confirm-modal">
+    <div class="confirm-icon confirm-question">?</div>
+    <div class="confirm-content" >你确定要删除该公告吗?</div>
+    <hr style="margin-top: 20px; margin-bottom: 20px; height: 10px;color: transparent;border: 0;">
+    <button class="confirm-btn styled" (click)="okFunc()">确定</button>
+    <button class="confirm-btn cancel" (click)="noFunc()">取消</button>
+  </div>
+</div>
+

@@ -1,0 +1,59 @@
+
+<div class="right">
+  <div class="wrap-content">
+    <div class="wrap-space">
+      <div class="wrap-b">
+        <div class="b-head clearfix">
+          <div class="b-head-left">
+            <span class="active">商品预定</span>
+          </div>
+          <div class="b-head-right">
+            <div class="content-box" [routerLink]="['../goods']"><i class="icon-grid"></i> 进入管理</div>
+            <div class="content-box" [routerLink]="['../goodsorder']"><i class="icon-film"></i> 我的订单</div>
+            <div class="content-box" [routerLink]="['../goodscart']"><i class="icon-basket-loaded"></i> 购物车 <strong>({{cartsize}})</strong>
+            </div>
+          </div>
+        </div>
+        <div class="wrap clearfix">
+          <div class="iptgroup">
+            <input placeholder="请输入商品名称" name="name"  [(ngModel)]="search.name"  />
+          </div>
+          <a class="search" href="javascript: void(0);" (click)="getGoodsShowList()">查询</a>
+        </div>
+        <div class="b-con tuan"  *ngFor="let good of goods;let idx=index">
+          <div class="row mt20">
+            <dl>
+              <dt class="showpic">
+                <img *ngIf="good.image!==''" [src]="imgPrefix + good.image"/>
+              </dt>
+              <dd>
+                <span class="name-great">{{good.name}}</span>
+                <div class="bg-value">
+                  <span class="value">¥{{good.price}}</span>
+                  <a class="yudingbtn" href="javascript: void(0);" (click)="addToCart(good.id)">预订</a>
+                </div>
+              </dd>
+            </dl>
+          </div>
+          <div class="clearb"></div>
+          <div class="line-txt">
+            <span>商品描述</span>
+          </div>
+          <div class="txt">
+            <p>{{good.detail}}</p>
+          </div>
+        </div>
+        <div class="turn" *ngIf="pages.length > 1">
+          <ul>
+            <li *ngFor="let i of pages"
+                [hidden] = "pageLimit(i)"
+                [ngClass]="{'active':i === pageNo}"
+                (click)="goPage(i);">
+              {{i}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

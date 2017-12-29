@@ -5,6 +5,13 @@ import { GoodsComponent } from './goods/goods.component';
 import {RouterModule, Routes} from "@angular/router";
 import {RouteGuardService} from "../../../service/route-guard/route-guard.service";
 import {ReserveComponent} from "./reserve.component";
+import {FormsModule} from "@angular/forms";
+import { GoodscartComponent } from './goodscart/goodscart.component';
+import { GoodsordermanageComponent } from './goodsordermanage/goodsordermanage.component';
+import { GoodsbuyComponent } from './goodsbuy/goodsbuy.component';
+import { GoodsorderconfirmComponent } from './goodsorderconfirm/goodsorderconfirm.component';
+import { GoodsorderComponent } from './goodsorder/goodsorder.component';
+import { GoodsnoticeComponent } from './goodsnotice/goodsnotice.component';
 const routes: Routes = [
   {
     path: '',
@@ -13,7 +20,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'goods',
+        redirectTo: 'goodsbuy',
         pathMatch: 'full'
       },
       {
@@ -23,6 +30,30 @@ const routes: Routes = [
       {
         path: 'supplier',
         component: SupplierComponent
+      },
+      {
+        path: 'goodsbuy',
+        component: GoodsbuyComponent
+      },
+      {
+        path: 'goodscart',
+        component: GoodscartComponent
+      },
+      {
+        path: 'goodsorder',
+        component: GoodsorderComponent
+      },
+      {
+        path: 'goodsorderconfirm',
+        component: GoodsorderconfirmComponent
+      },
+      {
+        path: 'goodsordermanage',
+        component: GoodsordermanageComponent
+      },
+      {
+        path: 'goodsnotice',
+        component: GoodsnoticeComponent
       }
     ]
   }
@@ -30,8 +61,10 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [ReserveComponent,SupplierComponent, GoodsComponent]
+  declarations: [ReserveComponent,SupplierComponent, GoodsComponent, GoodscartComponent,
+    GoodsordermanageComponent, GoodsbuyComponent, GoodsorderconfirmComponent, GoodsorderComponent, GoodsnoticeComponent]
 })
 export class ReserveModule { }
