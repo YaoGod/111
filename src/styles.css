@@ -5936,3 +5936,9 @@ select{
 .icon-social-dropbox:before {
   content: "\e00c"
 }
+.form-control{
+  transition: all .3s ease-out .3s!important;
+}
+.form-control:focus {
+  background-size: 100% 1px, 100% 1px!important;
+}

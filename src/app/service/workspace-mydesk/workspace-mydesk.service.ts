@@ -27,8 +27,8 @@ export class WorkspaceMydeskService {
       .map(res => res.json());
   }
   /*获取人员消费记录*/
-  getUserConsume(){
-    const url = this.ipSetting.ip + "/employee/mydesk/getUserConsume";
+  getUserConsume(type){
+    const url = this.ipSetting.ip + "/employee/mydesk/getUserConsume/" + type;
     return this.http.get(url,this.ipSetting.options)
       .map(res => res.json());
   }

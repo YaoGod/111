@@ -45,6 +45,7 @@ export class StaffWelfareMangComponent implements OnInit {
       .subscribe(data =>{
         if(this.errorResponseService.errorMsg(data)){
           this.welfares = data.data.infos;
+          this.getTargetIdList();
           this.total =data.data.total;
         }
       });

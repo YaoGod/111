@@ -490,6 +490,10 @@ i{
 .form-group{
   line-height: 38px;
 }
+.form-group td{
+  line-height: 24px;
+  padding-right: 5px;
+}
 .form-title{
   width: 60px;
   padding-right: 10px;
@@ -515,12 +519,15 @@ i{
   background-position: center bottom, center calc(99%);
   background-repeat: no-repeat;
   background-size: 0 1px, 100% 1px;
-  transition: background 0s ease-out 0s;
+  transition: all .3s ease-out .3s;
   background-image: linear-gradient(#03a9f3, #03a9f3), linear-gradient(rgba(120, 130, 140, .13), rgba(120, 130, 140, .13));
   border: 0;
   border-radius: 0;
   box-shadow: none;
   color: #565656;
+}
+.form-control:focus {
+  background-size: 100% 1px, 100% 1px;
 }
 input[type=date].form-control{
   padding-right: 0;
@@ -597,4 +604,8 @@ select{
   -webkit-box-pack: end;
   -ms-flex-pack: end;
   justify-content: flex-end;
+}
+.min-title{
+  width: auto;
+  height: 36px;
 }

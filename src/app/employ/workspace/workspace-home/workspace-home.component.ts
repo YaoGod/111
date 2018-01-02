@@ -26,11 +26,11 @@ export class WorkspaceHomeComponent implements OnInit {
     this.count = 0;
     this.pendings = [];
     this.globalCatalogService.setTitle("员工服务/我的工作台");
-    this.costChart("costDashHistoryChart",[]);
     this.getBalance();
     this.getHandlingOrder();
     this.getServiceCenter();
-    this.getUserConsume();
+    this.getUserConsume("costHistoryChart","cost");
+    this.getUserConsume("costDashHistoryChart","laundry");
   }
 
   linkCost(){
@@ -126,11 +126,13 @@ export class WorkspaceHomeComponent implements OnInit {
         }
       })
   }
-  getUserConsume(){
-    this.workspaceMydeskService.getUserConsume()
+  getUserConsume(chartID,type){
+    this.workspaceMydeskService.getUserConsume(type)
       .subscribe((data)=>{
         if(this.errorResponseService.errorMsg(data)){
-          this.costChart("costHistoryChart",data.data);
+          if(data.data.length>0){
+            this.costChart(chartID,data.data);
+          }
         }
       })
   }
@@ -164,7 +166,10 @@ export class WorkspaceHomeComponent implements OnInit {
             fontSize: 20,
             color: '#999'
           },
-          data : /*legendData*/ ['7月','8月','9月','10月','11月','12月']
+          axisLine :{
+            show: 'false'
+          },
+          data : legendData /*['7月','8月','9月','10月','11月','12月']*/
         }
       ],
       series : [
@@ -196,7 +201,7 @@ export class WorkspaceHomeComponent implements OnInit {
               }
             }
           },
-          data: /*seriesData*/ [320, 302, 341, 374, 390, 450]
+          data: seriesData /*[320, 302, 341, 374, 390, 450]*/
         }
       ]
     };
