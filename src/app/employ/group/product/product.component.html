@@ -37,10 +37,10 @@
                 <dl *ngFor="let product of groupProducts;let idx=index">
                   <dt><span>商品名称：{{product.name}}</span>
                   <div class="ope-list">
-                    <a class="four"  title="审核" href="javascript:void(0);"(click)="check(product.code)"></a>
+                    <a class="four"  title="审核" href="javascript:void(0);" (click)="check(product.code)"></a>
                     <!--<a class="one"   title="查看" href="javascript:void(0);"(click)="view(product.code)"></a>-->
-                    <a class="two"   title="修改" href="javascript:void(0);"(click)="update(product.code)"></a>
-                    <a class="tre"   title="删除" href="javascript:void(0);"(click)="delete(product.code)"></a>
+                    <a class="two"   title="修改" href="javascript:void(0);" (click)="update(product.code)"></a>
+                    <a class="tre"   title="删除" href="javascript:void(0);" (click)="delete(product.code)"></a>
                   </div>
                   </dt>
                   <dd>
@@ -298,7 +298,6 @@
                   <div>
                     <label>商品状态：</label>
                     <select name="checknewstatus"  id="checknewstatus" [(ngModel)]="productCheck.status">
-                      <option value="0">录入</option>
                       <option value="1">上架</option>
                       <option value="2">下架</option>
                       <option value="3">不通过</option>
@@ -320,7 +319,7 @@
 
                 <div class="for" style="margin-top: 15px">
                   <label>团购时间：</label>
-                  <input type="date" class="producttext"  id="checknewstartTime" name="checknewstartTime" (blur)="verifyEmpty('checknewstartTime','不能为空')"style="width:118px !important;"  [(ngModel)]="productCheck.startTime" >
+                  <input type="date" class="producttext"  id="checknewstartTime" name="checknewstartTime" (blur)="verifyEmpty('checknewstartTime','不能为空')" style="width:118px !important;"  [(ngModel)]="productCheck.startTime" >
                   <span class="errorMessage"></span>
                   至
                   <input type="date" class="producttext" id="checknewendTime" name="checknewendTime" (blur)="verifyEmpty('checknewendTime','不能为空')" style="width:118px !important;margin-left: 5px" [(ngModel)]="productCheck.endTime" >

@@ -1,3 +1,68 @@
-<p>
-  plan-laundry-reporty works!
-</p>
+
+<div class="right">
+  <div class="wrap-content">
+    <div class="wrap-space">
+      <div class="wrap-b">
+        <div class="b-head">
+          <span>洗衣服务订单管理</span>
+          <div class="b-head-right">
+            <div class="content-box" onclick="history.go(-1)"><i class="icon-reload"></i>返回</div>
+          </div>
+        </div>
+        <div class="b-con tuanmenu">
+          <div class="wrap">
+            <ul>
+              <li>
+                <label>订单编号：</label>
+                <input type="text"  class="noticetext"  [(ngModel)]="search.orderNo" >
+              </li>
+              <li>
+                <label>服务中心</label>
+                <input type="text"  class="noticetext" [(ngModel)]="search.serviceCenter" >
+              </li>
+              <li><a class="search" href="javascript: void(0);" (click)="getOrderAllList()" >查询</a></li>
+            </ul>
+          </div>
+          <div class="list-table" *ngFor="let order of orders;let idx=index">
+            <table class="table-head">
+              <td class="fir">订单编号</td>
+              <td class="fir">服务中心</td>
+              <td class="sec">服务内容</td>
+              <td class="three">单价</td>
+              <td class="three">数量</td>
+              <td class="three">合计</td>
+              <td class="four">单位</td>
+            </table>
+            <dl *ngFor="let item of order.orderItems;let idx=index">
+              <dd>
+                <table style="width: 100%;">
+                  <tr>
+                    <td class="fir">{{order.orderNo}}</td>
+                    <td class="fir">{{order.serviceCenter}}</td>
+                    <td class="sec">{{item.appcontent}}</td>
+                    <td class="three">{{item.unitPrice}}</td>
+                    <td class="three">{{item.quantity}}</td>
+                    <td class="three">{{item.totalPrice}}</td>
+                    <td class="four">{{item.unit}}</td>
+
+                  </tr>
+                </table>
+              </dd>
+            </dl>
+          </div>
+          <div class="turn" name="pages" *ngIf="pages.length > 1">
+            <ul>
+              <li *ngFor="let i of pages"
+                  [hidden] = "pageLimit(i)"
+                  [ngClass]="{'active':i === pageNo}"
+                  (click)="goPage(i);">
+                {{i}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

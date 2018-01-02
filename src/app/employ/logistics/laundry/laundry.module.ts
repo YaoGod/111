@@ -7,6 +7,8 @@ import { PlanLaundryReportComponent } from './plan-laundry-report/plan-laundry-r
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
 import { Routes, RouterModule } from '@angular/router';
 import { LaundryComponent } from './laundry.component';
+import {FormsModule} from "@angular/forms";
+import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
 const routes: Routes = [
   {
     path: '',
@@ -40,6 +42,8 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
+    TurnBarModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
