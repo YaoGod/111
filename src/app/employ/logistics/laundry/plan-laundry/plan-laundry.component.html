@@ -4,16 +4,14 @@
     <div class="wrap-space">
       <div class="wrap-b">
         <div class="b-head">
-          <span>洗衣服务预定</span>
+          <span>预定洗衣服务</span>
           <div class="b-head-right">
             <div class="content-box" onclick="history.go(-1)"><i class="icon-reload"></i>返回</div>
           </div>
         </div>
         <div class="b-con tuanmenu">
           <div class="wrap">
-            <a class="btn btn-danger"  (click)="submitOrder()" href="javascript:;" style="padding: 6px 22px;float: right;"><i class="icon-check"></i>提交订单</a>
-
-            <a class="btn btn-danger"  (click)="add()" href="javascript:;" style="padding: 6px 22px;float: right;"><i class="icon-plus"></i>新增服务</a>
+            <a class="btn btn-danger"  (click)="add()" href="javascript:;" style="padding: 6px 22px;"><i class="icon-plus"></i>新增服务</a>
           </div>
           <div class="list-table" *ngFor="let order of orders;let idx=index">
             <table class="table-head">
@@ -44,7 +42,11 @@
                 </table>
               </dd>
             </dl>
+            <div class="wrap clearfix">
+              <a class="btn btn-danger"  (click)="submitOrder()" href="javascript:;" style="padding: 6px 22px;float: right; line-height: 20px; background-color:#03a9f3"><i class="icon-check"></i>提交订单</a>
+            </div>
           </div>
+
           <app-turn-bar
             [pageNo]="pageNo"
             [pageSize]="pageSize"

@@ -9,6 +9,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { LaundryComponent } from './laundry.component';
 import {FormsModule} from "@angular/forms";
 import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
+import { LaundryAdminComponent } from './laundry-admin/laundry-admin.component';
+import { LaundryOrderComponent } from './laundry-order/laundry-order.component';
 const routes: Routes = [
   {
     path: '',
@@ -33,7 +35,15 @@ const routes: Routes = [
         component: PlanLaundryComponent,
       },
       {
-        path: 'PlanReport',
+        path: 'laundryOrder',
+        component: LaundryAdminComponent,
+      },
+      {
+        path: 'laundryAdmin',
+        component: LaundryAdminComponent,
+      },
+      {
+        path: 'planReport',
         component: PlanLaundryReportComponent,
       },
     ]
@@ -47,6 +57,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
-  declarations: [FacilitatorComponent, PriceComponent, PlanLaundryComponent, PlanLaundryReportComponent, LaundryComponent]
+  declarations: [FacilitatorComponent, PriceComponent, PlanLaundryComponent, PlanLaundryReportComponent, LaundryComponent,
+    LaundryAdminComponent, LaundryOrderComponent]
 })
 export class LaundryModule { }

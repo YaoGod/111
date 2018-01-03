@@ -7,6 +7,7 @@ import { OrdersReportComponent } from './orders-report/orders-report.component';
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
 import { Routes, RouterModule } from '@angular/router';
 import { PropertyServiceComponent } from './property-service.component';
+import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
 const routes: Routes = [
   {
     path: '',
@@ -42,6 +43,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    TurnBarModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

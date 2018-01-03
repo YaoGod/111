@@ -101,7 +101,7 @@ export class ContentComponent implements OnInit {
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.serviceCom = data.data;
-          console.log(this.serviceCom);
+          // console.log(this.serviceCom);
           /*for(let i=0;i<data['data'].length;i++){
            this.serviceCom.push(data['data'][i].companyName);
            }*/

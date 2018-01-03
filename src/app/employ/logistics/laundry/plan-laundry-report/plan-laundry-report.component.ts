@@ -15,8 +15,10 @@ export class PlanLaundryReportComponent implements OnInit {
   public search: LaundryOrder;
   public serverCenter='';
   public orderNo='';
-  private pageNo = 1;
-  private pageSize =10;
+  public pageSize = 5;
+  public pageNo = 1;
+  public total = 0;
+  public length = 5;
   public pages: Array<number>;
   constructor(private ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
 
@@ -32,32 +34,10 @@ export class PlanLaundryReportComponent implements OnInit {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
         console.log(data.data);
-        let total = Math.ceil(data.data.total / this.pageSize);
-        this.initPage(total);
+        this.total = data.data.total;
       }
     });
 
-  }
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
-    console.log(this.pages);
-    for(let i = 0;i< total ;i++){
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
   }
   /*跳页加载数据*/
   goPage(page:number){
@@ -71,7 +51,7 @@ export class LaundryOrder {
   orderNo:string;
   serviceCenter:           string;
   orderItems: Array<LaundryOrderItem>;
-};
+}
 export class  LaundryOrderItem{
   id:number;
   orderId:  number;
@@ -81,4 +61,4 @@ export class  LaundryOrderItem{
   totalPrice:  number;
   applyid: string;
   unit: number;
-};
+}

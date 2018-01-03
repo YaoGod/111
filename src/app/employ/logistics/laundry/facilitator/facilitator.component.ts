@@ -71,7 +71,7 @@ export class FacilitatorComponent implements OnInit {
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           this.appliers = data.data.providers;
-          console.log(data.data);
+          // console.log(data.data);
           this.total = data.data.total;
         }
       });
@@ -80,6 +80,7 @@ export class FacilitatorComponent implements OnInit {
   delFile(index,fileId) {
     this.applierAdd.filePath.splice(index,1);
     this.applierAdd.fileName.splice(index,1);
+    console.log(index+"======"+fileId);
     this.marketManagerService.delFile(fileId)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
@@ -156,28 +157,57 @@ export class FacilitatorComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          console.log(data);
-          alert("上传成功");
+          // console.log(data);
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': '上传成功',
+            'popType': 0 ,
+            'imgType': 1 ,
+          });
           this.applierAdd.fileName.push(files[0].name);
-          this.applierAdd.filePath.push(data.data.msg);
-          this.applierAdd.fileId.push(data.data.fileId);
+          this.applierAdd.filePath.push(data.msg);
+          this.applierAdd.fileId.push(data.fileId);
+          $('#prese').val('');
         }
+      }else if(xhr.readyState === 4 && xhr.status === 413){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '文件太大',
+          'popType': 0 ,
+          'imgType': 2,
+        });
+        $('#prese').val('');
+        return false;
       }
     };
   }
-
   upload1(files){
     let xhr = this.marketManagerService.uploadFile(files[0],'laundry',this.applierEdit.applyId);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          console.log(data.msg);
-          alert("上传成功");
+          // console.log(data);
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': '上传成功',
+            'popType': 0 ,
+            'imgType': 1 ,
+          });
           this.applierEdit.fileName1.push(files[0].name);
           this.applierEdit.filePath1.push(data.msg);
-          this.applierEdit.fileId.push(data.data.fileId);
+          this.applierEdit.fileId.push(data.fileId);
+          $('#prese1').val('');
         }
+      }else if(xhr.readyState === 4 && xhr.status === 413){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '文件太大',
+          'popType': 0 ,
+          'imgType': 2,
+        });
+        $('#prese1').val('');
+        return false;
       }
     };
   }
@@ -200,6 +230,7 @@ export class FacilitatorComponent implements OnInit {
       return true;
     }
   }
+  /*新增供应商*/
   addAppliar(){
     if(!this.verifyEmpty('suppliername','供应商名称不能为空')||!this.verifyEmpty('supplierstarttime','不能为空')||
       !this.verifyEmpty('supplierendtime','不能为空')||!this.verifyEmpty('supplierdetail','供应商介绍不能为空')){
@@ -209,16 +240,17 @@ export class FacilitatorComponent implements OnInit {
       this.addErrorClass('supplierendtime', '结束时间不能早于开始时间');
       return false;
     }
-
     let url = "/mmall/laundry/provider/providerSave";
     this.ipSetting.sendPost(url,this.applierAdd).subscribe(data => {
-      if (data.status=="0") {
-        console.log(data);
-        alert(data.msg);
+      if (this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': data['msg'],
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
         $('.maskAdd').hide();
         this.providerList();
-      }else{
-        alert(data.msg);
       }
     });
   }
@@ -234,23 +266,21 @@ export class FacilitatorComponent implements OnInit {
     }
     let url = "/mmall/laundry/provider/providerUpdate";
     this.ipSetting.sendPost(url,this.applierEdit).subscribe(data => {
-      if (data.status=="0") {
+      if (this.errorVoid.errorMsg(data)) {
         alert(data.msg);
         $('.maskUpdate').hide();
         this.providerList();
-      }else{
-        alert(data.msg);
       }
     });
   }
+  /*查看*/
   view(applid){
     this.file = new Array<File>();
     let url = "/mmall/laundry/provider/detail/"+applid;
     this.ipSetting.sendGet(url).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      if (this.errorVoid.errorMsg(data)) {
         this.applierView = data.data;
-        this.file= data.data.file;
-        console.log(data.data);
+        this.file= data.data.file; // console.log(data.data);
       }
     });
     $('.maskView').show();
@@ -260,9 +290,9 @@ export class FacilitatorComponent implements OnInit {
     this.upfile = new Array<File>();
     let url = "/mmall/laundry/provider/detail/"+applid;
     this.ipSetting.sendGet(url).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      if (this.errorVoid.errorMsg(data)) {
         this.applierEdit = data.data;
-        this.upfile  = data.data.file;
+        this.upfile = data.data.file;
         this.applierEdit.fileName1 = [];
         this.applierEdit.filePath1 = [];
         this.applierEdit.fileId = [];
@@ -278,23 +308,28 @@ export class FacilitatorComponent implements OnInit {
     $('.maskUpdate').show();
   }
   delete(code: number) {
-    this.code = code;
-    $('.confirm').fadeIn();
-  }
-  /*删除*/
-  okFunc() {
-    $('.confirm').hide();
-    let url = "/mmall/laundry/provider/del/"+this.code;
-    this.ipSetting.sendGet(url).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
-        alert("删除成功");
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否删除？',
+      'popType': 1,
+      'imgType': 3,
+      'callback': () => {
+        let url = "/mmall/laundry/provider/del/" + code;
+        this.ipSetting.sendGet(url).subscribe(data => {
+          if (this.errorVoid.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': data['msg'],
+              'popType': 0 ,
+              'imgType': 1 ,
+            });
+          }
+          this.providerList();
+        });
       }
-      this.providerList();
     });
   }
-  noFunc() {
-    $('.confirm').fadeOut();
-  }
+
   /**
    * 添加错误信息class
    * @param id

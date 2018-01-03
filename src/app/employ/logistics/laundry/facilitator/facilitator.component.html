@@ -15,7 +15,7 @@
               <input placeholder="请输入供应商名称" [(ngModel)]="search.applyName" />
             </div>
             <a class="search" href="javascript: void(0);" (click)="providerList()" >查询</a>
-            <a class="addbtn" (click)="add()"  href="javascript:;" style="padding: 6px 22px;">
+            <a class="addbtn" (click)="add()"  href="javascript:;">
               <i class="icon-plus"></i>新增</a>
           </div>
           <div class="list-table">
@@ -24,14 +24,14 @@
               <td class="sec">供应商编号</td>
               <td class="three">合作开始时间</td>
               <td class="four">合作结束时间</td>
-              <td class="four">供应商介绍</td>
+              <td class="five">供应商介绍</td>
             </table>
             <dl *ngFor="let applier of appliers;let idx=index">
               <dt>
               <div class="ope-list">
-                <a class="one"   title="查看" href="javascript:void(0);"(click)="view(applier.applyId)"></a>
-                <a class="two"   title="修改" href="javascript:void(0);"(click)="update(applier.applyId)"></a>
-                <a class="tre"   title="删除" href="javascript:void(0);"(click)="delete(applier.applyId)"></a>
+                <a class="one"   title="查看" href="javascript:void(0);" (click)="view(applier.applyId)"></a>
+                <a class="two"   title="修改" href="javascript:void(0);" (click)="update(applier.applyId)"></a>
+                <a class="tre"   title="删除" href="javascript:void(0);" (click)="delete(applier.applyId)"></a>
 
               </div>
               </dt>
@@ -42,7 +42,7 @@
                     <td class="sec">{{applier.applyId}}</td>
                     <td class="three">{{applier.copStarttime}}</td>
                     <td class="four">{{applier.copEndtime}}</td>
-                    <td class="four">{{applier.applyDesc}}</td>
+                    <td class="five">{{applier.applyDesc}}</td>
                     <!--<td class="four">{{applier.applyDesc | minLength: [10,'…']}}</td>-->
                   </tr>
                 </table>
@@ -82,7 +82,7 @@
             <div style="margin-left: 15px;margin-top: 10px;">
               <label>供应商名称：</label>
               <input type="text" id="suppliername" name="suppliername" (blur)="verifyEmpty('suppliername','供应商名称不能为空')"
-                     class="noticetext" placeholder="" [(ngModel)]="applierAdd.applyName">
+                     class="noticetext" placeholder="" [(ngModel)]="applierAdd.applyName" maxlength="15">
               <span class="errorMessage"></span>
             </div>
 
@@ -99,25 +99,23 @@
             <div style="margin-top: 10px;margin-left: 15px;">
               <label>供应商介绍：</label>
               <textarea id="supplierdetail" name="supplierdetail" (blur)="verifyEmpty('supplierdetail','不能为空')"
-                        [(ngModel)]="applierAdd.applyDesc" rows="5"
-                        style="margin-left: 84px;margin-top: -20px;border: 1px solid #dddddd;width: 70%;height: 140px;background-color: #ffffff !important;"></textarea>
-              <span class="errorMessage"></span>
+                        [(ngModel)]="applierAdd.applyDesc" rows="5"></textarea>
+              <span class="errorMessage" style="margin-left:84px; margin-top:-15px;" ></span>
             </div>
             <div  style="margin-top: 10px;margin-left: 16px;">
               <label>合 同 附 件：</label>
-              <a href="javascript:;" style="color:#666; border-radius:4px; padding:5px 10px; background: #f6f6f6;" (click)="uploadbutton()">上 传</a>
-              <input type="file" class="dropify" #prese id="prese" (change)="upload(prese.files)">
-              <ul style="height:100px; min-width:160px; line-height: 20px; overflow-y: auto; background: #f6f6f6; color:#666; border-radius:4px;margin-left: 130px">
-                <li style="max-width: 160px;" *ngFor="let abc of applierAdd.fileName; let k=index">{{abc}}<a style="margin-left:6px; color:#ff0000" href="javascript:;" (click)="delFile(k,applierAdd.fileId)">×</a></li>
+              <ul class="attachment">
+                <li *ngFor="let abc of applierAdd.fileName; let k=index">{{abc}}<a style="margin-left:6px; color:#ff0000" href="javascript:;" (click)="delFile(k,applierAdd.fileId)">×</a></li>
               </ul>
-
+              <a href="javascript:;" style="margin: 15px 0 0 84px;color:#666; border-radius:4px; padding:5px 10px; background: #f6f6f6;" (click)="uploadbutton()">上 传</a>
+              <input type="file" class="dropify" #prese id="prese" (change)="upload(prese.files)">
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeMaskAdd()">取 消</button>
-        <button type="submit" class="btn btn-info"(click)="addAppliar()" >保 存</button>
+        <button type="submit" class="btn btn-info" (click)="addAppliar()" >保 存</button>
       </div>
     </form>
   </div>
@@ -150,8 +148,8 @@
 
             <div  style="margin-top: 15px;margin-left: 16px;">
               <label>合 同 附 件：</label>
-              <ul style="height:100px; min-width:160px; line-height: 20px; overflow-y: auto; background: #f6f6f6;  color:#666; border-radius:4px;margin-left: 130px">
-                <li style="max-width: 160px;" *ngFor="let f of file; let k=index">
+              <ul class="attachment">
+                <li *ngFor="let f of file; let k=index">
                   {{f.fileName}}
                   <a style="margin-left:6px;cursor: pointer;" (click)="download(f.fileAddress)" >
                     <i class="icon-cloud-download"></i>下载
@@ -199,33 +197,24 @@
             <div style="margin-top: 15px;margin-left: 15px;">
               <label>供应商介绍：</label>
               <textarea id="supplierdetailup" name="supplierdetailup" (blur)="verifyEmpty('supplierdetailup','供应商介绍不能为空')" class="noticetext" placeholder="" [(ngModel)]="applierEdit.applyDesc" rows="10"></textarea>
-              <span class="errorMessage"></span>
+              <span class="errorMessage" style="margin-left:84px;"></span>
             </div>
             <div  style="margin-top: 15px;margin-left: 16px;">
               <label>合 同 附 件：</label>
-              <a href="javascript:;" style="color:#666; border-radius:4px; padding:5px 10px; background: #f6f6f6;" (click)="uploadbutton1()">上 传</a>
-              <input type="file" class="dropify" #prese1 id="prese1" (change)="upload1(prese1.files)">
-              <ul style="height:100px; min-width:160px; line-height: 20px; overflow-y: auto; background: #f6f6f6; color:#666; border-radius:4px;margin-left: 130px">
-                <li style="max-width: 160px;" *ngFor="let abc of applierEdit.fileName1; let k=index">{{abc}}<a style="margin-left:6px; color:#ff0000" href="javascript:;" (click)="delFile1(k,applierEdit.fileId)">×</a></li>
+              <ul class="attachment">
+                <li *ngFor="let abc of applierEdit.fileName1; let k=index">{{abc}}<a style="margin-left:6px; color:#ff0000" href="javascript:;" (click)="delFile1(k,applierEdit.fileId)">×</a></li>
               </ul>
+              <a href="javascript:;" style="color:#666; margin-left:84px; border-radius:4px; padding:5px 10px; background: #f6f6f6;" (click)="uploadbutton1()">上 传</a>
+              <input type="file" class="dropify" #prese1 id="prese1" (change)="upload1(prese1.files)">
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closemaskUpdate()">取 消</button>
-        <button type="submit" class="btn btn-info"(click)="updateAppliar()" >保 存</button>
+        <button type="submit" class="btn btn-info" (click)="updateAppliar()" >保 存</button>
       </div>
     </form>
-  </div>
-</div>
-<div class="confirm">
-  <div class="confirm-modal">
-    <div class="confirm-icon confirm-question">?</div>
-    <div class="confirm-content" >你确定要删除该商品吗?</div>
-    <hr style="margin-top: 20px; margin-bottom: 20px; height: 10px;color: transparent;border: 0;">
-    <button class="confirm-btn styled" (click)="okFunc()">确定</button>
-    <button class="confirm-btn cancel" (click)="noFunc()">取消</button>
   </div>
 </div>
 

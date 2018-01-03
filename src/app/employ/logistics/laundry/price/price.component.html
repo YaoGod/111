@@ -4,18 +4,18 @@
     <div class="wrap-space">
       <div class="wrap-b">
         <div class="b-head">
-          <span>服务内容管理</span>
+          <span>服务内容</span>
           <div class="b-head-right">
             <div class="content-box" onclick="history.go(-1)"><i class="icon-reload"></i>返回</div>
           </div>
         </div>
         <div class="b-con tuanmenu">
-          <div class="wrap">
+          <div class="wrap clearfix">
             <div class="iptgroup">
               <input placeholder="请输入服务内容"  [(ngModel)]="search.appcotent"/>
             </div>
             <a class="search" href="javascript: void(0);"  (click)="getFacList()"  >查询</a>
-            <a class="btn btn-danger"  (click)="add()" href="javascript:;" style="padding: 6px 22px;float: right;"><i class="icon-plus"></i> 新增</a>
+            <a class="btn btn-danger"  (click)="add()" href="javascript:;" style="padding: 7px 15px;float: right;"><i class="icon-plus"></i> 新增</a>
           </div>
           <div class="list-table">
             <table class="table-head">
@@ -44,16 +44,13 @@
               </dd>
             </dl>
           </div>
-          <div class="turn" name="pages" *ngIf="pages.length > 1">
-            <ul>
-              <li *ngFor="let i of pages"
-                  [hidden] = "pageLimit(i)"
-                  [ngClass]="{'active':i === pageNo}"
-                  (click)="goPage(i);">
-                {{i}}
-              </li>
-            </ul>
-          </div>
+          <app-turn-bar
+            [pageNo]="pageNo"
+            [pageSize]="pageSize"
+            [total]="total"
+            [length] = 5
+            (turnEvent)="goPage($event)">
+          </app-turn-bar>
         </div>
       </div>
     </div>
@@ -83,18 +80,18 @@
             <div style="margin-top: 10px;">
               <label>服务内容：</label>
               <input type="text" id="appcotent_add" class="noticetext" name="appcotent_add"
-                     (blur)="verifyEmpty('appcotent_add','服务内容不能为空')"   [(ngModel)]="productAdd.appcotent">
+                     (blur)="verifyEmpty('appcotent_add','服务内容不能为空')" maxlength="20"  [(ngModel)]="productAdd.appcotent">
               <span class="errorMessage"></span>
             </div>
             <div style="margin-top: 10px;">
               <label>单位：</label>
-              <input type="text" id="unit_add" class="noticetext"  name="unit_add" (blur)="verifyEmpty('unit_add','单位不能为空')"   [(ngModel)]="productAdd.unit">
+              <input type="text" id="unit_add" class="noticetext"  name="unit_add" (blur)="verifyEmpty('unit_add','单位不能为空')"   [(ngModel)]="productAdd.unit" maxlength="10">
               <span class="errorMessage"></span>
             </div>
             <div>
               <div style="margin-top: 10px;">
                 <label>价格：</label>
-                <input type="text" id="price_add" class="noticetext"  name="price_add" (blur)="verifyEmpty('price_add','价格不能为空')"
+                <input type="number" id="price_add" class="noticetext"  name="price_add" (blur)="verifyEmpty('price_add','价格不能为空')"
                        [(ngModel)]="productAdd.price">&nbsp;&nbsp;&nbsp;元
                 <span class="errorMessage"></span>
               </div>
@@ -131,19 +128,19 @@
             </div>
             <div style="margin-top: 10px;">
               <label>服务内容：</label>
-              <input type="text" id="appcotent_edit"  class="noticetext" name="appcotent_edit"  (blur)="verifyEmpty('appcotent_edit','服务内容不能为空')"
+              <input type="text" id="appcotent_edit"  class="noticetext" name="appcotent_edit"  (blur)="verifyEmpty('appcotent_edit','服务内容不能为空')" maxlength="20"
                      [(ngModel)]="productUp.appcotent">
               <span class="errorMessage"></span>
             </div>
             <div style="margin-top: 10px;">
               <label>单位：</label>
-              <input type="text" id="unit_edit"  class="noticetext" name="unit_edit" (blur)="verifyEmpty('unit_edit','单位不能为空')"   [(ngModel)]="productUp.unit">
+              <input type="text" id="unit_edit"  class="noticetext" name="unit_edit" (blur)="verifyEmpty('unit_edit','单位不能为空')"   [(ngModel)]="productUp.unit" maxlength="10">
               <span class="errorMessage"></span>
             </div>
             <div>
               <div style="margin-top: 10px;">
                 <label>价格：</label>
-                <input type="text" id="price_edit"  class="noticetext" name="price_edit" (blur)="verifyEmpty('price_edit','价格不能为空')"
+                <input type="number" id="price_edit"  class="noticetext" name="price_edit" (blur)="verifyEmpty('price_edit','价格不能为空')"
                        [(ngModel)]="productUp.price">
                 <span class="errorMessage"></span>
               </div>
@@ -158,12 +155,4 @@
     </form>
   </div>
 </div>
-<div class="confirm">
-  <div class="confirm-modal">
-    <div class="confirm-icon confirm-question">?</div>
-    <div class="confirm-content" >你确定要删除该服务内容吗?</div>
-    <hr style="margin-top: 20px; margin-bottom: 20px; height: 10px;color: transparent;border: 0;">
-    <button class="confirm-btn styled" (click)="okFunc()">确定</button>
-    <button class="confirm-btn cancel" (click)="noFunc()">取消</button>
-  </div>
-</div>
+

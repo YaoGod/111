@@ -17,9 +17,10 @@ export class PriceComponent implements OnInit {
   public search: FacPrice;
   public days:string;
   private code: any;
-  private pageNo = 1;
-  /*当前页码*/
-  private pageSize =5;
+  public pageSize = 5;
+  public pageNo = 1;
+  public total = 0;
+  public length = 5;
   public pages: Array<number>;
   public  productAdd={
     priceId:   '',
@@ -36,7 +37,7 @@ export class PriceComponent implements OnInit {
     unit:           '',
     price:          '',
     appliar:''
-  }
+  };
   constructor(private ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
@@ -51,24 +52,11 @@ export class PriceComponent implements OnInit {
         if (this.errorVoid.errorMsg(data)) {
           this.products = data.data.infos;
           this.applierList = data.data.applierList;
-          console.log(data.data);
-          let total = Math.ceil(data.data.total / this.pageSize);
-          this.initPage(total);
+          this.total = data.data.total;
         }
       });
   }
-  /*删除*/
-  okFunc() {
-    $('.confirm').hide();
-    let url = "/mmall/laundry/deletetProduct/"+this.code;
-    this.ipSetting.sendGet(url).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
-        alert("删除成功");
-      }
-      this.getFacList();
-    });
-  }
-
+  /*新增服务内容*/
   addProduct() {
     if(!this.verifyEmpty("appcotent_add","服务内容不能为空")){
       return false;
@@ -85,15 +73,17 @@ export class PriceComponent implements OnInit {
     if(!this.verifyEmpty("supplierId_add","服务商不能为空")){
       return false;
     }
-    console.log(this.productAdd);
     let url = "/mmall/laundry/addFacPrice";
     this.ipSetting.sendPost(url,this.productAdd).subscribe(data => {
-      if(data['status'] === 0){
-        alert(data['data']);
+      if (this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': data['data'],
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
         this.closeMaskAdd();
         this.getFacList();
-      }else{
-        alert(data['msg']);
       }
     })
   }
@@ -119,7 +109,7 @@ export class PriceComponent implements OnInit {
   }
 
   private verifyEmpty(id,label) {
-    if (!this.isEmpty(id, label)) {
+    if(!this.isEmpty(id, label)) {
       return false;
     }else{
       return true;
@@ -144,14 +134,15 @@ export class PriceComponent implements OnInit {
     }
     let url = "/mmall/laundry/updateProduct";
     this.ipSetting.sendPost(url,this.productUp).subscribe(data => {
-      console.log(data);
-      if(data['status'] === 0){
-        alert(data['data']);
+      if (this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': data['data'],
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
         this.closeMaskUp();
         this.getFacList();
-      }else{
-        alert(data['msg']);
-        this.closeMaskUp();
       }
     })
   }
@@ -160,7 +151,7 @@ export class PriceComponent implements OnInit {
   update(code: string) {
     let url = "/mmall/laundry/geFacDetail/"+code;
     this.ipSetting.sendGet(url).subscribe(data => {
-      if(data['status']==0){
+      if (this.errorVoid.errorMsg(data)) {
         this.productUp = data.data;
       }
       $('.maskUpdate').show();
@@ -180,13 +171,28 @@ export class PriceComponent implements OnInit {
   }
 
   delete(code: number) {
-    this.code = code;
-    $('.confirm').fadeIn();
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否删除？',
+      'popType': 1,
+      'imgType': 3,
+      'callback': () => {
+        let url = "/mmall/laundry/deletetProduct/" + code;
+        this.ipSetting.sendGet(url).subscribe(data => {
+          if (this.errorVoid.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': data['msg'],
+              'popType': 0 ,
+              'imgType': 1 ,
+            });
+          }
+          this.getFacList();
+        });
+      }
+    });
   }
 
-  noFunc() {
-    $('.confirm').fadeOut();
-  }
   add() {
     $('.maskAdd').show();
   }
@@ -201,7 +207,6 @@ export class PriceComponent implements OnInit {
       appliar:''
     };
   }
-
   /**
    * 添加错误信息class
    * @param id
@@ -224,26 +229,6 @@ export class PriceComponent implements OnInit {
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
     $('#' + id).next('span').html('');
   }
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
-    for(let i = 0;i< total ;i++){
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
-  }
   /*跳页加载数据*/
   goPage(page:number){
     this.pageNo = page;
@@ -252,7 +237,6 @@ export class PriceComponent implements OnInit {
     }
     this.getFacList();
   }
-
 }
 
 export class FacPrice {

@@ -104,7 +104,7 @@
       <div class="form-attach">
         <h4>附件</h4>
         <ol *ngIf="inner.fileName">
-          <li *ngFor="let abc of inner.fileName; let j=index">{{abc}} <a [href]="+'/proxy'+ inner.filePath[j]"><i class="icon-cloud-download"></i>下载</a> </li>
+          <li style="word-break: break-all;" *ngFor="let abc of inner.fileName; let j=index">{{abc}} <a [href]="+'/proxy'+ inner.filePath[j]"><i class="icon-cloud-download"></i>下载</a> </li>
         </ol>
       </div>
       <div class="form-btn" *ngIf="inner.orderStatus!=='结单'" (click)="editAttach(i)"><i class="icon-pencil"></i></div>
@@ -135,7 +135,7 @@
           <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingNum" (blur)="verifybuildingId()">
             <option *ngFor="let num of buildings"
                     [value]="num.BUILDING_ID">
-              {{num.BUILDING_ID}}</option>
+              {{num.NAME}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>

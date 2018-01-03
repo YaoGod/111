@@ -19,13 +19,15 @@ export class OrdersComponent implements OnInit {
   public searchArch : Arch;
   public record: Array<GuardName>;
   public repairname: GuardName;
+  public pageSize = 10;
+  public pageNo = 1;
+  public total = 0;
+  public length = 5;
   public pages: Array<number>;
   public buildings: any;
   public rule : any;
   public jurisdiction:any;
   public serviceCom:any;
-  private pageSize = 10;
-  private pageNo = 1;
   private editBool = true;
 
 
