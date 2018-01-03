@@ -22,14 +22,7 @@ export class HomepageComponent implements OnInit {
   public pageSize = 6; /*显示页数*/
   public total = 0;
   public search    :Building ; /*搜索字段*/
-  public newBuilding = {
-    imgPath: '',
-    buildingId: '',
-    name: '',
-    address: '',
-    belongTo:'',
-    type: ''
-  };
+  public newBuilding = new Building();
   public rule : sndCatalog = new sndCatalog();
   constructor(
     private infoBuildingService:InfoBuildingService,
@@ -49,6 +42,7 @@ export class HomepageComponent implements OnInit {
     );
     this.search = new Building();
     this.search.type = '';
+    this.search.use = '';
     this.getBuildingMsg(1);
   }
   /*获取大楼列表*/
@@ -87,14 +81,7 @@ export class HomepageComponent implements OnInit {
   closeMask(){
     $('.mask').hide();
     $('#prese').val('');
-    this.newBuilding = {
-      'imgPath': '',
-      'buildingId': '',
-      'name': '',
-      'address': '',
-      'belongTo': '',
-      'type': ''
-    }
+    this.newBuilding = new Building();
   }
   subBuilding(){
     if(this.newBuilding.imgPath === '' ||this.newBuilding.name === ''

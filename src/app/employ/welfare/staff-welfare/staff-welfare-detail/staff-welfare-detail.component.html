@@ -45,12 +45,19 @@
            *ngIf="welfare.feedBackMsg&&welfare.feedBackMsg.length>0">
         <h5>需反馈信息</h5>
         <ul>
-          <li *ngFor="let feedbackMsg of welfare.feedBackMsg">
+          <li *ngFor="let feedbackMsg of welfare.feedBackMsg;let i = index">
             <span class="form-title">{{feedbackMsg.key}}</span>
-            <span class="word">{{feedbackMsg.msg}}</span>
-            <span>
-              <input class="form-control" id="title" [(ngModel)] = "feedbackMsg.value"
-                         name="title" type="text">
+            <span class="form-title">{{feedbackMsg.msg}}</span>
+            <span *ngIf="feedbackMsg.type==='下拉框'">
+              <select class="form-control" [name]="'listValue'+i"
+                      [(ngModel)] = "feedbackMsg.value">
+                <option value="">请选择</option>
+                <option *ngFor="let opt of feedbackMsg.list">{{opt}}</option>
+              </select>
+            </span>
+            <span *ngIf="feedbackMsg.type==='文本'">
+              <input class="form-control" type="text" [name]="'title'+i"
+                     [(ngModel)] = "feedbackMsg.value">
             </span>
           </li>
         </ul>

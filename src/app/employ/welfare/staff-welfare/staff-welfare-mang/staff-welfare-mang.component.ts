@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Welfare, Other } from '../../../../mode/welfare/welfare.service';
+import {Welfare, Other, TargetList} from '../../../../mode/welfare/welfare.service';
 import { GlobalCatalogService } from '../../../../service/global-catalog/global-catalog.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
 import { WelfareEmployeeService } from '../../../../service/welfare-employee/welfare-employee.service';
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 declare var confirmFunc:any;
 declare var $: any;
 @Component({
@@ -27,16 +28,19 @@ export class StaffWelfareMangComponent implements OnInit {
     private router: Router,
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
-    private welfareEmployeeService:WelfareEmployeeService
+    private welfareEmployeeService:WelfareEmployeeService,
+    public  ipSetting:IpSettingService
   ) { }
 
   ngOnInit() {
     this.globalCatalogService.setTitle("员工服务/福利专区/福利信息管理");
     this.welfares = new Array<Welfare>();
     this.copyWelfare = new Welfare();
+    this.copyWelfare.targetId = new TargetList();
     this.search = "";
     this.targets = [];
     this.getWelfare(1);
+    this.getTargetIdList();
     this.winTitle = "";
   }
   getWelfare(pageNo) {
@@ -45,7 +49,6 @@ export class StaffWelfareMangComponent implements OnInit {
       .subscribe(data =>{
         if(this.errorResponseService.errorMsg(data)){
           this.welfares = data.data.infos;
-          this.getTargetIdList();
           this.total =data.data.total;
         }
       });
@@ -60,6 +63,9 @@ export class StaffWelfareMangComponent implements OnInit {
   }
   fadeBom(){
     this.copyWelfare.others = new Array<Other>();
+    this.copyWelfare.targetId = new TargetList();
+    this.copyWelfare.targetId.role = [];
+    this.copyWelfare.targetId.HRMIS = "";
     this.tempOther = [];
     this.tempFeedbackMsg = [];
     this.winTitle = "新增";
@@ -72,6 +78,11 @@ export class StaffWelfareMangComponent implements OnInit {
     $('.dropify-wrapper').removeClass('red');
     $('.error').fadeOut();
     this.copyWelfare = new Welfare();
+    this.copyWelfare.targetId = new TargetList();
+    this.copyWelfare.targetId.role = [];
+    this.copyWelfare.targetId.HRMIS = "";
+    $('#press').val('');
+    $('#pressFile').val('');
     this.tempOther = [];
   }
   /*文件图片上传*/
@@ -102,12 +113,21 @@ export class StaffWelfareMangComponent implements OnInit {
       }
     }
     if(length<5){
-      let object = {isShow: true,key:"",value:""};
+      let object = {isShow: true,key:"",type:"文本",list:"",value:""};
       this.tempOther.push(object);
     }
   }
   delLine(index){
     this.tempOther[index].isShow = false;
+    let length = 0;
+    for(let i = 0;i<this.tempOther.length;i++){
+      if(this.tempOther[i].isShow){
+        length++;
+      }
+    }
+    if(length === 0){
+      this.tempOther = [];
+    }
   }
   /*添加反馈字段*/
   addFeedbackLine(){
@@ -118,7 +138,7 @@ export class StaffWelfareMangComponent implements OnInit {
       }
     }
     if(length<5){
-      let object = {isShow: true,key:"",msg:"",value:""};
+      let object = {isShow: true,key:"",type:"下拉框",list:"",msg:"",value:""};
       this.tempFeedbackMsg.push(object);
     }
   }
@@ -131,34 +151,75 @@ export class StaffWelfareMangComponent implements OnInit {
     this.copyWelfare.feedBack = "是";
     $('#feedbackModal').show();
   }
-  /*取消反馈*/
+  /*关闭反馈弹窗*/
   closeFeedback(){
-    $('#feedbackModal').fadeOut();
+    let error = 0;
+    let j= 0;
+    this.copyWelfare.feedBackMsg = [];
+    for (let i = 0; i < this.tempFeedbackMsg.length; i++) {
+      if(this.tempFeedbackMsg[i].key === ""){
+        this.tempFeedbackMsg[i].isShow = false;
+      }
+      if (this.tempFeedbackMsg[i].isShow &&this.tempFeedbackMsg[i].key!==""){
+        if(this.tempFeedbackMsg[i].type==="下拉框"&&this.tempFeedbackMsg[i].list === ""){
+          console.log(this.tempFeedbackMsg[i]);
+          error ++;
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '请填写'+this.tempFeedbackMsg[i].key+'的枚举值（用|隔开）',
+            'popType': 0,
+            'imgType': 2,
+          });
+          break;
+        }else{
+          this.copyWelfare.feedBackMsg[j] = new Other();
+          this.copyWelfare.feedBackMsg[j].key = this.tempFeedbackMsg[i].key;
+          this.copyWelfare.feedBackMsg[j].type = this.tempFeedbackMsg[i].type;
+          this.copyWelfare.feedBackMsg[j].list = this.tempFeedbackMsg[i].list;
+          this.copyWelfare.feedBackMsg[j].msg = this.tempFeedbackMsg[i].msg;
+          j++;
+        }
+      }
+    }
+    if(this.copyWelfare.feedBackMsg.length===0&&error===0) {
+      error++;
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '请填写需反馈信息！',
+        'popType': 0,
+        'imgType': 2,
+      });
+    }
+    if(error===0){
+        $('#feedbackModal').fadeOut();
+    }
   }
   submit(){
-    console.log(this.copyWelfare);
+    console.log(this.copyWelfare.targetId);
+    let error = 0;
     this.verifyImgPath();
     this.verifyEmpty(this.copyWelfare.title,'title');
     this.verifyEmpty(this.copyWelfare.content,'content');
-    this.verifyEmptyArray(this.copyWelfare.targetId,'targetId');
+    this.verifyTragetId(this.copyWelfare.targetId,'targetId');
     let j = 0;
     this.copyWelfare.others = [];
     for (let i = 0; i < this.tempOther.length; i++) {
-      if (this.tempOther[i].isShow &&this.tempOther[i].key!==""&&this.tempOther[i].value!==""){
-        this.copyWelfare.others[j] = new Other();
-        this.copyWelfare.others[j].key = this.tempOther[i].key;
-        this.copyWelfare.others[j].value = this.tempOther[i].value;
-        j++;
-      }
-    }
-    j= 0;
-    this.copyWelfare.feedBackMsg = [];
-    for (let i = 0; i < this.tempFeedbackMsg.length; i++) {
-      if (this.tempFeedbackMsg[i].isShow &&this.tempFeedbackMsg[i].key!==""){
-        this.copyWelfare.feedBackMsg[j] = new Other();
-        this.copyWelfare.feedBackMsg[j].key = this.tempFeedbackMsg[i].key;
-        this.copyWelfare.feedBackMsg[j].msg = this.tempFeedbackMsg[i].msg;
-        j++;
+      if (this.tempOther[i].isShow &&this.tempOther[i].key!==""){
+        if(this.tempOther[i].value===""){
+          error++;
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '请填写模板内容！',
+            'popType': 0,
+            'imgType': 2,
+          });
+          break;
+        }else{
+          this.copyWelfare.others[j] = new Other();
+          this.copyWelfare.others[j].key = this.tempOther[i].key;
+          this.copyWelfare.others[j].value = this.tempOther[i].value;
+          j++;
+        }
       }
     }
     if(this.verifyEmpty(this.copyWelfare.feedBack,'feedback2')&&this.copyWelfare.feedBack === "是"){
@@ -167,13 +228,12 @@ export class StaffWelfareMangComponent implements OnInit {
       }
     }
     this.verifyEmpty(this.copyWelfare.status,'status2');
-    if($('.red').length === 0) {
+    if($('.red').length === 0 && error === 0) {
       let postdata = JSON.parse(JSON.stringify(this.copyWelfare));
       if(typeof (postdata.id) === "undefined" || postdata.id === null) {
         this.welfareEmployeeService.addWelfare(postdata)
           .subscribe(data => {
             if (this.errorResponseService.errorMsg(data)) {
-              console.log(111);
               confirmFunc.init({
                 'title': '提示',
                 'mes': data.msg,
@@ -195,7 +255,6 @@ export class StaffWelfareMangComponent implements OnInit {
           .subscribe(data => {
 
             if (this.errorResponseService.errorMsg(data)) {
-              console.log(222);
               confirmFunc.init({
                 'title': '提示',
                 'mes': data.msg,
@@ -217,8 +276,8 @@ export class StaffWelfareMangComponent implements OnInit {
   }
   /*编辑*/
   edit(data){
-    this.copyWelfare = JSON.parse(JSON.stringify(data));
     this.fadeBom();
+    this.copyWelfare = JSON.parse(JSON.stringify(data));
     this.winTitle = "编辑";
     this.tempOther = JSON.parse(JSON.stringify(data.others));
     for(let i = 0;i< this.tempOther.length;i++){
@@ -228,7 +287,6 @@ export class StaffWelfareMangComponent implements OnInit {
     for(let i = 0;i< this.tempFeedbackMsg.length;i++){
       this.tempFeedbackMsg[i].isShow = true;
     }
-
   }
   /*删除*/
   delete(id:number){
@@ -312,7 +370,41 @@ export class StaffWelfareMangComponent implements OnInit {
     $('#' + id).removeClass('red');
     $('#' + id).parent().next('.error').fadeOut();
   }
-  back(){
-    history.go(-1);
+  /*模板导出方法*/
+  exportMode(){
+    this.welfareEmployeeService.exportTemplate();
+  }
+  /*享受对象导入*/
+  importFile(files){
+    var xhr =   this.welfareEmployeeService.importTemplate(files[0])
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
+        var data:any = JSON.parse(xhr.responseText);
+        if(this.errorResponseService.errorMsg(data)){
+          this.copyWelfare.targetId.HRMIS = data.msg;
+          $('#pressFile').val('');
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': '人员导入成功',
+            'popType': 0 ,
+            'imgType': 1 ,
+          });
+        }
+      }else if(xhr.readyState === 4 && xhr.status === 413 ){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '文件大小超出限制',
+          'popType': 0 ,
+          'imgType': 2 ,
+        });
+      }
+    };
+  }
+  verifyTragetId(targetId,id){
+    if(typeof (targetId.HRMIS) === "undefined"||targetId.HRMIS === ""){
+      return this.verifyEmptyArray(targetId.role,id);
+    }else{
+      return this.verifyEmpty(targetId.HRMIS,id);
+    }
   }
 }

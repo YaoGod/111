@@ -42,32 +42,56 @@ export class StaffWelfareDetailComponent implements OnInit {
       .subscribe(data=> {
         if(this.errorResponseService.errorMsg(data)){
           this.welfare = data.data;
+          for(let i= 0;i<this.welfare.feedBackMsg.length;i++){
+            this.welfare.feedBackMsg[i].list = this.welfare.feedBackMsg[i].list.split('|');
+          }
         }
       })
   }
   submitFeedbackMsg(){
-    this.welfareEmployeeService.updateWelfareFeed(this.welfare)
-      .subscribe(data=> {
-        if(this.errorResponseService.errorMsg(data)){
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': data.msg,
-            'popType': 2 ,
-            'imgType': 1 ,
-            "callback": ()=>{
-              $('#forms').fadeOut();
-              this.getWelfare(this.welfare.id);
-            },
-            "cancel": ()=>{
-              $('#forms').fadeOut();
-              this.getWelfare(this.welfare.id);
-            }
-          });
+    let error = 0;
+    for(let i = 0;i<this.welfare.feedBackMsg.length;i++){
+      if(typeof (this.welfare.feedBackMsg[i].value)==="undefined"||
+        this.welfare.feedBackMsg[i].value === null||
+        this.welfare.feedBackMsg[i].value===""){
+        error++;
+        confirmFunc.init({
+          'title': '提示',
+          'mes': '请完善您的反馈信息！',
+          'popType': 0,
+          'imgType': 2,
+        });
+        break;
+      }
+    }
+    if(error === 0){
+      this.welfareEmployeeService.updateWelfareFeed(this.welfare)
+        .subscribe(data=> {
+          if(this.errorResponseService.errorMsg(data)){
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': data.msg,
+              'popType': 2 ,
+              'imgType': 1 ,
+              "callback": ()=>{
+                $('#forms').fadeOut();
+                this.getWelfare(this.welfare.id);
+              },
+              "cancel": ()=>{
+                $('#forms').fadeOut();
+                this.getWelfare(this.welfare.id);
+              }
+            });
 
-        }
-      })
+          }
+        })
+    }
   }
+  /*打开反馈浮层*/
   showFeedbackWin(){
+    for(let i = 0;i<this.welfare.feedBackMsg.length;i++){
+      this.welfare.feedBackMsg[i].value = "";
+    }
     if(this.welfare.details&&this.welfare.details.length>0){
       for(let i = 0;i<this.welfare.feedBackMsg.length;i++){
         if(typeof (this.welfare.details[i])!=="undefined"){
@@ -77,10 +101,8 @@ export class StaffWelfareDetailComponent implements OnInit {
     }
     $('#forms').show();
   }
+  /*关闭反馈浮层*/
   closeFeedbackMsg(){
-    for(let i = 0;i<this.welfare.feedBackMsg.length;i++){
-      this.welfare.feedBackMsg[i].value = "";
-    }
     $('#forms').fadeOut();
   }
   linkDiscountStatistics(){

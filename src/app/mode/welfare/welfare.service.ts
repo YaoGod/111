@@ -7,7 +7,7 @@ export class Welfare {
   title       : string;           /*福利信息标题*/
   content     : string;           /*福利内容描述*/
   imgPath     : string;           /*图片地址*/
-  targetId    : Array<any>;       /*享受对象*/
+  targetId    : TargetList;       /*享受对象*/
   feedBack    : string;           /*是否需要反馈*/
   feedBackMsg : any;              /*需反馈的信息*/
   status      : string;           /*状态*/
@@ -18,4 +18,9 @@ export class Welfare {
 export class Other {
   key: string;
   value: string;
+}
+
+export class TargetList{
+  HRMIS : string;
+  role  : Array<number>;
 }

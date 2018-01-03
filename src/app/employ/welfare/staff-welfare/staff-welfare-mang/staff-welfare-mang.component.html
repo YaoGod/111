@@ -2,7 +2,7 @@
 <div class="nav-title">
   <a><h4>爱统计服务管理</h4></a>
   <div class="b-head-right">
-    <div class="content-box" tabindex="0" (click)="back()">
+    <div class="content-box" tabindex="0" onclick="history.go(-1)">
       <i class="icon-reload"></i> 返回
     </div>
   </div>
@@ -52,7 +52,7 @@
       </td>
       <td width="20%" class="box-demo">
         <img *ngIf="discount.imgPath"
-             [src]="'/proxy' + discount.imgPath">
+             [src]="ipSetting.ip + discount.imgPath">
       </td>
       <td width="15%">
         {{discount.feedBack}}
@@ -135,13 +135,21 @@
             <label  class="control-label" style="height: 50px;">
               <span>享受对象</span>
               <select class="form-control" multiple
-                      style="height: 50px;width: 275px;"
+                      style="height: 50px;width: 195px;"
                       id="targetId" name="targetId"
-                      [(ngModel)]="copyWelfare.targetId"
-                      (blur)="verifyEmptyArray(copyWelfare.targetId,'targetId')">
+                      [(ngModel)]="copyWelfare.targetId.role"
+                      (blur)="verifyTragetId(copyWelfare.targetId,'targetId')">
                 <option *ngFor="let target of targets" [value]="target.ID">
                   {{target.NAME}}</option>
               </select>
+              <div class="form-mode">
+                <a class="btn-danger" (click)="exportMode()">模板下载</a>
+                <a class="btn-danger import">导入(HRMIS)
+                  <input type="file" name="importFile" #pressFile
+                         (change)="importFile(press.files)"
+                         (blur)="verifyTragetId(copyWelfare.targetId,'targetId')">
+                </a>
+              </div>
             </label>
             <div class="error"></div>
           </div>
@@ -174,23 +182,43 @@
               <div class="table-head">
                 <table border="0" cellspacing="0" cellpadding="0" class="list-box">
                   <tr class="row list-title" style="height:45px;">
-                    <th width="50%" class="text-left">反馈信息</th>
-                    <th width="50%" class="text-left">备注</th>
+                    <th width="25%" class="text-left">反馈信息</th>
+                    <th width="20%" class="text-left">输入类型</th>
+                    <th width="30%" class="text-left">枚举值(用|隔开)</th>
+                    <th width="20%" class="text-left">备注</th>
+                    <th width="5%"></th>
                   </tr>
                 </table>
               </div>
-              <div  class="form-group" *ngFor="let other of tempFeedbackMsg;let i = index;">
-                <label  class="control-label" *ngIf="other.isShow">
-                  <input class="form-control" type="text" style="width: 130px;"
-                         [name]="'otherKey'+i" [(ngModel)]="other.key">
-                  <input class="form-control" type="text" style="width: 130px;"
-                         [name]="'otherValue'+i" [(ngModel)]="other.msg">
-                  <a class="btn-close" (click)="delFeedbackLine(i)">
-                    <i class="icon-close"></i>
-                  </a>
-                </label>
-                <div class="error"></div>
-              </div>
+              <table  class="form-group" *ngFor="let otherfeed of tempFeedbackMsg;let i = index;">
+                <tr  class="control-label" *ngIf="otherfeed.isShow">
+                  <td  width="25%">
+                    <input class="form-control min-title" type="text"
+                           [name]="'otherfeedKey'+i" [(ngModel)]="otherfeed.key">
+                  </td>
+                  <td  width="20%">
+                    <select  class="form-control min-title"
+                             [name]="'otherfeedType'+i"
+                             [(ngModel)]="otherfeed.type">
+                      <option value="文本">文本</option>
+                      <option value="下拉框">下拉框</option>
+                    </select>
+                  </td>
+                  <td  width="30%">
+                    <input class="form-control min-title" type="text" *ngIf="otherfeed.type==='下拉框'"
+                           [name]="'otherfeedList'+i" [(ngModel)]="otherfeed.list">
+                  </td>
+                  <td  width="20%">
+                    <input class="form-control min-title" type="text"
+                           [name]="'otherfeedValue'+i" [(ngModel)]="otherfeed.msg">
+                  </td>
+                  <td  width="5%">
+                    <a class="btn-close" (click)="delFeedbackLine(i)">
+                      <i class="icon-close"></i>
+                    </a>
+                  </td>
+                </tr>
+              </table>
               <div class="opt-other">
                 <a class="btn-add" (click)="addFeedbackLine()">
                   <i class="icon-plus"></i>
@@ -231,39 +259,20 @@
         </div>
         <div class="table-head" *ngIf="tempOther&&tempOther.length>0">
           <table border="0" cellspacing="0" cellpadding="0" class="list-box">
-            <tr class="row list-title" style="height:45px;">
-              <th  class="text-left" width="20%">字段</th>
-              <th  class="text-left" width="10%">是否必填</th>
-              <th  class="text-left" width="15%">输入类型</th>
-              <th  class="text-left" width="30%">枚举值(用|隔开)</th>
-              <th  class="text-left" width="20%">备注</th>
+            <tr class="row list-title" style="height:30px;">
+              <th  class="text-left" width="30%">字段名称</th>
+              <th  class="text-left" width="65%">字段内容</th>
               <th width="5%"></th>
             </tr>
           </table>
         </div>
         <table  class="form-group" *ngFor="let other of tempOther;let i = index;">
           <tr  class="control-label" *ngIf="other.isShow">
-            <td  width="20%">
+            <td  width="30%">
               <input class="form-control min-title" type="text"
                      [name]="'otherKey'+i" [(ngModel)]="other.key">
             </td>
-            <td  width="10%">
-              <select  class="form-control min-title">
-                <option>是</option>
-                <option>否</option>
-              </select>
-            </td>
-            <td  width="15%">
-              <select  class="form-control min-title">
-                <option>文本</option>
-                <option>下拉框</option>
-              </select>
-            </td>
-            <td  width="30%">
-              <input class="form-control min-title" type="text"
-                     [name]="'otherList'+i" [(ngModel)]="other.list">
-            </td>
-            <td  width="20%">
+            <td  width="65%">
               <input class="form-control min-title" type="text"
                      [name]="'otherValue'+i" [(ngModel)]="other.value">
             </td>

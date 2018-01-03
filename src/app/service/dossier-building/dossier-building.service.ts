@@ -15,7 +15,7 @@ export class DossierBuildingService {
   ) { }
   /*新增大楼档案类型*/
   addDossier(data) {
-    const url = this.ipSetting.ip + "/proxy/building/dossierClass/addDossier";
+    const url = this.ipSetting.ip + "/building/dossierClass/addDossier";
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }

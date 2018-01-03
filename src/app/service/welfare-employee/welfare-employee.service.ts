@@ -109,4 +109,25 @@ export class WelfareEmployeeService {
         .map(res => res.json());
     }
   }
+  /*
+   获取目标人员导入模板
+   return: res.json
+   */
+  exportTemplate(){
+    const url = this.ipSetting.ip + "/employee/Welfare/exportTemplate";
+    window.open(url);
+  }
+
+  importTemplate(postData){
+    const url = this.ipSetting.ip + "/employee/Welfare/importTemplate";
+    var form = new FormData();
+    if (typeof(postData) === 'object') {
+      form.append('file', postData);
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.withCredentials = true;
+    xhr.send(form);
+    return xhr;
+  }
 }

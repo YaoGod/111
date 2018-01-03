@@ -156,8 +156,7 @@
 .form-title{
   display: inline-block;
   width: 80px;
-  line-height: 20px;
-  padding-right:10px;
+  line-height: 36px;
   margin-right: 10px;
   color: #5d5d5d;
   font-weight: 300;
@@ -166,17 +165,12 @@
   word-wrap: break-word;
   vertical-align: top;
 }
-.word{
-  display: inline-block;
-  /*width: 150px;*/
-  max-width: calc(100% - 120px);
-}
 .form-control {
   float: none;
   padding: 0 10px;
   width: 140px;
   max-width: 100%;
-  line-height: 38px;
+  height: 30px;
   background-color: rgba(0, 0, 0, 0);
   background-position: center bottom, center calc(99%);
   background-repeat: no-repeat;

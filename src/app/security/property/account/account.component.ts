@@ -203,7 +203,6 @@ export class AccountComponent implements OnInit {
     this.verifyEmpty(this.newDossier.title,'title');
     this.verifyEmpty(this.newDossier.content,'content');
     this.verifyFileNone(this.newDossier.filePath, 'newImgPath');
-    console.log(this.newDossier);
     if($('.red').length === 0) {
       if (typeof(this.newDossier.id) === "undefined" || this.newDossier.id === null) {
         this.add();

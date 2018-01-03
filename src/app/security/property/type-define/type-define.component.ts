@@ -14,12 +14,12 @@ declare var confirmFunc: any;
 })
 export class TypeDefineComponent implements OnInit {
 
-  public dossiers   : Array<TypeDefine> = new Array();
+  public dossiers   : Array<TypeDefine> = new Array<TypeDefine>();
   public newDossier : TypeDefine = new TypeDefine();
   public search     : any = "";
-  public pageNo     : number;
-  public pageSize   : number;
-  public pages      : Array<number>;
+  public pageNo     : number = 1;
+  public pageSize   : number = 9;
+  public total      : number = 0;
   public rule       : sndCatalog = new sndCatalog();
   constructor(
     private globalCatalogService:GlobalCatalogService,
@@ -36,18 +36,16 @@ export class TypeDefineComponent implements OnInit {
         this.rule = this.globalCatalogService.getRole("security/property");
       }
     );
-    this.pageNo = 1;
-    this.pageSize = 9;
-    this.getList();
+    this.getList(1);
   }
   /*获取档案类型列表*/
-  getList() {
+  getList(pageNo) {
+    this.pageNo = pageNo;
     this.dossierBuildingService.getDossierList(this.search,this.pageNo,this.pageSize)
       .subscribe( data => {
         if(this.errorResponseService.errorMsg(data)) {
           this.dossiers = data.data.infos;
-          let total = Math.ceil(data.data.total / this.pageSize);
-          this.initPage(total);
+          this.total =data.data.total;
         }
       });
   }
@@ -62,14 +60,12 @@ export class TypeDefineComponent implements OnInit {
             'popType': 2 ,
             'imgType': 1 ,
             'callback': ()=> {
-              this.pageNo = 1;
               this.closeNewView();
-              this.getList();
+              this.getList(1);
             },
             'cancel': ()=> {
-              this.pageNo = 1;
               this.closeNewView();
-              this.getList();
+              this.getList(1);
             }
           });
         }
@@ -86,16 +82,12 @@ export class TypeDefineComponent implements OnInit {
             'popType': 2,
             'imgType': 1,
             'callback': () => {
-              this.pageNo = 1;
-              this.pageSize = 9;
               this.closeNewView();
-              this.getList();
+              this.getList(1);
             },
             'cancel': () => {
-              this.pageNo = 1;
-              this.pageSize = 9;
               this.closeNewView();
-              this.getList();
+              this.getList(1);
             }
           });
         }
@@ -119,12 +111,10 @@ export class TypeDefineComponent implements OnInit {
                   'popType': 2 ,
                   'imgType': 1 ,
                   'callback': ()=> {
-                    this.pageNo = 1;
-                    this.getList();
+                    this.getList(1);
                   },
                   'cancel': ()=> {
-                    this.pageNo = 1;
-                    this.getList();
+                    this.getList(1);
                   }
                 });
               }
@@ -137,31 +127,6 @@ export class TypeDefineComponent implements OnInit {
   editInit(data) {
     this.addNew();
     this.newDossier = JSON.parse(JSON.stringify(data));
-  }
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
-    for(let i = 0;i< total;i++){
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
-  }
-  /*跳页加载数据*/
-  goPage(page:number) {
-    this.pageNo = page;
-    this.getList();
   }
   /*添加窗口弹出*/
   addNew() {
