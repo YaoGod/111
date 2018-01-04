@@ -57,7 +57,7 @@ export class GoodsComponent implements OnInit {
   }
 
   chang(value) {
-    console.log(value)
+
     if( $("#"+value).hasClass("btn-danger1")){
       $("#"+value).removeClass("btn-danger1");
       $("#"+value).addClass("btn-danger2");
@@ -306,7 +306,7 @@ export class GoodsComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          console.log(data.msg);
+
           this.goodsAdd.image = data.msg;
           alert("上传成功");
         }
@@ -321,7 +321,7 @@ export class GoodsComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          console.log(data.msg);
+
           this.goodsUp.image = data.msg;
           alert("上传成功");
         }

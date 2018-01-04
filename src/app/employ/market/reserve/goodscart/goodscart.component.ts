@@ -35,7 +35,7 @@ export class GoodscartComponent implements OnInit {
     this.ipSetting.sendGet(url)
     .subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
-        console.log(data);
+
         this.carts = data.data.cartProductVoList;
         this.mutipalPrice=data.data.cartTotalPrice;
         if(this.carts.length === 0){

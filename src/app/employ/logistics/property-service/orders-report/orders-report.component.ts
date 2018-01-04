@@ -43,7 +43,7 @@ export class OrdersReportComponent implements OnInit {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("property/orders");
-        console.log(this.rule);
+
         this.getQuan();
       }
     );

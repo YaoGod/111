@@ -58,7 +58,7 @@
         <div class="card-img" [routerLink]="['detail',building.id]">
           <div class="el-overlay">
           </div>
-          <img [src]="+'/proxy'+imgPaths[idx][0]" *ngIf="imgPaths[idx][0]">
+          <img  [src]="ipSetting.ip+imgPaths[idx][0]" *ngIf="imgPaths[idx][0]">
         </div>
         <div class="mark">
           <span>No.{{building.buildingId}}</span>
@@ -93,7 +93,7 @@
           <div class="modal-left">
             <div class="dropify-wrapper" id="newBuildingImgPath">
               <div class="dropify-message">
-                <img *ngIf="newBuilding.imgPath!==''" [src]="'/proxy/' + newBuilding.imgPath" />
+                <img *ngIf="newBuilding.imgPath" [src]="ipSetting.ip + newBuilding.imgPath" />
               </div>
               <p>点击此处上传图片</p>
               <input type="file" class="dropify" #prese id="prese"
@@ -157,10 +157,10 @@
               </div>
             <div class="form-group">
               <label class="control-label"><span>大楼用途</span>
-                <select  style="width:170px;padding:0 10px;" name="use" class="form-control"
+                <select  style="width:170px;padding:0 10px;" name="use" id="use" class="form-control"
                          [(ngModel)]="newBuilding.use"
                          (blur)="verifyEmpty(newBuilding.use,'use')">
-                  <option value="">全部</option>
+                  <option value="">请选择</option>
                   <option>办公</option>
                   <option>机房</option>
                   <option>营业厅</option>

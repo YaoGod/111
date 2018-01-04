@@ -89,61 +89,61 @@ if ( typeof define === 'function' && define.amd ) {
 			v = 3,
 			div = document.createElement('div'),
 			all = div.getElementsByTagName('i');
-			
+
 			while(
 				div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
 				all[0]
 			);
-			
+
 			return v > 4 ? v : undef;
 		}()),
-		
+
 		_svg_cache: 		{},
-		
+
 		_create_svg_element: function(tagname,attributes){
 			var xmlns = 'http://www.w3.org/2000/svg';
 			var elem = document.createElementNS(xmlns,tagname);
 			for(key in attributes){
 				elem.setAttributeNS(null,key,attributes[key]);
 			}
-			
+
 			return elem;
 		},
-		
+
 		_create_svg:	function(id,filterelements){
 			var xmlns = 'http://www.w3.org/2000/svg';
 			var svg = document.createElementNS(xmlns,'svg');
 			svg.setAttributeNS(null,'width','0');
 			svg.setAttributeNS(null,'height','0');
 			svg.setAttributeNS(null,'style','position:absolute');
-			
+
 			var svg_filter = document.createElementNS(xmlns,'filter');
 			svg_filter.setAttributeNS(null,'id',id);
 			svg.appendChild(svg_filter);
-			
+
 			for(var i = 0; i < filterelements.length; i++){
 				svg_filter.appendChild(filterelements[i]);
 			}
-			
+
 			return svg;
 		},
-		
+
 		_pending_stylesheets: 0,
-	
+
 		_stylesheets: 		[],
-		
+
 		_development_mode: (function(){
 			if(location.hostname === 'localhost' || location.hostname.search(/.local$/) !== -1 || location.hostname.search(/\d+\.\d+\.\d+\.\d+/) !== -1){
-				if(window.console) console.log('Detected localhost or IP address. Assuming you are a developer. Caching of stylesheets is disabled.');
+				if(window.console)
 				return true;
 			}
-			if(window.console) console.log('Caching of stylesheets is enabled. You need to refresh twice to see any changes.');
+			if(window.console)
 			return false;
 		})(),
-		
+
 		process_stylesheets: function(){
 			var xmlHttp = [];
-			
+
 			// Check if path to library is correct, do that 2 secs. after this to not disturb initial processing
 			window.setTimeout(function(){
 				if (window.XMLHttpRequest) {
@@ -161,36 +161,36 @@ if ( typeof define === 'function' && define.amd ) {
 					xmlHttpCheck.send(null);
 				} catch(e){}
 			},2000);
-			
-			
+
+
 			var stylesheets = document.querySelectorAll ? document.querySelectorAll('style,link[rel="stylesheet"]') : document.getElementsByTagName('*');
-			
+
 			for(var i = 0; i < stylesheets.length; i++){
 				(function(i){
 					switch(stylesheets[i].nodeName){
 						default:
 						break;
-						
+
 						case 'STYLE':
 							polyfilter._stylesheets.push({
 								media:		stylesheets[i].media || 'all',
 								content: 	stylesheets[i].innerHTML
 							});
 						break;
-						
+
 						case 'LINK':
 							if(stylesheets[i].rel === 'stylesheet'){
 								var index = polyfilter._stylesheets.length;
-							
+
 								polyfilter._stylesheets.push({
 									media:		stylesheets[i].media || 'all'
 								});
-								
+
 								polyfilter._pending_stylesheets++;
-								
+
 								// Fetch external stylesheet
 								var href = stylesheets[i].href;
-								
+
 								// Use localStorage as cache for stylesheets, if available
 								if(!polyfilter._development_mode && window.localStorage && window.localStorage.getItem('polyfilter_' + href)){
 									polyfilter._pending_stylesheets--;
@@ -199,7 +199,7 @@ if ( typeof define === 'function' && define.amd ) {
 										polyfilter.process();
 									}
 								}
-	
+
 								// Always fetch stylesheets to reflect possible changes
 								try{
 									if(window.XMLHttpRequest) {
@@ -211,7 +211,7 @@ if ( typeof define === 'function' && define.amd ) {
 									xmlHttp.onreadystatechange = function(){
 										if(xmlHttp.readyState === 4){
 											if(xmlHttp.status === 0){
-												if(window.console) console.log('Could not fetch external CSS via HTTP-Request ' + href + '. Probably because of cross origin.');
+												if(window.console)
 												if(!polyfilter._stylesheets[index].content){
 													polyfilter._pending_stylesheets--;
 													polyfilter._stylesheets[index].content = xmlHttp.responseText;
@@ -233,7 +233,7 @@ if ( typeof define === 'function' && define.amd ) {
 														window.localStorage.setItem('polyfilter_' + href,polyfilter._stylesheets[index].content)
 													}
 													catch(e){
-														if(window.console) console.log('Local storage quota have been exceeded. Caching of stylesheet ' + href + ' is not possible');
+														if(window.console)
 													}
 												}
 											}
@@ -242,7 +242,7 @@ if ( typeof define === 'function' && define.amd ) {
 									try{
 										xmlHttp.send(null);
 									} catch(e){
-										if(window.console) console.log('Could not fetch external CSS via HTTP-Request ' + href + '. Are you maybe testing using the file://-protocol?');
+										if(window.console)
 										if(!polyfilter._stylesheets[index].content){
 											polyfilter._pending_stylesheets--;
 											if(polyfilter._pending_stylesheets === 0){
@@ -260,21 +260,21 @@ if ( typeof define === 'function' && define.amd ) {
 				this.process();
 			}
 		},
-	
+
 		_processDeclarations:	function(rule){
 			var newstyles = '';
 			for(var k in rule.declarations){
 				var declaration = rule.declarations[k];
-			
+
 				if(declaration.property === 'filter'){
-					
+
 					if(document.querySelectorAll){
 						var elems = document.querySelectorAll(rule.mSelectorText);
 						for(var k = 0; k < elems.length; k++){
 							elems[k].style.polyfilterStore = declaration.valueText;
 						}
 					}
-					
+
 					var gluedvalues = declaration.valueText;
 					var values = gluedvalues.split(/\)\s+/),
 						properties = {
@@ -284,28 +284,28 @@ if ( typeof define === 'function' && define.amd ) {
 							filtersIE:		[],
 							behaviorsIE:	[]
 						};
-					
+
 					for(idx in values){
 						var value = values[idx] + ')';
-						
+
 						currentproperties = polyfilter.convert(value);
-		
+
 						for(key in currentproperties){
 							if(typeof properties[key] !== 'undefined'){
 								properties[key] = properties[key].concat(currentproperties[key]);
 							}
 						}
 					}
-					
+
 					newstyles += rule.mSelectorText + '{';
 					if(properties['filtersW3C'].length > 0){
-						var filter = 
-						webkitFilter = 
-						mozFilter = 
-						oFilter = 
-						msFilter = 
+						var filter =
+						webkitFilter =
+						mozFilter =
+						oFilter =
+						msFilter =
 						properties['filtersW3C'].join(' ');
-		
+
 						if(properties['filtersWebKit'] && properties['filtersWebKit'].length > 0){
 							webkitFilter = properties['filtersWebKit'].join(' ');
 						}
@@ -313,7 +313,7 @@ if ( typeof define === 'function' && define.amd ) {
 						if(typeof this._ie === 'undefined'){
 							newstyles += '-ms-filter:' + msFilter + ';';
 						}
-						
+
 						newstyles += '-webkit-filter:' + webkitFilter + ';';
 						newstyles += '-moz-filter:' + mozFilter + ';';
 						newstyles += '-o-filter:' + oFilter + ';';
@@ -336,14 +336,14 @@ if ( typeof define === 'function' && define.amd ) {
 									}
 								}
 							}
-		
+
 							if(typeof XMLSerializer === 'undefined'){
 								newstyles += 'filter: url(#' + id + ')';
 							}
 							else {
 								var s = new XMLSerializer();
 								var svgString = s.serializeToString(this._svg_cache[id]);
-								
+
 								if(svgString.search('SourceGraphic') != -1){
 									newstyles += 'filter: url(#' + id + ')';
 								}
@@ -359,12 +359,12 @@ if ( typeof define === 'function' && define.amd ) {
 					if(typeof this._ie !== 'undefined'){
 						if(properties['filtersIE'].length > 0){
 							var filtersIE = properties['filtersIE'].join(' ');
-							
+
 							newstyles += 'filter:' + filtersIE + ';';
 						}
 						if(properties['behaviorsIE'].length > 0){
 							var behaviorsIE = properties['behaviorsIE'].join(' ');
-							
+
 							newstyles += 'behavior:' + behaviorsIE + ';';
 						}
 					}
@@ -373,37 +373,37 @@ if ( typeof define === 'function' && define.amd ) {
 			}
 			return newstyles;
 		},
-		
+
 		// Absolute path to the .htc-files
-		scriptpath:		
+		scriptpath:
 			window.polyfilter_scriptpath ? window.polyfilter_scriptpath : (function(){
 				alert('Please configure the polyfill\'s absolute(!) script path before referencing the css-filters-polyfill.js, like so:\r\nvar polyfilter_scriptpath = "/js/css-filters-polyfill/";');
 				return './'
 			})(),
-		
+
 		// process stylesheets
 		process:		function(){
 			var parser = new CSSParser();
-	
+
 			for(var i = 0; i < this._stylesheets.length; i++){
 				var newstyles = '';
 				var sheet = parser.parse(this._stylesheets[i].content, false, true);
 				if(sheet !== null) for(var j in sheet.cssRules){
 					var rule = sheet.cssRules[j];
-					
+
 					switch(rule.type){
 						default:
 						break;
-						
+
 						case 1:
 							newstyles += this._processDeclarations(rule);
 						break;
-						
+
 						case 4:
 							newstyles += '@media ' + rule.media.join(',') + '{';
 							for(var k in rule.cssRules){
 								var mediarule = rule.cssRules[k];
-								
+
 								newstyles += this._processDeclarations(mediarule);
 							}
 							newstyles += '}';
@@ -412,7 +412,7 @@ if ( typeof define === 'function' && define.amd ) {
 				}
 				var newstylesheet = document.createElement('style');
 				newstylesheet.setAttribute('media',this._stylesheets[i].media);
-				
+
 				if(typeof polyfilter._ie === 'undefined'){
 					newstylesheet.innerHTML = newstyles;
 					document.getElementsByTagName('head')[0].appendChild(newstylesheet);
@@ -423,7 +423,7 @@ if ( typeof define === 'function' && define.amd ) {
 				}
 			}
 		},
-		
+
 		init:				function(){
 			if(Object.defineProperty){
 				Object.defineProperty(CSSStyleDeclaration.prototype, 'polyfilter', {
@@ -439,28 +439,28 @@ if ( typeof define === 'function' && define.amd ) {
 							filtersIE:		[],
 							behaviorsIE:	[]
 						}
-				
+
 						for(idx in values){
 							var value = values[idx] + ')';
-							
+
 							currentproperties = polyfilter.convert(value);
-							
+
 							for(key in currentproperties){
 								if(typeof properties[key] !== 'undefined'){
 									properties[key] = properties[key].concat(currentproperties[key]);
 								}
 							}
 						}
-			
+
 						if(properties['filtersW3C'].length > 0){
 							if(typeof polyfilter._ie === 'undefined'){
-								this.msFilter = 
+								this.msFilter =
 									properties['filtersW3C'].join(' ');
 							}
-							
-							this.webkitFilter = 
-							this.mozFilter = 
-							this.oFilter = 
+
+							this.webkitFilter =
+							this.mozFilter =
+							this.oFilter =
 								properties['filtersW3C'].join(' ');
 						}
 						if(properties['filtersWebKit'].length > 0){
@@ -469,7 +469,7 @@ if ( typeof define === 'function' && define.amd ) {
 						if(properties['filtersSVG'].length > 0){
 							if(properties['filtersSVG'][0] != 'none'){
 								var id = gluedvalues.replace(/[^a-z0-9]/g,'');
-					
+
 								if(typeof polyfilter._svg_cache[id] === 'undefined'){
 									polyfilter._svg_cache[id] = polyfilter._create_svg(id,properties['filtersSVG']);
 
@@ -484,7 +484,7 @@ if ( typeof define === 'function' && define.amd ) {
 										}
 									}
 								}
-			
+
 								if(typeof XMLSerializer === 'undefined'){
 									this.filter = 'url(#' + id + ')';
 								}
@@ -505,14 +505,14 @@ if ( typeof define === 'function' && define.amd ) {
 						}
 						if(typeof polyfilter._ie !== 'undefined'){
 							if(properties['filtersIE'].length > 0){
-								this.filter = 
+								this.filter =
 									properties['filtersIE'].join(' ');
 							}
 							else {
 								this.filter = '';
 							}
 							if(properties['behaviorsIE'].length > 0){
-								this.behavior = 
+								this.behavior =
 									properties['behaviorsIE'].join(' ');
 							}
 							else {
@@ -524,7 +524,7 @@ if ( typeof define === 'function' && define.amd ) {
 				});
 			}
 		},
-		
+
 		convert:			function(value){
 			// None
 			var fmatch = value.match(/none/i);
@@ -570,21 +570,21 @@ if ( typeof define === 'function' && define.amd ) {
 					color = fmatch[5],
 					properties = this.filters.dropShadow(offsetX,offsetY,radius,color);
 			}
-			
+
 			return properties;
 		},
-		
+
 		// EFFECTS SECTION -------------------------------------------------------------------------------------------------------------
-		
+
 		filters: 		{
 			// None
 			none:			function(){
 				var properties = {};
-				
+
 				if(typeof polyfilter._ie === 'undefined'){
 					// Proposed spec
 					properties['filtersW3C'] = ['none'];
-					
+
 					// Firefox
 					properties['filtersSVG'] = ['none'];
 				}
@@ -592,32 +592,32 @@ if ( typeof define === 'function' && define.amd ) {
 					// IE
 					properties['filtersIE'] = ['none'];
 				}
-				
+
 				return properties;
 			},
-			
+
 			// Grayscale
 			grayscale:			function(amount){
 				amount = amount || 0;
-				
+
 				var properties = {};
-				
+
 				if(typeof polyfilter._ie === 'undefined'){
 					// Proposed spec
 					properties['filtersW3C'] = ['grayscale(' + amount + ')'];
-					
+
 					// Firefox
 					// https://dvcs.w3.org/hg/FXTF/raw-file/tip/filters/index.html
 					var svg_fe1 = polyfilter._create_svg_element('feColorMatrix',{
 						type:	'matrix',
-						values:	(0.2126 + 0.7874 * (1 - amount)) + ' ' 
-							+ (0.7152 - 0.7152 * (1 - amount)) + ' ' 
-							+ (0.0722 - 0.0722 * (1 - amount)) + ' 0 0 ' 
-							+ (0.2126 - 0.2126 * (1 - amount)) + ' ' 
-							+ (0.7152 + 0.2848 * (1 - amount)) + ' ' 
-							+ (0.0722 - 0.0722 * (1 - amount)) + ' 0 0 ' 
-							+ (0.2126 - 0.2126 * (1 - amount)) + ' ' 
-							+ (0.7152 - 0.7152 * (1 - amount)) + ' ' 
+						values:	(0.2126 + 0.7874 * (1 - amount)) + ' '
+							+ (0.7152 - 0.7152 * (1 - amount)) + ' '
+							+ (0.0722 - 0.0722 * (1 - amount)) + ' 0 0 '
+							+ (0.2126 - 0.2126 * (1 - amount)) + ' '
+							+ (0.7152 + 0.2848 * (1 - amount)) + ' '
+							+ (0.0722 - 0.0722 * (1 - amount)) + ' 0 0 '
+							+ (0.2126 - 0.2126 * (1 - amount)) + ' '
+							+ (0.7152 - 0.7152 * (1 - amount)) + ' '
 							+ (0.0722 + 0.9278 * (1 - amount)) + ' 0 0 0 0 0 1 0'
 					});
 					properties['filtersSVG'] = [svg_fe1];
@@ -626,33 +626,33 @@ if ( typeof define === 'function' && define.amd ) {
 					// IE
 					properties['filtersIE'] = amount >= 0.5 ? ['gray'] : [];
 				}
-				
+
 				return properties;
 			},
-			
+
 			// Sepia
 			sepia:			function(amount){
 				amount = amount || 0;
-		
+
 				var properties = {};
-		
+
 				if(typeof polyfilter._ie === 'undefined'){
-				
+
 					// Proposed spec
 					properties['filtersW3C'] = ['sepia(' + amount + ')'];
-					
+
 					// Firefox
 					// https://dvcs.w3.org/hg/FXTF/raw-file/tip/filters/index.html
 					var svg_fe1 = polyfilter._create_svg_element('feColorMatrix',{
 						type:	'matrix',
-						values:	(0.393 + 0.607 * (1 - amount)) + ' ' 
-							+ (0.769 - 0.769 * (1 - amount)) + ' ' 
-							+ (0.189 - 0.189 * (1 - amount)) + ' 0 0 ' 
-							+ (0.349 - 0.349 * (1 - amount)) + ' ' 
-							+ (0.686 + 0.314 * (1 - amount)) + ' ' 
+						values:	(0.393 + 0.607 * (1 - amount)) + ' '
+							+ (0.769 - 0.769 * (1 - amount)) + ' '
+							+ (0.189 - 0.189 * (1 - amount)) + ' 0 0 '
+							+ (0.349 - 0.349 * (1 - amount)) + ' '
+							+ (0.686 + 0.314 * (1 - amount)) + ' '
 							+ (0.168 - 0.168 * (1 - amount)) + ' 0 0 '
-							+ (0.272 - 0.272 * (1 - amount)) + ' ' 
-							+ (0.534 - 0.534 * (1 - amount)) + ' ' 
+							+ (0.272 - 0.272 * (1 - amount)) + ' '
+							+ (0.534 - 0.534 * (1 - amount)) + ' '
 							+ (0.131 + 0.869 * (1 - amount)) + ' 0 0 0 0 0 1 0'
 					});
 					properties['filtersSVG'] = [svg_fe1];
@@ -662,20 +662,20 @@ if ( typeof define === 'function' && define.amd ) {
 					properties['filtersIE'] = amount >= 0.5 ? ['gray','progid:DXImageTransform.Microsoft.Light()'] : [];
 					properties['behaviorsIE'] = amount >= 0.5 ? ['url("' + polyfilter.scriptpath + 'htc/sepia.htc")'] : [];
 				}
-				
+
 				return properties;
 			},
-			
+
 			// Blur
 			blur:			function(amount){
 				amount = Math.round(amount) || 0;
-				
+
 				var properties = {};
-				
+
 				if(typeof polyfilter._ie === 'undefined'){
 					// Proposed spec
 					properties['filtersW3C'] = ['blur(' + amount + 'px)'];
-					
+
 					// Firefox
 					// https://dvcs.w3.org/hg/FXTF/raw-file/tip/filters/index.html
 					var svg_fe1 = polyfilter._create_svg_element('feGaussianBlur',{
@@ -688,20 +688,20 @@ if ( typeof define === 'function' && define.amd ) {
 					// IE
 					properties['filtersIE'] = ['progid:DXImageTransform.Microsoft.Blur(pixelradius=' + amount + ')'];
 				}
-				
+
 				return properties;
 			},
-			
+
 			// Invert
 			invert:			function(amount){
 				amount = amount || 0;
-				
+
 				var properties = {};
-				
+
 				if(typeof polyfilter._ie === 'undefined'){
 					// Proposed spec
 					properties['filtersW3C'] = ['invert(' + amount + ')'];
-					
+
 					// Firefox
 					// https://dvcs.w3.org/hg/FXTF/raw-file/tip/filters/index.html
 					var svg_fe1 = polyfilter._create_svg_element('feComponentTransfer',{});
@@ -726,23 +726,23 @@ if ( typeof define === 'function' && define.amd ) {
 					// IE
 					properties['filtersIE'] = amount >= 0.5 ? ['invert'] : [];
 				}
-				
+
 				return properties;
 			},
-				
+
 			// Brightness
 			brightness:			function(amount){
 				amount = amount || 0;
-				
+
 				var properties = {};
-				
+
 				if(typeof polyfilter._ie === 'undefined'){
 					// Proposed spec
 					properties['filtersW3C'] = ['brightness(' + amount + '%)'];
-	
+
 					// WebKit "specialty"
 					properties['filtersWebKit'] = ['brightness(' + (amount - 100) + '%)'];
-					
+
 					// Firefox
 					// https://dvcs.w3.org/hg/FXTF/raw-file/tip/filters/index.html
 					var svg_fe1 = polyfilter._create_svg_element('feComponentTransfer',{});
@@ -758,7 +758,7 @@ if ( typeof define === 'function' && define.amd ) {
 					svg_fe1.appendChild(svg_fe1sub);
 					var svg_fe1sub = polyfilter._create_svg_element('feFuncB',{
 						type:	'linear',
-						slope: 	amount / 100 
+						slope: 	amount / 100
 					});
 					svg_fe1.appendChild(svg_fe1sub);
 					properties['filtersSVG'] = [svg_fe1];
@@ -768,23 +768,23 @@ if ( typeof define === 'function' && define.amd ) {
 					properties['filtersIE'] = ['progid:DXImageTransform.Microsoft.Light()'];
 					properties['behaviorsIE'] = ['url("' + polyfilter.scriptpath + 'htc/brightness.htc")'];
 				}
-				
+
 				return properties;
 			},
-				
+
 			// Drop Shadow
 			dropShadow:			function(offsetX,offsetY,radius,color){
 				offsetX = Math.round(offsetX) || 0;
 				offsetY = Math.round(offsetY) || 0;
 				radius = Math.round(radius) || 0;
 				color = color || '#000000';
-				
+
 				var properties = {};
-				
+
 				if(typeof polyfilter._ie === 'undefined'){
 					// Proposed spec
 					properties['filtersW3C'] = ['drop-shadow(' + offsetX + 'px ' + offsetY + 'px ' + radius + 'px ' + color + ')'];
-					
+
 					// Firefox
 					// https://dvcs.w3.org/hg/FXTF/raw-file/tip/filters/index.html
 					var svg_fe1 = polyfilter._create_svg_element('feGaussianBlur',{
@@ -817,7 +817,7 @@ if ( typeof define === 'function' && define.amd ) {
 					properties['filtersIE'] = ['progid:DXImageTransform.Microsoft.Glow(color=' + color + ',strength=0)','progid:DXImageTransform.Microsoft.Shadow(color=' + color + ',strength=0)'];
 					properties['behaviorsIE'] = ['url("' + polyfilter.scriptpath + 'htc/drop-shadow.htc")'];
 				}
-				
+
 				return properties;
 			}
 		}
@@ -842,7 +842,7 @@ if ( typeof define === 'function' && define.amd ) {
 			document.addEventListener('DOMContentLoaded', function(){
 				polyfilter.process_stylesheets();
 			}, false);
-		} 
+		}
 		else if(window.attachEvent) // Microsoft
 		{
 			window.attachEvent('onload', function(){
@@ -850,7 +850,7 @@ if ( typeof define === 'function' && define.amd ) {
 			});
 		}
 	}
-	
+
 	// Install style setters and getters
 	polyfilter.init();
 })(window);
@@ -1294,7 +1294,7 @@ var CssInspector = {
             token.isFunction("-moz-repeating-radial-gradient(")) {
           gradient.isRepeating = true;
         }
-        
+
 
         token = parser.getToken(true, true);
         var haveGradientLine = false;
@@ -1548,7 +1548,7 @@ var CssInspector = {
           blurRadius = "0px";
           spreadRadius = "0px"
           offsetX = "0px";
-          offsetY = "0px"; 
+          offsetY = "0px";
           token = parser.getToken(true, true);
         }
         else if (!token.isNotNull())
@@ -1571,7 +1571,7 @@ var CssInspector = {
 
     var shadows = [];
     var token = parser.getToken(true, true);
-    var color = "", blurRadius = "0px", offsetX = "0px", offsetY = "0px"; 
+    var color = "", blurRadius = "0px", offsetX = "0px", offsetY = "0px";
     while (token.isNotNull()) {
       if (token.isIdent("none")) {
         shadows.push( { none: true } );
@@ -1647,7 +1647,7 @@ var CssInspector = {
           color = "";
           blurRadius = "0px";
           offsetX = "0px";
-          offsetY = "0px"; 
+          offsetY = "0px";
           token = parser.getToken(true, true);
         }
         else if (!token.isNotNull())
@@ -1755,7 +1755,7 @@ var CssInspector = {
         return null;
     }
     else
-      return null; 
+      return null;
 
     token = parser.getToken(true, true);
     if (token.isNumber() || token.isPercentage())
@@ -2159,7 +2159,7 @@ CSSScanner.prototype = {
 	}
 	else {
 		while (c != -1
-			   && c != '{' 
+			   && c != '{'
 			   && c != ',') {
 			s += c;
 		  c = this.read();
@@ -2333,7 +2333,7 @@ CSSScanner.prototype = {
 
     if (this.isWhiteSpace(c)) {
       var s = this.eatWhiteSpace(c);
-      
+
       return new jscsspToken(jscsspToken.WHITESPACE_TYPE, s);
     }
 
@@ -2375,7 +2375,7 @@ function CSSParser(aString)
   this.mPreserveComments = true;
 
   this.mPreservedTokens = [];
-  
+
   this.mError = null;
 }
 
@@ -2410,7 +2410,7 @@ CSSParser.prototype = {
 
   kCOLOR_NAMES: {
     "transparent": true,
-  
+
     "black": true,
     "silver": true,
     "gray": true,
@@ -2427,7 +2427,7 @@ CSSParser.prototype = {
     "blue": true,
     "teal": true,
     "aqua": true,
-    
+
     "aliceblue": true,
     "antiquewhite": true,
     "aqua": true,
@@ -2575,7 +2575,7 @@ CSSParser.prototype = {
     "whitesmoke": true,
     "yellow": true,
     "yellowgreen": true,
-  
+
     "activeborder": true,
     "activecaption": true,
     "appworkspace": true,
@@ -2623,7 +2623,7 @@ CSSParser.prototype = {
     "circle": true,
     "square": true,
     "none": true,
-    
+
     /* CSS 3 */
     "box": true,
     "check": true,
@@ -2884,7 +2884,7 @@ CSSParser.prototype = {
       if (!media.length) {
         media.push("all");
       }
-  
+
       if (token.isSymbol(";")) {
         s += ";"
         this.forgetState();
@@ -3133,7 +3133,7 @@ CSSParser.prototype = {
           this.ungetToken();
         break;
       }
-  
+
       if (token.isIdent(this.kINHERIT)) {
         if (values.length) {
           return "";
@@ -3328,7 +3328,7 @@ CSSParser.prototype = {
         token = this.getToken(true, true);
         break;
       }
-      
+
       else {
         var color = this.parseColor(token);
         if (color)
@@ -3515,7 +3515,7 @@ CSSParser.prototype = {
       else if (!values.length && token.isIdent(this.kINHERIT)) {
         values.push(token.value);
       }
-      
+
       else if (token.isDimension()
                || token.isNumber("0")
                || (token.isIdent() && token.value in this.kBORDER_WIDTH_NAMES)) {
@@ -3588,7 +3588,7 @@ CSSParser.prototype = {
       else if (!values.length && token.isIdent(this.kINHERIT)) {
         values.push(token.value);
       }
-      
+
       else if (token.isIdent() && token.value in this.kBORDER_STYLE_NAMES) {
         values.push(token.value);
       }
@@ -3960,19 +3960,19 @@ CSSParser.prototype = {
                    && (token.value in kStyle)) {
             fStyle = token.value;
           }
-  
+
           else if (!fVariant
                    && token.isIdent()
                    && (token.value in kVariant)) {
             fVariant = token.value;
           }
-  
+
           else if (!fWeight
                    && (token.isIdent() || token.isNumber())
                    && (token.value in kWeight)) {
             fWeight = token.value;
           }
-  
+
           else if (!fSize
                    && ((token.isIdent() && (token.value in kSize))
                        || token.isDimension()
@@ -4181,7 +4181,7 @@ CSSParser.prototype = {
       if (!token.isSymbol(","))
         return "";
       color += ", ";
-  
+
       token = this.getToken(true, true);
       if (!token.isNumber() && !token.isPercentage())
         return "";
@@ -4190,30 +4190,30 @@ CSSParser.prototype = {
       if (!token.isSymbol(","))
         return "";
       color += ", ";
-  
+
       token = this.getToken(true, true);
       if (!token.isNumber() && !token.isPercentage())
         return "";
       color += token.value;
-  
+
       if (isRgba) {
         token = this.getToken(true, true);
         if (!token.isSymbol(","))
           return "";
         color += ", ";
-  
+
         token = this.getToken(true, true);
         if (!token.isNumber())
           return "";
         color += token.value;
       }
-  
+
       token = this.getToken(true, true);
       if (!token.isSymbol(")"))
         return "";
       color += token.value;
     }
-  
+
     else if (token.isFunction("hsl(")
              || token.isFunction("hsla(")) {
       color = token.value;
@@ -4226,7 +4226,7 @@ CSSParser.prototype = {
       if (!token.isSymbol(","))
         return "";
       color += ", ";
-  
+
       token = this.getToken(true, true);
       if (!token.isPercentage())
         return "";
@@ -4235,24 +4235,24 @@ CSSParser.prototype = {
       if (!token.isSymbol(","))
         return "";
       color += ", ";
-  
+
       token = this.getToken(true, true);
       if (!token.isPercentage())
         return "";
       color += token.value;
-  
+
       if (isHsla) {
         token = this.getToken(true, true);
         if (!token.isSymbol(","))
           return "";
         color += ", ";
-  
+
         token = this.getToken(true, true);
         if (!token.isNumber())
           return "";
         color += token.value;
       }
-  
+
       token = this.getToken(true, true);
       if (!token.isSymbol(")"))
         return "";
@@ -4494,7 +4494,7 @@ CSSParser.prototype = {
           this.ungetToken();
           break;
         }
-        else 
+        else
           if (token.isSymbol(",")) {
             key += ", ";
           }
@@ -4788,7 +4788,7 @@ CSSParser.prototype = {
   {
     var s = "";
     var specificity = {a: 0, b: 0, c: 0, d: 0}; // CSS 2.1 section 6.4.3
-    
+
     if (isFirstInChain
         && (token.isSymbol("*") || token.isSymbol("|") || token.isIdent())) {
       // type or universal selector
@@ -4828,7 +4828,7 @@ CSSParser.prototype = {
           return null;
       }
     }
-  
+
     else if (token.isSymbol(".") || token.isSymbol("#")) {
       var isClass = token.isSymbol(".");
       s += token.value;
@@ -4890,7 +4890,7 @@ CSSParser.prototype = {
         }
       } else
         return null;
-  
+
     } else if (token.isSymbol("[")) {
       s += "[";
       token = this.getToken(true, true);
@@ -4916,7 +4916,7 @@ CSSParser.prototype = {
       }
       else
         return null;
-  
+
       // nothing, =, *=, $=, ^=, |=
       token = this.getToken(true, true);
       if (token.isIncludes()
@@ -4933,7 +4933,7 @@ CSSParser.prototype = {
         }
         else
           return null;
-    
+
         if (token.isSymbol("]")) {
           s += token.value;
           specificity.c++;
@@ -4947,7 +4947,7 @@ CSSParser.prototype = {
       }
       else
         return null;
-        
+
     }
     else if (token.isWhiteSpace()) {
       var t = this.lookAhead(true, true);
@@ -5299,7 +5299,7 @@ jscsspStylesheet.prototype = {
           return true;
       return false;
     }
-    
+
     for (var i = 0; i < this.cssRules.length; i++)
     {
       var rule = this.cssRules[i];
@@ -5307,7 +5307,7 @@ jscsspStylesheet.prototype = {
         break;
       else if (rule.type == kJscsspVARIABLES_RULE &&
                (!rule.media.length || ItemFoundInArray(rule.media, aMedium))) {
-        
+
         for (var j = 0; j < rule.declarations.length; j++) {
           var valueText = "";
           for (var k = 0; k < rule.declarations[j].values.length; k++)
@@ -5356,7 +5356,7 @@ jscsspCharsetRule.prototype = {
 
 function jscsspErrorRule(aErrorMsg)
 {
-  this.error = aErrorMsg ? aErrorMsg : "INVALID"; 
+  this.error = aErrorMsg ? aErrorMsg : "INVALID";
   this.type = kJscsspUNKNOWN_RULE;
   this.parsedCssText = null;
   this.parentStyleSheet = null;
@@ -5417,7 +5417,7 @@ function jscsspImportRule()
   this.type = kJscsspIMPORT_RULE;
   this.parsedCssText = null;
   this.href = null;
-  this.media = []; 
+  this.media = [];
   this.parentStyleSheet = null;
   this.parentRule = null;
 }
@@ -5984,7 +5984,7 @@ function ParseURL(buffer) {
       if(buffer.charAt(start) == ':') {
         section = "AFTER_PROTOCOL";
         start++;
-      } else if(buffer.charAt(start) == '/' && result.protocol.length() == 0) { 
+      } else if(buffer.charAt(start) == '/' && result.protocol.length() == 0) {
         section = PATH;
       } else {
         result.protocol += buffer.charAt(start++);
@@ -6000,7 +6000,7 @@ function ParseURL(buffer) {
         start ++;
       } else {
         throw new ParseException("Protocol shell be separated with 2 slashes");
-      }       
+      }
     } else if(section == "USER") {
       if(buffer.charAt(start) == '/') {
         result.host = result.user;
@@ -6311,7 +6311,7 @@ function FilterRepeatingGradientForOutput(aValue, aEngine)
  *
  * Licensed under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
- * 
+ *
  * Copyright 2013, Codrops
  * http://www.codrops.com
  */
@@ -6335,7 +6335,7 @@ var ModalEffects = (function() {
 			}
 
 			function removeModalHandler() {
-				removeModal( classie.has( el, 'md-setperspective' ) ); 
+				removeModal( classie.has( el, 'md-setperspective' ) );
 			}
 
 			el.addEventListener( 'click', function( ev ) {

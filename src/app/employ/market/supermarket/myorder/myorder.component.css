@@ -170,10 +170,10 @@ select{outline:medium;}
   padding: 30px;
 }
 .wrap-b{
-  width: 100%;
   background: #fff;
   padding: 20px;
-  display: inline-block;
+  display: block;
+  min-height: 700px;
 }
 .b-head{
   border-bottom: 2px solid #f7fbfe;
@@ -188,8 +188,7 @@ select{outline:medium;}
   border-bottom: 3px solid #ff5c39;
 }
 .b-con{
-  width: 98%;
-  margin-left: 2%;
+  width: 100%;
   display: inline-block;
 }
 .b-con h2{

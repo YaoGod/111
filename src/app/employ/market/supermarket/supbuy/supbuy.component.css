@@ -166,9 +166,8 @@ select{outline:medium;}
 .wrap-b{
   background: #fff;
   padding: 20px;
-  /*height: 1000px;*/
-  display: inline-block;
-  width: 100%;
+  display: block;
+  min-height: 700px;
 }
 .wrap-b .wrap{
   margin: 5px 0;
@@ -243,8 +242,7 @@ select{outline:medium;}
 .b-head-right .content-box img{margin-right: 4px;vertical-align: -3px}
 .b-head-right .content-box:hover{cursor: pointer;border-color: #ff3c00;}
 .b-con{
-  width: 98%;
-  margin-left: 2%;
+  width: 100%;
   display: inline-block;
 }
 .b-con h2{

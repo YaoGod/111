@@ -162,7 +162,7 @@ export class StaffWelfareMangComponent implements OnInit {
       }
       if (this.tempFeedbackMsg[i].isShow &&this.tempFeedbackMsg[i].key!==""){
         if(this.tempFeedbackMsg[i].type==="下拉框"&&this.tempFeedbackMsg[i].list === ""){
-          console.log(this.tempFeedbackMsg[i]);
+
           error ++;
           confirmFunc.init({
             'title': '提示',
@@ -195,7 +195,7 @@ export class StaffWelfareMangComponent implements OnInit {
     }
   }
   submit(){
-    console.log(this.copyWelfare.targetId);
+
     let error = 0;
     this.verifyImgPath();
     this.verifyEmpty(this.copyWelfare.title,'title');

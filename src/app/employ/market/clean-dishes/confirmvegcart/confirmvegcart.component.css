@@ -36,8 +36,7 @@
 .b-head-right .content-box:hover{cursor: pointer;border-color: #ff3c00;}
 
 .b-con{
-  width: 98%;
-  margin-left: 2%;
+  width: 100%;
   display: inline-block;
 }
 .b-con h2{

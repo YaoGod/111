@@ -56,9 +56,9 @@ export class SupplierComponent implements OnInit {
   providerList(){
     this.marketManagerService.providerList().subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
-        console.log(data);
+
         this.appliers = data.data.providers;
-        console.log(this.appliers);
+
       }
     });
   }
@@ -151,7 +151,7 @@ export class SupplierComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          console.log(data);
+
           alert("上传成功");
           this.applierAdd.fileName.push(files[0].name);
           this.applierAdd.filePath.push(data.data.msg);
@@ -167,7 +167,7 @@ export class SupplierComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          console.log(data.msg);
+
           alert("上传成功");
           this.applierEdit.fileName1.push(files[0].name);
           this.applierEdit.filePath1.push(data.msg);
@@ -209,7 +209,7 @@ export class SupplierComponent implements OnInit {
 
     this.marketManagerService.providerSave(this.applierAdd).subscribe(data => {
       if (data.status=="0") {
-        console.log(data);
+
        alert(data.msg);
         $('.maskAdd').hide();
         this.providerList();
@@ -246,7 +246,7 @@ export class SupplierComponent implements OnInit {
       if (this.errorVoid.errorMsg(data.status)) {
         this.applierView = data.data;
         this.file= data.data.file;
-        console.log(data.data);
+
       }
     });
     $('.maskView').show();

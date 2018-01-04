@@ -1,0 +1,10 @@
+a{
+  color: #2162B6;
+  cursor: pointer;
+}
+a:hover{
+  color: #2878dd;
+}
+.btn-print{
+  position: relative;
+}

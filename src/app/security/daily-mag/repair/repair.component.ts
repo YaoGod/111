@@ -53,7 +53,7 @@ export class RepairComponent implements OnInit {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("security/daily");
-        // console.log(this.rule);
+        //
         this.getQuan();
       }
     );
@@ -84,7 +84,7 @@ export class RepairComponent implements OnInit {
         .map(res => res.json())
         .subscribe(data => {
           if(this.errorVoid.errorMsg(data)) {
-            // console.log(data.data[0]);
+            //
             this.jurisdiction = data['data'][0];
           }
         });
@@ -139,10 +139,10 @@ export class RepairComponent implements OnInit {
     if(((this.endTime === '' && this.beginTime !== '') || (this.endTime !== '' && this.beginTime === '') || ((this.beginTime !==
       '' &&  this.endTime !== '') && this.beginTime <= this.endTime)) || (this.beginTime === '' && this.endTime === '')){
       if($('.repair-header a:last-child').hasClass('active')) {
-        // console.log('执行合同');
+        //
         this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
       }else {
-        // console.log('执行记录');
+        //
         this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
       }
     }else {
@@ -432,7 +432,7 @@ export class RepairComponent implements OnInit {
         if(this.errorVoid.errorMsg(data)){
           this.contractName.fileName.push(files[0].name);
           this.contractName.filePath.push(data.msg);
-          console.log(this.contractName.fileName);
+
           confirmFunc.init({
             'title': '提示' ,
             'mes': '上传成功',

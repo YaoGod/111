@@ -20,7 +20,7 @@ export class SupermarketManagerService {
   }
 
   getSupermarketList(pageNo:number,pageSize:number,search:any) {
-    console.log(search);
+
     const url = '/proxy/mmall/supermarket/getSupermarketList/'+pageNo+'/'+pageSize;
     const data = search;
     return this.http.post(url,data,this.options)
@@ -28,7 +28,7 @@ export class SupermarketManagerService {
   }
 
   getMarketShowList(pageNo:number,pageSize:number,search:any) {
-    console.log(search);
+
     const url = '/proxy/mmall/supermarket/getMarketShowList/'+pageNo+'/'+pageSize;
     const data = search;
     return this.http.post(url,data,this.options)
@@ -143,7 +143,7 @@ export class SupermarketManagerService {
   addToCart(username,cart:any) {
     const url = '/proxy/mmall/supermarketCart/addSupermarketCart/'+username;
     const data = cart;
-    console.log(data);
+
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
@@ -178,7 +178,7 @@ export class SupermarketManagerService {
   updateOrder(order:any){
     const url = '/proxy/mmall/supermarketOrder/updateOrder/';
     const data = order;
-    console.log(data);
+
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }

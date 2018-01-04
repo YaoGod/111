@@ -43,7 +43,7 @@ export class ContentComponent implements OnInit {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("security/daily");
-        // console.log(this.rule);
+        //
         this.getQuan();
       }
     );
@@ -101,7 +101,7 @@ export class ContentComponent implements OnInit {
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.serviceCom = data.data;
-          // console.log(this.serviceCom);
+          //
           /*for(let i=0;i<data['data'].length;i++){
            this.serviceCom.push(data['data'][i].companyName);
            }*/
@@ -166,10 +166,10 @@ export class ContentComponent implements OnInit {
     $('.mask').hide();
   }
   queryId(pty){
-    console.log(pty);
+
     /*for(let i=0;i<this.serviceCom.length;i++){
       if(this.serviceCom[i].companyName === pty){
-        console.log(this.serviceCom[i].id);
+
       }
     }*/
   }

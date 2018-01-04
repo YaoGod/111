@@ -56,7 +56,7 @@ export class VegbuyComponent implements OnInit {
     this.vegetableInfoService.getVegetableShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.vegetables = data.data.infos;
-        console.log(this.vegetables);
+
         this.cartsize = data.data.cartsize;
         let total = Math.ceil(data.data.total / this.pageSize);
         this.initPage(total);
@@ -82,7 +82,7 @@ export class VegbuyComponent implements OnInit {
   /*页码初始化*/
   initPage(total){
     this.pages = new Array(total);
-    console.log(this.pages);
+
     for(let i = 0;i< total ;i++){
       this.pages[i] = i+1;
     }

@@ -124,11 +124,11 @@ export class CleanComponent implements OnInit {
   /*点击查询*/
   repairSearch() {
     if($('.guard-header a:last-child').hasClass('active')) {
-      // console.log('查询人员档案');
+      //
       this.pageNo = 1;
       this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
     }else {
-      // console.log('查询公司');
+      //
       this.pageNo = 1;
       this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
     }

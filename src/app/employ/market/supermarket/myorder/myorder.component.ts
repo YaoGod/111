@@ -32,7 +32,7 @@ export class MyorderComponent implements OnInit {
     this.supermarketManagerService.getOrderList().subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.orders = data.data.infos;
-        console.log(this.orders);
+
 
       }
     });
@@ -43,7 +43,7 @@ export class MyorderComponent implements OnInit {
     this.myOrder.id = orderId;
     this.myOrder.status =  status;
     this.supermarketManagerService.updateOrder(this.myOrder) .subscribe(data => {
-      console.log(data);
+
       if(data['status'] === 0){
         alert(data['msg']);
         this.getOrderList();

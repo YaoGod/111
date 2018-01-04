@@ -59,7 +59,7 @@ export class GroupNoticeService {
    return:
    */
   updateGroupBuyNotice(postData){
-    console.log(postData);
+
     const url = '/proxy/mmall/notice/updateGroupNotice';
     const data = postData;
     return this.http.post(url,data,this.options)

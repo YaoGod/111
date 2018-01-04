@@ -199,7 +199,7 @@ export class GroupListComponent implements OnInit {
     this.verifyEmpty(this.newDossier.title,'title');
     this.verifyEmpty(this.newDossier.content,'content');
     this.verifyFileNone(this.newDossier.filePath, 'newImgPath');
-    console.log(this.newDossier);
+
     if($('.red').length === 0) {
       if (typeof(this.newDossier.id) === "undefined" || this.newDossier.id === null) {
         this.add();
@@ -266,11 +266,11 @@ export class GroupListComponent implements OnInit {
     this.newDossier = JSON.parse(JSON.stringify(data));
     this.newDossier.buildingId = this.search.buildingId;
     this.newDossier.classId = this.search.classId;
-    console.log(this.newDossier);
+
   }
   /*文件是否为空*/
   verifyFileNone(value, id) {
-    console.log(value);
+
     if(typeof (value) === "undefined" ||
       value === null ||
       value === ''){
@@ -287,7 +287,7 @@ export class GroupListComponent implements OnInit {
   }
   /*判断是否为空*/
   verifyEmpty( value, id){
-    console.log(value);
+
     if(typeof (value) === "undefined" ||
       value === null ||
       value === ''){
@@ -300,7 +300,7 @@ export class GroupListComponent implements OnInit {
   }
   /*字数限制*/
   limitText(value,id,limit) {
-    console.log(value.length);
+
     if(value.length > limit) {
       this.addErrorClass(id,'超出限制，最大'+limit+'个字符');
       return value.substr(0,limit);

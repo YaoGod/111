@@ -51,7 +51,7 @@ export class PlanLaundryComponent implements OnInit {
       if (this.errorVoid.errorMsg(data)) {
         this.applierList = data.data.providers;
         this.serverCenters = data.data.centers;
-        console.log(data.data);
+
       }
     });
   }
@@ -85,7 +85,7 @@ export class PlanLaundryComponent implements OnInit {
     let url = '/mmall/laundryOrder/addOrder/'+$('#message').val();
     this.ipSetting.sendPost(url,this.myOrder).subscribe(data => {
       if(data['status'] === 0){
-        console.log(data);
+
         alert(data['msg']);
         this.closeSubmitOrder();
         this.getOrderList();
@@ -140,7 +140,7 @@ export class PlanLaundryComponent implements OnInit {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
         this.myOrder.id = data.data.orderId;
-        console.log(data.data);
+
         this.total = data.data.total;
       }
     });
@@ -175,7 +175,7 @@ export class PlanLaundryComponent implements OnInit {
     let url = "/mmall/laundryOrder/addOrderItem";
     this.ipSetting.sendPost(url,this.orderItemAdd).subscribe(data => {
       if(data['status'] === 0){
-        console.log(data);
+
         alert(data['msg']);
         this.closeMaskAdd();
         this.getOrderList();

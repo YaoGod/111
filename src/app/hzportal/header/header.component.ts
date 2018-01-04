@@ -68,7 +68,7 @@ export class HeaderComponent implements OnInit {
   }
   /*修改密码*/
   rePassword() {
-    console.log(this.user);
+
     $('#viewPassword').css('display','block');
   }
   submit() {

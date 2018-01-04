@@ -263,7 +263,7 @@ export class AccountComponent implements OnInit {
   }
   /*文件是否为空*/
   verifyFileNone(value, id) {
-    console.log(value);
+
     if(typeof (value) === "undefined" ||
       value === null ||
       value === ''){

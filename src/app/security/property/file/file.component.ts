@@ -58,7 +58,7 @@ export class FileComponent implements OnInit {
       this.search.buildingId = data.buildingID;
       this.pageNo = 1;
       this.getList();
-      console.log( document.body.offsetWidth);
+
     });
   }
   /*获取大楼名称列表*/
@@ -263,7 +263,7 @@ export class FileComponent implements OnInit {
   }
   /*文件是否为空*/
   verifyFileNone(value, id) {
-    console.log(value);
+
     if(typeof (value) === "undefined" ||
       value === null ||
       value === ''){
@@ -292,7 +292,7 @@ export class FileComponent implements OnInit {
   }
   /*字数限制*/
   limitText(value,id,limit) {
-    console.log(value.length);
+
     if(value.length > limit) {
       this.addErrorClass(id,'超出限制，最大'+limit+'个字符');
       return value.substr(0,limit);

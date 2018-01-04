@@ -36,7 +36,7 @@ export class ConfirmsupcartComponent implements OnInit {
   getCartList(){
     this.supermarketManagerService.getCartList(this.username).subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
-        console.log(data);
+
         this.carts = data.data.infos;
         this.mutipalPrice=data.data.mutipalPrice;
         this.userInfo=data.data.userInfo;

@@ -849,16 +849,23 @@ select{
 .wrap-b{
   background: #fff;
   padding: 20px;
-  /*height: 1000px;*/
   display: inline-block;
-  width: 100%;
 }
 .b-head{
   border-bottom: 2px solid #f7fbfe;
 }
 .b-head span{
   font-size: 16px;
-  height: 36px;
+  line-height: 36px;
+  padding: 0 20px;
+  display: inline-block;
+  color: #04a9f3;
+  outline: none;
+  cursor: pointer;
+}
+.b-head .active{
+  font-size: 16px;
+  height: 22px;
   line-height: 0;
   padding: 0 20px;
   display: inline-block;
@@ -866,8 +873,7 @@ select{
   border-bottom: 3px solid #ff5c39;
 }
 .b-con{
-  width: 98%;
-  margin-left: 2%;
+  width: 100%;
   display: inline-block;
 }
 .b-con h2{

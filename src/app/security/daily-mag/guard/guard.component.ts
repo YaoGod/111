@@ -48,7 +48,7 @@ export class GuardComponent implements OnInit {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("security/daily");
-        // console.log(this.rule);
+        //
         this.getQuan();
       }
     );
@@ -386,7 +386,7 @@ export class GuardComponent implements OnInit {
     this.getCompany();
     this.contractBool = false;
     this.contractName = JSON.parse(JSON.stringify(this.contract[index]));
-    console.log(this.contractName.personType)
+
     $('.mask-contract').fadeIn();
     $('.mask-contract .mask-head p').html('编辑人员档案');
   }

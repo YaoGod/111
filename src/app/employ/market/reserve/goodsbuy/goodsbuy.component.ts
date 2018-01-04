@@ -42,7 +42,7 @@ export class GoodsbuyComponent implements OnInit {
         .subscribe(data => {
           if (this.errorVoid.errorMsg(data)) {
             this.goods = data.data.list;
-            console.log(this.goods);
+
             this.cartsize = data.data.cartsize;
             let total = Math.ceil(data.data.total / this.pageSize);
             this.initPage(total);
@@ -68,7 +68,7 @@ export class GoodsbuyComponent implements OnInit {
   /*页码初始化*/
   initPage(total){
     this.pages = new Array(total);
-    console.log(this.pages);
+
     for(let i = 0;i< total ;i++){
       this.pages[i] = i+1;
     }

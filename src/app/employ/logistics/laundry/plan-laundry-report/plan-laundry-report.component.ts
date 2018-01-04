@@ -33,7 +33,7 @@ export class PlanLaundryReportComponent implements OnInit {
     this.ipSetting.sendPost(url,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
-        console.log(data.data);
+
         this.total = data.data.total;
       }
     });

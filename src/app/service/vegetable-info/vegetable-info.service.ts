@@ -16,7 +16,7 @@ export class VegetableInfoService {
    return:              #公告*/
 
   getVegetableList(pageNo:number,pageSize:number,search:any) {
-    console.log(search);
+
     const url = '/proxy/mmall/vegetableInfo/getVegetableList/'+pageNo+'/'+pageSize;
     const data = search;
     return this.http.post(url,data,this.options)
@@ -38,7 +38,7 @@ export class VegetableInfoService {
    return:
    */
   addVegetable(postData){
-    console.log(postData);
+
     const url = '/proxy/mmall/vegetableInfo/addVegetable';
     const data = postData;
     return this.http.post(url,data,this.options)
@@ -94,7 +94,7 @@ export class VegetableInfoService {
   getVegetableShowList(pageNo:number,pageSize:number,search:any) {
     const url = '/proxy/mmall/vegetableInfo/getVegetableShowList/'+pageNo+'/'+pageSize;
     const data = search;
-    console.log(data);
+
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
@@ -107,7 +107,7 @@ export class VegetableInfoService {
   addToCart(cart:any) {
     const url = '/proxy/mmall/vegetabelCart/addVegetableCart';
     const data = cart;
-    console.log(data);
+
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
@@ -190,7 +190,7 @@ export class VegetableInfoService {
   updateOrder(order:any){
     const url = '/proxy/mmall/vegetabelOrder/iVegetableOrder/';
     const data = order;
-    console.log(data);
+
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }

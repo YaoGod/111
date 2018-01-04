@@ -42,13 +42,13 @@ export class MyorderComponent implements OnInit {
     this.groupOrderService.getOrderList().subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
-        console.log(this.orders);
+
       }
     });
   }
   getProductShowList(){
     this.groupProductService.getProductShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
-      console.log();
+
       if (this.errorVoid.errorMsg(data)) {
         this.cartsize = data.data.cartsize;
       }

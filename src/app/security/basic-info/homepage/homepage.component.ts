@@ -6,6 +6,7 @@ import { UtilBuildingService } from "../../../service/util-building/util-buildin
 import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
 import { sndCatalog } from '../../../mode/catalog/catalog.service';
 import * as $ from 'jquery';
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 declare var $:any;
 declare var confirmFunc: any;
 
@@ -29,6 +30,7 @@ export class HomepageComponent implements OnInit {
     private errorVoid:ErrorResponseService,
     private utilBuildingService:UtilBuildingService,
     private globalCatalogService:GlobalCatalogService,
+    public  ipSetting:IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("security/basic");
   }
@@ -69,45 +71,46 @@ export class HomepageComponent implements OnInit {
     this.imgPaths = list;
   }
   fadeBom(){
+    this.newBuilding = new Building();
     $('.mask').show();
-    if (navigator.geolocation){
-      navigator.geolocation.getCurrentPosition((position)=> {
-        console.log("Latitude: " + position.coords.latitude + "<br />Longitude: " + position.coords.longitude);
-      })
-    }else{
-      console.log("Geolocation is not supported by this browser.");
-    }
   }
   closeMask(){
     $('.mask').hide();
     $('#prese').val('');
+    $('.form-control').removeClass('red');
+    $('#newBuildingImgPath').removeClass('red');
+    $('.error').fadeOut();
     this.newBuilding = new Building();
   }
   subBuilding(){
-    if(this.newBuilding.imgPath === '' ||this.newBuilding.name === ''
-      || this.newBuilding.address === '' || this.newBuilding.belongTo === '' ||
-      this.newBuilding.type === ''){
-      confirmFunc.init({
-        'title': '提示' ,
-        'mes': "请把信息填写完整",
-        'popType': 0 ,
-        'imgType': 2 ,
-      });
-      return false;
-    }
-    this.infoBuildingService.addBuilding(this.newBuilding)
-     .subscribe(data => {
-        if(data['status'] === 0){
-          if(data['msg'] === 'success'){
-            confirmFunc.init({
-              'title': '提示' ,
-              'mes': '新增成功',
-              'popType': 0 ,
-              'imgType': 1 ,
-            });
-            this.closeMask();
-            this.getBuildingMsg(1);
-          }else{
+    this.verifyImgPath(this.newBuilding.imgPath,'newBuildingImgPath');
+    this.verifyEmpty(this.newBuilding.name,'newBuildingName');
+    this.verifyEmpty(this.newBuilding.type,'newBuildingType');
+    this.verifyEmpty(this.newBuilding.belongTo,'belongTo');
+    this.verifyEmpty(this.newBuilding.use,'use');
+    this.verifyEmpty(this.newBuilding.address,'address');
+    if($('.red').length === 0){
+      this.infoBuildingService.addBuilding(this.newBuilding)
+        .subscribe(data => {
+          if(data['status'] === 0){
+            if(data['msg'] === 'success'){
+              confirmFunc.init({
+                'title': '提示' ,
+                'mes': '新增成功',
+                'popType': 0 ,
+                'imgType': 1 ,
+              });
+              this.closeMask();
+              this.getBuildingMsg(1);
+            }else{
+              confirmFunc.init({
+                'title': '提示' ,
+                'mes': data['msg'],
+                'popType': 0 ,
+                'imgType': 2 ,
+              });
+            }
+          }else if(data['status'] === 1){
             confirmFunc.init({
               'title': '提示' ,
               'mes': data['msg'],
@@ -115,15 +118,8 @@ export class HomepageComponent implements OnInit {
               'imgType': 2 ,
             });
           }
-        }else if(data['status'] === 1){
-            confirmFunc.init({
-              'title': '提示' ,
-              'mes': data['msg'],
-              'popType': 0 ,
-              'imgType': 2 ,
-            });
-        }
-     })
+        })
+    }
   }
   /*文件图片上传*/
   prese_upload(files,index){

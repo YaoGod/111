@@ -60,7 +60,7 @@ export class DiscountInfoListComponent implements OnInit {
           for(let i= 0;i< data.data.infos.length;i++){
             this.discounts.push(data.data.infos[i]);
           }
-          console.log(this.discounts);
+
           /*this.discounts = this.discounts.concat(data.data.infos);*/
           this.maxPageNo = Math.ceil(data.data.total / this.pageSize);
         }

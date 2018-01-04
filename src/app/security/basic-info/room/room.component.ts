@@ -328,6 +328,7 @@ export class RoomComponent implements OnInit {
     $('#' + id).parent().next('.error').fadeOut();
   }
   /*字数限制*/
+  /*字数限制*/
   limitText(value,limit) {
     if(value.length > limit) {
       return value.substr(0,limit);

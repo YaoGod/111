@@ -29,7 +29,7 @@ export class PropertyServiceComponent implements OnInit {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("security/daily");
-        console.log(this.rule);
+
         this.getQuan();
       }
     );

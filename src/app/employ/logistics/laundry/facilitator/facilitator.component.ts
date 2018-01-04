@@ -71,7 +71,7 @@ export class FacilitatorComponent implements OnInit {
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           this.appliers = data.data.providers;
-          // console.log(data.data);
+          //
           this.total = data.data.total;
         }
       });
@@ -80,7 +80,7 @@ export class FacilitatorComponent implements OnInit {
   delFile(index,fileId) {
     this.applierAdd.filePath.splice(index,1);
     this.applierAdd.fileName.splice(index,1);
-    console.log(index+"======"+fileId);
+
     this.marketManagerService.delFile(fileId)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
@@ -157,7 +157,7 @@ export class FacilitatorComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          // console.log(data);
+          //
           confirmFunc.init({
             'title': '提示' ,
             'mes': '上传成功',
@@ -187,7 +187,7 @@ export class FacilitatorComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          // console.log(data);
+          //
           confirmFunc.init({
             'title': '提示' ,
             'mes': '上传成功',
@@ -280,7 +280,7 @@ export class FacilitatorComponent implements OnInit {
     this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.applierView = data.data;
-        this.file= data.data.file; // console.log(data.data);
+        this.file= data.data.file; //
       }
     });
     $('.maskView').show();

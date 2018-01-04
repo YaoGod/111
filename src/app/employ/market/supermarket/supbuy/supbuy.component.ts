@@ -4,6 +4,7 @@ import {SupermarketManagerService} from "../../../../service/supermarket-manager
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {SupermarketCart} from "../../../../mode/supermarketCart/supermarket-cart.service";
 import {SupermarketProduct} from "../../../../mode/supermarketProduct/supermarket-product.service";
+declare var confirmFunc:any;
 @Component({
   selector: 'app-supbuy',
   templateUrl: './supbuy.component.html',
@@ -39,7 +40,7 @@ export class SupbuyComponent implements OnInit {
     this.marketManagerService.getMarketShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.products = data.data.infos;
-        console.log(this.products);
+
         this.cartsize = data.data.cartsize;
         let total = Math.ceil(data.data.total / this.pageSize);
         this.initPage(total);
@@ -56,11 +57,21 @@ export class SupbuyComponent implements OnInit {
     this.cart.quantity = 1;
     this.marketManagerService.addToCart(this.username,this.cart)
       .subscribe(data => {
-        if(data['status']==0){
+        if(data['status']===0){
           this.cartsize = data.data.cartsize;
-          alert("购买成功:已加入购物车！");
+          confirmFunc.init({
+            'title': '提示',
+            'mes': "购买成功:已加入购物车！",
+            'popType': 0,
+            'imgType': 1,
+          });
         }else{
-          alert(data['msg']);
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data['msg'],
+            'popType': 0,
+            'imgType': 2,
+          });
         }
       })
   }
@@ -70,7 +81,7 @@ export class SupbuyComponent implements OnInit {
   /*页码初始化*/
   initPage(total){
     this.pages = new Array(total);
-    console.log(this.pages);
+
     for(let i = 0;i< total ;i++){
       this.pages[i] = i+1;
     }

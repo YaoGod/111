@@ -38,10 +38,10 @@ export class WashAccountComponent implements OnInit {
   /*选择查询类型*/
   queryTypeClick(queryType) {
     if (queryType === 0) {
-      console.log('消费记录==='+queryType);
+
       this.queryType = 1;
     }else {
-      console.log('充值记录==='+queryType);
+
       this.queryType = 0;
     }
     this.getConsumeInfo(1);

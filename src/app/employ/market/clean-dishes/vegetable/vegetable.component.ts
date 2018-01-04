@@ -69,7 +69,7 @@ export class VegetableComponent implements OnInit {
   }
 
 chang(value) {
-   console.log(value)
+
   if( $("#"+value).hasClass("btn-danger1")){
     $("#"+value).removeClass("btn-danger1");
     $("#"+value).addClass("btn-danger2");
@@ -230,7 +230,7 @@ chang(value) {
     this.vegetableUp.saletime = this.days;
     this.vegetableInfoService.updateVegetable(this.vegetableUp)
       .subscribe(data => {
-        console.log(data);
+
         if(data['status'] === 0){
           alert("修改成功")
           this.closeMaskUp();
@@ -361,7 +361,7 @@ chang(value) {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          console.log(data.msg);
+
           this.vegetableAdd.vimage = data.msg;
           alert("上传成功");
         }
@@ -375,7 +375,7 @@ chang(value) {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          console.log(data.msg);
+
           this.vegetableUp.vimage = data.msg;
           alert("上传成功");
         }

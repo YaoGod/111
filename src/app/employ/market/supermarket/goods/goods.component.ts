@@ -160,7 +160,7 @@ export class GoodsComponent implements OnInit {
     }
     this.marketManagerService.updateProduct(this.productUp)
       .subscribe(data => {
-        console.log(data);
+
         if(data['status'] === 0){
           alert(data['data']);
           this.closeMaskUp();
@@ -265,7 +265,7 @@ export class GoodsComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          console.log(data.msg);
+
           this.productAdd.simage = data.msg;
           alert("上传成功");
         }
@@ -279,7 +279,7 @@ export class GoodsComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          console.log(data.msg);
+
           this.productUp.simage = data.msg;
           alert("上传成功");
         }
@@ -345,7 +345,7 @@ private  removeErrorClass(id: string) {
   /*页码初始化*/
   initPage(total){
     this.pages = new Array(total);
-    console.log(this.pages);
+
     for(let i = 0;i< total ;i++){
       this.pages[i] = i+1;
     }

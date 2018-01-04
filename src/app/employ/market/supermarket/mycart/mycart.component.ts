@@ -25,7 +25,7 @@ export class MycartComponent implements OnInit {
   getCartList(){
     this.marketManagerService.getCartList(this.username).subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
-        console.log(data);
+
         this.carts = data.data.infos;
         this.mutipalPrice=data.data.mutipalPrice;
         if(this.carts.length==0){

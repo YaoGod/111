@@ -57,11 +57,11 @@ export class DeviceComponent implements OnInit {
     this.pages = [];
 
     if($('.device-header a:last-child').hasClass('active')) {
-      // console.log('保养信息');
+      //
       $('.guard-arch,.box2').fadeIn();
       // this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
     }else {
-      // console.log('设备基础信息');
+      //
       $('.guard-company,.box1').fadeIn();
       this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
     }

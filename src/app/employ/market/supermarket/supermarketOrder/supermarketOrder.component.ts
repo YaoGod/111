@@ -44,7 +44,7 @@ export class SupermarketOrderComponent implements OnInit {
     this.supermarketManagerService.getOrderAllList(this.productName,this.serverCenter,this.pageNo,this.pageSize).subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.orders = data.data.infos;
-        console.log(this.orders);
+
         let total = Math.ceil(data.data.total / this.pageSize);
         this.initPage(total);
       }
@@ -63,7 +63,7 @@ export class SupermarketOrderComponent implements OnInit {
 
   updateOrders(){
     this.supermarketManagerService.updateOrder(this.updateOrder) .subscribe(data => {
-      console.log(data);
+
       if(data['status'] === 0){
         alert("修改成功")
         this.closeMask();
@@ -103,7 +103,7 @@ export class SupermarketOrderComponent implements OnInit {
   /*页码初始化*/
   initPage(total){
     this.pages = new Array(total);
-    console.log(this.pages);
+
     for(let i = 0;i< total ;i++){
       this.pages[i] = i+1;
     }

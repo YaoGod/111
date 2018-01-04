@@ -157,10 +157,10 @@ export class FitmentComponent implements OnInit {
     if(((this.endTime === '' && this.beginTime !== '') || (this.endTime !== '' && this.beginTime === '') || ((this.beginTime !==
       '' &&  this.endTime !== '') && this.beginTime <= this.endTime)) || (this.beginTime === '' && this.endTime === '')) {
       if ($('.repair-header a:last-child').hasClass('active')) {
-        // console.log('执行合同');
+        //
         this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
       } else {
-        // console.log('执行记录');
+        //
         this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
       }
     }else{

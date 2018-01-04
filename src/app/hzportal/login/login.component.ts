@@ -104,7 +104,7 @@ export class LoginComponent implements OnInit {
   /*回车登陆*/
   keyLogin(event: any) {
 
-    if (event.keyCode == 13) {console.log(this.user.name);
+    if (event.keyCode == 13) {
       if (typeof this.user.name === 'undefined' ||  this.user.name === '') {
         $('#userName').focus();
       }else if ( typeof this.user.password === 'undefined' || this.user.password === '') {

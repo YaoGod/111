@@ -36,7 +36,7 @@ export class GoodsorderComponent implements OnInit {
       {
         if (this.errorVoid.errorMsg(data.status)) {
         this.orders = data.data.list;
-        console.log(this.orders);
+
 
         }
      });

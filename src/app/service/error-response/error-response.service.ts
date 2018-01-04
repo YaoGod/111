@@ -38,11 +38,11 @@ export class ErrorResponseService {
       });
       return false;
     }else if (data === 103) {
-      console.log('权限不足');
+
       alert('权限不足');
       return false;
     }else if (data === 104) {
-      console.log('请求地址有误，找不到对应路径');
+
       return false;
     }else{
       return true;

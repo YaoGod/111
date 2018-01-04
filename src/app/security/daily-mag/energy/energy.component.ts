@@ -311,13 +311,13 @@ export class EnergyComponent implements OnInit {
 
     if($('.energy-header a:nth-of-type(1)').hasClass('active')){
       this.repairname.energyType = 'water';
-      console.log('用水');
+
     }else if($('.energy-header a:nth-of-type(2)').hasClass('active')) {
       this.repairname.energyType = 'electric';
-      console.log('用电');
+
     }else{
       this.repairname.energyType = 'gas';
-      console.log('燃气');
+
     }
     this.repairname.month = this.repairname.month.replace(/-/g, "/");
     this.http.post(SOFTWARES_URL, this.repairname, options)

@@ -242,7 +242,7 @@ export class ProductComponent implements OnInit {
       .subscribe(data => {
         if(data['status']==0){
           this.productCheck = data.data;
-          console.log(data.data);
+
         }
         $('.mask0').show();
       })
@@ -257,7 +257,7 @@ export class ProductComponent implements OnInit {
 
     this.groupProductService.updateGroupbuyProduct(this.upGroupProduct)
       .subscribe(data => {
-        console.log(data);
+
         if(data['status'] === 0){
           confirmFunc.init({
             'title': '提示',
@@ -297,7 +297,7 @@ export class ProductComponent implements OnInit {
       .subscribe(data => {
         if (data['status']==0) {
           this.productview = data.data;
-          console.log(this.productview);
+
           $('.mask3').show();
         }
 

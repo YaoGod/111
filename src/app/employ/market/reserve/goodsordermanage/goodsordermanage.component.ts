@@ -55,7 +55,7 @@ export class GoodsordermanageComponent implements OnInit {
       .subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.orders = data.data.infos;
-        console.log(this.orders);
+
         let total = Math.ceil(data.data.total / this.pageSize);
         this.initPage(total);
       }
@@ -77,7 +77,7 @@ export class GoodsordermanageComponent implements OnInit {
     let url = '/mmall/vegetabelOrder/iVegetableOrder/';
     this.ipSetting.sendPost(url,this.updateOrder)
       .subscribe(data => {
-      console.log(data);
+
       if(data['status'] === 0){
         alert(data['msg']);
         this.closeMask();
@@ -117,7 +117,7 @@ export class GoodsordermanageComponent implements OnInit {
   /*页码初始化*/
   initPage(total){
     this.pages = new Array(total);
-    console.log(this.pages);
+
     for(let i = 0;i< total ;i++){
       this.pages[i] = i+1;
     }
