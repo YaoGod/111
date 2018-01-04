@@ -1,3 +1,66 @@
-<p>
-  laundry-order works!
-</p>
+<div class="wrap-content">
+  <div class="wrap-b">
+      <div class="b-head">
+        <span>我的订单</span>
+        <div class="b-head-right">
+          <div class="content-box" onclick="history.go(-1)"><i class="icon-reload"></i>返回</div>
+        </div>
+      </div>
+      <div class="wrap">
+        <ul class="search-list clearfix">
+          <li>
+            <label>订单编号：</label>
+            <input type="text"  class="noticetext"  [(ngModel)]="search.orderNo" >
+          </li>
+          <li>
+            <label>服务中心</label>
+            <select id="serverCenter_add" name="serverCenter_add" class="noticetext" [(ngModel)]="search.serviceCenter">
+              <option value="">-全部-</option>
+              <option *ngFor="let center of serverCenters;let idx=index" value="{{center.name}}">{{center.name}}</option>
+            </select>
+          </li>
+          <li><a class="search" href="javascript: void(0);" (click)="getOrderAllList()" >查询</a></li>
+        </ul>
+      </div>
+      <div class="b-con tuanmenu">
+        <div class="list-table" *ngFor="let order of orders;let idx=index">
+          <table class="table-head0">
+            <tr>
+              <td class="zero">订单编号：{{order.orderNo}}</td>
+              <td class="zero">服务中心：{{order.serviceCenter}}</td>
+              <td class="zero">下单时间：{{order.payTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+              <td class="zero">订单价格：￥{{order.payment}}元</td>
+              <td class="zero" *ngIf="order.status=='0'">订单状态：订购中</td>
+              <td class="zero" *ngIf="order.status=='4'">订单状态：已收货</td>
+              <td class="zero" *ngIf="order.status=='1'">订单状态：已完成</td>
+              <td class="zero" *ngIf="order.status=='2'">订单状态：退单</td>
+            </tr>
+          </table>
+          <table class="table-head">
+              <thead>
+              <tr>
+                <th>服务内容</th>
+                <th>单价</th>
+                <th>数量</th>
+                <th>合计</th>
+                <th>单位</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let item of order.orderItems;let idx=index">
+                <!--<td class="fir">{{order.orderNo}}</td>
+                <td class="fir">{{order.serviceCenter}}</td>-->
+                <td class="sec">{{item.appcontent}}</td>
+                <td class="three">{{item.unitPrice}}</td>
+                <td class="three">{{item.quantity}}</td>
+                <td class="three">{{item.totalPrice}}</td>
+                <td class="four">{{item.unit}}</td>
+              </tr>
+              </tbody>
+
+            </table>
+        </div>
+      </div>
+    </div>
+</div>
+

@@ -117,7 +117,6 @@
 }
 button{
   border:none;
-  font-size:18px;
   background: none;
 }
 .modal-title{
@@ -126,7 +125,7 @@ button{
 }
 .modal-body{
   position: relative;
-  padding: 15px;
+  padding: 20px;
 }
 .modal-left{
   width:180px;
@@ -315,6 +314,7 @@ button{
 .noticetext{
   width:170px;
   text-indent: 5px;
+  padding-left: 10px;
   height: 25px;
   border: 1px solid #ccc;
   box-shadow: 0 0 3px #ddd inset;
@@ -352,7 +352,6 @@ button{
   background-color:rgb(170, 170, 170);
 }
 .protop{
-  height: 190px;
   display: inline-block;
 }
 .pimg{
@@ -362,8 +361,6 @@ button{
   border: 2px solid #E5E5E5;
 }
 .pdetail{
-  width: 507px;
-  float: right;
   margin-left: 10px;
 }
 select{
@@ -830,6 +827,7 @@ select {
 .b-head-right .content-box img{margin-right: 4px;vertical-align: -3px}
 .b-head-right .content-box:hover{cursor: pointer;border-color: #ff3c00;}
 .count {
+  display: inline-block;
   overflow: hidden;
   margin: 0 9px 0 1px;
 }

@@ -11,6 +11,7 @@ import {FormsModule} from "@angular/forms";
 import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
 import { LaundryAdminComponent } from './laundry-admin/laundry-admin.component';
 import { LaundryOrderComponent } from './laundry-order/laundry-order.component';
+import { ServeTimeComponent } from './serve-time/serve-time.component';
 const routes: Routes = [
   {
     path: '',
@@ -36,7 +37,7 @@ const routes: Routes = [
       },
       {
         path: 'laundryOrder',
-        component: LaundryAdminComponent,
+        component: LaundryOrderComponent,
       },
       {
         path: 'laundryAdmin',
@@ -45,6 +46,9 @@ const routes: Routes = [
       {
         path: 'planReport',
         component: PlanLaundryReportComponent,
+      },{
+        path: 'serveTime',
+        component: ServeTimeComponent,
       },
     ]
   }
@@ -58,6 +62,6 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   declarations: [FacilitatorComponent, PriceComponent, PlanLaundryComponent, PlanLaundryReportComponent, LaundryComponent,
-    LaundryAdminComponent, LaundryOrderComponent]
+    LaundryAdminComponent, LaundryOrderComponent, ServeTimeComponent]
 })
 export class LaundryModule { }

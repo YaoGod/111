@@ -1,0 +1,79 @@
+.wrap-content{
+  padding:20px;
+}
+.b-head{
+  border-bottom: 2px solid #f7fbfe;
+}
+.b-head span{
+  font-size: 16px;
+  height: 36px;
+  padding: 0 20px;
+  display: inline-block;
+  color: #ff5c39;
+  border-bottom: 3px solid #ff5c39;
+}
+.b-head-right{float: right;right: 40px;}
+.b-head-right .content-box{float: left; padding-left: 10px;padding-right: 10px;border:1px solid #eee;margin-right:10px;line-height: 32px;border-radius: 3px;font-size: 15px;color: #ff3c00;
+  outline:none;}
+.b-head-right .content-box:last-child{
+  margin-right:0;
+}
+.b-head-right .content-box i{font-size:14px;}
+.b-head-right .content-box img{margin-right: 4px;vertical-align: -3px}
+.b-head-right .content-box:hover{cursor: pointer;border-color: #ff3c00;}
+.list-table .table-head0 {
+  width: 100%;
+  height: 34px;
+  line-height: 34px;
+  background: #eaf8ff;
+  border: 1px solid #aed8ff;
+  color: #333;
+}
+.list-head{
+  border: 1px solid #eee;
+}
+.list-table .table-head{
+  width: 100%;
+  height: 34px;
+  line-height: 34px;
+  background: #fff;
+  border: 1px solid #f5f5f5;
+  color: #333;
+}
+.list-table .table-head thead{
+  background-color: #f5f5f5;
+}
+.list-table .table-head td,.list-table .table-head th,.list-table .table-head0 td {
+  font-size: 12px;
+  text-align: left;
+  text-indent: 20px;
+}
+.noticetext {
+  box-sizing: content-box;
+  width: 170px;
+  text-indent: 5px;
+  height: 25px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 3px #ddd inset;
+  -webkit-box-shadow: 0 0 3px #ddd inset;
+  border-radius: 4px;
+  padding:0;
+}
+.search-list{
+  margin:10px 0;
+}
+.search-list li{
+  float:left;
+  margin-left:10px;
+}
+.wrap .search {
+  text-decoration: none;
+  padding: 4px 15px;
+  margin: 0 15px;
+  background: #66cdff;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 3px;
+  letter-spacing: 2px;
+  float: left;
+}

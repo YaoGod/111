@@ -44,20 +44,20 @@ export class PlanLaundryComponent implements OnInit {
     this.initFac();
     this.getOrderList();
   }
-
+/*获取服务中心*/
   initFac(){
     let url = '/mmall/laundry/provider/initFac';
     this.ipSetting.sendPost(url,this.myOrder).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.applierList = data.data.providers;
         this.serverCenters = data.data.centers;
-
+        // console.log(data.data);
       }
     });
   }
   /*提交订单*/
   submitOrder(){
-    this.myOrder.serviceCenter=""
+    this.myOrder.serviceCenter="";
     $('.maskSubmitOrder').show();
   }
 
@@ -65,15 +65,26 @@ export class PlanLaundryComponent implements OnInit {
 
     let url = '/mmall/laundryOrder/getPayCode/'+this.username;
     this.ipSetting.sendGet(url).subscribe(data => {
-      if(data['status'] === 0){
-        alert("短信发送成功！");
+      if (this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '短信发送成功！',
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
 
       }else{
-        alert("短信发送失败！");
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '短信发送失败！',
+          'popType': 0 ,
+          'imgType': 2 ,
+        });
       }
     });
 
   }
+  /*短信验证*/
   saveSubmitOrder(){
     if(!this.verifyEmpty('serverCenter_add','服务中心不能为空')){
       return false;
@@ -81,16 +92,17 @@ export class PlanLaundryComponent implements OnInit {
     if(!this. verifyEmpty('message','短信验证码不能为空')){
       return false;
     }
-
     let url = '/mmall/laundryOrder/addOrder/'+$('#message').val();
     this.ipSetting.sendPost(url,this.myOrder).subscribe(data => {
-      if(data['status'] === 0){
-
-        alert(data['msg']);
+      if (this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': data['msg'],
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
         this.closeSubmitOrder();
         this.getOrderList();
-      }else{
-        alert(data['msg']);
       }
     });
   }
@@ -118,8 +130,10 @@ export class PlanLaundryComponent implements OnInit {
   onclikadd(){
     if(this.orderItemAdd.quantity==""){
       this.orderItemAdd.quantity=1+'';
+      $('.count').siblings('span').html("");
     }else{
       this.orderItemAdd.quantity=(parseInt(this.orderItemAdd.quantity) + 1)+'';
+      $('.count').siblings('span').html("");
     }
   }
   onclikjian(){
@@ -127,9 +141,10 @@ export class PlanLaundryComponent implements OnInit {
       this.orderItemAdd.quantity=1+'';
     }
     if(parseInt(this.orderItemAdd.quantity) <= 1) {
-      alert("提示：商品数量不能小于1");
+      $('.count').siblings('span').html("提示：商品数量不能小于1");
       this.orderItemAdd.quantity=1+'';
     } else {
+      $('.count').siblings('span').html("");
       this.orderItemAdd.quantity=(parseInt(this.orderItemAdd.quantity) - 1)+'';
     }
   }
@@ -140,20 +155,9 @@ export class PlanLaundryComponent implements OnInit {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
         this.myOrder.id = data.data.orderId;
-
+        // console.log(data.data);
         this.total = data.data.total;
       }
-    });
-  }
-  /*删除*/
-  okFunc() {
-    $('.confirm').hide();
-    let url = "/mmall/laundryOrder/deleteOrder/"+this.code;
-    this.ipSetting.sendPost(url,this.myOrder).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
-        alert("删除成功");
-      }
-      this.getOrderList();
     });
   }
 
@@ -174,13 +178,15 @@ export class PlanLaundryComponent implements OnInit {
     this.orderItemAdd.orderId = this.myOrder.id+'';
     let url = "/mmall/laundryOrder/addOrderItem";
     this.ipSetting.sendPost(url,this.orderItemAdd).subscribe(data => {
-      if(data['status'] === 0){
-
-        alert(data['msg']);
+      if (this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': data['msg'],
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
         this.closeMaskAdd();
         this.getOrderList();
-      }else{
-        alert(data['msg']);
       }
     })
   }
@@ -212,15 +218,28 @@ export class PlanLaundryComponent implements OnInit {
       return true;
     }
   }
-
-
+  /*删除*/
   delete(code: number) {
-    this.code = code;
-    $('.confirm').fadeIn();
-  }
-
-  noFunc() {
-    $('.confirm').fadeOut();
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否删除？',
+      'popType': 1,
+      'imgType': 3,
+      'callback': () => {
+        let url = "/mmall/laundryOrder/deleteOrder/" + code;
+        this.ipSetting.sendPost(url, this.myOrder).subscribe(data => {
+          if (this.errorVoid.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示',
+              'mes': '删除成功',
+              'popType': 0,
+              'imgType': 1,
+            });
+          }
+          this.getOrderList();
+        });
+      }
+    });
   }
   add() {
     this.myOrder.serviceCenter="";

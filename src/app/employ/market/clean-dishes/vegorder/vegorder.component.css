@@ -66,18 +66,27 @@
   display: block;
 }
 .btn{
-  padding: 13px 30px;
+  padding: 9px 20px;
   border-radius: 5px;
   color: #fff;
   outline:none;
   cursor: pointer;
+  transition: all .5s;
 }
 .btn-yd{
   background: #ff5400;
 }
-.btn:hover{
-  background: #ff3c00;
+.btn-info{
+  margin-left: 15px;
+  background: #03a9f3;
 }
+.btn-danger {
+  background: #fb9678;
+}
+.btn-info:hover{
+  background: #74A4F3;
+}
+.btn-danger:hover{ background: #ff3c00;}
 .mt30{
   margin-top: 40px;
 }
@@ -455,6 +464,19 @@
   width: 100%;
   text-align: -webkit-center;
   margin-top: 10px;
+}
+.modal-footer{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding: 15px;
+  background-color: #f1f5f8;
 }
 .table-head a{
   width: 22px;

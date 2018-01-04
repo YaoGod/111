@@ -11,7 +11,7 @@
         </div>
         <div class="b-con tuanmenu">
           <div class="wrap">
-            <a class="btn btn-danger"  (click)="add()" href="javascript:;" style="padding: 6px 22px;"><i class="icon-plus"></i>新增服务</a>
+            <a class="btn btn-danger"  (click)="add()" href="javascript:;" style="padding: 6px 22px;"><i class="icon-plus"></i> 新增服务</a>
           </div>
           <div class="list-table" *ngFor="let order of orders;let idx=index">
             <table class="table-head">
@@ -43,7 +43,7 @@
               </dd>
             </dl>
             <div class="wrap clearfix">
-              <a class="btn btn-danger"  (click)="submitOrder()" href="javascript:;" style="padding: 6px 22px;float: right; line-height: 20px; background-color:#03a9f3"><i class="icon-check"></i>提交订单</a>
+              <a class="btn btn-danger"  (click)="submitOrder()" href="javascript:;" style="padding: 6px 22px;float: right; line-height: 20px; background-color:#03a9f3"><i class="icon-check"></i> 提交订单</a>
             </div>
           </div>
 
@@ -64,7 +64,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">新增洗衣订单</h4>
-      <button type="button" class="close"(click)="closeMaskAdd()">×</button>
+      <button type="button" class="close" (click)="closeMaskAdd()">×</button>
     </div>
     <form class="form-material">
       <div class="modal-body clearfix">
@@ -98,14 +98,14 @@
             </div>
             <div style="margin-top: 10px;">
               <label>单位：</label>
-              <input type="text" readonly id="unit_add" class="noticetext"  name="unit_add" (blur)="verifyEmpty('unit_add','单位不能为空')"   [(ngModel)]="orderItemAdd.unit">
+              <input type="text" readonly id="unit_add" class="noticetext"  name="unit_add" disabled="disabled" [(ngModel)]="orderItemAdd.unit">
               <span class="errorMessage"></span>
             </div>
             <div>
               <div style="margin-top: 10px;">
-                <label>价格：</label>
-                <input type="text"  readonly id="price_add" class="noticetext"  name="price_add" (blur)="verifyEmpty('price_add','价格不能为空')"
-                       [(ngModel)]="orderItemAdd.unitPrice">&nbsp;&nbsp;&nbsp;元
+                <label>价格(元)：</label>
+                <input type="text"  readonly id="price_add" class="noticetext"  name="price_add" disabled="disabled"
+                       [(ngModel)]="orderItemAdd.unitPrice">&nbsp;&nbsp;&nbsp;
                 <span class="errorMessage"></span>
               </div>
             </div>
@@ -113,8 +113,8 @@
               <label>数量：</label>
               <ul class="count">
                 <li (click)="onclikjian()"><span id="num-jian" class="num-jian">-</span></li>
-                <li><input type="text" readonly id="quantity_add" style="width: 20px;height: 26px;" class="noticetext"
-                           name="quantity_add" (blur)="verifyEmpty('quantity_add','数量不能为空')"
+                <li><input type="text" readonly id="quantity_add" style="width: 40px;height: 26px; padding:0 10px; margin:0 5px;"
+                           class="noticetext" name="quantity_add" (blur)="verifyEmpty('quantity_add','数量不能为空')"
                            [(ngModel)]="orderItemAdd.quantity"></li>
                 <li  (click)="onclikadd()"><span id="num-jia" class="num-jia">+</span></li>
               </ul>

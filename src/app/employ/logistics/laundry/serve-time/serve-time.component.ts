@@ -6,12 +6,12 @@ import {ErrorResponseService} from "../../../../service/error-response/error-res
 import {IpSettingService} from "app/service/ip-setting/ip-setting.service";
 
 @Component({
-  selector: 'app-price',
-  templateUrl: './price.component.html',
-  styleUrls: ['./price.component.css'],
+  selector: 'app-serve-time',
+  templateUrl: './serve-time.component.html',
+  styleUrls: ['./serve-time.component.css'],
   providers: [ErrorResponseService]
 })
-export class PriceComponent implements OnInit {
+export class ServeTimeComponent implements OnInit {
   public products:Array<FacPrice>;
   public applierList:Array<Facilitator>;
   public search: FacPrice;
