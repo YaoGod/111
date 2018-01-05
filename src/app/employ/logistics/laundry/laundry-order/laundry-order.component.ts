@@ -68,7 +68,6 @@ export class LaundryOrderComponent implements OnInit {
       }
     });
   }
-
 }
 export class FacPrice {
   priceId;    number;

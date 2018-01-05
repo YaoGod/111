@@ -12,9 +12,8 @@ import {IpSettingService} from "app/service/ip-setting/ip-setting.service";
   providers: [ErrorResponseService]
 })
 export class ServeTimeComponent implements OnInit {
-  public products:Array<FacPrice>;
+  public products:any;
   public applierList:Array<Facilitator>;
-  public search: FacPrice;
   public days:string;
   private code: any;
   public pageSize = 5;
@@ -22,6 +21,7 @@ export class ServeTimeComponent implements OnInit {
   public total = 0;
   public length = 5;
   public pages: Array<number>;
+  public serverCenters:Array<ServerCenter>;
   public  productAdd={
     priceId:   '',
     applyid:          '',
@@ -41,21 +41,31 @@ export class ServeTimeComponent implements OnInit {
   constructor(private ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
-    this.search = new FacPrice();
     this.pages = [];
-    this.getFacList();
+    this.getServiceCenter();
+    this.getCenterTime();
+
   }
-  getFacList(){
-    let url = '/mmall/laundry/getFacList/'+this.pageNo + '/' + this.pageSize;
-    this.ipSetting.sendPost(url,this.search)
-      .subscribe(data => {
-        console.log(data);
-        if (this.errorVoid.errorMsg(data)) {
-          this.products = data.data.infos;
-          this.applierList = data.data.applierList;
-          this.total = data.data.total;
-        }
-      });
+  /*获取所有服务中心*/
+  getServiceCenter(){
+    let url = '/employee/serviceCenter/getServiceCenter';
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        /*this.applierList = data.data.providers;*/
+        this.serverCenters = data.data;
+        // console.log(data.data);
+      }
+    });
+  }
+  /*获取所有服务中心时间*/
+  getCenterTime(){
+    let url = '/employee/serviceCenter/getCenterTime';
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        console.log(data.data);
+        this.products = data.data;
+      }
+    });
   }
   /*新增服务内容*/
   addProduct() {
@@ -84,7 +94,7 @@ export class ServeTimeComponent implements OnInit {
           'imgType': 1 ,
         });
         this.closeMaskAdd();
-        this.getFacList();
+        // this.getFacList();
       }
     })
   }
@@ -143,19 +153,23 @@ export class ServeTimeComponent implements OnInit {
           'imgType': 1 ,
         });
         this.closeMaskUp();
-        this.getFacList();
+        // this.getFacList();
       }
     })
   }
 
   /*修改*/
-  update(code: string) {
-    let url = "/mmall/laundry/geFacDetail/"+code;
-    this.ipSetting.sendGet(url).subscribe(data => {
+  update(code: number,name:string) {
+    $('.maskUpdate').show();
+    let ztt = new TimeItem();
+    ztt.id = code;
+    $('#supplierId_edit').val(name);
+    let url = "/employee/serviceCenter/addCenterTime/";
+    this.ipSetting.sendPost(url,code).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.productUp = data.data;
       }
-      $('.maskUpdate').show();
+
     });
   }
 
@@ -188,7 +202,7 @@ export class ServeTimeComponent implements OnInit {
               'imgType': 1 ,
             });
           }
-          this.getFacList();
+         // this.getFacList();
         });
       }
     });
@@ -230,28 +244,28 @@ export class ServeTimeComponent implements OnInit {
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
     $('#' + id).next('span').html('');
   }
-  /*跳页加载数据*/
-  goPage(page:number){
-    this.pageNo = page;
-    if(this.search==null){
-      this.search = new FacPrice();
-    }
-    this.getFacList();
-  }
 }
 
-export class FacPrice {
-  priceId;    number;
-  applyid:          string;
-  appcotent:        string;
-  unit:              string;
-  price:             number;
-  appliar:           string;
-}
 export class Facilitator {
   applyId:          string;/*经销商id*/
   applyName:        string;/*经销商名称*/
   copStarttime:     string;/*合作开始时间*/
   copEndtime:       string;/*合作结束时间*/
   applyDesc:        string;/*描述*/
+}
+export class ServerCenterInfo {
+  id:number;
+  orderNo:string;
+  serviceCenter:           string;
+  orderItems: Array<TimeItem>;
+}
+export class  TimeItem{
+  id:number;
+  name:  string;
+  etime: string;
+  btime: string;
+}
+export class ServerCenter{
+  name: string;
+  id:number;
 }

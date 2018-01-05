@@ -1,71 +1,61 @@
-
-<div class="right">
-  <div class="wrap-content">
-    <div class="wrap-space">
-      <div class="wrap-b">
-        <div class="b-head">
-          <div class="b-head-left">
-            <span [routerLink]="['../price']">服务内容</span>
-            <span class="active">服务时间</span>
-          </div>
-
-          <div class="b-head-right">
-            <div class="content-box" onclick="history.go(-1)"><i class="icon-reload"></i>返回</div>
-          </div>
+<div class="wrap-content">
+  <div class="wrap-space">
+    <div class="wrap-b">
+      <div class="b-head clearfix">
+        <div class="b-head-left">
+          <span [routerLink]="['../price']">服务内容</span>
+          <span class="active">服务时间</span>
         </div>
-        <div class="b-con tuanmenu">
-          <div class="wrap clearfix">
-            <div class="iptgroup">
-              <input placeholder="请输入服务内容"  [(ngModel)]="search.appcotent"/>
-            </div>
-            <a class="search" href="javascript: void(0);"  (click)="getFacList()"  >查询</a>
-            <a class="btn btn-danger"  (click)="add()" href="javascript:;" style="padding: 7px 15px;float: right;"><i class="icon-plus"></i> 新增</a>
-          </div>
-          <div class="list-table">
-            <table class="table-head">
-              <td class="fir">服务商</td>
-              <td class="sec">服务内容</td>
-              <td class="three">单价</td>
-              <td class="four">单位</td>
-              <td class="five">操作</td>
-            </table>
-            <dl *ngFor="let product of products;let idx=index">
-              <dd>
-                <table style="width: 100%;">
-                  <tr>
-                    <td class="fir">{{product.appliar}}</td>
-                    <td class="sec">{{product.appcotent}}</td>
-                    <td class="three">{{product.price}}</td>
-                    <td class="four">{{product.unit}}</td>
-                    <td class="five">
-                      <div class="ope-list">
-                        <a class="two" title="修改" href="javascript:void(0);" (click)="update(product.priceId)"></a>
-                        <a class="tre" title="删除" href="javascript:void(0);" (click)="delete(product.priceId)"></a>
-                      </div>
-                    </td>
-                  </tr>
-                </table>
-              </dd>
-            </dl>
-          </div>
-          <app-turn-bar
-            [pageNo]="pageNo"
-            [pageSize]="pageSize"
-            [total]="total"
-            [length] = 5
-            (turnEvent)="goPage($event)">
-          </app-turn-bar>
+
+        <div class="b-head-right">
+          <div class="content-box" onclick="history.go(-1)"><i class="icon-reload"></i>返回</div>
+        </div>
+      </div>
+      <div class="b-con">
+        <div class="wrap clearfix">
+          <a class="btn btn-danger"  (click)="add()" href="javascript:;" style="padding: 7px 15px;float: right;"><i class="icon-plus"></i> 新增</a>
+        </div>
+        <div class="list-table">
+          <table class="table-head">
+            <thead>
+              <tr>
+                <th class="fir">服务中心</th>
+                <th class="sec">星期一</th>
+                <th class="sec">星期二</th>
+                <th class="sec">星期三</th>
+                <th class="sec">星期四</th>
+                <th class="sec">星期五</th>
+                <th class="sec">星期六</th>
+                <th class="sec">星期日</th>
+                <td class="five">操作
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let product of products;let idx=index">
+              <td class="fir">{{product.center.name}}</td>
+              <td class="sec" *ngFor="let abc of product.time;let idx=index" ><p *ngIf="abc.btime!==null">{{abc.btime}}--{{abc.etime}}</p></td>
+              <td class="five">
+                <div class="ope-list">
+                  <a class="two" title="修改" href="javascript:void(0);" (click)="update(product.center.id,product.center.name)">修改</a>
+                  <a class="tre" title="删除" href="javascript:void(0);" (click)="delete(product.center.id)">删除</a>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
 </div>
 
+
 <div class="maskAdd">
   <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title">新增服务</h4>
-      <button type="button" class="close"(click)="closeMaskAdd()">×</button>
+      <h4 class="modal-title">新增服务时间</h4>
+      <button type="button" class="close" (click)="closeMaskAdd()">×</button>
     </div>
     <form class="form-material">
       <div class="modal-body clearfix">
@@ -73,23 +63,23 @@
           <div class="pdetail">
             <div>
               <div>
-                <label>服务商：</label>
-                <select   id="supplierId_add" name="supplierId_add" [(ngModel)]="productAdd.applyid" (blur)="verifyEmpty('supplierId_add','服务商不能为空')">
+                <label>服务中心：</label>
+                <select id="serverCenter_add" name="serverCenter_add" class="noticetext" [(ngModel)]="abc">
                   <option value="">-请选择-</option>
-                  <option *ngFor="let applier of applierList;let idx=index" value="{{applier.applyId}}">{{applier.applyName}}</option>
+                  <option *ngFor="let center of serverCenters;let idx=index" value="{{center.name}}">{{center.name}}</option>
                 </select>
                 <span class="errorMessage"></span>
               </div>
             </div>
             <div style="margin-top: 10px;">
-              <label>服务内容：</label>
-              <input type="text" id="appcotent_add" class="noticetext" name="appcotent_add"
+              <label>开始时间：</label>
+              <input type="time" id="appcotent_add" class="noticetext" name="appcotent_add"
                      (blur)="verifyEmpty('appcotent_add','服务内容不能为空')" maxlength="20"  [(ngModel)]="productAdd.appcotent">
               <span class="errorMessage"></span>
             </div>
             <div style="margin-top: 10px;">
-              <label>单位：</label>
-              <input type="text" id="unit_add" class="noticetext"  name="unit_add" (blur)="verifyEmpty('unit_add','单位不能为空')"   [(ngModel)]="productAdd.unit" maxlength="10">
+              <label>结束时间：</label>
+              <input type="time" id="unit_add" class="noticetext"  name="unit_add" (blur)="verifyEmpty('unit_add','单位不能为空')"   [(ngModel)]="productAdd.unit" maxlength="10">
               <span class="errorMessage"></span>
             </div>
             <div>
@@ -105,7 +95,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeMaskAdd()">取 消</button>
-        <button type="submit" class="btn btn-info"(click)="addProduct()" >保 存</button>
+        <button type="submit" class="btn btn-info" (click)="addProduct()" >保 存</button>
       </div>
     </form>
   </div>
@@ -114,7 +104,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">修改服务时间</h4>
-      <button type="button" class="close"(click)="closeMaskUp()">×</button>
+      <button type="button" class="close" (click)="closeMaskUp()">×</button>
     </div>
     <form class="form-building form-material">
       <div class="modal-body clearfix">
@@ -122,32 +112,20 @@
           <div class="pdetail">
             <div>
               <div>
-                <label>服务商：</label>
-                <select id="supplierId_edit" name="supplierId_edit" [(ngModel)]="productUp.applyid" (blur)="verifyEmpty('supplierId_edit','服务不能为空')">
-                  <option value="">-请选择-</option>
-                  <option *ngFor="let applier of applierList;let idx=index" value="{{applier.applyId}}">{{applier.applyName}}</option>
-                </select>
-                <span class="errorMessage"></span>
+                <label>服务中心：</label>
+                <input id="supplierId_edit" name="supplierId_edit" disabled="disabled" value="">
               </div>
             </div>
             <div style="margin-top: 10px;">
-              <label>服务内容：</label>
-              <input type="text" id="appcotent_edit"  class="noticetext" name="appcotent_edit"  (blur)="verifyEmpty('appcotent_edit','服务内容不能为空')" maxlength="20"
+              <label>开始时间：</label>
+              <input type="time" id="appcotent_edit"  class="noticetext" name="appcotent_edit"  (blur)="verifyEmpty('appcotent_edit','时间不能为空')" maxlength="20"
                      [(ngModel)]="productUp.appcotent">
               <span class="errorMessage"></span>
             </div>
             <div style="margin-top: 10px;">
-              <label>单位：</label>
-              <input type="text" id="unit_edit"  class="noticetext" name="unit_edit" (blur)="verifyEmpty('unit_edit','单位不能为空')"   [(ngModel)]="productUp.unit" maxlength="10">
+              <label>结束时间：</label>
+              <input type="time" id="unit_edit"  class="noticetext" name="unit_edit" (blur)="verifyEmpty('unit_edit','时间不能为空')"   [(ngModel)]="productUp.unit" maxlength="10">
               <span class="errorMessage"></span>
-            </div>
-            <div>
-              <div style="margin-top: 10px;">
-                <label>价格：</label>
-                <input type="number" id="price_edit"  class="noticetext" name="price_edit" (blur)="verifyEmpty('price_edit','价格不能为空')"
-                       [(ngModel)]="productUp.price">
-                <span class="errorMessage"></span>
-              </div>
             </div>
           </div>
         </div>

@@ -121,7 +121,7 @@
 <div class="view-img" [hidden]="isViewImg">
   <div class="back"></div>
   <span class="close" (click)="closeViewImg()"></span>
-  <img class="big-img" [ngStyle]="{'width':imgWidth+'px','margin-left':- imgWidth/2 +'px'}"
+  <img class="big-img" [ngStyle]="{'width':imgWidth+'px','margin-left':- imgWidth/2 +'px','margin-top':- imgHeight/2 +'px'}"
        [src]="'/proxy' + building.imgList[0]"  *ngIf="building.imgPath&&!editStatus">
   <div class="option-bar">
     <span class="enlarge" (click)="addImg()"></span>
