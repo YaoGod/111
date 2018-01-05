@@ -5,9 +5,11 @@
     <div class="wrap-space">
       <div class="wrap-b">
         <div class="b-head">
-          <span>订单信息</span>
+          <span [routerLink]="['../supermarketProduct']">超市商品管理</span>
+          <span [routerLink]="['../supermarketApplier']">服务商管理</span>
+          <span class="active" [routerLink]="['../order']">订单管理</span>
           <div class="b-head-right">
-            <div class="content-box" onclick="history.go(-1)">
+            <div class="content-box" [routerLink]="['../supbuy']">
               <i class="icon-action-undo"></i>继续购物</div>
           </div>
         </div>
@@ -15,7 +17,7 @@
           <div class="wrap">
             <ul>
               <li>
-                <label>商品名称：</label>
+                <label>商品名称</label>
                 <input type="text"  [(ngModel)]="productName" >
               </li>
               <li>

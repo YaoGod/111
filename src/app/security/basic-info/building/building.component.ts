@@ -130,13 +130,13 @@ export class BuildingComponent implements OnInit {
   }
   /*放大图片*/
   addImg(){
-    if(this.imgWidth<1000){
+    if(this.imgWidth<1300){
       this.imgWidth += 50;
     }
   }
   /*缩小图片*/
   decsImg(){
-    if(this.imgWidth>500){
+    if(this.imgWidth>650){
       this.imgWidth -= 50;
     }
   }

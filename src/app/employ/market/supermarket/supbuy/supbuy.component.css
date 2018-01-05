@@ -167,10 +167,10 @@ select{outline:medium;}
   background: #fff;
   padding: 20px;
   display: block;
-  min-height: 700px;
+  min-height: 680px;
 }
 .wrap-b .wrap{
-  margin: 5px 0;
+  padding-top: 10px;
   display: inline-block;
 }
 .wrap-b .iptgroup{
@@ -222,17 +222,17 @@ select{outline:medium;}
 }
 .b-head{
   border-bottom: 2px solid #f7fbfe;
+  padding-bottom: 10px;
 }
 .b-head span{
   font-size: 16px;
-  height: 19px;
-  line-height: 0;
   padding: 0 20px;
   display: inline-block;
   color: #ff5c39;
   border-bottom: 3px solid #ff5c39;
+  line-height: 36px;
 }
-.b-head-right{float: right;right: 40px;margin-top: -40px;}
+.b-head-right{float: right;right: 40px;}
 .b-head-right .content-box{float: left; padding-left: 10px;padding-right: 10px;border:1px solid #eee;margin-right:10px;line-height: 36px;border-radius: 3px;font-size: 15px;color: #ff3c00;
   outline:none;}
 .b-head-right .content-box:last-child{

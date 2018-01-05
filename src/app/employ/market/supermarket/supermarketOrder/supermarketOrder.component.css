@@ -172,16 +172,23 @@ select{outline:medium;}
 .wrap-b{
   background: #fff;
   padding: 20px;
-  /*height: 1000px;*/
-  display: inline-block;
-  width: 100%;
 }
 .b-head{
   border-bottom: 2px solid #f7fbfe;
+  padding-bottom: 10px;
 }
 .b-head span{
   font-size: 16px;
-  height: 36px;
+  line-height: 36px;
+  padding: 0 20px;
+  display: inline-block;
+  color: #04a9f3;
+  outline: none;
+  cursor: pointer;
+}
+.b-head .active{
+  font-size: 16px;
+  height: 22px;
   line-height: 0;
   padding: 0 20px;
   display: inline-block;
@@ -189,9 +196,7 @@ select{outline:medium;}
   border-bottom: 3px solid #ff5c39;
 }
 .b-con{
-  width: 98%;
-  margin-left: 2%;
-  display: inline-block;
+  display: block;
 }
 .b-con h2{
   font-weight: normal;
@@ -362,8 +367,8 @@ select{outline:medium;}
 
 /*团购商品管理*/
 .b-con .wrap{
-  margin: 20px 0;
-  display: inline-block;
+  display: block;
+  padding-top: 10px;
 }
 .b-con .iptgroup{
   width: 200px;
@@ -414,7 +419,7 @@ select{outline:medium;}
 }
 .list-table{
   width: 100%;
-  margin-top: 10px;
+  padding-top: 10px;
 }
 .list-table .table-head0 {
   width: 100%;
@@ -617,24 +622,21 @@ select{outline:medium;}
   float: left;
   color: #686868;
   height: 30px;
-  width: 88px;
-  padding-right: 10px;
+  padding:0 10px;
   line-height: 30px;
   font-size: 12px;
   text-align: right;
 }
 .wrap>ul>li>input[type=text] {
-  height: 27px;
-  width: calc(100% - 115px);
+  height: 30px;
   min-width: 100px;
-  padding: 3px 10px;
+  padding: 0 10px;
   font-size: 12px;
   line-height: 1.5;
   border-radius: 3px;
   background-color: #fff;
-  border: 1px solid #e4e7ea;
+  border: 1px solid #66cdff;
 }
-
 .mask{
   display: none;
   position: fixed;
@@ -788,3 +790,6 @@ select{outline:medium;}
 .b-head-right .content-box i{font-size:14px;}
 .b-head-right .content-box img{margin-right: 4px;vertical-align: -3px}
 .b-head-right .content-box:hover{cursor: pointer;border-color: #ff3c00;}
+.row .btn-danger{
+  float: right;
+}

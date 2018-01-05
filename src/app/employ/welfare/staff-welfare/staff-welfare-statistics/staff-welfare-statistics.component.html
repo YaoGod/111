@@ -14,7 +14,7 @@
   </div>
   <p>品类名称：&nbsp;{{welfare.title}}</p>
   <p>是否需要反馈：&nbsp;{{welfare.feedBack}}</p>
-  <p>需要反馈的信息：&nbsp;
+  <p *ngIf="welfare.feedBack==='是'">需要反馈的信息：&nbsp;
     <span *ngFor="let feedMsg of welfare.feedBackMsg">
       {{feedMsg.key}}<span *ngIf="feedMsg.msg">({{feedMsg.msg}})</span>&nbsp;&nbsp;
     </span>
@@ -25,7 +25,7 @@
   <ul>
     <li>
       <input type="text" name="search" [(ngModel)]="search">
-      <a (click)="searchInfo()">
+      <a (click)="getWelfareCount(1)">
         <i class="icon-magnifier"></i>查询
       </a>
     </li>
@@ -47,7 +47,8 @@
       <th style="width: 150px;" rowspan="2">联系电话</th>
       <th width="15%" rowspan="2"  class="text-left">邮箱</th>
       <th [attr.colspan]="welfare.feedBackMsg.length"
-          *ngIf="welfare.feedBackMsg.length>0">反馈信息</th>
+          *ngIf="welfare.feedBackMsg&&welfare.feedBackMsg.length>0">反馈信息</th>
+      <th  width="15%" rowspan="2" *ngIf="welfare.feedBackMsg&&welfare.feedBackMsg.length>0">反馈时间</th>
     </tr>
     <tr class="row list-title" style="height:20px;">
       <th *ngFor="let feedback of welfare.feedBackMsg">{{feedback.key}}</th>
@@ -68,9 +69,11 @@
       <td width="15%"  class="text-left" >
         <span>{{user.OA_EMAIL}}</span>
       </td>
+      <td *ngIf="!user.DETAILS&&welfare.feedBackMsg" [attr.colspan]="welfare.feedBackMsg.length"></td>
       <td *ngFor="let detail of user.DETAILS">
         <span>{{detail.value}}</span>
       </td>
+      <td *ngIf="welfare.feedBackMsg&&welfare.feedBackMsg.length>0">{{user.CREATE_TIME}}</td>
     </tr>
   </table>
   <div class="div-none" *ngIf="users && users.length < 1">
@@ -78,13 +81,9 @@
   </div>
 </div>
 <!--翻页-->
-<div class="turn" *ngIf="pages.length > 1">
-  <ul>
-    <li *ngFor="let i of pages"
-        [hidden] = "pageLimit(i)"
-        [ngClass]="{'active':i === pageNo}"
-        (click)="goPage(i);">
-      {{i}}
-    </li>
-  </ul>
-</div>
+<app-turn-bar
+  [pageNo] = "pageNo"
+  [pageSize] = "pageSize"
+  [total] = "total"
+  (turnEvent) = "getWelfare($event)">
+</app-turn-bar>

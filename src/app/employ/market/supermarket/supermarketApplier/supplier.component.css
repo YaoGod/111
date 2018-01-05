@@ -861,10 +861,10 @@ select{
 .wrap-b{
   background: #fff;
   padding: 20px;
-  display: inline-block;
 }
 .b-head{
   border-bottom: 2px solid #f7fbfe;
+  padding-bottom: 10px;
 }
 .b-head span{
   font-size: 16px;
@@ -878,7 +878,6 @@ select{
 .b-head .active{
   font-size: 16px;
   height: 22px;
-  line-height: 0;
   padding: 0 20px;
   display: inline-block;
   color: #ff5c39;
@@ -919,7 +918,7 @@ select{
   border: 1px solid #ccc;
 }
 .row{
-  padding: 5px 0;
+  padding: 10px 0;
   clear: both;
   display: block;
 }
@@ -1109,7 +1108,6 @@ select{
 }
 .list-table{
   width: 100%;
-  margin-top: 10px;
 }
 .list-table .table-head{
   width: 100%;
@@ -1321,3 +1319,8 @@ a[class="button-selectimg" ] {
 .b-head-right .content-box i{font-size:14px;}
 .b-head-right .content-box img{margin-right: 4px;vertical-align: -3px}
 .b-head-right .content-box:hover{cursor: pointer;border-color: #ff3c00;}
+.row .btn-danger{
+  float: right;
+  padding: 6px 22px;
+  line-height: initial;
+}

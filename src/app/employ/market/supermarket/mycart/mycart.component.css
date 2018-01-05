@@ -187,19 +187,19 @@ select{outline:medium;}
 .wrap-b{
   background: #fff;
   padding: 20px;
-  display: inline-block;
+  display: block;
 }
 .b-head{
   border-bottom: 2px solid #f7fbfe;
+  padding-bottom: 10px;
 }
 .b-head span{
   font-size: 16px;
-  height: 36px;
-  line-height: 0;
   padding: 0 20px;
   display: inline-block;
   color: #ff5c39;
   border-bottom: 3px solid #ff5c39;
+  line-height: 36px;
 }
 .b-con{
   width: 100%;

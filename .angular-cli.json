@@ -20,11 +20,21 @@
       "prefix": "app",
       "styles": [
         "styles.css",
-        "../src/assets/css/animate.css"
+        "../src/assets/css/animate.css",
+        "../node_modules/magnificent/src/css/mag.css",
+        "../node_modules/magnificent/src/theme/default.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",
-        "../src/assets/js/confirmFunc.js"
+        "../src/assets/js/confirmFunc.js",
+        "../node_modules/jquery-mousewheel/jquery.mousewheel.js",
+        "../node_modules/jquery-bridget/jquery-bridget.js",
+        "../node_modules/jquery.threedubmedia/event.drag/jquery.event.drag.js",
+        "../node_modules/magnificent/src/js/mag-analytics.js",
+        "../node_modules/magnificent/src/js/mag.js",
+        "../node_modules/magnificent/src/js/mag-jquery.js",
+        "../node_modules/magnificent/src/js/mag-control.js"
+
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

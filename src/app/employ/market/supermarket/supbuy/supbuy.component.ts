@@ -15,9 +15,10 @@ export class SupbuyComponent implements OnInit {
   public products:Array<SupermarketProduct>;
   public search: SupermarketProduct;
   public cart: SupermarketCart;
-  private pageNo: number = 1;
-  private pageSize: number = 10;
-  public cartsize:number;
+  public pageNo: number = 1;
+  public pageSize: number = 10;
+  public total = 0;
+  public cartsize:number = 0;
   public pages: Array<number>;
   public username = sessionStorage.getItem("username");
   constructor(
@@ -40,10 +41,8 @@ export class SupbuyComponent implements OnInit {
     this.marketManagerService.getMarketShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.products = data.data.infos;
-
         this.cartsize = data.data.cartsize;
-        let total = Math.ceil(data.data.total / this.pageSize);
-        this.initPage(total);
+        this.total = data.data.total;
       }
     });
       this.checkcolor();
@@ -76,35 +75,4 @@ export class SupbuyComponent implements OnInit {
       })
   }
 
-
-
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
-
-    for(let i = 0;i< total ;i++){
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
-  }
-  /*跳页加载数据*/
-  goPage(page:number){
-    this.pageNo = page;
-    if(this.search==null){
-      this.search = new SupermarketProduct();
-    }
-    this.getMarketShowList();
-  }
 }

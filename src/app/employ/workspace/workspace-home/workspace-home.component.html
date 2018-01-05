@@ -17,6 +17,7 @@
           {{pending.key}}<sup>{{pending.value}}</sup>
         </li>
       </ul>
+      <div class="div-none" *ngIf="!pendings">暂无数据</div>
     </div>
   </div>
 </div>
@@ -44,6 +45,7 @@
          <td>周一至周五 上午9：00-11：00 下午14:00-16:00</td>
        </tr>
       </table>
+      <div class="div-none" *ngIf="!serviceCenters">暂无数据</div>
     </div>
   </div>
 </div>

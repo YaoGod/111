@@ -849,10 +849,11 @@ select{
 .wrap-b{
   background: #fff;
   padding: 20px;
-  display: inline-block;
+  display: block;
 }
 .b-head{
   border-bottom: 2px solid #f7fbfe;
+  padding-bottom: 10px;
 }
 .b-head span{
   font-size: 16px;
@@ -1045,17 +1046,16 @@ select{
 
 /*团购商品管理*/
 .b-con .wrap{
-  margin: 20px 0;
-  display: inline-block;
+  padding: 10px 0;
+  display: block;
 }
 .b-con .iptgroup{
+  position: relative;
+  display: inline-block;
   width: 200px;
   height: 30px;
   border: 1px solid #66cdff;
   border-radius: 3px;
-  /*margin: 20px 0;*/
-  float: left;
-  position: relative;
 }
 .b-con .iptgroup .ipt-search{
   width: 26px;
@@ -1075,6 +1075,8 @@ select{
   left: 10px;
 }
 .b-con .search{
+  position: relative;
+  top: -10px;
   text-decoration: none;
   padding: 6px 15px;
   margin: 0 5px;
@@ -1083,7 +1085,6 @@ select{
   font-size: 14px;
   border-radius: 3px;
   letter-spacing: 2px;
-  float: left;
 }
 .b-con .add{
   text-decoration: none;
@@ -1097,7 +1098,7 @@ select{
 }
 .list-table{
   width: 100%;
-  margin-top: 10px;
+  clear: both;
 }
 .list-table .table-head{
   width: 100%;
