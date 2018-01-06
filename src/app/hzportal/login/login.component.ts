@@ -28,14 +28,14 @@ export class LoginComponent implements OnInit {
     this.user = new User();
     this.save_passwd = localStorage.getItem("save_passwd")?true:false;
     if(this.save_passwd) {
-      this.user.name = localStorage.getItem("username");
+      this.user.userid = localStorage.getItem("username");
       this.user.password = localStorage.getItem("password");
     }
   }
   /*登陆*/
   loginIn() {
     let user = {
-      username: this.user.name,
+      userid: this.user.userid,
       password: this.user.password
     };
     if(this.verifyUserName('userName') && this.verifyPassword('password')){
@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
               this.globalUserService.setVal(data.data.userInfo);
               sessionStorage.setItem("isLoginIn","Login");
               this.save_passwd?localStorage.setItem("save_passwd","true"):localStorage.removeItem("save_passwd");
-              localStorage.setItem("username",data.data.userInfo.username);
+              localStorage.setItem("username",data.data.userInfo.userid);
               localStorage.setItem("password",this.user.password);
               localStorage.setItem("teleNum",data.data.userInfo.teleNum);
               localStorage.setItem("deptName",data.data.userInfo.deptName);
@@ -105,7 +105,7 @@ export class LoginComponent implements OnInit {
   keyLogin(event: any) {
 
     if (event.keyCode == 13) {
-      if (typeof this.user.name === 'undefined' ||  this.user.name === '') {
+      if (typeof this.user.userid === 'undefined' ||  this.user.userid === '') {
         $('#userName').focus();
       }else if ( typeof this.user.password === 'undefined' || this.user.password === '') {
         $('#password').focus();
@@ -160,13 +160,13 @@ export class LoginComponent implements OnInit {
     $('#' + id).parents('.input').siblings('.error').fadeOut();
   }
   findPassword() {
-    if(typeof(this.user.name) === "undefined" ||
-      this.user.name === null ||
-      this.user.name === '') {
+    if(typeof(this.user.userid) === "undefined" ||
+      this.user.userid === null ||
+      this.user.userid === '') {
       $('#userName').focus();
       this.addErrorClass("userName","请先输入您要找回的用户名称。")
     }else {
-      this.userPortal.getNewPassword(this.user.name)
+      this.userPortal.getNewPassword(this.user.userid)
         .subscribe(data =>{
           if(this.errorResponse.errorMsg(data)) {
             confirmFunc.init({

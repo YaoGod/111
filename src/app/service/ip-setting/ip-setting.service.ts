@@ -11,10 +11,12 @@ export class IpSettingService {
     withCredentials: true
   });
   /* nginx */
-  public ip = "/proxy";
+  // public ip = "/proxy";
+  public ip = "http://localhost:8686";
+
   /*set ip and port for personal*/
  /* public ip = "http://10.71.246.83:8080";*/
- 
+
  constructor(
     private http: Http,
   ) { }
@@ -48,6 +50,19 @@ export class IpSettingService {
     var form = new FormData();
     if (typeof(postData) === 'object') {
       form.append('img', postData);
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', sendUrl, true);
+    xhr.withCredentials = true;
+    xhr.send(form);
+    return xhr;
+  }
+
+  public uploadFile(url: string,postData: any){
+    const sendUrl = this.ip + url;
+    var form = new FormData();
+    if (typeof(postData) === 'object') {
+      form.append('file', postData);
     }
     const xhr = new XMLHttpRequest();
     xhr.open('POST', sendUrl, true);
