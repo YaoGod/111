@@ -29,7 +29,8 @@
             <table class="table-head">
               <td class="fir">商品信息</td>
               <td class="sec">单价(元)</td>
-              <td class="three">状态</td>
+              <td class="sec">状态</td>
+              <td class="three">审核意见</td>
               <td class="four">标签</td>
               <td class="five">团购时间</td>
               <td class="six">发起信息</td>
@@ -52,7 +53,7 @@
                       <img *ngIf="product.image!==''" [src]="'/proxy/' + product.image" />
                     </td>
                     <td class="sec">{{product.price}}</td>
-                    <td class="three" >
+                    <td class="sec" >
                       <label *ngIf="product.status=='0'">录入</label>
                       <label *ngIf="product.status=='1'">上架</label>
                       <label *ngIf="product.status=='2'">下架</label>
@@ -60,6 +61,7 @@
                       <label *ngIf="product.checkStatus=='1'" style="color: green;">（审核通过）</label>
                       <label *ngIf="product.checkStatus=='2'" style="color: red;">（不通过）</label>
                     </td>
+                    <td class="three" >{{product.checkResult}}</td>
                     <td class="four">{{product.label}}</td>
                     <td class="five">
                       <span>{{product.startTime}}</span>
