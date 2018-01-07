@@ -13,7 +13,7 @@ export class GlobalUserService {
   }
   getVal():User {
     if(typeof (this.user.username) === "undefined" || this.user.username === null) {
-      this.user.username =  localStorage.getItem("username");
+      this.user.username =  localStorage.getItem("showUserName");
     }
     return this.user;
   }

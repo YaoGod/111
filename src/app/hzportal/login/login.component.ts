@@ -46,12 +46,14 @@ export class LoginComponent implements OnInit {
               this.addErrorClass('password','密码错误');
               sessionStorage.removeItem("save_passwd");
               localStorage.removeItem("username");
+              localStorage.removeItem("showUserName");
               localStorage.removeItem("password");
             }else {
               this.globalUserService.setVal(data.data.userInfo);
               sessionStorage.setItem("isLoginIn","Login");
               this.save_passwd?localStorage.setItem("save_passwd","true"):localStorage.removeItem("save_passwd");
               localStorage.setItem("username",data.data.userInfo.userid);
+              localStorage.setItem("showUserName",data.data.userInfo.username);
               localStorage.setItem("password",this.user.password);
               localStorage.setItem("teleNum",data.data.userInfo.teleNum);
               localStorage.setItem("deptName",data.data.userInfo.deptName);
@@ -60,6 +62,7 @@ export class LoginComponent implements OnInit {
           }else {
             localStorage.removeItem("save_passwd");
             localStorage.removeItem("username");
+            localStorage.removeItem("showUserName");
             localStorage.removeItem("password");
           }
         });

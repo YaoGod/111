@@ -10,9 +10,9 @@ export class ErrorResponseService {
     private globalUser:GlobalUserService
   ) { }
   errorMsg(data) {
-    if(this.globalUser.getVal().username !== localStorage.getItem("username")){
+    if(this.globalUser.getVal().username !== localStorage.getItem("showUserName")){
       let newUser = this.globalUser.getVal();
-      newUser.username = localStorage.getItem("username")
+      newUser.username = localStorage.getItem("showUserName")
       this.globalUser.setVal(newUser);
     }
     if (data.status === 10) {
