@@ -4,9 +4,13 @@
       <div class="wrap-b">
         <div class="b-head clearfix">
           <div class="b-head-left">
-            <span [routerLink]="['../product']">团购商品管理</span>
+            <span [routerLink]="['../product']">团购商品新增</span>
+            <span [routerLink]="['../check']">团购商品审核</span>
+            <span [routerLink]="['../manager']">团购商品管理</span>
             <span [routerLink]="['../order']">订单管理</span>
             <span class="active">公告管理</span>
+            <span [routerLink]="['../report']">订单报表</span>
+            <span [routerLink]="['../count']">统计报表</span>
           </div>
           <div class="b-head-right">
             <div class="content-box" [routerLink]="['../groupbuy']"><i class="icon-action-undo"></i> 继续订购</div>
@@ -16,7 +20,6 @@
           <div class="wrap clearfix">
             <div class="iptgroup">
               <input  name="search" [(ngModel)]="search.title"/>
-              <a href="javascript: void(0);" class="ipt-search"></a>
             </div>
             <a class="search" href="javascript: void(0);" (click)="getNoticeList()" >查询</a>
             <div class="row">

@@ -1,0 +1,193 @@
+<!--搜索栏-->
+<div class="right">
+  <div class="wrap-content">
+    <div class="wrap-space">
+      <div class="wrap-b">
+        <div class="b-head clearfix">
+          <div class="b-head-left">
+            <span [routerLink]="['../product']">团购商品新增</span>
+            <span [routerLink]="['../check']">团购商品审核</span>
+            <span [routerLink]="['../manager']">团购商品管理</span>
+            <span [routerLink]="['../order']">订单管理</span>
+            <span [routerLink]="['../notice']">公告管理</span>
+            <span class="active">订单报表</span>
+            <span [routerLink]="['../count']">统计报表</span>
+          </div>
+          <div class="b-head-right">
+            <div class="content-box" [routerLink]="['../groupbuy']"><i class="icon-action-undo"></i> 继续订购</div>
+          </div>
+        </div>
+<div class="search-bar">
+  <div class="panel">
+  <ul>
+    <li>
+      <label>订单编号</label>
+      <input type="text" [(ngModel)]="search.orderId">
+    </li>
+    <li>
+      <label>商品编号</label>
+      <input type="text" [(ngModel)]="search.productId">
+    </li>
+    <li>
+      <label>商品名称</label>
+      <input type="text" [(ngModel)]="search.productName">
+    </li>
+    <li>
+      <label>部门名称</label>
+      <input type="text" [(ngModel)]="search.deptName">
+    </li>
+    <li>
+      <label>订单人</label>
+      <input type="text" [(ngModel)]="search.userName">
+    </li>
+    <li>
+      <label>订单状态</label>
+      <select
+        name="floorUse" [(ngModel)]="search.orderStatus">
+        <option value="">全部</option>
+        <option value="0">订购中</option>
+        <option value="1">已到货</option>
+      </select>
+    </li>
+    <li>
+      <label>订单时间</label>
+      <input type="date" [(ngModel)]="search.orderStartTime">
+      --
+      <input type="date" [(ngModel)]="search.orderEndTime">
+    </li>
+  </ul>
+    <div class="panel-search">
+      <a href="javascript:;" class="search-btn" (click)="getReportAllList()"><i class="icon-magnifier"></i> 查 询</a>
+      <a class="btn btn-new" href="javascript:;" (click)="leadOut()"><i class="icon-docs"></i> 导 出</a>
+    </div>
+  </div>
+</div>
+<!--表头-->
+<div class="table-head">
+  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+    <tr class="row list-title" style="height:45px;">
+      <th width="5%">序号</th>
+      <th width="10%" >订单编号</th>
+      <th width="10%">订单状态</th>
+      <th width="15%">订单时间</th>
+      <th width="15%">订单金额</th>
+      <th width="10%">订单人</th>
+      <th width="15%">订单部门</th>
+      <th width="20%">操作</th>
+    </tr>
+  </table>
+</div>
+<!--表格内容-->
+<div class="table-content" style="min-height: 390px">
+  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+    <tr class="row"  style="height:45px;" *ngFor="let order of orders;let i = index">
+      <td width="5%">
+        {{i+1}}
+      </td>
+      <td width="10%">
+          {{order.orderId}}
+      </td>
+      <td width="10%" *ngIf="order.orderStatus=='0'">
+        订购中
+      </td>
+      <td width="10%" *ngIf="order.orderStatus=='1'">
+        已到货
+      </td>
+      <td width="15%">
+        <span>
+          {{order.payTime}}
+        </span>
+      </td>
+      <td width="15%">
+        ￥{{order.payment}}
+      </td>
+      <td width="10%">
+        {{order.userName}}
+      </td>
+      <td width="15%">
+        {{order.deptName}}
+      </td>
+      <td width="20%" class="box-option">
+      <img src="../../../../assets/image/icon-view.png" title="查看订单明细" (click)="getOrderItems(order.orderId)">
+      </td>
+    </tr>
+  </table>
+</div>
+        <div>
+          <div>
+            <div>
+              <div>
+<!--翻页-->
+<app-turn-bar
+  [pageNo]="pageNo"
+  [pageSize]="pageSize"
+  [total]="total"
+  [length] = 5
+  (turnEvent)="goPage($event)">
+</app-turn-bar>
+
+<div class="modal-back" id= "deriving" style="_display:none;">
+  <div class="modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">导 出</h4>
+          <button type="button" class="close pull-right" (click)="closeDeriving()">×</button>
+        </div>
+        <div class="modal-body">
+          <!-- excel 导出 -->
+          <div class="excel-out">
+            <p  style="text-align: center;">信息表.xls</p>
+          </div>
+          <!-- footer -->
+          <div class="foot">
+            <button type="submit" class="btn-mask btn-info" (click)="downDeriving()">确 定</button>
+            <button type="button" class="btn-mask btn-danger" (click)="closeDeriving()">取 消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mask0">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">订单详情</h4>
+      <button type="button" class="close"(click)="closeMask0()">×</button>
+    </div>
+    <form class="form-building form-material" style="background-color:aliceblue;">
+      <div style="margin-left:20px;">订单编号：{{orderId}}</div>
+      <div style="margin-left:20px;">订单总价(元)：￥{{totalPrice}}</div>
+      <dl>
+        <dt>
+        <table class="table-head" style="width:100%;border-bottom: 1px solid #dddddd">
+          <tr>
+            <td class="fir">商品信息</td>
+            <td class="sec">单价（元）</td>
+            <td class="three">数量</td>
+            <td class="four">合计（元）</td>
+          </tr>
+        </table>
+        </dt>
+        <dd *ngFor="let orderItem of orderItems;let idx=index">
+          <table style="width:100%;">
+            <td class="fir"> {{orderItem.productName}}</td>
+            <td class="sec">￥{{orderItem.unitPrice}}</td>
+            <td class="three">{{orderItem.quantity}}</td>
+            <td class="four">￥{{orderItem.totalPrice}}</td>
+          </table>
+        </dd>
+      </dl>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn-mask btn-info" (click)="printMask0()">打印</button>
+        <button type="button" class="btn btn-danger" (click)="closeMask0()">关闭</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+

@@ -271,7 +271,7 @@
   margin-top: 10px;
 }
 .list-table .table-head{
-  width: 100%;
+  width: 78%;
   height: 34px;
   line-height: 34px;
   background: #eaf8ff;
@@ -290,7 +290,7 @@
   font-size: 12px;
 }
 .list-table .sec{
-  width: 19%;
+  width: 15%;
 }
 .list-table .three{
   width: 25%;
@@ -331,6 +331,7 @@
 .list-table dl{
   margin: 10px 0 0 0;
   border: 1px solid #eee;
+  width: 78%;
 }
 .list-table dl.blueself{
   border: 1px solid #66cdff;
@@ -450,9 +451,107 @@
   font-size: 12px;
 
 }
+
+.maskSubmitOrder{
+  display: none;
+  position: fixed;
+  left:0;
+  top:0;
+  width: 100%;
+  height:100%;
+  background-color:rgba(0,0,0,.4);
+  z-index:999;
+}
 .wuyelist .list-table .fir p{
   padding: 10px 30px;
   color: #999;
+}
+.modal-content{
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: .3rem;
+  outline: 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, .1);
+  width:333px;
+  margin:40px auto 0;
+}
+.modal-header{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #f1f5f8;
+  /* border-bottom: 1px solid #eceeef; */
+}
+.pdetail{
+  width:270px;
+  float: right;
+  margin-left: 10px;
+}
+.errorMessage{
+  color: #ff0000;
+  font-size: 12px;
+  padding-left: 35px;
+}
+.close{
+  cursor: pointer;
+}
+.protop{
+  height: 60px;
+  display: inline-block;
+}
+.modal-title{
+  font-size:18px;
+  color:#2b2b2b;
+}
+.btn-danger{
+  padding: 5px 16px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 14px;
+  background: #66cdff;
+}
+.modal-footer {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding: 15px;
+  background-color: #f1f5f8;
+  /* border-top: 1px solid #eceeef; */
+}
+.modal-body{
+  position: relative;
+  padding: 15px;
 }
 .wuyelist .list-table .sec{
   width: 20%;
@@ -769,6 +868,24 @@ img {
   color: #e4393c;
   font-weight: 700;
   margin-right:80px;
+}
+.noticetext{
+  width:170px;
+  text-indent: 5px;
+  height: 25px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 3px #ddd inset;
+  -webkit-box-shadow: 0 0 3px #ddd inset;
+  border-radius: 4px;
+}
+.btn-info{
+  margin-left: 15px;
+  padding: 10px 16px;
+  border-radius: 4px;
+  background: #03a9f3;
+  border: 1px solid #03a9f3;
+  color: #fff;
+
 }
 .btn-info:hover {
   background: #ff5400;

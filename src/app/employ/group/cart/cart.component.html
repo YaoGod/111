@@ -30,8 +30,8 @@
                     <table width="100%">
                       <td class="fir">
                         <img *ngIf="cart.image!==''" [src]="'/proxy/' + cart.image"/>
-                        <p class="headtxt">{{cart.name}}</p>
                       </td>
+                      <td class="sec">{{cart.name}}</td>
                       <td class="sec">{{cart.price}}</td>
                       <td class="three">
                         <ul class="btn-numbox">

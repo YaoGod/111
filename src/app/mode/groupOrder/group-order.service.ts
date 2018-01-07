@@ -11,6 +11,16 @@ export class GroupOrder {
   closeTime:string;/*订单关闭时间*/
   note:string;
   groupOrderItems:Array<GroupOrderItem>;
+  groupMessage:GroupMessage;
   constructor() { }
 
-}
+};
+
+export class GroupMessage{
+  orderNo:string;
+  content:string;
+  reply:string;
+  replyTime:string;
+  replyUser:string;
+  insterTime:string;
+};

@@ -16,6 +16,9 @@ export class GroupProduct {
   quantity:            string;/*数量*/
   label:                string;/*商品标签*/
   producttype:             string;/*商品类型*/
+  checkStatus: string;
+  checkResult:string;
+
 
 
   constructor() { }

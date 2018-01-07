@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GroupProductService } from '../../../service/group-product/group-product.service';
 import * as $ from 'jquery';
 import { GroupOrderService } from '../../../service/group-order/group-order.service';
-import {GroupOrder} from '../../../mode/groupOrder/group-order.service';
+import {GroupMessage, GroupOrder} from '../../../mode/groupOrder/group-order.service';
 import {GroupOrderItem} from '../../../mode/groupOrderItem/group-orderItem.service'
 import { GroupOrderItemService } from '../../../service/group-orderItem/group-order-item.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
@@ -19,13 +19,13 @@ declare var confirmFunc: any;
 export class OrderComponent implements OnInit {
 
   public search: GroupOrder;
-  private pageNo: number = 1;
+  private pageNo = 1;
   /*当前页码*/
-  private pageSize: number = 5;
+  private pageSize = 5;
   public orders:Array<GroupOrder>;
-  public productName:string = '';
-  public orderId:string = '';
-  public productId:string = '';
+  public productName= '';
+  public orderId = '';
+  public productId = '';
   public deptId:string;
   private delId: any;
   public updateOrder={
@@ -33,7 +33,22 @@ export class OrderComponent implements OnInit {
     status:'',
     note:''
   }
-
+  public  newMessage={
+    orderNo:'',
+    content:'',
+    reply:'',
+    replyTime:'',
+    replyUser:'',
+    insterTime:''
+  };
+  public viewMessage={
+    orderNo:'',
+    content:'',
+    reply:'',
+    replyTime:'',
+    replyUser:'',
+    insterTime:''
+  };
   public orderItems:Array<GroupOrderItem>;
 
   constructor(private groupOrderService: GroupOrderService,private groupOrderItemService:GroupOrderItemService,
@@ -113,8 +128,111 @@ export class OrderComponent implements OnInit {
       }
     });
   }
-
+  closeMask0() {
+    $('.mask0').hide();
+    this.newMessage={
+      orderNo:'',
+      content:'',
+      reply:'',
+      replyTime:'',
+      replyUser:'',
+      insterTime:''
+    };
+  }
   closeMask() {
     $('.mask').hide();
+  }  private verifyEmpty(id,label) {
+  if (!this.isEmpty(id, label)) {
+    return false;
+  }else{
+    return true;
+  }
+}
+
+  /**非空校验*/
+  private isEmpty(id: string, error: string): boolean  {
+    const data =  $('#' + id).val();
+    if (data==null||data===''||data.trim() === '')  {
+      this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /**
+   * 添加错误信息class
+   * @param id
+   * @param error
+   */
+  private  addErrorClass(id: string, error?: string)  {
+    $('#' + id).parents('.form-control').addClass('form-error');
+    if (error === undefined || error.trim().length === 0 ) {
+      $('#' + id).next('span').html('输入错误');
+    }else {
+      $('#' + id).next('span').html(error);
+    }
+  }
+  /**
+   * 去除错误信息class
+   * @param id
+   */
+  private  removeErrorClass(id: string) {
+    $('#' + id).parents('.form-control').removeClass('form-error');
+    $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
+    $('#' + id).next('span').html('');
+  }
+  closeMask1() {
+    $('.mask1').hide();
+    this.viewMessage={
+      orderNo:'',
+      content:'',
+      reply:'',
+      replyTime:'',
+      replyUser:'',
+      insterTime:''
+    }
+  }
+  submitMessage() {
+    if (!this.verifyEmpty('content','反馈意见不能为空')){
+      return false;
+    }
+
+    this.groupOrderService.replayMessage(this.newMessage)
+      .subscribe(data => {
+        if(data['status'] === 0){
+          alert("保存成功");
+          this.closeMask0();
+          this.getOrderAllList();
+        }else{
+          alert("保存失败")
+          this.closeMask0();
+        }
+      })
+  }
+  addMessage(orderId){
+    this.newMessage.orderNo =orderId;
+    this.groupOrderService.getMessage(orderId)
+      .subscribe(data => {
+        if(data['status'] === 0){
+          this.newMessage = data.data;
+        }else{
+          alert("获取评价信息失败");
+        }
+      });
+    $('.mask0').show();
+  }
+  showMessage(orderId){
+    $('.mask1').show();
+    this.groupOrderService.getMessage(orderId)
+      .subscribe(data => {
+        if(data['status'] === 0){
+          console.log(data);
+          this.viewMessage = data.data;
+          console.log(this.viewMessage);
+        }else{
+          alert("获取评价信息失败");
+        }
+      })
   }
 }

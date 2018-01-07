@@ -1,0 +1,125 @@
+
+<div class="right">
+  <div class="wrap-content">
+    <div class="wrap-space">
+      <div class="wrap-b">
+        <div class="b-head clearfix">
+          <div class="b-head-left">
+            <span [routerLink]="['../product']">团购商品新增</span>
+            <span class="active" >团购商品审核</span>
+            <span [routerLink]="['../manager']">团购商品管理</span>
+            <span [routerLink]="['../order']">订单管理</span>
+            <span [routerLink]="['../notice']">公告管理</span>
+            <span [routerLink]="['../report']">订单报表</span>
+            <span [routerLink]="['../count']">统计报表</span>
+          </div>
+          <div class="b-head-right">
+            <div class="content-box" [routerLink]="['../groupbuy']"><i class="icon-action-undo"></i> 继续订购</div>
+          </div>
+        </div>
+        <div class="b-con tuanmenu">
+          <div class="wrap clearfix">
+            <div class="iptgroup">
+              <input placeholder="请输入商品名称" [(ngModel)]="search.name" />
+            </div>
+            <a class="search" href="javascript: void(0);" (click)="getProductList()" >查询</a>
+          </div>
+
+          <div class="list-table">
+            <table class="table-head">
+              <td class="fir">商品信息</td>
+              <td class="sec">单价(元)</td>
+              <td class="three">状态</td>
+              <td class="four">标签</td>
+              <td class="five">团购时间</td>
+              <td class="six">发起信息</td>
+            </table>
+            <dl *ngFor="let product of groupProducts;let idx=index">
+              <dt><span>商品名称：{{product.name}}</span>
+              <div class="ope-list">
+                <a class="four"  title="审核" href="javascript:void(0);" (click)="check(product.code)"></a>
+              </div>
+              </dt>
+              <dd>
+                <table style="width: 100%;">
+                  <tr>
+                    <td class="fir">
+                      <img *ngIf="product.image!==''" [src]="'/proxy/' + product.image" />
+                    </td>
+                    <td class="sec">{{product.price}}</td>
+                    <td class="three" >
+                      <label *ngIf="product.status=='0'">录入</label>
+                      <label *ngIf="product.status=='1'">上架</label>
+                      <label *ngIf="product.status=='2'">下架</label>
+                      <label *ngIf="product.checkStatus=='0'">（待审核）</label>
+                      <label *ngIf="product.checkStatus=='1'">（审核通过）</label>
+                      <label *ngIf="product.checkStatus=='2'">（不通过）</label>
+
+                    </td>
+                    <td class="four">{{product.label}}</td>
+                    <td class="five">
+                      <span>{{product.startTime}}</span>
+                      <span>至</span>
+                      <span>{{product.endTime}}</span>
+                    </td>
+                    <td class="six">
+                      <span>{{product.contact}}</span>
+                      <span>{{product.phone}}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td  style="text-align: left; padding:0 10px 10px;" colspan="6" > 简介：<p class="con">{{product.detail}}</p></td>
+                  </tr>
+                </table>
+              </dd>
+            </dl>
+          </div>
+          <app-turn-bar
+            [pageNo]="pageNo"
+            [pageSize]="pageSize"
+            [total]="total"
+            [length] = 5
+            (turnEvent)="goPage($event)">
+          </app-turn-bar>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mask0">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">审核商品</h4>
+      <button type="button" class="close"(click)="closeMask0()">×</button>
+    </div>
+    <form class="form-building form-material">
+      <div class="modal-body ">
+          <div class="pdetail">
+            <div class="for">
+                <label>商品状态：</label>
+                <select name="checknewstatus"  class="producttext" id="checknewstatus" [(ngModel)]="productCheck.checkStatus">
+                  <option value="1">通过</option>
+                  <option value="2">不通过</option>
+                </select>
+              <input type="hidden"  [(ngModel)]="productCheck.status">
+            </div>
+            <div class="for">
+              <label style="vertical-align: top;">审核意见：</label>
+              <textarea name="checknewesetail" class="form-control" rows="4" maxlength="150"
+                        [(ngModel)]="productCheck.checkResult"
+                        id="checknewesetail" (blur)="verifyEmpty('checknewesetail','审核意见不能为空')"
+                        style="border:1px solid #dddddd;width: 200px;!important;background-color: #ffffff !important;">
+             </textarea>
+              <span class="errorMessage" style="padding-left: 94px;"></span>
+            </div>
+          </div>
+        </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeMask0()">关闭</button>
+        <button type="submit" class="btn btn-info" (click)="checkGroupProduct()" >保存</button>
+      </div>
+    </form>
+  </div>
+</div>

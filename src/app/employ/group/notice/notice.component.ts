@@ -146,7 +146,7 @@ export class NoticeComponent implements OnInit {
       .subscribe(data => {
         if(data['status']==0){
           this.updateNotice = data.data;
-
+          console.log(data.data);
           this.upGroupNotice.title = data.data.title;
           this.upGroupNotice.notice = data.data.notice;
           this.upGroupNotice.status = data.data.status;
@@ -161,10 +161,10 @@ export class NoticeComponent implements OnInit {
       alert("请把信息填完整")
       return false;
     }
-
+    console.log(this.upGroupNotice);
     this.groupNoticeService.updateGroupBuyNotice(this.upGroupNotice)
       .subscribe(data => {
-
+        console.log(data);
         if(data['status'] === 0){
           alert("修改成功")
           /* confirmFunc.init({

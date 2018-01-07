@@ -31,7 +31,7 @@ export class GroupProductService {
    return:
    */
   addGroupBuyProduct(postData){
-
+    console.log(postData);
     const url = '/proxy/mmall/group/addGroupbuyProduct';
     const data = postData;
     return this.http.post(url,data,this.options)
@@ -65,12 +65,21 @@ export class GroupProductService {
    return:
    */
 updateGroupbuyProduct(postData){
-
+    console.log(postData);
     const url = '/proxy/mmall/group/updateGroupbuyProduct';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
+  updateStatus(postData){
+    console.log(postData);
+    const url = '/proxy/mmall/group/updateStatus';
+    const data = postData;
+    return this.http.post(url,data,this.options)
+      .map(res => res.json());
+  }
+
+
   /*
    图片上传
    param: postData:img,
@@ -96,7 +105,7 @@ updateGroupbuyProduct(postData){
   getProductShowList(pageNo:number,pageSize:number,search:any) {
     const url = '/proxy/mmall/group/getProductShowList/'+pageNo+'/'+pageSize;
     const data = search;
-
+    console.log(data);
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
@@ -104,7 +113,7 @@ updateGroupbuyProduct(postData){
   addToCart(cart:any) {
     const url = '/proxy/mmall/cart/addGroupbuyCart';
     const data = cart;
-
+    console.log(data);
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
@@ -128,8 +137,9 @@ updateGroupbuyProduct(postData){
       .map(res => res.json());
   }
 
-  submitCart(){
-    const url = '/proxy/mmall/order/addGroupOrder';
+  submitCart(message){
+
+    const url = '/proxy/mmall/order/addGroupOrder/'+message;
     return this.http.post(url,this.options)
       .map(res => res.json());
   }
@@ -139,7 +149,7 @@ updateGroupbuyProduct(postData){
    return:
    */
   checkGroupbuyProduct(postData){
-
+    console.log(postData);
     const url = '/proxy/mmall/group/updateGroupbuyProduct';
     const data = postData;
     return this.http.post(url,data,this.options)

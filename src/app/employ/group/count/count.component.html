@@ -1,0 +1,101 @@
+<!--搜索栏-->
+<div class="right">
+  <div class="wrap-content">
+    <div class="wrap-space">
+      <div class="wrap-b">
+        <div class="b-head clearfix">
+          <div class="b-head-left">
+            <span [routerLink]="['../product']">团购商品新增</span>
+            <span [routerLink]="['../check']">团购商品审核</span>
+            <span [routerLink]="['../manager']">团购商品管理</span>
+            <span [routerLink]="['../order']">订单管理</span>
+            <span [routerLink]="['../notice']">公告管理</span>
+            <span [routerLink]="['../report']">订单报表</span>
+            <span class="active">统计报表</span>
+          </div>
+          <div class="b-head-right">
+            <div class="content-box" [routerLink]="['../groupbuy']"><i class="icon-action-undo"></i> 继续订购</div>
+          </div>
+        </div>
+<div class="search-bar">
+  <div class="panel">
+    <ul>
+      <li>
+        <label>统计类型</label>
+        <select
+          name="floorUse" (change)="changeDate()" [(ngModel)]="countType">
+          <option value="1">按月份</option>
+          <option value="2">按季度</option>
+          <option value="3">按年份</option>
+        </select>
+      </li>
+      <li>
+        <label>时间</label>
+        <input type="month" style="display: none;"  id="date1"  [(ngModel)]="countValue">
+
+        <select style="display: none;"
+          id="date2" [(ngModel)]="countValue1">
+          <option value="1">一季度</option>
+          <option value="2">二季度</option>
+          <option value="3">三季度</option>
+          <option value="4">四季度</option>
+        </select>
+        <select
+                id="date3" [(ngModel)]="countValue2">
+          <option value="2017">2017年</option>
+          <option value="2018">2018年</option>
+        </select>
+      </li>
+    </ul>
+    <div class="panel-search">
+      <a href="javascript:;" class="search-btn" (click)="getCountList()"><i class="icon-magnifier"></i> 查 询</a>
+    </div>
+  </div>
+</div>
+<!--表头-->
+<div class="table-head">
+  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+    <tr class="row list-title" style="height:45px;">
+      <th width="5%">序号</th>
+      <th width="10%" >部门名称</th>
+      <th width="10%">订购人数</th>
+      <th width="15%">消费合计</th>
+      <th width="15%">购买数量</th>
+    </tr>
+  </table>
+</div>
+<!--表格内容-->
+<div class="table-content" style="min-height: 390px">
+  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+    <tr class="row"  style="height:45px;" *ngFor="let order of orders;let i = index">
+      <td width="5%">
+        {{i+1}}
+      </td>
+      <td width="10%">
+        {{order.DEPT_NAME}}
+      </td>
+      <td width="15%">
+        <span>
+          {{order.PERSONS}}
+        </span>
+      </td>
+      <td width="15%">
+        ￥{{order.TOTAL}}
+      </td>
+      <td width="10%">
+        {{order.COUNTS}}
+      </td>
+    </tr>
+  </table>
+</div>
+        <div>
+          <div>
+            <div>
+              <div>
+
+
+
+
+
+
+

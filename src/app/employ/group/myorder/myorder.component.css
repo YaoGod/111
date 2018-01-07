@@ -7,6 +7,7 @@
 .wrap-b{
   background: #fff;
   padding: 20px;
+  /*height: 1000px;*/
   display: inline-block;
 }
 .b-head{
@@ -492,4 +493,164 @@
 .wrap-b .path li.four.active{
    background: url('../../../../assets/image/step-44.jpg') no-repeat;
   left: 10%;
+}
+.mask0{
+  display: none;
+  position: fixed;
+  left:0;
+  top:0;
+  width: 100%;
+  height:100%;
+  background-color:rgba(0,0,0,.4);
+  z-index:999;
+}
+.mask1{
+  display: none;
+  position: fixed;
+  left:0;
+  top:0;
+  width: 100%;
+  height:100%;
+  background-color:rgba(0,0,0,.4);
+  z-index:999;
+}
+.modal-content{
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: .3rem;
+  outline: 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, .1);
+  width:450px;
+  margin:127px auto 0;
+}
+.close{
+  cursor: pointer;
+}
+.for p{
+  line-height: 24px;
+  font-size: 12px;
+  text-indent: 1em;
+  padding: 0 0px;
+  height: 100px;
+  width: 360px;
+  overflow-y: auto;
+}
+.for span{
+  line-height: 24px;
+  font-size: 12px;
+  text-indent: 2em;
+  padding: 0 10px;
+  height: 24px;
+}
+.for label{
+  display: inline-block;
+  width: 61px;
+  padding-right: 0px;
+  margin-right: 2px;
+  background-color: #f8f8f8;
+  font-weight: 300;
+  font-size: 12px;
+  text-align: right;
+}
+.modal-header{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #f1f5f8;
+  /* border-bottom: 1px solid #eceeef; */
+}
+button {
+  border: none;
+  background: none;
+}
+.pdetail{
+  width: 435px;
+  float: right;
+  margin-left: 2px;
+}
+.for{
+  margin-top: 6px;
+  display: -webkit-box;
+}
+.errorMessage{
+  color: #ff0000;
+  font-size: 12px;
+}
+.modal-footer {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding: 15px;
+  background-color: #f1f5f8;
+  /* border-top: 1px solid #eceeef; */
+}
+.btn {
+  font-size: 14px;
+
+}
+.btn-info{
+  margin-left: 15px;
+  padding: 10px 16px;
+  border-radius: 4px;
+  background: #03a9f3;
+  border: 1px solid #03a9f3;
+  color: #fff;
+}
+.btn-danger{
+  padding: 10px 16px;
+  border-radius: 4px;
+  color: #fff;
+}
+.btn-danger{
+  padding: .5rem 1.2rem;
+  padding-left:16px;
+  padding-right:16px;
+  -moz-border-radius:6px;
+  -webkit-border-radius:6px;
+  border-radius:6px;
+  font-size: 14px;
+  background: #fb9678;
+  border: 1px solid #fb9678;
+}
+.btn-danger.disabled.focus,
+.btn-danger.disabled:focus,
+.btn-danger.disabled:hover,
+.btn-danger.focus,
+.btn-danger:focus,
+.btn-danger:hover {
+  background: #fb9678;
+  opacity: .8;
+  color: #ffffff;
+  border: 1px solid #fb9678;
 }

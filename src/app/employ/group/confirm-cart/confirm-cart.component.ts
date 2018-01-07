@@ -5,6 +5,8 @@ import { GroupProductService } from '../../../service/group-product/group-produc
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import { Router } from '@angular/router';
 import {GlobalCatalogService} from "app/service/global-catalog/global-catalog.service";
+import {IpSettingService} from "app/service/ip-setting/ip-setting.service";
+
 @Component({
   selector: 'app-confirm-cart',
   templateUrl: './confirm-cart.component.html',
@@ -17,18 +19,22 @@ export class ConfirmCartComponent implements OnInit {
   public num:number;
   public carts:Array<GroupCart>;
   public mutipalPrice:number;
+  public serverCenters:Array<ServerCenter>;
   public ids:string;
+  public username= localStorage.getItem("username");
+  public userInfo={
+    username: '',
+    teleNum: '',
+    homeAddr: ''
+  }
   constructor(
     private groupProductService: GroupProductService,
     private errorVoid: ErrorResponseService,
     private router: Router,
-    private globalCatalogService: GlobalCatalogService
+    private globalCatalogService: GlobalCatalogService,
+    private ipSetting: IpSettingService,
   ) {}
-  public userInfo={
-  username: '',
-  teleNum: '',
-  homeAddr: ''
-}
+
   ngOnInit() {
     this.globalCatalogService.setTitle("团购管理/购物车/确认订单");
     this.getCartList();
@@ -36,11 +42,11 @@ export class ConfirmCartComponent implements OnInit {
   getCartList(){
     this.groupProductService.getCartList().subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
-
+        console.log(data);
         this.carts = data.data.infos;
         this.mutipalPrice=data.data.mutipalPrice;
         this.userInfo = data.data.userInfo;
-        if(this.carts.length==0){
+        if(this.carts.length===0){
           $(".b-foot").hide();
         }else{
           $(".b-foot").show();
@@ -50,15 +56,84 @@ export class ConfirmCartComponent implements OnInit {
   }
 
   submitCart(){
-    this.groupProductService.submitCart().subscribe(data => {
-      if (data.status=="1") {
+    $('.maskSubmitOrder').show();
+  }
+  private verifyEmpty(id,label) {
+    if (!this.isEmpty(id, label)) {
+      return false;
+    }else{
+      return true;
+    }
+  }
+  /**非空校验*/
+  private isEmpty(id: string, error: string): boolean  {
+    const data =  $('#' + id).val();
+    if (data==null||data===''||data.trim() === '')  {
+      this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+
+  /**
+   * 添加错误信息class
+   * @param id
+   * @param error
+   */
+  private  addErrorClass(id: string, error?: string)  {
+    $('#' + id).parents('.form-control').addClass('form-error');
+    if (error === undefined || error.trim().length === 0 ) {
+      $('#' + id).next('button').next('span').html('输入错误');
+    }else {
+      $('#' + id).next('button').next('span').html(error);
+    }
+  }
+  /**
+   * 去除错误信息class
+   * @param id
+   */
+  private  removeErrorClass(id: string) {
+    $('#' + id).parents('.form-control').removeClass('form-error');
+    $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
+    $('#' + id).next('button').next('span').html('');
+  }
+
+  getcode(){
+
+    let url = '/mmall/laundryOrder/getPayCode/'+this.username;
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(data['status'] === 0){
+        alert("短信发送成功！");
+
+      }else{
+        alert("短信发送失败！");
+      }
+    });
+
+  }
+  saveSubmitOrder(){
+    if(!this. verifyEmpty('message','短信验证码不能为空')){
+      return false;
+    }
+    this.groupProductService.submitCart($('#message').val()).subscribe(data => {
+      if (data.status === "1") {
         alert("您的订单提交失败！");
       }else{
         alert("您的订单提交成功！");
         this.getCartList();
         $(".address").hide();
         $(".b-address").hide();
+        $('.maskSubmitOrder').hide();
       }
     });
   }
+  closeSubmitOrder() {
+    $('.maskSubmitOrder').hide();
+  }
 }
+export class ServerCenter{
+  name: string;
+  id:number;
+};

@@ -5,9 +5,13 @@
           <div class="wrap-b">
             <div class="b-head clearfix">
               <div class="b-head-left">
-                <span class="active">团购商品管理</span>
+                <span class="active">团购商品新增</span>
+                <span [routerLink]="['../check']">团购商品审核</span>
+                <span [routerLink]="['../manager']">团购商品管理</span>
                 <span [routerLink]="['../order']">订单管理</span>
                 <span [routerLink]="['../notice']">公告管理</span>
+                <span [routerLink]="['../report']">订单报表</span>
+                <span [routerLink]="['../count']">统计报表</span>
               </div>
               <div class="b-head-right">
                 <div class="content-box" [routerLink]="['../groupbuy']"><i class="icon-action-undo"></i> 继续订购</div>
@@ -16,8 +20,7 @@
             <div class="b-con tuanmenu">
               <div class="wrap clearfix">
                 <div class="iptgroup">
-                  <input placeholder="请输入查询信息" [(ngModel)]="search.name" />
-                  <a href="javascript: void(0);" class="ipt-search"></a>
+                  <input placeholder="请输入商品名称" [(ngModel)]="search.name" />
                 </div>
                 <a class="search" href="javascript: void(0);" (click)="getProductList()" >查询</a>
                 <div class="row">
@@ -37,10 +40,8 @@
                 <dl *ngFor="let product of groupProducts;let idx=index">
                   <dt><span>商品名称：{{product.name}}</span>
                   <div class="ope-list">
-                    <a class="four"  title="审核" href="javascript:void(0);" (click)="check(product.code)"></a>
-                    <!--<a class="one"   title="查看" href="javascript:void(0);"(click)="view(product.code)"></a>-->
-                    <a class="two"   title="修改" href="javascript:void(0);" (click)="update(product.code)"></a>
-                    <a class="tre"   title="删除" href="javascript:void(0);" (click)="delete(product.code)"></a>
+                    <a class="two" *ngIf="product.status=='0'"  title="修改" href="javascript:void(0);" (click)="update(product.code)"></a>
+                    <a class="tre" *ngIf="product.status=='0'"  title="删除" href="javascript:void(0);" (click)="delete(product.code)"></a>
                   </div>
                   </dt>
                   <dd>
@@ -49,11 +50,16 @@
                         <td class="fir">
                           <img *ngIf="product.image!==''" [src]="'/proxy/' + product.image" />
                         </td>
-                        <td class="sec">{{product.price}}</td>
-                        <td class="three" *ngIf="product.status=='0'">录入</td>
-                        <td class="three" *ngIf="product.status=='1'">上架</td>
-                        <td class="three" *ngIf="product.status=='2'">下架</td>
-                        <td class="three" *ngIf="product.status=='3'">不通过</td>
+                        <td class="sec">￥{{product.price}}</td>
+                        <td class="three" >
+                          <label *ngIf="product.status=='0'">录入</label>
+                          <label *ngIf="product.status=='1'">上架</label>
+                          <label *ngIf="product.status=='2'">下架</label>
+                          <label *ngIf="product.checkStatus=='0'">（待审核）</label>
+                          <label *ngIf="product.checkStatus=='1'" style="color: green;">（审核通过）</label>
+                          <label *ngIf="product.checkStatus=='2'" style="color: red;">（不通过）</label>
+
+                        </td>
                         <td class="four">{{product.label}}</td>
                         <td class="five">
                           <span>{{product.startTime}}</span>
@@ -104,47 +110,54 @@
                 </div>
               </div>
               <div class="pdetail">
-                <div>
+                <div class="for">
                   <label>商品名称：</label>
-                  <input type="text" id="newname" name="newname" (blur)="verifyEmpty('newname','商品名称不能为空')" class="noticetext" placeholder="" [(ngModel)]="newGroupProduct.name">
+                  <input type="text" id="newname" name="newname" (blur)="verifyEmpty('newname','商品名称不能为空')"
+                         class="producttext"  [(ngModel)]="newGroupProduct.name">
                   <span class="errorMessage"></span>
                 </div>
                 <div class="for">
                   <div style="width: 58%">
                     <label>收款账号：</label>
-                    <input type="text" class="producttext" id="newpayaccount" name="newpayaccount" (blur)="verifyEmpty('newpayaccount','账户不能为空')"   [(ngModel)]="newGroupProduct.payaccount">
-                    <span class="errorMessage"></span>
-                  </div>
-                  <div style="width: 55%">
-                    <label>商品价格：</label>
-                    <input type="text" class="producttext" id="newprice" name="newprice"  (blur)="verifyEmpty('newprice','费用不能为空')"    placeholder="" [(ngModel)]="newGroupProduct.price">
+                    <input type="text" class="producttext" id="newpayaccount" name="newpayaccount"
+                           (blur)="verifyEmpty('newpayaccount','账户不能为空')"   [(ngModel)]="newGroupProduct.payaccount">
                     <span class="errorMessage"></span>
                   </div>
                 </div>
                 <div class="for">
-                  <div>
+                  <div  style="width: 55%">
                     <label>商品标签：</label>
                     <input type="text" class="producttext" id="newplabel" name="newplabel"   [ngModelOptions]="{standalone: true}" [(ngModel)]="newGroupProduct.label">
                   </div>
+                  <div style="width: 50%">
+                    <label>商品价格：</label>
+                    <input type="text" class="producttext" id="newprice" name="newprice" style="width:75px;"
+                           (blur)="verifyEmpty('newprice','价格不能为空')"    placeholder="" [(ngModel)]="newGroupProduct.price">元
+                    <span class="errorMessage"></span>
+                  </div>
                 </div>
                 <div class="for">
-                  <div style="width: 57%">
+                  <div style="width: 55%">
                     <label>联  系  人 ：</label>
-                    <input type="text" class="producttext" id="newpconcant" name="newpconcant"  (blur)="verifyEmpty('newpconcant','不能为空')"   [(ngModel)]="newGroupProduct.contact">
+                    <input type="text" class="producttext" style="width:81px;" id="newpconcant" name="newpconcant"
+                           (blur)="verifyEmpty('newpconcant','不能为空')"   [(ngModel)]="newGroupProduct.contact">
                     <span class="errorMessage"></span>
                   </div>
                   <div style="width: 55%">
                     <label>联系电话：</label>
-                    <input type="text" class="producttext" id="newphone" name="newphone" (blur)="verifyEmpty('newphone','电话不能为空')"   [(ngModel)]="newGroupProduct.phone">
+                    <input type="text" class="producttext" style="width:88px;" id="newphone" name="newphone"
+                           (blur)="verifyEmpty('newphone','电话不能为空')"   [(ngModel)]="newGroupProduct.phone">
                     <span class="errorMessage"></span>
                   </div>
                 </div>
-                <div style="margin-top: 15px">
+                <div  class="for" style="margin-top: 15px">
                   <label>团购时间：</label>
-                  <input type="date" class="producttext" name="newstartTime" id="newstartTime" (blur)="verifyEmpty('newstartTime','不能为空')" style="width:30% !important;"   [(ngModel)]="newGroupProduct.startTime">
+                  <input type="date" class="producttext" name="newstartTime" id="newstartTime" (blur)="verifyEmpty('newstartTime','不能为空')"
+                         style="width:130px !important;"   [(ngModel)]="newGroupProduct.startTime">
                   <span class="errorMessage"></span>
-                  <label style="margin-left:6px">-</label>
-                  <input type="date" class="producttext" name="newendTime" id="newendTime" (blur)="verifyEmpty('newendTime','不能为空')" style="width:30% !important;margin-left: 5px" [(ngModel)]="newGroupProduct.endTime">
+                 至
+                  <input type="date" class="producttext" name="newendTime" id="newendTime" (blur)="verifyEmpty('newendTime','不能为空')"
+                         style="width:130px !important;margin-left: 5px" [(ngModel)]="newGroupProduct.endTime">
                   <span class="errorMessage"></span>
                 </div>
               </div>
@@ -153,8 +166,8 @@
               <label>商品详情：</label>
               <textarea name="newesetail" ui-tinymce
                         class="form-control" rows="10"
-                        id="newesetail" (blur)="verifyEmpty('newesetail','结束时间不能为空')"
-                        style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;"  [(ngModel)]="newGroupProduct.detail" >
+                        id="newesetail" (blur)="verifyEmpty('newesetail','商品详情不能为空')"
+                        style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 90%;!important;height: 140px;background-color: #ffffff !important;"  [(ngModel)]="newGroupProduct.detail" >
                </textarea>
               <span class="errorMessage"></span>
             </div>
@@ -206,28 +219,33 @@
                   </div>
                   <div style="width: 50%">
                     <label>商品价格：</label>
-                    <input type="text" class="producttext" id="upnewprice" name="upnewprice" (blur)="verifyEmpty('upnewprice','费用不能为空')"  [(ngModel)]="upGroupProduct.price">
+                    <input type="text" class="producttext" style="width: 81px" id="upnewprice" name="upnewprice"
+                           (blur)="verifyEmpty('upnewprice','费用不能为空')"  [(ngModel)]="upGroupProduct.price">元
                     <span class="errorMessage"></span>
                   </div>
                 </div>
                 <div class="for">
                   <div style="width: 55%">
                     <label>联 系 人：</label>
-                    <input type="text" class="producttext" style="width: 118px" name="upnewpconcant" id="upnewpconcant" (blur)="verifyEmpty('upnewpconcant','不能为空')"  [(ngModel)]="upGroupProduct.contact">
+                    <input type="text" class="producttext" style="width: 81px" name="upnewpconcant" id="upnewpconcant"
+                           (blur)="verifyEmpty('upnewpconcant','不能为空')"  [(ngModel)]="upGroupProduct.contact">
                     <span class="errorMessage"></span>
                   </div>
                   <div style="width: 50%">
                     <label>联系电话：</label>
-                    <input type="text" class="producttext"  style="width: 118px" id="upnewphone" name="upnewphone"  (blur)="verifyEmpty('upnewphone','电话不能为空')" [(ngModel)]="upGroupProduct.phone">
+                    <input type="text" class="producttext"  style="width:81px" id="upnewphone" name="upnewphone"
+                           (blur)="verifyEmpty('upnewphone','电话不能为空')" [(ngModel)]="upGroupProduct.phone">
                     <span class="errorMessage"></span>
                   </div>
                 </div>
                 <div class="for" style="margin-top: 15px">
                   <label>团购时间：</label>
-                  <input type="date" class="producttext" name="upnewstartTime"  id="upnewstartTime" (blur)="verifyEmpty('upnewstartTime','不能为空')" style="width:118px !important;"   [(ngModel)]="upGroupProduct.startTime" >
+                  <input type="date" class="producttext" name="upnewstartTime"  id="upnewstartTime" (blur)="verifyEmpty('upnewstartTime','不能为空')"
+                         style="width:118px !important;"   [(ngModel)]="upGroupProduct.startTime" >
                   <span class="errorMessage"></span>
                   至
-                  <input type="date" class="producttext" name="upnewendTime" id="upnewendTime" (blur)="verifyEmpty('upnewendTime','不能为空')" style="width:118px !important;margin-left: 5px"  [(ngModel)]="upGroupProduct.endTime" >
+                  <input type="date" class="producttext" name="upnewendTime" id="upnewendTime" (blur)="verifyEmpty('upnewendTime','不能为空')"
+                         style="width:118px !important;margin-left: 5px"  [(ngModel)]="upGroupProduct.endTime" >
                   <span class="errorMessage"></span>
                 </div>
               </div>
@@ -245,100 +263,6 @@
 
             <button type="button" class="btn btn-danger" (click)="closeMask2()">取 消</button>
             <button type="submit" class="btn btn-info"   (click)="updateGroupProduct()" >保 存</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <div class="mask0">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">审核商品</h4>
-          <button type="button" class="close"(click)="closeMask0()">×</button>
-        </div>
-        <form class="form-building form-material">
-          <div class="modal-body ">
-            <div class="protop clearfix">
-              <div class="pimg">
-                <div class="dropify-wrapper">
-                  <div class="dropify-message">
-                    <img *ngIf="productCheck.image!==''" [src]="'/proxy/' + productCheck.image" />
-                  </div>
-                  <p>点击此处上传图片</p>
-                  <input type="file" class="dropify" #prese3 id="prese3" (change)="prese_upload3(prese3.files)">
-
-                </div>
-              </div>
-              <div class="pdetail">
-                <div class="for">
-                  <label>商品名称：</label>
-                  <input type="text" class="producttext" id="checknewname" name="checknewname" (blur)="verifyEmpty('checknewname','商品名称不能为空')"  [(ngModel)]="productCheck.name">
-                  <span class="errorMessage"></span>
-                </div>
-                <div class="for">
-                  <div>
-                    <label>收款账号：</label>
-                    <input type="text" class="producttext" id="checknewpayaccount" name="checknewpayaccount" (blur)="verifyEmpty('checknewpayaccount','账户不能为空')"  [(ngModel)]="productCheck.payaccount">
-                    <span class="errorMessage"></span>
-                  </div>
-                </div>
-
-                <div class="for">
-                  <div  style="width: 55%">
-                    <label>商品标签：</label>
-                    <input type="text" class="producttext" id="checknewlabel" name="checknewlabel"   [(ngModel)]="productCheck.label">
-                  </div>
-                  <div style="width: 50%">
-                    <label>商品价格：</label>
-                    <input type="number" class="producttext" id="checknewprice" name="checknewprice" (blur)="verifyEmpty('checknewprice','费用不能为空')"  [(ngModel)]="productCheck.price">
-                    <span class="errorMessage"></span>
-                  </div>
-                </div>
-                <div class="for">
-                  <div>
-                    <label>商品状态：</label>
-                    <select name="checknewstatus"  id="checknewstatus" [(ngModel)]="productCheck.status">
-                      <option value="1">上架</option>
-                      <option value="2">下架</option>
-                      <option value="3">不通过</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="for">
-                  <div style="width: 55%">
-                    <label>联 系 人：</label>
-                    <input type="text" class="producttext" style="width: 118px" name="checknewpconcant" id="checknewpconcant" (blur)="verifyEmpty('checknewpconcant','不能为空')"  [(ngModel)]="productCheck.contact">
-                    <span class="errorMessage"></span>
-                  </div>
-                  <div style="width: 50%">
-                    <label>联系电话：</label>
-                    <input type="text" class="producttext"  style="width: 118px" id="checknewphone" name="checknewphone"  (blur)="verifyEmpty('checknewphone','电话不能为空')" [(ngModel)]="productCheck.phone">
-                    <span class="errorMessage"></span>
-                  </div>
-                </div>
-
-                <div class="for" style="margin-top: 15px">
-                  <label>团购时间：</label>
-                  <input type="date" class="producttext"  id="checknewstartTime" name="checknewstartTime" (blur)="verifyEmpty('checknewstartTime','不能为空')" style="width:118px !important;" [(ngModel)]="productCheck.startTime" >
-                  <span class="errorMessage"></span>
-                  至
-                  <input type="date" class="producttext" id="checknewendTime" name="checknewendTime" (blur)="verifyEmpty('checknewendTime','不能为空')" style="width:118px !important;margin-left: 5px" [(ngModel)]="productCheck.endTime" >
-                  <span class="errorMessage"></span>
-                </div>
-              </div>
-            </div>
-            <div  class="modal-right2">
-              <label>商品详情：</label>
-              <textarea name="checknewesetail" ui-tinymce
-                        class="form-control" rows="10"  [(ngModel)]="productCheck.detail"
-                        id="checknewesetail" (blur)="verifyEmpty('checknewesetail','结束时间不能为空')"
-                        style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;"  value="{{productCheck.detail}}" >
-               </textarea>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" (click)="closeMask0()">取 消</button>
-            <button type="submit" class="btn btn-info" (click)="checkGroupProduct()" >保存</button>
           </div>
         </form>
       </div>

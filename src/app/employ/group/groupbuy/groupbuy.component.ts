@@ -46,7 +46,7 @@ export class GroupbuyComponent implements OnInit {
     this.groupProductService.getProductShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.groupProducts = data.data.infos;
-
+        console.log(this.groupProducts);
         this.cartsize = data.data.cartsize;
       }
     });
@@ -116,7 +116,7 @@ export class GroupbuyComponent implements OnInit {
     this.groupNoticeService.getNoticeShowList().subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.groupNotices = data.data.infos;
-
+        console.log(this.groupNotices);
       }
     });
     $('.mask').show();

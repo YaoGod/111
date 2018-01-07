@@ -30,6 +30,12 @@
                       <td class="zero" *ngIf="order.status=='0'">订单状态：订购中</td>
                       <td class="zero" *ngIf="order.status=='1'">订单状态：已到货</td>
                       <td class="zero" *ngIf="order.status=='2'">订单状态：退单</td>
+                      <td class="zero"  *ngIf="order.status=='1'"  >
+                      <button *ngIf="order.groupMessage==null" type="button" class="btn btn-info" style="padding: 2px 2px;float:inherit;color:black"
+                              (click)="addMessage(order.id)">评价</button>
+                      <button *ngIf="order.groupMessage!=null" type="button" class="btn btn-info" style="padding: 2px 2px;float:inherit;color:white"
+                              (click)="showMessage(order.id)">已评价</button>
+                      </td>
                     </tr>
                   </table>
                 </dt>
@@ -62,5 +68,68 @@
         </div>
       </div>
     </div>
+
+      <div class="mask0">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">订单评价</h4>
+            <button type="button" class="close"(click)="closeMask0()">×</button>
+          </div>
+          <form class="form-building form-material">
+            <div class="modal-body ">
+              <div class="pdetail">
+                <div class="for">
+                  <label style="vertical-align: top">评价意见：</label>
+                  <textarea class="form-control"  rows="5" maxlength="1000" [(ngModel)]="newMessage.content" id="content" name="content"
+                             (blur)="verifyEmpty('content','评价意见不能为空')"
+                            style="border:1px solid #dddddd;width: 337px;!important;background-color: #ffffff !important;">
+                </textarea>
+                  <span class="errorMessage" style="padding-left: 94px;"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" (click)="closeMask0()">关闭</button>
+              <button type="submit" class="btn btn-info" (click)="submitMessage()" >保存</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="mask1">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">评价信息</h4>
+            <button type="button" class="close" (click)="closeMask1()">×</button>
+          </div>
+          <form class="form-building form-material">
+            <div class="modal-body ">
+              <div class="pdetail">
+                <div class="for">
+                  <label>评价时间：</label>
+                  <span>{{viewMessage.insterTime}}</span>
+                </div>
+                <div class="for">
+                  <label>评价意见：</label>
+                  <p>{{viewMessage.content}}</p>
+                </div>
+                <div class="for">
+                  <label>反馈时间：</label>
+                  <span>{{viewMessage.replyTime}}</span>
+                </div>
+                <div class="for">
+                  <label>反馈意见：</label>
+                  <p>{{viewMessage.reply}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" (click)="closeMask1()">关闭</button>
+            </div>
+          </form>
+        </div>
+      </div>
 
 

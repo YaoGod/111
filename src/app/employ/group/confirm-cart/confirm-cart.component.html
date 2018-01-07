@@ -17,35 +17,24 @@
               <div class="list-table">
                 <table class="table-head">
                   <td class="fir">商品信息</td>
+                  <td class="sec">商品名称</td>
                   <td class="sec">单价(元)</td>
-                  <td class="three">数量</td>
+                  <td class="three">够买数量</td>
                   <td class="four">合计（元）</td>
                 </table>
                 <dl  *ngFor="let cart of carts;let idx=index">
                   <dt>
                     <span>商品编码：{{cart.productId}}</span>
-                  <div class="ope-list">
-
-                  </div>
                   </dt>
                   <dd>
-                    <table>
+                    <table style="width: 100%;">
                       <td class="fir">
                         <img *ngIf="cart.image!==''" [src]="'/proxy/' + cart.image"/>
-                        <p class="headtxt">{{cart.name}}</p>
                       </td>
-                      <td class="sec">{{cart.price}}</td>
-                      <td class="three">
-                        <ul class="btn-numbox">
-                          <li><span class="number"></span></li>
-                          <li>
-                            <ul class="count">
-                              <li><input type="text" class="input-num" readonly id="input-num-{{idx}}" [ngModelOptions]="{standalone: true}"  [(ngModel)]="cart.quantity" /></li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </td>
-                      <td class="six">
+                      <td class="sec">{{cart.name}}</td>
+                      <td class="sec">￥{{cart.price}}</td>
+                      <td class="three">{{cart.quantity}}</td>
+                      <td class="four">
                         <label id="unionPrice">￥{{cart.totalPrice}}</label>
                       </td>
                     </table>
@@ -68,5 +57,36 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="maskSubmitOrder">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">提交订单</h4>
+          <button type="button" class="close" style="background: none;" (click)="closeSubmitOrder()">×</button>
+        </div>
+        <form class="form-material">
+          <div class="modal-body clearfix">
+            <div class="protop">
+              <div class="pdetail">
+                <div>
+                  <div style="margin-top: 10px;">
+                    <label>验证码：</label>
+                    <input type="text" style="width: 65px;"  id="message" class="noticetext"  name="message" (blur)="verifyEmpty('message','短信验证码不能为空')">
+
+                    <button type="button" style="padding: 5px 9px;border-radius: 5px;color: #fff;outline: none;cursor: pointer;margin-left: 13px;"
+                            class="btn-danger" (click)="getcode()">获取验证码</button>
+                    <span class="errorMessage"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="closeSubmitOrder()">取 消</button>
+            <button type="submit" class="btn btn-info"(click)="saveSubmitOrder()" >提 交</button>
+          </div>
+        </form>
       </div>
     </div>

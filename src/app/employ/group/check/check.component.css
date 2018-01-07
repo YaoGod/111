@@ -409,7 +409,7 @@ input[type=text]{
   border-radius: .3rem;
   outline: 0;
   box-shadow: 0 5px 15px rgba(0, 0, 0, .1);
-  width:850px;
+  width:350px;
   margin:40px auto 0;
 }
 .close{
@@ -633,14 +633,13 @@ button{
   border: 2px solid #E5E5E5;
 }
 .pdetail{
-  width: 507px;
+  width: 333px;
   float: right;
   margin-left: 2px;
 }
 .for{
   margin-top: 6px;
   display: -webkit-box;
-  white-space: nowrap;
 }
 .for label{
   display: inline-block;

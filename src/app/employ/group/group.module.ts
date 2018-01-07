@@ -16,6 +16,10 @@ import {ConfirmCartComponent} from "./confirm-cart/confirm-cart.component";
 import {MyorderComponent} from "./myorder/myorder.component";
 import {TurnBarModule} from "../../component/turn-bar/turn-bar.module";
 import { SlideImgComponent } from './slide-img/slide-img.component';
+import { CheckComponent } from './check/check.component';
+import { ManagerComponent } from './manager/manager.component';
+import { ReportComponent } from './report/report.component';
+import { CountComponent } from './count/count.component';
 const routes: Routes = [
   { path: '',
     component : GroupComponent,
@@ -53,6 +57,18 @@ const routes: Routes = [
       {
         path:'myorder',
         component:MyorderComponent
+      },{
+        path: 'check',
+        component:CheckComponent
+      },{
+        path: 'manager',
+        component:ManagerComponent
+      },{
+        path: 'report',
+        component:ReportComponent
+      },{
+        path: 'count',
+        component:CountComponent
       }
     ]
   }
@@ -67,6 +83,7 @@ const routes: Routes = [
   ],
   exports:[RouterModule],
   declarations: [HomepageComponent, ProductComponent, OrderComponent, GroupbuyComponent, NoticeComponent, CartComponent,
-    GroupComponent, ConfirmCartComponent, MyorderComponent, SlideImgComponent]
+    GroupComponent, ConfirmCartComponent, MyorderComponent, SlideImgComponent, CheckComponent, ManagerComponent,
+    ReportComponent, CountComponent]
 })
 export class GroupModule { }

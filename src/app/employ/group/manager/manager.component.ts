@@ -2,19 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { GroupProduct } from '../../../mode/groupProduct/group-product.service';
 import { GroupProductService } from '../../../service/group-product/group-product.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
-
 import * as $ from 'jquery';
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 declare var $:any;
 declare var confirmFunc: any;
 declare var tinymce: any;
 @Component({
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css'],
+  selector: 'app-manager',
+  templateUrl: './manager.component.html',
+  styleUrls: ['./manager.component.css'],
   providers: [GroupProductService,UtilBuildingService,ErrorResponseService]
 })
-export class ProductComponent implements OnInit {
+export class ManagerComponent implements OnInit {
+
   public groupProducts: Array<GroupProduct>;
   public search: GroupProduct;
   private code: any;
@@ -23,21 +23,6 @@ export class ProductComponent implements OnInit {
   public total = 0;
   public length = 5;
   public pages: Array<number>;
-  public  productview={
-    code:'',
-    name: '',
-    image: '',
-    detail:'',
-    price: '',
-    status: '',
-    startTime: '',
-    endTime:'',
-    contact:'',
-    phone: '',
-    payaccount:'',
-    label:'',
-    producttype: ''
-  };
   public upGroupProduct={
     code:'',
     name: '',
@@ -51,23 +36,12 @@ export class ProductComponent implements OnInit {
     phone:    '',
     payaccount:'',
     label:  '',
-    producttype: '',
-    checkStatus:''
+    producttype: ''
   };
-  public newGroupProduct={
-    name: '',
-    image: '',
-    detail:'',
-    price: '',
-    status: '',
-    startTime: '',
-    endTime:'',
-    contact:'',
-    phone:    '',
-    payaccount:'',
-    label:  '',
-    producttype: '',
-    checkStatus:''
+
+  public upStatusProduct={
+      code:'',
+      status:''
   };
   constructor(private groupProductService: GroupProductService,
               private errorVoid: ErrorResponseService,) {
@@ -78,6 +52,7 @@ export class ProductComponent implements OnInit {
     this.getProductList();
   }
   getProductList(){
+    this.search.checkStatus = '1';
     this.groupProductService.getProductList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.groupProducts = data.data.infos;
@@ -85,6 +60,21 @@ export class ProductComponent implements OnInit {
       }
     });
   }
+  updateStatus(code,status){
+    this.upStatusProduct.status = status;
+    this.upStatusProduct.code = code;
+    this.groupProductService.updateStatus(this.upStatusProduct)
+      .subscribe(data => {
+        if(data['status'] === 0){
+          alert("保存成功");
+          this.getProductList();
+        }else{
+          alert("保存失败")
+          this.closeMask0();
+        }
+      })
+  }
+
   fadeBom() {
     $('.mask').show();
   }
@@ -184,42 +174,6 @@ export class ProductComponent implements OnInit {
     $('#' + id).next('span').html('');
   }
 
-  subGroupProduct() {
-
-
-    if (!this.verifyEmpty('newname','名称不能为空')||!this.verifyEmpty('newprice','不能为空')||!this.verifyEmpty('newstartTime'
-        ,'不能为空')|| !this.verifyEmpty('newendTime','不能为空')||!this.verifyEmpty('newpconcant','不能为空')||
-      !this.verifyEmpty('newphone','不能为空')|| !this.verifyEmpty('newpayaccount','收款账户不能为空')||!this.verifyEmpty(
-        'newesetail','商品详情不能为空')) {
-      return false;
-    }
-    if(this.newGroupProduct.startTime > this.newGroupProduct.endTime){
-      this.addErrorClass('newendTime', '结束时间不能早于开始时间');
-      return false;
-    }
-    this.newGroupProduct.checkStatus = '0';
-    this.groupProductService.addGroupBuyProduct(this.newGroupProduct)
-      .subscribe(data => {
-        if(data['status'] === 0){
-          confirmFunc.init({
-            'title': '提示',
-            'mes': data['msg'],
-            'popType': 0,
-            'imgType': 1,
-          });
-          this.closeMask();
-          this.getProductList();
-        }else{
-          confirmFunc.init({
-            'title': '提示',
-            'mes': data['msg'],
-            'popType': 0,
-            'imgType': 2,
-          });
-          this.closeMask();
-        }
-      })
-  }
 
   update(code: string) {
     this.groupProductService.getGroupProduct(code)
@@ -232,7 +186,6 @@ export class ProductComponent implements OnInit {
   }
 
   updateGroupProduct() {
-
     if (!this.verifyEmpty('upnewname','名称不能为空')||!this.verifyEmpty('upnewprice','不能为空')||!this.verifyEmpty('upnewstartTime'
         ,'不能为空')|| !this.verifyEmpty('upnewendTime','不能为空')||!this.verifyEmpty('upnewpconcant','联系人不能为空')||
       !this.verifyEmpty('upnewphone','不能为空')|| !this.verifyEmpty('upnewpayaccount','收款账户不能为空')||!this.verifyEmpty(
@@ -266,18 +219,6 @@ export class ProductComponent implements OnInit {
         }
       })
   }
-
-  view(code:string){
-    this.groupProductService.getGroupProduct(code)
-      .subscribe(data => {
-        if (data['status']==0) {
-          this.productview = data.data;
-          console.log(this.productview);
-          $('.mask3').show();
-        }
-
-      })
-  }
   closeMask2() {
     $('.mask2').hide();
     $('#prese').val('');
@@ -288,19 +229,6 @@ export class ProductComponent implements OnInit {
   }
   closeMask3() {
     $('.mask3').hide();
-  }
-  /*文件图片上传*/
-  prese_upload(files,index){
-    let  xhr = this.groupProductService.uploadImg(files[0],'group',-2);
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
-        let data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
-          this.newGroupProduct.image = data.msg;
-          alert("上传成功");
-        }
-      }
-    };
   }
   /*修改文件图片上传*/
   prese_upload2(files,index){
@@ -315,6 +243,7 @@ export class ProductComponent implements OnInit {
       }
     };
   }
+
 
   /*删除商品*/
   delete(index) {
@@ -349,4 +278,5 @@ export class ProductComponent implements OnInit {
     }
     this.getProductList();
   }
+
 }

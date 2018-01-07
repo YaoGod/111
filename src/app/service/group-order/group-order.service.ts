@@ -21,12 +21,25 @@ export class GroupOrderService {
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
+  getOrderItems(orderId) {
+    const url = '/proxy/mmall/order/getOrderItems/'+orderId;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+
 
   getOrderAllList(productName,orderId,productId,pageNo,pageSize){
-    const url = '/proxy/mmall/order/getOrderAllList/'+pageNo+'/'+pageSize+"?productName="+productName+"&orderId="+orderId+"&productId="+productId;
+    const url = '/proxy/mmall/order/getOrderAllList/'+pageNo+'/'+pageSize+"?productName="+productName
+      +"&orderId="+orderId+"&productId="+productId;
     return this.http.post(url,this.options)
       .map(res => res.json());
+  }
 
+  getReportAllList(order:any,pageNo,pageSize){
+    console.log(order);
+    const url = '/proxy/mmall/order/getReportAllList/'+pageNo+'/'+pageSize;
+    return this.http.post(url,order,this.options)
+      .map(res => res.json());
   }
 
   deleteOrder(orderid){
@@ -38,8 +51,30 @@ export class GroupOrderService {
   updateOrder(order:any){
     const url = '/proxy/mmall/order/updateGroupOrder/';
     const data = order;
-
+    console.log(data);
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
+
+  addMessage(order:any){
+    const url = '/proxy/mmall/order/addMessage/';
+    const data = order;
+    return this.http.post(url,data,this.options)
+      .map(res => res.json());
+  }
+
+  replayMessage(order:any){
+    const url = '/proxy/mmall/order/replayMessage/';
+    const data = order;
+    return this.http.post(url,data,this.options)
+      .map(res => res.json());
+  }
+
+  getMessage(orderid){
+    const url = '/proxy/mmall/order/getMessage/'+orderid;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+
+
 }
