@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import * as $ from 'jquery';
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
+declare var confirmFunc: any;
+
 @Component({
   selector: 'app-goodscart',
   templateUrl: './goodscart.component.html',
@@ -14,6 +16,8 @@ export class GoodscartComponent implements OnInit {
   public num:number;
   public carts:Array<GoodsCart>;
   public mutipalPrice:number;
+  public serverCenters:Array<ServerCenter>;
+  public serviceCenter: ServerCenter;
   constructor(private ipSetting  : IpSettingService,
               private errorVoid: ErrorResponseService) { }
 
@@ -35,7 +39,7 @@ export class GoodscartComponent implements OnInit {
     this.ipSetting.sendGet(url)
     .subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
-
+        console.log(data);
         this.carts = data.data.cartProductVoList;
         this.mutipalPrice=data.data.cartTotalPrice;
         if(this.carts.length === 0){
@@ -62,6 +66,24 @@ export class GoodscartComponent implements OnInit {
           this.getCartList();
         }
       });
+  }
+
+  /*
+   * 购物车结算
+   * */
+  balanceCart(){
+    $('.maskSubmitOrder').show();
+    /*let url = '/goodsOrder/create?userId=' + localStorage.getItem("username")
+      + '&serviceCenter=' + '';
+    this.ipSetting.sendGet(url)
+      .subscribe(data => {
+        if(data['status'] === 1){
+          alert(data['msg']);
+          this.getCartList();
+        }else{
+          this.getCartList();
+        }
+      });*/
   }
 
   onclikadd(idxx:number,productId:number){
@@ -96,6 +118,112 @@ export class GoodscartComponent implements OnInit {
         this.getCartList();
       });
   }
+
+
+  /*获取服务中心*/
+  initFac(){
+    /*let url = '/mmall/laundry/provider/initFac';
+    this.ipSetting.sendPost(url,this.myOrder).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        this.serverCenters = data.data.centers;
+      }
+    });*/
+  }
+  /*提交订单*/
+  submitOrder(){
+  //  this.myOrder.serviceCenter="";
+    $('.maskSubmitOrder').show();
+  }
+
+  getcode(){
+
+    let url = '/mmall/laundryOrder/getPayCode/'+localStorage.getItem("username");
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '短信发送成功！',
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
+
+      }else{
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '短信发送失败！',
+          'popType': 0 ,
+          'imgType': 2 ,
+        });
+      }
+    });
+
+  }
+  /*短信验证*/
+  saveSubmitOrder(){
+    if(!this.verifyEmpty('serverCenter_add','服务中心不能为空')){
+      return false;
+    }
+    if(!this. verifyEmpty('message','短信验证码不能为空')){
+      return false;
+    }
+    let url = '/mmall/laundryOrder/addOrder/'+$('#message').val();
+    /*this.ipSetting.sendPost(url,this.myOrder).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': data['msg'],
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
+        this.closeSubmitOrder();
+      }
+    });*/
+  }
+  closeSubmitOrder() {
+    $('.maskSubmitOrder').hide();
+  }
+
+  private verifyEmpty(id,label) {
+    if (!this.isEmpty(id, label)) {
+      return false;
+    }else{
+      return true;
+    }
+  }
+  /**非空校验*/
+  private isEmpty(id: string, error: string): boolean  {
+    const data =  $('#' + id).val();
+    if (data==null||data==''||data.trim() == '')  {
+      this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /**
+   * 添加错误信息class
+   * @param id
+   * @param error
+   */
+  private  addErrorClass(id: string, error?: string)  {
+    $('#' + id).parents('.form-control').addClass('form-error');
+    if (error === undefined || error.trim().length === 0 ) {
+      $('#' + id).next('span').html('输入错误');
+    }else {
+      $('#' + id).next('span').html(error);
+    }
+  }
+  /**
+   * 去除错误信息class
+   * @param id
+   */
+  private  removeErrorClass(id: string) {
+    $('#' + id).parents('.form-control').removeClass('form-error');
+    $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
+    $('#' + id).next('span').html('');
+  }
+
 }
 
 export class GoodsCart {
@@ -110,6 +238,9 @@ export class GoodsCart {
   detail: string;
   productTotalPrice: number;
   serviceCenter:string;
-
 }
 
+export class ServerCenter{
+  name: string;
+  id:number;
+}

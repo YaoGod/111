@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {SupermarketManagerService} from "../../../../service/supermarket-manager/supermarket-manager.service";
-import {SupermarketApplier} from "../../../../mode/supermarketApplier/supermarket-applier.service";
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 declare var $: any;
 declare var confirmFunc: any;
 
@@ -12,10 +12,11 @@ declare var confirmFunc: any;
   providers: [SupermarketManagerService,ErrorResponseService]
 })
 export class SupplierComponent implements OnInit {
+  public imgPrefix: string;
   private code: any;
   public file: Array<File>;
   public upfile: Array<File>;
-  public appliers:Array<SupermarketApplier>;
+  public appliers:Array<GoodsApplier>;
   public  applierAdd={
     applyId:   '',
     applyName:    '',
@@ -39,22 +40,27 @@ export class SupplierComponent implements OnInit {
     copStarttime:  '',
     copEndtime:     '',
     applyDesc:      '',
+    file: [],
     fileId: [],
     fileName1: [],
     filePath1: []
   };
-  constructor(private marketManagerService:SupermarketManagerService ,
+  constructor(private marketManagerService: SupermarketManagerService,
+              private ipSetting:IpSettingService ,
               private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
+    this.imgPrefix = this.ipSetting.ip;
     this.providerList();
   }
   providerList(){
-    this.marketManagerService.providerList().subscribe(data => {
+    let url = '/goodsProduct/provider/list';
+    this.ipSetting.sendGet(url)
+    .subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
-
+        console.log(data);
         this.appliers = data.data.providers;
-
+        console.log(this.appliers);
       }
     });
   }
@@ -63,26 +69,28 @@ export class SupplierComponent implements OnInit {
   delFile(index,fileId) {
     this.applierAdd.filePath.splice(index,1);
     this.applierAdd.fileName.splice(index,1);
-    this.marketManagerService.delFile(fileId)
+    /*this.marketManagerService.delFile(fileId)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data.status)) {
 
         }
 
-      });
+      });*/
 
   }
 
   delFile1(index,fileId) {
     this.applierEdit.filePath1.splice(index,1);
     this.applierEdit.fileName1.splice(index,1);
-    this.marketManagerService.delFile(fileId)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
+    this.applierEdit.file.splice(index,1);
+    let url = '/mmall/util/delFile/'+fileId[index];
+    this.ipSetting.sendGet(url)
+    .subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
 
-        }
+      }
 
-      });
+    });
   }
 
   uploadbutton(){
@@ -97,11 +105,13 @@ export class SupplierComponent implements OnInit {
   /*新增开始*/
   add() {
     $('.maskAdd').show();
-    this.marketManagerService.getCommonId().subscribe(data => {
+    /*let url = '/mmall/util/getCommonId';
+    this.ipSetting.sendGet(url)
+    .subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.applierAdd.applyId = data.data;
       }
-    });
+    });*/
   }
   closeMaskAdd() {
     $('.maskAdd').hide();
@@ -135,6 +145,7 @@ export class SupplierComponent implements OnInit {
       copStarttime:  '',
       copEndtime:     '',
       applyDesc:      '',
+      file: [],
       fileId:[],
       fileName1: [],
       filePath1: []
@@ -142,32 +153,47 @@ export class SupplierComponent implements OnInit {
   }
 
   upload(files){
-    var xhr = this.marketManagerService.uploadFile(files[0],'SupermarketApplier',this.applierAdd.applyId);
+    if (this.applierAdd.applyId == ''){
+      // this.applierAdd.applyId = 'K';
+      alert("请将供应商信息填写完整!");
+      return;
+    }
+    let url = '/mmall/util/uploadFile/'+'goodsProvider'+ '/' +this.applierAdd.applyId;
+    let xhr = this.ipSetting.uploadFile(url,files[0]);
+
+    // var xhr = this.marketManagerService.uploadFile(files[0],'SupermarketApplier',this.applierAdd.applyId);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
-        var data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
-
+        let data:any = JSON.parse(xhr.responseText);
+        if(this.errorVoid.errorMsg(data)){
+          console.log(data);
           alert("上传成功");
           this.applierAdd.fileName.push(files[0].name);
-          this.applierAdd.filePath.push(data.data.msg);
-          this.applierAdd.fileId.push(data.data.fileId);
+          this.applierAdd.filePath.push(data.msg);
+       //   this.applierAdd.fileId.push(data.fileId);
         }
       }
     };
   }
 
   upload1(files){
-    var xhr = this.marketManagerService.uploadFile(files[0],'SupermarketApplier',this.applierEdit.applyId);
+    if (this.applierEdit.applyId == ''){
+      alert("请将供应商信息填写完整!");
+      return;
+    }
+    let url = '/mmall/util/uploadFile/'+'goodsProvider'+ '/' +this.applierEdit.applyId;
+    let xhr = this.ipSetting.uploadFile(url,files[0]);
+
+   // var xhr = this.marketManagerService.uploadFile(files[0],'SupermarketApplier',this.applierEdit.applyId);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-
+          console.log(data.msg);
           alert("上传成功");
           this.applierEdit.fileName1.push(files[0].name);
           this.applierEdit.filePath1.push(data.msg);
-          this.applierEdit.fileId.push(data.data.fileId);
+       //   this.applierEdit.fileId.push(data.data.fileId);
         }
       }
     };
@@ -203,14 +229,16 @@ export class SupplierComponent implements OnInit {
       return false;
     }
 
-    this.marketManagerService.providerSave(this.applierAdd).subscribe(data => {
-      if (data.status=="0") {
-
+    let url = '/goodsProduct/provider/save';
+    this.ipSetting.sendPost(url,this.applierAdd)
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data)){
+        console.log(data);
         alert(data.msg);
-        $('.maskAdd').hide();
+       // $('.maskAdd').hide();
+        this.closeMaskAdd();
         this.providerList();
-      }else{
-        alert(data.msg);
+
       }
     });
   }
@@ -224,8 +252,10 @@ export class SupplierComponent implements OnInit {
       this.addErrorClass('upnewendTime', '结束时间不能早于开始时间');
       return false;
     }
-    this.marketManagerService.providerUpdate(this.applierEdit).subscribe(data => {
-      if (data.status=="0") {
+    let url = '/goodsProduct/provider/update';
+    this.ipSetting.sendPost(url,this.applierEdit)
+    .subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
         alert(data.msg);
         $('.maskUpdate').hide();
         this.providerList();
@@ -238,18 +268,22 @@ export class SupplierComponent implements OnInit {
 
   view(applid){
     this.file = new Array<File>();
-    this.marketManagerService.providerDetail(applid).subscribe(data => {
+    let url = '/goodsProduct/provider/detail/'+applid;
+    this.ipSetting.sendGet(url)
+    .subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.applierView = data.data;
         this.file= data.data.file;
-
+        console.log(data.data);
       }
     });
     $('.maskView').show();
   }
   update(applid){
     this.upfile = new Array<File>();
-    this.marketManagerService.providerDetail(applid).subscribe(data => {
+    let url = '/goodsProduct/provider/detail/'+applid;
+    this.ipSetting.sendGet(url)
+    .subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.applierEdit = data.data;
         this.upfile  = data.data.file;
@@ -274,7 +308,8 @@ export class SupplierComponent implements OnInit {
   /*删除*/
   okFunc() {
     $('.confirm').hide();
-    this.marketManagerService.providerDel(this.code)
+    let url = '/goodsProduct/provider/del/'+this.code;
+    this.ipSetting.sendGet(url)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data.status)) {
           alert("删除成功");
@@ -309,7 +344,8 @@ export class SupplierComponent implements OnInit {
   }
 
   download(url){
-    window.open("proxy/" + url);
+  //  window.open("proxy/" + url);
+    window.open(this.ipSetting.ip + url);
   }
 }
 export class File {
@@ -318,4 +354,13 @@ export class File {
   fileAddress:string;
   fileName:string;
   id:number;
+}
+
+export class GoodsApplier {
+
+  applyId:          string;/*经销商id*/
+  applyName:        string;/*经销商名称*/
+  copStarttime:     string;/*合作开始时间*/
+  copEndtime:       string;/*合作结束时间*/
+  applyDesc:        string;/*描述*/
 }

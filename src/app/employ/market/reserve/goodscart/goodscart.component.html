@@ -57,10 +57,56 @@
         </div>
         <div class="b-foot">
           <div class="total"><label>总计：</label> <span>￥{{mutipalPrice}}</span>
-            <button type="button" class="btn btn-info" [routerLink]="['../confirmvegcart']" >确认订单</button>
+            <button type="button" class="btn btn-info" (click)="balanceCart()">结算</button>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!--支付窗口-->
+<div class="maskSubmitOrder">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">提交订单</h4>
+      <button type="button" class="close"(click)="closeSubmitOrder()">×</button>
+    </div>
+    <form class="form-material">
+      <div class="modal-body clearfix">
+        <div class="protop">
+          <div class="pdetail">
+            <div>
+              <div>
+                <label>服务中心：</label>
+                <select id="serverCenter_add" name="serverCenter_add" [(ngModel)]="serviceCenter"  (blur)="verifyEmpty('serverCenter_add','服务中心不能为空')">
+                  <option value="">-请选择-</option>
+                  <option *ngFor="let center of serverCenters;let idx=index" value="{{center.name}}">{{center.name}}</option>
+                </select>
+                <span class="errorMessage"></span>
+              </div>
+              <div style="margin-top: 10px;">
+                <label>支付方式：</label>
+                <select id="payType" name="payType" [(ngModel)]="serviceCenter"  (blur)="verifyEmpty('payType','支付类型不能为空')">
+                  <option value="1">在线支付</option>
+                  <option value="2">线下支付</option>
+                </select>
+                <span class="errorMessage"></span>
+              </div>
+              <div style="margin-top: 10px;">
+                <label>验证码：</label>
+                <input type="text" style="width: 45px;"  id="message" class="noticetext"  name="message" (blur)="verifyEmpty('message','短信验证码不能为空')">
+                <button type="button" style="padding: 5px 9px;border-radius: 5px;color: #fff;outline: none;cursor: pointer;margin-left: 13px;" class=" btn-danger" (click)="getcode()">获取验证码</button>
+                <span class="errorMessage"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeSubmitOrder()">取 消</button>
+        <button type="submit" class="btn btn-info"(click)="saveSubmitOrder()" >保 存</button>
+      </div>
+    </form>
   </div>
 </div>
