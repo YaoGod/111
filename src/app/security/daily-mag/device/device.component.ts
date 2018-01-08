@@ -108,13 +108,8 @@ export class DeviceComponent implements OnInit {
   }
   /*获取工单*/
   private getRecordSecond(search, pageNo, pageSize) {
-    const SOFTWARES_URL = this.ipSetting.ip + "/building/equipment/getEquipmentWO/" + pageNo + "/" + pageSize;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
-    // JSON.stringify
-
-    this.http.post(SOFTWARES_URL, search, options)
-      .map(res => res.json())
+    let url = "/building/equipment/getEquipmentWO/" + pageNo + "/" + pageSize;
+    this.ipSetting.sendPost(url,search)
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.contract = data['data']['infos'];

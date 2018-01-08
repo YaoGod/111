@@ -86,12 +86,12 @@
     </div>
     <form class="repair-form clearfix" method="post" name="topForm" >
       <div class="form-control clearfix">
-        <span class="form-label">大楼编号</span>
+        <span class="form-label">大楼名称</span>
         <div class="form-inp">
           <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" (blur)="verifyId()">
             <option *ngFor="let num of buildings"
                     [value]="num.BUILDING_ID">
-              {{num.BUILDING_ID}}</option>
+              {{num.NAME}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>

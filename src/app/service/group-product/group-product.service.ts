@@ -105,7 +105,6 @@ updateGroupbuyProduct(postData){
   getProductShowList(pageNo:number,pageSize:number,search:any) {
     const url = '/proxy/mmall/group/getProductShowList/'+pageNo+'/'+pageSize;
     const data = search;
-    console.log(data);
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
@@ -113,7 +112,6 @@ updateGroupbuyProduct(postData){
   addToCart(cart:any) {
     const url = '/proxy/mmall/cart/addGroupbuyCart';
     const data = cart;
-    console.log(data);
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }

@@ -281,6 +281,7 @@ export class GuardComponent implements OnInit {
     this.pageNo = 1;
     this.pages = [];
     this.searchArch = new Arch();
+    this.searchArch.personType = '';
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
     this.repairSearch();
@@ -499,8 +500,9 @@ export class GuardComponent implements OnInit {
   /*导出数据下载*/
   private downDeriving(){
     let InductURL;
+    var inerURL = this.searchArch.companyName;
     if((typeof this.searchArch.companyName) === 'undefined'){
-      this.searchArch.companyName = 'null';
+      inerURL = 'null';
     }
     if((typeof this.searchArch.personType) === 'undefined'){
       confirmFunc.init({
@@ -514,15 +516,15 @@ export class GuardComponent implements OnInit {
       return false;
     }
     if(this.searchArch.personType === "保安"){
-      InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ this.searchArch.companyName +"/security"
+      InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ inerURL +"/security"
     }else if(this.searchArch.personType === "保洁"){
-      InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ this.searchArch.companyName +"/clean"
+      InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ inerURL +"/clean"
     }else if(this.searchArch.personType === "绿化"){
-      InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ this.searchArch.companyName +"/green"
+      InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ inerURL +"/green"
     }else if(this.searchArch.personType === "物业维修"){
-      InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ this.searchArch.companyName +"/repair"
+      InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ inerURL +"/repair"
     }if(this.searchArch.personType === ""){
-      InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ this.searchArch.companyName +"/null"
+      InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ inerURL +"/null"
     }
     this.http.get( InductURL )
     // .map(res => res.json())

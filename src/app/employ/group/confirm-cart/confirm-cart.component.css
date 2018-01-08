@@ -7,9 +7,6 @@
 .wrap-b{
   background: #fff;
   padding: 20px;
-  /*height: 1000px;*/
-  display: inline-block;
-  width: 100%;
 }
 .b-head{
   border-bottom: 2px solid #f7fbfe;
@@ -271,22 +268,26 @@
   margin-top: 10px;
 }
 .list-table .table-head{
-  width: 78%;
+  width:100%;
   height: 34px;
   line-height: 34px;
   background: #eaf8ff;
   border: 1px solid #aed8ff;
   color: #333;
 }
-.list-table .table-head td{
-  display: inline-block;
-  text-align: center;
-  text-indent: 0;
-  font-size: 12px;
-  color: #333;
+.list-table .table-cont{
+  line-height: 34px;
+  margin: 10px 0 0 0;
+  border: 1px solid #eee;
+}
+.table-cont th{
+  background-color: #f5f5f5;
+  height:34px;
 }
 .list-table .fir{
   width: 25%;
+  padding: 5px 0;
+  text-align: left;
   font-size: 12px;
 }
 .list-table .sec{
@@ -305,82 +306,25 @@
   width: 15%;
 }
 .list-table .fir img{
-  width:60%;
-  height:auto;
+  width:100px;
+  height:100px;
   max-width:100%;
   max-height:100%;
   margin: 0px;
-  float: left;
 }
-.list-table .fir span{
-  display: block;
-  text-align: left;
-  color: #999;
-}
-.list-table .fir p{
-  text-align: left;
-  color: #999;
-  overflow: hidden;
-  line-height: 22px;
-}
-.list-table .fir p.headtxt{
-  color: #333;
-  margin-top: 31px;
-  padding-left: 32px;
-}
-.list-table dl{
-  margin: 10px 0 0 0;
-  border: 1px solid #eee;
-  width: 78%;
-}
-.list-table dl.blueself{
-  border: 1px solid #66cdff;
-}
-.list-table dt{
+.list-table{
   height: 35px;
   line-height: 35px;
-  background: #f5f5f5;
   font-size: 12px;
   text-indent: 30px;
   display: table;
   width: 100%;
 }
-.list-table dt .ope-list{
-  float: right;
-  margin: 5px 10px 0 0;
-  line-height: 25px;
-}
-.list-table dt .ope-list li{
-  float: left;
-  display: inline-block;
-}
-.list-table dt .ope-list a{
-  width: 22px;
-  height: 22px;
-  display: inline-block;
-}
-.list-table dt .ope-list a.one{
-   background: url('../../../../assets/image/icon-add.png') no-repeat;
-}
-.list-table dt .ope-list a.two{
-   background: url('../../../../assets/image/icon-edit.png') no-repeat;
-  margin: 0 10px;
-}
-.list-table dt .ope-list a.tre{
-   background: url('../../../../assets/image/icon-del.png') no-repeat;
-}
-.list-table dd{
-  /*display: table;*/
-  width: 100%;
-}
-.list-table dd td{
-  display: inline-block;
+.list-table td{
   text-align: center;
-  vertical-align: middle;
   color: #666;
-  font-size: 12px;
 }
-.list-table dd span{
+.list-table span{
   display: block;
   color: #666;
   font-size: 12px;
@@ -443,13 +387,6 @@
   color: #ff4401;
   font-weight: 700;
   font-size: 14px;
-}
-
-/*物业服务管理列表*/
-.wuyelist .list-table .fir{
-  width: 38%;
-  font-size: 12px;
-
 }
 
 .maskSubmitOrder{
@@ -552,133 +489,6 @@
 .modal-body{
   position: relative;
   padding: 15px;
-}
-.wuyelist .list-table .sec{
-  width: 20%;
-}
-.wuyelist .list-table .three{
-  width: 20%;
-}
-.wuyelist .list-table .four{
-  width: 30%;
-}
-.wuyelist .four .ope-list2 li{
-  display: block;
-  margin: 6px 0;
-}
-.wuyelist .four .ope-list2 li a{
-  text-decoration: none;
-  color: #999;
-  font-size: 12px;
-}
-.wuyelist .four .ope-list2 li .one{
-  display: inline-block;
-  width: 55px;
-  height: 22px;
-  line-height: 22px;
-  text-indent: 20px;
-   background: url('../../../../assets/image/icon-add.png') no-repeat;
-}
-.wuyelist .four .ope-list2 li .two{
-  display: inline-block;
-  height: 22px;
-  line-height: 22px;
-  text-indent: 20px;
-  width: 55px;
-   background: url('../../../../assets/image/icon-edit.png') no-repeat;
-}
-.wuyelist .four .ope-list2 li .tre{
-  display: inline-block;
-  width: 55px;
-  height: 22px;
-  line-height: 22px;
-  text-indent: 25px;
-   background: url('../../../../assets/image/icon-del.png') no-repeat;
-}
-.wuyelist .four .ope-list2 li.active .one{
-  color: #66cdff;
-   background: url('../../../../assets/image/icon-add-a.png') no-repeat;
-}
-.wuyelist .four .ope-list2 li.active .two{
-  color: #66cdff;
-   background: url('../../../../assets/image/icon-edit-a.png') no-repeat;
-}
-.wuyelist .four .ope-list2 li.active .tre{
-  color: #66cdff;
-   background: url('../../../../assets/image/icon-del-a.png') no-repeat;
-}
-
- 物业服务预订列表
-.yuding .four a{
-  text-decoration: none;
-  color: #fff;
-  padding: 10px 25px;
-  border-radius: 5px;
-  letter-spacing: 2px;
-  font-size: 14px;
-  background: #ff5400;
-}
-.yuding .table-head{
-  width: 100%;
-}
-.yuding .four a:hover{
-  background: #ff3c00;
-}
-.yuding .fir{
-  width: 35%;
-  font-size: 12px;
-}
-.yuding .sec{
-  width: 15%;
-  font-size: 16px;
-  color: #ff5400;
-}
-.yuding  .three{
-  width: 10%;
-}
-.yuding .four{
-  width: 10%;
-}
-.yuding .five{
-  width: 10%;
-}
-.yuding .six{
-  width: 10%;
-}
-.yuding .seven{
-  width: 10%;
-}
-.yuding .list-table .table-head li{
-  text-indent: 0;
-}
-.yuding dd {
-  border-top: none;
-}
-.yuding .table-head{
-  text-align: center;
-  text-indent: 0;
-}
-.yuding dd td{
-  text-align: center;
-}
-.yuding .txt-left{
-  float: left;
-  color: #999;
-  font-size: 12px;
-}
-.yuding .txt-left span{
-  margin: 0 20px;
-}
-.yuding .txt-right{
-  float: right;
-}
-.yuding .value{
-  font-weight: bold;
-  font-size: 18px;
-  color: #ff5400;
-}
-.yuding .txt{
-  color: #666;
 }
 .wrap-b .path{
   width: 85%;

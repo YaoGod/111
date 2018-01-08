@@ -114,7 +114,7 @@ export class CheckComponent implements OnInit {
     if (!this.verifyEmpty('checknewesetail','审核意见不能为空')){
       return false;
     }
-    if(this.productCheck.checkStatus =='1' ){
+    if(this.productCheck.checkStatus ==='1' ){
       this.productCheck.status = '1';
     }
     this.groupProductService.checkGroupbuyProduct(this.productCheck)

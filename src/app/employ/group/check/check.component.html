@@ -20,7 +20,7 @@
         <div class="b-con tuanmenu">
           <div class="wrap clearfix">
             <div class="iptgroup">
-              <input placeholder="请输入商品名称" [(ngModel)]="search.name" />
+              <input placeholder="请输入商品名称" name="searchName" [(ngModel)]="search.name" />
             </div>
             <a class="search" href="javascript: void(0);" (click)="getProductList()" >查询</a>
           </div>
@@ -102,13 +102,13 @@
                   <option value="1">通过</option>
                   <option value="2">不通过</option>
                 </select>
-              <input type="hidden"  [(ngModel)]="productCheck.status">
+              <input type="hidden" name="productCheckstatus" [(ngModel)]="productCheck.status">
             </div>
             <div class="for">
               <label style="vertical-align: top;">审核意见：</label>
               <textarea name="checknewesetail" class="form-control" rows="4" maxlength="150"
                         [(ngModel)]="productCheck.checkResult"
-                        id="checknewesetail" (blur)="verifyEmpty('checknewesetail','审核意见不能为空')"
+                        id="checknewesetail"
                         style="border:1px solid #dddddd;width: 200px;!important;background-color: #ffffff !important;">
              </textarea>
               <span class="errorMessage" style="padding-left: 94px;"></span>

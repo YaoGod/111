@@ -45,7 +45,7 @@ export class MyorderComponent implements OnInit {
               private errorVoid: ErrorResponseService,) { }
 
   ngOnInit() {
-   this.getOrderList();
+    this.getOrderList();
     this.getProductShowList();
   }
 

@@ -9,7 +9,7 @@ declare var confirmFunc: any;
   selector: 'app-supplier',
   templateUrl: './supplier.component.html',
   styleUrls: ['./supplier.component.css'],
-  providers: [SupermarketManagerService,ErrorResponseService]
+  providers: [SupermarketManagerService,ErrorResponseService,SupermarketApplier]
 })
 export class SupplierComponent implements OnInit {
   public  file: Array<File>;

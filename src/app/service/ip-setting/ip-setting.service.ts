@@ -4,7 +4,6 @@ import {Http, RequestOptions, Headers} from "@angular/http";
 
 @Injectable()
 export class IpSettingService {
-
   private headers = new Headers({'Content-Type': 'application/json'});
   public options =  new RequestOptions({
     headers: this.headers,

@@ -8,12 +8,11 @@ import { GroupCart} from '../../../mode/groupCart/group-cart.service';
 import { GroupNoticeService } from '../../../service/group-notice/group-notice.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import * as $ from 'jquery';
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 declare var $:any;
 declare var confirmFunc: any;
 declare var tinymce: any;
-declare var $:any;
-declare var confirmFunc: any;
-declare var tinymce: any;
+
 @Component({
   selector: 'app-groupbuy',
   templateUrl: './groupbuy.component.html',
@@ -26,32 +25,51 @@ export class GroupbuyComponent implements OnInit {
   public  cart:GroupCart;
   public groupNotices: Array<GroupNotice>;
   public cartsize:number;
-  private pageNo: number = 1;
   /*当前页码*/
-  private pageSize: number = 5;
+  public pageSize = 6;
+  public pageNo = 1;
+  public total = 0;
+  public length = 5;
+  public pages: Array<number>;
   constructor( private globalCatalogService: GlobalCatalogService,
   private groupProductService: GroupProductService,
               private groupNoticeService: GroupNoticeService,
-              private errorVoid: ErrorResponseService,
-  private router:Router){
+              private errorVoid: ErrorResponseService,private ipSetting: IpSettingService,
+               private router:Router){
   }
 
   ngOnInit() {
+    this.pages = [];
     this.search = new GroupProduct();
     this.globalCatalogService.setTitle("员工服务/员工团购网/商品订购");
     this.getProductShowList();
     this.getNoticeList();
   }
+
+  /*获取商品列表*/
   getProductShowList(){
-    this.groupProductService.getProductShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
+    let url = '/mmall/group/getProductShowList/'+this.pageNo+'/'+this.pageSize;
+    this.ipSetting.sendPost(url,this.search)
+      .subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.groupProducts = data.data.infos;
         console.log(this.groupProducts);
         this.cartsize = data.data.cartsize;
       }
     });
+    /*this.groupProductService.getProductShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        this.groupProducts = data.data.infos;
+        console.log(this.groupProducts);
+        this.cartsize = data.data.cartsize;
+      }
+    });*/
   }
-
+  /*跳页加载数据*/
+  goPage(page:number){
+    this.pageNo = page;
+    this.getProductShowList();
+  }
   /*获取公告列表*/
   getNoticeList() {
     this.groupNoticeService.getNoticeList(this.search).subscribe(data => {

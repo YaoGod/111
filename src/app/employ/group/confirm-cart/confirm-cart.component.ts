@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
 import {GlobalCatalogService} from "app/service/global-catalog/global-catalog.service";
 import {IpSettingService} from "app/service/ip-setting/ip-setting.service";
 
+declare var $:any;
+declare var confirmFunc: any;
+
 @Component({
   selector: 'app-confirm-cart',
   templateUrl: './confirm-cart.component.html',
@@ -19,8 +22,6 @@ export class ConfirmCartComponent implements OnInit {
   public num:number;
   public carts:Array<GroupCart>;
   public mutipalPrice:number;
-  public serverCenters:Array<ServerCenter>;
-  public ids:string;
   public username= localStorage.getItem("username");
   public userInfo={
     username: '',
@@ -41,10 +42,10 @@ export class ConfirmCartComponent implements OnInit {
   }
   getCartList(){
     this.groupProductService.getCartList().subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      if (this.errorVoid.errorMsg(data)) {
         console.log(data);
         this.carts = data.data.infos;
-        this.mutipalPrice=data.data.mutipalPrice;
+        this.mutipalPrice = data.data.mutipalPrice;
         this.userInfo = data.data.userInfo;
         if(this.carts.length===0){
           $(".b-foot").hide();
@@ -104,28 +105,34 @@ export class ConfirmCartComponent implements OnInit {
 
     let url = '/mmall/laundryOrder/getPayCode/'+this.username;
     this.ipSetting.sendGet(url).subscribe(data => {
-      if(data['status'] === 0){
-        alert("短信发送成功！");
-
-      }else{
-        alert("短信发送失败！");
+      if (this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '短信发送成功！',
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
       }
     });
 
   }
   saveSubmitOrder(){
-    if(!this. verifyEmpty('message','短信验证码不能为空')){
+    if(!this.verifyEmpty('message','短信验证码不能为空')){
       return false;
     }
     this.groupProductService.submitCart($('#message').val()).subscribe(data => {
-      if (data.status === "1") {
-        alert("您的订单提交失败！");
-      }else{
-        alert("您的订单提交成功！");
+      if (this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '您的订单提交成功！',
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
         this.getCartList();
         $(".address").hide();
         $(".b-address").hide();
         $('.maskSubmitOrder').hide();
+        this.router.navigate(['/hzportal/employ/group']);
       }
     });
   }
@@ -133,7 +140,3 @@ export class ConfirmCartComponent implements OnInit {
     $('.maskSubmitOrder').hide();
   }
 }
-export class ServerCenter{
-  name: string;
-  id:number;
-};

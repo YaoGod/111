@@ -54,7 +54,8 @@ export class ManagerComponent implements OnInit {
   getProductList(){
     this.search.checkStatus = '1';
     this.groupProductService.getProductList(this.pageNo,this.pageSize,this.search).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      if (this.errorVoid.errorMsg(data)) {
+        console.log(data);
         this.groupProducts = data.data.infos;
         this.total = data.data.total;
       }
