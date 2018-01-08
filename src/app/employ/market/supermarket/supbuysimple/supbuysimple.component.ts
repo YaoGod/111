@@ -3,6 +3,7 @@ import {SupermarketCart} from "../../../../mode/supermarketCart/supermarket-cart
 import {SupermarketManagerService} from "../../../../service/supermarket-manager/supermarket-manager.service";
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import * as $ from 'jquery';
+declare var confirmFunc:any;
 @Component({
   selector: 'app-supbuysimple',
   templateUrl: './supbuysimple.component.html',

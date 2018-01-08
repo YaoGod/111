@@ -243,7 +243,6 @@ select{outline:medium;}
 .b-head-right .content-box:hover{cursor: pointer;border-color: #ff3c00;}
 .b-con{
   width: 100%;
-  display: inline-block;
 }
 .b-con h2{
   font-weight: normal;
@@ -340,6 +339,7 @@ h1, h2, h3, h4, h5, h6 {
   white-space: normal;
   overflow: hidden;
   width: 100%;
+  min-height: 520px;
 }
 ol, ul {
   list-style: none;

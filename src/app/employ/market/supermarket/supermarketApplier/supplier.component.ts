@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
-import * as $ from 'jquery';
-declare var $: any;
-declare var confirmFunc: any;
-import { MinLengthPipe } from './min-length.pipe';
 import {SupermarketManagerService} from "../../../../service/supermarket-manager/supermarket-manager.service";
 import {SupermarketApplier} from "../../../../mode/supermarketApplier/supermarket-applier.service";
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
-
+import * as $ from 'jquery';
+declare var $: any;
+declare var confirmFunc: any;
 @Component({
   selector: 'app-supplier',
   templateUrl: './supplier.component.html',
@@ -15,78 +12,46 @@ import {ErrorResponseService} from "../../../../service/error-response/error-res
   providers: [SupermarketManagerService,ErrorResponseService]
 })
 export class SupplierComponent implements OnInit {
-  private code: any;
-  public file: Array<File>;
-  public upfile: Array<File>;
-  public appliers:Array<SupermarketApplier>;
-  public  applierAdd={
-    applyId:   '',
-    applyName:    '',
-    copStarttime:  '',
-    copEndtime:     '',
-    applyDesc:      '',
-    fileId:[],
-    fileName: [],
-    filePath: []
-};
-  public  applierView={
-    applyId:   '',
-    applyName:    '',
-    copStarttime:  '',
-    copEndtime:     '',
-    applyDesc:      '',
-  };
-  public  applierEdit={
-    applyId:   '',
-    applyName:    '',
-    copStarttime:  '',
-    copEndtime:     '',
-    applyDesc:      '',
-    fileId: [],
-    fileName1: [],
-    filePath1: []
-  };
+  public  file: Array<File>;
+  public  upfile: Array<File>;
+  public  appliers:Array<SupermarketApplier>;
+  public  applierAdd :SupermarketApplier;
+  public  applierView:SupermarketApplier;
+  public  applierEdit:SupermarketApplier;
+  public  deleteFileList : Array<number>;
+  public pageNo   : number = 1;
+  public pageSize : number = 5;
+  public total    : number = 0;
   constructor(private marketManagerService:SupermarketManagerService ,
               private errorVoid: ErrorResponseService,) { }
 
   ngOnInit() {
-    this.providerList();
+    this.applierAdd =  new SupermarketApplier();
+    this.applierView =  new SupermarketApplier();
+    this.applierEdit =  new SupermarketApplier();
+    this.deleteFileList = [];
+    this.providerList(1);
+
   }
-
-  providerList(){
-    this.marketManagerService.providerList().subscribe(data => {
+  /*服务商管理列表*/
+  providerList(pageNo){
+    this.pageNo = pageNo;
+    this.marketManagerService.providerList(this.pageNo,this.pageSize)
+      .subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
-
-        this.appliers = data.data.providers;
-
+        this.appliers = data.data.infos;
+        this.total = data.data.total;
       }
     });
   }
-
-  /*删除合同文件*/
-  delFile(index,fileId) {
-    this.applierAdd.filePath.splice(index,1);
-    this.applierAdd.fileName.splice(index,1);
-    this.marketManagerService.delFile(fileId)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
-
-        }
-
-      });
-
-  }
-
-  delFile1(index,fileId) {
-    this.applierEdit.filePath1.splice(index,1);
-    this.applierEdit.fileName1.splice(index,1);
-    this.marketManagerService.delFile(fileId)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
-
-        }
-
-      });
+  /*删除文件*/
+  delFile(i,fileId,type) {
+    this.deleteFileList.push(fileId);
+    if(type === 0){
+      this.applierAdd.file.splice(i,1);
+    }else{
+      this.applierEdit.file.splice(i,1);
+    }
   }
 
   uploadbutton(){
@@ -100,81 +65,59 @@ export class SupplierComponent implements OnInit {
 
   /*新增开始*/
   add() {
+    this.applierAdd.file = [];
     $('.maskAdd').show();
-    this.marketManagerService.getCommonId().subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+    $('.errorMessage').html('');
+    this.marketManagerService.getCommonId()
+      .subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
        this.applierAdd.applyId = data.data;
       }
     });
   }
+  /*窗口关闭*/
   closeMaskAdd() {
     $('.maskAdd').hide();
-    this.applierAdd= {
-      applyId:   '',
-      applyName:    '',
-      copStarttime:  '',
-      copEndtime:     '',
-      applyDesc:      '',
-      fileId:[],
-      fileName: [],
-      filePath: []
-    };
+    this.applierAdd =  new SupermarketApplier();
+    this.deleteFileList = [];
   }
   closeMaskView(){
     $('.maskView').hide();
-    this.applierView={
-      applyId:   '',
-      applyName:    '',
-      copStarttime:  '',
-      copEndtime:     '',
-      applyDesc:      ''
-    };
+    this.applierView =  new SupermarketApplier();
     this.file = new Array<File>();
   }
   closemaskUpdate(){
     $('.maskUpdate').hide();
-    this.applierEdit ={
-      applyId:   '',
-      applyName:    '',
-      copStarttime:  '',
-      copEndtime:     '',
-      applyDesc:      '',
-      fileId:[],
-      fileName1: [],
-      filePath1: []
-    };
+    this.applierEdit = new SupermarketApplier();
+    this.deleteFileList = [];
   }
-
-  upload(files){
-    var xhr = this.marketManagerService.uploadFile(files[0],'SupermarketApplier',this.applierAdd.applyId);
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
-        var data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
-
-          alert("上传成功");
-          this.applierAdd.fileName.push(files[0].name);
-          this.applierAdd.filePath.push(data.data.msg);
-          this.applierAdd.fileId.push(data.data.fileId);
+  /*更新服务商信息*/
+  upload(id,files,type){
+    if(typeof(files[0]) === 'object') {
+      let xhr = this.marketManagerService.uploadFile(files[0], 'SupermarketApplier', id);
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304)) {
+          let data: any = JSON.parse(xhr.responseText);
+          if (this.errorVoid.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示',
+              'mes': "上传成功",
+              'popType': 0,
+              'imgType': 1,
+            });
+            if (type === 0) {
+              this.applierAdd.file.push(files[0]);
+              this.applierAdd.file[this.applierAdd.file.length - 1].fileId = data.data;
+              this.removeErrorClass('prese');
+            } else {
+              this.applierEdit.file.push(files[0]);
+              this.applierEdit.file[this.applierEdit.file.length - 1].id = data.data;
+              this.removeErrorClass('prese1');
+            }
+          }
         }
-      }
-    };
-  }
-
-  upload1(files){
-    var xhr = this.marketManagerService.uploadFile(files[0],'SupermarketApplier',this.applierEdit.applyId);
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
-        var data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
-
-          alert("上传成功");
-          this.applierEdit.fileName1.push(files[0].name);
-          this.applierEdit.filePath1.push(data.msg);
-          this.applierEdit.fileId.push(data.data.fileId);
-        }
-      }
-    };
+      };
+    }
   }
 
   private verifyEmpty(id,label) {
@@ -188,7 +131,7 @@ export class SupplierComponent implements OnInit {
   /**非空校验*/
   private isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
-    if (data==null||data==''||data.trim() === '')  {
+    if (data==null||data===''||data.trim() === '')  {
       this.addErrorClass(id, error);
       return false;
     }else {
@@ -197,6 +140,7 @@ export class SupplierComponent implements OnInit {
     }
   }
 
+  /*新增供应商*/
   addAppliar(){
     if(!this.verifyEmpty('suppliername','供应商名称不能为空')||!this.verifyEmpty('supplierstarttime','不能为空')||
       !this.verifyEmpty('supplierendtime','不能为空')||!this.verifyEmpty('supplierdetail','供应商介绍不能为空')){
@@ -206,20 +150,38 @@ export class SupplierComponent implements OnInit {
       this.addErrorClass('supplierendtime', '结束时间不能早于开始时间');
       return false;
     }
-
-    this.marketManagerService.providerSave(this.applierAdd).subscribe(data => {
-      if (data.status=="0") {
-
-       alert(data.msg);
-        $('.maskAdd').hide();
-        this.providerList();
-      }else{
-        alert(data.msg);
+    if(typeof (this.applierAdd.file) === "undefined"|| this.applierAdd.file.length === 0){
+      this.addErrorClass('prese', '请上传文件');
+      return false;
+    }
+    this.marketManagerService.providerSave(this.applierAdd)
+      .subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示',
+          'mes': data.msg,
+          'popType': 0,
+          'imgType': 1,
+        });
+        this.deleteFiles();
+        this.closeMaskAdd();
+        this.providerList(1);
       }
     });
   }
+  /*删除被删除的文件*/
+  deleteFiles(){
+    if(this.deleteFileList.length>0){
+      this.marketManagerService.delFile(this.deleteFileList)
+        .subscribe(data => {
+          if (this.errorVoid.errorMsg(data.status)) {
+          }
+        });
+    }
+  }
 
   updateAppliar(){
+
     if(!this.verifyEmpty('vnewnane','供应商名称不能为空')||!this.verifyEmpty('upnewstartTime','不能为空')||
       !this.verifyEmpty('upnewendTime','不能为空')||!this.verifyEmpty('supplierdetailup','供应商介绍不能为空')){
       return false;
@@ -228,13 +190,22 @@ export class SupplierComponent implements OnInit {
       this.addErrorClass('upnewendTime', '结束时间不能早于开始时间');
       return false;
     }
+    if(typeof (this.applierEdit.file) === "undefined"||
+      (this.applierEdit.file&&this.applierEdit.file.length === 0)){
+      this.addErrorClass('prese1', '请上传文件');
+      return false;
+    }
     this.marketManagerService.providerUpdate(this.applierEdit).subscribe(data => {
-      if (data.status=="0") {
-        alert(data.msg);
-        $('.maskUpdate').hide();
-        this.providerList();
-      }else{
-        alert(data.msg);
+      if (this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示',
+          'mes': data.msg,
+          'popType': 0,
+          'imgType': 1,
+        });
+        this.deleteFiles();
+        this.closemaskUpdate();
+        this.providerList(1);
       }
     });
   }
@@ -256,35 +227,33 @@ export class SupplierComponent implements OnInit {
     this.marketManagerService.providerDetail(applid).subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.applierEdit = data.data;
-        this.upfile  = data.data.file;
-        this.applierEdit.fileName1 = [];
-        this.applierEdit.filePath1 = [];
-        this.applierEdit.fileId = [];
-        if(this.upfile!=null && this.upfile.length>0){
-            for(var i =0 ;i<this.upfile.length;i++){
-              this.applierEdit.fileName1.push(this.upfile[i].fileName);
-              this.applierEdit.filePath1.push(this.upfile[i].fileAddress);
-              this.applierEdit.fileId.push(this.upfile[i].id);
-            }
-        }
       }
     });
     $('.maskUpdate').show();
-  }
-  delete(code: number) {
-    this.code = code;
-    $('.confirm').fadeIn();
+    $('.errorMessage').html('');
   }
   /*删除*/
-  okFunc() {
-    $('.confirm').hide();
-    this.marketManagerService.providerDel(this.code)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
-          alert("删除成功");
-        }
-        this.providerList();
-      });
+  delete(id: number)  {
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否删除改条数据？',
+      'popType': 1,
+      'imgType': 3,
+      "callback": () => {
+        this.marketManagerService.providerDel(id)
+          .subscribe(data => {
+            if (this.errorVoid.errorMsg(data.status)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': "删除成功",
+                'popType': 0,
+                'imgType': 1,
+              });
+            }
+            this.providerList(1);
+          });
+      }
+    });
   }
   noFunc() {
     $('.confirm').fadeOut();

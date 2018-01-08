@@ -877,9 +877,8 @@ select{
 }
 .b-head .active{
   font-size: 16px;
-  height: 22px;
+  line-height: 36px;
   padding: 0 20px;
-  display: inline-block;
   color: #ff5c39;
   border-bottom: 3px solid #ff5c39;
 }
@@ -1108,6 +1107,7 @@ select{
 }
 .list-table{
   width: 100%;
+  min-height: 500px;
 }
 .list-table .table-head{
   width: 100%;

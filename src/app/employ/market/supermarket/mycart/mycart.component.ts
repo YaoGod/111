@@ -3,6 +3,7 @@ import * as $ from 'jquery';
 import {SupermarketManagerService} from "../../../../service/supermarket-manager/supermarket-manager.service";
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {SupermarketCart} from "../../../../mode/supermarketCart/supermarket-cart.service";
+declare var confirmFunc:any;
 @Component({
   selector: 'app-mycart',
   templateUrl: './mycart.component.html',

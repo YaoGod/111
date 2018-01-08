@@ -208,6 +208,7 @@ export class WorkspaceHomeComponent implements OnInit {
     let includeCostChart = echarts.init(document.getElementById(id));
     includeCostChart.setOption(option);
   }
+  /*获取服务中心列表*/
   getServiceCenter(){
     this.workspaceMydeskService.getServiceCenter()
       .subscribe((data)=>{

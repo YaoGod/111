@@ -197,6 +197,7 @@ select{outline:medium;}
 }
 .b-con{
   display: block;
+  min-height: 600px;
 }
 .b-con h2{
   font-weight: normal;
@@ -627,7 +628,7 @@ select{outline:medium;}
   font-size: 12px;
   text-align: right;
 }
-.wrap>ul>li>input[type=text] {
+.wrap>ul>li>input[type=text], .wrap select {
   height: 30px;
   min-width: 100px;
   padding: 0 10px;
@@ -636,6 +637,9 @@ select{outline:medium;}
   border-radius: 3px;
   background-color: #fff;
   border: 1px solid #66cdff;
+}
+.wrap select{
+  padding-right: 40px;
 }
 .mask{
   display: none;
@@ -707,6 +711,37 @@ select{outline:medium;}
   height: 22px;
   display: inline-block;
   vertical-align:middle;
+}
+.modal-footer {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding: 15px;
+  background-color: #f1f5f8;
+  /* border-top: 1px solid #eceeef; */
+}
+.btn-info{
+  margin-left: 15px;
+  padding: 10px 16px;
+  border-radius: 4px;
+  background: #03a9f3;
+  border: 1px solid #03a9f3;
+  color: #fff;
+
+}
+.btn-danger{
+  padding: 10px 16px;
+  border-radius: 4px;
+  color: #fff;
 }
 .bor{
   border: 1px solid #ccc;

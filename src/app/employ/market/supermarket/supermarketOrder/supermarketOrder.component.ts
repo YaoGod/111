@@ -3,18 +3,25 @@ import {SupermarketManagerService} from "../../../../service/supermarket-manager
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {SupermarketOrder} from "../../../../mode/supermarketOrder/supermarket-order.service";
 import * as $ from 'jquery';
+import {WorkspaceMydeskService} from "../../../../service/workspace-mydesk/workspace-mydesk.service";
+declare var confirmFunc:any;
 @Component({
   selector: 'app-suporder',
   templateUrl: './supermarketOrder.component.html',
   styleUrls: ['./supermarketOrder.component.css'],
-  providers: [SupermarketManagerService,SupermarketManagerService,ErrorResponseService]
+  providers: [
+    SupermarketManagerService,
+    SupermarketManagerService,
+    WorkspaceMydeskService,
+    ErrorResponseService]
 
 })
 export class SupermarketOrderComponent implements OnInit {
-  public search: SupermarketOrder;
-  private pageNo: number = 1;
-  /*当前页码*/
-  private pageSize: number = 5;
+  public search   : SupermarketOrder;
+  public pageNo   : number = 1;
+  public pageSize : number = 5;
+  public total    : number = 0;
+  public serviceCenters: Array<any>;
   public orders:Array<SupermarketOrder>;
   public productName:string = '';
   public serverCenter:string='';
@@ -24,17 +31,19 @@ export class SupermarketOrderComponent implements OnInit {
     id:'',
     status:'',
     note:''
-  }
+  };
 
   constructor(private supermarketManagerService: SupermarketManagerService,
+              private workspaceMydeskService: WorkspaceMydeskService,
               private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
-    this.pages = [];
-    this.getOrderAllList();
-
+    this.getOrderAllList(1);
+    this.getServiceCenter();
   }
-  getOrderAllList(){
+  /*获取订单列表*/
+  getOrderAllList(pageNo){
+    this.pageNo = pageNo;
     if(this.productName!=null){
       this.productName = this.productName.trim();
     }
@@ -44,11 +53,18 @@ export class SupermarketOrderComponent implements OnInit {
     this.supermarketManagerService.getOrderAllList(this.productName,this.serverCenter,this.pageNo,this.pageSize).subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.orders = data.data.infos;
-
-        let total = Math.ceil(data.data.total / this.pageSize);
-        this.initPage(total);
+        this.total = data.data.total;
       }
     });
+  }
+  /*获取服务中心列表*/
+  getServiceCenter(){
+    this.workspaceMydeskService.getServiceCenter()
+      .subscribe((data)=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.serviceCenters = data.data;
+        }
+      });
   }
 
   update(orderId,status){
@@ -63,34 +79,41 @@ export class SupermarketOrderComponent implements OnInit {
 
   updateOrders(){
     this.supermarketManagerService.updateOrder(this.updateOrder) .subscribe(data => {
-
-      if(data['status'] === 0){
-        alert("修改成功")
+      if(this.errorVoid.errorMsg(data)){
+        confirmFunc.init({
+          'title': '提示',
+          'mes': "修改成功",
+          'popType': 0,
+          'imgType': 1,
+        });
         this.closeMask();
-        this.getOrderAllList();
-      }else{
-        alert("修改失败")
-        this.closeMask();
+        this.getOrderAllList(1);
       }
     });
 
   }
-
-  delete(orderid:number){
-    this.delId = orderid;
-    $('.confirm').fadeIn();
-  }
-
   /*删除*/
-  okFunc() {
-    $('.confirm').hide();
-    this.supermarketManagerService.deleteOrder( this.delId)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
-          alert("删除成功");
-        }
-        this.getOrderAllList();
-      });
+  delete(id) {
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否删除改条数据？',
+      'popType': 1,
+      'imgType': 3,
+      "callback": () => {
+        this.supermarketManagerService.deleteOrder(id)
+          .subscribe(data => {
+            if (this.errorVoid.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': '删除成功',
+                'popType': 0,
+                'imgType': 1
+              });
+              this.getOrderAllList(1);
+            }
+          });
+      }
+    });
   }
 
   closeMask() {
@@ -98,33 +121,6 @@ export class SupermarketOrderComponent implements OnInit {
   }
   noFunc() {
     $('.confirm').fadeOut();
-  }
-
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
-
-    for(let i = 0;i< total ;i++){
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
-  }
-  /*跳页加载数据*/
-  goPage(page:number){
-    this.pageNo = page;
-    this.getOrderAllList();
   }
 
 }

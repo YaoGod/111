@@ -5,6 +5,7 @@ import {ErrorResponseService} from "../../../../service/error-response/error-res
 import {SupermarketCart} from "../../../../mode/supermarketCart/supermarket-cart.service";
 import {SupermarketOrder} from "../../../../mode/supermarketOrder/supermarket-order.service";
 import {ActivatedRoute, Router} from "@angular/router";
+declare var confirmFunc:any;
 @Component({
   selector: 'app-confirmsupcart',
   templateUrl: './confirmsupcart.component.html',
@@ -18,12 +19,12 @@ export class ConfirmsupcartComponent implements OnInit {
   public carts:Array<SupermarketCart>;
   public mutipalPrice:number;
   public leftMoney:number;
-  public username= sessionStorage.getItem("username");
+  public username= localStorage.getItem("username");
   public userInfo={
     username: '',
     teleNum: '',
     homeAddr: ''
-  }
+  };
   public order:SupermarketOrder;
   constructor(private supermarketManagerService: SupermarketManagerService,
               private errorVoid: ErrorResponseService,
@@ -35,8 +36,7 @@ export class ConfirmsupcartComponent implements OnInit {
   }
   getCartList(){
     this.supermarketManagerService.getCartList(this.username).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
-
+      if (this.errorVoid.errorMsg(data)) {
         this.carts = data.data.infos;
         this.mutipalPrice=data.data.mutipalPrice;
         this.userInfo=data.data.userInfo;
@@ -51,8 +51,13 @@ export class ConfirmsupcartComponent implements OnInit {
   }
 
   submitCart(){
-    if(this.order.serviceCenter==null||this.order.serviceCenter.trim()==""){
-      alert("请选择服务中心！");
+    if(this.order.serviceCenter==null||this.order.serviceCenter.trim()===""){
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '请选择服务中心！',
+        'popType': 0 ,
+        'imgType': 2 ,
+      });
       return false;
     }
     /**
@@ -60,11 +65,13 @@ export class ConfirmsupcartComponent implements OnInit {
      */
 
     this.supermarketManagerService.submitCart(this.order).subscribe(data => {
-      if (data.status=="1") {
-        alert(data.msg);
-      }else{
-        alert(data.msg);
-       /* this.getCartList();*/
+      if (this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': data.msg,
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
         $(".address").hide();
         $(".b-address").hide();
         $(".fuwu").hide();

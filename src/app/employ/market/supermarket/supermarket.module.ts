@@ -15,6 +15,7 @@ import { MycartComponent } from './mycart/mycart.component';
 import {SupermarketComponent} from "./supermarket.component";
 import {RouteGuardService} from "../../../service/route-guard/route-guard.service";
 import {SupermarketManagerService} from "../../../service/supermarket-manager/supermarket-manager.service";
+import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
 const routes: Routes = [
   {
     path: '',
@@ -64,6 +65,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     GlobalFooterModule,
+    TurnBarModule,
     RouterModule.forChild(routes),
   ],
   providers: [SupermarketManagerService],

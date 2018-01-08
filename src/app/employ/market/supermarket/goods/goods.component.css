@@ -875,6 +875,7 @@ select{
 }
 .b-con{
   width: 100%;
+  min-height: 600px;
   display: inline-block;
 }
 .b-con h2{
@@ -1138,7 +1139,7 @@ select{
   width:auto;
   height:auto;
   max-width:100%;
-  max-height:100%;
+  max-height: 100px;
   border: 1px solid #eee;
   margin: 5px;
   float: left;
@@ -1207,7 +1208,6 @@ select{
   width: 100%;
 }
 .list-table dd td{
-  display: inline-block;
   text-align: center;
   vertical-align: middle;
   color: #666;
@@ -1284,9 +1284,15 @@ select{
   background-color: #f7f7f7;
   border-radius: 5px;
 }
+.modal-body input[type='text'], .modal-body input[type='number']{
+  height: 24px;
+  width: 140px;
+  line-height: 24px;
+  padding: 0 10px;
+}
 .modal-body select{
-  width: 180px;
-  height: 28px;
+  width: 162px;
+  height: 24px;
   color: #666;
   padding-left: 10px;
   border: 1px solid #cccccc;
@@ -1310,8 +1316,9 @@ select {
     }
 
     .pdetail label{
+      display: inline-block;
       line-height: 28px;
-      min-width: 120px;
+      min-width: 70px;
       font-size: 12px;
       color: #666;
       margin-right: 9px;

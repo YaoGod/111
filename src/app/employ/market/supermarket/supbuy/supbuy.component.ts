@@ -20,7 +20,7 @@ export class SupbuyComponent implements OnInit {
   public total = 0;
   public cartsize:number = 0;
   public pages: Array<number>;
-  public username = sessionStorage.getItem("username");
+  public username = localStorage.getItem("username");
   constructor(
     private marketManagerService: SupermarketManagerService,
     private errorVoid: ErrorResponseService,) { }
@@ -28,7 +28,7 @@ export class SupbuyComponent implements OnInit {
   ngOnInit() {
     this.search = new SupermarketProduct();
     this.pages = [];
-    this.getMarketShowList();
+    this.getMarketShowList(1);
   }
 
   checkcolor(){
@@ -37,39 +37,31 @@ export class SupbuyComponent implements OnInit {
     })
   }
 
- getMarketShowList(){
-    this.marketManagerService.getMarketShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+ getMarketShowList(pageNo){
+    this.pageNo = pageNo;
+    this.marketManagerService.getMarketShowList(this.pageNo,this.pageSize,this.search)
+      .subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
         this.products = data.data.infos;
         this.cartsize = data.data.cartsize;
         this.total = data.data.total;
       }
     });
-      this.checkcolor();
+    this.checkcolor();
   }
-
-
   addToCart(id: number){
-
     this.cart = new SupermarketCart();
     this.cart.productId = id;
     this.cart.quantity = 1;
     this.marketManagerService.addToCart(this.username,this.cart)
       .subscribe(data => {
-        if(data['status']===0){
+        if(this.errorVoid.errorMsg(data)){
           this.cartsize = data.data.cartsize;
           confirmFunc.init({
             'title': '提示',
-            'mes': "购买成功:已加入购物车！",
+            'mes': "已加入购物车！",
             'popType': 0,
             'imgType': 1,
-          });
-        }else{
-          confirmFunc.init({
-            'title': '提示',
-            'mes': data['msg'],
-            'popType': 0,
-            'imgType': 2,
           });
         }
       })

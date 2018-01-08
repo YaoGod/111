@@ -4,6 +4,7 @@ import {SupermarketProduct} from "../../../../mode/supermarketProduct/supermarke
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {SupermarketManagerService} from "../../../../service/supermarket-manager/supermarket-manager.service";
 import {SupermarketApplier} from "../../../../mode/supermarketApplier/supermarket-applier.service";
+declare var confirmFunc:any;
 @Component({
   selector: 'app-goods',
   templateUrl: './goods.component.html',
@@ -11,97 +12,55 @@ import {SupermarketApplier} from "../../../../mode/supermarketApplier/supermarke
   providers: [SupermarketManagerService,SupermarketManagerService,ErrorResponseService]
 })
 export class GoodsComponent implements OnInit {
-  public products:Array<SupermarketProduct>;
-  public applierList:Array<SupermarketApplier>;
-  public categories:Array<SupermarketCategory>;
-  public search: SupermarketProduct;
-  public days:string;
-  private code: any;
-  private pageNo: number = 1;
-  /*当前页码*/
-  private pageSize: number = 5;
-  public pages: Array<number>;
-  public  productView={
-    code:            '',
-    supplierId:        '',
-    sname:              '',
-    simage:              '',
-    detail:            '',
-    price:            '',
-    stype:                '',
-    pstatus:              '',
-    leftstatus:           '',
-    id:  '',
-    applier:'',
-    category:'',
-  };
-  public  productAdd={
-    code:            '',
-    supplierId:        '',
-    sname:              '',
-    simage:              '',
-    detail:            '',
-    price:            '',
-    stype:                '',
-    pstatus:              '',
-    leftstatus:           '',
-    id:  '',
-    applier:'',
-   category:'',
-  };
-  public  productUp={
-    code:            '',
-    supplierId:        '',
-    sname:              '',
-    simage:              '',
-    detail:            '',
-    price:            '',
-    stype:                '',
-    pstatus:              '',
-    leftstatus:           '',
-    id:  '',
-    applier:'',
-    category:'',
-  };
+  public products     : Array<SupermarketProduct>;
+  public applierList  : Array<SupermarketApplier>;
+  public categories   : Array<SupermarketCategory>;
+  public search       : SupermarketProduct;
+  private code        : any;
+  public pageNo       : number = 1;
+  public pageSize     : number = 5;
+  public total        : number = 0;
+  public  productView : SupermarketProduct;
+  public  productAdd  : SupermarketProduct;
+  public  productUp   : SupermarketProduct;
   constructor(private marketManagerService: SupermarketManagerService,
               private errorVoid: ErrorResponseService,) { }
 
   ngOnInit() {
     this.search = new SupermarketProduct();
-    this.pages = [];
-    this.getSupermarketList();
+    this.productView = new SupermarketProduct();
+    this.productAdd = new SupermarketProduct();
+    this.productUp = new SupermarketProduct();
+    this.getSupermarketList(1);
   }
 
-  getSupermarketList(){
-    this.marketManagerService.getSupermarketList(this.pageNo,this.pageSize,this.search).subscribe(data => {
-      if (data.status=="0") {
+  getSupermarketList(pageNo){
+    this.pageNo = pageNo;
+    this.marketManagerService.getSupermarketList(this.pageNo,this.pageSize,this.search)
+      .subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
         this.products = data.data.infos;
         this.applierList = data.data.applierList;
         this.categories = data.data.categories;
-        let total = Math.ceil(data.data.total / this.pageSize);
-        this.initPage(total);
+        this.total = data.data.total;
       }
     });
   }
   /*新增商品*/
   addProduct() {
      if(!this.verifyEmpty("sname_add","商品名称不能为空")){
-
        return false;
      }
     if(!this.verifyEmpty("price_add","价格不能为空")){
-
       return false;
     }
     if(this.checkPrice("price_add")){
       return false;
     }
     if(!this.verifyEmpty("detail_add","商品详情不能为空")){
-
       return false;
     }
     if(!this.verifyEmpty("supplierId_add","供应商不能为空")){
-
       return false;
     }
     if(!this.verifyEmpty("stype_add","商品类型不能为空")){
@@ -110,27 +69,32 @@ export class GoodsComponent implements OnInit {
     if(!this.verifyEmpty("code_add","商品编码不能为空")){
       return false;
     }
-    if(this.productAdd.simage==null||this.productAdd.simage==""){
-       alert("请上传图片！");
+    if(this.productAdd.simage==null||this.productAdd.simage===""){
+      confirmFunc.init({
+        'title': '提示',
+        'mes': "请上传图片！",
+        'popType': 0,
+        'imgType': 2,
+      });
        return false;
     }
-
     this.marketManagerService.addMarketProduct(this.productAdd)
       .subscribe(data => {
-        if(data['status'] === 0){
-          alert(data['data']);
+        if(this.errorVoid.errorMsg(data)){
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data.data,
+            'popType': 0,
+            'imgType': 1,
+          });
           this.closeMaskAdd();
-          this.getSupermarketList();
-        }else{
-          alert(data['msg']);
-          // this.closeMaskAdd();
+          this.getSupermarketList(1);
         }
       })
   }
   /*修改*/
   updateProduct() {
     if(!this.verifyEmpty("sname_edit","商品名称不能为空")){
-    alert();
       return false;
     }
     if(!this.verifyEmpty("price_edit","价格不能为空")){
@@ -154,20 +118,27 @@ export class GoodsComponent implements OnInit {
     if(!this.verifyEmpty("code_edit","商品编码不能为空")){
       return false;
     }
-    if(this.productUp.simage==null||this.productUp.simage==""){
-      alert("请上传图片！");
+    if(this.productUp.simage==null||this.productUp.simage===""){
+      confirmFunc.init({
+        'title': '提示',
+        'mes': "请上传图片！",
+        'popType': 0,
+        'imgType': 2,
+      });
       return false;
     }
     this.marketManagerService.updateProduct(this.productUp)
       .subscribe(data => {
 
-        if(data['status'] === 0){
-          alert(data['data']);
+        if(this.errorVoid.errorMsg(data)){
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data.data,
+            'popType': 0,
+            'imgType': 1,
+          });
           this.closeMaskUp();
-          this.getSupermarketList();
-        }else{
-          alert(data['msg']);
-          this.closeMaskUp();
+          this.getSupermarketList(1);
         }
       })
   }
@@ -175,7 +146,7 @@ export class GoodsComponent implements OnInit {
   view(code){
     this.marketManagerService.getMarketProduct(code)
       .subscribe(data => {
-        if (data['status']==0) {
+        if (this.errorVoid.errorMsg(data)) {
           this.productView = data.data;
           $('.maskView').show();
         }
@@ -186,7 +157,7 @@ export class GoodsComponent implements OnInit {
   update(code: string) {
     this.marketManagerService.getMarketProduct(code)
       .subscribe(data => {
-        if(data['status']==0){
+        if(this.errorVoid.errorMsg(data)){
           this.productUp = data.data;
         }
         $('.maskUpdate').show();
@@ -196,20 +167,7 @@ export class GoodsComponent implements OnInit {
   closeMaskUp() {
     $('.maskUpdate').hide();
     $('#prese').val('');
-    this.productUp={
-      code:            '',
-      supplierId:        '',
-      sname:              '',
-      simage:              '',
-      detail:            '',
-      price:            '',
-      stype:                '',
-      pstatus:              '',
-      leftstatus:           '',
-      id:  '',
-      applier:'',
-      category:'',
-    };
+    this.productUp =  new SupermarketProduct();
   }
   closeMaskView(){
     $('.maskView').hide();
@@ -219,15 +177,27 @@ export class GoodsComponent implements OnInit {
       $('.confirm').fadeIn();
     }
   /*删除*/
-  okFunc() {
-    $('.confirm').hide();
-    this.marketManagerService.deletetProduct(this.code)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
-          alert("删除成功");
-        }
-        this.getSupermarketList();
-      });
+  deleteGoods(id) {
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否删除改条数据？',
+      'popType': 1,
+      'imgType': 3,
+      "callback": () => {
+        this.marketManagerService.deletetProduct(id)
+          .subscribe(data => {
+            if (this.errorVoid.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': "删除成功！",
+                'popType': 0,
+                'imgType': 1,
+              });
+              this.getSupermarketList(1);
+            }
+          });
+      }
+    });
   }
   noFunc() {
     $('.confirm').fadeOut();
@@ -240,34 +210,23 @@ export class GoodsComponent implements OnInit {
   closeMaskAdd() {
     $('.maskAdd').hide();
     $('#prese1').val('');
-    this.productAdd={
-      code:            '',
-      supplierId:        '',
-      sname:              '',
-      simage:              '',
-      detail:            '',
-      price:            '',
-      stype:                '',
-      pstatus:              '',
-      leftstatus:           '',
-      id:  '',
-      applier:'',
-      category:'',
-    };
+    this.productAdd = new SupermarketProduct();
   }
-
-
-
   /*新增页面文件图片上传*/
   prese_upload(files,index){
     var xhr = this.marketManagerService.uploadImg(files[0],'supermarket',-4);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
 
           this.productAdd.simage = data.msg;
-          alert("上传成功");
+          confirmFunc.init({
+            'title': '提示',
+            'mes': "上传成功",
+            'popType': 0,
+            'imgType': 1,
+          });
         }
       }
     };
@@ -278,10 +237,15 @@ export class GoodsComponent implements OnInit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
 
           this.productUp.simage = data.msg;
-          alert("上传成功");
+          confirmFunc.init({
+            'title': '提示',
+            'mes': "上传成功",
+            'popType': 0,
+            'imgType': 1,
+          });
         }
       }
     };
@@ -303,16 +267,13 @@ export class GoodsComponent implements OnInit {
       return true;
     }
 
-
-
-
   }
 
 
 /**非空校验*/
 private isEmpty(id: string, error: string): boolean  {
   const data =  $('#' + id).val();
-  if (data==null||data==''||data.trim() === '')  {
+  if (data==null||data===''||data.trim() === '')  {
     this.addErrorClass(id, error);
     return false;
   }else {
@@ -342,35 +303,7 @@ private  removeErrorClass(id: string) {
   $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
   $('#' + id).next('span').html('');
 }
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
 
-    for(let i = 0;i< total ;i++){
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
-  }
-  /*跳页加载数据*/
-  goPage(page:number){
-    this.pageNo = page;
-    if(this.search==null){
-      this.search = new SupermarketProduct();
-    }
-    this.getSupermarketList();
-  }
 }
 
 export class SupermarketCategory {

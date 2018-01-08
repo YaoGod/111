@@ -4,6 +4,7 @@ import {SupermarketManagerService} from "../../../../service/supermarket-manager
 import {SupermarketOrder} from "../../../../mode/supermarketOrder/supermarket-order.service";
 import {SupermarketOrderItem} from "../../../../mode/supermarketOrderItem/supermarket-order-item.service";
 import * as $ from 'jquery';
+declare var confirmFunc:any;
 @Component({
   selector: 'app-myorder',
   templateUrl: './myorder.component.html',

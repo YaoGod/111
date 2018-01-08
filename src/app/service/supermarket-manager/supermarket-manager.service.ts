@@ -36,8 +36,8 @@ export class SupermarketManagerService {
   }
 
 
-  providerList(){
-    const url = '/proxy/mmall/supermarket/provider/providerList';
+  providerList(pageNo,pageSize){
+    const url = '/proxy/mmall/supermarket/provider/providerList/'+pageNo+'/'+ pageSize;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
