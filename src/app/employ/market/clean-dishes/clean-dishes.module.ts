@@ -10,6 +10,7 @@ import {VegbuyComponent} from "./vegbuy/vegbuy.component";
 import {MyorderComponent} from "./myorder/myorder.component";
 import {ConfirmvegcartComponent} from "./confirmvegcart/confirmvegcart.component";
 import {FormsModule} from "@angular/forms";
+import { VegetableCountComponent } from './vegetable-count/vegetable-count.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,10 @@ const routes: Routes = [
       {
         path: 'confirmvegcart',
         component:ConfirmvegcartComponent
+      },
+      {
+        path: 'count',
+        component: VegetableCountComponent
       }
     ]
   }
@@ -57,6 +62,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   declarations: [CleanDishesComponent,VegorderComponent,VegetableComponent,VegcartComponent,VegbuyComponent,MyorderComponent,
-    ConfirmvegcartComponent]
+    ConfirmvegcartComponent,
+    VegetableCountComponent]
 })
 export class CleanDishesModule { }

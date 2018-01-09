@@ -6,8 +6,9 @@
       <div class="wrap-b">
         <div class="b-head">
           <span [routerLink]="['../supermarketProduct']">超市商品管理</span>
-          <span [routerLink]="['../supermarketApplier']">服务商管理</span>
+          <span [routerLink]="['../supermarketApplier']">供应商管理</span>
           <span class="active" [routerLink]="['../order']">订单管理</span>
+          <span [routerLink]="['../count']">订单报表</span>
           <div class="b-head-right">
             <div class="content-box" [routerLink]="['../supbuy']">
               <i class="icon-action-undo"></i>继续购物</div>
@@ -32,7 +33,7 @@
               <li><a class="search" href="javascript: void(0);" (click)="getOrderAllList(1)" >查询</a></li>
             </ul>
           </div>
-
+          <div class="div-none" *ngIf="orders&&orders.length === 0">暂无信息</div>
           <div class="list-table" *ngFor="let order of orders;let idx=index">
             <dt>
             <table class="table-head0">
@@ -44,11 +45,19 @@
                 <td class="zero" *ngIf="order.status=='4'">订单状态：已配货</td>
                 <td class="zero" *ngIf="order.status=='1'">订单状态：已到货</td>
                 <td class="zero" *ngIf="order.status=='2'">订单状态：退单</td>
-                <td class="zero">下单时间：{{order.payTime}}</td>
-                <td class="zero"  *ngIf="order.status=='0'" >
-                  <button type="button" class="btn btn-info" style="padding: 2px 2px" (click)="update(order.id,'4')">已配货</button>
-                  <button type="button" class="btn btn-info" style="padding: 2px 2px" (click)="update(order.id,'2')">退单</button>
+                <td class="zero">
+                  <div  *ngIf="order.status=='0'">
+                    <button type="button" class="btn btn-info" style="padding: 2px 2px" (click)="update(order.id,'4')">已配货</button>
+                    <button type="button" class="btn btn-info" style="padding: 2px 2px" (click)="update(order.id,'2')">退单</button>
+                  </div>
                 </td>
+              </tr>
+              <tr>
+                <td  class="zero">下单人姓名：{{order.userName}}</td>
+                <td  class="zero">下单人电话：{{order.telPhone}}</td>
+                <td class="zero">下单时间：{{order.payTime}}</td>
+                <td class="zero"></td>
+                <td class="zero"></td>
               </tr>
             </table>
             </dt>
@@ -60,9 +69,9 @@
                   <td class="sec">单价（元）</td>
                   <td class="three">数量</td>
                   <td class="four">合计（元）</td>
-                  <td class="zero" *ngIf="order.status=='0'">
+                 <!-- <td class="zero" *ngIf="order.status=='0'">
                     <a class="tre"  title="删除" href="javascript:void(0);" (click)="delete(order.id)"></a>
-                  </td>
+                  </td>-->
                 </tr>
               </table>
               </dt>

@@ -102,8 +102,14 @@ export class UtilBuildingService {
     return xhr;
   }
   /*获取大楼列表*/
-  getBuildingList() {
-    const url = this.ipSetting.ip + "/building/util/getBuildingList";
+  getBuildingList(search) {
+    const url = this.ipSetting.ip + "/building/util/getBuildingList?search="+search;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  /*获取默认的服务中心*/
+  getServiceCenter(){
+    const url = this.ipSetting.ip + "/mmall/util/getServiceCenter";
     return this.http.get(url,this.options)
       .map(res => res.json());
   }

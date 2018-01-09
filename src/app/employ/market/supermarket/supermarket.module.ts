@@ -16,6 +16,7 @@ import {SupermarketComponent} from "./supermarket.component";
 import {RouteGuardService} from "../../../service/route-guard/route-guard.service";
 import {SupermarketManagerService} from "../../../service/supermarket-manager/supermarket-manager.service";
 import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
+import { SupermarketCountComponent } from './supermarket-count/supermarket-count.component';
 const routes: Routes = [
   {
     path: '',
@@ -46,15 +47,22 @@ const routes: Routes = [
       {
         path:'supbuysimple',
         component:SupbuysimpleComponent
-      },  {
+      },
+      {
         path: 'myorder',
         component:MyorderComponent
-      },  {
+      },
+      {
         path: 'mycart',
         component:MycartComponent
-      },  {
+      },
+      {
         path: 'confirmcart',
         component:ConfirmsupcartComponent
+      },
+      {
+        path: 'count',
+        component:SupermarketCountComponent
       }
     ]
   }
@@ -72,6 +80,6 @@ const routes: Routes = [
   declarations: [SupermarketComponent,
     SupplierComponent, SupbuyComponent, MyorderComponent,
     SupermarketOrderComponent, ConfirmsupcartComponent,
-    SupbuysimpleComponent,GoodsComponent, MinLengthPipe, MycartComponent]
+    SupbuysimpleComponent,GoodsComponent, MinLengthPipe, MycartComponent, SupermarketCountComponent]
 })
 export class SupermarketModule { }

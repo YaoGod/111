@@ -476,3 +476,10 @@ strong{
   border-radius:50px;
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
 }
+.product-status{
+  float: right;
+  color:  #fb9678;
+}
+.item-summary a.addCart .ill{
+  background-color: #999999;
+}

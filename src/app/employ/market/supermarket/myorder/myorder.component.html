@@ -10,14 +10,30 @@
           </div>
         </div>
         <div class="b-con tuanmenu">
+          <div class="wrap">
+            <ul>
+              <li>
+                <select [(ngModel)]="search" >
+                  <option value="">全部</option>
+                  <option value="0">订购中</option>
+                  <option value="1">已到货</option>
+                  <option value="2">退单</option>
+                  <option value="4">已配货</option>
+                </select>
+              </li>
+              <li><a class="search" href="javascript: void(0);" (click)="getOrderList(1)" >查询</a></li>
+            </ul>
+          </div>
+          <div class="div-none" *ngIf="orders&&orders.length === 0">暂无信息</div>
           <div class="list-table" *ngFor="let order of orders;let idx=index">
             <dt>
             <table class="table-head0">
               <tr>
                 <td class="zero">订单编号：{{order.id}}</td>
+                <td class="zero">服务中心：{{order.serviceCenter}}</td>
                 <td class="zero">下单时间：{{order.payTime}}</td>
                 <td class="zero">订单价格：￥{{order.payment}}</td>
-                <td class="zero" *ngIf="order.status=='0'">订单状态：已付款</td>
+                <td class="zero" *ngIf="order.status=='0'">订单状态：订购中</td>
                 <td class="zero" *ngIf="order.status=='4'">订单状态：已配货</td>
                 <td class="zero" *ngIf="order.status=='1'">订单状态：已到货</td>
                 <td class="zero" *ngIf="order.status=='2'">订单状态：退单</td>
@@ -52,6 +68,13 @@
             </dl>
           </div>
         </div>
+        <!--翻页-->
+        <app-turn-bar
+          [pageNo] = "pageNo"
+          [pageSize] = "pageSize"
+          [total] = "total"
+          (turnEvent) = "getOrderList($event)">
+        </app-turn-bar>
       </div>
     </div>
   </div>

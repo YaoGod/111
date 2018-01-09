@@ -5,8 +5,9 @@
       <div class="wrap-b">
         <div class="b-head">
           <span [routerLink]="['../supermarketProduct']" class="active">超市商品管理</span>
-          <span [routerLink]="['../supermarketApplier']">服务商管理</span>
+          <span [routerLink]="['../supermarketApplier']">供应商管理</span>
           <span [routerLink]="['../order']">订单管理</span>
+          <span [routerLink]="['../count']">订单报表</span>
           <div class="b-head-right">
             <div class="content-box" [routerLink]="['../supbuy']">
               <i class="icon-action-undo"></i>继续购物</div>
@@ -17,7 +18,7 @@
             <div class="iptgroup">
               <input placeholder="请输入商品名称"  [(ngModel)]="search.sname"/>
             </div>
-            <a class="search" href="javascript: void(0);"  (click)="getSupermarketList()"  >查询</a>
+            <a class="search" href="javascript: void(0);"  (click)="getSupermarketList(1)"  >查询</a>
             <a class="btn btn-danger"  (click)="add()" href="javascript:;" style="padding: 6px 22px;float: right;"><i class="icon-plus"></i> 新增</a>
           </div>
           <div class="list-table">
@@ -59,6 +60,7 @@
                 </table>
               </dd>
             </dl>
+            <div class="div-none" *ngIf="products&&products.length===0">暂无信息</div>
           </div>
           <!--翻页-->
           <app-turn-bar

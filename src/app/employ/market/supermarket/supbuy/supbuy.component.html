@@ -24,7 +24,7 @@
         <div id="J-listContainer" class="mainItemsList">
           <h2 class="offScreen">商品列表</h2>
           <ul id="J_ProductList" class="product-list">
-            <li  *ngFor="let product of products;let idx=index"   class="product" >
+            <li  *ngFor="let product of products;let idx=index" class="product" >
               <div class="productInfo">
                 <div class="product-img">
                   <a href="javascript: void(0);" target="_blank">
@@ -35,6 +35,7 @@
                   <a href="javascript:void(0)" [routerLink]="['../supbuysimple']" target="_blank">
                     {{product.sname}}
                   </a>
+                  <span class="product-status">{{product.leftstatus==='1'?'缺货':(product.leftstatus==='2'?'少量':'充足')}}</span>
                 </h3>
                 <div class="item-summary">
                   <div class="item-price">
@@ -43,9 +44,9 @@
                         <strong>{{product.price}}</strong>
                     </span>
                   </div>
-                  <a  href="javascript: void(0);"  class="addCart j_AddCart" (click)="addToCart(product.id)">
+                  <a  href="javascript: void(0);"  class="addCart j_AddCart" (click)="addToCart(product.id,product.leftstatus)">
                    <!-- <img src="../../../../../assets/image/icon-shop.png">-->
-                    <i>+</i>
+                    <i [ngClass]="product.leftstatus==='1'?'ill':''">+</i>
                   </a>
                 </div>
               </div>

@@ -467,11 +467,8 @@ select{outline:medium;}
 }
 
 .list-table .eight img{
-  width:60%;
-  height:auto;
-  max-width:100%;
-  max-height:100%;
-  margin: 0px;
+  width:100px;
+  height:100px;
 }
 .list-table .fir span{
   display: block;
@@ -827,4 +824,9 @@ select{outline:medium;}
 .b-head-right .content-box:hover{cursor: pointer;border-color: #ff3c00;}
 .row .btn-danger{
   float: right;
+}
+.div-none{
+  padding: 20px;
+  color: #CCCCCC;
+  text-align: center;
 }

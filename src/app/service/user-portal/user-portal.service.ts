@@ -28,7 +28,7 @@ export class UserPortalService {
   }
   /*更改密码*/
   updatePassword(userInfo,code){
-    const url = this.ipSetting.ip + "/portal/user/updatePassword/" + code;
+    const url  = this.ipSetting.ip + "/portal/user/updatePassword/" + code;
     return this.http.post(url,userInfo,this.options)
       .map(res => res.json());
   }

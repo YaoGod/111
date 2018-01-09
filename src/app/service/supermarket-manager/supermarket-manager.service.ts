@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Http, RequestOptions, Headers} from '@angular/http';
+import {IpSettingService} from "../ip-setting/ip-setting.service";
 
 
 @Injectable()
@@ -11,6 +12,7 @@ export class SupermarketManagerService {
   });
   constructor(
     private http: Http,
+    private ipSetting  : IpSettingService
   ) { }
 
   getMarketProduct(id){
@@ -151,8 +153,8 @@ export class SupermarketManagerService {
    * 我的订单
    * @returns {Observable<R>}
    */
-  getOrderList() {
-    const url = '/proxy/mmall/supermarketOrder/getOrderList/null';
+  getOrderList(pageNo,pageSize,status) {
+    const url = '/proxy/mmall/supermarketOrder/getOrderList/' +pageNo+'/'+pageSize+'?search='+status;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -166,7 +168,8 @@ export class SupermarketManagerService {
    * @returns {Observable<R>}
    */
   getOrderAllList(productName,serverCenter,pageNo,pageSize){
-    const url = '/proxy/mmall/supermarketOrder/getOrderAllList/'+pageNo+'/'+pageSize+"?productName="+productName+"&serverCenter="+serverCenter;
+    const url = '/proxy/mmall/supermarketOrder/getOrderAllList/'
+      +pageNo+'/'+pageSize+"?productName="+productName+"&serverCenter="+serverCenter;
     return this.http.post(url,this.options)
       .map(res => res.json());
   }
@@ -226,10 +229,16 @@ export class SupermarketManagerService {
    * @param postData
    * @returns {Observable<R>}
    */
-  submitCart(postData){
-    const url = '/proxy/mmall/supermarketOrder/addOrder';
+  submitCart(postData,code){
+    const url = this.ipSetting.ip +'/mmall/supermarketOrder/addOrder/'+code;
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
+  getYzm(userId){
+    const url = this.ipSetting.ip + '/mmall/supermarketOrder/getPayCode/'+userId;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+
 }

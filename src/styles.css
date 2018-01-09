@@ -5942,3 +5942,8 @@ select{
 .form-control:focus {
   background-size: 100% 1px, 100% 1px!important;
 }
+.div-none{
+  padding: 20px;
+  color: #CCCCCC;
+  text-align: center;
+}

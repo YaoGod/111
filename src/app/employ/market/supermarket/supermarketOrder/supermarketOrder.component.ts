@@ -70,10 +70,19 @@ export class SupermarketOrderComponent implements OnInit {
   update(orderId,status){
     this.updateOrder.id = orderId;
     this.updateOrder.status = status;
-    if(this.updateOrder.status=="4"){
+    if(this.updateOrder.status==="4"){
       this.updateOrders();
     }else{
-      $('.mask').show();
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '是否确定退单',
+        'popType': 1,
+        'imgType': 3,
+        'callback': ()=>{
+          $('.mask').show();
+        }
+      });
+
     }
   }
 
@@ -82,7 +91,7 @@ export class SupermarketOrderComponent implements OnInit {
       if(this.errorVoid.errorMsg(data)){
         confirmFunc.init({
           'title': '提示',
-          'mes': "修改成功",
+          'mes': data.msg,
           'popType': 0,
           'imgType': 1,
         });

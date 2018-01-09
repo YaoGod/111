@@ -9,60 +9,64 @@
             <div class="content-box" onclick="history.go(-1)"><i class="icon-reload"></i>返回</div>
           </div>
         </div>
-        <div class="b-con tuanmenu">
-
-          <div class="list-table">
-            <table class="table-head">
-              <td class="fir">商品信息</td>
-              <td class="sec">单价(元)</td>
-              <td class="three">数量</td>
-              <td class="four">合计（元）</td>
-            </table>
-            <dl  *ngFor="let cart of carts;let idx=index">
-              <dt>
-                <span>商品名称：{{cart.product.sname}}</span>
-              <div class="ope-list">
-                <a class="tre" href="javascript:void(0)" ></a>
-              </div>
-              </dt>
-              <dd>
-                <table class="list-body">
-                  <td class="fir">
-                    <img *ngIf="cart.product.simage!==''" [src]="'/proxy/' + cart.product.simage"/>
-                  </td>
-                  <td class="sec">￥{{cart.product.price}}</td>
-                  <td class="three">
-                    {{cart.quantity}}
-                  </td>
-                  <td class="six">
-                    <label id="unionPrice">￥{{cart.totalPrice}}</label>
-                  </td>
+        <div class="product-list">
+          <div *ngIf="carts&&carts.length>0">
+            <div class="b-con" >
+              <div class="list-table">
+                <table class="table-head">
+                  <td class="fir">商品信息</td>
+                  <td class="sec">单价(元)</td>
+                  <td class="three">数量</td>
+                  <td class="four">合计（元）</td>
                 </table>
-              </dd>
-            </dl>
+                <dl  *ngFor="let cart of carts;let idx=index">
+                  <dt>
+                    <span>商品名称：{{cart.product.sname}}</span>
+
+                  </dt>
+                  <dd>
+                    <table class="list-body">
+                      <td class="fir">
+                        <img *ngIf="cart.product.simage!==''" [src]="'/proxy/' + cart.product.simage"/>
+                      </td>
+                      <td class="sec">￥{{cart.product.price}}</td>
+                      <td class="three">
+                        {{cart.quantity}}
+                      </td>
+                      <td class="six">
+                        <label id="unionPrice">￥{{cart.totalPrice}}</label>
+                      </td>
+                    </table>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+            <div class="b-address">
+              <span>配送信息</span>
+            </div>
+            <div class="address">
+              <div class="info"><label>姓名：</label> <span>{{userInfo.username}}</span></div>
+              <div class="info"><label>号码：</label> <span>{{userInfo.teleNum}}</span></div>
+              <div class="info"><label>地址：</label> <span>{{userInfo.homeAddr}}</span></div>
+            </div>
+            <div class="b-address">
+              <span>服务中心</span>
+            </div>
+            <div class="fuwu" >
+              <label *ngFor="let service of serviceCenters">
+              <input type="radio" name="fuwuname" [value]="service.name"
+                     [ngModel]="order.serviceCenter"
+                     (focus)="order.serviceCenter = service.name">
+                     {{service.name}}
+              </label>
+            </div>
           </div>
-        </div>
-        <div class="b-address">
-          <span>配送信息</span>
-        </div>
-        <div class="address">
-          <div class="info"><label>姓名：</label> <span>{{userInfo.username}}</span></div>
-          <div class="info"><label>号码：</label> <span>{{userInfo.teleNum}}</span></div>
-          <div class="info"><label>地址：</label> <span>{{userInfo.homeAddr}}</span></div>
-        </div>
-        <div class="b-address">
-          <span>服务中心</span>
-        </div>
-        <div class="fuwu">
-          <input type="radio" name="fuwuname" value="环北服务中心"  [(ngModel)]="order.serviceCenter">环北服务中心
-          <input type="radio" name="fuwuname" value="江干服务中心"  [(ngModel)]="order.serviceCenter">江干服务中心
-          <input type="radio" name="fuwuname" value="下沙服务中心"  [(ngModel)]="order.serviceCenter">下沙服务中心
         </div>
         <div class="b-foot">
           <div class="leftmoney"><label>账户余额：</label><span>￥{{leftMoney}}</span></div>
           <div class="total">
             <label>总计：</label> <span>￥{{mutipalPrice}}</span>
-            <button type="button" class="btn btn-info" (click)="submitCart()">提交订单</button>
+            <button type="button" class="btn btn-info" (click)="payCount()">去付款</button>
           </div>
         </div>
       </div>
@@ -70,3 +74,29 @@
   </div>
 </div>
 
+
+<div class="maskYzm">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">付款验证码</h4>
+      <button type="button" class="close"(click)="closeMask()">×</button>
+    </div>
+    <form class="form-material">
+      <div class="modal-body clearfix">
+        <div class="wrap-left">
+          <div class="form-control">
+            <input type="number" placeholder="请输入验证码" name="yzm" [(ngModel)]="yzm">
+          </div>
+        </div>
+        <div class="wrap-right">
+          <span class="djs" *ngIf="djs&&djs!==0">{{djs}}s</span>
+          <a class="btn btn-info btn-yzm" (click)="getYzm()">重新获取</a>
+        </div>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="closeMask()">取 消</button>
+      <button type="submit" class="btn btn-info" (click)="submitCart()" >确 定</button>
+    </div>
+  </div>
+</div>

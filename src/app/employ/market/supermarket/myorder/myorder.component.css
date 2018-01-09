@@ -30,17 +30,6 @@
 .header-right>img{
   width: 16px;
 }
-
-html,body,div,span,img,button,ul,li,dl,dt,dd,input,select,option,table,tr,th,td,h1,h2,h3,h4,h5,h6{
-  margin: 0;
-  padding: 0;
-}
-body{
-  font-family: "微软雅黑";
-}
-ul,li{
-  list-style: none;
-}
 .hid{
   display: none;
 }
@@ -173,7 +162,6 @@ select{outline:medium;}
   background: #fff;
   padding: 20px;
   display: block;
-  min-height: 700px;
 }
 .b-head{
   border-bottom: 2px solid #f7fbfe;
@@ -188,8 +176,7 @@ select{outline:medium;}
   line-height: 36px;
 }
 .b-con{
-  width: 100%;
-  display: inline-block;
+  min-height: 600px;
 }
 .b-con h2{
   font-weight: normal;
@@ -357,12 +344,6 @@ select{outline:medium;}
 .tuan .line-txt{
   margin-top: 30px;
 }
-
-/*团购商品管理*/
-.b-con .wrap{
-  margin: 20px 0;
-  display: inline-block;
-}
 .b-con .iptgroup{
   width: 200px;
   height: 27px;
@@ -398,7 +379,6 @@ select{outline:medium;}
   font-size: 14px;
   border-radius: 3px;
   letter-spacing: 2px;
-  float: left;
 }
 .b-con .add{
   text-decoration: none;
@@ -600,10 +580,29 @@ select{outline:medium;}
 .b-head-right .content-box i{font-size:14px;}
 .b-head-right .content-box img{margin-right: 4px;vertical-align: -3px}
 .b-head-right .content-box:hover{cursor: pointer;border-color: #ff3c00;}
-
-/*物业服务预订列表*/
-
-
-
-/*物业服务订单界面*/
-
+.wrap>ul>li{
+  display:inline-block;
+  padding-top: 10px;
+}
+.wrap>ul>li>label{
+  float: left;
+  color: #686868;
+  height: 30px;
+  padding:0 10px;
+  line-height: 30px;
+  font-size: 12px;
+  text-align: right;
+}
+.wrap>ul>li>input[type=text], .wrap select {
+  height: 30px;
+  min-width: 150px;
+  padding: 0 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  background-color: #fff;
+  border: 1px solid #66cdff;
+}
+.wrap select{
+  padding-right: 40px;
+}

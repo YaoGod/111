@@ -15,7 +15,7 @@ export class MycartComponent implements OnInit {
   public num:number;
   public carts:Array<SupermarketCart>;
   public mutipalPrice:number;
-  public username= sessionStorage.getItem("username");
+  public username= localStorage.getItem("username");
   constructor(private marketManagerService: SupermarketManagerService,
               private errorVoid: ErrorResponseService,) { }
 
@@ -24,12 +24,13 @@ export class MycartComponent implements OnInit {
   }
 
   getCartList(){
-    this.marketManagerService.getCartList(this.username).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+    this.marketManagerService.getCartList(this.username)
+      .subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
 
         this.carts = data.data.infos;
         this.mutipalPrice=data.data.mutipalPrice;
-        if(this.carts.length==0){
+        if(this.carts.length===0){
           $(".b-foot").hide();
         }else{
           $(".b-foot").show();
@@ -44,44 +45,55 @@ export class MycartComponent implements OnInit {
     this.cart.quantity = nums;
     this.marketManagerService.updateCart(this.cart,this.username)
       .subscribe(data => {
-        if(data['status'] === 1){
-          alert(data['msg']);
-          this.getCartList();
-        }else{
+        if(this.errorVoid.errorMsg(data)){
           this.getCartList();
         }
       });
   }
 
   onclikadd(idxx:number,productId:number){
+    console.log(111);
     if($("#input-num-"+idxx+"").val().toString().trim()==""){
       $("#input-num-"+idxx+"").val(1);
     }else{
       $("#input-num-"+idxx+"").val(parseInt( $("#input-num-"+idxx+"").val()) + 1);
+      this.cul($("#input-num-"+idxx+"").val(),productId);
     }
-    this.cul($("#input-num-"+idxx+"").val(),productId);
   }
   onclikjian(idxx:number,productId:number){
     if($("#input-num-"+idxx+"").val().toString().trim()==""){
       $("#input-num-"+idxx+"").val(1);
     }
     if( $("#input-num-"+idxx+"").val() <= 1) {
-      alert("提示：商品数量不能小于1");
       $("#input-num-"+idxx+"").val(1);
     } else {
       $("#input-num-"+idxx+"").val(parseInt( $("#input-num-"+idxx+"").val()) - 1);
+      this.cul($("#input-num-"+idxx+"").val(),productId);
     }
-    this.cul($("#input-num-"+idxx+"").val(),productId);
   }
 
   del(id:number){
-    this.marketManagerService.deleteCart(id,this.username)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
-          alert("删除成功");
-        }
-        this.getCartList();
-      });
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否删除该商品',
+      'popType': 1,
+      'imgType': 3,
+      'callback': ()=>{
+        this.marketManagerService.deleteCart(id,this.username)
+          .subscribe(data => {
+            if (this.errorVoid.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data.msg,
+                'popType': 0,
+                'imgType': 1,
+              });
+              this.getCartList();
+            }
+          });
+      }
+    });
+
   }
 
 }

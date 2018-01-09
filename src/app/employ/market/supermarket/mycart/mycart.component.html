@@ -12,7 +12,6 @@
           </div>
         </div>
         <div class="b-con tuanmenu">
-
           <div class="list-table">
             <table class="table-head">
               <td class="fir">商品信息</td>
@@ -20,6 +19,7 @@
               <td class="three">数量</td>
               <td class="four">合计（元）</td>
             </table>
+            <div class="div-none" *ngIf="carts&&carts.length === 0">暂无信息</div>
             <dl  *ngFor="let cart of carts;let idx=index">
               <dt>
                 <span>商品名称：{{cart.product.sname}}</span>

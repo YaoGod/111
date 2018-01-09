@@ -63,7 +63,7 @@ export class AccountComponent implements OnInit {
   }
   /*获取大楼名称列表*/
   getBuildingList() {
-    this.utilBuildingService.getBuildingList()
+    this.utilBuildingService.getBuildingList('')
       .subscribe(data => {
         if(this.errorResponseService.errorMsg(data)) {
           this.buildings = data.data;

@@ -105,8 +105,9 @@ export class HeaderComponent implements OnInit {
   }
   /*发送验证码*/
   sendCode() {
-    if(typeof (this.user.username) !== "undefined" && this.user.username !== null){
-      this.userPortal.sendMessage("updatePassword",this.user.username)
+    console.log(this.user.userid);
+    if(typeof (this.user.userid) !== "undefined" && this.user.userid !== null){
+      this.userPortal.sendMessage("updatePassword",this.user.userid)
         .subscribe(data => {
           if(this.errorResponse.errorMsg(data)){
             confirmFunc.init({

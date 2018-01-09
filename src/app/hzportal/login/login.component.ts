@@ -79,6 +79,8 @@ export class LoginComponent implements OnInit {
             }else{
               this.router.navigate(['hzportal/'+this.catalogs[0].childs[0].routeUrl]);
             }
+          }else{
+            this.router.navigate(['hzportal']);
           }
         }
       });

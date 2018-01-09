@@ -696,17 +696,6 @@ button{
   font-size: 12px;
   text-align: right;
 }
-
-
-
-
-html,body,div,span,img,button,ul,li,dl,dt,dd,input,select,option,table,tr,th,td,h1,h2,h3,h4,h5,h6{
-  margin: 0;
-  padding: 0;
-}
-body{
-  font-family: "微软雅黑";
-}
 ul,li{
   list-style: none;
 }
@@ -1099,6 +1088,7 @@ select{
 }
 .list-table{
   width: 100%;
+  min-height: 500px;
   clear: both;
 }
 .list-table .table-head{

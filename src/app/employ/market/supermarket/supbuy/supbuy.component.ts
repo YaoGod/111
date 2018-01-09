@@ -49,22 +49,32 @@ export class SupbuyComponent implements OnInit {
     });
     this.checkcolor();
   }
-  addToCart(id: number){
-    this.cart = new SupermarketCart();
-    this.cart.productId = id;
-    this.cart.quantity = 1;
-    this.marketManagerService.addToCart(this.username,this.cart)
-      .subscribe(data => {
-        if(this.errorVoid.errorMsg(data)){
-          this.cartsize = data.data.cartsize;
-          confirmFunc.init({
-            'title': '提示',
-            'mes': "已加入购物车！",
-            'popType': 0,
-            'imgType': 1,
-          });
-        }
-      })
+  /*加入购物车*/
+  addToCart(id: number,leftstatus: number){
+   if(leftstatus>1){
+     this.cart = new SupermarketCart();
+     this.cart.productId = id;
+     this.cart.quantity = 1;
+     this.marketManagerService.addToCart(this.username,this.cart)
+       .subscribe(data => {
+         if(this.errorVoid.errorMsg(data)){
+           this.cartsize = data.data.cartsize;
+           confirmFunc.init({
+             'title': '提示',
+             'mes': "已加入购物车！",
+             'popType': 0,
+             'imgType': 1,
+           });
+         }
+       })
+   }else{
+     confirmFunc.init({
+       'title': '提示',
+       'mes': "该商品正在补货中，暂时无法加购！",
+       'popType': 0,
+       'imgType': 2,
+     });
+   }
   }
 
 }
