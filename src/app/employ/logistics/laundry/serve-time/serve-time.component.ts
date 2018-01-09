@@ -13,24 +13,15 @@ import {IpSettingService} from "app/service/ip-setting/ip-setting.service";
 })
 export class ServeTimeComponent implements OnInit {
   public products:any;
-  public applierList:Array<Facilitator>;
-  public days:string;
-  private code: any;
+  public addSwitch: Boolean = true;
   public pageSize = 5;
   public pageNo = 1;
   public total = 0;
   public length = 5;
   public pages: Array<number>;
   public serverCenters:Array<ServerCenter>;
-  public  productAdd={
-    priceId:   '',
-    applyid:          '',
-    appcotent:        '',
-    unit:              '',
-    price:             '',
-    appliar:''
-  };
-  public  productUp= {
+  public productAdd:ServeTime;
+  public productUp= {
     priceId:   '',
     applyid:     '',
     appcotent:     '',
@@ -42,6 +33,7 @@ export class ServeTimeComponent implements OnInit {
 
   ngOnInit() {
     this.pages = [];
+    this.productAdd = new ServeTime();
     this.getServiceCenter();
     this.getCenterTime();
 
@@ -51,7 +43,6 @@ export class ServeTimeComponent implements OnInit {
     let url = '/employee/serviceCenter/getServiceCenter';
     this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
-        /*this.applierList = data.data.providers;*/
         this.serverCenters = data.data;
         // console.log(data.data);
       }
@@ -67,38 +58,52 @@ export class ServeTimeComponent implements OnInit {
       }
     });
   }
-  /*新增服务内容*/
+  /*点击新增*/
+  add() {
+    this.productAdd = new ServeTime();
+    $('.maskAdd').show();
+    $('#servePlace').attr('disabled',false);
+  }
+  /*点击修改*/
+  update(code: number,name:string,index) {
+    this.addSwitch = false;
+    this.productAdd.servePlace = this.products[index].center.name;
+    $('.maskAdd').show();
+    $('.modal-title').html('编辑服务时间');
+    $('#servePlace').attr('disabled',true);
+  }
+  /*新增/编辑服务内容提交*/
   addProduct() {
-    if(!this.verifyEmpty("appcotent_add","服务内容不能为空")){
+    let url;
+    if(this.addSwitch){
+      url = "/mmall/laundry/addFacPrice";
+    }else{
+      url = "/mmall/laundry/updateProduct";
+    }
+    if(!this.verifyEmpty("servePlace","服务中心不能为空")||!this.verifyEmpty("serveDate","服务时间不能为空")||
+      !this.verifyEmpty("bTime_add","开始时间不能为空")||!this.verifyEmpty("eTime_add","结束时间不能为空")){
       return false;
     }
-    if(!this.verifyEmpty("price_add","价格不能为空")){
-      return false;
-    }
-    if(this.checkPrice("price_add")){
-      return false;
-    }
-    if(!this.verifyEmpty("unit_add","单位不能为空")){
-      return false;
-    }
-    if(!this.verifyEmpty("supplierId_add","服务商不能为空")){
-      return false;
-    }
-    let url = "/mmall/laundry/addFacPrice";
+    // console.log(this.productAdd);
     this.ipSetting.sendPost(url,this.productAdd).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         confirmFunc.init({
           'title': '提示' ,
-          'mes': data['data'],
+          'mes': /*this.addSwitch === false?'更改成功':'新增成功'*/data['data'],
           'popType': 0 ,
           'imgType': 1 ,
         });
-        this.closeMaskAdd();
-        // this.getFacList();
+        this.getCenterTime();
       }
     })
   }
-
+  /*新增的取消*/
+  closeMaskAdd(){
+    $('.maskAdd').hide();
+    this.productAdd = new ServeTime();
+    $('.form-control').removeClass('form-error');
+    $('.form-control span').html('');
+  }
   /**非空校验*/
   private isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
@@ -110,15 +115,6 @@ export class ServeTimeComponent implements OnInit {
       return true;
     }
   }
-
-  private checkPrice(id){
-    let reg =/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
-    if(!reg.test($('#' + id).val())){
-      this.addErrorClass(id, "请输入正确的价格");
-      return true;
-    }
-  }
-
   private verifyEmpty(id,label) {
     if(!this.isEmpty(id, label)) {
       return false;
@@ -132,9 +128,6 @@ export class ServeTimeComponent implements OnInit {
       return false;
     }
     if(!this.verifyEmpty("price_edit","价格不能为空")){
-      return false;
-    }
-    if(this.checkPrice("price_edit")){
       return false;
     }
     if(!this.verifyEmpty("unit_edit","单位不能为空")){
@@ -153,24 +146,9 @@ export class ServeTimeComponent implements OnInit {
           'imgType': 1 ,
         });
         this.closeMaskUp();
-        // this.getFacList();
+        this.getCenterTime();
       }
     })
-  }
-
-  /*修改*/
-  update(code: number,name:string) {
-    $('.maskUpdate').show();
-    let ztt = new TimeItem();
-    ztt.id = code;
-    $('#supplierId_edit').val(name);
-    let url = "/employee/serviceCenter/addCenterTime/";
-    this.ipSetting.sendPost(url,code).subscribe(data => {
-      if (this.errorVoid.errorMsg(data)) {
-        this.productUp = data.data;
-      }
-
-    });
   }
 
   closeMaskUp() {
@@ -202,26 +180,12 @@ export class ServeTimeComponent implements OnInit {
               'imgType': 1 ,
             });
           }
-         // this.getFacList();
+
         });
       }
     });
   }
 
-  add() {
-    $('.maskAdd').show();
-  }
-  closeMaskAdd() {
-    $('.maskAdd').hide();
-    this.productAdd={
-      priceId:   '',
-      applyid:          '',
-      appcotent:        '',
-      unit:              '',
-      price:             '',
-      appliar:''
-    };
-  }
   /**
    * 添加错误信息class
    * @param id
@@ -246,18 +210,17 @@ export class ServeTimeComponent implements OnInit {
   }
 }
 
-export class Facilitator {
-  applyId:          string;/*经销商id*/
-  applyName:        string;/*经销商名称*/
-  copStarttime:     string;/*合作开始时间*/
-  copEndtime:       string;/*合作结束时间*/
-  applyDesc:        string;/*描述*/
-}
 export class ServerCenterInfo {
   id:number;
   orderNo:string;
   serviceCenter:           string;
   orderItems: Array<TimeItem>;
+}
+export class ServeTime {
+  servePlace:  string;
+  serveDate:   string;
+  bTime:       string;
+  eTime:       string;
 }
 export class  TimeItem{
   id:number;

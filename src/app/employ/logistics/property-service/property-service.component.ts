@@ -37,10 +37,8 @@ export class PropertyServiceComponent implements OnInit {
   /*获取权限*/
   private getQuan(){
     if(this.rule!=null){
-      const SOFTWARES_URL =  "/portal/user/getCata/"+this.rule.ID+"/repair";
-      this.ipSetting.sendGet(SOFTWARES_URL)
-        .map(res => res.json())
-        .subscribe(data => {
+      let SOFTWARES_URL =  "/portal/user/getCata/"+this.rule.ID+"/repair";
+      this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
           if(this.errorVoid.errorMsg(data)) {
             this.jurisdiction = data['data'][0];
           }

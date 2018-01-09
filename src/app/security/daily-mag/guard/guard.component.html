@@ -163,10 +163,14 @@
         <span class="form-label">公司性质</span>
         <div class="form-inp">
           <select id="type" name="type" class="company-ipt company-sel" [(ngModel)]="repairname.type" (blur)="verifytype()" >
+            <!--<option value="security">保安</option>
+            <option value="clean">保洁</option>
+            <option value="green">绿化</option>
+            <option value="repair">物业维修</option>-->
             <option value="保安">保安</option>
             <option value="保洁">保洁</option>
             <option value="绿化">绿化</option>
-            <option value="物业维修">物业维修</option>
+            <option value="其他">物业维修</option>
           </select>
           <span class="errorMessage"></span>
         </div>

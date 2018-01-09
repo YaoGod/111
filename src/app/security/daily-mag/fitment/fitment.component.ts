@@ -75,10 +75,8 @@ export class FitmentComponent implements OnInit {
   /*获取权限*/
   private getQuan(){
     if(this.rule!=null){
-      const SOFTWARES_URL = this.ipSetting.ip + "/portal/user/getCata/"+this.rule.ID+"/repair";
-      this.http.get(SOFTWARES_URL)
-        .map(res => res.json())
-        .subscribe(data => {
+      let SOFTWARES_URL = "/portal/user/getCata/"+this.rule.ID+"/repair";
+      this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
           if(this.errorVoid.errorMsg(data)) {
             this.jurisdiction = data['data'][0];
           }
@@ -87,14 +85,12 @@ export class FitmentComponent implements OnInit {
   }
   /*获取大楼列表*/
   private getBuildings() {
-    const SOFTWARES_URL = this.ipSetting.ip + "/building/util/getBuildingList";
-    this.http.get(SOFTWARES_URL)
-      .map(res => res.json())
+    this.utilBuildingService.getBuildingList('')
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.buildings = data['data'];
         }
-      });
+      })
   }
   /*点击新增*/
   repairNew() {
@@ -114,14 +110,10 @@ export class FitmentComponent implements OnInit {
   }
   /*获取/查询装修记录*/
   private getRecord(search, pageNo, pageSize) {
-    const SOFTWARES_URL = this.ipSetting.ip + "/building/decorate/getDecorateList/" + pageNo + "/" + pageSize;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
+    const SOFTWARES_URL = "/building/decorate/getDecorateList/" + pageNo + "/" + pageSize;
     search.decorateBtime = this.beginTime.replace(/-/g, "/");
     search.decorateEtime = this.endTime.replace(/-/g, "/");
-    this.http.post(SOFTWARES_URL, this.searchRepair, options)
-      .map(res => res.json())
-      .subscribe(data => {
+    this.ipSetting.sendPost(SOFTWARES_URL,this.searchRepair).subscribe(data => {
         if(this.errorVoid.errorMsg(data)){
           this.record = data['data']['infos'];
           this.total = data.data.total;
@@ -130,15 +122,11 @@ export class FitmentComponent implements OnInit {
   }
   /*获取/查询装修合同 */
   private getRecordSecond(search, pageNo, pageSize) {
-    let SOFTWARES_URL = this.ipSetting.ip + "/building/decorate/getDecorateContract/" + pageNo + "/" + pageSize;
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({headers: headers});
+    let SOFTWARES_URL = "/building/decorate/getDecorateContract/" + pageNo + "/" + pageSize;
     this.searchContract.contractType = 'decorate';
     this.searchContract.contractBtime = this.beginTime.replace(/-/g, "/");
     this.searchContract.contractEtime = this.endTime.replace(/-/g, "/");
-    this.http.post(SOFTWARES_URL, search , options)
-      .map(res => res.json())
-      .subscribe(data => {
+    this.ipSetting.sendPost(SOFTWARES_URL,search).subscribe(data => {
         if(this.errorVoid.errorMsg(data)){
           this.contract = data['data']['infos'];
           this.total = data.data.total;
@@ -154,23 +142,21 @@ export class FitmentComponent implements OnInit {
   }
   /*点击查询*/
   repairSearch() {
-    if(((this.endTime === '' && this.beginTime !== '') || (this.endTime !== '' && this.beginTime === '') || ((this.beginTime !==
-      '' &&  this.endTime !== '') && this.beginTime <= this.endTime)) || (this.beginTime === '' && this.endTime === '')) {
+    /*if(((this.endTime === '' && this.beginTime !== '') || (this.endTime !== '' && this.beginTime === '') || ((this.beginTime !==
+      '' &&  this.endTime !== '') && this.beginTime <= this.endTime)) || (this.beginTime === '' && this.endTime === '')) {*/
       if ($('.repair-header a:last-child').hasClass('active')) {
-        //
         this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
       } else {
-        //
         this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
       }
-    }else{
+    /*}else{
       confirmFunc.init({
         'title': '提示' ,
         'mes': '开始时间要大于结束时间',
         'popType': 0 ,
         'imgType': 2 ,
       });
-    }
+    }*/
   }
   /*点击大楼维修记录*/
   recordFade(event) {
@@ -218,10 +204,8 @@ export class FitmentComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = this.ipSetting.ip + "/building/decorate/deleteDecorateRecord/" +this.repairname.id;
-        this.http.get(SOFTWARES_URL)
-          .map(res => res.json())
-          .subscribe(data => {
+        let SOFTWARES_URL = "/building/decorate/deleteDecorateRecord/" +this.repairname.id;
+        this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
             if(this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示' ,
@@ -255,10 +239,8 @@ export class FitmentComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = this.ipSetting.ip + "/building/decorate/deleteDecorateContract/" +this.contractName.id;
-        this.http.get(SOFTWARES_URL)
-          .map(res => res.json())
-          .subscribe(data => {
+        let SOFTWARES_URL = "/building/decorate/deleteDecorateContract/" +this.contractName.id;
+        this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
             if(this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示' ,
@@ -370,9 +352,9 @@ export class FitmentComponent implements OnInit {
   recordSubmit() {
     var SOFTWARES_URL;
     if(this.editBool === false){
-      SOFTWARES_URL = this.ipSetting.ip + "/building/decorate/updateDecorateRecord";
+      SOFTWARES_URL = "/building/decorate/updateDecorateRecord";
     }else{
-      SOFTWARES_URL = this.ipSetting.ip + "/building/decorate/addDecorateRecord";
+      SOFTWARES_URL = "/building/decorate/addDecorateRecord";
     }
     if (!this.verifyId() || !this.verifyRecordId() || !this.verifydecorateFloor() || !this.verifyCmccDepartment() ||
       !this.verifyCmccContacts() || !this.verifyCmccPhone() || !this.verifydecorateDepartment()
@@ -389,14 +371,9 @@ export class FitmentComponent implements OnInit {
       });
       return false;
     }*/
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
-    // JSON.stringify
     this.repairname.decorateBtime = this.repairname.decorateBtime.replace(/-/g, "/");
     this.repairname.decorateEtime = this.repairname.decorateEtime.replace(/-/g, "/");
-    this.http.post(SOFTWARES_URL, this.repairname, options)
-      .map(res => res.json())
-      .subscribe(data => {
+    this.ipSetting.sendPost(SOFTWARES_URL,this.repairname).subscribe(data => {
         if(this.errorVoid.errorMsg(data)){
           confirmFunc.init({
             'title': '提示' ,
@@ -514,11 +491,11 @@ export class FitmentComponent implements OnInit {
   }
   /*新增/编辑合同信息提交*/
   contractSubmit() {
-    let SOFTWARES_URL;
+    var SOFTWARES_URL;
     if(this.contractBool === false){
-      SOFTWARES_URL = this.ipSetting.ip + "/building/decorate/updateDecorateContract";
+      SOFTWARES_URL = "/building/decorate/updateDecorateContract";
     }else{
-      SOFTWARES_URL = this.ipSetting.ip + "/building/decorate/addDecorateContract";
+      SOFTWARES_URL = "/building/decorate/addDecorateContract";
     }
     if (!this.verifyContractId() || !this.verifycontractNum() || !this.verifyCmccName() || !this.verifycontractcmccContacts() ||
       !this.verifycontractcmccPhone() || !this.verifycontractname2() || !this.verifycontacts() || !this.verifyphone() ||
@@ -537,11 +514,7 @@ export class FitmentComponent implements OnInit {
     }
     this.contractName.contractBtime = this.contractName.contractBtime.replace(/-/g, "/");
     this.contractName.contractEtime = this.contractName.contractEtime.replace(/-/g, "/");
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
-    this.http.post(SOFTWARES_URL, this.contractName, options)
-      .map(res => res.json())
-      .subscribe(data => {
+    this.ipSetting.sendPost(SOFTWARES_URL,this.contractName).subscribe(data => {
         if(this.errorVoid.errorMsg(data)){
           confirmFunc.init({
             'title': '提示' ,
@@ -551,7 +524,7 @@ export class FitmentComponent implements OnInit {
           });
           this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
           this.contractCancel();
-        }else if (data['status'] === 1) {
+        }else{
           this.contractName.contractBtime = this.contractName.contractBtime.replace(/\//g, "-");
           this.contractName.contractEtime = this.contractName.contractEtime.replace(/\//g, "-");
         }

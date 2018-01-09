@@ -78,14 +78,12 @@ export class CleanComponent implements OnInit {
   }
   /*获取大楼列表*/
   private getBuildings() {
-    const SOFTWARES_URL = "/proxy/building/util/getBuildingList";
-    this.http.get(SOFTWARES_URL)
-      .map(res => res.json())
+    this.utilBuildingService.getBuildingList('')
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.buildings = data['data'];
         }
-      });
+      })
   }
   /*获取/查询保安公司*/
   private getRecord(search, pageNo, pageSize) {

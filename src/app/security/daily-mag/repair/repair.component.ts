@@ -3,7 +3,6 @@ import {Http, RequestOptions, Headers} from '@angular/http';
 import {DomSanitizer} from '@angular/platform-browser';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
-import {InfoBuildingService} from "../../../service/info-building/info-building.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
@@ -17,7 +16,7 @@ declare var confirmFunc: any;
   selector: 'app-repair',
   templateUrl: './repair.component.html',
   styleUrls: ['./repair.component.css'],
-  providers: [InfoBuildingService,ErrorResponseService,UtilBuildingService,sndCatalog]
+  providers: [ErrorResponseService,UtilBuildingService,sndCatalog]
 })
 export class RepairComponent implements OnInit {
   public repairname: RepairName;
@@ -53,7 +52,6 @@ export class RepairComponent implements OnInit {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("security/daily");
-        //
         this.getQuan();
       }
     );
@@ -79,12 +77,9 @@ export class RepairComponent implements OnInit {
   /*获取权限*/
   private getQuan(){
     if(this.rule!=null){
-      const SOFTWARES_URL = this.ipSetting.ip + "/portal/user/getCata/"+this.rule.ID+"/repair";
-      this.http.get(SOFTWARES_URL)
-        .map(res => res.json())
-        .subscribe(data => {
+      let SOFTWARES_URL = "/portal/user/getCata/"+this.rule.ID+"/repair";
+      this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
           if(this.errorVoid.errorMsg(data)) {
-            //
             this.jurisdiction = data['data'][0];
           }
         });
@@ -92,14 +87,12 @@ export class RepairComponent implements OnInit {
   }
   /*获取大楼列表*/
   private getBuildings() {
-    const SOFTWARES_URL = this.ipSetting.ip + "/building/util/getBuildingList";
-    this.http.get(SOFTWARES_URL)
-      .map(res => res.json())
+    this.utilBuildingService.getBuildingList('')
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.buildings = data['data'];
         }
-      });
+      })
   }
   /*点击新增*/
   repairNew() {
@@ -119,15 +112,10 @@ export class RepairComponent implements OnInit {
   }
   /*获取/查询维修记录*/
   private getRecord(search, pageNo, pageSize) {
-    const SOFTWARES_URL = this.ipSetting.ip + "/building/repair/getRepairList/" + pageNo + "/" + pageSize;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
-    // JSON.stringify
+    let SOFTWARES_URL = "/building/repair/getRepairList/" + pageNo + "/" + pageSize;
     search.repairBtime = this.beginTime.replace(/-/g, "/");
     search.repairEtime = this.endTime.replace(/-/g, "/");
-    this.http.post(SOFTWARES_URL, search, options)
-      .map(res => res.json())
-      .subscribe(data => {
+    this.ipSetting.sendPost(SOFTWARES_URL,search).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.record = data['data']['infos'];
           this.total=data.data.total;
@@ -296,9 +284,9 @@ export class RepairComponent implements OnInit {
     let SOFTWARES_URL;
     if(this.editBool === false) {
       this.pageNo = 1;
-      SOFTWARES_URL = this.ipSetting.ip + "/building/repair/updateRepairRecord";
+      SOFTWARES_URL = "/building/repair/updateRepairRecord";
     }else {
-      SOFTWARES_URL = this.ipSetting.ip + "/building/repair/addRepairRecord";
+      SOFTWARES_URL = "/building/repair/addRepairRecord";
     }
     if (!this.verifyId() || !this.verifyRecordId() || !this.verifyRepairType() || !this.verifyCmccDepartment() ||
       !this.verifyCmccContacts() || !this.verifyCmccPhone() || !this.verifyRepairDepartment() || !this.verifyRepairContacts() ||
@@ -315,28 +303,23 @@ export class RepairComponent implements OnInit {
       });
       return false;
     }
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
-    // JSON.stringify
     this.repairname.repairBtime = this.repairname.repairBtime.replace(/-/g, "/");
     this.repairname.repairEtime = this.repairname.repairEtime.replace(/-/g, "/");
-    this.http.post(SOFTWARES_URL, this.repairname, options)
-      .map(res => res.json())
-      .subscribe(data => {
-        if(this.errorVoid.errorMsg(data)){
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': this.editBool === false?'更改成功':'新增成功',
-            'popType': 0 ,
-            'imgType': 1 ,
-          });
-          this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
-          this.recordCancel();
-        }else if (data['status'] === 1) {
-          this.repairname.repairBtime = this.repairname.repairBtime.replace(/\//g, "-");
-          this.repairname.repairEtime = this.repairname.repairEtime.replace(/\//g, "-");
-        }
-      });
+    this.ipSetting.sendPost(SOFTWARES_URL,this.repairname).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': this.editBool === false?'更改成功':'新增成功',
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
+        this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
+        this.recordCancel();
+      }else {
+        this.repairname.repairBtime = this.repairname.repairBtime.replace(/\//g, "-");
+        this.repairname.repairEtime = this.repairname.repairEtime.replace(/\//g, "-");
+      }
+    });
   }
   /*点击大楼维修记录*/
   recordFade(event) {
@@ -439,6 +422,7 @@ export class RepairComponent implements OnInit {
             'popType': 0 ,
             'imgType': 1,
           });
+          $('#prese').val('');
         }
       }
     };

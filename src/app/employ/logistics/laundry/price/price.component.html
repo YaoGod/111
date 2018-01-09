@@ -6,7 +6,7 @@
         <div class="b-head clearfix">
           <div class="b-head-left">
             <span class="active">服务内容</span>
-            <span [routerLink]="['../serveTime']">服务时间</span>
+            <!--<span [routerLink]="['../serveTime']">服务时间</span>-->
           </div>
 
           <div class="b-head-right">
@@ -65,7 +65,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">新增服务</h4>
-      <button type="button" class="close"(click)="closeMaskAdd()">×</button>
+      <button type="button" class="close" (click)="closeMaskAdd()">×</button>
     </div>
     <form class="form-material">
       <div class="modal-body clearfix">
@@ -94,9 +94,9 @@
             </div>
             <div>
               <div style="margin-top: 10px;">
-                <label>价格：</label>
+                <label>价格(元)：</label>
                 <input type="number" id="price_add" class="noticetext"  name="price_add" (blur)="verifyEmpty('price_add','价格不能为空')"
-                       [(ngModel)]="productAdd.price">&nbsp;&nbsp;&nbsp;元
+                       [(ngModel)]="productAdd.price" max="5">
                 <span class="errorMessage"></span>
               </div>
             </div>
@@ -105,7 +105,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeMaskAdd()">取 消</button>
-        <button type="submit" class="btn btn-info"(click)="addProduct()" >保 存</button>
+        <button type="submit" class="btn btn-info" (click)="addProduct()" >保 存</button>
       </div>
     </form>
   </div>
@@ -114,7 +114,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">修改服务</h4>
-      <button type="button" class="close"(click)="closeMaskUp()">×</button>
+      <button type="button" class="close" (click)="closeMaskUp()">×</button>
     </div>
     <form class="form-building form-material">
       <div class="modal-body clearfix">

@@ -661,8 +661,6 @@ select{
 .wrap-b{
   background: #fff;
   padding: 20px;
-  /*height: 1000px;*/
-  display: inline-block;
 }
 .b-head{
   border-bottom: 2px solid #f7fbfe;
@@ -744,7 +742,57 @@ button{
 .close{
   cursor: pointer;
 }
+.modal-back{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000;
+  background-color: rgba(0,0,0,0.4);
+  display: none;
+  z-index: 25;
+}
+.modal{
+  height:auto;
+  width:465px;
+  margin:60px auto 5px;
+  background: white;
+  box-shadow:0px 0px 15px  #666666;
+  border-radius: 3px;
+}
 .modal-header{
+  position: relative;
+}
+.modal-title{
+  height: 50px;
+  line-height: 50px;
+  font-size: 16px;
+  font-weight: normal;
+  color: #666666;
+  background-color: #f1f2f2;
+  border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  text-align: center;
+}
+.modal-header .close{
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  border:none;
+  background-color: inherit;
+  font-size: 20px;
+  color:#4b87d4;
+}
+.modal-header .close:hover{
+  color: #1d72df;
+}
+.modal-body{
+  padding-top: 20px;
+}
+.modal-body .foot{
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -753,38 +801,37 @@ button{
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  padding: 15px;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding:10px 15px;
   background-color: #f1f5f8;
-  /* border-bottom: 1px solid #eceeef; */
 }
-/*button{
-  border:none;
-  font-size:18px;
-  background: none;
-}*/
-.modal-title{
-  font-size:18px;
-  color:#2b2b2b;
+.modal-body .btn{
+  border: none;
+  background-color: #4b87d4;
+  color: #ffffff;
+  padding: 6px 25px;
+  margin: 7px 10px;
 }
-.modal-body{
-  position: relative;
-  padding: 15px;
+.modal-body .btn:hover{
+  background-color: #1d72df;
+  cursor: pointer;
 }
-.modal-left{
-  width:180px;
-  height:200px;
-  border: 2px solid #E5E5E5;
-  float:left;
+/* excel-out */
+.excel-out{
+  padding-top: 60px;
+  background: url(../../../../assets/image/excel.png) center 10px no-repeat;
 }
-.modal-right{
-  width:260px;
-  margin-left:20px;
-  float: left;
+.excel-out p{
+  line-height: 24px;
+  font-size: 16px;
+  color: #010101;
+  margin: 15px;
+  text-align: center;
 }
+
  .fir{
   width: 25%;
   font-size: 12px;

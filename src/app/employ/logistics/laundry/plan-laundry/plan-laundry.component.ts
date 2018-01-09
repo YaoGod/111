@@ -258,6 +258,7 @@ export class PlanLaundryComponent implements OnInit {
       applyid: '',
       unit: ''
     };
+    $('.errorMessage').html('');
   }
 
 

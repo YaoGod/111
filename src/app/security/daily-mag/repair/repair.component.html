@@ -124,7 +124,7 @@
             <span class="word">{{inner.repairEtime}}</span>
         </li>
         <li class="form-bar">
-            <span class="form-title">维修费用</span>
+            <span class="form-title">维修费用(元)</span>
             <span class="word">{{inner.repairCost}}</span>
         </li>
         <li class="form-bar form-texarea">
@@ -193,7 +193,7 @@
           </ol>
         </li>
         <li *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" class="form-btn" (click)="editContract(i)">编&nbsp;&nbsp;辑</li>
-        <li *ngIf="rule&&jurisdiction&&!jurisdiction.isDelete" class="form-btn form-btn2" (click)="delContract(i)">删&nbsp;&nbsp;除</li>
+        <li *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" class="form-btn form-btn2" (click)="delContract(i)">删&nbsp;&nbsp;除</li>
       </ul>
     </div>
     <app-turn-bar
@@ -299,7 +299,7 @@
           </div>
         </div>
         <div class="form-control">
-          <span class="form-label">维修费用</span>
+          <span class="form-label">维修费用(元)</span>
           <div class="form-inp">
             <input id="repairCost" class="company-ipt" name="repairCost" [(ngModel)]="repairname.repairCost"  (blur)="verifyRepairCost()" type="number" maxlength="9"><!--onkeypress="return event.keyCode>=48&&event.keyCode<=57"-->
             <span class="errorMessage"></span>

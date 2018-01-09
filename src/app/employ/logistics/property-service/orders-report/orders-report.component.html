@@ -111,16 +111,13 @@
       <!--<div class="form-btn form-del" (click)="delAttach(i)"><i class="icon-trash"></i></div>-->
     </div>
   </div>
-  <div class="turn" *ngIf="pages.length > 1">
-    <ul>
-      <li *ngFor="let i of pages"
-          [hidden] = "pageLimit(i)"
-          [ngClass]="{'active':i === pageNo}"
-          (click)="goPage(i);">
-        {{i}}
-      </li>
-    </ul>
-  </div>
+  <app-turn-bar
+    [pageNo]="pageNo"
+    [pageSize]="pageSize"
+    [total]="total"
+    [length] = 5
+    (turnEvent)="goPage($event)">
+  </app-turn-bar>
 </div>
 <!--新增订单弹窗-->
 <div class="mask">
@@ -130,7 +127,7 @@
     </div>
     <form method="post" name="topForm" class="repair-form">
       <div class="form-control">
-        <span class="form-label">大楼编号</span>
+        <span class="form-label">大楼名称</span>
         <div class="form-inp">
           <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingNum" (blur)="verifybuildingId()">
             <option *ngFor="let num of buildings"

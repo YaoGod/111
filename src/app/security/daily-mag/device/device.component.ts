@@ -57,11 +57,9 @@ export class DeviceComponent implements OnInit {
     this.pages = [];
 
     if($('.device-header a:last-child').hasClass('active')) {
-      //
       $('.guard-arch,.box2').fadeIn();
       // this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
     }else {
-      //
       $('.guard-company,.box1').fadeIn();
       this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
     }
@@ -70,36 +68,27 @@ export class DeviceComponent implements OnInit {
   /*获取权限*/
   private getQuan(){
     if(this.rule!=null){
-      const SOFTWARES_URL = this.ipSetting.ip + "/portal/user/getCata/"+this.rule.ID+"/repair";
-      this.http.get(SOFTWARES_URL)
-        .map(res => res.json())
-        .subscribe(data => {
-          if(this.errorVoid.errorMsg(data)) {
-            this.jurisdiction = data['data'][0];
-          }
-        });
+      let SOFTWARES_URL = "/portal/user/getCata/"+this.rule.ID+"/repair";
+      this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
+        if(this.errorVoid.errorMsg(data)) {
+          this.jurisdiction = data['data'][0];
+        }
+      });
     }
   }
   /*获取大楼列表*/
   private getBuildings() {
-    const SOFTWARES_URL = this.ipSetting.ip + "/building/util/getBuildingList";
-    this.http.get(SOFTWARES_URL)
-      .map(res => res.json())
+    this.utilBuildingService.getBuildingList('')
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.buildings = data['data'];
         }
-      });
+      })
   }
   /*获取/查询设备信息*/
   private getRecord(search, pageNo, pageSize) {
-    const SOFTWARES_URL = this.ipSetting.ip + "/building/equipment/getEquipmentList/" + pageNo + "/" + pageSize;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
-    // JSON.stringify
-    this.http.post(SOFTWARES_URL, search, options)
-      .map(res => res.json())
-      .subscribe(data => {
+    let SOFTWARES_URL = "/building/equipment/getEquipmentList/" + pageNo + "/" + pageSize;
+    this.ipSetting.sendPost(SOFTWARES_URL,search).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.record = data['data']['infos'];
           this.total = data.data.total;
@@ -285,26 +274,22 @@ export class DeviceComponent implements OnInit {
   }
   /*新增/编辑设备信息提交*/
   recordSubmit() {
-    let SOFTWARES_URL;
+    var SOFTWARES_URL;
     if(this.editBool === false) {
       this.pageNo = 1;
-      SOFTWARES_URL = this.ipSetting.ip + "/building/equipment/updateEquipment";
+      SOFTWARES_URL = "/building/equipment/updateEquipment";
     }else {
-      SOFTWARES_URL = this.ipSetting.ip + "/building/equipment/addEquipment";
+      SOFTWARES_URL = "/building/equipment/addEquipment";
     }
     if (!this.verifybuildingId() || !this.verifyname() || !this.verifymodel() || !this.verifybuyDate() || !this.verifysupplier()
       || !this.verifymaintenance() || !this.verifymLastDate() || !this.verifymNextDate() || !this.verifyliablePerson() ||
       !this.verifylMail()) {
       return false;
     }
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
     this.repairname.buyDate = this.repairname.buyDate.replace(/-/g, "/");
     this.repairname.mLastDate = this.repairname.mLastDate.replace(/-/g, "/");
     this.repairname.mNextDate = this.repairname.mNextDate.replace(/-/g, "/");
-    this.http.post(SOFTWARES_URL, this.repairname, options)
-      .map(res => res.json())
-      .subscribe(data => {
+    this.ipSetting.sendPost(SOFTWARES_URL,this.repairname).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
             'title': '提示' ,
@@ -340,10 +325,8 @@ export class DeviceComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = this.ipSetting.ip + "/building/equipment/deleteEquipment/" +this.repairname.id;
-        this.http.get(SOFTWARES_URL)
-          .map(res => res.json())
-          .subscribe(data => {
+        let SOFTWARES_URL = "/building/equipment/deleteEquipment/" +this.repairname.id;
+        this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
             if(this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示' ,
@@ -368,10 +351,8 @@ export class DeviceComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = this.ipSetting.ip + "/building/equipment/deleteEquipmentWO/" +this.contractName.id;
-        this.http.get(SOFTWARES_URL)
-          .map(res => res.json())
-          .subscribe(data => {
+        let SOFTWARES_URL = "/building/equipment/deleteEquipmentWO/" +this.contractName.id;
+        this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
             if(this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示' ,
@@ -471,9 +452,9 @@ export class DeviceComponent implements OnInit {
   }
   /*新增/编辑工单提交*/
   contractSubmit() {
-    let SOFTWARES_URL;
+    var SOFTWARES_URL;
     if(this.contractBool === false) {
-      SOFTWARES_URL = this.ipSetting.ip + "/building/equipment/updateEquipmentWO";
+      SOFTWARES_URL = "/building/equipment/updateEquipmentWO";
       if ( !this.verifyliableBtime() || !this.verifyliableEtime() || !this.verifyliableNextTime() || !this.verifyliableCost() ||
         !this.verifyliableNote() ) {
         return false;
@@ -483,18 +464,13 @@ export class DeviceComponent implements OnInit {
       this.contractName.liableNextTime = this.contractName.liableNextTime.replace(/-/g, "/");
       $('.device-arch .order-btn').attr("disable",true);
     }else {
-      SOFTWARES_URL = this.ipSetting.ip + "/building/equipment/addEquipmentWO";
+      SOFTWARES_URL = "/building/equipment/addEquipmentWO";
       if (!this.verifyID() || !this.verifyequipmentName() || !this.verifyequipModel() || !this.verifymaintenance2() ||
         !this.verifymType() || !this.verifyliablePerson2() ) {
         return false;
       }
     }
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
-    // JSON.stringify
-    this.http.post(SOFTWARES_URL, this.contractName, options)
-      .map(res => res.json())
-      .subscribe(data => {
+    this.ipSetting.sendPost(SOFTWARES_URL,this.contractName).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
             'title': '提示' ,

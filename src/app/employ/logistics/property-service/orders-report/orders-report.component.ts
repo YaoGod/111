@@ -23,8 +23,10 @@ export class OrdersReportComponent implements OnInit {
   public rule : any;
   public jurisdiction:any;
   public serviceCom:any;
-  private pageSize = 10;
-  private pageNo = 1;
+  public pageSize = 6;
+  public pageNo = 1;
+  public total = 0;
+  public length = 5;
   private editBool = true;
   public pin:string;
   public aot:string[];
@@ -43,7 +45,6 @@ export class OrdersReportComponent implements OnInit {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("property/orders");
-
         this.getQuan();
       }
     );
@@ -60,26 +61,22 @@ export class OrdersReportComponent implements OnInit {
   /*获取权限*/
   private getQuan(){
     if(this.rule!=null){
-      const SOFTWARES_URL =  this.ipSetting.ip + "/portal/user/getCata/"+this.rule.ID+"/repair";
-      this.http.get(SOFTWARES_URL)
-        .map(res => res.json())
-        .subscribe(data => {
-          if(this.errorVoid.errorMsg(data)) {
-            this.jurisdiction = data['data'][0];
-          }
-        });
+      let SOFTWARES_URL =  "/portal/user/getCata/"+this.rule.ID+"/repair";
+      this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
+        if(this.errorVoid.errorMsg(data)) {
+          this.jurisdiction = data['data'][0];
+        }
+      });
     }
   }
   /*获取大楼列表*/
   private getBuildings() {
-    const SOFTWARES_URL =  this.ipSetting.ip + "/building/util/getBuildingList";
-    this.http.get(SOFTWARES_URL)
-      .map(res => res.json())
+    this.utilBuildingService.getBuildingList('')
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.buildings = data['data'];
         }
-      });
+      })
   }
   /*获取/查询物业服务订单*/
   private getRecord(search, pageNo, pageSize) {
@@ -128,7 +125,7 @@ export class OrdersReportComponent implements OnInit {
   }
   /*删除信息*/
   delAttach(){  }
-  /*获取人员下拉*/ //GET /building/person/getPersonInfoList/{personType}
+  /*获取人员下拉*/ // GET /building/person/getPersonInfoList/{personType}
   private getPersonInfoList() {
     if(this.repairname.porpertyId==0){
       this.pin = 'clean';
@@ -143,6 +140,7 @@ export class OrdersReportComponent implements OnInit {
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.aot = data['data'];
+          // console.log(data)
         }
       });
   }

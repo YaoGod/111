@@ -72,10 +72,8 @@ export class EnergyComponent implements OnInit {
   /*获取权限*/
   private getQuan(){
     if(this.rule!=null){
-      const SOFTWARES_URL = this.ipSetting.ip + "/portal/user/getCata/"+this.rule.ID+"/repair";
-      this.http.get(SOFTWARES_URL)
-        .map(res => res.json())
-        .subscribe(data => {
+      let SOFTWARES_URL = "/portal/user/getCata/"+this.rule.ID+"/repair";
+      this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
           if(this.errorVoid.errorMsg(data)) {
             this.jurisdiction = data['data'][0];
           }
@@ -84,21 +82,16 @@ export class EnergyComponent implements OnInit {
   }
   /*获取大楼列表*/
   private getBuildings() {
-    const SOFTWARES_URL = this.ipSetting.ip + "/building/util/getBuildingList";
-    this.http.get(SOFTWARES_URL)
-      .map(res => res.json())
+    this.utilBuildingService.getBuildingList('')
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.buildings = data['data'];
         }
-      });
+      })
   }
   /*获取/查询能耗信息*/
   private getRecord(search, pageNo, pageSize) {
-    const SOFTWARES_URL = this.ipSetting.ip + "/building/energy/getEnergy/" + pageNo + "/" + pageSize;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
-    // JSON.stringify
+    let SOFTWARES_URL = "/building/energy/getEnergy/" + pageNo + "/" + pageSize;
     if($('.energy-header a:nth-of-type(1)').hasClass('active')){
       search.energyType = 'water';
     }else if($('.energy-header a:nth-of-type(2)').hasClass('active')) {
@@ -112,10 +105,7 @@ export class EnergyComponent implements OnInit {
     }
     search.bTime = search.bTime.replace(/-/g, "/");
     search.eTime = search.eTime.replace(/-/g, "/");
-
-    this.http.post(SOFTWARES_URL, search, options)
-      .map(res => res.json())
-      .subscribe(data => {
+    this.ipSetting.sendPost(SOFTWARES_URL,search).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.record = data['data']['infos'];
           this.total = data.data.total;
@@ -196,7 +186,7 @@ export class EnergyComponent implements OnInit {
   /*导出数据下载*/
   private downDeriving(){
     if((typeof this.search.energyType) === 'undefined'){
-      //this.search.companyName = 'null';
+      // this.search.companyName = 'null';
     }
     this.search.bTime = this.search.bTime.replace(/-/g, "/");
     this.search.eTime = this.search.eTime.replace(/-/g, "/");
@@ -274,22 +264,20 @@ export class EnergyComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = this.ipSetting.ip + "/building/energy/deleteEnergyRecord/" +this.repairname.id;
-        this.http.get(SOFTWARES_URL)
-          .map(res => res.json())
-          .subscribe(data => {
-            if(this.errorVoid.errorMsg(data)) {
-              confirmFunc.init({
-                'title': '提示' ,
-                'mes': data['msg'],
-                'popType': 0 ,
-                'imgType': 1 ,
-              });
-              this.pages =[];
-              this.pageNo = 1;
-              this.getRecord(this.search, this.pageNo, this.pageSize);
-            }
-          });
+        let SOFTWARES_URL = "/building/energy/deleteEnergyRecord/" +this.repairname.id;
+        this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
+          if(this.errorVoid.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': data['msg'],
+              'popType': 0 ,
+              'imgType': 1 ,
+            });
+            this.pages =[];
+            this.pageNo = 1;
+            this.getRecord(this.search, this.pageNo, this.pageSize);
+          }
+        });
       }
     });
   }
@@ -298,17 +286,13 @@ export class EnergyComponent implements OnInit {
     let SOFTWARES_URL;
     if(this.editBool === false) {
       this.pageNo = 1;
-      SOFTWARES_URL = this.ipSetting.ip + "/building/energy/updateEnergyRecord";
+      SOFTWARES_URL = "/building/energy/updateEnergyRecord";
     }else {
-      SOFTWARES_URL = this.ipSetting.ip + "/building/energy/addEnergyRecord";
+      SOFTWARES_URL = "/building/energy/addEnergyRecord";
     }
     if (!this.verifyId() || !this.verifymonth() || !this.verifynomNum() || !this.verifyunitprice()) {
       return false;
     }
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
-    // JSON.stringify
-
     if($('.energy-header a:nth-of-type(1)').hasClass('active')){
       this.repairname.energyType = 'water';
 
@@ -320,20 +304,18 @@ export class EnergyComponent implements OnInit {
 
     }
     this.repairname.month = this.repairname.month.replace(/-/g, "/");
-    this.http.post(SOFTWARES_URL, this.repairname, options)
-      .map(res => res.json())
-      .subscribe(data => {
-        if(this.errorVoid.errorMsg(data)) {
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': this.editBool === false?'更改成功':'新增成功',
-            'popType': 0 ,
-            'imgType': 1 ,
-          });
-          this.getRecord(this.search, this.pageNo, this.pageSize);
-          this.recordCancel();
-        }
-      });
+    this.ipSetting.sendPost(SOFTWARES_URL,this.repairname).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': this.editBool === false?'更改成功':'新增成功',
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
+        this.getRecord(this.search, this.pageNo, this.pageSize);
+        this.recordCancel();
+      }
+    });
   }
   /*新增和编辑界面的取消按钮*/
   recordCancel() {
@@ -348,27 +330,10 @@ export class EnergyComponent implements OnInit {
       this.pages[i] = i+1;
     }
   }
-  /*页面显示区间5页*/
-  pageLimit(page:number) {
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
-  }
   /*跳页加载数据*/
   goPage(page:number) {
     this.pageNo = page;
-    if($('.energy-header a:last-child').hasClass('active')) {
-      // this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
-    }else {
      this.getRecord(this.search, this.pageNo, this.pageSize);
-    }
   }
   /**非空校验*/
   private isEmpty(id: string, error: string): boolean  {

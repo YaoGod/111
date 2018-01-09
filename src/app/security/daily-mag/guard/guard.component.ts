@@ -48,7 +48,6 @@ export class GuardComponent implements OnInit {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("security/daily");
-        //
         this.getQuan();
       }
     );
@@ -70,10 +69,8 @@ export class GuardComponent implements OnInit {
   /*获取权限*/
   private getQuan(){
     if(this.rule!=null){
-      const SOFTWARES_URL =  this.ipSetting.ip + "/portal/user/getCata/"+this.rule.ID+"/repair";
-      this.http.get(SOFTWARES_URL)
-        .map(res => res.json())
-        .subscribe(data => {
+      let SOFTWARES_URL = "/portal/user/getCata/"+this.rule.ID+"/repair";
+      this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
           if(this.errorVoid.errorMsg(data)) {
             this.jurisdiction = data['data'][0];
           }
@@ -82,23 +79,17 @@ export class GuardComponent implements OnInit {
   }
   /*获取大楼列表*/
   private getBuildings() {
-    const SOFTWARES_URL =  this.ipSetting.ip + "/building/util/getBuildingList";
-    this.http.get(SOFTWARES_URL)
-      .map(res => res.json())
+    this.utilBuildingService.getBuildingList('')
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.buildings = data['data'];
         }
-      });
+      })
   }
   /*获取/查询服务公司*/
   private getRecord(search, pageNo, pageSize) {
-    const SOFTWARES_URL =  this.ipSetting.ip + "/building/company/getCompanyList/" + pageNo + "/" + pageSize;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
-    this.http.post(SOFTWARES_URL, search, options)
-      .map(res => res.json())
-      .subscribe(data => {
+    let SOFTWARES_URL = "/building/company/getCompanyList/" + pageNo + "/" + pageSize;
+    this.ipSetting.sendPost(SOFTWARES_URL,search).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.record = data['data']['infos'];
           this.total = data.data.total;
@@ -107,26 +98,17 @@ export class GuardComponent implements OnInit {
   }
   /*获取全部服务公司*/
   private getCompany() {
-    const SOFTWARES_URL =  this.ipSetting.ip + "/building/company/getCompany";
-    this.http.get(SOFTWARES_URL)
-      .map(res => res.json())
-      .subscribe(data => {
+    const SOFTWARES_URL = "/building/company/getCompany";
+    this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.serviceCom = data.data;
-          /*for(let i=0;i<data['data'].length;i++){
-            this.serviceCom.push(data['data'][i].companyName);
-          }*/
         }
       });
   }
   /*获取/查询保安人员档案*/
   private getRecordSecond(search, pageNo, pageSize) {
-    const SOFTWARES_URL =  this.ipSetting.ip + "/building/person/getPersonList/" + pageNo + "/" + pageSize;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
-    this.http.post(SOFTWARES_URL, search, options)
-      .map(res => res.json())
-      .subscribe(data => {
+    let SOFTWARES_URL = "/building/person/getPersonList/" + pageNo + "/" + pageSize;
+    this.ipSetting.sendPost(SOFTWARES_URL,search).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.contract = data['data']['infos'];
           this.total = data.data.total;
@@ -197,19 +179,14 @@ export class GuardComponent implements OnInit {
     let SOFTWARES_URL;
     if(this.editBool === false) {
       this.pageNo = 1;
-      SOFTWARES_URL =  this.ipSetting.ip + "/building/company/updateServerCompany";
+      SOFTWARES_URL = "/building/company/updateServerCompany";
     }else {
-      SOFTWARES_URL =  this.ipSetting.ip + "/building/company/addServerCompany";
+      SOFTWARES_URL = "/building/company/addServerCompany";
     }
     if (!this.verifyId()|| !this.verifytype() || !this.verifycompanyName() || !this.verifypersonNum()) {
       return false;
     }
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
-    // JSON.stringify
-    this.http.post(SOFTWARES_URL, this.repairname, options)
-      .map(res => res.json())
-      .subscribe(data => {
+    this.ipSetting.sendPost(SOFTWARES_URL,this.repairname).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
             'title': '提示' ,
@@ -232,6 +209,7 @@ export class GuardComponent implements OnInit {
   editRecord(index) {
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
+    console.log(this.repairname);
     $('.mask-repair').fadeIn();
     $('.mask-repair .mask-head p').html('编辑服务公司');
   }
@@ -244,10 +222,8 @@ export class GuardComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL =  this.ipSetting.ip + "/building/company/deleteServerCompany/" +this.repairname.id;
-        this.http.get(SOFTWARES_URL)
-          .map(res => res.json())
-          .subscribe(data => {
+        let SOFTWARES_URL = "/building/company/deleteServerCompany/" +this.repairname.id;
+        this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
             if(this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示' ,
@@ -348,20 +324,15 @@ export class GuardComponent implements OnInit {
   contractSubmit() {
     let SOFTWARES_URL;
     if(this.contractBool === false) {
-      SOFTWARES_URL = this.ipSetting.ip + "/building/person/updatePerson";
+      SOFTWARES_URL = "/building/person/updatePerson";
     }else {
-      SOFTWARES_URL = this.ipSetting.ip + "/building/person/addPerson/1";
+      SOFTWARES_URL = "/building/person/addPerson/1";
     }
     if (!this.verifycompanyName2() || !this.verifypersonType() || !this.verifypersonId() || !this.verifypersonName() ||
       !this.verifypersonPhone() || !this.verifypersonIdcard() || !this.verifypersonStatus()||this.contractName.imgPath ==='') {
       return false;
     }
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
-    // JSON.stringify
-    this.http.post(SOFTWARES_URL, this.contractName, options)
-      .map(res => res.json())
-      .subscribe(data => {
+    this.ipSetting.sendPost(SOFTWARES_URL,this.contractName).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
             'title': '提示' ,
@@ -400,10 +371,8 @@ export class GuardComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = this.ipSetting.ip + "/building/person/deletePerson/" +this.contractName.id;
-        this.http.get(SOFTWARES_URL)
-          .map(res => res.json())
-          .subscribe(data => {
+        let SOFTWARES_URL = "/building/person/deletePerson/" +this.contractName.id;
+        this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
             if(this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示' ,

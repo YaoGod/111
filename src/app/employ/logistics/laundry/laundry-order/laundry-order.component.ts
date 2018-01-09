@@ -68,6 +68,11 @@ export class LaundryOrderComponent implements OnInit {
       }
     });
   }
+  /*跳页加载数据*/
+  goPage(page:number){
+    this.pageNo = page;
+    this.getOrderAllList();
+  }
 }
 export class FacPrice {
   priceId;    number;

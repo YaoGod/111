@@ -43,7 +43,6 @@ export class ContentComponent implements OnInit {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("security/daily");
-        //
         this.getQuan();
       }
     );
@@ -57,26 +56,22 @@ export class ContentComponent implements OnInit {
   /*获取权限*/
   private getQuan(){
     if(this.rule!=null){
-      const SOFTWARES_URL =  this.ipSetting.ip + "/portal/user/getCata/"+this.rule.ID+"/repair";
-      this.http.get(SOFTWARES_URL)
-        .map(res => res.json())
-        .subscribe(data => {
-          if(this.errorVoid.errorMsg(data)) {
-            this.jurisdiction = data['data'][0];
-          }
-        });
+      let SOFTWARES_URL =  "/portal/user/getCata/"+this.rule.ID+"/repair";
+      this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
+        if(this.errorVoid.errorMsg(data)) {
+          this.jurisdiction = data['data'][0];
+        }
+      });
     }
   }
   /*获取大楼列表*/
   private getBuildings() {
-    const SOFTWARES_URL =  this.ipSetting.ip + "/building/util/getBuildingList";
-    this.http.get(SOFTWARES_URL)
-      .map(res => res.json())
+    this.utilBuildingService.getBuildingList('')
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.buildings = data['data'];
         }
-      });
+      })
   }
   /*获取/查询服务公司*/
   private getRecord(search, pageNo, pageSize) {
