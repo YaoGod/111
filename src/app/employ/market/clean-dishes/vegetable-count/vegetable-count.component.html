@@ -1,0 +1,94 @@
+
+<!--搜索栏-->
+<div class="right">
+  <div class="wrap-content">
+    <div class="wrap-space">
+      <div class="wrap-b">
+        <div class="b-head">
+          <span [routerLink]="['../vegtable']">净菜商品管理</span>
+          <span [routerLink]="['../vegorder']">订单管理</span>
+          <span [routerLink]="['../count']" class="active">订单报表</span>
+          <div class="b-head-right">
+            <div class="content-box" [routerLink]="['../supbuy']">
+              <i class="icon-action-undo"></i>继续购物</div>
+          </div>
+        </div>
+        <div class="b-con tuanmenu">
+          <div class="wrap">
+            <ul>
+              <li>
+                <label>统计类型</label>
+                <select
+                  name="floorUse">
+                  <option value="1">按月份</option>
+                  <option value="2">按季度</option>
+                  <option value="3">按年份</option>
+                </select>
+              </li>
+              <li>
+                <label>时间</label>
+                <input type="month" style="display: none;">
+
+                <select style="display: none;">
+                  <option value="1">一季度</option>
+                  <option value="2">二季度</option>
+                  <option value="3">三季度</option>
+                  <option value="4">四季度</option>
+                </select>
+                <select>
+                  <option value="2017">2017年</option>
+                  <option value="2018">2018年</option>
+                </select>
+              </li>
+              <li><a class="search" href="javascript: void(0);" >查询</a></li>
+            </ul>
+            <a class="btn btn-danger"  href="javascript:;" (click)="export()">
+              <i class="icon-plus"></i> 导出</a>
+          </div>
+          <!--表头-->
+          <div class="table-head">
+            <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+              <tr class="row list-title">
+                <th >序号</th>
+                <th >部门名称</th>
+                <th >订购人数</th>
+                <th >消费合计</th>
+                <th >购买数量</th>
+              </tr>
+              <tr class="row">
+                <td >1</td>
+                <td >支撑中心</td>
+                <td ><span>28</span></td>
+                <td >￥23</td>
+                <td>2</td>
+              </tr>
+              <tr class="row">
+                <td >2</td>
+                <td >网络安全中心</td>
+                <td ><span>11</span></td>
+                <td >￥854</td>
+                <td>23</td>
+              </tr>
+              <tr class="row">
+                <td >3</td>
+                <td >财务部</td>
+                <td ><span>100</span></td>
+                <td >￥3464</td>
+                <td>87</td>
+              </tr>
+              <tr class="row">
+              <td >4</td>
+              <td >支撑中心</td>
+              <td ><span>100</span></td>
+              <td >￥5263</td>
+              <td>75</td>
+            </tr>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
