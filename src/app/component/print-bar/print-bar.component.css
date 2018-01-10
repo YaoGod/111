@@ -22,7 +22,12 @@ p{
 .bold{
   font-size: 18px;
 }
+.bold li{
+  display: inline-block;
+  padding-right: 30px;
+}
 .bold p{
+  display: inline-block;
   padding: 0;
 }
 .tb-origin{
@@ -34,4 +39,8 @@ p{
 }
 #print{
   display: none;
+}
+.th-total{
+  padding: 5px 20px;
+  text-align: right;
 }

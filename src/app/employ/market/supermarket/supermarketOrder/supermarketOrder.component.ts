@@ -32,6 +32,8 @@ export class SupermarketOrderComponent implements OnInit {
     status:'',
     note:''
   };
+  public formData: Array<any>;
+  public title: string = "超市零售区订单";
 
   constructor(private supermarketManagerService: SupermarketManagerService,
               private workspaceMydeskService: WorkspaceMydeskService,
@@ -131,5 +133,50 @@ export class SupermarketOrderComponent implements OnInit {
   noFunc() {
     $('.confirm').fadeOut();
   }
-
+  /*装载要打印的内容*/
+  loadFormData(data:any){
+    this.formData =[
+      {
+        title:'',
+        type: 'bold',
+        hd:['系统订单号',"订单创建时间"],
+        data: [data.orderNo,data.createTime]
+      },
+      {
+        title:"",
+        type:"text",
+        hd:["订单状态","服务中心"],
+        data:["",data.serviceCenter]
+      },
+      {
+        title:"收货人信息",
+        type:"text",
+        hd:["收货人姓名","收货人电话","付款时间"],
+        data:[data.userName,data.telPhone,data.payTime]
+      },
+      {
+        title:"商品明细",
+        type:"form",
+        hd:["商品名称","单价(元)","数量","合计（元）"],
+        data:[],
+        total:"总计：￥"+data.payment.toFixed(2)
+      }
+    ];
+    switch(data.status){
+      case '0':this.formData[1].data[0] = "已付款"; break;
+      case '1':this.formData[1].data[0] = "已到货"; break;
+      case '2':this.formData[1].data[0] = "退单"; break;
+      case '4':this.formData[1].data[0] = "已配货"; break;
+      default:
+        this.formData[1].data[0] = "暂无订单状态信息";
+    }
+    for(let i = 0;i<data.orderItems.length;i++){
+      this.formData[3].data[i]=[
+        data.orderItems[i].productName,
+        '￥'+data.orderItems[i].unitPrice.toFixed(2),
+        data.orderItems[i].quantity,
+        '￥'+data.orderItems[i].totalPrice.toFixed(2)
+      ];
+    }
+  }
 }

@@ -706,8 +706,21 @@ select{outline:medium;}
 .table-head a{
   width: 22px;
   height: 22px;
-  display: inline-block;
   vertical-align:middle;
+}
+.table-head .btn-print{
+  display: block;
+  padding: 0;
+  width: 40px;
+  height: 20px;
+  line-height: 20px;
+  border-radius: 4px;
+  background: #999;
+  color: #fff;
+  cursor: pointer;
+}
+.btn-print:hover{
+  opacity: .7;
 }
 .modal-footer {
   display: -webkit-box;
@@ -824,9 +837,4 @@ select{outline:medium;}
 .b-head-right .content-box:hover{cursor: pointer;border-color: #ff3c00;}
 .row .btn-danger{
   float: right;
-}
-.div-none{
-  padding: 20px;
-  color: #CCCCCC;
-  text-align: center;
 }

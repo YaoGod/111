@@ -16,10 +16,15 @@
     <table border="1" cellspacing="0" cellpadding="0" class="tb-origin"
     *ngIf="form.type === 'form'">
       <tr>
+        <td>序号</td>
         <td *ngFor="let head of form.hd" >{{head}}</td>
       </tr>
-      <tr *ngFor="let list of form.data">
+      <tr *ngFor="let list of form.data;let i = index">
+        <th>{{i+1}}</th>
         <th *ngFor="let data of list">{{data}}</th>
+      </tr>
+      <tr *ngIf="form.total">
+        <th [attr.colspan]="form.hd.length+1" class="th-total">{{form.total}}</th>
       </tr>
     </table>
   </div>

@@ -17,6 +17,7 @@ import {RouteGuardService} from "../../../service/route-guard/route-guard.servic
 import {SupermarketManagerService} from "../../../service/supermarket-manager/supermarket-manager.service";
 import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
 import { SupermarketCountComponent } from './supermarket-count/supermarket-count.component';
+import {PrintBarModule} from "../../../component/print-bar/print-bar.module";
 const routes: Routes = [
   {
     path: '',
@@ -74,6 +75,7 @@ const routes: Routes = [
     FormsModule,
     GlobalFooterModule,
     TurnBarModule,
+    PrintBarModule,
     RouterModule.forChild(routes),
   ],
   providers: [SupermarketManagerService],

@@ -3567,3 +3567,6 @@ select{
   color: #CCCCCC;
   text-align: center;
 }
+.btn-print{
+  position: relative;
+}

@@ -72,6 +72,14 @@
                  <!-- <td class="zero" *ngIf="order.status=='0'">
                     <a class="tre"  title="删除" href="javascript:void(0);" (click)="delete(order.id)"></a>
                   </td>-->
+                  <td class="zero" >
+                    <a class="btn-print" (mouseover)="loadFormData(order)">打印
+                      <app-print-bar
+                        [title] = "title"
+                        [formData] = "formData">
+                      </app-print-bar>
+                    </a>
+                  </td>
                 </tr>
               </table>
               </dt>
