@@ -79,23 +79,29 @@
             <div>
               <div>
                 <label>服务中心：</label>
-                <select id="serverCenter_add" name="serverCenter_add" [(ngModel)]="serviceCenter"  (blur)="verifyEmpty('serverCenter_add','服务中心不能为空')">
+                <select style="width: 120px;" id="serverCenter_add" name="serverCenter_add" [(ngModel)]="serviceCenter"  (blur)="verifyEmpty('serverCenter_add','服务中心不能为空')">
                   <option value="">-请选择-</option>
+                  <option value="环北服务中心">环北服务中心</option>
                   <option *ngFor="let center of serverCenters;let idx=index" value="{{center.name}}">{{center.name}}</option>
                 </select>
                 <span class="errorMessage"></span>
               </div>
               <div style="margin-top: 10px;">
                 <label>支付方式：</label>
-                <select id="payType" name="payType" [(ngModel)]="serviceCenter"  (blur)="verifyEmpty('payType','支付类型不能为空')">
+                <select style="width: 100px;" id="payType" name="payType" [(ngModel)]="payType"  (blur)="verifyEmpty('payType','支付类型不能为空')">
                   <option value="1">在线支付</option>
                   <option value="2">线下支付</option>
                 </select>
                 <span class="errorMessage"></span>
               </div>
               <div style="margin-top: 10px;">
-                <label>验证码：</label>
-                <input type="text" style="width: 45px;"  id="message" class="noticetext"  name="message" (blur)="verifyEmpty('message','短信验证码不能为空')">
+                <label>收货地址：</label>
+                <input type="text" style="width: 200px;"  id="address" class="noticetext"  name="address" (blur)="verifyEmpty('address','收货地址不能为空')">
+                <span class="errorMessage"></span>
+              </div>
+              <div style="margin-top: 10px;">
+                <label>验 证 码：</label>
+                <input type="text" style="width: 50px;"  id="message" class="noticetext"  name="message" (blur)="verifyEmpty('message','短信验证码不能为空')">
                 <button type="button" style="padding: 5px 9px;border-radius: 5px;color: #fff;outline: none;cursor: pointer;margin-left: 13px;" class=" btn-danger" (click)="getcode()">获取验证码</button>
                 <span class="errorMessage"></span>
               </div>
@@ -105,7 +111,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeSubmitOrder()">取 消</button>
-        <button type="submit" class="btn btn-info"(click)="saveSubmitOrder()" >保 存</button>
+        <button type="submit" class="btn btn-info" (click)="saveSubmitOrder()" >支 付</button>
       </div>
     </form>
   </div>

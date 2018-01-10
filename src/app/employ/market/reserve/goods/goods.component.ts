@@ -180,6 +180,12 @@ export class GoodsComponent implements OnInit {
   /*修改结束*/
 
 
+  /*删除*/
+
+  delete(code: number) {
+    this.code = code;
+    $('.confirm').fadeIn();
+  }
 
   /*删除*/
   /*

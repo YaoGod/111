@@ -36,7 +36,7 @@ export class GoodsorderComponent implements OnInit {
       {
         if (this.errorVoid.errorMsg(data.status)) {
         this.orders = data.data.list;
-
+        console.log(this.orders);
 
         }
      });
@@ -69,7 +69,7 @@ export class GoodsorderComponent implements OnInit {
    * @returns
    */
   updateOrders(orderId,status){
-    let url = '/goodsOrder/setStatus?' + 'userId=' + localStorage.getItem("username")
+    let url = '/goodsOrder/updateOrderStatus?' + 'userId=' + localStorage.getItem("username")
       + '&orderNo=' + orderId + '&status=' +status;
     this.ipSetting.sendGet(url)
      .subscribe(data => {
@@ -85,27 +85,27 @@ export class GoodsorderComponent implements OnInit {
 }
 
 export class GoodsOrder {
-  id:number;/*订单id*/
+  orderNo:string;/*订单号*/
   userId:string;/*用户id*/
   payment:number;/*订单金额*/
-  status:string;/*订单状态*/
-  payTime:string;/*付款时间*/
+  status:number;/*订单状态*/
+  createTime:string;/*付款时间*/
   closeTime:string;/*订单关闭时间*/
   note:string;
-  goodsOrderItems:Array<GoodsOrderItem>;
+  orderItemVoList:Array<GoodsOrderItem>;
   serviceCenter:string;
 
 }
 
 export class GoodsOrderItem {
-  id:               string;/*订单详情编号*/
+  productId:               string;/*订单详情编号*/
   userId:           string;/*用户ID*/
   productCode:     string;/*商品id*/
   orderNo:         number;/*订单id*/
   productName:      string;/*商品名称*/
-  imagePath:         string;/*商品图片*/
+  productImage:         string;/*商品图片*/
   detail:            string;/*商品详情*/
-  unitPrice:         number;/*商品单价*/
+  currentUnitPrice:         number;/*商品单价*/
   quantity:          number;/*该商品购买数量*/
   totalPrice:        string;/*总价*/
 

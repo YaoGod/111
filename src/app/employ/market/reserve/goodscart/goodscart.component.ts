@@ -17,18 +17,17 @@ export class GoodscartComponent implements OnInit {
   public carts:Array<GoodsCart>;
   public mutipalPrice:number;
   public serverCenters:Array<ServerCenter>;
-  public serviceCenter: ServerCenter;
+  public serviceCenter: String;
+  public payType: string;
+
   constructor(private ipSetting  : IpSettingService,
               private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
+    this.payType = '1';
     this.imgPrefix = this.ipSetting.ip;
     this.getCartList();
 
-    $('.list-table dl').click(function () {
-      $(this).addClass('blueself').siblings().removeClass('blueself').find('.ope-list').addClass('hid');
-      $(this).find('.ope-list').removeClass('hid');
-    })
   }
 
   /*
@@ -136,8 +135,10 @@ export class GoodscartComponent implements OnInit {
   }
 
   getcode(){
-
-    let url = '/mmall/laundryOrder/getPayCode/'+localStorage.getItem("username");
+    if(!this.verifyEmpty('serverCenter_add','服务中心不能为空')){
+      return false;
+    }
+    let url = '/goodsOrder/getPayCode?userId='+localStorage.getItem("username");
     this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         confirmFunc.init({
@@ -163,11 +164,18 @@ export class GoodscartComponent implements OnInit {
     if(!this.verifyEmpty('serverCenter_add','服务中心不能为空')){
       return false;
     }
+    if(!this. verifyEmpty('address','收货地址不能为空')){
+      return false;
+    }
     if(!this. verifyEmpty('message','短信验证码不能为空')){
       return false;
     }
-    let url = '/mmall/laundryOrder/addOrder/'+$('#message').val();
-    /*this.ipSetting.sendPost(url,this.myOrder).subscribe(data => {
+
+    let url = '/goodsOrder/pay?'+'userId='+localStorage.getItem("username")
+      +'&serviceCenter=' + this.serviceCenter+'&payType='+ this.payType +
+      '&address='+ $('#address').val() + '&payCode='+ $('#message').val();
+    this.ipSetting.sendGet(url)
+      .subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         confirmFunc.init({
           'title': '提示' ,
@@ -176,8 +184,9 @@ export class GoodscartComponent implements OnInit {
           'imgType': 1 ,
         });
         this.closeSubmitOrder();
+        this.getCartList();
       }
-    });*/
+    });
   }
   closeSubmitOrder() {
     $('.maskSubmitOrder').hide();
@@ -209,9 +218,9 @@ export class GoodscartComponent implements OnInit {
   private  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
-      $('#' + id).next('span').html('输入错误');
+      $('#' + id).siblings('span').html('输入错误');
     }else {
-      $('#' + id).next('span').html(error);
+      $('#' + id).siblings('span').html(error);
     }
   }
   /**

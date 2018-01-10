@@ -15,7 +15,7 @@ export class GoodsordermanageComponent implements OnInit {
   public search: GoodsOrder;
   private pageNo = 1;
   /*当前页码*/
-  private pageSize = 5;
+  private pageSize = 6;
   public orders:Array<GoodsOrder>;
   public productName = '';
   public orderId = '';
@@ -24,8 +24,8 @@ export class GoodsordermanageComponent implements OnInit {
   private delId: any;
   public pages: Array<number>;
   public updateOrder={
-    id:'',
-    status:'',
+    orderNo:'',
+    status:0,
     note:''
   }
   public orderItems:Array<GoodsOrderItem>;
@@ -49,23 +49,25 @@ export class GoodsordermanageComponent implements OnInit {
     if(this.vegetableId!=null){
       this.vegetableId = this.vegetableId.trim();
     }
-    let url = '/mmall/vegetabelOrder/getOrderAllList/'+this.pageNo+'/'+this.pageSize+"?productName="
-      +this.productName+"&orderId="+this.orderId+"&productId="+this.vegetableId;
-    this.ipSetting.sendPost(url,null)
-      .subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
-        this.orders = data.data.infos;
 
-        let total = Math.ceil(data.data.total / this.pageSize);
-        this.initPage(total);
-      }
-    });
+    let url = '/goodsOrder/list?'
+      + 'pageNum='+ this.pageNo + '&pageSize=' +this.pageSize;
+    this.ipSetting.sendGet(url)
+      .subscribe(data =>
+      {
+        if (this.errorVoid.errorMsg(data.status)) {
+          this.orders = data.data.list;
+          let total = Math.ceil(data.data.total / this.pageSize);
+          this.initPage(total);
+
+        }
+      });
   }
 
   update(orderId,status){
-    this.updateOrder.id = orderId;
+    this.updateOrder.orderNo = orderId;
     this.updateOrder.status = status;
-    if(this.updateOrder.status === "4"){
+    if(this.updateOrder.status === 40){
       this.updateOrders();
     }else{
       $('.mask').show();
@@ -74,11 +76,11 @@ export class GoodsordermanageComponent implements OnInit {
 
   /*更新订单*/
   updateOrders(){
-    let url = '/mmall/vegetabelOrder/iVegetableOrder/';
-    this.ipSetting.sendPost(url,this.updateOrder)
+    let url = '/goodsOrder/updateOrderStatus?userId=' + localStorage.getItem("username")
+    +'&orderNo=' + this.updateOrder.orderNo +'&status=' + this.updateOrder.status;
+    this.ipSetting.sendGet(url)
       .subscribe(data => {
-
-      if(data['status'] === 0){
+      if (this.errorVoid.errorMsg(data.status)) {
         alert(data['msg']);
         this.closeMask();
         this.getOrderAllList();
@@ -117,7 +119,7 @@ export class GoodsordermanageComponent implements OnInit {
   /*页码初始化*/
   initPage(total){
     this.pages = new Array(total);
-
+    console.log(this.pages);
     for(let i = 0;i< total ;i++){
       this.pages[i] = i+1;
     }
