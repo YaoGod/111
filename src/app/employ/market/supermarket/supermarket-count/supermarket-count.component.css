@@ -30,14 +30,6 @@
 .header-right>img{
   width: 16px;
 }
-
-html,body,div,span,img,button,ul,li,dl,dt,dd,input,select,option,table,tr,th,td,h1,h2,h3,h4,h5,h6{
-  margin: 0;
-  padding: 0;
-}
-body{
-  font-family: "微软雅黑";
-}
 ul,li{
   list-style: none;
 }
@@ -630,7 +622,7 @@ select{outline:medium;}
   font-size: 12px;
   text-align: right;
 }
-.wrap>ul>li>input[type=text], .wrap select {
+.wrap>ul>li>input[type=text], .wrap>ul>li>input[type=date],.wrap select {
   height: 30px;
   min-width: 100px;
   padding: 0 10px;

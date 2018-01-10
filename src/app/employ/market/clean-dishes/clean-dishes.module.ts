@@ -12,6 +12,7 @@ import {ConfirmvegcartComponent} from "./confirmvegcart/confirmvegcart.component
 import {FormsModule} from "@angular/forms";
 import { VegetableCountComponent } from './vegetable-count/vegetable-count.component';
 import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
+import {PrintBarModule} from "../../../component/print-bar/print-bar.module";
 
 const routes: Routes = [
   {
@@ -61,6 +62,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     TurnBarModule,
+    PrintBarModule,
     RouterModule.forChild(routes),
   ],
   declarations: [CleanDishesComponent,VegorderComponent,VegetableComponent,VegcartComponent,VegbuyComponent,MyorderComponent,

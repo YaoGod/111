@@ -18,28 +18,33 @@
           <div class="wrap">
             <ul>
               <li>
-                <label>统计类型</label>
-                <select
-                  name="floorUse">
-                  <option value="1">按月份</option>
-                  <option value="2">按季度</option>
-                  <option value="3">按年份</option>
+                <label>订单状态</label>
+                <select name="searchStatus">
+                  <option value="0">已付款</option>
+                  <option value="4">已配货</option>
+                  <option value="1">已到货</option>
+                  <option value="2">退单</option>
                 </select>
               </li>
               <li>
-                <label>时间</label>
-                <input type="month" style="display: none;">
-
-                <select style="display: none;">
-                  <option value="1">一季度</option>
-                  <option value="2">二季度</option>
-                  <option value="3">三季度</option>
-                  <option value="4">四季度</option>
-                </select>
-                <select>
-                  <option value="2017">2017年</option>
-                  <option value="2018">2018年</option>
-                </select>
+                <label>订单生成时间</label>
+                <input type="date" name="creatBgtime" style="width: 80px;">
+                -
+                <input type="date" name="creatEdtime" style="width: 80px;">
+              </li>
+              <li>
+                <label>订单发货时间</label>
+                <input type="date" name="giveBgtime" style="width: 80px;">
+                -
+                <input type="date" name="giveEdtime" style="width: 80px;">
+              </li>
+              <li>
+                <label>订单人</label>
+                <input type="text" name="own">
+              </li>
+              <li>
+                <label>订单部门</label>
+                <input type="text" name="ownDpt">
               </li>
               <li><a class="search" href="javascript: void(0);" >查询</a></li>
             </ul>
