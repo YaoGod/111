@@ -236,13 +236,13 @@ export class SupplierComponent implements OnInit {
   delete(id: number)  {
     confirmFunc.init({
       'title': '提示',
-      'mes': '是否删除改条数据？',
+      'mes': '是否删除此条数据？',
       'popType': 1,
       'imgType': 3,
       "callback": () => {
         this.marketManagerService.providerDel(id)
           .subscribe(data => {
-            if (this.errorVoid.errorMsg(data.status)) {
+            if (this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示',
                 'mes': "删除成功",
@@ -254,9 +254,6 @@ export class SupplierComponent implements OnInit {
           });
       }
     });
-  }
-  noFunc() {
-    $('.confirm').fadeOut();
   }
   /**
    * 添加错误信息class

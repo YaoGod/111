@@ -15,10 +15,12 @@ export class VegbuyComponent implements OnInit {
   public vegetables:Array<Vegetable>;
   public search: Vegetable;
   public cart: VegetableCart;
-  private pageNo: number = 1;
-  private pageSize: number = 5;
-  public cartsize:number;
+  public pageSize = 5;
+  public pageNo = 1;
+  public total = 0;
+  public length = 5;
   public pages: Array<number>;
+  public cartsize:number;
   constructor(private vegetableInfoService: VegetableInfoService,
               private errorVoid: ErrorResponseService,) { }
 
@@ -26,7 +28,7 @@ export class VegbuyComponent implements OnInit {
     this.search = new Vegetable();
     this.pages = [];
     this.getVegetableShowList();
-    
+
   }
 
   getVegetableShowList(){
@@ -35,8 +37,7 @@ export class VegbuyComponent implements OnInit {
         this.vegetables = data.data.infos;
 
         this.cartsize = data.data.cartsize;
-        let total = Math.ceil(data.data.total / this.pageSize);
-        this.initPage(total);
+        this.total = data.data.total;
       }
     });
   }
@@ -53,29 +54,6 @@ export class VegbuyComponent implements OnInit {
           alert(data['msg']);
         }
       })
-  }
-
-
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
-
-    for(let i = 0;i< total ;i++){
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
   }
   /*跳页加载数据*/
   goPage(page:number){

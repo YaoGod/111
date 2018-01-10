@@ -5,6 +5,7 @@ import {VegetableOrderItem} from '../../../../mode/vegetableOrderItem/vegetable-
 import { VegetableInfoService } from '../../../../service/vegetable-info/vegetable-info.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
 import {forEach} from "@angular/router/src/utils/collection";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 @Component({
   selector: 'app-myorder',
   templateUrl: './myorder.component.html',
@@ -14,17 +15,22 @@ import {forEach} from "@angular/router/src/utils/collection";
 export class MyorderComponent implements OnInit {
 
   public search: VegetableOrder;
-  private pageNo: number = 1;
-  /*当前页码*/
-  private pageSize: number = 6;
+  public pageSize = 5;
+  public pageNo = 1;
+  public total = 0;
+  public length = 5;
+  public pages: Array<number>;
   public orders:Array<VegetableOrder>;
   public vegetableOrderItems:Array<VegetableOrderItem>;
   public myOrder:VegetableOrder;
 
   constructor(private vegetableInfoService:VegetableInfoService,
-              private errorVoid: ErrorResponseService,) { }
+              private errorVoid: ErrorResponseService,
+              private ipSetting  : IpSettingService
+  ) { }
 
   ngOnInit() {
+
     this.getOrderList();
   }
 
@@ -32,11 +38,10 @@ export class MyorderComponent implements OnInit {
    * 我的订单列表
    */
   getOrderList(){
-    this.vegetableInfoService.getOrderList().subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+    let url = '/mmall/vegetabelOrder/getOrderList/'+this.pageNo+'/'+this.pageSize;
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
-
-
       }
     });
   }

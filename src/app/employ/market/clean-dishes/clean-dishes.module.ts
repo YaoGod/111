@@ -11,6 +11,7 @@ import {MyorderComponent} from "./myorder/myorder.component";
 import {ConfirmvegcartComponent} from "./confirmvegcart/confirmvegcart.component";
 import {FormsModule} from "@angular/forms";
 import { VegetableCountComponent } from './vegetable-count/vegetable-count.component';
+import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
 
 const routes: Routes = [
   {
@@ -59,6 +60,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    TurnBarModule,
     RouterModule.forChild(routes),
   ],
   declarations: [CleanDishesComponent,VegorderComponent,VegetableComponent,VegcartComponent,VegbuyComponent,MyorderComponent,

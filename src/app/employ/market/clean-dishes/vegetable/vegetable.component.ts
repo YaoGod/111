@@ -21,9 +21,10 @@ export class VegetableComponent implements OnInit {
   public search: Vegetable;
   public days:string;
   private code: any;
-  private pageNo: number = 1;
-  /*当前页码*/
-  private pageSize: number = 5;
+  public pageSize = 5;
+  public pageNo = 1;
+  public total = 0;
+  public length = 5;
   public pages: Array<number>;
   public  vegetableView={
     code:'',
@@ -83,8 +84,7 @@ chang(value) {
     this.vegetableInfoService.getVegetableList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.vegetables = data.data.infos;
-        let total = Math.ceil(data.data.total / this.pageSize);
-        this.initPage(total);
+        this.total = data.data.total;
       }
     });
   }
@@ -101,7 +101,8 @@ chang(value) {
   }
 /*新增净菜*/
   addVegetable() {
-    if (!this.verifyEmpty('vnewnane','净菜名称不能为空')||!this.verifyEmpty('vprice','价格不能为空')||!this.verifyEmpty('vnewLimitnum','限购数量')||!this.verifyEmpty('adddetail','净菜详情不能为空')) {
+    if (!this.verifyEmpty('vnewnane','净菜名称不能为空')||!this.verifyEmpty('vprice','价格不能为空')||
+      !this.verifyEmpty('vnewLimitnum','限购数量')||!this.verifyEmpty('adddetail','净菜详情不能为空')) {
     }
     this.getSaleTime(1);
     if(this.days==""){
@@ -220,7 +221,8 @@ chang(value) {
     $('#prese').val('');
   }
   updateVegetable() {
-    if (!this.verifyEmpty('upnewname','净菜名称不能为空')||!this.verifyEmpty('vupprice','价格不能为空')||!this.verifyEmpty('vupLimitnum','限购数量')||!this.verifyEmpty('updetail','净菜详情不能为空')) {
+    if (!this.verifyEmpty('upnewname','净菜名称不能为空')||!this.verifyEmpty('vupprice','价格不能为空')||
+      !this.verifyEmpty('vupLimitnum','限购数量')||!this.verifyEmpty('updetail','净菜详情不能为空')) {
     }
     this.getSaleTime(2);
     if(this.days==""){
@@ -232,11 +234,11 @@ chang(value) {
       .subscribe(data => {
 
         if(data['status'] === 0){
-          alert("修改成功")
+          alert("修改成功");
           this.closeMaskUp();
           this.getVegetableList();
         }else{
-          alert("修改失败")
+          alert("修改失败");
           this.closeMaskUp();
         }
       })
@@ -254,7 +256,7 @@ chang(value) {
     $('.confirm').hide();
     this.vegetableInfoService.deleteVegetable(this.code)
       .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
+        if (this.errorVoid.errorMsg(data)) {
           alert("删除成功");
         }
         this.getVegetableList();
@@ -382,26 +384,7 @@ chang(value) {
       }
     };
   }
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
-    for(let i = 0;i< total ;i++){
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
-  }
+
   /*跳页加载数据*/
   goPage(page:number){
     this.pageNo = page;

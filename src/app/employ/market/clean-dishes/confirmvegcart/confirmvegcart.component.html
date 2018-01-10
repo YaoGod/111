@@ -67,10 +67,36 @@
               <div class="leftmoney"><label>账户余额：</label><span>￥{{leftMoney}}</span></div>
               <div class="total">
                 <label>总计：</label> <span>￥{{mutipalPrice}}</span>
-                <button type="button" class="btn btn-info" (click)="submitCart()">去付款</button>
+                <button type="button" class="btn btn-info" (click)="payCount()">去付款</button>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="maskYzm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">付款验证码</h4>
+          <button type="button" class="close"(click)="closeMask()">×</button>
+        </div>
+        <form class="form-material">
+          <div class="modal-body clearfix">
+            <div class="wrap-left">
+              <div class="form-control">
+                <input type="number" placeholder="请输入验证码" name="yzm" [(ngModel)]="yzm">
+              </div>
+            </div>
+            <div class="wrap-right">
+              <span class="djs" *ngIf="djs&&djs!==0">{{djs}}s</span>
+              <a class="btn btn-info btn-yzm" (click)="getYzm()">重新获取</a>
+            </div>
+          </div>
+        </form>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="closeMask()">取 消</button>
+          <button type="submit" class="btn btn-info" (click)="submitCart()" >确 定</button>
         </div>
       </div>
     </div>

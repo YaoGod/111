@@ -105,7 +105,7 @@ export class SupermarketOrderComponent implements OnInit {
   delete(id) {
     confirmFunc.init({
       'title': '提示',
-      'mes': '是否删除改条数据？',
+      'mes': '是否删除此条数据？',
       'popType': 1,
       'imgType': 3,
       "callback": () => {

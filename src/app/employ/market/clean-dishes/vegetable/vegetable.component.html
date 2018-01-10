@@ -59,16 +59,13 @@
               </dd>
             </dl>
           </div>
-          <div class="turn" name="pages" *ngIf="pages.length > 1">
-            <ul>
-              <li *ngFor="let i of pages"
-                  [hidden] = "pageLimit(i)"
-                  [ngClass]="{'active':i === pageNo}"
-                  (click)="goPage(i);">
-                {{i}}
-              </li>
-            </ul>
-          </div>
+          <app-turn-bar
+            [pageNo]="pageNo"
+            [pageSize]="pageSize"
+            [total]="total"
+            [length] = 5
+            (turnEvent)="goPage($event)">
+          </app-turn-bar>
         </div>
       </div>
     </div>

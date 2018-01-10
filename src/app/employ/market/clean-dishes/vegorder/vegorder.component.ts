@@ -17,16 +17,17 @@ import {forEach} from "@angular/router/src/utils/collection";
 export class VegorderComponent implements OnInit {
 
   public search: VegetableOrder;
-  private pageNo: number = 1;
-  /*当前页码*/
-  private pageSize: number = 5;
+  public pageSize = 5;
+  public pageNo = 1;
+  public total = 0;
+  public length = 5;
+  public pages: Array<number>;
   public orders:Array<VegetableOrder>;
   public productName:string = '';
   public orderId:string = '';
   public vegetableId:string = '';
   public deptId:string;
   private delId: any;
-  public pages: Array<number>;
   public updateOrder={
     id:'',
     status:'',
@@ -56,8 +57,7 @@ export class VegorderComponent implements OnInit {
       if (this.errorVoid.errorMsg(data.status)) {
         this.orders = data.data.infos;
 
-        let total = Math.ceil(data.data.total / this.pageSize);
-        this.initPage(total);
+        this.total = data.data.total;
       }
     });
   }
@@ -108,28 +108,6 @@ export class VegorderComponent implements OnInit {
   }
   noFunc() {
     $('.confirm').fadeOut();
-  }
-
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
-
-    for(let i = 0;i< total ;i++){
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
   }
   /*跳页加载数据*/
   goPage(page:number){

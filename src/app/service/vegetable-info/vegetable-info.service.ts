@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Http, RequestOptions, Headers} from '@angular/http';
+import {IpSettingService} from "../ip-setting/ip-setting.service";
 
 @Injectable()
 export class VegetableInfoService {
@@ -10,14 +11,14 @@ export class VegetableInfoService {
   });
   constructor(
     private http: Http,
+    private ipSetting  : IpSettingService
   ) { };
   /* 获取净菜列表
 
    return:              #公告*/
 
   getVegetableList(pageNo:number,pageSize:number,search:any) {
-
-    const url = '/proxy/mmall/vegetableInfo/getVegetableList/'+pageNo+'/'+pageSize;
+    const url = this.ipSetting.ip +'/mmall/vegetableInfo/getVegetableList/'+pageNo+'/'+pageSize;
     const data = search;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -29,7 +30,7 @@ export class VegetableInfoService {
    return:
    */
   getVegetable(code:string){
-    const url = '/proxy/mmall/vegetableInfo/getVegetable/'+code;
+    const url = this.ipSetting.ip +'/mmall/vegetableInfo/getVegetable/'+code;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -39,7 +40,7 @@ export class VegetableInfoService {
    */
   addVegetable(postData){
 
-    const url = '/proxy/mmall/vegetableInfo/addVegetable';
+    const url = this.ipSetting.ip +'/mmall/vegetableInfo/addVegetable';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -50,7 +51,7 @@ export class VegetableInfoService {
    return:
    */
   updateVegetable(postData){
-    const url = '/proxy/mmall/vegetableInfo/updateVegetable';
+    const url = this.ipSetting.ip +'/mmall/vegetableInfo/updateVegetable';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -61,7 +62,7 @@ export class VegetableInfoService {
    return:
    */
   deleteVegetable (code:string) {
-    const url = '/proxy/mmall/vegetableInfo/deleteVegetable/'+code;
+    const url = this.ipSetting.ip +'/mmall/vegetableInfo/deleteVegetable/'+code;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -71,7 +72,7 @@ export class VegetableInfoService {
    return:
    */
   uploadImg(postData,type,id){
-    const url = '/proxy/mmall/util/uploadImg/'+type+ '/' +id;
+    const url = this.ipSetting.ip +'/mmall/util/uploadImg/'+type+ '/' +id;
     var form = new FormData();
     if (typeof(postData) === 'object') {
       form.append('img', postData);
@@ -92,7 +93,7 @@ export class VegetableInfoService {
    * @returns {OperatorFunction<T, R>}
    */
   getVegetableShowList(pageNo:number,pageSize:number,search:any) {
-    const url = '/proxy/mmall/vegetableInfo/getVegetableShowList/'+pageNo+'/'+pageSize;
+    const url = this.ipSetting.ip +'/mmall/vegetableInfo/getVegetableShowList/'+pageNo+'/'+pageSize;
     const data = search;
 
     return this.http.post(url,data,this.options)
@@ -105,7 +106,7 @@ export class VegetableInfoService {
    * @returns {OperatorFunction<T, R>}
    */
   addToCart(cart:any) {
-    const url = '/proxy/mmall/vegetabelCart/addVegetableCart';
+    const url = this.ipSetting.ip +'/mmall/vegetabelCart/addVegetableCart';
     const data = cart;
 
     return this.http.post(url,data,this.options)
@@ -117,7 +118,7 @@ export class VegetableInfoService {
    * @returns {OperatorFunction<T, R>}
    */
   getCartList(){
-    const url = '/proxy/mmall/vegetabelCart/getCartList/';
+    const url = this.ipSetting.ip +'/mmall/vegetabelCart/getCartList/';
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -128,7 +129,7 @@ export class VegetableInfoService {
    * @returns {Observable<R>}
    */
   deleteVegetableCart(id:number){
-    const url = '/proxy/mmall/vegetabelCart/deleteVegetableCart/'+id;
+    const url = this.ipSetting.ip +'/mmall/vegetabelCart/deleteVegetableCart/'+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -139,7 +140,7 @@ export class VegetableInfoService {
    * @returns {Observable<R>}
    */
   updateVegetableCart(postData){
-    const url = '/proxy/mmall/vegetabelCart/updateVegetableCart';
+    const url = this.ipSetting.ip +'/mmall/vegetabelCart/updateVegetableCart';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -150,8 +151,8 @@ export class VegetableInfoService {
    * @param postData
    * @returns {Observable<R>}
    */
-  submitCart(postData){
-    const url = '/proxy/mmall/vegetabelOrder/addVegetableOrder';
+  submitCart(postData,code){
+    const url = this.ipSetting.ip +'/mmall/vegetabelOrder/addVegetableOrder/'+code;
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -162,7 +163,7 @@ export class VegetableInfoService {
    * @returns {Observable<R>}
    */
   getOrderList() {
-    const url = '/proxy/mmall/vegetabelOrder/getOrderList/null';
+    const url = this.ipSetting.ip +'/mmall/vegetabelOrder/getOrderList/null';
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -177,7 +178,7 @@ export class VegetableInfoService {
    * @returns {Observable<R>}
    */
   getOrderAllList(productName,orderId,productId,pageNo,pageSize){
-    const url = '/proxy/mmall/vegetabelOrder/getOrderAllList/'+pageNo+'/'+pageSize+"?productName="+productName+"&orderId="+orderId+"&productId="+productId;
+    const url = this.ipSetting.ip +'/mmall/vegetabelOrder/getOrderAllList/'+pageNo+'/'+pageSize+"?productName="+productName+"&orderId="+orderId+"&productId="+productId;
     return this.http.post(url,this.options)
       .map(res => res.json());
   }
@@ -188,7 +189,7 @@ export class VegetableInfoService {
    * @returns {Observable<R>}
    */
   updateOrder(order:any){
-    const url = '/proxy/mmall/vegetabelOrder/iVegetableOrder/';
+    const url = this.ipSetting.ip +'/mmall/vegetabelOrder/iVegetableOrder/';
     const data = order;
 
     return this.http.post(url,data,this.options)
@@ -201,8 +202,14 @@ export class VegetableInfoService {
    * @returns {Observable<R>}
    */
   deleteOrder(orderid){
-    const url = '/proxy/mmall/vegetabelOrder/deleteVegetableOrder/'+orderid;
+    const url = this.ipSetting.ip +'/mmall/vegetabelOrder/deleteVegetableOrder/'+orderid;
     return this.http.post(url,this.options)
+      .map(res => res.json());
+  }
+
+  getYzm(userId){
+    const url = this.ipSetting.ip +'/mmall/vegetabelOrder/getPayCode/'+userId;
+    return this.http.get(url,this.options)
       .map(res => res.json());
   }
 }
