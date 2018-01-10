@@ -20,7 +20,10 @@ export class ServeTimeComponent implements OnInit {
   public length = 5;
   public pages: Array<number>;
   public serverCenters:Array<ServerCenter>;
+  public search: FacPrice;
+  public applierList:Array<Facilitator>;
   public productAdd:ServeTime;
+  public serveChat: string;
   public productUp= {
     priceId:   '',
     applyid:     '',
@@ -36,7 +39,8 @@ export class ServeTimeComponent implements OnInit {
     this.productAdd = new ServeTime();
     this.getServiceCenter();
     this.getCenterTime();
-
+    this.search = new FacPrice();
+    this.getFacList();
   }
   /*获取所有服务中心*/
   getServiceCenter(){
@@ -58,19 +62,33 @@ export class ServeTimeComponent implements OnInit {
       }
     });
   }
+  /*获取所有服务商*/
+  getFacList(){
+    let url = '/mmall/laundry/getFacList/'+this.pageNo + '/' + this.pageSize;
+    this.ipSetting.sendPost(url,this.search)
+      .subscribe(data => {
+        if (this.errorVoid.errorMsg(data)) {
+          this.applierList = data.data.applierList;
+          console.log(this.applierList);
+          this.serveChat = this.applierList[0].applyId;
+        }
+      });
+  }
   /*点击新增*/
   add() {
     this.productAdd = new ServeTime();
     $('.maskAdd').show();
-    $('#servePlace').attr('disabled',false);
+    $('.modal-title').html('新增服务时间');
+    $('#servePlace,#serveChat').attr('disabled',false);
   }
-  /*点击修改*/
+  /*点击修改*/ // GET /mmall/laundry/getproviderTime/{id}/{day}/{time}
   update(code: number,name:string,index) {
     this.addSwitch = false;
+    this.productAdd.serveChat = this.serveChat;
     this.productAdd.servePlace = this.products[index].center.name;
     $('.maskAdd').show();
     $('.modal-title').html('编辑服务时间');
-    $('#servePlace').attr('disabled',true);
+    $('#servePlace,#serveChat').attr('disabled',true);
   }
   /*新增/编辑服务内容提交*/
   addProduct() {
@@ -170,7 +188,8 @@ export class ServeTimeComponent implements OnInit {
       'popType': 1,
       'imgType': 3,
       'callback': () => {
-        let url = "/mmall/laundry/deletetProduct/" + code;
+        // let url = "/mmall/laundry/deletetProduct/" + code; // 增加this.serveChat
+        let url = "/mmall/laundry/deleteproviderTime/"+this.serveChat+'/' +code;
         this.ipSetting.sendGet(url).subscribe(data => {
           if (this.errorVoid.errorMsg(data)) {
             confirmFunc.init({
@@ -179,6 +198,7 @@ export class ServeTimeComponent implements OnInit {
               'popType': 0 ,
               'imgType': 1 ,
             });
+
           }
 
         });
@@ -217,6 +237,7 @@ export class ServerCenterInfo {
   orderItems: Array<TimeItem>;
 }
 export class ServeTime {
+  serveChat: string;
   servePlace:  string;
   serveDate:   string;
   bTime:       string;
@@ -231,4 +252,19 @@ export class  TimeItem{
 export class ServerCenter{
   name: string;
   id:number;
+}
+export class FacPrice {
+  priceId;    number;
+  applyid:          string;
+  appcotent:        string;
+  unit:              string;
+  price:             number;
+  appliar:           string;
+}
+export class Facilitator {
+  applyId:          string;/*经销商id*/
+  applyName:        string;/*经销商名称*/
+  copStarttime:     string;/*合作开始时间*/
+  copEndtime:       string;/*合作结束时间*/
+  applyDesc:        string;/*描述*/
 }

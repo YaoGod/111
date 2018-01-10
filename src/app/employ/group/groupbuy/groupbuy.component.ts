@@ -55,6 +55,7 @@ export class GroupbuyComponent implements OnInit {
         this.groupProducts = data.data.infos;
         console.log(this.groupProducts);
         this.cartsize = data.data.cartsize;
+        this.total = data.data.total;
       }
     });
     /*this.groupProductService.getProductShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {

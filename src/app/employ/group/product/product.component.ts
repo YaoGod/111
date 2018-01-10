@@ -79,7 +79,8 @@ export class ProductComponent implements OnInit {
   }
   getProductList(){
     this.groupProductService.getProductList(this.pageNo,this.pageSize,this.search).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      if (this.errorVoid.errorMsg(data)) {
+        // console.log(data);
         this.groupProducts = data.data.infos;
         this.total = data.data.total;
       }

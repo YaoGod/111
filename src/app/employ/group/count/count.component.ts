@@ -69,7 +69,7 @@ export class CountComponent implements OnInit {
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           this.orders = data.data.infos;
-          console.log(data.data);
+          console.log(data);
         }
       });
   }

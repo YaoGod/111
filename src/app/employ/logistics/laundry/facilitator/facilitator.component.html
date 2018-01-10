@@ -3,7 +3,7 @@
     <div class="wrap-space">
       <div class="wrap-b">
         <div class="b-head">
-          <span>供应商管理</span>
+          <span>服务商管理</span>
           <div class="b-head-right">
             <div class="content-box" onclick="history.go(-1)"><i class="icon-reload"></i>返回</div>
           </div>
@@ -12,7 +12,7 @@
 
           <div class="wrap clearfix">
             <div class="iptgroup">
-              <input placeholder="请输入供应商名称" [(ngModel)]="search.applyName" />
+              <input placeholder="请输入服务商名称" [(ngModel)]="search.applyName" />
             </div>
             <a class="search" href="javascript: void(0);" (click)="providerList()" >查询</a>
             <a class="addbtn" (click)="add()"  href="javascript:;">
@@ -20,11 +20,11 @@
           </div>
           <div class="list-table">
             <table class="table-head">
-              <td class="fir">供应商名称</td>
-              <td class="sec">供应商编号</td>
+              <td class="fir">服务商名称</td>
+              <td class="sec">服务商编号</td>
               <td class="three">合作开始时间</td>
               <td class="four">合作结束时间</td>
-              <td class="five">供应商介绍</td>
+              <td class="five">服务商介绍</td>
             </table>
             <dl *ngFor="let applier of appliers;let idx=index">
               <dt>
@@ -66,7 +66,7 @@
 <div class="maskAdd">
   <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title">新增供应商</h4>
+      <h4 class="modal-title">新增服务商</h4>
       <button type="button" class="close"(click)="closeMaskAdd()">×</button>
     </div>
     <form class="form-material">
@@ -74,14 +74,14 @@
         <div class="protop">
           <div class="pdetail">
             <div style="margin-left: 15px;display: none;">
-              <label>供应商编号：</label>
-              <input type="text" readonly id="supplieId" name="supplieId" (blur)="verifyEmpty('supplieId','供应商编号不能为空')"
+              <label>服务商编号：</label>
+              <input type="text" readonly id="supplieId" name="supplieId" (blur)="verifyEmpty('supplieId','服务商编号不能为空')"
                      class="noticetext"  [(ngModel)]="applierAdd.applyId" />
               <span class="errorMessage"></span>
             </div>
             <div style="margin-left: 15px;margin-top: 10px;">
-              <label>供应商名称：</label>
-              <input type="text" id="suppliername" name="suppliername" (blur)="verifyEmpty('suppliername','供应商名称不能为空')"
+              <label>服务商名称：</label>
+              <input type="text" id="suppliername" name="suppliername" (blur)="verifyEmpty('suppliername','服务商名称不能为空')"
                      class="noticetext" placeholder="" [(ngModel)]="applierAdd.applyName" maxlength="15">
               <span class="errorMessage"></span>
             </div>
@@ -97,7 +97,7 @@
               <span class="errorMessage"></span>
             </div>
             <div style="margin-top: 10px;margin-left: 15px;">
-              <label>供应商介绍：</label>
+              <label>服务商介绍：</label>
               <textarea id="supplierdetail" name="supplierdetail" (blur)="verifyEmpty('supplierdetail','不能为空')"
                         [(ngModel)]="applierAdd.applyDesc" rows="5"></textarea>
               <span class="errorMessage" style="margin-left:84px; margin-top:-15px;" ></span>
@@ -126,7 +126,7 @@
 <div class="maskView">
   <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title">供应商信息查看</h4>
+      <h4 class="modal-title">服务商信息查看</h4>
       <button type="button" class="close"(click)="closeMaskView()">×</button>
     </div>
     <form class="form-material">
@@ -134,7 +134,7 @@
         <div class="protop">
           <div class="pdetail">
             <div style="margin-left: 15px;">
-              <label>供应商名称：</label>
+              <label>服务商名称：</label>
               {{applierView.applyName}}
             </div>
 
@@ -172,7 +172,7 @@
 <div class="maskUpdate">
   <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title">修改供应商</h4>
+      <h4 class="modal-title">修改服务商</h4>
       <button type="button" class="close"(click)="closemaskUpdate()">×</button>
     </div>
     <form class="form-material">
@@ -180,8 +180,8 @@
         <div class="protop">
           <div class="pdetail">
             <div style="margin-left: 15px;">
-              <label>供应商名称：</label>
-              <input type="text" id="vnewnane" name="vnewnane" (blur)="verifyEmpty('vnewnane','供应商名称不能为空')" class="noticetext" placeholder="" [(ngModel)]="applierEdit.applyName">
+              <label>服务商名称：</label>
+              <input type="text" id="vnewnane" name="vnewnane" (blur)="verifyEmpty('vnewnane','服务商名称不能为空')" class="noticetext" placeholder="" [(ngModel)]="applierEdit.applyName">
               <span class="errorMessage"></span>
             </div>
 
@@ -195,8 +195,8 @@
             </div>
 
             <div style="margin-top: 15px;margin-left: 15px;">
-              <label>供应商介绍：</label>
-              <textarea id="supplierdetailup" name="supplierdetailup" (blur)="verifyEmpty('supplierdetailup','供应商介绍不能为空')" class="noticetext" placeholder="" [(ngModel)]="applierEdit.applyDesc" rows="10"></textarea>
+              <label>服务商介绍：</label>
+              <textarea id="supplierdetailup" name="supplierdetailup" (blur)="verifyEmpty('supplierdetailup','服务商介绍不能为空')" class="noticetext" placeholder="" [(ngModel)]="applierEdit.applyDesc" rows="10"></textarea>
               <span class="errorMessage" style="margin-left:84px;"></span>
             </div>
             <div  style="margin-top: 15px;margin-left: 16px;">

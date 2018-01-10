@@ -36,7 +36,6 @@ export class GroupOrderService {
   }
 
   getReportAllList(order:any,pageNo,pageSize){
-    console.log(order);
     const url = '/proxy/mmall/order/getReportAllList/'+pageNo+'/'+pageSize;
     return this.http.post(url,order,this.options)
       .map(res => res.json());

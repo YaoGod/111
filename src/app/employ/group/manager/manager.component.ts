@@ -70,7 +70,7 @@ export class ManagerComponent implements OnInit {
           alert("保存成功");
           this.getProductList();
         }else{
-          alert("保存失败")
+          alert("保存失败");
           this.closeMask0();
         }
       })

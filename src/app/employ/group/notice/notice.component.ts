@@ -23,7 +23,7 @@ export class NoticeComponent implements OnInit {
   private delId: any;
   public updateNotice: GroupNotice;
   public pages: Array<number>;
-  public pageSize = 5;
+  public pageSize = 10;
   public pageNo = 1;
   public total = 0;
   public length = 5;
@@ -56,6 +56,7 @@ export class NoticeComponent implements OnInit {
     this.groupNoticeService.getNoticeList(this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.groupNotices = data.data.infos;
+        this.total = data.data.total;
       }
     });
   }
@@ -205,5 +206,9 @@ export class NoticeComponent implements OnInit {
 
   closeMask3() {
     $('.mask3').hide();
+  }
+  goPage(i){
+    this.pageNo = i;
+    this.getNoticeList();
   }
 }

@@ -9,6 +9,7 @@ import {forEach} from "@angular/router/src/utils/collection";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 import {GroupProductService} from "../../../service/group-product/group-product.service";
 import {GroupNoticeService} from "../../../service/group-notice/group-notice.service";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 
 @Component({
   selector: 'app-order',
@@ -19,9 +20,11 @@ import {GroupNoticeService} from "../../../service/group-notice/group-notice.ser
 export class MyorderComponent implements OnInit {
   public search: GroupOrder;
   public message:GroupMessage;
-  private pageNo = 1;
-  /*当前页码*/
-  private pageSize= 6;
+  public pageSize = 2;
+  public pageNo = 1;
+  public total = 0;
+  public length = 5;
+  public pages: Array<number>;
   public cartsize:number;
   public orders:Array<GroupOrder>;
   public orderItems:Array<GroupOrderItem>;
@@ -38,29 +41,29 @@ export class MyorderComponent implements OnInit {
     insterTime:''
   };
   constructor(private groupOrderService: GroupOrderService,
-              private groupOrderItemService:GroupOrderItemService,
-              private globalCatalogService: GlobalCatalogService,
               private groupProductService: GroupProductService,
-              private groupNoticeService: GroupNoticeService,
-              private errorVoid: ErrorResponseService,) { }
+              private errorVoid: ErrorResponseService,
+              private ipSetting  : IpSettingService) { }
 
   ngOnInit() {
-    this.getOrderList();
+    this.search = new GroupOrder();
+    this.getOrderList(1);
+    this.pages = [];
     this.getProductShowList();
   }
 
-  getOrderList(){
-    this.search = new GroupOrder();
-    this.groupOrderService.getOrderList().subscribe(data => {
-      if (this.errorVoid.errorMsg(data)) {
-        this.orders = data.data.infos;
-        console.log(this.orders);
-      }
-    });
+  getOrderList(i){
+    this.pageNo =i;
+      let url = '/mmall/order/getOrderList/'+this.pageNo+'/'+this.pageSize;
+      this.ipSetting.sendGet(url).subscribe(data => {
+        if (this.errorVoid.errorMsg(data)) {
+          this.orders = data.data.infos;
+          this.total = data.data.total;
+        }
+      });
   }
   getProductShowList(){
     this.groupProductService.getProductShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
-      console.log();
       if (this.errorVoid.errorMsg(data)) {
         this.cartsize = data.data.cartsize;
       }
@@ -119,9 +122,9 @@ export class MyorderComponent implements OnInit {
         if(data['status'] === 0){
           alert("保存成功");
           this.closeMask0();
-          this.getOrderList();
+          this.getOrderList(1);
         }else{
-          alert("保存失败")
+          alert("保存失败");
           this.closeMask0();
         }
       })

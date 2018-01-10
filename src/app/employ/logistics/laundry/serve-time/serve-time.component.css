@@ -203,9 +203,16 @@ select,input{
 .list-table .ope-list a.tre{
   background: url('../../../../../assets/image/icon-del.png') no-repeat;
 }
+.form-control{
+  margin-top:10px;
+}
 .form-control span{
   opacity: 0;
 }
 .form-error span{
    opacity: 1;
  }
+.form-control label{
+  width:80px;
+  display:inline-block;
+}

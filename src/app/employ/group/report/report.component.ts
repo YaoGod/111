@@ -34,13 +34,12 @@ export class ReportComponent implements OnInit {
   }
 
   getOrderItems(orderId){
-    console.log(orderId);
     this.groupOrderService.getOrderItems(orderId).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orderItems = data.data.infos;
         this.orderId = orderId;
         this.totalPrice=data.data.totalPrice;
-        console.log(this.orderItems);
+        // console.log(this.orderItems);
         $('.mask0').show();
       }
     });
@@ -49,8 +48,7 @@ export class ReportComponent implements OnInit {
     this.groupOrderService.getReportAllList(this.search,this.pageNo,this.pageSize).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
-        let total = Math.ceil(data.data.total / this.pageSize);
-        this.initPage(total);
+        this.total = data.data.total;
       }
     });
   }

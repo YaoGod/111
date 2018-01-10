@@ -13,6 +13,9 @@
       </div>
       <div class="b-con">
         <div class="wrap clearfix">
+          <select class="facilitator" [(ngModel)]="serveChat" name="serveChat22">
+            <option *ngFor="let applier of applierList;let idx=index" value="{{applier.applyId}}" >{{applier.applyName}}</option>
+          </select>
           <a class="btn btn-danger"  (click)="add()" href="javascript:;" style="padding: 7px 15px;float: right;"><i class="icon-plus"></i> 新增</a>
         </div>
         <div class="list-table">
@@ -62,16 +65,26 @@
         <div class="protop">
           <div class="pdetail">
             <div class="form-control">
+              <label>服务商：</label>
+              <select id="serveChat" name="serveChat" class="noticetext"
+                      (blur)="verifyEmpty('serveChat','服务商不能为空')"
+                      [(ngModel)]="productAdd.serveChat">
+                <!--<option value="">-请选择-</option>-->
+                <option *ngFor="let applier of applierList;let idx=index" value="{{applier.applyId}}">{{applier.applyName}}</option>
+              </select>
+              <span class="errorMessage"></span>
+            </div>
+            <div class="form-control">
               <label>服务中心：</label>
               <select id="servePlace" name="servePlace" class="noticetext"
                       (blur)="verifyEmpty('servePlace','服务中心不能为空')"
                       [(ngModel)]="productAdd.servePlace">
-                <option value="">-请选择-</option>
+                <!--<option value="">-请选择-</option>-->
                 <option *ngFor="let center of serverCenters;let idx=index" value="{{center.name}}">{{center.name}}</option>
               </select>
               <span class="errorMessage"></span>
             </div>
-            <div class="form-control" style="margin-top: 10px;">
+            <div class="form-control">
               <label>服务时间：</label>
               <select id="serveDate" class="noticetext" name="serveDate" (blur)="verifyEmpty('serveDate','服务时间不能为空')"
                       [(ngModel)]="productAdd.serveDate">
@@ -86,13 +99,13 @@
               </select>
               <span class="errorMessage"></span>
             </div>
-            <div class="form-control" style="margin-top: 10px;">
+            <div class="form-control">
               <label>开始时间：</label>
               <input type="time" id="bTime_add" class="noticetext" name="bTime_add"
                      (blur)="verifyEmpty('bTime_add','开始时间不能为空')" maxlength="20"  [(ngModel)]="productAdd.bTime">
               <span class="errorMessage"></span>
             </div>
-            <div class="form-control" style="margin-top: 10px;">
+            <div class="form-control">
               <label>结束时间：</label>
               <input type="time" id="eTime_add" class="noticetext"  name="eTime_add" (blur)="verifyEmpty('eTime_add','结束时间不能为空')"   [(ngModel)]="productAdd.eTime" maxlength="10">
               <span class="errorMessage"></span>
