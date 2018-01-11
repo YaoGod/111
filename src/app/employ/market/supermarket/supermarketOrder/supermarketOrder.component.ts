@@ -17,14 +17,12 @@ declare var confirmFunc:any;
 
 })
 export class SupermarketOrderComponent implements OnInit {
-  public search   : SupermarketOrder;
+
   public pageNo   : number = 1;
   public pageSize : number = 5;
   public total    : number = 0;
   public serviceCenters: Array<any>;
   public orders:Array<SupermarketOrder>;
-  public productName:string = '';
-  public serverCenter:string='';
   private delId: any;
   public pages: Array<number>;
   public updateOrder={
@@ -32,6 +30,7 @@ export class SupermarketOrderComponent implements OnInit {
     status:'',
     note:''
   };
+  public search : any = {};
   public formData: Array<any>;
   public title: string = "超市零售区订单";
 
@@ -40,20 +39,16 @@ export class SupermarketOrderComponent implements OnInit {
               private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
+    this.search.serverCenter = "";
     this.getOrderAllList(1);
     this.getServiceCenter();
   }
   /*获取订单列表*/
   getOrderAllList(pageNo){
     this.pageNo = pageNo;
-    if(this.productName!=null){
-      this.productName = this.productName.trim();
-    }
-    if(this.serverCenter!=null){
-      this.serverCenter = this.serverCenter.trim();
-    }
-    this.supermarketManagerService.getOrderAllList(this.productName,this.serverCenter,this.pageNo,this.pageSize).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+    this.supermarketManagerService.getOrderAllList(this.search,this.pageNo,this.pageSize)
+      .subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
         this.total = data.data.total;
       }

@@ -160,17 +160,16 @@ export class SupermarketManagerService {
   }
   /**
    * 订单管理
-   * @param productName
-   * @param orderId
-   * @param productId
+   * @param postData
    * @param pageNo
    * @param pageSize
    * @returns {Observable<R>}
    */
-  getOrderAllList(productName,serverCenter,pageNo,pageSize){
+  getOrderAllList(postData,pageNo,pageSize){
+    console.log(postData);
     const url = '/proxy/mmall/supermarketOrder/getOrderAllList/'
-      +pageNo+'/'+pageSize+"?productName="+productName+"&serverCenter="+serverCenter;
-    return this.http.post(url,this.options)
+      +pageNo+'/'+pageSize;
+    return this.http.post(url,postData,this.options)
       .map(res => res.json());
   }
   /**

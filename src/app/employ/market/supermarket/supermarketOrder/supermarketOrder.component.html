@@ -19,11 +19,11 @@
             <ul>
               <li>
                 <label>商品名称</label>
-                <input type="text"  [(ngModel)]="productName" >
+                <input type="text"  [(ngModel)]="search.productName" >
               </li>
               <li>
                 <label>服务中心</label>
-                <select [(ngModel)]="serverCenter">
+                <select [(ngModel)]="search.serverCenter">
                   <option value="">全部</option>
                   <option *ngFor="let serviceCenter of serviceCenters" [value]="serviceCenter.name">
                     {{serviceCenter.name}}

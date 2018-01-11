@@ -18,60 +18,114 @@
           <div class="wrap">
             <ul>
               <li>
-                <label>订单状态</label>
-                <select name="searchStatus">
-                  <option value="0">已付款</option>
-                  <option value="4">已配货</option>
-                  <option value="1">已到货</option>
-                  <option value="2">退单</option>
-                </select>
+                <label>订单编号</label>
+                <input type="text" name="number" [(ngModel)]="search.status">
               </li>
               <li>
-                <label>订单生成时间</label>
-                <input type="date" name="creatBgtime" style="width: 80px;">
+                <label>创建时间</label>
+                <input type="datetime-local" name="creatBgtime" [(ngModel)]="search.creatBgtime">
                 -
-                <input type="date" name="creatEdtime" style="width: 80px;">
+                <input type="datetime-local" name="creatEdtime" [(ngModel)]="search.creatEdtime">
               </li>
+
               <li>
-                <label>订单发货时间</label>
-                <input type="date" name="giveBgtime" style="width: 80px;">
+                <label>发货时间</label>
+                <input type="datetime-local" name="giveBgtime" [(ngModel)]="search.giveBgtime">
                 -
-                <input type="date" name="giveEdtime" style="width: 80px;">
+                <input type="datetime-local" name="giveEdtime" [(ngModel)]="search.giveEdtime">
               </li>
               <li>
                 <label>订单人</label>
-                <input type="text" name="own">
+                <input type="text" name="own" [(ngModel)]="search.userName">
               </li>
               <li>
-                <label>订单部门</label>
-                <input type="text" name="ownDpt">
+                <label>订单人部门</label>
+                <input type="text" name="ownDpt" [(ngModel)]="search.dept">
               </li>
-              <li><a class="search" href="javascript: void(0);" >查询</a></li>
+              <li class="s-box"><a class="search" (click)="getOrderAllList(1)">查询</a></li>
+              <li class="right-box">
+                <a class="btn btn-danger"  href="javascript:;" (click)="export()">
+                  <i class="icon-plus"></i> 导出</a>
+              </li>
             </ul>
-            <a class="btn btn-danger"  href="javascript:;" (click)="export()">
-              <i class="icon-plus"></i> 导出</a>
+
           </div>
           <!--表头-->
           <div class="table-head">
             <table border="0" cellspacing="0" cellpadding="0" class="list-box">
               <tr class="row list-title">
-                <th >序号</th>
-                <th >部门名称</th>
-                <th >订购人数</th>
-                <th >消费合计</th>
-                <th >购买数量</th>
+                <th></th>
+                <th>序号</th>
+                <th>订单编号</th>
+                <th>订单人</th>
+                <th>订单人部门</th>
+                <th class="tleft">
+                  <select name="searchStatus" [(ngModel)]="search.status">
+                    <option value="">订单状态</option>
+                    <option value="0">已付款</option>
+                    <option value="4">已配货</option>
+                    <option value="1">已到货</option>
+                    <option value="2">退单</option>
+                  </select>
+                </th>
+                <th class="tleft">
+                  <select name="service" [(ngModel)]="search.serviceCenter">
+                    <option value="">服务中心</option>
+                    <option *ngFor="let service of serviceCenters">{{service.name}}</option>
+                  </select>
+                </th>
+                <th class="tleft">商品</th>
+                <th>单价（元）</th>
+                <th>数量</th>
+                <th>总计（元）</th>
+                <th>创建时间</th>
+                <th>发货时间</th>
               </tr>
-              <tr class="row">
-                <td >1</td>
-                <td >支撑中心</td>
-                <td ><span>28</span></td>
-                <td >￥23</td>
-                <td>2</td>
+              <tr class="row" *ngFor="let order of orders;let i = index">
+                <td><input type="checkbox" name="orderCheck"></td>
+                <td>{{(pageNo-1)*pageSize+i+1}}</td>
+                <td>{{order.id}}</td>
+                <td>{{order.userName}}</td>
+                <td>{{order.dept}}</td>
+                <td class="tleft">
+                  <select  class="slt-none" [name]="'status'+i" [(ngModel)]="order.status" disabled>
+                    <option value="0">已付款</option>
+                    <option value="4">已配货</option>
+                    <option value="1">已到货</option>
+                    <option value="2">退单</option>
+                  </select>
+                </td>
+                <td class="tleft">{{order.serviceCenter}}</td>
+                <td class="tleft">
+                  <p *ngFor="let item of order.orderItems">
+                    {{item.productName}}
+                  </p>
+                </td>
+                <td class="tleft">
+                  <p *ngFor="let item of order.orderItems">
+                    {{item.unitPrice}}
+                  </p>
+                </td>
+                <td class="tleft">
+                  <p *ngFor="let item of order.orderItems">
+                    {{item.quantity}}
+                  </p>
+                </td>
+                <td>{{order.payment}}</td>
+                <td>{{order.createTime}}</td>
+                <td>{{order.payTime}}(错误)</td>
               </tr>
             </table>
           </div>
-
+          <div class="div-none" *ngIf="orders&&orders.length === 0">暂无数据</div>
         </div>
+        <!--翻页-->
+        <app-turn-bar
+          [pageNo] = "pageNo"
+          [pageSize] = "pageSize"
+          [total] = "total"
+          (turnEvent) = "getOrderAllList($event)">
+        </app-turn-bar>
       </div>
     </div>
   </div>
