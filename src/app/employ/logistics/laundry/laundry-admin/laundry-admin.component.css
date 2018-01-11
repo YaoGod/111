@@ -84,3 +84,116 @@
   padding:2px 3px;
   color:#446c95;
 }
+.mask{
+  display: none;
+  position: fixed;
+  left:0;
+  top:0;
+  width: 100%;
+  height:100%;
+  background-color:rgba(0,0,0,.4);
+  z-index:999;
+}
+.modal-content{
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: .3rem;
+  outline: 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, .1);
+  width:550px;
+  margin:80px auto 0;
+}
+.modal-header{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #f1f5f8;
+}
+.modal-title{
+  font-size:18px;
+  color:#2b2b2b;
+}
+.modal-body{
+  position: relative;
+  padding: 15px;
+}
+.modal-body label{
+  display: inline-block;
+  width:100px;
+}
+.errorMessage{
+  color: #ff0000;
+  font-size: 12px;
+}
+.modal-footer{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding: 15px;
+  background-color: #f1f5f8;
+}
+.pdetail{
+  width: 511px;
+  float: right;
+  margin-left: 2px;
+}
+.modal-right{
+  margin-top:10px;
+}
+.btn-mask{
+  font-size: 14px;
+  padding: .6rem 1rem;
+  background: #fb9678;
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.25;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border-radius: .25rem;
+  transition: all .2s ease-in-out;
+  cursor: pointer;
+  color: #fff;
+}
+.btn-info{
+  margin-left:20px;
+  background-color: #03a9f3;
+}
+.btn-mask:hover{
+  transform: scale(1.1,1.1);
+}
+.form-control{
+  margin-top:10px;
+}

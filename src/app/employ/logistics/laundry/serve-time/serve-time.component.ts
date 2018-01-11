@@ -37,10 +37,24 @@ export class ServeTimeComponent implements OnInit {
   ngOnInit() {
     this.pages = [];
     this.productAdd = new ServeTime();
-    this.getServiceCenter();
-    this.getCenterTime();
     this.search = new FacPrice();
     this.getFacList();
+    this.getServiceCenter();
+
+
+  }
+  /*获取所有服务商*/
+  getFacList(){
+    let url = '/mmall/laundry/getFacList/'+this.pageNo + '/' + this.pageSize;
+    this.ipSetting.sendPost(url,this.search)
+      .subscribe(data => {
+        if (this.errorVoid.errorMsg(data)) {
+          this.applierList = data.data.applierList;
+          console.log(this.applierList);
+          this.serveChat = this.applierList[0].applyId;
+          this.getCenterTime();
+        }
+      });
   }
   /*获取所有服务中心*/
   getServiceCenter(){
@@ -52,30 +66,23 @@ export class ServeTimeComponent implements OnInit {
       }
     });
   }
-  /*获取所有服务中心时间*/
+  /*获取所有服务中心时间*/ // /mmall/laundry/getproviderTime/{id}/{centerId}/{day}/{time}
   getCenterTime(){
-    let url = '/employee/serviceCenter/getCenterTime';
+    let url = '/mmall/laundry/getproviderTime/'+this.serveChat+'/all/all/all';
     this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
-        console.log(data.data);
+
         this.products = data.data;
+        console.log(this.products);
       }
     });
   }
-  /*获取所有服务商*/
-  getFacList(){
-    let url = '/mmall/laundry/getFacList/'+this.pageNo + '/' + this.pageSize;
-    this.ipSetting.sendPost(url,this.search)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data)) {
-          this.applierList = data.data.applierList;
-          console.log(this.applierList);
-          this.serveChat = this.applierList[0].applyId;
-        }
-      });
+  facChange(){
+    this.getCenterTime();
   }
   /*点击新增*/
   add() {
+    this.addSwitch = true;
     this.productAdd = new ServeTime();
     $('.maskAdd').show();
     $('.modal-title').html('新增服务时间');
@@ -84,25 +91,26 @@ export class ServeTimeComponent implements OnInit {
   /*点击修改*/ // GET /mmall/laundry/getproviderTime/{id}/{day}/{time}
   update(code: number,name:string,index) {
     this.addSwitch = false;
-    this.productAdd.serveChat = this.serveChat;
-    this.productAdd.servePlace = this.products[index].center.name;
+    this.productAdd.facilitatorId = this.serveChat;
+    this.productAdd.centerId = this.products[index].center.id;
     $('.maskAdd').show();
     $('.modal-title').html('编辑服务时间');
     $('#servePlace,#serveChat').attr('disabled',true);
   }
   /*新增/编辑服务内容提交*/
   addProduct() {
-    let url;
-    if(this.addSwitch){
+    let url = "/mmall/laundry/addproviderTime";
+    /*if(this.addSwitch){
       url = "/mmall/laundry/addFacPrice";
     }else{
       url = "/mmall/laundry/updateProduct";
-    }
+    }*/
     if(!this.verifyEmpty("servePlace","服务中心不能为空")||!this.verifyEmpty("serveDate","服务时间不能为空")||
       !this.verifyEmpty("bTime_add","开始时间不能为空")||!this.verifyEmpty("eTime_add","结束时间不能为空")){
       return false;
     }
-    // console.log(this.productAdd);
+    console.log(this.productAdd);
+    this.productAdd.time ='';
     this.ipSetting.sendPost(url,this.productAdd).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         confirmFunc.init({
@@ -237,9 +245,10 @@ export class ServerCenterInfo {
   orderItems: Array<TimeItem>;
 }
 export class ServeTime {
-  serveChat: string;
-  servePlace:  string;
-  serveDate:   string;
+  facilitatorId: string;
+  centerId:  string;
+  day:   string;
+  time:  string;
   bTime:       string;
   eTime:       string;
 }

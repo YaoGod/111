@@ -21,7 +21,7 @@ export class PlanLaundryComponent implements OnInit {
   private code: any;
   public username= localStorage.getItem("username");
   /*当前页码*/
-  public pageSize = 10;
+  public pageSize = 99;
   public pageNo = 1;
   public total = 0;
   public length = 5;
@@ -42,7 +42,7 @@ export class PlanLaundryComponent implements OnInit {
     this.pages = [];
     this.myOrder = new LaundryOrder();
     this.initFac();
-    this.getOrderList();
+    this.getOrderList(1);
   }
 /*获取服务中心*/
   initFac(){
@@ -102,7 +102,7 @@ export class PlanLaundryComponent implements OnInit {
           'imgType': 1 ,
         });
         this.closeSubmitOrder();
-        this.getOrderList();
+        this.getOrderList(1);
       }
     });
   }
@@ -149,8 +149,9 @@ export class PlanLaundryComponent implements OnInit {
     }
   }
 
-  getOrderList(){
-    let url = '/mmall/laundryOrder/getOrderList/-1';
+  getOrderList(i){
+    this.pageNo = i;
+    let url = '/mmall/laundryOrder/getOrderList/-1'// +this.pageNo+'/'+this.pageSize;
     this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
@@ -167,6 +168,7 @@ export class PlanLaundryComponent implements OnInit {
      return false;
      }*/
     if(!this.verifyEmpty("quantity_add","洗衣数量不能为空")){
+      alert(0);
       return false;
     }
     if(!this.verifyEmpty("supplierId_add","服务商不能为空")){
@@ -186,7 +188,7 @@ export class PlanLaundryComponent implements OnInit {
           'imgType': 1 ,
         });
         this.closeMaskAdd();
-        this.getOrderList();
+        this.getOrderList(1);
       }
     })
   }
@@ -236,7 +238,7 @@ export class PlanLaundryComponent implements OnInit {
               'imgType': 1,
             });
           }
-          this.getOrderList();
+          this.getOrderList(1);
         });
       }
     });
@@ -287,7 +289,7 @@ export class PlanLaundryComponent implements OnInit {
   /*跳页加载数据*/
   goPage(page:number){
     this.pageNo = page;
-    this.getOrderList();
+    this.getOrderList(1);
   }
 
 

@@ -13,13 +13,16 @@
             <input type="text"  class="noticetext"  [(ngModel)]="search.orderNo" >
           </li>
           <li>
-            <label>服务中心</label>
-            <select id="serverCenter_add" name="serverCenter_add" class="noticetext" [(ngModel)]="search.serviceCenter">
+            <label>订单状态</label>
+            <select id="serverCenter_add" name="serverCenter_add" class="noticetext" [(ngModel)]="search.status">
               <option value="">-全部-</option>
-              <option *ngFor="let center of serverCenters;let idx=index" value="{{center.name}}">{{center.name}}</option>
+              <option value="0">订购中</option>
+              <option value="4">已收货</option>
+              <option value="1">已完成</option>
+              <option value="2">退单</option>
             </select>
           </li>
-          <li><a class="search" href="javascript: void(0);" (click)="getOrderAllList()" >查询</a></li>
+          <li><a class="search" href="javascript: void(0);" (click)="getOrderList(1)" >查询</a></li>
         </ul>
       </div>
       <div class="b-con tuanmenu">
@@ -60,14 +63,13 @@
 
             </table>
         </div>
-        <app-turn-bar
-          [pageNo]="pageNo"
-          [pageSize]="pageSize"
-          [total]="total"
-          [length] = 5
-          (turnEvent)="goPage($event)">
-        </app-turn-bar>
       </div>
+    <app-turn-bar
+      [pageNo]="pageNo"
+      [pageSize]="pageSize"
+      [total]="total"
+      [length] = 5
+      (turnEvent)="getOrderList($event)">
+    </app-turn-bar>
     </div>
 </div>
-
