@@ -24,14 +24,6 @@ export class ServeTimeComponent implements OnInit {
   public applierList:Array<Facilitator>;
   public productAdd:ServeTime;
   public serveChat: string;
-  public productUp= {
-    priceId:   '',
-    applyid:     '',
-    appcotent:     '',
-    unit:           '',
-    price:          '',
-    appliar:''
-  };
   constructor(private ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
@@ -41,7 +33,6 @@ export class ServeTimeComponent implements OnInit {
     this.getFacList();
     this.getServiceCenter();
 
-
   }
   /*获取所有服务商*/
   getFacList(){
@@ -50,7 +41,7 @@ export class ServeTimeComponent implements OnInit {
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           this.applierList = data.data.applierList;
-          console.log(this.applierList);
+          // console.log(this.applierList);
           this.serveChat = this.applierList[0].applyId;
           this.getCenterTime();
         }
@@ -71,9 +62,8 @@ export class ServeTimeComponent implements OnInit {
     let url = '/mmall/laundry/getproviderTime/'+this.serveChat+'/all/all/all';
     this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
-
         this.products = data.data;
-        console.log(this.products);
+        // console.log(this.products);
       }
     });
   }
@@ -100,40 +90,37 @@ export class ServeTimeComponent implements OnInit {
   /*新增/编辑服务内容提交*/
   addProduct() {
     let url = "/mmall/laundry/addproviderTime";
-    /*if(this.addSwitch){
-      url = "/mmall/laundry/addFacPrice";
-    }else{
-      url = "/mmall/laundry/updateProduct";
-    }*/
+    /*if(this.addSwitch){url = "/mmall/laundry/addFacPrice";}else{url = "/mmall/laundry/updateProduct";}*/
     if(!this.verifyEmpty("servePlace","服务中心不能为空")||!this.verifyEmpty("serveDate","服务时间不能为空")||
       !this.verifyEmpty("bTime_add","开始时间不能为空")||!this.verifyEmpty("eTime_add","结束时间不能为空")){
       return false;
     }
-    console.log(this.productAdd);
-    this.productAdd.time ='';
+    this.productAdd.time ='all';
     this.ipSetting.sendPost(url,this.productAdd).subscribe(data => {
+      // console.log(data['msg']);
       if (this.errorVoid.errorMsg(data)) {
         confirmFunc.init({
           'title': '提示' ,
-          'mes': /*this.addSwitch === false?'更改成功':'新增成功'*/data['data'],
+          'mes': this.addSwitch === false?'更改成功':'新增成功',
           'popType': 0 ,
           'imgType': 1 ,
         });
+        this.closeMaskAdd();
         this.getCenterTime();
       }
     })
   }
   /*新增的取消*/
   closeMaskAdd(){
-    $('.maskAdd').hide();
     this.productAdd = new ServeTime();
     $('.form-control').removeClass('form-error');
     $('.form-control span').html('');
+    $('.maskAdd').hide();
   }
   /**非空校验*/
   private isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
-    if (data==null||data==''||data.trim() == '')  {
+    if (data==null||data==''||data.trim() == ''){
       this.addErrorClass(id, error);
       return false;
     }else {
@@ -147,46 +134,6 @@ export class ServeTimeComponent implements OnInit {
     }else{
       return true;
     }
-  }
-  /*修改*/
-  updateProduct() {
-    if(!this.verifyEmpty("appcotent_edit","服务内容不能为空")){
-      return false;
-    }
-    if(!this.verifyEmpty("price_edit","价格不能为空")){
-      return false;
-    }
-    if(!this.verifyEmpty("unit_edit","单位不能为空")){
-      return false;
-    }
-    if(!this.verifyEmpty("supplierId_edit","服务商不能为空")){
-      return false;
-    }
-    let url = "/mmall/laundry/updateProduct";
-    this.ipSetting.sendPost(url,this.productUp).subscribe(data => {
-      if (this.errorVoid.errorMsg(data)) {
-        confirmFunc.init({
-          'title': '提示' ,
-          'mes': data['data'],
-          'popType': 0 ,
-          'imgType': 1 ,
-        });
-        this.closeMaskUp();
-        this.getCenterTime();
-      }
-    })
-  }
-
-  closeMaskUp() {
-    $('.maskUpdate').hide();
-    this.productUp={
-      priceId:   '',
-      applyid:          '',
-      appcotent:        '',
-      unit:              '',
-      price:             '',
-      appliar: ''
-    };
   }
 
   delete(code: number) {
@@ -238,12 +185,6 @@ export class ServeTimeComponent implements OnInit {
   }
 }
 
-export class ServerCenterInfo {
-  id:number;
-  orderNo:string;
-  serviceCenter:           string;
-  orderItems: Array<TimeItem>;
-}
 export class ServeTime {
   facilitatorId: string;
   centerId:  string;
@@ -251,12 +192,6 @@ export class ServeTime {
   time:  string;
   bTime:       string;
   eTime:       string;
-}
-export class  TimeItem{
-  id:number;
-  name:  string;
-  etime: string;
-  btime: string;
 }
 export class ServerCenter{
   name: string;

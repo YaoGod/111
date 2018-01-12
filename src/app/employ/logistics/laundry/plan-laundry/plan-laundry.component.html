@@ -79,7 +79,7 @@
                  </select>
                  <span class="errorMessage"></span>
                </div>-->
-              <div style="margin-top: 10px;">
+              <div style="margin-top: 10px;" ><!--*ngIf="myOrder.facilitator"-->
                 <label>服务商：</label>
                 <select id="supplierId_add" name="supplierId_add" [(ngModel)]="orderItemAdd.applyid" (change)="changeContent()"  (blur)="verifyEmpty('supplierId_add','服务商不能为空')">
                   <option value="">-请选择-</option>
@@ -143,6 +143,14 @@
           <div class="pdetail">
             <div>
               <div>
+                <label>支付方式：</label>
+                <select id="myOrderNote" name="myOrderNote" [(ngModel)]="myOrder.note"  (blur)="verifyEmpty('myOrderNote','支付方式不能为空')">
+                  <option value="【线上支付】">线上支付</option>
+                  <option value="【线下支付】">线下支付</option>
+                </select>
+                <span class="errorMessage"></span>
+              </div>
+              <div style="margin-top: 10px;">
                 <label>服务中心：</label>
                 <select id="serverCenter_add" name="serverCenter_add" [(ngModel)]="myOrder.serviceCenter"  (blur)="verifyEmpty('serverCenter_add','服务中心不能为空')">
                   <option value="">-请选择-</option>

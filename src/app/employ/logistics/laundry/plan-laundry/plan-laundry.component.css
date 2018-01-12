@@ -780,7 +780,7 @@ select{
   background-color: #f7f7f7;
   border-radius: 5px;
 }
-select {
+/*select {
   border: none;
   outline: none;
   appearance: none;
@@ -789,7 +789,7 @@ select {
   -ms-appearance: none;
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAARCAYAAAC8XK78AAAACXBIW…JwxShCCM2HuFQBiBGbcEb+SvN3AA9E9juD6NkB8/8LyuY+AHBRGpsCZezVAAAAAElFTkSuQmCC) no-repeat scroll right center #fff;
   padding-right: 26px;
-}
+}*/
 select {
   height: 22px;
   line-height: 18px;

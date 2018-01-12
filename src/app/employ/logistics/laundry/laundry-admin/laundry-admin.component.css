@@ -84,7 +84,7 @@
   padding:2px 3px;
   color:#446c95;
 }
-.mask{
+.mask,.mask0{
   display: none;
   position: fixed;
   left:0;
@@ -196,4 +196,15 @@
 }
 .form-control{
   margin-top:10px;
+}
+.table-item{
+  width:100%;
+}
+.table-item thead{
+  height:40px;
+  line-height:40px;
+}
+.table-item td{
+  padding:8px 15px;
+  text-align: center;
 }

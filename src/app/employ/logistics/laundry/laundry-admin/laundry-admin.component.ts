@@ -24,7 +24,12 @@ export class LaundryAdminComponent implements OnInit {
   public inner:OrderInfo;
   public orders:Array<LaundryOrder>;
   public orderItem:LaundryOrderItem;
-  private zit:string;
+  public project: Project;
+  public sum: Project;
+  private offline:Offline;
+  public abc:any;
+  private orderId:string;
+  public list: Array<any>;
   constructor(private ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
@@ -32,7 +37,19 @@ export class LaundryAdminComponent implements OnInit {
     this.search.serviceCenter = '';
     this.myOrder = new LaundryOrder();
     this.inner = new OrderInfo();
+    this.project = new Project();
+    this.sum = new Project();
+    this.offline = new Offline();
     this.pages = [];
+    this.list=[];
+    this.list[0]={
+      key:'',
+      value:''
+    };
+    this.list[1]={
+      key:'',
+      value:''
+    };
     this.getOrderAllList(1);
     this.initFac();
   }
@@ -59,23 +76,72 @@ export class LaundryAdminComponent implements OnInit {
       }
     });
   }
-  addOrderItems(a,b,index){
-
+  /*编辑*/
+  addOrderItems(index){
+    this.orderId = index;
+    let linshi = index;
+    this.search.orderNo = linshi;
+    let url = '/mmall/laundryOrder/getOrderAllList/'+this.pageNo+'/'+this.pageSize;
+    this.ipSetting.sendPost(url,this.search).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        this.abc = data.data.infos[0];
+        console.log(this.abc);
+      }
+    });
+    $('.mask0').fadeIn();
   }
-  /*编辑订单*/
+  /*增加扣款项目*/
+  updateNew(){
+    let SOFTWARES_URL = '/mmall/laundryOrder/updateOrder';
+    this.abc.balance = Number(this.list[0].value)+Number(this.list[1].value);
+    this.abc.balanceReason = this.list;
+    this.ipSetting.sendPost(SOFTWARES_URL,this.abc).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': data['msg'],
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
+        this.getOrderAllList(1);
+        this.closeMask();
+      }
+    });
+  }
+  /*确认或退单*/
   maskFadeIn(orderStatus,orderNo){
     this.inner.id = orderNo;
     this.inner.status = orderStatus;
-    this.zit = orderStatus;
-    console.log(typeof orderStatus);
-    console.log(typeof this.inner.status);
+    console.log(orderStatus);
 
-    if(this.inner.status === '4'){
-      $('#priceDiffer').attr('disabled',true);
-    }else{
-      $('#priceDiffer').attr('disabled',false);
-    }
     $('.mask').fadeIn();
+  }
+  /*线下确认收货*/
+  mask0FadeIn(id){
+    confirmFunc.init({
+      'title': '提示' ,
+      'mes': '确认已完成线下付款？',
+      'popType': 1 ,
+      'imgType': 3 ,
+      'callback': () => {
+        this.offline.id = id;
+        this.offline.status = '4';
+        let SOFTWARES_URL = '/mmall/laundryOrder/updateOrder';
+        this.ipSetting.sendPost(SOFTWARES_URL,this.offline).subscribe(data => {
+          if(this.errorVoid.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': data['msg'],
+              'popType': 0 ,
+              'imgType': 1 ,
+            });
+            this.pages =[];
+            this.getOrderAllList(1);
+          }
+        });
+      }
+    });
+
   }
   private verifyorderstatus(){
     if (!this.isEmpty('orderstatus', '不能为空')) {
@@ -89,7 +155,8 @@ export class LaundryAdminComponent implements OnInit {
     }
     return true;
   }
-  /*编辑保存*/
+
+  /*确认收货保存*/
   updateOrders(){
     let SOFTWARES_URL = '/mmall/laundryOrder/updateOrder';
     if (!this.verifyorderstatus()) {
@@ -122,16 +189,9 @@ export class LaundryAdminComponent implements OnInit {
     this.inner = new OrderInfo();
     $('.mask').fadeOut();
   }
-
-  /*x虚拟退单*/
-  turnIn(index){
-    confirmFunc.init({
-      'title': '提示' ,
-      'mes': '退单成功',
-      'popType': 0 ,
-      'imgType': 1 ,
-    });
-    this.orders[index].status = '2';
+  /*关闭编辑扣款项目*/
+  closeMask0(){
+    $('.mask0').fadeOut();
   }
   /*x虚拟收货*/
   ting(index){
@@ -199,6 +259,7 @@ export class LaundryOrder {
   id:number;
   orderNo:string;
   status:string;
+  note:string;
   serviceCenter:           string;
   orderItems: Array<LaundryOrderItem>;
 }
@@ -218,9 +279,16 @@ export class ServerCenter{
 }
 export class OrderInfo {
   id:number;
-  balance:number;
   orderNo:string;
   status:string;
   note:string;
+  list:any;
 }
-
+export class Project {
+  project:string;
+  sum:string;
+}
+export class Offline{
+  id:string;
+  status:string;
+}

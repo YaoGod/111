@@ -35,8 +35,9 @@
             <td class="zero" *ngIf="order.status=='1'">订单状态：已完成</td>
             <td class="zero" *ngIf="order.status=='2'">订单状态：退单</td>
             <td><!--*ngIf="order.status!=='4' || order.status==='1'"-->
-              <a href="javascript:;"  (click)="addOrderItems(order.status,order.id,idx)">增加扣款</a>
-              <a href="javascript:;"  (click)="maskFadeIn(order.status,order.id)">已收货</a>
+              <a href="javascript:;" *ngIf="order.note!=='【线下支付】'" (click)="addOrderItems(order.orderNo)">编辑</a>
+              <a href="javascript:;" *ngIf="order.note!=='【线下支付】'" (click)="maskFadeIn(order.status,order.id)">扣款/退单</a>
+              <a href="javascript:;" *ngIf="order.note==='【线下支付】'" (click)="mask0FadeIn(order.id)">线下付款收货</a>
               <a class="over" href="javascript:;" *ngIf="order.status==='4'" (click)="ting(idx)">已完成</a>
             </td>
           </tr>
@@ -49,6 +50,7 @@
             <th>单价</th>
             <th>数量</th>
             <th>合计</th>
+            <th width="80px" style="text-indent: 0;"></th>
           </tr>
           </thead>
           <tbody>
@@ -60,6 +62,7 @@
             <td class="three">{{item.unitPrice}}</td>
             <td class="three">{{item.quantity}}</td>
             <td class="three">{{item.totalPrice}}</td>
+            <td width="80px" style="text-indent: 0;"></td>
           </tr>
           </tbody>
         </table>
@@ -74,6 +77,38 @@
     </app-turn-bar>
   </div>
 </div>
+<div class="mask0">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">增加扣款项目</h4>
+      <button type="button" class="close" (click)="closeMask0()">×</button>
+    </div>
+    <form class="form-landry">
+      <div class="modal-body clearfix">
+        <table class="table-item">
+          <thead>
+          <tr>
+            <th>扣款项目</th>
+            <th>扣款金额(元)</th>
+          </tr>
+          </thead>
+          <tr>
+            <td><input class="noticetext" name="tab-project1" type="text" [(ngModel)]="list[0].key"> </td>
+            <td><input class="noticetext" name="tab-price1" type="text" [(ngModel)]="list[0].value"> </td>
+          </tr>
+          <tr>
+            <td><input class="noticetext" name="tab-project2" type="text" [(ngModel)]="list[1].key"> </td>
+            <td><input class="noticetext" name="tab-price2" type="text" [(ngModel)]="list[1].value"> </td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn-mask" (click)="updateNew()" >保 存</button>
+        <button type="button" class="btn-mask btn-info" (click)="closeMask0()">取 消</button>
+      </div>
+    </form>
+  </div>
+</div>
 <div class="mask">
   <div class="modal-content">
     <div class="modal-header">
@@ -82,10 +117,6 @@
     </div>
     <form class="form-landry">
       <div class="modal-body clearfix">
-        <div class="form-control">
-          <label>补充差价(元)：</label>
-          <input type="number" id="priceDiffer" name="priceDiffer" class="noticetext" [(ngModel)]="inner.balance" />
-        </div>
         <div class="form-control">
           <label>订单状态：</label>
           <select class="noticetext" id="orderstatus"  name="orderstatus" [(ngModel)]="inner.status">

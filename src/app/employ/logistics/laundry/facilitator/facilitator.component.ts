@@ -66,12 +66,10 @@ export class FacilitatorComponent implements OnInit {
   }
   providerList(){
     let url = '/mmall/laundry/provider/providerList/'+this.pageNo + '/' + this.pageSize;
-
     this.ipSetting.sendPost(url,this.search)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           this.appliers = data.data.providers;
-          //
           this.total = data.data.total;
         }
       });
@@ -125,6 +123,7 @@ export class FacilitatorComponent implements OnInit {
       fileName: [],
       filePath: []
     };
+    $('.errorMessage').html('');
   }
   closeMaskView(){
     $('.maskView').hide();
@@ -135,6 +134,7 @@ export class FacilitatorComponent implements OnInit {
       copEndtime:     '',
       applyDesc:      ''
     };
+    $('.errorMessage').html('');
     this.file = new Array<File>();
   }
   closemaskUpdate(){
@@ -149,6 +149,7 @@ export class FacilitatorComponent implements OnInit {
       fileName1: [],
       filePath1: []
     };
+    $('.errorMessage').html('')
   }
 
   upload(files){
@@ -230,10 +231,10 @@ export class FacilitatorComponent implements OnInit {
       return true;
     }
   }
-  /*新增供应商*/
+  /*新增服务商*/
   addAppliar(){
-    if(!this.verifyEmpty('suppliername','供应商名称不能为空')||!this.verifyEmpty('supplierstarttime','不能为空')||
-      !this.verifyEmpty('supplierendtime','不能为空')||!this.verifyEmpty('supplierdetail','供应商介绍不能为空')){
+    if(!this.verifyEmpty('suppliername','服务商名称不能为空')||!this.verifyEmpty('supplierstarttime','不能为空')||
+      !this.verifyEmpty('supplierendtime','不能为空')||!this.verifyEmpty('supplierdetail','服务商介绍不能为空')){
       return false;
     }
     if(this.applierAdd.copStarttime > this.applierAdd.copEndtime){
@@ -256,8 +257,8 @@ export class FacilitatorComponent implements OnInit {
   }
 
   updateAppliar(){
-    if(!this.verifyEmpty('vnewnane','供应商名称不能为空')||!this.verifyEmpty('upnewstartTime','不能为空')||
-      !this.verifyEmpty('upnewendTime','不能为空')||!this.verifyEmpty('supplierdetailup','供应商介绍不能为空')){
+    if(!this.verifyEmpty('vnewnane','服务商名称不能为空')||!this.verifyEmpty('upnewstartTime','不能为空')||
+      !this.verifyEmpty('upnewendTime','不能为空')||!this.verifyEmpty('supplierdetailup','服务商介绍不能为空')){
       return false;
     }
     if(this.applierEdit.copStarttime > this.applierEdit.copEndtime){

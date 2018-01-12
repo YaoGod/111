@@ -15,9 +15,7 @@ export class PriceComponent implements OnInit {
   public products:Array<FacPrice>;
   public applierList:Array<Facilitator>;
   public search: FacPrice;
-  public days:string;
-  private code: any;
-  public pageSize = 5;
+  public pageSize = 10;
   public pageNo = 1;
   public total = 0;
   public length = 5;
@@ -169,6 +167,8 @@ export class PriceComponent implements OnInit {
       price:             '',
       appliar: ''
     };
+
+    $('.errorMessage').html('');
   }
 
   delete(code: number) {
@@ -207,6 +207,7 @@ export class PriceComponent implements OnInit {
       price:             '',
       appliar:''
     };
+    $('.errorMessage').html('');
   }
   /**
    * 添加错误信息class

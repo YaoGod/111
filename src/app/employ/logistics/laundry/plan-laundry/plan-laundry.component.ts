@@ -17,8 +17,7 @@ export class PlanLaundryComponent implements OnInit {
   public serverCenters:Array<ServerCenter>;
   public myOrder:LaundryOrder;
   public orders:Array<LaundryOrder>;
-  public days:string;
-  private code: any;
+  public search:SearchOrder;
   public username= localStorage.getItem("username");
   /*当前页码*/
   public pageSize = 99;
@@ -40,6 +39,7 @@ export class PlanLaundryComponent implements OnInit {
 
   ngOnInit() {
     this.pages = [];
+    this.search = new SearchOrder();
     this.myOrder = new LaundryOrder();
     this.initFac();
     this.getOrderList(1);
@@ -51,10 +51,53 @@ export class PlanLaundryComponent implements OnInit {
       if (this.errorVoid.errorMsg(data)) {
         this.applierList = data.data.providers;
         this.serverCenters = data.data.centers;
-        // console.log(data.data);
       }
     });
   }
+  /*获取订单*/
+  getOrderList(i){
+    this.pageNo = i;
+    this.search.status = '-1';
+    let url = '/mmall/laundryOrder/getOrderList/1/999'; // +this.pageNo+'/'+this.pageSize;
+    this.ipSetting.sendPost(url,this.search).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        this.orders = data.data.infos;
+        this.myOrder.id = data.data.orderId;
+        console.log(data.data);
+        this.total = data.data.total;
+      }
+    });
+  }
+  /*增加洗衣服务*/
+  addOrderItem() {
+    /* if(!this.verifyEmpty('serverCenter_add','服务中心不能为空')){
+     return false;
+     }*/
+    if(!this.verifyEmpty("quantity_add","洗衣数量不能为空")){
+      return false;
+    }
+    if(!this.verifyEmpty("supplierId_add","服务商不能为空")){
+      return false;
+    }
+    if(!this.verifyEmpty("appcotent_add","服务内容不能为空")){
+      return false;
+    }
+    this.orderItemAdd.orderId = this.myOrder.id+'';
+    let url = "/mmall/laundryOrder/addOrderItem";
+    this.ipSetting.sendPost(url,this.orderItemAdd).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': data['msg'],
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
+        this.closeMaskAdd();
+        this.getOrderList(1);
+      }
+    })
+  }
+
   /*提交订单*/
   submitOrder(){
     this.myOrder.serviceCenter="";
@@ -62,7 +105,6 @@ export class PlanLaundryComponent implements OnInit {
   }
 
   getcode(){
-
     let url = '/mmall/laundryOrder/getPayCode/'+this.username;
     this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
@@ -86,6 +128,9 @@ export class PlanLaundryComponent implements OnInit {
   }
   /*短信验证*/
   saveSubmitOrder(){
+    if(!this.verifyEmpty('myOrderNote','支付方式不能为空')){
+      return false;
+    }
     if(!this.verifyEmpty('serverCenter_add','服务中心不能为空')){
       return false;
     }
@@ -94,6 +139,7 @@ export class PlanLaundryComponent implements OnInit {
     }
     let url = '/mmall/laundryOrder/addOrder/'+$('#message').val();
     this.ipSetting.sendPost(url,this.myOrder).subscribe(data => {
+      console.log(data)
       if (this.errorVoid.errorMsg(data)) {
         confirmFunc.init({
           'title': '提示' ,
@@ -147,50 +193,6 @@ export class PlanLaundryComponent implements OnInit {
       $('.count').siblings('span').html("");
       this.orderItemAdd.quantity=(parseInt(this.orderItemAdd.quantity) - 1)+'';
     }
-  }
-
-  getOrderList(i){
-    this.pageNo = i;
-    let url = '/mmall/laundryOrder/getOrderList/-1'// +this.pageNo+'/'+this.pageSize;
-    this.ipSetting.sendGet(url).subscribe(data => {
-      if (this.errorVoid.errorMsg(data)) {
-        this.orders = data.data.infos;
-        this.myOrder.id = data.data.orderId;
-        // console.log(data.data);
-        this.total = data.data.total;
-      }
-    });
-  }
-
-  addOrderItem() {
-
-    /* if(!this.verifyEmpty('serverCenter_add','服务中心不能为空')){
-     return false;
-     }*/
-    if(!this.verifyEmpty("quantity_add","洗衣数量不能为空")){
-      alert(0);
-      return false;
-    }
-    if(!this.verifyEmpty("supplierId_add","服务商不能为空")){
-      return false;
-    }
-    if(!this.verifyEmpty("appcotent_add","服务内容不能为空")){
-      return false;
-    }
-    this.orderItemAdd.orderId = this.myOrder.id+'';
-    let url = "/mmall/laundryOrder/addOrderItem";
-    this.ipSetting.sendPost(url,this.orderItemAdd).subscribe(data => {
-      if (this.errorVoid.errorMsg(data)) {
-        confirmFunc.init({
-          'title': '提示' ,
-          'mes': data['msg'],
-          'popType': 0 ,
-          'imgType': 1 ,
-        });
-        this.closeMaskAdd();
-        this.getOrderList(1);
-      }
-    })
   }
 
   /**非空校验*/
@@ -272,9 +274,9 @@ export class PlanLaundryComponent implements OnInit {
   private  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
-      $('#' + id).next('span').html('输入错误');
+      $('#' + id).siblings('span').html('输入错误');
     }else {
-      $('#' + id).next('span').html(error);
+      $('#' + id).siblings('span').html(error);
     }
   }
   /**
@@ -291,8 +293,6 @@ export class PlanLaundryComponent implements OnInit {
     this.pageNo = page;
     this.getOrderList(1);
   }
-
-
 }
 export class FacPrice {
   orderId:number;
@@ -313,6 +313,9 @@ export class Facilitator {
 }
 export class LaundryOrder {
   id:number;
+  note:string;
+  facilitator:string;
+  status:number;
   serviceCenter:           string;
   orderItems: Array<LaundryOrderItem>;
 }
@@ -329,5 +332,10 @@ export class  LaundryOrderItem{
 export class ServerCenter{
   name: string;
   id:number;
+}
+export class SearchOrder {
+  id:number;
+  orderNo:string;
+  status:string;
 }
 

@@ -36,8 +36,8 @@
             </thead>
             <tbody>
             <tr *ngFor="let product of products;let idx=index">
-              <td class="fir">{{product.center.name}}</td>
-              <td class="sec" *ngFor="let abc of product.time;let zot=index" ><p *ngIf="abc.btime!==null">{{abc.btime}}--{{abc.etime}}</p></td>
+              <td class="fir">{{product.center.name}}</td><!--*ngIf="abc.btime!==null"-->
+              <td class="sec" *ngFor="let abc of product.time;let zot=index" ><p >{{abc.bTime}}--{{abc.eTime}}</p></td>
               <td class="five">
                 <div class="ope-list">
                   <a class="two" title="修改" href="javascript:void(0);" (click)="update(product.center.id,product.center.name,idx)"></a>
@@ -116,44 +116,6 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeMaskAdd()">取 消</button>
         <button type="submit" class="btn btn-info" (click)="addProduct()" >保 存</button>
-      </div>
-    </form>
-  </div>
-</div>
-<div class="maskUpdate">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h4 class="modal-title">修改服务时间</h4>
-      <button type="button" class="close" (click)="closeMaskUp()">×</button>
-    </div>
-    <form class="form-building form-material">
-      <div class="modal-body clearfix">
-        <div class="protop">
-          <div class="pdetail">
-            <div>
-              <div>
-                <label>服务中心：</label>
-                <input id="supplierId_edit" name="supplierId_edit" disabled="disabled" value="">
-              </div>
-            </div>
-            <div style="margin-top: 10px;">
-              <label>开始时间：</label>
-              <input type="time" id="appcotent_edit"  class="noticetext" name="appcotent_edit"  (blur)="verifyEmpty('appcotent_edit','时间不能为空')" maxlength="20"
-                     [(ngModel)]="productUp.appcotent">
-              <span class="errorMessage"></span>
-            </div>
-            <div style="margin-top: 10px;">
-              <label>结束时间：</label>
-              <input type="time" id="unit_edit"  class="noticetext" name="unit_edit" (blur)="verifyEmpty('unit_edit','时间不能为空')"   [(ngModel)]="productUp.unit" maxlength="10">
-              <span class="errorMessage"></span>
-
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="closeMaskUp()">取 消</button>
-        <button type="submit" class="btn btn-info"   (click)="updateProduct()" >保 存</button>
       </div>
     </form>
   </div>
