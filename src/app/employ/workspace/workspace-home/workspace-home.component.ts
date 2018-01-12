@@ -4,22 +4,25 @@ import * as echarts from 'echarts';
 import {WorkspaceMydeskService} from "../../../service/workspace-mydesk/workspace-mydesk.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 @Component({
   selector: 'app-workspace-home',
   templateUrl: './workspace-home.component.html',
   styleUrls: ['./workspace-home.component.css'],
-  providers: [WorkspaceMydeskService, ErrorResponseService]
+  providers: [WorkspaceMydeskService, ErrorResponseService,UtilBuildingService]
 })
 export class WorkspaceHomeComponent implements OnInit {
 
   public count          : number;
   public pendings       : Array<any>;
   public serviceCenters : Array<any>;
+  public myServiceCenter: string;
   constructor(
     private router:Router,
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService: ErrorResponseService,
-    private workspaceMydeskService:WorkspaceMydeskService
+    private workspaceMydeskService:WorkspaceMydeskService,
+    private utilBuildingService:UtilBuildingService,
   ) { }
 
   ngOnInit() {
@@ -28,9 +31,10 @@ export class WorkspaceHomeComponent implements OnInit {
     this.globalCatalogService.setTitle("员工服务/我的工作台");
     this.getBalance();
     this.getHandlingOrder();
-    this.getServiceCenter();
     this.getUserConsume("costHistoryChart","cost");
     this.getUserConsume("costDashHistoryChart","laundry");
+    this.getServiceCenter();
+    this.getMyServiceCenter();
   }
 
   linkCost(){
@@ -126,6 +130,7 @@ export class WorkspaceHomeComponent implements OnInit {
         }
       })
   }
+  /*获取资产按月统计数据*/
   getUserConsume(chartID,type){
     this.workspaceMydeskService.getUserConsume(type)
       .subscribe((data)=>{
@@ -216,5 +221,24 @@ export class WorkspaceHomeComponent implements OnInit {
           this.serviceCenters = data.data;
         }
       });
+  }
+  /*获取默认的服务中心*/
+  getMyServiceCenter(){
+    this.utilBuildingService.getServiceCenter()
+      .subscribe(data=>{
+        if(this.errorResponseService.errorMsg(data)){
+          this.myServiceCenter = data.data;
+        }
+      })
+  }
+  changeMyService(){
+    this.workspaceMydeskService.setMyService(this.myServiceCenter)
+      .subscribe(data=>{
+        if(this.errorResponseService.errorMsg(data)){
+          if(data.data.msg!=="操作成功"){
+            this.getMyServiceCenter();
+          }
+        }
+      })
   }
 }

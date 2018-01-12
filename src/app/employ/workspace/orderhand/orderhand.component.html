@@ -1,62 +1,37 @@
-<div class="back">
-<!--页面标题-->
-<div class="head-box">
-  <div class="nav-title">
-    <a><h4>消费账户及记录查询</h4></a>
-    <div class="b-head-right">
-      <div class="content-box" tabindex="0" (click)="back()">
-        <i class="icon-reload"></i> 返回
-      </div>
-    </div>
-  </div>
-    <div class="energy-container">
-      <div class="table-respons">
-        <table class="table" width="100%">
-          <thead>
-          <tr>
-            <th>订单编号</th>
-            <th>订单状态</th>
-            <th>创建时间</th>
-            <th>支付时间</th>
-            <th>订单金额</th>
-            <th>订单处理</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let inner of rooms; let i=index">
-            <td>No.{{inner.roomNum}}</td>  <!--订单编号-->
-            <td>{{inner.roomUse}}</td>  <!--订单状态-->
-            <td>2017/12/14<br>04:21</td>  <!--创建时间-->
-            <td>2017.12.15<br>18:43</td>  <!--支付时间-->
-            <td style="color: red">￥ {{inner.roomNum}}</td>  <!--订单金额-->
-
-            <!--<div class="row text-right">-->
-              <!--<a class="btn btn-new" href="javascript:;" (click)="addCompany()">支付</a>-->
-            <!--</div>-->
-
-            <td>
-              <a href="javascript:void(0)" class="btn" (click)="editAttach(i);">
-                <i class="icon-people">支付</i>
-              </a>
-              <a href="javascript:void(0)" class="btn" (click)="delAttach(i);">
-                <i class="icon-trash">取消</i>
-              </a>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-        <div class="div-none" *ngIf="rooms.length < 1"> <!--copyRooms-->
-          <p>暂无记录</p>
+<div class="panel">
+  <div class="head-box">
+    <div class="nav-title">
+      <a><h4>待处理订单</h4></a>
+      <div class="b-head-right">
+        <div class="content-box" tabindex="0"  onclick="history.go(-1);">
+          <i class="icon-reload"></i> 返回
         </div>
       </div>
-
     </div>
-    <app-turn-bar
-      [pageNo] = "pageNo"
-      [pageSize] = "pageSize"
-      [total] = "total"
-      (turnEvent) = "getRoomInfo($event)">
-    </app-turn-bar>
   </div>
-  <!--翻页-->
+
+  <div class="view">
+    <div class="table-head">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row list-title" style="height:45px;">
+          <th>订单编号</th>
+          <th>订单类型</th>
+          <th>订单状态</th>
+          <th>处理</th>
+        </tr>
+        <tr class="row" *ngFor="let thing of things">
+          <td>{{thing.itemId}}</td>
+          <td>{{thing.itemType}}</td>
+          <td>{{thing.itemStatus}}</td>
+          <td>
+            <a *ngIf="thing.itemUrl" [routerLink]="['../../'+thing.itemUrl]">前往处理</a>
+            <span class="red" *ngIf="!thing.itemUrl">当前路径为null请检查</span>
+          </td>
+        </tr>
+      </table>
+      <div class="div-none" *ngIf="things.length === 0">
+        <p>暂无记录</p>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {WorkspaceMydeskService} from "../../../service/workspace-mydesk/workspace-mydesk.service";
+import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 
 @Component({
   selector: 'app-orderhand',
@@ -9,36 +11,24 @@ import {WorkspaceMydeskService} from "../../../service/workspace-mydesk/workspac
 })
 export class OrderhandComponent implements OnInit {
 
-  // public rooms: Array<Room>;
-  public rooms = new Array<number>();
-  public pageNo      : number = 1;
-  public pageSize    : number = 10;
-  public total       : number = 0;
+  public things      : Array<any> = [];
   constructor(
-    private workspaceMydeskService:WorkspaceMydeskService
+    private globalCatalogService: GlobalCatalogService,
+    private errorResponseService: ErrorResponseService,
+    private workspaceMydeskService:WorkspaceMydeskService,
   ) {
 
   }
-
   ngOnInit() {
-    this.initConsume();
+    this.globalCatalogService.setTitle("员工服务/我的工作台/待办事项");
+    this.getHandlingOrderInfo();
   }
-
-  initConsume() {
-    this.rooms = new Array<number>();
-    this.pageNo = 1;
-    this.getRoomInfo(1);
-  }
-  /*获取消费记录信息*/
-  getRoomInfo(pageNo: number) {
-    this.pageNo = pageNo;
-    this.workspaceMydeskService.getHandlingOrder()
-      .subscribe(data => {
-        /*this.rooms = data.data.infos;
-        this.total = data.data.total;*/
-      });
-  }
-  back(){
-    history.go(-1);
+  getHandlingOrderInfo(){
+    this.workspaceMydeskService.getHandlingOrderInfo('DOrder','')
+      .subscribe(data=>{
+        if(this.errorResponseService.errorMsg(data)){
+            this.things = data.data;
+        }
+      })
   }
 }

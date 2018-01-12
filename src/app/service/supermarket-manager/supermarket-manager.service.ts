@@ -165,12 +165,16 @@ export class SupermarketManagerService {
    * @param pageSize
    * @returns {Observable<R>}
    */
-  getOrderAllList(postData,pageNo,pageSize){
-    console.log(postData);
-    const url = '/proxy/mmall/supermarketOrder/getOrderAllList/'
-      +pageNo+'/'+pageSize;
-    return this.http.post(url,postData,this.options)
-      .map(res => res.json());
+  getOrderAllList(type,ids,postData,pageNo,pageSize){
+    ids = ids.join(',');
+    const url = this.ipSetting.ip+'/mmall/supermarketOrder/getOrderAllList/'+type+'/'
+      +pageNo+'/'+pageSize +"?ids=" + ids;
+    if(type === 'list'){
+      return this.http.post(url,postData,this.options)
+        .map(res => res.json());
+    }else{
+      window.open(url);
+    }
   }
   /**
    * 更新订单

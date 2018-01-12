@@ -32,4 +32,31 @@ export class WorkspaceMydeskService {
     return this.http.get(url,this.ipSetting.options)
       .map(res => res.json());
   }
+  /*修改人员归属的服务中心*/
+  setMyService(data){
+    const url = this.ipSetting.ip + "/employee/mydesk/updateServiceCenter/" + data;
+    return this.http.get(url,this.ipSetting.options)
+      .map(res => res.json());
+  }
+  /*获取用户消费记录列表*/
+  getUserConsumeList(type,pageNo,pageSize){
+    const url = this.ipSetting.ip + "/employee/mydesk/getUserConsumeList/"+pageNo+"/"+pageSize+"/"+type;
+    return this.http.get(url,this.ipSetting.options)
+      .map(res => res.json());
+  }
+  /*获取用户充值记录列表*/
+  getUserRechargeList(pageNo,pageSize){
+    const url = this.ipSetting.ip + "/employee/mydesk/getUserRechargeList/"+pageNo+"/"+pageSize;
+    return this.http.get(url,this.ipSetting.options)
+      .map(res => res.json());
+  }
+  /*获取用户事项列表*/
+  getHandlingOrderInfo(type,status){
+    if(status === ""){
+      status = "null";
+    }
+    const url = this.ipSetting.ip + "/employee/mydesk/getHandlingOrderInfo/"+type+"/"+status;
+    return this.http.get(url,this.ipSetting.options)
+      .map(res => res.json())
+  }
 }

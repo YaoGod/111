@@ -14,6 +14,5 @@ export class SupermarketOrder {i
   orderItems                :Array<SupermarketOrderItem>;
   userName                  : string;
   telPhone                  : string;
-  constructor() { }
-
+  orderNo                   : string;
 }

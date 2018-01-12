@@ -277,7 +277,7 @@ ul,li{
   font-size: 12px;
   text-align: left;
 }
-.wrap>ul>li>input[type=text], .wrap>ul>li>input[type=datetime-local],.wrap select {
+.wrap>ul>li>input[type=text], .wrap>ul>li>input[type=date],.wrap select {
   height: 30px;
   width: 140px;
   padding: 0 5px;
@@ -583,4 +583,8 @@ td>img{
 }
 .row .tleft{
   text-align: left;
+}
+.goods{
+  width: 100px;
+  overflow: hidden;
 }

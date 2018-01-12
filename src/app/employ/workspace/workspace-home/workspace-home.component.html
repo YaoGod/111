@@ -24,13 +24,13 @@
 <div class="part">
   <div class="section" style="width: 50%">
     <div class="section-panel">
-      <h3>消费账户-近期消费<a (click)="linkCost()">明&nbsp;&nbsp;细</a></h3>
+      <h3>消费账户-近期消费(元)<a (click)="linkCost()">明&nbsp;&nbsp;细</a></h3>
       <div class="history-chart" id="costHistoryChart"></div>
     </div>
   </div>
   <div class="section" style="width: 50%;padding-left: 20px">
     <div class="section-panel">
-      <h3>洗衣账户-近期消费<a (click)="linkCostDash()">明&nbsp;&nbsp;细</a></h3>
+      <h3>洗衣账户-近期消费(元)<a (click)="linkCostDash()">明&nbsp;&nbsp;细</a></h3>
       <div class="history-chart" id="costDashHistoryChart"></div>
     </div>
   </div>
@@ -38,7 +38,13 @@
 <div class="part">
   <div class="section" style="width: 100%">
     <div class="section-panel">
-      <h3>服务中心</h3>
+      <h3>服务中心
+        <a *ngIf="myServiceCenter">
+        <select name="myService" [(ngModel)]="myServiceCenter" (change)="changeMyService()">
+          <option *ngFor="let service of serviceCenters">{{service.name}}</option>
+        </select>
+        </a>
+      </h3>
       <table class="service-list">
        <tr *ngFor="let service of serviceCenters">
          <td>{{service.name}}</td>

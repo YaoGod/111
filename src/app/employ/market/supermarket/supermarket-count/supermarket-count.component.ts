@@ -16,8 +16,10 @@ export class SupermarketCountComponent implements OnInit {
   public pageSize = 10;
   public total = 0;
   public orders = [];
-  public search : any = {};
+  public search;
   public serviceCenters: Array <any> = [];
+  public all :boolean;
+  public checks : Array<any>;
   constructor(
     private supermarketManagerService: SupermarketManagerService,
     private errorVoid: ErrorResponseService,
@@ -25,17 +27,19 @@ export class SupermarketCountComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.search = {};
     this.search.status = "";
     this.search.serviceCenter = "";
+    this.checks = [];
     this. getServiceCenter();
     this.getOrderAllList(1);
   }
   /*获取订单列表*/
   getOrderAllList(pageNo){
     this.pageNo = pageNo;
-    this.supermarketManagerService.getOrderAllList(this.search,this.pageNo,this.pageSize)
+    this.supermarketManagerService.getOrderAllList('list',[],this.search,this.pageNo,this.pageSize)
       .subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
         this.total = data.data.total;
       }
@@ -58,9 +62,35 @@ export class SupermarketCountComponent implements OnInit {
       'popType': 1,
       'imgType': 3,
       'callback': ()=>{
-
+        let list = document.getElementsByName("orderCheck");
+        this.checks = [];
+        for(let i = 0;i<list.length;i++){
+          if(list[i]['checked']){
+            this.checks.push(list[i]['value']);
+          }
+        }
+        if(this.checks.length>0){
+          this.supermarketManagerService.getOrderAllList('excel',this.checks,this.search,this.pageNo,this.pageSize)
+        }else{
+          this.supermarketManagerService.getOrderAllList('excel',['all'],this.search,this.pageNo,this.pageSize)
+        }
       }
     });
   }
-
+  /*全选*/
+  checkedAll(){
+    let list = document.getElementsByName("orderCheck");
+    for(let i = 0;i<list.length;i++){
+      list[i]['checked'] = this.all;
+    }
+  }
+  /*判断是否全选*/
+  checkIsAll(){
+    let list = document.getElementsByName("orderCheck");
+    for(let i = 0;i<list.length;i++){
+      if(!list[i]['checked']){
+        this.all = false;
+      }
+    }
+  }
 }

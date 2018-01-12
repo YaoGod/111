@@ -38,9 +38,9 @@
             <dt>
             <table class="table-head0">
               <tr>
-                <td class="zero">订单编号：{{order.id}}</td>
+                <td class="zero">订单编号：{{order.orderNo}}</td>
                 <td class="zero">服务中心：{{order.serviceCenter}}</td>
-                <td class="zero">订单价格：{{order.payment}}元</td>
+                <td class="zero">订单价格：{{order.payment|number:'1.2-2'}}元</td>
                 <td class="zero" *ngIf="order.status=='0'">订单状态：已付款</td>
                 <td class="zero" *ngIf="order.status=='4'">订单状态：已配货</td>
                 <td class="zero" *ngIf="order.status=='1'">订单状态：已到货</td>
@@ -86,12 +86,12 @@
               <dd *ngFor="let item of order.orderItems;let idx=index">
                 <table style="width:100%;">
                   <td class="eight">
-                    <img *ngIf="item.imagePath!==''" [src]="'/proxy/' + item.imagePath"/>
+                    <img *ngIf="item.imagePath!==''" [src]="ipSetting.ip + item.imagePath"/>
                   </td>
                   <td class="sec" style="text-align: left"> <p class="headtxt">{{item.productName}}</p></td>
-                  <td class="sec">￥{{item.unitPrice}}</td>
+                  <td class="sec">￥{{item.unitPrice|number:'1.2-2'}}</td>
                   <td class="three">{{item.quantity}}</td>
-                  <td class="four">￥{{item.totalPrice}}</td>
+                  <td class="four">￥{{item.totalPrice|number:'1.2-2'}}</td>
                 </table>
               </dd>
             </dl>

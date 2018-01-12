@@ -1,13 +1,7 @@
-
-.back{
-  padding: 20px;
-  min-height: 650px;
-}
 .head-box{
   position: relative;
   padding: 10px;
   background: #ffffff;
-  border-bottom: 1px solid rgba(120, 130, 140, .13);
 }
 .nav-title{
   margin-bottom: 10px;
@@ -25,29 +19,126 @@
   padding-right: 10px;
   border: 1px solid #eee;
   margin-right: 10px;
-  line-height: 36px;
+  line-height: 34px;
   border-radius: 3px;
   font-size: 15px;
   color: #ff3c00;
+  cursor: pointer;
 }
 .b-head-right:hover{
   border-color: #ff3c00;
 }
 .content-box{
   outline: none;
+}
+.panel-head {
+  display: inline-block;
+  color: #2b2b2b;
+  background-color: #fff;
+  border-radius: 0;
+  font-weight: 300;
+  text-transform: uppercase;
+  padding: 20px 25px;
+}
+
+.panel-action {
+  float: right;
+}
+
+.panel-action > a {
+  color: #2b2b2b;
+  opacity: .5;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+
+.panel {
+ padding: 20px;
+}
+.row,.row-add{
+  height: 35px;
+}
+.row td, .row th{
+  padding: 3px 10px;
+  text-align: center;
+  border-bottom: 1px solid #e1eaf2;
+}
+.row:active,.row:hover{
+  background-color: #f7fafc;
+}
+.row td,.row-add td{
+  color: #686868;
+  font-size: 12px;
+  font-weight: 300;
+  text-align: center;
+}
+.row .text-left{
+  text-align: left;
+}
+.list-title {
+  background-color: #f0f7fc;
+  color: #4b87d4;
+}
+.list-box {
+  width: 100%;
+}
+.btn-info {
+  margin-left: 15px;
+  padding: .3rem 1.2rem;
+  border-radius: 4px;
+  background: #03a9f3;
+  border: 1px solid #03a9f3;
+  color: #fff;
+}
+
+.btn-info:hover {
+  background: #03a9f3;
+  opacity: .8;
+  border: 1px solid #03a9f3;
   cursor: pointer;
 }
-.div-none{
+
+.control-label {
+  display: block;
+  color: #8d9ea7;
+}
+
+.error {
+  width: 168px;
+  padding-left: 100px;
+  font-size: 10px;
+  color: #d75452;
+}
+
+
+.div-none {
   padding: 20px;
   color: #CCCCCC;
   text-align: center;
 }
-.form-title{
+
+.card-border > h6 {
+  height: 50px;
+  line-height: 50px;
+  text-align: right;
+  color: #03a9f3;
+  font-size: 20px;
+}
+
+.card-border > h6 > i {
+  padding-left: 10px;
+  font-size: 12px;
+  color: #8d9ea7;
+  cursor: pointer;
+}
+
+.form-title {
   display: inline-block;
   width: 70px;
   height: 30px;
   line-height: 30px;
-  padding-right:10px;
+  padding-right: 10px;
+  margin-right: 10px;
   margin-right: 10px;
   background-color: #f8f8f8;
   color: #8d9ea7;
@@ -55,107 +146,13 @@
   font-size: 12px;
   text-align: center;
   vertical-align: top;
-}
-.long-text{
-  line-height: 24px;
-}
-.card-left>label>p{
-  display: inline-block;
-  width: calc(100% - 100px);
-  line-height: 30px;
-  font-size: 12px;
-  color: #797979;
   vertical-align: top;
 }
-.card-left{
-  display: inline-block;
-  width: 100%;
+.view{
+  padding: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 }
-.card-left>label{
-  display: block;
-  vertical-align: top;
+.table-head{
+  min-height: 600px;
 }
-.card-right{
-  width: 33.3333%;
-  height: auto;
-  float: right;
-}
-.turn-box{
-  padding-bottom: 10px;
-  clear: both;
-}
-.row {
-  text-align: center;
-  height: 70px;
-  /*background-color: #fff;*/
-  box-shadow: 0 1px 0 0 #ccc;
-}
-.btn {
-  padding: 1px 1px;
-  border-radius: 3px;
-  background-color: #fb9678;
-  border: 1px solid #fff;
-  transition: all .6s;
-}
-.btn:hover {
-  opacity: .8;
-  border-color: #fb9678;
-}
-.table td{
-  text-align: center;
-  padding: 3px 10px;
-  font-size: 10px;
-  color: #999;
-  border-bottom: 1px solid #e1eaf2;
-}
-.table th{
-  font-size: 12px;
-  padding: 3px 10px;
-  height: 35px;
-  text-align: center;
-  background-color: #f0f7fc;
-  color: #4b87d4;
-  border-bottom: 1px solid #e1eaf2;
-}
-.table > tbody > tr:hover, .table > tbody > tr.active > td, .table > tbody > tr.active > th{
-  background-color: #f7fafc !important;
-}
-.table>thead>tr{
-  background-color: #5ca0ce;
-}
-.table>tbody>tr{
-  border-bottom:1px solid #ccc;
-}
-.energy-container{
-  min-height:670px;
-}
-.turn{
-  padding: 20px 2% 15px 2%;
-  /*background: #ffffff;*/
-}
-.turn>ul{
-  display: flex;
-  height: 35px;
-}
-.turn>ul>li{
-  height: 35px;
-  width: 30px;
-  line-height: 35px;
-  border: 1px solid #e4e7ea;
-  color: #686868;
-  text-align: center;
-  margin-left:-1px;
-  cursor: pointer;
-}
-.turn>ul>li:first-child{
-  margin-left: 0;
-}
-.turn>ul>li.active{
-  color: #ffffff;
-  background: #04a9f3;
-  border-color: #04a9f3;
-}
-
-
-
-

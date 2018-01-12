@@ -4,6 +4,7 @@ import {SupermarketManagerService} from "../../../../service/supermarket-manager
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {SupermarketCart} from "../../../../mode/supermarketCart/supermarket-cart.service";
 import {SupermarketProduct} from "../../../../mode/supermarketProduct/supermarket-product.service";
+import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 declare var confirmFunc:any;
 @Component({
   selector: 'app-supbuy',
@@ -12,6 +13,7 @@ declare var confirmFunc:any;
   providers: [SupermarketManagerService,ErrorResponseService]
 })
 export class SupbuyComponent implements OnInit {
+  public rule;
   public products:Array<SupermarketProduct>;
   public search: SupermarketProduct;
   public cart: SupermarketCart;
@@ -23,9 +25,15 @@ export class SupbuyComponent implements OnInit {
   public username = localStorage.getItem("username");
   constructor(
     private marketManagerService: SupermarketManagerService,
-    private errorVoid: ErrorResponseService,) { }
+    private errorVoid: ErrorResponseService,
+    private globalCatalogService: GlobalCatalogService,) { }
 
   ngOnInit() {
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("employ/market");
+      }
+    );
     this.search = new SupermarketProduct();
     this.pages = [];
     this.getMarketShowList(1);

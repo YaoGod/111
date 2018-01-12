@@ -4,6 +4,7 @@ import {ErrorResponseService} from "../../../../service/error-response/error-res
 import {SupermarketOrder} from "../../../../mode/supermarketOrder/supermarket-order.service";
 import * as $ from 'jquery';
 import {WorkspaceMydeskService} from "../../../../service/workspace-mydesk/workspace-mydesk.service";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 declare var confirmFunc:any;
 @Component({
   selector: 'app-suporder',
@@ -34,9 +35,11 @@ export class SupermarketOrderComponent implements OnInit {
   public formData: Array<any>;
   public title: string = "超市零售区订单";
 
-  constructor(private supermarketManagerService: SupermarketManagerService,
-              private workspaceMydeskService: WorkspaceMydeskService,
-              private errorVoid: ErrorResponseService) { }
+  constructor(
+    private supermarketManagerService: SupermarketManagerService,
+    private workspaceMydeskService: WorkspaceMydeskService,
+    private errorVoid: ErrorResponseService,
+    public ipSetting: IpSettingService) { }
 
   ngOnInit() {
     this.search.serverCenter = "";
@@ -46,7 +49,7 @@ export class SupermarketOrderComponent implements OnInit {
   /*获取订单列表*/
   getOrderAllList(pageNo){
     this.pageNo = pageNo;
-    this.supermarketManagerService.getOrderAllList(this.search,this.pageNo,this.pageSize)
+    this.supermarketManagerService.getOrderAllList('list',[],this.search,this.pageNo,this.pageSize)
       .subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;

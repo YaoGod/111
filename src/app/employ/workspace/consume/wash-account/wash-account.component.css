@@ -3,6 +3,7 @@
   padding: 10px;
   background: #ffffff;
   border-bottom: 1px solid rgba(120, 130, 140, .13);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 .nav-title{
   margin-bottom: 10px;
@@ -16,22 +17,21 @@
 }
 .b-head-right{
   float: right;
-}
-.content-box{
-  float: left;
   padding-left: 10px;
   padding-right: 10px;
   border: 1px solid #eee;
   margin-right: 10px;
-  line-height: 28px;
+  line-height: 34px;
   border-radius: 3px;
   font-size: 15px;
   color: #ff3c00;
-  outline: none;
   cursor: pointer;
 }
-.content-box:hover{
+.b-head-right:hover{
   border-color: #ff3c00;
+}
+.content-box{
+  outline: none;
 }
 .panel-head {
   display: inline-block;
@@ -57,26 +57,15 @@
 .panel {
   float: right;
 }
-
+.panel-right{
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
 .panel > ul {
   display: flex;
   flex-wrap: wrap;
 }
-
-@media (min-width: 1000px ) {
-  .panel > ul > li {
-    /* width: 20%;*/
-    height: 36px;
-  }
-}
-
-@media (max-width: 1000px ) {
-  .panel > ul > li {
-    float: left;
-    height: 36px;
-  }
-}
-
 .panel > ul > li > label {
   float: left;
   color: #686868;
@@ -125,75 +114,33 @@
   padding-bottom: 20px;
   width: 31.33%;
 }
-
-.turn > ul {
-  display: flex;
+.row,.row-add{
   height: 35px;
 }
-
-.turn > ul > li {
-  height: 35px;
-  width: 30px;
-  line-height: 35px;
-  border-top: 1px solid #e4e7ea;
-  border-right: 1px solid #e4e7ea;
-  border-bottom: 1px solid #e4e7ea;
-  color: #686868;
+.row td, .row th{
+  padding: 3px 10px;
   text-align: center;
-  cursor: pointer;
+  border-bottom: 1px solid #e1eaf2;
 }
-
-.turn > ul > li:first-child {
-  border-left: 1px solid #e4e7ea;
+.row:active,.row:hover{
+  background-color: #f7fafc;
 }
-
-.turn > ul > li.active {
-  color: #ffffff;
-  background: #04a9f3;
-  border-color: #04a9f3;
+.row td,.row-add td{
+  color: #686868;
+  font-size: 12px;
+  font-weight: 300;
+  text-align: center;
 }
-
-.error {
-  width: 276px;
-  /*  height: 18px;*/
-  padding-left: 75px;
-  font-size: 10px;
-  color: #d75452;
+.row .text-left{
+  text-align: left;
 }
-
 .list-title {
   background-color: #f0f7fc;
   color: #4b87d4;
 }
-
 .list-box {
   width: 100%;
 }
-
-.turn > ul {
-  display: flex;
-  height: 35px;
-  border-left: 1px solid #e4e7ea;
-}
-
-.turn > ul > li {
-  height: 35px;
-  width: 30px;
-  line-height: 35px;
-  border-top: 1px solid #e4e7ea;
-  border-right: 1px solid #e4e7ea;
-  border-bottom: 1px solid #e4e7ea;
-  color: #686868;
-  text-align: center;
-  cursor: pointer;
-}
-
-.turn > ul > li.active {
-  color: #ffffff;
-  background: #04a9f3;
-  border-color: #04a9f3;
-}
-
 .btn-info {
   margin-left: 15px;
   padding: .3rem 1.2rem;
@@ -233,43 +180,6 @@
   text-align: center;
 }
 
-.room-list {
-  min-height: 680px;
-}
-
-.room-list ul {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.room-card {
-  /*
-  float: left;
-  width: 50%;
-  min-width: 450px;
-  height: auto;
-  margin-bottom: 15px;*/
-  flex: 0 0 49%;
-  margin-top: 15px;
-  background-color: #ffffff;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-}
-
-.room-list ul li:nth-of-type(2n) {
-  margin-left: 2%;
-}
-
-.card-border-xiaofei {
-  height: 100%;
-  max-height: 210px;
-}
-
-.card-border-xiyi {
-  height: 100%;
-  max-height: 180px;
-}
-
 .card-border > h6 {
   height: 50px;
   line-height: 50px;
@@ -299,46 +209,12 @@
   text-align: center;
   vertical-align: top;
 }
-
-.long-text {
-  /*line-height: 24px;*/
+.view{
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 }
-
-.card-left > label {
-  display: block;
-  vertical-align: top;
+.table-head{
+  min-height: 400px;
 }
-
-.card-left > label > p {
-  display: inline-block;
-  width: calc(100% - 100px);
-  line-height: 30px;
-  font-size: 12px;
-  color: #797979;
-  vertical-align: top;
-
-  /*white-space: nowrap;*/
-  /*overflow: hidden;*/
-  /*text-overflow:ellipsis;*/
-
-}
-
-.card-left {
-  display: inline-block;
-  width: 100%;
-}
-
-.card-right {
-  width: 33.3333%;
-  height: auto;
-  float: right;
-}
-
-.turn-box {
-  padding-bottom: 0px;
-  padding-top: 10px;
-  /*padding-left: 55px;*/
-  clear: both;
-}
-
-

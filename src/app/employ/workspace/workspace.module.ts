@@ -4,8 +4,6 @@ import { WorkspaceComponent } from './workspace.component';
 import { RouteGuardService } from '../../service/route-guard/route-guard.service';
 import { Routes, RouterModule } from '@angular/router';
 import { OrderhandComponent } from './orderhand/orderhand.component';
-import {ConsumeComponent} from "./consume/consume.component";
-import { ServicecenterComponent } from './servicecenter/servicecenter.component';
 import {TurnBarModule} from "../../component/turn-bar/turn-bar.module";
 const routes: Routes = [
   {
@@ -29,10 +27,6 @@ const routes: Routes = [
       {
         path: 'orderhand',
         component: OrderhandComponent,
-      },
-      {
-        path: 'servicecenter',
-        component: ServicecenterComponent,
       }
     ]
   }
@@ -44,6 +38,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
-  declarations: [WorkspaceComponent, OrderhandComponent, ServicecenterComponent]
+  declarations: [WorkspaceComponent, OrderhandComponent]
 })
 export class WorkspaceModule { }

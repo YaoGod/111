@@ -25,13 +25,16 @@
   display: inline-block;
   border-radius: 11px;
   border: 2px solid #999;
-  height: 20px;
-  line-height: 20px;
+  height: 23px;
+  line-height: 23px;
   padding: 0 10px;
   transition-duration: 200ms;
   font-size: 10px;
   color: #999;
   cursor: pointer;
+}
+.section-panel>h3>a>select{
+  color: #999;
 }
 .total-price{
   height: 170px;
