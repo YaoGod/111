@@ -373,7 +373,7 @@ input{
   height:120px;
   line-height:24px;
   display: -webkit-box;
-  display: box;
+  display: flex;
   overflow:hidden;
   text-overflow:ellipsis;
   word-wrap:break-word;

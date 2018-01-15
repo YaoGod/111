@@ -3,7 +3,7 @@ import {ErrorResponseService} from "../../../../service/error-response/error-res
 import * as $ from 'jquery';
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 import {Goods,GoodsCart} from "../../../../service/goods-entity/goods-entity.service";
-
+import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 @Component({
   selector: 'app-goodsbuy',
   templateUrl: './goodsbuy.component.html',
@@ -11,6 +11,7 @@ import {Goods,GoodsCart} from "../../../../service/goods-entity/goods-entity.ser
   providers: [ErrorResponseService]
 })
 export class GoodsbuyComponent implements OnInit {
+  public rule;
   public imgPrefix: string;
   public goods:Array<Goods>;
   public search: Goods;
@@ -20,9 +21,17 @@ export class GoodsbuyComponent implements OnInit {
   public cartsize: number;
   public pages: Array<number>;
   constructor(private errorVoid: ErrorResponseService,
-              private ipSetting  : IpSettingService) { }
+              private ipSetting  : IpSettingService,
+              private globalCatalogService: GlobalCatalogService) {
+    this.rule = this.globalCatalogService.getRole("employ/market");
+  }
 
   ngOnInit() {
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("employ/market");
+      }
+    );
     this.imgPrefix = this.ipSetting.ip;
     this.search = new Goods();
     this.pages = [];

@@ -26,7 +26,9 @@ export class SupbuyComponent implements OnInit {
   constructor(
     private marketManagerService: SupermarketManagerService,
     private errorVoid: ErrorResponseService,
-    private globalCatalogService: GlobalCatalogService,) { }
+    private globalCatalogService: GlobalCatalogService,) {
+    this.rule = this.globalCatalogService.getRole("employ/market");
+  }
 
   ngOnInit() {
     this.globalCatalogService.valueUpdated.subscribe(

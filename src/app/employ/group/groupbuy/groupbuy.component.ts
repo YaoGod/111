@@ -20,9 +20,10 @@ declare var tinymce: any;
   providers:[GroupProductService,ErrorResponseService,GroupNoticeService]
 })
 export class GroupbuyComponent implements OnInit {
+  public rule;
   public groupProducts: Array<GroupProduct>;
   public search:GroupProduct;
-  public  cart:GroupCart;
+  public cart:GroupCart;
   public groupNotices: Array<GroupNotice>;
   public cartsize:number;
   /*当前页码*/
@@ -36,9 +37,15 @@ export class GroupbuyComponent implements OnInit {
               private groupNoticeService: GroupNoticeService,
               private errorVoid: ErrorResponseService,private ipSetting: IpSettingService,
                private router:Router){
+    this.rule = this.globalCatalogService.getRole("employ/group");
   }
 
   ngOnInit() {
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("employ/group");
+      }
+    );
     this.pages = [];
     this.search = new GroupProduct();
     this.globalCatalogService.setTitle("员工服务/员工团购网/商品订购");

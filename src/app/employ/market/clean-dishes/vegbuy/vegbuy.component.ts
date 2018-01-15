@@ -4,6 +4,7 @@ import {VegetableCart} from '../../../../mode/vegetableCart/vegetable-cart.servi
 import { VegetableInfoService } from '../../../../service/vegetable-info/vegetable-info.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
 import * as $ from 'jquery';
+import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 
 @Component({
   selector: 'app-vegbuy',
@@ -12,6 +13,7 @@ import * as $ from 'jquery';
   providers: [VegetableInfoService,ErrorResponseService]
 })
 export class VegbuyComponent implements OnInit {
+  public rule;
   public vegetables:Array<Vegetable>;
   public search: Vegetable;
   public cart: VegetableCart;
@@ -22,9 +24,17 @@ export class VegbuyComponent implements OnInit {
   public pages: Array<number>;
   public cartsize:number;
   constructor(private vegetableInfoService: VegetableInfoService,
-              private errorVoid: ErrorResponseService,) { }
+              private errorVoid: ErrorResponseService,
+              private globalCatalogService: GlobalCatalogService,) {
+    this.rule = this.globalCatalogService.getRole("employ/market");
+  }
 
   ngOnInit() {
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("employ/market");
+      }
+    );
     this.search = new Vegetable();
     this.pages = [];
     this.getVegetableShowList();
