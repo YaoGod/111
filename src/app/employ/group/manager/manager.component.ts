@@ -55,7 +55,7 @@ export class ManagerComponent implements OnInit {
     this.search.checkStatus = '1';
     this.groupProductService.getProductList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
-        console.log(data);
+        // console.log(data);
         this.groupProducts = data.data.infos;
         this.total = data.data.total;
       }
@@ -66,12 +66,14 @@ export class ManagerComponent implements OnInit {
     this.upStatusProduct.code = code;
     this.groupProductService.updateStatus(this.upStatusProduct)
       .subscribe(data => {
-        if(data['status'] === 0){
-          alert("保存成功");
+        if (this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data['msg'],
+            'popType': 0,
+            'imgType': 1,
+          });
           this.getProductList();
-        }else{
-          alert("保存失败");
-          this.closeMask0();
         }
       })
   }
@@ -80,6 +82,7 @@ export class ManagerComponent implements OnInit {
     $('.mask').show();
   }
   closeMask() {
+    $('.errorMessage').html('');
     $('.mask').hide();
     $('#prese1').val('');
   }
@@ -174,15 +177,14 @@ export class ManagerComponent implements OnInit {
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
     $('#' + id).next('span').html('');
   }
-
-
+  /*点击修改*/
   update(code: string) {
     this.groupProductService.getGroupProduct(code)
       .subscribe(data => {
-        if(data['status']===0){
+        if (this.errorVoid.errorMsg(data)) {
           this.upGroupProduct = data.data;
+          $('.mask2').show();
         }
-        $('.mask2').show();
       })
   }
 
@@ -199,8 +201,7 @@ export class ManagerComponent implements OnInit {
     }
     this.groupProductService.updateGroupbuyProduct(this.upGroupProduct)
       .subscribe(data => {
-        console.log(data);
-        if(data['status'] === 0){
+        if (this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
             'title': '提示',
             'mes': data['msg'],
@@ -209,26 +210,21 @@ export class ManagerComponent implements OnInit {
           });
           this.closeMask2();
           this.getProductList();
-        }else{
-          confirmFunc.init({
-            'title': '提示',
-            'mes': data['msg'],
-            'popType': 0,
-            'imgType': 2,
-          });
-          this.closeMask2();
         }
       })
   }
   closeMask2() {
+    $('.errorMessage').html('');
     $('.mask2').hide();
     $('#prese').val('');
   }
   closeMask0() {
+    $('.errorMessage').html('');
     $('.mask0').hide();
     $('#prese0').val('');
   }
   closeMask3() {
+    $('.errorMessage').html('');
     $('.mask3').hide();
   }
   /*修改文件图片上传*/
@@ -239,7 +235,12 @@ export class ManagerComponent implements OnInit {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
           this.upGroupProduct.image = data.msg;
-          alert("上传成功");
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data['上传成功'],
+            'popType': 0,
+            'imgType': 1,
+          });
         }
       }
     };

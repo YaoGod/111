@@ -201,7 +201,7 @@ export class ProductComponent implements OnInit {
     this.newGroupProduct.checkStatus = '0';
     this.groupProductService.addGroupBuyProduct(this.newGroupProduct)
       .subscribe(data => {
-        if(data['status'] === 0){
+        if (this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
             'title': '提示',
             'mes': data['msg'],
@@ -210,14 +210,6 @@ export class ProductComponent implements OnInit {
           });
           this.closeMask();
           this.getProductList();
-        }else{
-          confirmFunc.init({
-            'title': '提示',
-            'mes': data['msg'],
-            'popType': 0,
-            'imgType': 2,
-          });
-          this.closeMask();
         }
       })
   }
@@ -225,10 +217,11 @@ export class ProductComponent implements OnInit {
   update(code: string) {
     this.groupProductService.getGroupProduct(code)
       .subscribe(data => {
-        if(data['status']===0){
+        if (this.errorVoid.errorMsg(data)) {
           this.upGroupProduct = data.data;
+          $('.mask2').show();
         }
-        $('.mask2').show();
+
       })
   }
 
@@ -246,8 +239,7 @@ export class ProductComponent implements OnInit {
     }
     this.groupProductService.updateGroupbuyProduct(this.upGroupProduct)
       .subscribe(data => {
-        console.log(data);
-        if(data['status'] === 0){
+        if (this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
             'title': '提示',
             'mes': data['msg'],
@@ -256,14 +248,6 @@ export class ProductComponent implements OnInit {
           });
           this.closeMask2();
           this.getProductList();
-        }else{
-          confirmFunc.init({
-            'title': '提示',
-            'mes': data['msg'],
-            'popType': 0,
-            'imgType': 2,
-          });
-          this.closeMask2();
         }
       })
   }
@@ -271,23 +255,25 @@ export class ProductComponent implements OnInit {
   view(code:string){
     this.groupProductService.getGroupProduct(code)
       .subscribe(data => {
-        if (data['status']==0) {
+        if (this.errorVoid.errorMsg(data)) {
           this.productview = data.data;
-          console.log(this.productview);
+          // console.log(this.productview);
           $('.mask3').show();
         }
-
       })
   }
   closeMask2() {
     $('.mask2').hide();
     $('#prese').val('');
+    $('.errorMessage').html('');
   }
   closeMask0() {
+    $('.errorMessage').html('');
     $('.mask0').hide();
     $('#prese0').val('');
   }
   closeMask3() {
+    $('.errorMessage').html('');
     $('.mask3').hide();
   }
   /*文件图片上传*/
@@ -298,7 +284,12 @@ export class ProductComponent implements OnInit {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
           this.newGroupProduct.image = data.msg;
-          alert("上传成功");
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '上传成功',
+            'popType': 0,
+            'imgType': 1,
+          });
         }
       }
     };
@@ -311,7 +302,12 @@ export class ProductComponent implements OnInit {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
           this.upGroupProduct.image = data.msg;
-          alert("上传成功");
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '上传成功',
+            'popType': 0,
+            'imgType': 1,
+          });
         }
       }
     };

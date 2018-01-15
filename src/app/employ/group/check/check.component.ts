@@ -100,12 +100,11 @@ export class CheckComponent implements OnInit {
   check(code: string){
     this.groupProductService.getGroupProduct(code)
       .subscribe(data => {
-        if(data['status']==0){
+        if (this.errorVoid.errorMsg(data)) {
           this.productCheck = data.data;
           this.productCheck.checkStatus = '1';
-          console.log(data.data);
+          $('.mask0').show();
         }
-        $('.mask0').show();
       })
   }
 
@@ -119,13 +118,15 @@ export class CheckComponent implements OnInit {
     }
     this.groupProductService.checkGroupbuyProduct(this.productCheck)
       .subscribe(data => {
-        if(data['status'] === 0){
-          alert("保存成功");
+        if (this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': data['msg'],
+            'popType': 0 ,
+            'imgType': 1 ,
+          });
           this.closeMask0();
           this.getProductList();
-        }else{
-          alert("保存失败")
-          this.closeMask0();
         }
       })
   }

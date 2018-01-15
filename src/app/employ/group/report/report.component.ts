@@ -33,7 +33,7 @@ export class ReportComponent implements OnInit {
     this.getReportAllList();
   }
 
-  getOrderItems(orderId){
+  getOrderItems(orderId){/*this.pageNo,this.pageSize,*/
     this.groupOrderService.getOrderItems(orderId).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orderItems = data.data.infos;
@@ -57,19 +57,12 @@ export class ReportComponent implements OnInit {
     window.print();
   }
 
-
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
-    for(let i = 0;i< total ;i++){
-      this.pages[i] = i+1;
-    }
-  }
   /*点击导出*/
   leadOut(){
     $('#deriving').fadeIn();
   }
   closeMask0(){
+    $('.errorMessage').html('');
     $('.mask0').hide();
   }
 
@@ -86,28 +79,11 @@ export class ReportComponent implements OnInit {
     this.ipSetting.sendPost(url,this.search)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
-          console.log(data.data);
+          // console.log(data.data);
           this.downLoad(data.data);
           $('#deriving').hide();
         }
       });
-  }
-  printMask(){
-
-  }
-
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
   }
   /*跳页加载数据*/
   goPage(page:number){
@@ -117,7 +93,6 @@ export class ReportComponent implements OnInit {
     }
     this.getReportAllList();
   }
-
 
 }
 

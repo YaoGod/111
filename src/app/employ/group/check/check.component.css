@@ -238,11 +238,10 @@ input[type=text]{
   justify-content: space-between;
   padding: 15px;
   background-color: #f1f5f8;
-  /* border-bottom: 1px solid #eceeef; */
 }
 button{
   border:none;
-  font-size:18px;
+  font-size:16px;
   background: none;
 }
 .modal-title{
@@ -382,16 +381,21 @@ button{
 }
 .btn-info{
   margin-left: 15px;
-  padding: 10px 16px;
+  padding: 6px 13px;
   border-radius: 4px;
   background: #03a9f3;
   border: 1px solid #03a9f3;
   color: #fff;
+  transition: all .4s;
 }
 .btn-danger{
-  padding: 10px 16px;
+  margin-left:10px;
+  background-color:#fb9678;
+  padding: 6px 13px;
   border-radius: 4px;
+  border: 1px solid #fb9678;
   color: #fff;
+  transition: all .4s;
 }
 .btn-info:hover {
   background: #03a9f3;
@@ -399,6 +403,10 @@ button{
   border: 1px solid #03a9f3;
   cursor: pointer;
 }
+.btn-danger:hover {
+   opacity: .8;
+   cursor: pointer;
+ }
 .noticetext{
   width:60%;
   text-indent: 5px;
@@ -467,65 +475,6 @@ button{
   font-size: 12px;
   text-align: right;
 }
-
-
-
-
-html,body,div,span,img,button,ul,li,dl,dt,dd,input,select,option,table,tr,th,td,h1,h2,h3,h4,h5,h6{
-  margin: 0;
-  padding: 0;
-}
-body{
-  font-family: "微软雅黑";
-}
-ul,li{
-  list-style: none;
-}
-.hid{
-  display: none;
-}
-.left{
-  position: relative;
-  display: inline-block;
-  width: 222px;
-  top: 0;
-  left: 0;
-  background: #fff;
-}
-.right{
-  width: 100%;
-  height: auto;
-  float: right;
-  background: #edf1f5;
-}
-.logo{
-  width: 184px;
-  height: 54px;
-  margin: 12px auto 19px auto;
-  background: url('../../../../assets/image/logo.jpg') no-repeat;
-}
-.user-info{
-  text-align: center;
-}
-.user-img{
-  width: 70px;
-  height: 70px;
-  display: inline-block;
-  background: url('../../../../assets/image/user.jpg') no-repeat;
-}
-.user-txt{
-  display: block;
-  margin: 8px 0;
-  background-image: url('../../../../assets/image/icon-down.jpg');
-  background-repeat: no-repeat;
-  background-position-x: 130px;
-}
-.user-list{
-  border: none;
-  font-size: 16px;
-  font-family: "微软雅黑";
-  /*display: none;*/
-}
 select{
   outline:medium;
   width: 74px;
@@ -534,57 +483,6 @@ select{
   box-shadow: 0 0 3px #ddd inset;
   -webkit-box-shadow: 0 0 3px #ddd inset;
   border-radius: 4px;
-}
-.user-list li{
-  display: block;
-}
-.list-nav ul{
-  display: none;
-}
-.list-nav li{
-  position: relative;
-}
-.list-nav>li>a{
-  display: block;
-  text-indent: 50px;
-  background-repeat: no-repeat;
-  background-color: #fff;
-  background-image: url('../../../../assets/image/icon-right.jpg');
-  background-position-x: 180px;
-  background-position-y: 13px;
-  height: 50px;
-  line-height: 50px;
-  cursor: pointer;
-}
-.list-nav>li.active>a{
-  background-color: #f9f9f9;
-  background-image: url('../../../../assets/image/icon-down.jpg');
-}
-.list-nav ul li {
-  color: #888;
-  height: 46px;
-  line-height: 46px;
-}
-.list-nav ul li a{
-  color: #333;
-  display: block;
-  text-indent: 65px;
-  text-decoration: none;
-}
-.list-nav ul li a:hover,.list-nav ul li.active a{
-  color: #888;
-}
-.icon-home{
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  left: 18px;
-  top: 13px;
-  display: inline-block;
-  background: url('../../../../assets/image/icon-home.jpg') no-repeat;
-}
-.right{
-
 }
 .wrap-content{
   width: 100%;
@@ -605,6 +503,7 @@ select{
   padding: 0 20px;
   display: inline-block;
   color: #04a9f3;
+  outline:none;
   cursor: pointer;
 }
 .b-head span.active{

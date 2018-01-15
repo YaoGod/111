@@ -118,13 +118,14 @@ input[type=text]{
 }
 .banner-list ul{
   height:150px;
-  margin-top:10px;
-  overflow-y: auto;
+  margin-top:15px;
+  overflow: hidden;
 }
 .banner-list li{
   line-height: 20px;
   margin-bottom:10px;
-}
+  cursor: pointer;
+  }
 .b-head{
   border-bottom: 2px solid #f7fbfe;
   padding-bottom: 10px;
@@ -481,7 +482,7 @@ input[type=text]{
   box-shadow: 0 5px 15px rgba(0, 0, 0, .1);
   width:650px;
   margin:120px auto 0;
-  overflow-x: scroll;
+  overflow-x:hidden;
   height: 400px;
 }
 .modal-header{

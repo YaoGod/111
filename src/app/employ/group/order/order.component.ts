@@ -129,6 +129,7 @@ export class OrderComponent implements OnInit {
     });
   }
   closeMask0() {
+    $('.errorMessage').html('');
     $('.mask0').hide();
     this.newMessage={
       orderNo:'',
@@ -140,8 +141,10 @@ export class OrderComponent implements OnInit {
     };
   }
   closeMask() {
+    $('.errorMessage').html('');
     $('.mask').hide();
-  }  private verifyEmpty(id,label) {
+  }
+  public verifyEmpty(id,label) {
   if (!this.isEmpty(id, label)) {
     return false;
   }else{
@@ -200,13 +203,15 @@ export class OrderComponent implements OnInit {
 
     this.groupOrderService.replayMessage(this.newMessage)
       .subscribe(data => {
-        if(data['status'] === 0){
-          alert("保存成功");
+        if (this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data['msg'],
+            'popType': 0,
+            'imgType': 1,
+          });
           this.closeMask0();
           this.getOrderAllList();
-        }else{
-          alert("保存失败")
-          this.closeMask0();
         }
       })
   }
@@ -214,24 +219,18 @@ export class OrderComponent implements OnInit {
     this.newMessage.orderNo =orderId;
     this.groupOrderService.getMessage(orderId)
       .subscribe(data => {
-        if(data['status'] === 0){
+        if (this.errorVoid.errorMsg(data)) {
           this.newMessage = data.data;
-        }else{
-          alert("获取评价信息失败");
+          $('.mask0').show();
         }
       });
-    $('.mask0').show();
   }
   showMessage(orderId){
     $('.mask1').show();
     this.groupOrderService.getMessage(orderId)
       .subscribe(data => {
-        if(data['status'] === 0){
-          console.log(data);
+        if (this.errorVoid.errorMsg(data)) {
           this.viewMessage = data.data;
-          console.log(this.viewMessage);
-        }else{
-          alert("获取评价信息失败");
         }
       })
   }

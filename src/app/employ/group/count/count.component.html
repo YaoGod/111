@@ -21,6 +21,10 @@
   <div class="panel">
     <ul>
       <li>
+        <label>商品名称</label>
+        <input type="text" [(ngModel)]="productName">
+      </li>
+      <li>
         <label>统计类型</label>
         <select
           name="floorUse" (change)="changeDate()" [(ngModel)]="countType">
@@ -57,10 +61,11 @@
   <table border="0" cellspacing="0" cellpadding="0" class="list-box">
     <tr class="row list-title" style="height:45px;">
       <th width="5%">序号</th>
-      <th width="10%" >部门名称</th>
+      <th width="15%">商品名称</th>
+      <th width="15%">部门名称</th>
       <th width="10%">订购人数</th>
-      <th width="15%">消费合计</th>
-      <th width="15%">购买数量</th>
+      <th width="10%">购买数量</th>
+      <th width="10%">消费合计</th>
     </tr>
   </table>
 </div>
@@ -71,19 +76,22 @@
       <td width="5%">
         {{i+1}}
       </td>
-      <td width="10%">
-        {{order.DEPT_NAME}}
+      <td width="15%">
+        {{order.PRODUCT_NAME}}
       </td>
       <td width="15%">
+        {{order.DEPT_NAME}}
+      </td>
+      <td width="10%">
         <span>
           {{order.PERSONS}}
         </span>
       </td>
-      <td width="15%">
-        ￥{{order.TOTAL}}
-      </td>
       <td width="10%">
         {{order.COUNTS}}
+      </td>
+      <td width="10%">
+        ￥{{order.TOTAL}}
       </td>
     </tr>
   </table>
@@ -93,9 +101,11 @@
             <div>
               <div>
 
-
-
-
-
-
-
+                <!--翻页-->
+                <app-turn-bar
+                  [pageNo]="pageNo"
+                  [pageSize]="pageSize"
+                  [total]="total"
+                  [length] = 5
+                  (turnEvent)="goPage($event)">
+                </app-turn-bar>

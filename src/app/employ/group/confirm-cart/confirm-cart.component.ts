@@ -27,7 +27,7 @@ export class ConfirmCartComponent implements OnInit {
     username: '',
     teleNum: '',
     homeAddr: ''
-  }
+  };
   constructor(
     private groupProductService: GroupProductService,
     private errorVoid: ErrorResponseService,
@@ -43,7 +43,6 @@ export class ConfirmCartComponent implements OnInit {
   getCartList(){
     this.groupProductService.getCartList().subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
-        console.log(data);
         this.carts = data.data.infos;
         this.mutipalPrice = data.data.mutipalPrice;
         this.userInfo = data.data.userInfo;
@@ -59,7 +58,7 @@ export class ConfirmCartComponent implements OnInit {
   submitCart(){
     $('.maskSubmitOrder').show();
   }
-  private verifyEmpty(id,label) {
+  public verifyEmpty(id,label) {
     if (!this.isEmpty(id, label)) {
       return false;
     }else{

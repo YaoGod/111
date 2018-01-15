@@ -6,10 +6,12 @@
             <div class="banner-img"><!--<img src="../../../../assets/image/z1.jpg">-->
             <app-slide-img></app-slide-img>
             </div>
-            <div class="banner-list">
+            <div class="banner-list" id="banner-list">
               <h2>公告</h2>
               <ul>
-                <li *ngFor="let groupNotice of groupNotices;let idx=index">{{idx+1}}、{{groupNotice.title}}</li>
+                  <li *ngFor="let groupNotice of groupNotices;let idx=index" (click)="viewNotice(groupNotice.id)">
+                    {{idx+1}}、{{groupNotice.title}}
+                  </li>
               </ul>
             </div>
           </div>
@@ -17,7 +19,7 @@
             <div class="b-head">
               <span>团购商品</span>
               <div class="b-head-right">
-                <div class="content-box" [routerLink]="['../product']" *ngIf="rule&&rule.isUpdate&&rule.isInstall&&rule.isDelete"><i class="icon-grid"></i> 进入管理</div>
+                <div class="content-box" [routerLink]="['../product']"><i class="icon-grid"></i> 进入管理</div>
                 <div class="content-box" [routerLink]="['../myorder']"><i class="icon-film"></i> 我的订单</div>
                 <div class="content-box" [routerLink]="['../cart']"><i class="icon-basket-loaded"></i> 购物车 <strong>({{cartsize}})</strong></div>
                 <!--<div class="content-box" (click)="viewNotice()"><i class="icon-volume-2"></i> 公告</div>-->
@@ -77,22 +79,22 @@
         </div>
       </div>
     </div>
-    <!--<div class="mask">
+    <div class="mask">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">查看公告</h4>
           <button type="button" class="close" (click)="closeMask()">×</button>
         </div>
-        <div class="modal-body clearfix" *ngFor="let notice of groupNotices;let idx=index">
+        <div class="modal-body clearfix">
           <div style="text-align: center;padding-top: 20px;">
-            <label style="text-align: center"> {{notice.title}}</label>
+            <label style="text-align: center"> {{groupNotice.title}}</label>
           </div>
           <div class="modal-right2">
               <textarea name="notice" ui-tinymce
                         class="form-control" rows="10"
-                        style="width: 85%;!important;background-color: #ffffff !important;border: none;" readonly='true' value="{{notice.notice}}" >
+                        style="width: 85%;!important;background-color: #ffffff !important;border: none;" readonly='true' value="{{groupNotice.notice}}" >
                </textarea>
           </div>
         </div>
       </div>
-    </div>-->
+    </div>

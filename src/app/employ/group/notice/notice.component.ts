@@ -32,13 +32,13 @@ export class NoticeComponent implements OnInit {
     title: '',
     notice: '',
     status: ''
-  }
+  };
   public upGroupNotice = {
     id:'',
     title: '',
     notice: '',
     status: ''
-  }
+  };
 
   constructor(private groupNoticeService: GroupNoticeService,
               private errorVoid: ErrorResponseService,) {
@@ -66,6 +66,7 @@ export class NoticeComponent implements OnInit {
   }
 
   closeMask() {
+    $('.errorMessage').html('');
     $('.mask').hide();
     $('#prese').val('');
     this.newGroupNotice = {
@@ -79,44 +80,28 @@ export class NoticeComponent implements OnInit {
     if (this.newGroupNotice.title === '' || this.newGroupNotice.notice === '' || this.newGroupNotice.status === '') {
       confirmFunc.init({
         'title': '提示',
-        'mes': "请把信息填写完整",
+        'mes': '请把信息填写完整',
+        'popType': 0,
+        'imgType': 2,
       });
       return false;
     }
     this.groupNoticeService.addGroupBuyNotice(this.newGroupNotice)
       .subscribe(data => {
-        if(data['status'] === 0){
-          alert("新增成功")
-          /* confirmFunc.init({
-           'title': '提示' ,
-           'mes': '新增成功',
-           });*/
+        if (this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data['msg'],
+            'popType': 0,
+            'imgType': 1,
+          });
           this.closeMask();
           this.getNoticeList();
-        }else{
-          alert("新增失败")
-          this.closeMask();
-          /* confirmFunc.init({
-           'title': '提示' ,
-           'mes': data['msg'],
-           });*/
         }
       })
   }
 
   /*删除*/
-  okFunc() {
-    $('.confirm').hide();
-    this.groupNoticeService.deleteGroupbuyNotice(this.delId)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
-          alert("删除成功");
-        }
-        this.getNoticeList();
-      });
-  }
-
-
   delete(index: number) {
     confirmFunc.init({
       'title': '提示' ,
@@ -145,55 +130,53 @@ export class NoticeComponent implements OnInit {
   update(id: number) {
     this.groupNoticeService.getNotice(id)
       .subscribe(data => {
-        if(data['status']==0){
+        if (this.errorVoid.errorMsg(data)) {
           this.updateNotice = data.data;
-          console.log(data.data);
+          // console.log(data.data);
           this.upGroupNotice.title = data.data.title;
           this.upGroupNotice.notice = data.data.notice;
           this.upGroupNotice.status = data.data.status;
           this.upGroupNotice.id = data.data.id;
-
+          $('.mask2').show();
         }
-        $('.mask2').show();
       })
   }
   updateGroupNotice() {
     if (this.upGroupNotice.title === '' || this.upGroupNotice.notice === '' || this.upGroupNotice.status === '') {
-      alert("请把信息填完整")
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '请把信息填完整',
+        'popType': 0,
+        'imgType': 2,
+      });
       return false;
     }
-    console.log(this.upGroupNotice);
     this.groupNoticeService.updateGroupBuyNotice(this.upGroupNotice)
       .subscribe(data => {
-        console.log(data);
-        if(data['status'] === 0){
-          alert("修改成功")
-          /* confirmFunc.init({
-           'title': '提示' ,
-           'mes': '新增成功',
-           });*/
+        if (this.errorVoid.errorMsg(data)) {
+          // console.log(data);
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data['msg'],
+            'popType': 0,
+            'imgType': 1,
+          });
           this.closeMask2();
           this.getNoticeList();
-        }else{
-          alert("修改失败")
-          this.closeMask2();
-          /* confirmFunc.init({
-           'title': '提示' ,
-           'mes': data['msg'],
-           });*/
         }
       })
   }
   view(id: number){
     this.groupNoticeService.getNotice(id)
       .subscribe(data => {
-        if (data['status']==0) {
+        if (this.errorVoid.errorMsg(data)) {
           this.updateNotice = data.data;
+          $('.mask3').show();
         }
-        $('.mask3').show();
       })
   }
   closeMask2() {
+    $('.errorMessage').html('');
     $('.mask2').hide();
     $('#prese').val('');
     this.upGroupNotice = {
@@ -205,6 +188,7 @@ export class NoticeComponent implements OnInit {
   }
 
   closeMask3() {
+    $('.errorMessage').html('');
     $('.mask3').hide();
   }
   goPage(i){

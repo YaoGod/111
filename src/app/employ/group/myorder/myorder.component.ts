@@ -6,21 +6,21 @@ import {GroupOrderItem} from '../../../mode/groupOrderItem/group-orderItem.servi
 import { GroupOrderItemService } from '../../../service/group-orderItem/group-order-item.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import {forEach} from "@angular/router/src/utils/collection";
-import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 import {GroupProductService} from "../../../service/group-product/group-product.service";
-import {GroupNoticeService} from "../../../service/group-notice/group-notice.service";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
+declare var $:any;
+declare var confirmFunc: any;
 
 @Component({
   selector: 'app-order',
   templateUrl: './myorder.component.html',
   styleUrls: ['./myorder.component.css'],
-  providers:[GroupOrderService,GroupOrderItemService,ErrorResponseService,GroupProductService,GroupNoticeService]
+  providers:[GroupOrderService,GroupOrderItemService,ErrorResponseService,GroupProductService]
 })
 export class MyorderComponent implements OnInit {
   public search: GroupOrder;
   public message:GroupMessage;
-  public pageSize = 2;
+  public pageSize = 5;
   public pageNo = 1;
   public total = 0;
   public length = 5;
@@ -53,7 +53,7 @@ export class MyorderComponent implements OnInit {
   }
 
   getOrderList(i){
-    this.pageNo =i;
+    this.pageNo = i;
       let url = '/mmall/order/getOrderList/'+this.pageNo+'/'+this.pageSize;
       this.ipSetting.sendGet(url).subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
@@ -69,12 +69,66 @@ export class MyorderComponent implements OnInit {
       }
     });
   }
-  private verifyEmpty(id,label) {
+  public verifyEmpty(id,label) {
     if (!this.isEmpty(id, label)) {
       return false;
     }else{
       return true;
     }
+  }
+/*评价提交*/
+  submitMessage() {
+    if (!this.verifyEmpty('content','评价意见不能为空')){
+      return false;
+    }
+    this.groupOrderService.addMessage(this.newMessage)
+      .subscribe(data => {
+        if (this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': data['msg'],
+            'popType': 0 ,
+            'imgType': 1 ,
+          });
+          this.closeMask0();
+          this.getOrderList(1);
+        }
+      })
+  }
+
+  closeMask0() { $('.errorMessage').html('');
+    $('.mask0').hide();
+    this.newMessage={
+      orderNo:'',
+      content:''
+    };
+  }
+  closeMask1() {
+    $('.errorMessage').html('');
+    $('.mask1').hide();
+    this.viewMessage={
+      orderNo:'',
+      content:'',
+      reply:'',
+      replyTime:'',
+      replyUser:'',
+      insterTime:''
+    }
+  }
+
+
+  addMessage(orderId){
+    this.newMessage.orderNo =orderId;
+    $('.mask0').show();
+  }
+  showMessage(orderId){
+    $('.mask1').show();
+    this.groupOrderService.getMessage(orderId)
+      .subscribe(data => {
+        if (this.errorVoid.errorMsg(data)) {
+          this.viewMessage = data.data;
+        }
+      })
   }
 
   /**非空校验*/
@@ -109,63 +163,6 @@ export class MyorderComponent implements OnInit {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
     $('#' + id).next('span').html('');
-  }
-
-
-  submitMessage() {
-    if (!this.verifyEmpty('content','评价意见不能为空')){
-      return false;
-    }
-
-    this.groupOrderService.addMessage(this.newMessage)
-      .subscribe(data => {
-        if(data['status'] === 0){
-          alert("保存成功");
-          this.closeMask0();
-          this.getOrderList(1);
-        }else{
-          alert("保存失败");
-          this.closeMask0();
-        }
-      })
-  }
-
-  closeMask0() {
-    $('.mask0').hide();
-    this.newMessage={
-      orderNo:'',
-      content:''
-    };
-  }
-  closeMask1() {
-    $('.mask1').hide();
-    this.viewMessage={
-      orderNo:'',
-      content:'',
-      reply:'',
-      replyTime:'',
-      replyUser:'',
-      insterTime:''
-    }
-  }
-
-
-  addMessage(orderId){
-    this.newMessage.orderNo =orderId;
-    $('.mask0').show();
-  }
-  showMessage(orderId){
-    $('.mask1').show();
-    this.groupOrderService.getMessage(orderId)
-      .subscribe(data => {
-        if(data['status'] === 0){
-          console.log(data);
-        this.viewMessage = data.data;
-          console.log(this.viewMessage);
-        }else{
-          alert("获取评价信息失败");
-        }
-      })
   }
 }
 

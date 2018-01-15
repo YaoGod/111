@@ -20,10 +20,9 @@ declare var tinymce: any;
   providers:[GroupProductService,ErrorResponseService,GroupNoticeService]
 })
 export class GroupbuyComponent implements OnInit {
-  public rule;
   public groupProducts: Array<GroupProduct>;
   public search:GroupProduct;
-  public cart:GroupCart;
+  public  cart:GroupCart;
   public groupNotices: Array<GroupNotice>;
   public cartsize:number;
   /*当前页码*/
@@ -32,25 +31,48 @@ export class GroupbuyComponent implements OnInit {
   public total = 0;
   public length = 5;
   public pages: Array<number>;
+  public groupNotice = {
+    title: '',
+    notice: ''
+  }
   constructor( private globalCatalogService: GlobalCatalogService,
   private groupProductService: GroupProductService,
               private groupNoticeService: GroupNoticeService,
               private errorVoid: ErrorResponseService,private ipSetting: IpSettingService,
                private router:Router){
-    this.rule = this.globalCatalogService.getRole("employ/group");
   }
 
   ngOnInit() {
-    this.globalCatalogService.valueUpdated.subscribe(
-      (val) =>{
-        this.rule = this.globalCatalogService.getRole("employ/group");
-      }
-    );
     this.pages = [];
     this.search = new GroupProduct();
     this.globalCatalogService.setTitle("员工服务/员工团购网/商品订购");
     this.getProductShowList();
     this.getNoticeList();
+
+  }
+
+  autoRun(){
+    let $this = $("#banner-list");
+    let scrollTimer;
+    $this.hover(function() {
+      clearInterval(scrollTimer);
+    }, function() {
+      scrollTimer = setInterval(function() {
+        scrollNews($this);
+      }, 2000);
+    }).trigger("mouseleave");
+
+    function scrollNews(obj) {
+      let $self = obj.find("ul");
+      let lineHeight = $self.find("li:first").height();
+      $self.animate({
+        "marginTop": -lineHeight + "px"
+      }, 600, function() {
+        $self.css({
+          marginTop: 0
+        }).find("li:first").appendTo($self);
+      })
+    }
   }
 
   /*获取商品列表*/
@@ -60,18 +82,11 @@ export class GroupbuyComponent implements OnInit {
       .subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.groupProducts = data.data.infos;
-        console.log(this.groupProducts);
+        // console.log(this.groupProducts);
         this.cartsize = data.data.cartsize;
         this.total = data.data.total;
       }
     });
-    /*this.groupProductService.getProductShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
-      if (this.errorVoid.errorMsg(data)) {
-        this.groupProducts = data.data.infos;
-        console.log(this.groupProducts);
-        this.cartsize = data.data.cartsize;
-      }
-    });*/
   }
   /*跳页加载数据*/
   goPage(page:number){
@@ -83,6 +98,9 @@ export class GroupbuyComponent implements OnInit {
     this.groupNoticeService.getNoticeList(this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.groupNotices = data.data.infos;
+        if(this.groupNotices.length>5){
+          this.autoRun();
+        }
       }
     });
   }
@@ -91,7 +109,7 @@ export class GroupbuyComponent implements OnInit {
     this.cart.productId = id;
     this.groupProductService.addToCart(this.cart)
       .subscribe(data => {
-        if(data['status']===0){
+        if (this.errorVoid.errorMsg(data)) {
           this.cartsize = data.data.cartsize;
           confirmFunc.init({
             'title': '提示' ,
@@ -102,47 +120,13 @@ export class GroupbuyComponent implements OnInit {
         }
       })
   }
-  onclikadd(idxx:number,productId:number){
-    if($("#input-num-"+idxx+"").val().toString().trim()===""){
-      $("#input-num-"+idxx+"").val(1);
-    }else{
-      $("#input-num-"+idxx+"").val(parseInt( $("#input-num-"+idxx+"").val()) + 1);
-    }
-    this.cul($("#input-num-"+idxx+"").val(),productId);
-  }
-  onclikjian(idxx:number,productId:number){
-    if($("#input-num-"+idxx+"").val().toString().trim()===""){
-      $("#input-num-"+idxx+"").val(1);
-    }
-    if( $("#input-num-"+idxx+"").val() <= 1) {
-      confirmFunc.init({
-        'title': '提示' ,
-        'mes': '提示：商品数量不能小于1',
-        'popType': 0 ,
-        'imgType': 1 ,
-      });
-      $("#input-num-"+idxx+"").val(1);
-    } else {
-      $("#input-num-"+idxx).val(parseInt( $("#input-num-"+idxx).val()) - 1);
-    }
-    this.cul($("#input-num-"+idxx+"").val(),productId);
-  }
-  cul(nums:number,productId:number){
-    this.cart = new GroupCart();
-    this.cart.productId = productId;
-    this.cart.quantity = nums;
-    this.groupProductService.updateGroupCart(this.cart)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data)) {
-        }
-       // this.getCartList();
-      });
-  }
-  viewNotice(){
-    this.groupNoticeService.getNoticeShowList().subscribe(data => {
+
+
+  viewNotice(id){
+    this.groupNoticeService.getNotice(id).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
-        this.groupNotices = data.data.infos;
-        console.log(this.groupNotices);
+        this.groupNotice = data.data;
+        // console.log(this.groupNotice);
       }
     });
     $('.mask').show();

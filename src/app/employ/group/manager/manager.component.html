@@ -97,7 +97,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">修改商品</h4>
-      <button type="button" class="close"(click)="closeMask2()">×</button>
+      <button type="button" class="close" (click)="closeMask2()">×</button>
     </div>
     <form class="form-building form-material">
       <div class="modal-body ">
@@ -170,10 +170,10 @@
                     id="upnewesetail" (blur)="verifyEmpty('upnewesetail','商品详情不能为空')"  [(ngModel)]="upGroupProduct.detail"
                     style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;"  value="{{upGroupProduct.detail}}" >
                </textarea>
+          <span class="errorMessage" style="display: block; margin-left: 73px;"></span>
         </div>
       </div>
       <div class="modal-footer">
-
         <button type="button" class="btn btn-danger" (click)="closeMask2()">取 消</button>
         <button type="submit" class="btn btn-info"   (click)="updateGroupProduct()" >保 存</button>
       </div>
