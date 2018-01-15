@@ -3,6 +3,7 @@ import {ErrorResponseService} from "../../../../service/error-response/error-res
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 import * as $ from 'jquery';
 import {GoodsOrder, GoodsOrderItem} from "../goodsorder/goodsorder.component";
+import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 
 declare var confirmFunc: any;
 declare var tinymce: any;
@@ -13,6 +14,8 @@ declare var tinymce: any;
   providers: [ErrorResponseService]
 })
 export class GoodsnoticeComponent implements OnInit {
+  public rule;
+  public catas;
   public imgPrefix: string;
   public search: GoodsOrder;
   private pageNo = 1;
@@ -31,14 +34,30 @@ export class GoodsnoticeComponent implements OnInit {
     note:''
   }
   public orderItems:Array<GoodsOrderItem>;
-  constructor(private ipSetting  : IpSettingService,private errorVoid: ErrorResponseService) { }
+  constructor(
+    private ipSetting  : IpSettingService,
+    private errorVoid: ErrorResponseService,
+    private globalCatalogService: GlobalCatalogService) { }
 
   ngOnInit() {
+    this.getRule();
     this.imgPrefix = this.ipSetting.ip;
     this.pages = [];
     this.getOrderAllList();
   }
-
+  getRule(){
+    this.globalCatalogService.getCata(-1,'market','employ/market/reserve')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.catas = data.data;
+          for(let i = 0;i<this.catas.length;i++){
+            if(this.catas[i].routeUrl === "employ/market/reserve/goodsnotice"){
+              this.rule = this.catas[i];
+            }
+          }
+        }
+      })
+  }
   /*获取订单列表*/
   getOrderAllList(){
     if(this.productName!=null){

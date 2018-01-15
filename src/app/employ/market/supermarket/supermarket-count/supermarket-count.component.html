@@ -5,17 +5,17 @@
     <div class="wrap-space">
       <div class="wrap-b">
         <div class="b-head">
-          <span [routerLink]="['../supermarketProduct']">超市商品管理</span>
-          <span [routerLink]="['../supermarketApplier']">供应商管理</span>
-          <span [routerLink]="['../order']">订单管理</span>
-          <span class="active" [routerLink]="['../count']">订单报表</span>
+          <span *ngFor="let cata of catas"
+                [ngClass]="cata.routeUrl===rule.routeUrl?'active':''"
+                [routerLink]="['../../../../'+cata.routeUrl]"
+          >{{cata.name}}</span>
           <div class="b-head-right">
             <div class="content-box" [routerLink]="['../supbuy']">
               <i class="icon-action-undo"></i>继续购物</div>
           </div>
         </div>
         <div class="b-con tuanmenu">
-          <div class="wrap">
+          <div class="wrap" *ngIf="rule&&rule.isSelect">
             <ul>
               <li>
                 <label>订单编号</label>
@@ -48,7 +48,6 @@
                   <i class="icon-plus"></i> 导出</a>
               </li>
             </ul>
-
           </div>
           <!--表头-->
           <div class="table-head">

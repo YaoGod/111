@@ -536,3 +536,6 @@
   z-index: 99;
   display: none;
 }
+.b-head-left{
+  height: 40px;
+}

@@ -34,9 +34,6 @@
     <div class="table-head">
       <table border="0" cellspacing="0" cellpadding="0" class="list-box">
         <tr class="row list-title" style="height:45px;">
-          <th>人员姓名</th>
-          <th>员工编号</th>
-          <th>部门</th>
           <th *ngIf="queryType ==='消费记录'" class="text-left">消费类型</th>
           <th *ngIf="queryType ==='消费记录'">消费时间</th>
           <th *ngIf="queryType ==='消费记录'">消费金额</th>
@@ -46,9 +43,6 @@
           <th *ngIf="queryType ==='充值记录'">备注</th>
         </tr>
         <tr class="row" *ngFor="let consume of consumes">
-          <td>{{consume.name}}</td>
-          <td>{{consume.userid}}</td>
-          <td>{{consume.DEPT_NAME}}</td>
           <td *ngIf="queryType ==='消费记录'" class="text-left">{{consume.consumeType}}</td>
           <td *ngIf="queryType ==='消费记录'">{{consume.consumeTime}}</td>
           <td *ngIf="queryType ==='消费记录'">{{consume.consumeNum|number:'1.2-2'}}</td>

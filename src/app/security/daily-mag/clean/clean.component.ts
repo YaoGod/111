@@ -66,7 +66,7 @@ export class CleanComponent implements OnInit {
   /*获取权限*/
   private getQuan(){
     if(this.rule!=null){
-      const SOFTWARES_URL = "/proxy/portal/user/getCata/"+this.rule.ID+"/repair";
+      const SOFTWARES_URL = "/proxy/portal/user/getCata/"+this.rule.ID+"/repair?url=";
       this.http.get(SOFTWARES_URL)
         .map(res => res.json())
         .subscribe(data => {

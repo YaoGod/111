@@ -3,6 +3,7 @@ import {SupermarketManagerService} from "../../../../service/supermarket-manager
 import {SupermarketApplier} from "../../../../mode/supermarketApplier/supermarket-applier.service";
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import * as $ from 'jquery';
+import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 declare var $: any;
 declare var confirmFunc: any;
 @Component({
@@ -12,6 +13,8 @@ declare var confirmFunc: any;
   providers: [SupermarketManagerService,ErrorResponseService,SupermarketApplier]
 })
 export class SupplierComponent implements OnInit {
+  public rule;
+  public catas;
   public  file: Array<File>;
   public  upfile: Array<File>;
   public  appliers:Array<SupermarketApplier>;
@@ -23,15 +26,30 @@ export class SupplierComponent implements OnInit {
   public pageSize : number = 5;
   public total    : number = 0;
   constructor(private marketManagerService:SupermarketManagerService ,
-              private errorVoid: ErrorResponseService,) { }
+              private errorVoid: ErrorResponseService,
+              private globalCatalogService: GlobalCatalogService) { }
 
   ngOnInit() {
+    this.getRule();
     this.applierAdd =  new SupermarketApplier();
     this.applierView =  new SupermarketApplier();
     this.applierEdit =  new SupermarketApplier();
     this.deleteFileList = [];
     this.providerList(1);
 
+  }
+  getRule(){
+    this.globalCatalogService.getCata(-1,'market','employ/market/supermarket')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.catas = data.data;
+          for(let i = 0;i<this.catas.length;i++){
+            if(this.catas[i].routeUrl === "employ/market/supermarket/supermarketApplier"){
+              this.rule = this.catas[i];
+            }
+          }
+        }
+      })
   }
   /*服务商管理列表*/
   providerList(pageNo){

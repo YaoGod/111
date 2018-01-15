@@ -5,6 +5,7 @@ import {ErrorResponseService} from "../../../../service/error-response/error-res
 import {SupermarketCart} from "../../../../mode/supermarketCart/supermarket-cart.service";
 import {SupermarketProduct} from "../../../../mode/supermarketProduct/supermarket-product.service";
 import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
+import {ActivatedRoute, Router} from "@angular/router";
 declare var confirmFunc:any;
 @Component({
   selector: 'app-supbuy',
@@ -14,6 +15,7 @@ declare var confirmFunc:any;
 })
 export class SupbuyComponent implements OnInit {
   public rule;
+  public catas;
   public products:Array<SupermarketProduct>;
   public search: SupermarketProduct;
   public cart: SupermarketCart;
@@ -26,7 +28,9 @@ export class SupbuyComponent implements OnInit {
   constructor(
     private marketManagerService: SupermarketManagerService,
     private errorVoid: ErrorResponseService,
-    private globalCatalogService: GlobalCatalogService,) {
+    private globalCatalogService: GlobalCatalogService,
+    private router:Router,
+    private route:ActivatedRoute) {
     this.rule = this.globalCatalogService.getRole("employ/market");
   }
 
@@ -36,11 +40,23 @@ export class SupbuyComponent implements OnInit {
         this.rule = this.globalCatalogService.getRole("employ/market");
       }
     );
+    this.getRule();
     this.search = new SupermarketProduct();
     this.pages = [];
     this.getMarketShowList(1);
-  }
 
+  }
+  getRule(){
+    this.globalCatalogService.getCata(-1,'market','employ/market/supermarket')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.catas = data.data;
+        }
+      })
+  }
+  gotoMange(){
+    this.router.navigate(["../../../../"+this.catas[0].routeUrl],{relativeTo: this.route});
+  }
   checkcolor(){
     $(".product").hover(function(){
       $(this).addClass("product-hover").siblings().removeClass("product-hover");

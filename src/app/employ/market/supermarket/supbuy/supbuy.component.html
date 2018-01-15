@@ -7,12 +7,13 @@
         <div class="b-head">
           <span>超市商品</span>
           <div class="b-head-right">
-            <div class="content-box" [routerLink]="['../supermarketProduct']" *ngIf="rule&&rule.isUpdate&&rule.isInstall&&rule.isDelete">
-              <i class="icon-grid"></i>&nbsp; 进入管理</div>
+            <div class="content-box" (click)="gotoMange()" *ngIf="rule&&(rule.isUpdate||rule.isInstall||rule.isDelete)">
+              <i class="icon-grid"></i>&nbsp; 进入管理
+            </div>
             <div class="content-box" [routerLink]="['../myorder']"><i class="icon-doc"></i>&nbsp; 我的订单</div>
             <div class="content-box" [routerLink]="['../mycart']"><i class="icon-basket-loaded"></i>&nbsp;
               购物车
-              <a *ngIf="cartsize">({{cartsize}})</a>
+              <a>({{cartsize}})</a>
             </div>
           </div>
         </div>

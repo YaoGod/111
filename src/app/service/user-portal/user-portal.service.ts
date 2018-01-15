@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Http, RequestOptions, Headers} from '@angular/http';
+import { Http, RequestOptions, Headers} from '@angular/http';
 import { IpSettingService } from '../ip-setting/ip-setting.service';
 import 'rxjs/add/operator/toPromise';
 @Injectable()

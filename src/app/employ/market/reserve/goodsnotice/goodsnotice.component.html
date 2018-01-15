@@ -6,17 +6,17 @@
       <div class="wrap-b">
         <div class="b-head clearfix">
           <div class="b-head-left">
-            <span [routerLink]="['../goods']">商品管理</span>
-            <span [routerLink]="['../supplier']">供应商管理</span>
-            <span [routerLink]="['../goodsordermanage']">订单管理</span>
-            <span class="active">订单报表查询</span>
+            <span *ngFor="let cata of catas"
+                  [ngClass]="cata.routeUrl===rule.routeUrl?'active':''"
+                  [routerLink]="['../../../../'+cata.routeUrl]"
+            >{{cata.name}}</span>
           </div>
           <div class="b-head-right">
             <div class="content-box" [routerLink]="['../goodsbuy']"><i class="icon-action-undo"></i> 继续订购</div>
           </div>
         </div>
         <div class="b-con tuanmenu">
-          <div class="wrap">
+          <div class="wrap" *ngIf="rule&&rule.isSelect">
             <ul>
               <li>
                 <label>订单编号</label>

@@ -874,4 +874,6 @@ button{
   background: #e87567;
   border: 1px solid #ecbcad;
 }
-
+.b-head-left{
+  height: 40px;
+}

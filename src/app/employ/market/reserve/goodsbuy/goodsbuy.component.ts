@@ -4,6 +4,7 @@ import * as $ from 'jquery';
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 import {Goods,GoodsCart} from "../../../../service/goods-entity/goods-entity.service";
 import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
+import {ActivatedRoute, Router} from "@angular/router";
 @Component({
   selector: 'app-goodsbuy',
   templateUrl: './goodsbuy.component.html',
@@ -12,6 +13,7 @@ import {GlobalCatalogService} from "../../../../service/global-catalog/global-ca
 })
 export class GoodsbuyComponent implements OnInit {
   public rule;
+  public catas;
   public imgPrefix: string;
   public goods:Array<Goods>;
   public search: Goods;
@@ -22,7 +24,9 @@ export class GoodsbuyComponent implements OnInit {
   public pages: Array<number>;
   constructor(private errorVoid: ErrorResponseService,
               private ipSetting  : IpSettingService,
-              private globalCatalogService: GlobalCatalogService) {
+              private globalCatalogService: GlobalCatalogService,
+              private router:Router,
+              private route:ActivatedRoute) {
     this.rule = this.globalCatalogService.getRole("employ/market");
   }
 
@@ -32,11 +36,11 @@ export class GoodsbuyComponent implements OnInit {
         this.rule = this.globalCatalogService.getRole("employ/market");
       }
     );
+    this.getRule();
     this.imgPrefix = this.ipSetting.ip;
     this.search = new Goods();
     this.pages = [];
     this.getGoodsShowList();
-
     var offset = $("#end").offset();
     $(".addcar").click(function(event){
       var addcar = $(this);
@@ -61,7 +65,17 @@ export class GoodsbuyComponent implements OnInit {
       });
     });
   }
-
+  getRule(){
+    this.globalCatalogService.getCata(-1,'market','employ/market/reserve')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.catas = data.data;
+        }
+      })
+  }
+  gotoMange(){
+    this.router.navigate(["../../../../"+this.catas[0].routeUrl],{relativeTo: this.route});
+  }
   getGoodsShowList(){
     let url = '/goodsProduct/search?';
     if(typeof(this.search.name) == 'undefined'){
@@ -76,7 +90,6 @@ export class GoodsbuyComponent implements OnInit {
           if (this.errorVoid.errorMsg(data)) {
 
             this.goods = data.data.list;
-            console.log(this.goods);
            // this.cartsize = data.data.cartsize;
             let total = Math.ceil(data.data.total / this.pageSize);
             this.initPage(total);
@@ -115,7 +128,6 @@ export class GoodsbuyComponent implements OnInit {
   /*页码初始化*/
   initPage(total){
     this.pages = new Array(total);
-    console.log(this.pages);
     for(let i = 0;i< total ;i++){
       this.pages[i] = i+1;
     }

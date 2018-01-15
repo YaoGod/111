@@ -5,6 +5,7 @@ import {SupermarketOrder} from "../../../../mode/supermarketOrder/supermarket-or
 import * as $ from 'jquery';
 import {WorkspaceMydeskService} from "../../../../service/workspace-mydesk/workspace-mydesk.service";
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
+import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 declare var confirmFunc:any;
 @Component({
   selector: 'app-suporder',
@@ -18,7 +19,8 @@ declare var confirmFunc:any;
 
 })
 export class SupermarketOrderComponent implements OnInit {
-
+  public rule;
+  public catas;
   public pageNo   : number = 1;
   public pageSize : number = 5;
   public total    : number = 0;
@@ -39,12 +41,27 @@ export class SupermarketOrderComponent implements OnInit {
     private supermarketManagerService: SupermarketManagerService,
     private workspaceMydeskService: WorkspaceMydeskService,
     private errorVoid: ErrorResponseService,
-    public ipSetting: IpSettingService) { }
+    public ipSetting: IpSettingService,
+    private globalCatalogService: GlobalCatalogService) { }
 
   ngOnInit() {
+    this.getRule();
     this.search.serverCenter = "";
     this.getOrderAllList(1);
     this.getServiceCenter();
+  }
+  getRule(){
+    this.globalCatalogService.getCata(-1,'market','employ/market/supermarket')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.catas = data.data;
+          for(let i = 0;i<this.catas.length;i++){
+            if(this.catas[i].routeUrl === "employ/market/supermarket/order"){
+              this.rule = this.catas[i];
+            }
+          }
+        }
+      })
   }
   /*获取订单列表*/
   getOrderAllList(pageNo){

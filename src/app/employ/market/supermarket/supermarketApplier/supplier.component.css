@@ -863,6 +863,7 @@ select{
   padding: 20px;
 }
 .b-head{
+  height: 35px;
   border-bottom: 2px solid #f7fbfe;
   padding-bottom: 10px;
 }

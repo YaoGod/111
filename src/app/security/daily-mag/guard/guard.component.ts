@@ -69,7 +69,7 @@ export class GuardComponent implements OnInit {
   /*获取权限*/
   private getQuan(){
     if(this.rule!=null){
-      let SOFTWARES_URL = "/portal/user/getCata/"+this.rule.ID+"/repair";
+      let SOFTWARES_URL = "/portal/user/getCata/"+this.rule.ID+"/repair?url=";
       this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
           if(this.errorVoid.errorMsg(data)) {
             this.jurisdiction = data['data'][0];

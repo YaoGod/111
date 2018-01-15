@@ -125,7 +125,7 @@ export class ConfirmsupcartComponent implements OnInit {
         'title': '提示' ,
         'mes': '账户余额不足，请先充值！',
         'popType': 0 ,
-        'imgType': 1 ,
+        'imgType': 2 ,
       });
     }
   }

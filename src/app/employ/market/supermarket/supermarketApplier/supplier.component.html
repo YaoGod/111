@@ -3,10 +3,10 @@
     <div class="wrap-space">
       <div class="wrap-b">
         <div class="b-head">
-          <span [routerLink]="['../supermarketProduct']">超市商品管理</span>
-          <span [routerLink]="['../supermarketApplier']" class="active">供应商管理</span>
-          <span [routerLink]="['../order']">订单管理</span>
-          <span [routerLink]="['../count']">订单报表</span>
+          <span *ngFor="let cata of catas"
+                [ngClass]="cata.routeUrl===rule.routeUrl?'active':''"
+                [routerLink]="['../../../../'+cata.routeUrl]"
+          >{{cata.name}}</span>
           <div class="b-head-right">
             <div class="content-box" [routerLink]="['../supbuy']">
               <i class="icon-action-undo"></i>继续购物</div>
@@ -14,7 +14,7 @@
         </div>
         <div class="b-con tuanmenu">
           <div class="row">
-            <a class="btn btn-danger" (click)="add()"   href="javascript:;">
+            <a class="btn btn-danger" (click)="add()" *ngIf="rule&&rule.isInstall">
               <i class="icon-plus"></i> 新增</a>
           </div>
           <div class="list-table">
@@ -28,9 +28,9 @@
               <dl *ngFor="let applier of appliers;let idx=index">
               <dt>
               <div class="ope-list">
-               <a class="one"   title="查看" href="javascript:void(0);"(click)="view(applier.applyId)"></a>
-                <a class="two"   title="修改" href="javascript:void(0);"(click)="update(applier.applyId)"></a>
-                <a class="tre"   title="删除" href="javascript:void(0);"(click)="delete(applier.applyId)"></a>
+               <a class="one"   title="查看" (click)="view(applier.applyId)" *ngIf="rule&&rule.isSelect"></a>
+                <a class="two"   title="修改" (click)="update(applier.applyId)" *ngIf="rule&&rule.isUpdate"></a>
+                <a class="tre"   title="删除" (click)="delete(applier.applyId)" *ngIf="rule&&rule.isDelete"></a>
 
               </div>
               </dt>

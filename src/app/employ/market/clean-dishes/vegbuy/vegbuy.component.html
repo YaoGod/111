@@ -8,7 +8,7 @@
                 <span class="active">净菜预定</span>
               </div>
               <div class="b-head-right">
-                <div class="content-box" [routerLink]="['../vegtable']" *ngIf="rule&&rule.isUpdate&&rule.isInstall&&rule.isDelete"><i class="icon-grid"></i> 进入管理</div>
+                <div class="content-box" [routerLink]="['../vegtable']" *ngIf="rule&&rule.isUpdate||rule.isInstall||rule.isDelete"><i class="icon-grid"></i> 进入管理</div>
                 <div class="content-box" [routerLink]="['../myorder']"><i class="icon-film"></i> 我的订单</div>
                 <div class="content-box" [routerLink]="['../vegcart']"><i class="icon-basket-loaded"></i> 购物车 <strong>({{cartsize}})</strong>
                 </div>

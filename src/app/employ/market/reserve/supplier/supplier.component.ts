@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {SupermarketManagerService} from "../../../../service/supermarket-manager/supermarket-manager.service";
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
+import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 declare var $: any;
 declare var confirmFunc: any;
 
@@ -12,6 +13,8 @@ declare var confirmFunc: any;
   providers: [SupermarketManagerService,ErrorResponseService]
 })
 export class SupplierComponent implements OnInit {
+  public rule;
+  public catas;
   public imgPrefix: string;
   private code: any;
   public file: Array<File>;
@@ -47,11 +50,26 @@ export class SupplierComponent implements OnInit {
   };
   constructor(private marketManagerService: SupermarketManagerService,
               private ipSetting:IpSettingService ,
-              private errorVoid: ErrorResponseService) { }
+              private errorVoid: ErrorResponseService,
+              private globalCatalogService: GlobalCatalogService) { }
 
   ngOnInit() {
+    this.getRule();
     this.imgPrefix = this.ipSetting.ip;
     this.providerList();
+  }
+  getRule(){
+    this.globalCatalogService.getCata(-1,'market','employ/market/reserve')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.catas = data.data;
+          for(let i = 0;i<this.catas.length;i++){
+            if(this.catas[i].routeUrl === "employ/market/reserve/supplier"){
+              this.rule = this.catas[i];
+            }
+          }
+        }
+      })
   }
   providerList(){
     let url = '/goodsProduct/provider/list';

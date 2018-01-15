@@ -4,6 +4,7 @@ import * as $ from 'jquery';
 import {SupermarketManagerService} from "../../../../service/supermarket-manager/supermarket-manager.service";
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {WorkspaceMydeskService} from "../../../../service/workspace-mydesk/workspace-mydesk.service";
+import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 @Component({
   selector: 'app-supermarket-count',
   templateUrl: './supermarket-count.component.html',
@@ -11,7 +12,8 @@ import {WorkspaceMydeskService} from "../../../../service/workspace-mydesk/works
   providers: [SupermarketManagerService,WorkspaceMydeskService]
 })
 export class SupermarketCountComponent implements OnInit {
-
+  public rule;
+  public catas;
   public pageNo = 1;
   public pageSize = 10;
   public total = 0;
@@ -24,15 +26,30 @@ export class SupermarketCountComponent implements OnInit {
     private supermarketManagerService: SupermarketManagerService,
     private errorVoid: ErrorResponseService,
     private workspaceMydeskService: WorkspaceMydeskService,
+    private globalCatalogService: GlobalCatalogService
   ) { }
 
   ngOnInit() {
+    this.getRule();
     this.search = {};
     this.search.status = "";
     this.search.serviceCenter = "";
     this.checks = [];
     this. getServiceCenter();
     this.getOrderAllList(1);
+  }
+  getRule(){
+    this.globalCatalogService.getCata(-1,'market','employ/market/supermarket')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.catas = data.data;
+          for(let i = 0;i<this.catas.length;i++){
+            if(this.catas[i].routeUrl === "employ/market/supermarket/count"){
+              this.rule = this.catas[i];
+            }
+          }
+        }
+      })
   }
   /*获取订单列表*/
   getOrderAllList(pageNo){

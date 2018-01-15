@@ -1316,4 +1316,6 @@ a[class="button-selectimg" ] {
 .b-head-right .content-box i{font-size:14px;}
 .b-head-right .content-box img{margin-right: 4px;vertical-align: -3px}
 .b-head-right .content-box:hover{cursor: pointer;border-color: #ff3c00;}
-
+.b-head-left{
+  height: 40px;
+}

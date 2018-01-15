@@ -4,6 +4,7 @@ import {SupermarketProduct} from "../../../../mode/supermarketProduct/supermarke
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {SupermarketManagerService} from "../../../../service/supermarket-manager/supermarket-manager.service";
 import {SupermarketApplier} from "../../../../mode/supermarketApplier/supermarket-applier.service";
+import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 declare var confirmFunc:any;
 @Component({
   selector: 'app-goods',
@@ -12,6 +13,8 @@ declare var confirmFunc:any;
   providers: [SupermarketManagerService,SupermarketManagerService,ErrorResponseService]
 })
 export class GoodsComponent implements OnInit {
+  public rule;
+  public catas;
   public products     : Array<SupermarketProduct>;
   public applierList  : Array<SupermarketApplier>;
   public categories   : Array<SupermarketCategory>;
@@ -24,14 +27,29 @@ export class GoodsComponent implements OnInit {
   public  productAdd  : SupermarketProduct;
   public  productUp   : SupermarketProduct;
   constructor(private marketManagerService: SupermarketManagerService,
-              private errorVoid: ErrorResponseService,) { }
+              private errorVoid: ErrorResponseService,
+              private globalCatalogService: GlobalCatalogService) { }
 
   ngOnInit() {
+    this.getRule();
     this.search = new SupermarketProduct();
     this.productView = new SupermarketProduct();
     this.productAdd = new SupermarketProduct();
     this.productUp = new SupermarketProduct();
     this.getSupermarketList(1);
+  }
+  getRule(){
+    this.globalCatalogService.getCata(-1,'market','employ/market/supermarket')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.catas = data.data;
+          for(let i = 0;i<this.catas.length;i++){
+            if(this.catas[i].routeUrl === "employ/market/supermarket/supermarketProduct"){
+              this.rule = this.catas[i];
+            }
+          }
+        }
+      })
   }
 
   getSupermarketList(pageNo){

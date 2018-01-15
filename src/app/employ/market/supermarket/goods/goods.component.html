@@ -4,10 +4,10 @@
     <div class="wrap-space">
       <div class="wrap-b">
         <div class="b-head">
-          <span [routerLink]="['../supermarketProduct']" class="active">超市商品管理</span>
-          <span [routerLink]="['../supermarketApplier']">供应商管理</span>
-          <span [routerLink]="['../order']">订单管理</span>
-          <span [routerLink]="['../count']">订单报表</span>
+          <span *ngFor="let cata of catas"
+                [ngClass]="cata.routeUrl===rule.routeUrl?'active':''"
+                [routerLink]="['../../../../'+cata.routeUrl]"
+          >{{cata.name}}</span>
           <div class="b-head-right">
             <div class="content-box" [routerLink]="['../supbuy']">
               <i class="icon-action-undo"></i>继续购物</div>
@@ -15,11 +15,12 @@
         </div>
         <div class="b-con tuanmenu">
           <div class="wrap">
-            <div class="iptgroup">
-              <input placeholder="请输入商品名称"  [(ngModel)]="search.sname"/>
+            <div class="iptgroup" *ngIf="rule&&rule.isSelect">
+              <input placeholder="请输入商品名称"  [(ngModel)]="search.sname" />
             </div>
-            <a class="search" href="javascript: void(0);"  (click)="getSupermarketList(1)"  >查询</a>
-            <a class="btn btn-danger"  (click)="add()" href="javascript:;" style="padding: 6px 22px;float: right;"><i class="icon-plus"></i> 新增</a>
+            <a class="search" (click)="getSupermarketList(1)" *ngIf="rule&&rule.isSelect">查询</a>
+            <a class="btn btn-danger"  (click)="add()" style="padding: 6px 22px;float: right;" *ngIf="rule&&rule.isInstall">
+              <i class="icon-plus"></i> 新增</a>
           </div>
           <div class="list-table">
             <table class="table-head">
@@ -34,9 +35,9 @@
               <dt><span>商品名称：{{product.sname}}</span>
                 <span style="padding-left: 10px">商品编码：{{product.code}}</span>
               <div class="ope-list">
-                <a class="one"   title="查看" href="javascript:void(0);" (click)="view(product.id)"></a>
-                <a class="two"   title="修改" href="javascript:void(0);" (click)="update(product.id)"></a>
-                <a class="tre"   title="删除" href="javascript:void(0);" (click)="deleteGoods(product.id)"></a>
+                <a class="one"   title="查看" (click)="view(product.id)" *ngIf="rule&&rule.isSelect"></a>
+                <a class="two"   title="修改" (click)="update(product.id)" *ngIf="rule&&rule.isUpdate"></a>
+                <a class="tre"   title="删除" (click)="deleteGoods(product.id)" *ngIf="rule&&rule.isDelete"></a>
               </div>
               </dt>
               <dd>

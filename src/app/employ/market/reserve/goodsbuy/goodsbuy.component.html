@@ -8,7 +8,7 @@
             <span class="active">商品预定</span>
           </div>
           <div class="b-head-right">
-            <div class="content-box" [routerLink]="['../goods']"  *ngIf="rule&&rule.isUpdate&&rule.isInstall&&rule.isDelete"><i class="icon-grid"></i> 进入管理</div>
+            <div class="content-box" (click)="gotoMange()" *ngIf="rule&&(rule.isUpdate||rule.isInstall||rule.isDelete)"><i class="icon-grid"></i> 进入管理</div>
             <div class="content-box" [routerLink]="['../goodsorder']"><i class="icon-film"></i> 我的订单</div>
             <div class="content-box" [routerLink]="['../goodscart']"><i class="icon-basket-loaded"></i> 购物车 <strong>({{cartsize}})</strong>
             </div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ErrorResponseService} from "app/service/error-response/error-response.service";
 import {IpSettingService} from "app/service/ip-setting/ip-setting.service";
 import * as $ from 'jquery';
+import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 
 @Component({
   selector: 'app-goods',
@@ -10,6 +11,8 @@ import * as $ from 'jquery';
   providers: [ErrorResponseService]
 })
 export class GoodsComponent implements OnInit {
+  public rule;
+  public catas;
   public ipServer: String;
   public goods:Array<Goods>;
   public search: Goods;
@@ -43,9 +46,13 @@ export class GoodsComponent implements OnInit {
     price: '',
     status: ''
   };
-  constructor(private ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
+  constructor(
+    private ipSetting: IpSettingService,
+    private errorVoid: ErrorResponseService,
+    private globalCatalogService: GlobalCatalogService) { }
 
   ngOnInit() {
+    this.getRule();
     this.ipServer = this.ipSetting.ip;
     this.search = new Goods();
     this.pages = [];
@@ -54,6 +61,19 @@ export class GoodsComponent implements OnInit {
       $(this).addClass('blueself').siblings().removeClass('blueself').find('.ope-list').addClass('hid');
       $(this).find('.ope-list').removeClass('hid');
     })
+  }
+  getRule(){
+    this.globalCatalogService.getCata(-1,'market','employ/market/reserve')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.catas = data.data;
+          for(let i = 0;i<this.catas.length;i++){
+            if(this.catas[i].routeUrl === "employ/market/reserve/goods"){
+              this.rule = this.catas[i];
+            }
+          }
+        }
+      })
   }
 
   chang(value) {

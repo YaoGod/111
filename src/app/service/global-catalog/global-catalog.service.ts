@@ -2,14 +2,23 @@ import { Injectable } from '@angular/core';
 import { Catalog, sndCatalog } from "../../mode/catalog/catalog.service";
 import { Router} from '@angular/router';
 import { Subject } from 'rxjs';
+import { Http, RequestOptions, Headers} from '@angular/http';
+import { IpSettingService } from '../ip-setting/ip-setting.service';
 @Injectable()
 export class GlobalCatalogService {
   private catalog:Array<Catalog> = new Array<Catalog>();
   private title: string = "统一信息平台";
   valueUpdated:Subject<any> = new Subject<any>();
   titleUpdate :Subject<string> = new Subject<string>();
+  private headers = new Headers({'Content-Type': 'application/json'});
+  private options =  new RequestOptions({
+    headers: this.headers,
+    withCredentials: true,
+  });
   constructor(
-    private router:Router
+    private router:Router,
+    private http: Http,
+    private ipSetting  : IpSettingService
   ) { }
   /*目录结构*/
   setVal(val:Array<Catalog>){
@@ -40,5 +49,11 @@ export class GlobalCatalogService {
   /*获取目录列表*/
   getTitle():string{
     return this.title;
+  }
+  /*获取指定目录权限*/
+  getCata(fatherId,name,path){
+    const url = this.ipSetting.ip + "/portal/user/getCata/"+fatherId+"/"+name +"?url="+path;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
   }
 }
