@@ -12,7 +12,7 @@ import {IpSettingService} from "app/service/ip-setting/ip-setting.service";
   providers: [ErrorResponseService]
 })
 export class PlanLaundryComponent implements OnInit {
-  public products:Array<FacPrice>;
+  // public products:Array<FacPrice>;
   public applierList:Array<Facilitator>;
   public serverCenters:Array<ServerCenter>;
   public myOrder:LaundryOrder;
@@ -34,15 +34,16 @@ export class PlanLaundryComponent implements OnInit {
     applyid: '',
     unit: ''
   };
-
+  public products:any;
   constructor(private ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
     this.pages = [];
+    this.products = [];
     this.search = new SearchOrder();
     this.myOrder = new LaundryOrder();
     this.initFac();
-    this.getOrderList(1);
+
   }
 /*获取服务中心*/
   initFac(){
@@ -51,6 +52,8 @@ export class PlanLaundryComponent implements OnInit {
       if (this.errorVoid.errorMsg(data)) {
         this.applierList = data.data.providers;
         this.serverCenters = data.data.centers;
+        // console.log(this.applierList);
+        this.getOrderList(1);
       }
     });
   }
@@ -58,13 +61,28 @@ export class PlanLaundryComponent implements OnInit {
   getOrderList(i){
     this.pageNo = i;
     this.search.status = '-1';
-    let url = '/mmall/laundryOrder/getOrderList/1/999'; // +this.pageNo+'/'+this.pageSize;
+    let url = '/mmall/laundryOrder/getOrderList/1/999';
     this.ipSetting.sendPost(url,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
         this.myOrder.id = data.data.orderId;
-        console.log(data.data);
         this.total = data.data.total;
+        if(data.data.facilitator){
+          this.orderItemAdd.applyid = data.data.facilitator;
+          $('#supplierId_add').attr('disabled',true);
+          this.changeContent();
+        }else{
+          $('#supplierId_add').attr('disabled',false);
+          this.orderItemAdd = {
+            orderId:'',
+            appcontent:   '',
+            unitPrice:  '',
+            quantity:   '',
+            totalPrice:  '',
+            applyid: '',
+            unit: ''
+          };
+        }
       }
     });
   }
@@ -139,7 +157,7 @@ export class PlanLaundryComponent implements OnInit {
     }
     let url = '/mmall/laundryOrder/addOrder/'+$('#message').val();
     this.ipSetting.sendPost(url,this.myOrder).subscribe(data => {
-      console.log(data)
+      // console.log(data);
       if (this.errorVoid.errorMsg(data)) {
         confirmFunc.init({
           'title': '提示' ,
@@ -153,13 +171,20 @@ export class PlanLaundryComponent implements OnInit {
     });
   }
   closeSubmitOrder() {
+    $('.errorMessage').html("");
     $('.maskSubmitOrder').hide();
   }
   changeContent(){
+    this.products = [];
     this.orderItemAdd.appcontent = "";
     for(let i=0;i<this.applierList.length;i++){
       if(this.applierList[i].applyId ==  this.orderItemAdd.applyid){
-        this.products = this.applierList[i].prices;
+        for(let j=0;j<this.applierList[i].prices.length;j++){
+          if(this.applierList[i].prices[j].applyid ==  this.orderItemAdd.applyid){
+            this.products.push(this.applierList[i].prices[j]);
+          }
+        }
+        // console.log(this.applierList[i].applyId+",.,.,,,.,,"+this.orderItemAdd.applyid);
       }
     }
   }
@@ -304,6 +329,7 @@ export class FacPrice {
   appliar:           string;
 }
 export class Facilitator {
+  facilitator:string;
   applyId:          string;/*经销商id*/
   applyName:        string;/*经销商名称*/
   copStarttime:     string;/*合作开始时间*/

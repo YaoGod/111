@@ -15,7 +15,7 @@
           </div>
           <div class="list-table" *ngFor="let order of orders;let idx=index">
             <table class="table-head">
-
+              <td class="sec">服务商</td>
               <td class="sec">服务内容</td>
               <td class="three">单价</td>
               <td class="three">数量</td>
@@ -27,7 +27,7 @@
               <dd>
                 <table style="width: 100%;">
                   <tr>
-
+                    <td class="sec">{{item.appcontent}}</td>
                     <td class="sec">{{item.appcontent}}</td>
                     <td class="three">{{item.unitPrice}}</td>
                     <td class="three">{{item.quantity}}</td>
@@ -135,7 +135,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">提交订单</h4>
-      <button type="button" class="close"(click)="closeSubmitOrder()">×</button>
+      <button type="button" class="close" (click)="closeSubmitOrder()">×</button>
     </div>
     <form class="form-material">
       <div class="modal-body clearfix">
