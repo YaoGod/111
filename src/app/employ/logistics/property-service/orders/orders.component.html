@@ -89,7 +89,7 @@
         </ol>
       </div>
       <div class="form-btn" *ngIf="inner.orderStatus==='订购中'" (click)="editAttach(i)"><i class="icon-pencil"></i></div>
-      <div class="form-btn form-del" (click)="delAttach(i)"><i class="icon-trash"></i></div>
+      <div class="form-btn form-del" (click)="delAttach(i)" *ngIf="inner.orderStatus==='订购中'"><i class="icon-trash"></i></div>
     </div>
   </div>
   <app-turn-bar
