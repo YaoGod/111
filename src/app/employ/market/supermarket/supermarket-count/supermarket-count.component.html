@@ -60,7 +60,7 @@
                 <th>订单人</th>
                 <th>订单人部门</th>
                 <th class="tleft">
-                  <select name="searchStatus" [(ngModel)]="search.status">
+                  <select name="searchStatus" [(ngModel)]="search.status" (change)="getOrderAllList(1)">
                     <option value="">订单状态</option>
                     <option value="0">已付款</option>
                     <option value="4">已配货</option>
@@ -69,14 +69,14 @@
                   </select>
                 </th>
                 <th class="tleft">
-                  <select name="service" [(ngModel)]="search.serviceCenter">
+                  <select name="service" [(ngModel)]="search.serviceCenter" (change)="getOrderAllList(1)" >
                     <option value="">服务中心</option>
                     <option *ngFor="let service of serviceCenters">{{service.name}}</option>
                   </select>
                 </th>
                 <th class="tleft" >商品</th>
-                <th>单价（元）</th>
-                <th>数量</th>
+                <th class="tleft">单价（元）</th>
+                <th class="tleft">数量</th>
                 <th>总计（元）</th>
                 <th>创建时间</th>
                 <th>发货时间</th>
@@ -115,7 +115,7 @@
                 </td>
                 <td>{{order.payment |number:'1.2-2'}}</td>
                 <td>{{order.createTime}}</td>
-                <td>{{order.payTime}}(错误)</td>
+                <td>{{order.sendTime}}</td>
               </tr>
             </table>
           </div>

@@ -1,11 +1,11 @@
 <div class="container clearfix">
   <div class="chandlery clearfix">
     <ul class="search clearfix">
-      <li *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
+      <li *ngIf="rule&&rule.isInstall">
         <label>大楼编号</label>
         <input type="text" name="searchbuildingId" class="search-ipt" [(ngModel)]="searchArch.buildingNum">
       </li>
-      <li *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
+      <li *ngIf="rule&&rule.isInstall">
         <label>大楼名称</label>
         <input type="text" name="searchbuildingName" class="search-ipt" [(ngModel)]="searchArch.buildingName">
       </li>
@@ -23,19 +23,19 @@
           <option value="4">结单</option>
         </select>
       </li>
-      <li *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
+      <li *ngIf="rule&&rule.isInstall">
         <label>开始时间</label>
         <input type="date" name="searchbTime" class="search-ipt" [(ngModel)]="searchArch.startTime">
       </li>
-      <li *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
+      <li *ngIf="rule&&rule.isInstall">
         <label>结束时间</label>
         <input type="date" name="searcheTime" class="search-ipt" [(ngModel)]="searchArch.finshTime">
       </li>
-      <li *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
+      <li *ngIf="rule&&rule.isInstall">
         <label>订单人</label>
         <input type="text" name="searchorderPerson" class="search-ipt" [(ngModel)]="searchArch.serverUserid">
       </li>
-      <li *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
+      <li *ngIf="rule&&rule.isInstall">
         <label>订单部门</label>
         <input  type="text" name="searchorderDepart" class="search-ipt" [(ngModel)]="searchArch.userDept">
       </li>
@@ -43,7 +43,7 @@
     <div class="search-right"><a href="javascript:;" class="search-btn" (click)="repairSearch()"><i class="icon-magnifier"></i> 查 询</a></div>
   </div>
   <div class="row text-right" >
-    <a class="btn btn-new" href="javascript:;" (click)="addOrder()"><i class="icon-plus"></i> 新 增</a>
+    <a class="btn btn-new" (click)="addOrder()" *ngIf="rule&&rule.isInstall"><i class="icon-plus"></i> 新 增</a>
   </div>
   <!--订单列表-->
   <div class="order-container">

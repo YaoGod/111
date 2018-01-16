@@ -4,6 +4,7 @@ declare var $: any;
 declare var confirmFunc: any;
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {IpSettingService} from "app/service/ip-setting/ip-setting.service";
+import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 
 @Component({
   selector: 'app-price',
@@ -12,6 +13,7 @@ import {IpSettingService} from "app/service/ip-setting/ip-setting.service";
   providers: [ErrorResponseService]
 })
 export class PriceComponent implements OnInit {
+  public rule;
   public products:Array<FacPrice>;
   public applierList:Array<Facilitator>;
   public search: FacPrice;
@@ -36,12 +38,24 @@ export class PriceComponent implements OnInit {
     price:          '',
     appliar:''
   };
-  constructor(private ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
+  constructor(
+    private ipSetting: IpSettingService,
+    private globalCatalogService: GlobalCatalogService,
+    private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
+    this. getRule();
     this.search = new FacPrice();
     this.pages = [];
     this.getFacList();
+  }
+  getRule(){
+    this.globalCatalogService.getCata(-1,'logistics','employ/logistics/laundry/price')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.rule = data.data[0];
+        }
+      })
   }
   getFacList(){
     let url = '/mmall/laundry/getFacList/'+this.pageNo + '/' + this.pageSize;

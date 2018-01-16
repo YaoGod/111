@@ -4,6 +4,7 @@ declare var $: any;
 declare var confirmFunc: any;
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {IpSettingService} from "app/service/ip-setting/ip-setting.service";
+import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 
 @Component({
   selector: 'app-serve-time',
@@ -12,6 +13,7 @@ import {IpSettingService} from "app/service/ip-setting/ip-setting.service";
   providers: [ErrorResponseService]
 })
 export class ServeTimeComponent implements OnInit {
+  public rule;
   public products:any;
   public addSwitch: Boolean = true;
   public pageSize = 5;
@@ -24,15 +26,27 @@ export class ServeTimeComponent implements OnInit {
   public applierList:Array<Facilitator>;
   public productAdd:ServeTime;
   public serveChat: string;
-  constructor(private ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
+  constructor(
+    private ipSetting: IpSettingService,
+    private globalCatalogService: GlobalCatalogService,
+    private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
+    this.getRule();
     this.pages = [];
     this.productAdd = new ServeTime();
     this.search = new FacPrice();
     this.getFacList();
     this.getServiceCenter();
 
+  }
+  getRule(){
+    this.globalCatalogService.getCata(-1,'logistics','employ/logistics/laundry/serveTime')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.rule = data.data[0];
+        }
+      })
   }
   /*获取所有服务商*/
   getFacList(){

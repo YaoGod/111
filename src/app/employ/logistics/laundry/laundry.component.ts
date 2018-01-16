@@ -21,7 +21,7 @@ export class LaundryComponent implements OnInit {
   }
 
   getRule(){
-    this.globalCatalogService.getCata(-1,'logistics','/employ/logistics/laundry/')
+    this.globalCatalogService.getCata(-1,'logistics','employ/logistics/laundry/')
       .subscribe(data=>{
         if(this.errorVoid.errorMsg(data)){
           this.catas = data.data;

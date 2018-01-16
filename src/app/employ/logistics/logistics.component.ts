@@ -30,6 +30,7 @@ export class LogisticsComponent implements OnInit {
     );
     if(this.rule){this.getRule(this.rule.ID);}
   }
+
   getRule(id){
     this.globalCatalogService.getCata(id,'logistics','')
       .subscribe(data=>{

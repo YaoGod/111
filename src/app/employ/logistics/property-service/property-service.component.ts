@@ -20,19 +20,18 @@ export class PropertyServiceComponent implements OnInit {
               private utilBuildingService:UtilBuildingService,
               private globalCatalogService:GlobalCatalogService,
               private ipSetting  : IpSettingService
-  ) {
-    this.rule = this.globalCatalogService.getRole("security/daily");
-    this.getQuan();
-  }
+  ) {}
 
   ngOnInit() {
-    this.globalCatalogService.valueUpdated.subscribe(
-      (val) =>{
-        this.rule = this.globalCatalogService.getRole("security/daily");
-
-        this.getQuan();
-      }
-    );
+    this.getRule();
+  }
+  getRule(){
+    this.globalCatalogService.getCata(-1,'logistics','employ/logistics/property')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.rule = data.data[2];
+        }
+      })
   }
   /*获取权限*/
   private getQuan(){

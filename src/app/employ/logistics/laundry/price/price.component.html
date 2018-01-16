@@ -18,8 +18,9 @@
             <div class="iptgroup">
               <input placeholder="请输入服务内容"  [(ngModel)]="search.appcotent"/>
             </div>
-            <a class="search" href="javascript: void(0);"  (click)="getFacList()"  >查询</a>
-            <a class="btn btn-danger"  (click)="add()" href="javascript:;" style="padding: 7px 15px;float: right;"><i class="icon-plus"></i> 新增</a>
+            <a class="search" (click)="getFacList()" *ngIf="rule&&rule.isSelect">查询</a>
+            <a class="btn btn-danger"  (click)="add()" style="padding: 7px 15px;float: right;" *ngIf="rule&&rule.isInstall">
+              <i class="icon-plus"></i> 新增</a>
           </div>
           <div class="list-table">
             <table class="table-head">
@@ -27,7 +28,7 @@
               <td class="sec">服务内容</td>
               <td class="three">单价</td>
               <td class="four">单位</td>
-              <td class="five">操作</td>
+              <td class="five" *ngIf="rule&&(rule.isUpdate||rule.isDelete)">操作</td>
             </table>
             <dl *ngFor="let product of products;let idx=index">
               <dd>
@@ -37,10 +38,10 @@
                     <td class="sec">{{product.appcotent}}</td>
                     <td class="three">{{product.price}}</td>
                     <td class="four">{{product.unit}}</td>
-                    <td class="five">
+                    <td class="five" *ngIf="rule&&(rule.isUpdate||rule.isDelete)">
                       <div class="ope-list">
-                        <a class="two" title="修改" href="javascript:void(0);" (click)="update(product.priceId)"></a>
-                        <a class="tre" title="删除" href="javascript:void(0);" (click)="delete(product.priceId)"></a>
+                        <a class="two" title="修改" (click)="update(product.priceId)" *ngIf="rule&&rule.isUpdate"></a>
+                        <a class="tre" title="删除" (click)="delete(product.priceId)" *ngIf="rule&&rule.isDelete"></a>
                       </div>
                     </td>
                   </tr>

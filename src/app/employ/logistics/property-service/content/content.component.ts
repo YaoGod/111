@@ -36,18 +36,10 @@ export class ContentComponent implements OnInit {
               private utilBuildingService:UtilBuildingService,
               private globalCatalogService:GlobalCatalogService,
               private ipSetting  : IpSettingService
-  ) {
-    this.rule = this.globalCatalogService.getRole("security/daily");
-    this.getQuan();
-  }
+  ) {}
 
   ngOnInit() {
-    this.globalCatalogService.valueUpdated.subscribe(
-      (val) =>{
-        this.rule = this.globalCatalogService.getRole("security/daily");
-        this.getQuan();
-      }
-    );
+    this.getRule();
     this.searchArch = new Arch();
     this.repairname = new GuardName();
     this.pages = [];
@@ -55,13 +47,22 @@ export class ContentComponent implements OnInit {
     this.serverName = ['保洁服务','报修服务','住家服务'];
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
   }
+  getRule(){
+    this.globalCatalogService.getCata(-1,'logistics','employ/logistics/property')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.rule = data.data[0];
+        }
+      })
+  }
   /*获取权限*/
   private getQuan(){
     if(this.rule!=null){
       let SOFTWARES_URL =  "/portal/user/getCata/"+this.rule.ID+"/repair?url=";
       this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
-          this.jurisdiction = data['data'][0];
+          this.jurisdiction = data['data'][1];
+          console.log(this.jurisdiction);
         }
       });
     }

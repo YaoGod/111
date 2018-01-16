@@ -88,14 +88,9 @@ export class SupermarketCountComponent implements OnInit {
         }
         if(this.checks.length>0){
           this.supermarketManagerService.getOrderAllList('excel',this.checks,this.search,this.pageNo,this.pageSize)
-            .subscribe(data=>{
 
-            })
         }else{
           this.supermarketManagerService.getOrderAllList('excel',['all'],this.search,this.pageNo,this.pageSize)
-            .subscribe(data=>{
-
-            })
         }
       }
     });

@@ -37,18 +37,10 @@ export class OrdersComponent implements OnInit {
               private globalCatalogService:GlobalCatalogService,
               private ipSetting  : IpSettingService
   ) {
-    this.rule = this.globalCatalogService.getRole("property/orders");
-    this.getQuan();
   }
 
   ngOnInit() {
-    this.globalCatalogService.valueUpdated.subscribe(
-      (val) =>{
-        this.rule = this.globalCatalogService.getRole("property/orders");
-
-        this.getQuan();
-      }
-    );
+    this.getRule();
     this.searchArch = new Arch();
     this.repairname = new GuardName();
     this.pages = [];
@@ -59,7 +51,14 @@ export class OrdersComponent implements OnInit {
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
 
   }
-
+  getRule(){
+    this.globalCatalogService.getCata(-1,'logistics','employ/logistics/property')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.rule = data.data[1];
+        }
+      })
+  }
   /*获取权限*/
   private getQuan(){
     if(this.rule!=null){

@@ -173,11 +173,10 @@ export class SupermarketManagerService {
       return this.http.post(url,postData,this.options)
         .map(res => res.json());
     }else{
-      console.log(111);
-      return this.http.post(url,postData,this.options)
+    /*  return this.http.get(url,this.options)
         .map(res => res.json());
-
-/*      window.open(url);*/
+*/
+      window.open(url);
      /* this.ipSetting.downLoadFile({
         url:url,
         data:postData
