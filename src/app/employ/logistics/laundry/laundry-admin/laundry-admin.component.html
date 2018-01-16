@@ -35,12 +35,12 @@
             <td class="zero" *ngIf="order.status=='1'">订单状态：已完成</td>
             <td class="zero" *ngIf="order.status=='2'">订单状态：退单</td>
             <td><!--*ngIf="order.status!=='4' || order.status==='1'"-->
-              <a href="javascript:;" *ngIf="(order.note!=='【线下支付】' && order.balanceReason==null) && order.status!=='2'" (click)="addOrderItems(order.orderNo)">编辑</a>
-              <a href="javascript:;" *ngIf="order.note!=='【线下支付】' && order.status!=='2'" (click)="maskFadeIn(order.status,order.id)">收货并扣款</a>
+              <a href="javascript:;" *ngIf="(order.status=='0')&&(order.note!=='【线下支付】' && order.balanceReason==null)" (click)="addOrderItems(order.orderNo)">编辑</a>
+              <a href="javascript:;" *ngIf="order.note!=='【线下支付】' && order.status==='0'" (click)="maskFadeIn(order.status,order.id)">收货并扣款</a>
 
-              <a href="javascript:;" *ngIf="order.note==='【线下支付】' && order.status!=='4'" (click)="mask0FadeIn(order.id)">线下付款收货</a>
-              <a href="javascript:;" *ngIf="order.status!=='2' && order.status!=='4'" (click)="chargeBack('2',order.id)">退单</a>
-              <a href="javascript:;" *ngIf="order.status==='4'" (click)="ting(idx)">已完成</a>
+              <a href="javascript:;" *ngIf="order.note==='【线下支付】' && order.status=='0'" (click)="mask0FadeIn(order.id)">线下付款收货</a>
+              <a href="javascript:;" *ngIf="order.status=='0'" (click)="chargeBack('2',order.id)">退单</a>
+              <a href="javascript:;" *ngIf="order.status==='4'" (click)="ting('1',order.id)">已完成</a>
             </td>
           </tr>
         </table>
@@ -52,7 +52,13 @@
             <th>单价</th>
             <th>数量</th>
             <th>合计</th>
-            <th width="80px" style="text-indent: 0;"></th>
+            <th width="80px" style="text-indent: 0;" *ngIf="order.status=='4'"><a class="btn-print" target="_blank"  href="javascript:;"
+              (mouseover)="loadFormData(order)">打印
+              <app-print-bar
+                [title] = "title"
+                [formData] = "formData">
+              </app-print-bar></a>
+            </th>
           </tr>
           </thead>
           <tbody>
@@ -64,7 +70,7 @@
             <td class="three">{{item.unitPrice}}</td>
             <td class="three">{{item.quantity}}</td>
             <td class="three">{{item.totalPrice}}</td>
-            <td width="80px" style="text-indent: 0;"></td>
+            <td width="80px" style="text-indent: 0;" *ngIf="order.status=='4'"></td>
           </tr>
           </tbody>
         </table>

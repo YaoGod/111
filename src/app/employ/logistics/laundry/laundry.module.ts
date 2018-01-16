@@ -12,6 +12,7 @@ import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
 import { LaundryAdminComponent } from './laundry-admin/laundry-admin.component';
 import { LaundryOrderComponent } from './laundry-order/laundry-order.component';
 import { ServeTimeComponent } from './serve-time/serve-time.component';
+import {PrintBarModule} from "../../../component/print-bar/print-bar.module";
 const routes: Routes = [
   {
     path: '',
@@ -58,6 +59,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     TurnBarModule,
+    PrintBarModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

@@ -30,6 +30,8 @@ export class LaundryAdminComponent implements OnInit {
   public abc:any;
   private orderId:string;
   public list: Array<any>;
+  public formData: Array<any>;
+  public title: String = "洗衣服务订单";
   constructor(private ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
@@ -112,27 +114,23 @@ export class LaundryAdminComponent implements OnInit {
   maskFadeIn(orderStatus,orderNo){
     this.inner.id = orderNo;
     this.inner.status = '4';
-    console.log(orderStatus+'///'+orderNo);
-
+    // console.log(orderStatus+'///'+orderNo);
     for(let i=0;i<this.orders.length;i++){
       if(orderNo===this.orders[i].id) {
           this.inner.note = this.orders[i].note;
       }
-
     }
     $('.mask').fadeIn();
   }
   /*退单*/
   chargeBack(orderStatus,orderNo){
     this.inner.id = orderNo;
-    this.inner.status = '2';
-    console.log(orderStatus+'///'+orderNo);
-
+    this.inner.status = orderStatus;
+    // console.log(orderStatus+'///'+orderNo);
     for(let i=0;i<this.orders.length;i++){
       if(orderNo===this.orders[i].id) {
         this.inner.note = this.orders[i].note;
       }
-
     }
     $('.mask').fadeIn();
   }
@@ -140,7 +138,7 @@ export class LaundryAdminComponent implements OnInit {
   mask0FadeIn(id){
     confirmFunc.init({
       'title': '提示' ,
-      'mes': '确认已完成线下付款？',
+      'mes': '确认完成线下付款并收货？',
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
@@ -163,19 +161,18 @@ export class LaundryAdminComponent implements OnInit {
     });
 
   }
-  private verifyorderstatus(){
+  public verifyorderstatus(){
     if (!this.isEmpty('orderstatus', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifynote(){
+  public verifynote(){
     if (!this.isEmpty('note', '不能为空')) {
       return false;
     }
     return true;
   }
-
   /*确认收货保存*/
   updateOrders(){
     let SOFTWARES_URL = '/mmall/laundryOrder/updateOrder';
@@ -215,15 +212,17 @@ export class LaundryAdminComponent implements OnInit {
     $('.mask0').fadeOut();
   }
   /*x虚拟收货*/
-  ting(index){
+  ting(status,index){
     confirmFunc.init({
       'title': '提示' ,
-      'mes': '确认已完成线下付款？',
+      'mes': '确认完成订单？',
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = "";
-        this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
+        this.inner.status = status;
+        this.inner.id = index;
+        let SOFTWARES_URL = "/mmall/laundryOrder/updateOrder";
+        this.ipSetting.sendPost(SOFTWARES_URL,this.inner).subscribe(data => {
           if(this.errorVoid.errorMsg(data)) {
             confirmFunc.init({
               'title': '提示' ,
@@ -233,10 +232,57 @@ export class LaundryAdminComponent implements OnInit {
             });
             this.pages =[];
             this.getOrderAllList(1);
+            this.inner = new OrderInfo();
           }
         });
       }
     });
+  }
+  /*装载要打印的内容*/
+  loadFormData(data:any){
+    this.formData =[
+      {
+        title:'',
+        type: 'bold',
+        hd:['系统订单号',"订单创建时间"],
+        data: [data.orderNo,data.createTime]
+      },
+      {
+        title:"",
+        type:"text",
+        hd:["订单状态","服务中心"],
+        data:["",data.serviceCenter]
+      },
+      {
+        title:"收货人信息",
+        type:"text",
+        hd:["收货人姓名","收货人电话","付款时间"],
+        data:[data.userName,data.telPhone,data.payTime]
+      },
+      {
+        title:"商品明细",
+        type:"form",
+        hd:["商品名称","单价(元)","数量","合计（元）"],
+        data:[],
+        total:"总计：￥"+data.payment.toFixed(2)
+      }
+    ];
+    switch(data.status){
+      case '0':this.formData[1].data[0] = "订购中"; break;
+      case '1':this.formData[1].data[0] = "已完成"; break;
+      case '2':this.formData[1].data[0] = "退单"; break;
+      case '4':this.formData[1].data[0] = "已收货"; break;
+      default:
+        this.formData[1].data[0] = "暂无订单状态信息";
+    }
+    for(let i = 0;i<data.orderItems.length;i++){
+      this.formData[3].data[i]=[
+        data.orderItems[i].productName,
+        '￥'+data.orderItems[i].unitPrice.toFixed(2),
+        data.orderItems[i].quantity,
+        '￥'+data.orderItems[i].totalPrice.toFixed(2)
+      ];
+    }
   }
 
   /**非空校验*/

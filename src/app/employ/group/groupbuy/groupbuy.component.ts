@@ -102,6 +102,7 @@ export class GroupbuyComponent implements OnInit {
   }
   /*获取公告列表*/
   getNoticeList() {
+    this.search.status = '01';
     this.groupNoticeService.getNoticeList(this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.groupNotices = data.data.infos;

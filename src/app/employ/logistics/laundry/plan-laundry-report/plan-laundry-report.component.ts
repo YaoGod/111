@@ -14,7 +14,7 @@ export class PlanLaundryReportComponent implements OnInit {
   public orders:Array<LaundryOrder>;
   public serverCenters:Array<ServerCenter>;
   public myOrder:LaundryOrder;
-  public search: LaundryOrder;
+  public search: OrderExcel;
   public serverCenter='';
   public orderNo='';
   public pageSize = 5;
@@ -26,7 +26,7 @@ export class PlanLaundryReportComponent implements OnInit {
 
 
   ngOnInit() {
-    this.search = new LaundryOrder();
+    this.search = new OrderExcel();
     this.myOrder = new LaundryOrder();
     this.search.serviceCenter = '';
     this.pages = [];
@@ -79,4 +79,14 @@ export class  LaundryOrderItem{
 export class ServerCenter{
   name: string;
   id:number;
+}
+export class OrderExcel {
+  id:number;
+  orderNo:string;
+  serviceCenter:string;
+  status: string;
+  userId: string;
+  deptName:string;
+  startTime:string;
+  finshTime:string;
 }

@@ -14,7 +14,7 @@
             <ul class="search clearfix">
               <li>
                 <label>订 单 号</label>
-                <input type="text" name="searchorderNum" class="search-ipt" [(ngModel)]="search.orderId">
+                <input type="text" name="searchorderNum" class="search-ipt" [(ngModel)]="search.orderNo">
               </li>
               <li>
                 <label>服务中心</label>
@@ -26,7 +26,7 @@
 
               <li>
                 <label>订单状态</label>
-                <select name="searchorderState" class="search-sel" [(ngModel)]="search.orderStatus">
+                <select name="searchorderState" class="search-sel" [(ngModel)]="search.status">
                   <option value="">-全部-</option>
                   <option value="0">订购中</option>
                   <option value="4">已收货</option>
@@ -44,11 +44,11 @@
               </li>
               <li>
                 <label>订 单 人</label>
-                <input type="text" name="searchorderPerson" class="search-ipt" [(ngModel)]="search.serverUserid">
+                <input type="text" name="searchorderPerson" class="search-ipt" [(ngModel)]="search.userId">
               </li>
               <li>
                 <label>订单部门</label>
-                <input  type="text" name="searchorderDepart" class="search-ipt" [(ngModel)]="search.userDept">
+                <input  type="text" name="searchorderDepart" class="search-ipt" [(ngModel)]="search.deptName">
               </li>
             </ul>
             <div class="search-right"><a href="javascript:;" class="search-btn" (click)="getOrderAllList()"><i class="icon-magnifier"></i> 查 询</a></div>

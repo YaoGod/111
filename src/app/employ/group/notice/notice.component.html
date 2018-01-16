@@ -46,9 +46,9 @@
                 <td>{{idx+1}}</td>
                 <td>{{groupNotice.title}}</td>
                 <td>{{groupNotice.insertUser}}</td>
-                <td>{{groupNotice.insertTime|date: "yy-MM-dd EEEE"}}</td>
+                <td>{{groupNotice.insertTime|date: "yy-MM-dd HH:mm"}}</td>
                 <td>{{groupNotice.updateUser}}</td>
-                <td>{{groupNotice.updateTime|date: "yy-MM-dd EEEE"}}</td>
+                <td>{{groupNotice.updateTime|date: "yy-MM-dd HH:mm"}}</td>
                 <td *ngIf="groupNotice.status==='01'">显示</td>
                 <td *ngIf="groupNotice.status==='02'">不显示</td>
                 <!--<td *ngIf="groupNotice.status;else elseBlock">显示</td>
