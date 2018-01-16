@@ -107,13 +107,11 @@ export class OrdersComponent implements OnInit {
       search.userDept = '';
     }
 
-    const SOFTWARES_URL =  this.ipSetting.ip + "/employee/property/getOrder/list/" + pageNo + "/" + pageSize+"?buildingNum="+
+    let SOFTWARES_URL = "/employee/property/getOrder/list/" + pageNo + "/" + pageSize+"?buildingNum="+
       search.buildingNum+"&buildingName="+search.buildingName+"&orderId="+search.orderId+"&orderStatus="+
       search.orderStatus+"&startTime="+search.startTime+"&finshTime="+search.finshTime+"&serverUserid="+search.serverUserid+
     "&userDept="+search.userDept;
-    this.http.get(SOFTWARES_URL)
-      .map(res => res.json())
-      .subscribe(data => {
+    this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.record = data['data']['infos'];
           this.total = data.data.total;
@@ -126,13 +124,14 @@ export class OrdersComponent implements OnInit {
   }
   /*删除信息*/
   delAttach(index){
+    this.repairname = JSON.parse(JSON.stringify(this.record[index]));
     confirmFunc.init({
       'title': '提示',
       'mes': '是否删除？',
       'popType': 1,
       'imgType': 3,
       'callback': () => {
-        let url = "/employee/property/deleteOrder/" + index;
+        let url = "/employee/property/deleteOrder/" + this.repairname.orderId;
         this.ipSetting.sendGet(url).subscribe(data => {
           if (this.errorVoid.errorMsg(data)) {
             confirmFunc.init({
@@ -150,6 +149,7 @@ export class OrdersComponent implements OnInit {
   editAttach(index){
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
+    console.log(this.repairname );
     /*虚拟员工部门电话*/
     this.repairname.employeeDepart = localStorage.getItem("deptName");
     this.repairname.employeePhone = localStorage.getItem("teleNum");
@@ -172,25 +172,25 @@ export class OrdersComponent implements OnInit {
     $('.mask-head p').html('新增物业订单');
   }
   /*合同信息校验*/
-  private verifybuildingId() {
+  public verifybuildingId() {
     if (!this.isEmpty('buildingId', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyservername() {
+  public verifyservername() {
     if (!this.isEmpty('servername', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyemployeeDepart() {
+  public verifyemployeeDepart() {
     if (!this.isEmpty('employeeDepart', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyemployeePhone()  {
+  public verifyemployeePhone()  {
     if (!this.isEmpty('employeePhone', '不能为空')) {
       return false;
     }
@@ -199,7 +199,7 @@ export class OrdersComponent implements OnInit {
     }
     return true;
   }
-  private verifydetail() {
+  public verifydetail() {
     if (!this.isEmpty('liableNote', '不能为空')) {
       return false;
     }
@@ -242,9 +242,9 @@ export class OrdersComponent implements OnInit {
   contractSubmit() {
     let SOFTWARES_URL;
     if(this.editBool === false){
-      SOFTWARES_URL = this.ipSetting.ip + "/employee/property/updateOrder";
+      SOFTWARES_URL = "/employee/property/updateOrder";
     }else{
-      SOFTWARES_URL = this.ipSetting.ip + "/employee/property/addOrder";
+      SOFTWARES_URL = "/employee/property/addOrder";
     }
     if (!this.verifybuildingId() || !this.verifyservername() || !this.verifyemployeePhone() ||
       !this.verifydetail()) {
@@ -260,10 +260,7 @@ export class OrdersComponent implements OnInit {
       });
       return false;
     }
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
-    this.http.post(SOFTWARES_URL, this.repairname, options)
-      .map(res => res.json())
+    this.ipSetting.sendPost(SOFTWARES_URL, this.repairname)
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)){
           confirmFunc.init({
@@ -315,26 +312,6 @@ export class OrdersComponent implements OnInit {
         this.searchArch = new Arch();
         $('#deriving').fadeOut();
       });
-  }
-  /*页码初始化*/
-  initPage(total) {
-    this.pages = new Array(total);
-    for(let i = 0;i< total ;i++) {
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number) {
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
   }
   /*跳页加载数据*/
   goPage(page:number) {

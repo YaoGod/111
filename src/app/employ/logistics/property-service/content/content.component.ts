@@ -19,13 +19,15 @@ export class ContentComponent implements OnInit {
   public searchArch : Arch;
   public record: Array<GuardName>;
   public repairname: GuardName;
-  public pages: Array<number>;
   public buildings: any;
   public rule : any;
   public jurisdiction:any;
   public serviceCom:any;
-  private pageSize = 10;
-  private pageNo = 1;
+  public pageSize = 10;
+  public pageNo = 1;
+  public total = 0;
+  public length = 5;
+  public pages: Array<number>;
   private editBool = true;
   public serverName:any;
 
@@ -75,16 +77,11 @@ export class ContentComponent implements OnInit {
   }
   /*获取/查询服务公司*/
   private getRecord(search, pageNo, pageSize) {
-    const SOFTWARES_URL =  this.ipSetting.ip + "/employee/property/getAllServer/" + pageNo + "/" + pageSize;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
-    this.http.post(SOFTWARES_URL, search, options)
-      .map(res => res.json())
-      .subscribe(data => {
+    let SOFTWARES_URL = "/employee/property/getAllServer/" + pageNo + "/" + pageSize;
+    this.ipSetting.sendPost(SOFTWARES_URL, search).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.record = data['data']['infos'];
-          let total = Math.ceil(data.data.total / this.pageSize);
-          this.initPage(total);
+          this.total = data.data.total;
         }
       });
   }
@@ -160,40 +157,32 @@ export class ContentComponent implements OnInit {
     $('.errorMessage').html('');
     $('.mask').hide();
   }
-  queryId(pty){
-
-    /*for(let i=0;i<this.serviceCom.length;i++){
-      if(this.serviceCom[i].companyName === pty){
-
-      }
-    }*/
-  }
   /*校验信息*/
-  private verifyId() {
+  public verifyId() {
     if (!this.isEmpty('buildingId', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifycompanyName() {
+  public verifycompanyName() {
     if (!this.isEmpty('companyName', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyservername() {
+  public verifyservername() {
     if (!this.isEmpty('servername', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyserverstatus() {
+  public verifyserverstatus() {
     if (!this.isEmpty('serverstatus', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifydetail() {
+  public verifydetail() {
     if (!this.isEmpty('detail', '不能为空')) {
       return false;
     }
@@ -204,19 +193,14 @@ export class ContentComponent implements OnInit {
     let SOFTWARES_URL;
     if(this.editBool === false) {
       this.pageNo = 1;
-      SOFTWARES_URL = this.ipSetting.ip + "/employee/property/updateServer";
+      SOFTWARES_URL = "/employee/property/updateServer";
     }else {
-      SOFTWARES_URL = this.ipSetting.ip + "/employee/property/addServer";
+      SOFTWARES_URL = "/employee/property/addServer";
     }
     if (!this.verifyId() || !this.verifycompanyName() || !this.verifyservername() || !this.verifyserverstatus()||!this.verifydetail()) {
       return false;
     }
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
-    // JSON.stringify
-    this.http.post(SOFTWARES_URL, this.repairname, options)
-      .map(res => res.json())
-      .subscribe(data => {
+    this.ipSetting.sendPost(SOFTWARES_URL, this.repairname).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
             'title': '提示' ,
@@ -228,26 +212,6 @@ export class ContentComponent implements OnInit {
           this.recordCancel();
         }
       });
-  }
-  /*页码初始化*/
-  initPage(total) {
-    this.pages = new Array(total);
-    for(let i = 0;i< total ;i++) {
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number) {
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
   }
   /*跳页加载数据*/
   goPage(page:number) {

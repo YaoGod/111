@@ -35,10 +35,12 @@
             <td class="zero" *ngIf="order.status=='1'">订单状态：已完成</td>
             <td class="zero" *ngIf="order.status=='2'">订单状态：退单</td>
             <td><!--*ngIf="order.status!=='4' || order.status==='1'"-->
-              <a href="javascript:;" *ngIf="order.note!=='【线下支付】'" (click)="addOrderItems(order.orderNo)">编辑</a>
-              <a href="javascript:;" *ngIf="order.note!=='【线下支付】'" (click)="maskFadeIn(order.status,order.id)">扣款/退单</a>
-              <a href="javascript:;" *ngIf="order.note==='【线下支付】'" (click)="mask0FadeIn(order.id)">线下付款收货</a>
-              <a class="over" href="javascript:;" *ngIf="order.status==='4'" (click)="ting(idx)">已完成</a>
+              <a href="javascript:;" *ngIf="(order.note!=='【线下支付】' && order.balanceReason==null) && order.status!=='2'" (click)="addOrderItems(order.orderNo)">编辑</a>
+              <a href="javascript:;" *ngIf="order.note!=='【线下支付】' && order.status!=='2'" (click)="maskFadeIn(order.status,order.id)">收货并扣款</a>
+
+              <a href="javascript:;" *ngIf="order.note==='【线下支付】' && order.status!=='4'" (click)="mask0FadeIn(order.id)">线下付款收货</a>
+              <a href="javascript:;" *ngIf="order.status!=='2' && order.status!=='4'" (click)="chargeBack('2',order.id)">退单</a>
+              <a href="javascript:;" *ngIf="order.status==='4'" (click)="ting(idx)">已完成</a>
             </td>
           </tr>
         </table>
@@ -119,7 +121,7 @@
       <div class="modal-body clearfix">
         <div class="form-control">
           <label>订单状态：</label>
-          <select class="noticetext" id="orderstatus"  name="orderstatus" [(ngModel)]="inner.status">
+          <select class="noticetext" id="orderstatus"  name="orderstatus" [(ngModel)]="inner.status" disabled="disabled">
             <option value="4">已收货</option>
             <option value="2">退单</option>
           </select>

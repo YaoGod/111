@@ -104,16 +104,36 @@ export class LaundryAdminComponent implements OnInit {
           'imgType': 1 ,
         });
         this.getOrderAllList(1);
-        this.closeMask();
+        this.closeMask0();
       }
     });
   }
-  /*确认或退单*/
+  /*确认扣款*/
   maskFadeIn(orderStatus,orderNo){
     this.inner.id = orderNo;
-    this.inner.status = orderStatus;
-    console.log(orderStatus);
+    this.inner.status = '4';
+    console.log(orderStatus+'///'+orderNo);
 
+    for(let i=0;i<this.orders.length;i++){
+      if(orderNo===this.orders[i].id) {
+          this.inner.note = this.orders[i].note;
+      }
+
+    }
+    $('.mask').fadeIn();
+  }
+  /*退单*/
+  chargeBack(orderStatus,orderNo){
+    this.inner.id = orderNo;
+    this.inner.status = '2';
+    console.log(orderStatus+'///'+orderNo);
+
+    for(let i=0;i<this.orders.length;i++){
+      if(orderNo===this.orders[i].id) {
+        this.inner.note = this.orders[i].note;
+      }
+
+    }
     $('.mask').fadeIn();
   }
   /*线下确认收货*/
@@ -191,6 +211,7 @@ export class LaundryAdminComponent implements OnInit {
   }
   /*关闭编辑扣款项目*/
   closeMask0(){
+    this.list= [];
     $('.mask0').fadeOut();
   }
   /*x虚拟收货*/

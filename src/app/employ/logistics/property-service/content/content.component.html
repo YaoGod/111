@@ -67,17 +67,13 @@
     </table>
   </div>
 </div>
-
-<div class="turn" *ngIf="pages.length > 1">
-  <ul>
-    <li *ngFor="let i of pages"
-        [hidden] = "pageLimit(i)"
-        [ngClass]="{'active':i === pageNo}"
-        (click)="goPage(i);">
-      {{i}}
-    </li>
-  </ul>
-</div>
+<app-turn-bar
+  [pageNo]="pageNo"
+  [pageSize]="pageSize"
+  [total]="total"
+  [length] = 5
+  (turnEvent)="goPage($event)">
+</app-turn-bar>
 <!--新增信息弹窗-->
 <div class="mask">
   <div class="mask-cotainer">

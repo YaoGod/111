@@ -51,6 +51,16 @@
   text-align: left;
   text-indent: 20px;
 }
+.table-head0 td a{
+  padding:3px 2px;
+  background-color:#446c95;
+  color:#fff;
+  border-radius: 4px;
+}
+.table-head0 td a:hover{
+  background-color:#1ab2ff;
+
+}
 .noticetext {
   box-sizing: content-box;
   width: 170px;

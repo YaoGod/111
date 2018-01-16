@@ -1,18 +1,8 @@
 <div class="container clearfix">
   <div class="chandlery clearfix">
     <ul class="search clearfix">
-      <!--<li>
-        <label>大楼编号</label>
-        <select  name="searchbuildingId" class="search-ipt search-sel" [(ngModel)]="searchArch.buildingNum" size="1">
-          <option value="">全部</option>
-          <option *ngFor="let num of buildings"
-                  [value]="num.BUILDING_ID">
-            {{num.BUILDING_ID}}</option>
-        </select>
-      </li>-->
       <li>
         <label>大楼名称</label>
-        <!--<input type="text" name="searchbuildingName" class="search-ipt" [(ngModel)]="searchArch.buildingName">-->
         <select  name="searchbuildingName" class="search-ipt search-sel" [(ngModel)]="searchArch.buildingName">
           <option value="">全部</option>
           <option *ngFor="let num of buildings"

@@ -12,6 +12,8 @@ import {IpSettingService} from "app/service/ip-setting/ip-setting.service";
 })
 export class PlanLaundryReportComponent implements OnInit {
   public orders:Array<LaundryOrder>;
+  public serverCenters:Array<ServerCenter>;
+  public myOrder:LaundryOrder;
   public search: LaundryOrder;
   public serverCenter='';
   public orderNo='';
@@ -25,19 +27,31 @@ export class PlanLaundryReportComponent implements OnInit {
 
   ngOnInit() {
     this.search = new LaundryOrder();
+    this.myOrder = new LaundryOrder();
+    this.search.serviceCenter = '';
     this.pages = [];
+    this.initFac();
     this.getOrderAllList();
   }
+  /*获取订单*/
   getOrderAllList(){
     let url = '/mmall/laundryOrder/getOrderAllList/'+this.pageNo+'/'+this.pageSize;
     this.ipSetting.sendPost(url,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
-
         this.total = data.data.total;
       }
     });
 
+  }
+  /*获取服务中心*/
+  initFac(){
+    let url = '/mmall/laundry/provider/initFac';
+    this.ipSetting.sendPost(url,this.myOrder).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        this.serverCenters = data.data.centers;
+      }
+    });
   }
   /*跳页加载数据*/
   goPage(page:number){
@@ -61,4 +75,8 @@ export class  LaundryOrderItem{
   totalPrice:  number;
   applyid: string;
   unit: number;
+}
+export class ServerCenter{
+  name: string;
+  id:number;
 }

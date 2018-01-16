@@ -10,18 +10,48 @@
           </div>
         </div>
         <div class="b-con tuanmenu">
-          <div class="wrap">
-            <ul>
+          <div class="chandlery clearfix">
+            <ul class="search clearfix">
               <li>
-                <label>订单编号：</label>
-                <input type="text"  class="noticetext"  [(ngModel)]="search.orderNo" >
+                <label>订 单 号</label>
+                <input type="text" name="searchorderNum" class="search-ipt" [(ngModel)]="search.orderId">
               </li>
               <li>
                 <label>服务中心</label>
-                <input type="text"  class="noticetext" [(ngModel)]="search.serviceCenter" >
+                <select name="serverCenter_add" class="search-sel" [(ngModel)]="search.serviceCenter">
+                  <option value="">-全部-</option>
+                  <option *ngFor="let center of serverCenters; let idx=index" value="{{center.name}}">{{center.name}}</option>
+                </select>
               </li>
-              <li><a class="search" href="javascript: void(0);" (click)="getOrderAllList()" >查询</a></li>
+
+              <li>
+                <label>订单状态</label>
+                <select name="searchorderState" class="search-sel" [(ngModel)]="search.orderStatus">
+                  <option value="">-全部-</option>
+                  <option value="0">订购中</option>
+                  <option value="4">已收货</option>
+                  <option value="1">已完成</option>
+                  <option value="2">退单</option>
+                </select>
+              </li>
+              <li>
+                <label>开始时间</label>
+                <input type="date" name="searchbTime" class="search-ipt" [(ngModel)]="search.startTime">
+              </li>
+              <li>
+                <label>结束时间</label>
+                <input type="date" name="searcheTime" class="search-ipt" [(ngModel)]="search.finshTime">
+              </li>
+              <li>
+                <label>订 单 人</label>
+                <input type="text" name="searchorderPerson" class="search-ipt" [(ngModel)]="search.serverUserid">
+              </li>
+              <li>
+                <label>订单部门</label>
+                <input  type="text" name="searchorderDepart" class="search-ipt" [(ngModel)]="search.userDept">
+              </li>
             </ul>
+            <div class="search-right"><a href="javascript:;" class="search-btn" (click)="getOrderAllList()"><i class="icon-magnifier"></i> 查 询</a></div>
           </div>
           <div class="list-table" *ngFor="let order of orders;let idx=index">
             <table class="table-head">
