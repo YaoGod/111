@@ -91,6 +91,7 @@ export class GoodsOrder {
   status:number;/*订单状态*/
   createTime:string;/*付款时间*/
   closeTime:string;/*订单关闭时间*/
+  sendTime: string;/*发货时间*/
   note:string;
   orderItemVoList:Array<GoodsOrderItem>;
   serviceCenter:string;

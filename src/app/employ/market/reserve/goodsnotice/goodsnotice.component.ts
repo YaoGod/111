@@ -17,14 +17,11 @@ export class GoodsnoticeComponent implements OnInit {
   public rule;
   public catas;
   public imgPrefix: string;
-  public search: GoodsOrder;
+  public search;
   private pageNo = 1;
   /*当前页码*/
   private pageSize = 6;
   public orders:Array<GoodsOrder>;
-  public productName = '';
-  public orderId = '';
-  public vegetableId = '';
   public deptId:string;
   private delId: any;
   public pages: Array<number>;
@@ -41,6 +38,11 @@ export class GoodsnoticeComponent implements OnInit {
 
   ngOnInit() {
     this.getRule();
+    this.search = {};
+    this.search.orderNo = "";
+    this.search.status = '';
+    this.search.paymentType = '';
+    this.search.serviceCenter = "";
     this.imgPrefix = this.ipSetting.ip;
     this.pages = [];
     this.getOrderAllList();
@@ -60,18 +62,18 @@ export class GoodsnoticeComponent implements OnInit {
   }
   /*获取订单列表*/
   getOrderAllList(){
-    if(this.productName!=null){
-      this.productName = this.productName.trim();
+    if(this.search.status!=null){
+      this.search.status = this.search.status.trim();
     }
-    if(this.orderId!=null){
-      this.orderId = this.orderId.trim();
+    if(this.search.orderNo!=null){
+      this.search.orderNo = this.search.orderNo.trim();
     }
-    if(this.vegetableId!=null){
-      this.vegetableId = this.vegetableId.trim();
+    if(this.search.serviceCenter!=null){
+      this.search.serviceCenter = this.search.serviceCenter.trim();
     }
 
-    let url = '/goodsOrder/search?' + 'serviceCenter=' + this.vegetableId +'&orderNo='
-        + this.orderId + '&status=' + this.productName
+    let url = '/goodsOrder/search?' + 'serviceCenter=' + this.search.serviceCenter +'&orderNo='
+        + this.search.orderNo + '&status=' + this.search.status
       + '&pageNum='+ this.pageNo + '&pageSize=' +this.pageSize;
     this.ipSetting.sendGet(url)
       .subscribe(data =>

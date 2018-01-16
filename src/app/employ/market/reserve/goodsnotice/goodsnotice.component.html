@@ -20,17 +20,18 @@
             <ul>
               <li>
                 <label>订单编号</label>
-                <input type="text" [(ngModel)]="orderId" >
+                <input type="text" [(ngModel)]="search.orderNo" >
               </li>
               <li>
                 <label>服务中心</label>
-                <select style="width: 120px;" id="serverCenter_add" name="serverCenter_add" [(ngModel)]="vegetableId">
+                <select style="width: 120px;" id="serverCenter_add" name="serverCenter_add" [(ngModel)]="search.serviceCenter">
                   <option value="环北服务中心">环北服务中心</option>
                 </select>
               </li>
               <li>
                 <label>订单状态</label>
-                <select style="width: 120px;" id="orderstatus" name="orderstatus" [(ngModel)]="productName">
+                <select style="width: 120px;" id="orderstatus" name="orderstatus" [(ngModel)]="search.status">
+                  <option value=''>全部</option>
                   <option value=10>未付款</option>
                   <option value=20>已付款</option>
                   <option value=40>已配货</option>
@@ -38,11 +39,88 @@
                   <option value=0>退单</option>
                 </select>
               </li>
-              <li><a class="search" href="javascript: void(0);" (click)="getOrderAllList()" >查询</a></li>
+               <li>
+                <label>创建时间</label>
+                <input type="date" name="creatBgtime" [(ngModel)]="search.creatBgtime">
+                -
+                <input type="date" name="creatEdtime" [(ngModel)]="search.creatEdtime">
+              </li>
+
+              <li>
+                <label>发货时间</label>
+                <input type="date" name="giveBgtime" [(ngModel)]="search.giveBgtime">
+                -
+                <input type="date" name="giveEdtime" [(ngModel)]="search.giveEdtime">
+              </li>
+              <li>
+                <label>订单人</label>
+                <input type="text" name="own" [(ngModel)]="search.userName">
+              </li>
+              <li>
+                <label>订单人部门</label>
+                <input type="text" name="ownDpt" [(ngModel)]="search.deptId">
+              </li>
+              <li>
+                <label>支付方式</label>
+                <select style="width: 120px;" id="paymentType" name="paymentType" [(ngModel)]="search.paymentType">
+                  <option value=''>全部</option>
+                  <option value='1'>在线支付</option>
+                  <option value='2'>线下支付</option>
+                </select>
+              </li>
+              <li class="s-box"><a class="btn search" (click)="getOrderAllList()">查询</a></li>
+              <!--<li><a class="search" href="javascript: void(0);" (click)="getOrderAllList()" >查询</a></li>-->
+
+              <li class="right-box" style="margin-right: 20px">
+                <a class="btn btn-danger"  href="javascript:;" (click)="export()">
+                  <i class="icon-plus"></i> 导出</a>
+              </li>
             </ul>
           </div>
-
-          <div class="list-table" *ngFor="let order of orders;let idx=index">
+          <!--表头-->
+          <div class="table-head">
+            <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+              <tr class="row list-title">
+                <th style="width: 20px">
+                  <input type="checkbox" name="all" [(ngModel)]="all" (change)="checkedAll()"></th>
+                <th>序号</th>
+                <th>订单编号</th>
+                <th class="tleft" >商品</th>
+                <th class="tleft">单价（元）</th>
+                <th class="tleft">数量</th>
+                <th>总计（元）</th>
+                <th>创建时间</th>
+                <th>发货时间</th>
+              </tr>
+              <tr class="row" *ngFor="let order of orders;let i = index">
+                <td style="width: 20px">
+                  <input type="checkbox" name="orderCheck" [value]="order.id" (change)="checkIsAll()">
+                </td>
+                <td>{{(pageNo-1)*pageSize+i+1}}</td>
+                <td>{{order.orderNo}}</td>
+                <td class="tleft">
+                  <p *ngFor="let item of order.orderItemVoList">
+                    {{item.productName}}
+                  </p>
+                </td>
+                <td class="tleft">
+                  <p *ngFor="let item of order.orderItemVoList">
+                    {{item.currentUnitPrice|number:'1.2-2'}}
+                  </p>
+                </td>
+                <td>
+                  <p class="goods" *ngFor="let item of order.orderItemVoList">
+                    {{item.quantity}}
+                  </p>
+                </td>
+                <td>{{order.payment |number:'1.2-2'}}</td>
+                <td>{{order.createTime}}</td>
+                <td>{{order.sendTime}}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="div-none" *ngIf="orders&&orders.length === 0">暂无数据</div>
+          <!--<div class="list-table" *ngFor="let order of orders;let idx=index">
             <dt>
             <table class="table-head0">
               <tr>
@@ -55,14 +133,13 @@
                 <td class="zero" *ngIf="order.status==50">订单状态：已到货</td>
                 <td class="zero" *ngIf="order.status==0">订单状态：退单</td>
                 <td class="zero">下单时间：{{order.createTime}}</td>
-
               </tr>
             </table>
             </dt>
             <dl>
 
             </dl>
-          </div>
+          </div>-->
           <div class="turn" name="pages" *ngIf="pages.length > 1">
             <ul>
               <li *ngFor="let i of pages"

@@ -923,3 +923,12 @@ td>img{
 .b-head-left{
   height: 40px;
 }
+
+.right-box{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.right-box a{
+  display: block;
+}
