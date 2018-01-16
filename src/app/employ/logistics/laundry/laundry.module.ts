@@ -20,7 +20,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'facilitator',
+        redirectTo: 'planLaundry',
         pathMatch: 'full'
       },
       {

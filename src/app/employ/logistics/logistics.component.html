@@ -1,13 +1,8 @@
 <nav>
   <ul class="tab-brash">
-    <li>
-      <a routerLink="laundry" routerLinkActive="active">
-        <i class="icon-bell"></i> 洗衣服务区
-      </a>
-    </li>
-    <li>
-      <a routerLink="property" routerLinkActive="active">
-        <i class="icon-rocket"></i> 物业服务区
+    <li *ngFor="let cata of catas">
+      <a [routerLink]="cata.routeUrl" routerLinkActive="active">
+        <i class="icon-bell"></i> {{cata.name}}
       </a>
     </li>
   </ul>
