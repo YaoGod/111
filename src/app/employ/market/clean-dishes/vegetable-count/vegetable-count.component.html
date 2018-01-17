@@ -7,15 +7,34 @@
         <div class="b-head">
           <span [routerLink]="['../vegtable']">净菜商品管理</span>
           <span [routerLink]="['../vegorder']">订单管理</span>
-          <span [routerLink]="['../count']" class="active">订单报表</span>
+          <span [routerLink]="['../count']" class="active">净菜统计</span>
           <div class="b-head-right">
-            <div class="content-box" [routerLink]="['../supbuy']">
+            <div class="content-box" [routerLink]="['../vegbuy']">
               <i class="icon-action-undo"></i>继续购物</div>
           </div>
         </div>
         <div class="b-con tuanmenu">
           <div class="wrap">
-            <ul>
+            <ul class="search-list clearfix">
+              <li>
+                <label>净菜名称：</label>
+                <div class="slideUl"><input type="text" id="productName" class="noticetext"  [(ngModel)]="search.productName"
+                                            (change)="getVegetables()">
+                  <ul *ngIf="vegetables.length>0" id="slideUl-list">
+                    <li *ngFor="let abc of vegetables;let i=index;" (click)="synchro(abc)">{{abc}}</li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <label>服务中心</label>
+                <select id="serverCenter_add" name="serverCenter_add" class="noticetext" [(ngModel)]="search.serviceCenter">
+                  <option value="">-全部-</option>
+                  <option *ngFor="let center of serverCenters; let idx=index" value="{{center.name}}">{{center.name}}</option>
+                </select>
+              </li>
+              <li><a class="search" href="javascript: void(0);" (click)="getOrderAllList()" >查询</a></li>
+            </ul>
+            <!--<ul>
               <li>
                 <label>统计类型</label>
                 <select
@@ -41,51 +60,38 @@
                 </select>
               </li>
               <li><a class="search" href="javascript: void(0);" >查询</a></li>
-            </ul>
-            <a class="btn btn-danger"  href="javascript:;" (click)="export()">
-              <i class="icon-plus"></i> 导出</a>
+            </ul>-->
+            <a class="btn btn-danger"  href="javascript:;" (click)="export()"><i class="icon-plus"></i> 导出</a>
           </div>
           <!--表头-->
           <div class="table-head">
             <table border="0" cellspacing="0" cellpadding="0" class="list-box">
               <tr class="row list-title">
-                <th >序号</th>
-                <th >部门名称</th>
-                <th >订购人数</th>
-                <th >消费合计</th>
+                <th >净菜名称</th>
+                <th >净菜编号</th>
+                <th >服务中心</th>
                 <th >购买数量</th>
+                <th >单价(元)</th>
+                <th >合计(元)</th>
               </tr>
-              <tr class="row">
-                <td >1</td>
-                <td >支撑中心</td>
-                <td ><span>28</span></td>
-                <td >￥23</td>
-                <td>2</td>
+
+              <tr class="row" *ngFor="let order of orders; let i=index;">
+                <td>{{order.PRODUCT_NAME}}</td>
+                <td>{{order.PRODUCT_CODE}}</td>
+                <td>{{order.SERVICE_CENTER}}</td>
+                <td>{{order.QUANTITY}}</td>
+                <td>{{order.UNIT_PRICE}}</td>
+                <td>{{order.TOTAL_PRICE}}</td>
               </tr>
-              <tr class="row">
-                <td >2</td>
-                <td >网络安全中心</td>
-                <td ><span>11</span></td>
-                <td >￥854</td>
-                <td>23</td>
-              </tr>
-              <tr class="row">
-                <td >3</td>
-                <td >财务部</td>
-                <td ><span>100</span></td>
-                <td >￥3464</td>
-                <td>87</td>
-              </tr>
-              <tr class="row">
-              <td >4</td>
-              <td >支撑中心</td>
-              <td ><span>100</span></td>
-              <td >￥5263</td>
-              <td>75</td>
-            </tr>
             </table>
           </div>
-
+          <app-turn-bar
+            [pageNo]="pageNo"
+            [pageSize]="pageSize"
+            [total]="total"
+            [length] = 'length'
+            (turnEvent)="goPage($event)">
+          </app-turn-bar>
         </div>
       </div>
     </div>

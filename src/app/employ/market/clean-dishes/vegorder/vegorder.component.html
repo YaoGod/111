@@ -6,8 +6,8 @@
             <div class="b-head clearfix">
               <div class="b-head-left">
                 <span [routerLink]="['../vegtable']">净菜商品管理</span>
-                <span [routerLink]="['../vegorder']"class="active">订单管理</span>
-                <span [routerLink]="['../count']">订单报表</span>
+                <span [routerLink]="['../vegorder']" class="active">订单管理</span>
+                <span [routerLink]="['../count']">净菜统计</span>
               </div>
               <div class="b-head-right">
                   <div class="content-box" [routerLink]="['../vegbuy']"><i class="icon-action-undo"></i> 继续订购</div>
@@ -59,8 +59,8 @@
                       <td class="sec">单价（元）</td>
                       <td class="three">数量</td>
                       <td class="four">合计（元）</td>
-                      <td class="zero" style="padding-left: 6%;">
-                        <a class="tre"  title="删除" href="javascript:void(0);"(click)="delete(order.id)"></a>
+                      <td class="zero">
+                        <a class="tre"  title="删除" href="javascript:void(0);" (click)="delete(order.id)"></a>
                       </td>
                       <td class="zero" >
                         <a class="btn-print" (mouseover)="loadFormData(order)">打印

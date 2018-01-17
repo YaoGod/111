@@ -57,7 +57,12 @@ export class ConfirmvegcartComponent implements OnInit {
 
   submitCart(){
     if(this.order.serviceCenter==null||this.order.serviceCenter.trim()==""){
-      alert("请选择服务中心！");
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '请选择服务中心！',
+        'popType': 0 ,
+        'imgType': 2 ,
+      });
       return false;
     }
     /**
@@ -117,7 +122,7 @@ export class ConfirmvegcartComponent implements OnInit {
           if(this.errorVoid.errorMsg(data)){
             confirmFunc.init({
               'title': '提示',
-              'mes': '验证码已发送到'+this.userInfo.teleNum+'，请注意查收！',
+              'mes': '验证码已发送！',
               'popType': 0,
               'imgType': 1,
             });

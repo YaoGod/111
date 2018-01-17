@@ -9,11 +9,11 @@
     <div class="wrap">
       <ul class="search-list clearfix">
         <li>
-          <label>订单编号：</label>
+          <label>订单编号 </label>
           <input type="text"  class="noticetext"  [(ngModel)]="search.orderNo" >
         </li>
         <li>
-          <label>服务中心</label>
+          <label>服务中心 </label>
           <select id="serverCenter_add" name="serverCenter_add" class="noticetext" [(ngModel)]="search.serviceCenter">
             <option value="">-全部-</option>
             <option *ngFor="let center of serverCenters; let idx=index" value="{{center.name}}">{{center.name}}</option>
@@ -26,14 +26,14 @@
       <div class="list-table" *ngFor="let order of orders;let idx=index">
         <table class="table-head0">
           <tr>
-            <td class="zero">订单编号：{{order.orderNo}}</td>
-            <td class="zero">服务中心：{{order.serviceCenter}}</td>
-            <td class="zero">下单时间：{{order.payTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-            <td class="zero">订单价格：￥{{order.payment}}元</td>
-            <td class="zero" *ngIf="order.status=='0'">订单状态：订购中</td>
-            <td class="zero" *ngIf="order.status=='4'">订单状态：已收货</td>
-            <td class="zero" *ngIf="order.status=='1'">订单状态：已完成</td>
-            <td class="zero" *ngIf="order.status=='2'">订单状态：退单</td>
+            <td class="zero">订单编号:{{order.orderNo}}</td>
+            <td class="zero">服务中心:{{order.serviceCenter}}</td>
+            <td class="zero">下单时间:{{order.payTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td class="zero">价格:￥{{order.payment}}元</td>
+            <td class="zero" *ngIf="order.status=='0'">状态：订购中</td>
+            <td class="zero" *ngIf="order.status=='4'">状态：已收货</td>
+            <td class="zero" *ngIf="order.status=='1'">状态：已完成</td>
+            <td class="zero" *ngIf="order.status=='2'">状态：退单</td>
             <td><!--*ngIf="order.status!=='4' || order.status==='1'"-->
               <a href="javascript:;" *ngIf="(order.status=='0')&&(order.note!=='【线下支付】' && order.balanceReason==null)" (click)="addOrderItems(order.orderNo)">编辑</a>
               <a href="javascript:;" *ngIf="order.note!=='【线下支付】' && order.status==='0'" (click)="maskFadeIn(order.status,order.id)">收货并扣款</a>
