@@ -12,6 +12,7 @@ import { GoodsbuyComponent } from './goodsbuy/goodsbuy.component';
 import { GoodsorderconfirmComponent } from './goodsorderconfirm/goodsorderconfirm.component';
 import { GoodsorderComponent } from './goodsorder/goodsorder.component';
 import { GoodsnoticeComponent } from './goodsnotice/goodsnotice.component';
+import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
 const routes: Routes = [
   {
     path: '',
@@ -62,6 +63,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    TurnBarModule,
     RouterModule.forChild(routes),
   ],
   declarations: [ReserveComponent,SupplierComponent, GoodsComponent, GoodscartComponent,

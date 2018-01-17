@@ -586,6 +586,6 @@ td>img{
   text-align: left;
 }
 .goods{
-  width: 100px;
+  min-width: 100px;
   overflow: hidden;
 }

@@ -165,8 +165,18 @@ export class SupermarketManagerService {
    * @param pageSize
    * @returns {Observable<R>}
    */
-  getOrderAllList(type,ids,postData,pageNo,pageSize){
+  getOrderAllList(type,ids,data,pageNo,pageSize){
     ids = ids.join(',');
+    let postData = JSON.parse(JSON.stringify(data));
+    if(typeof (postData.creatBgtime)!=="undefined"){
+      postData.creatBgtime = postData.creatBgtime.replace(/-/g,'/');
+    }if(typeof (postData.creatEdtime)!=="undefined"){
+      postData.creatEdtime = postData.creatEdtime.replace(/-/g,'/');
+    }if(typeof (postData.giveBgtime)!=="undefined"){
+      postData.giveBgtime = postData.giveBgtime.replace(/-/g,'/');
+    }if(typeof (postData.giveEdtime)!=="undefined"){
+      postData.giveEdtime = postData.giveEdtime.replace(/-/g,'/');
+    }
     const url = this.ipSetting.ip+'/mmall/supermarketOrder/getOrderAllList/'+type+'/'
       +pageNo+'/'+pageSize +"?ids=" + ids;
     if(type === 'list'){

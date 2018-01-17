@@ -1,7 +1,7 @@
 <div class="panel">
   <div class="head-box">
     <div class="nav-title">
-      <a><h4>待处理订单</h4></a>
+      <a><h4>待处理{{typeTitle}}</h4></a>
       <div class="b-head-right">
         <div class="content-box" tabindex="0"  onclick="history.go(-1);">
           <i class="icon-reload"></i> 返回
@@ -14,9 +14,9 @@
     <div class="table-head">
       <table border="0" cellspacing="0" cellpadding="0" class="list-box">
         <tr class="row list-title" style="height:45px;">
-          <th>订单编号</th>
-          <th>订单类型</th>
-          <th>订单状态</th>
+          <th>{{typeTitle}}编号</th>
+          <th>{{typeTitle}}类型</th>
+          <th>{{typeTitle}}状态</th>
           <th>处理</th>
         </tr>
         <tr class="row" *ngFor="let thing of things">
@@ -24,7 +24,7 @@
           <td>{{thing.itemType}}</td>
           <td>{{thing.itemStatus}}</td>
           <td>
-            <a *ngIf="thing.itemUrl" [routerLink]="['../../'+thing.itemUrl]">前往处理</a>
+            <a *ngIf="thing.itemUrl" [routerLink]="['../../../'+thing.itemUrl]">前往处理</a>
             <span class="red" *ngIf="!thing.itemUrl">当前路径为null请检查</span>
           </td>
         </tr>

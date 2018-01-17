@@ -25,7 +25,7 @@ const routes: Routes = [
         loadChildren: './consume/consume.module#ConsumeModule'
       }      ,
       {
-        path: 'orderhand',
+        path: 'orderhand/:type',
         component: OrderhandComponent,
       }
     ]

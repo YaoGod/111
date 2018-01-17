@@ -85,6 +85,7 @@ export class GoodsorderComponent implements OnInit {
 }
 
 export class GoodsOrder {
+  id:string;
   orderNo:string;/*订单号*/
   userId:string;/*用户id*/
   payment:number;/*订单金额*/

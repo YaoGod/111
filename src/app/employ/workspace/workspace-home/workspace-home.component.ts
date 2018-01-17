@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import * as echarts from 'echarts';
 import {WorkspaceMydeskService} from "../../../service/workspace-mydesk/workspace-mydesk.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
@@ -19,6 +19,7 @@ export class WorkspaceHomeComponent implements OnInit {
   public myServiceCenter: string;
   constructor(
     private router:Router,
+    private route:ActivatedRoute,
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService: ErrorResponseService,
     private workspaceMydeskService:WorkspaceMydeskService,
@@ -45,7 +46,9 @@ export class WorkspaceHomeComponent implements OnInit {
   }
   linkPendingCost(key){
     if(key === "待处理订单"){
-      this.router.navigate(['/hzportal/employ/workspace/orderhand']);
+      this.router.navigate(['/hzportal/employ/workspace/orderhand','DOrder']);
+    }else if(key === "待处理工单"){
+      this.router.navigate(['/hzportal/employ/workspace/orderhand','GOrder']);
     }
   }
   /*获取用户总资产*/

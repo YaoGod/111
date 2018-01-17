@@ -74,9 +74,9 @@
                     <option *ngFor="let service of serviceCenters">{{service.name}}</option>
                   </select>
                 </th>
-                <th class="tleft" >商品</th>
-                <th class="tleft">单价（元）</th>
-                <th class="tleft">数量</th>
+                <th class="tleft goods">商品名称</th>
+                <th>单价（元）</th>
+                <th>数量</th>
                 <th>总计（元）</th>
                 <th>创建时间</th>
                 <th>发货时间</th>
@@ -99,17 +99,17 @@
                 </td>
                 <td class="tleft">{{order.serviceCenter}}</td>
                 <td class="tleft">
-                  <p *ngFor="let item of order.orderItems">
+                  <p class="goods" *ngFor="let item of order.orderItems">
                     {{item.productName}}
                   </p>
                 </td>
-                <td class="tleft">
+                <td>
                   <p *ngFor="let item of order.orderItems">
                     {{item.unitPrice|number:'1.2-2'}}
                   </p>
                 </td>
                 <td>
-                  <p class="goods" *ngFor="let item of order.orderItems">
+                  <p *ngFor="let item of order.orderItems">
                     {{item.quantity}}
                   </p>
                 </td>
