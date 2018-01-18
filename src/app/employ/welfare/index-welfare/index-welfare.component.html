@@ -7,8 +7,8 @@
         <span class="subtitle">极致优惠不容错过</span>
       </p>
       <span class="tb-fn">
-        <a class="btn-fn3" *ngIf="catas&&(catas[2].isUpdate||catas[2].isInstall||catas[2].isDelete)"
-           (click)="linkDiscountMag()">
+        <a class="btn-fn3" *ngIf="catas&&(catas.isUpdate||catas.isInstall||catas.isDelete)"
+           (click)="linkDiscountMag()"><!--*ngIf="catas&&(catas[2].isUpdate||catas[2].isInstall||catas[2].isDelete)"-->
           管&nbsp;&nbsp;理
         </a>
         <a class="btn-fn1" (click)="randGetDiscount()">换一换</a>
@@ -43,8 +43,8 @@
         <span class="subtitle">量身质造为您提供优质服务</span>
       </p>
       <span class="tb-fn">
-        <a class="btn-fn3" *ngIf="catas&&(catas[1].isUpdate||catas[1].isInstall||catas[1].isDelete) "
-           (click)="linkWelfareMag()">
+        <a class="btn-fn3" *ngIf="catas&&(catas.isUpdate||catas.isInstall||catas.isDelete)"
+           (click)="linkWelfareMag()"><!--*ngIf="catas&&(catas[1].isUpdate||catas[1].isInstall||catas[1].isDelete)"-->
           管&nbsp;&nbsp;理
         </a>
         <a class="btn-fn2" (click)="randGetWelfare();">换一换</a>

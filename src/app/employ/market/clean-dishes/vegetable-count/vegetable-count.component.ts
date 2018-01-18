@@ -3,6 +3,7 @@ declare var confirmFunc:any;
 import * as $ from 'jquery';
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
+import {Http} from "@angular/http";
 
 
 @Component({
@@ -21,11 +22,10 @@ export class VegetableCountComponent implements OnInit {
   public total = 0;
   public length = 5;
   public pages: Array<number>;
-  constructor(private ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
+  constructor(private http: Http,private ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
     this.search = new LaundryOrder();
-    this.search.serviceCenter = '';
     this.vegetables = [];
     this.getOrderAllList();
     this.initFac();
@@ -34,6 +34,9 @@ export class VegetableCountComponent implements OnInit {
   getOrderAllList(){
     if(this.search.productName===undefined){
       this.search.productName = '';
+    }
+    if(this.search.serviceCenter===undefined){
+      this.search.serviceCenter = '';
     }
     let url = '/mmall/vegetabelOrder/getOrderReport/'+this.pageNo+'/'+this.pageSize+'?productName='+this.search.productName;
     this.ipSetting.sendPost(url,this.search).subscribe(data => {
@@ -77,11 +80,19 @@ export class VegetableCountComponent implements OnInit {
   export(){
     confirmFunc.init({
       'title': '提示',
-      'mes': '是否导出数据',
+      'mes': '是否导出数据?',
       'popType': 1,
       'imgType': 3,
       'callback': ()=>{
+        let url = this.ipSetting.ip + '/mmall/vegetabelOrder/getOrderExcel?serviceCenter='+this.search.serviceCenter+
+          '&productName=' +this.search.productName;
+        this.http.get(url)
+        // .map(res => res.json())
+          .subscribe(data => {
+            window.location.href = url;
+            this.search = new LaundryOrder();
 
+          });
       }
     });
   }

@@ -47,6 +47,9 @@
         <table class="table-head">
           <thead>
           <tr>
+            <th>服务商</th>
+            <th>订单人</th>
+            <th>订单部门</th>
             <th>服务内容</th>
             <th>单位</th>
             <th>单价</th>
@@ -65,6 +68,9 @@
           <tr *ngFor="let item of order.orderItems;let idx=index">
             <!--<td class="fir">{{order.orderNo}}</td>
             <td class="fir">{{order.serviceCenter}}</td>-->
+            <td class="fir">{{order.facilitator}}</td>
+            <td class="three">{{order.username}}</td>
+            <td class="three">{{order.deptName}}</td>
             <td class="sec">{{item.appcontent}}</td>
             <td class="four">{{item.unit}}</td>
             <td class="three">{{item.unitPrice}}</td>

@@ -45,6 +45,7 @@ export class ServeTimeComponent implements OnInit {
       .subscribe(data=>{
         if(this.errorVoid.errorMsg(data)){
           this.rule = data.data[0];
+          console.log(this.rule);
         }
       })
   }

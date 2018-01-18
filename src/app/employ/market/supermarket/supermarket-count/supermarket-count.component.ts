@@ -75,7 +75,7 @@ export class SupermarketCountComponent implements OnInit {
   export(){
     confirmFunc.init({
       'title': '提示',
-      'mes': '是否导出数据',
+      'mes': '是否导出数据?',
       'popType': 1,
       'imgType': 3,
       'callback': ()=>{

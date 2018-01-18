@@ -190,10 +190,13 @@ export class EnergyComponent implements OnInit {
     }
     this.search.bTime = this.search.bTime.replace(/-/g, "/");
     this.search.eTime = this.search.eTime.replace(/-/g, "/");
-    this.http.get(this.ipSetting.ip + "/building/energy/getEnergyExcel/"+this.search.energyType+"?bTime="+this.search.bTime+"&eTime="+this.search.eTime)
+    let url = this.ipSetting.ip + "/building/energy/getEnergyExcel/"+this.search.energyType+"?bTime="+this.search.bTime+"&eTime="+
+      this.search.eTime;
+    this.http.get(url)
     // .map(res => res.json())
       .subscribe(data => {
-        window.location.href = this.ipSetting.ip + "/building/energy/getEnergyExcel/"+this.search.energyType+"?bTime="+this.search.bTime+"&eTime="+this.search.eTime;
+        window.location.href = this.ipSetting.ip + "/building/energy/getEnergyExcel/"+this.search.energyType+"?bTime="+
+          this.search.bTime+"&eTime="+this.search.eTime;
         this.search = new Search();
         $('#deriving').fadeOut();
       });

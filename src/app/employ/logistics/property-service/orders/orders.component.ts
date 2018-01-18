@@ -183,21 +183,6 @@ export class OrdersComponent implements OnInit {
     }
     return true;
   }
-  public verifyemployeeDepart() {
-    if (!this.isEmpty('employeeDepart', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyemployeePhone()  {
-    if (!this.isEmpty('employeePhone', '不能为空')) {
-      return false;
-    }
-    if (!this.verifyIsTel('employeePhone', '格式不对')) {
-      return false;
-    }
-    return true;
-  }
   public verifydetail() {
     if (!this.isEmpty('liableNote', '不能为空')) {
       return false;
@@ -245,8 +230,7 @@ export class OrdersComponent implements OnInit {
     }else{
       SOFTWARES_URL = "/employee/property/addOrder";
     }
-    if (!this.verifybuildingId() || !this.verifyservername() || !this.verifyemployeePhone() ||
-      !this.verifydetail()) {
+    if (!this.verifybuildingId() || !this.verifyservername() || !this.verifydetail()) {
       return false;
     }
 

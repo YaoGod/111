@@ -54,106 +54,48 @@
 }
 .list-table .table-head{
   width: 100%;
+}
+.list-table .table-head thead{
+  width: 100%;
   height: 34px;
   line-height: 34px;
   background: #eaf8ff;
   border: 1px solid #aed8ff;
   color: #333;
 }
+.table-head .line-row:hover {
+  background-color: #f7fafc;
+}
+.list-table .table-head tr{
+  line-height:34px;
+}
 .list-table .table-head td{
   text-align: center;
   text-indent: 0;
   font-size: 12px;
   color: #333;
+  border-bottom: 1px solid #e1eaf2;
+}
+.table-head td p{
+  line-height:24px;
+}
+.list-table .zero{
+  width: 4%;
 }
 .list-table .fir{
-  width: 15%;
-  font-size: 12px;
+  width: 12%;
 }
 .list-table .sec{
-  width: 12%;
+  width: 9%;
 }
 .list-table .three{
-  width: 12%;
+  width: 6%;
 }
 .list-table .four{
-  width: 12%;
+  width: 10%;
 }
 .list-table .five{
-  width: 11%;
-}
-.list-table .six{
-  width: 15%;
-}
-.list-table .fir img{
-  width:auto;
-  height:auto;
-  max-width:100%;
-  max-height:100%;
-  border: 1px solid #eee;
-  margin: 5px;
-  float: left;
-}
-.list-table .fir span{
-  display: block;
-  text-align: left;
-  color: #999;
-}
-.list-table .fir p{
-  text-align: left;
-  color: #999;
-  overflow: hidden;
-  line-height: 22px;
-}
-.list-table .fir p.headtxt{
-  color: #333;
-  margin-top: 20px;
-}
-.list-table dl{
-  margin: 0;
-  border: 1px solid #eee;
-}
-.list-table dl.blueself{
-  border: 1px solid #66cdff;
-}
-.list-table{
-  height: 35px;
-  line-height: 35px;
-  font-size: 12px;
-  text-indent: 30px;
-  display: table;
-  width: 100%;
-}
-.list-table  .ope-list{
-  float:center;
-  margin: 5px 10px 0 0;
-  line-height: 25px;
-}
-.list-table  .ope-list li{
-  float: left;
-  display: inline-block;
-}
-.list-table  .ope-list a{
-  width: 22px;
-  height: 22px;
-  display: inline-block;
-}
-.list-table dd{
-  width: 100%;
-}
-.list-table dd td{
-  text-align: center;
-  vertical-align: middle;
-  color: #666;
-  font-size: 12px;
-  text-indent: 0;
-}
-.list-table dd span{
-  display: block;
-  color: #666;
-  font-size: 12px;
-  height: 22px;
-  line-height: 22px;
+  width: 10%;
 }
 .errorMessage{
   color: #ff0000;
@@ -170,7 +112,7 @@
 .b-head-right .content-box:hover{cursor: pointer;border-color: #ff3c00;}
 .chandlery {
   position: relative;
-  padding: 15px 115px 15px 0;
+  padding: 10px 115px 10px 0;
   background-color: #f8f8f8;
   margin-top: 10px;
 }
@@ -179,6 +121,8 @@
   -ms-flex: 0;
   flex: 0 0 25%;
   max-width: 360px;
+}
+.chandlery ul li:nth-of-type(1){
   margin-bottom:10px;
 }
 .chandlery ul {
@@ -213,9 +157,8 @@
   box-sizing: content-box;
 }
 .chandlery .search-btn {
-  float: left;
   margin-left: 10px;
-  display: inline-block;
+  display: block;
   padding: 0 10px;
   line-height: 32px;
   height: 32px;

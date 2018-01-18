@@ -57,7 +57,7 @@ export class IndexWelfareComponent implements OnInit {
     this.globalCatalogService.getCata(-1,'group','employ/welfare')
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
-          this.catas = data.data;
+          this.catas = data.data[0];
         }
       })
   }

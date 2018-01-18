@@ -3,10 +3,9 @@
   margin-bottom: 30px;
 }
 .route-panel{
-  padding: 10px;
   min-height: 650px;
   background-color: #ffffff;
-  box-shadow: 6px 0 6px rgba(0,0,0,.1);
+  box-shadow: 3px 0 6px rgba(0,0,0,.1);
 }
 .nav-msg{
   display: flex;

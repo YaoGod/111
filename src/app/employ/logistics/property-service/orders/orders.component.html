@@ -147,14 +147,14 @@
       <div class="form-control">
         <span class="form-label">员工部门</span>
         <div class="form-inp">
-          <input type="text" id="employeeDepart" class="company-ipt" name="employeeDepart" [(ngModel)]="repairname.employeeDepart" (blur)="verifyemployeeDepart()" required maxlength="25" disabled="disabled">
+          <input type="text" id="employeeDepart" class="company-ipt" name="employeeDepart" [(ngModel)]="repairname.employeeDepart" required disabled="disabled">
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">员工电话</span>
         <div class="form-inp">
-          <input id="employeePhone" name="employeePhone" class="company-ipt" [(ngModel)]="repairname.employeePhone" (blur)="verifyemployeePhone()" type="text" disabled="disabled">
+          <input id="employeePhone" name="employeePhone" class="company-ipt" [(ngModel)]="repairname.employeePhone" type="text" disabled="disabled">
           <span class="errorMessage"></span>
         </div>
       </div>

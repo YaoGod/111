@@ -51,34 +51,51 @@
                 <input  type="text" name="searchorderDepart" class="search-ipt" [(ngModel)]="search.deptName">
               </li>
             </ul>
-            <div class="search-right"><a href="javascript:;" class="search-btn" (click)="getOrderAllList()"><i class="icon-magnifier"></i> 查 询</a></div>
+            <div class="search-right">
+              <a href="javascript:;" class="search-btn" (click)="getOrderAllList()"><i class="icon-magnifier"></i> 查 询</a>
+              <a href="javascript:;" class="search-btn" style="background-color: #fb9678; margin-top:5px;" (click)="export()"><i class="icon-docs"></i> 导 出</a>
+            </div>
           </div>
-          <div class="list-table" *ngFor="let order of orders;let idx=index">
+          <div class="list-table">
             <table class="table-head">
-              <td class="fir">订单编号</td>
-              <td class="fir">服务中心</td>
-              <td class="sec">服务内容</td>
-              <td class="three">单价</td>
-              <td class="three">数量</td>
-              <td class="three">合计</td>
-              <td class="four">单位</td>
+              <thead>
+              <tr>
+                <th class="zero">
+                  <input type="checkbox" name="all" [(ngModel)]="all" (change)="checkedAll()">
+                </th>
+                <th class="fir">订单编号</th>
+                <th class="fir">服务商</th>
+                <th class="fir">服务中心</th>
+                <th class="sec">订单人</th>
+                <th class="fir">订单人部门</th>
+                <th class="sec">服务内容</th>
+                <th class="three">单价(元)</th>
+                <th class="three">数量</th>
+                <th class="three">合计(元)</th>
+              </tr>
+              </thead>
+              <tr *ngFor="let order of orders;let idx=index" class="line-row">
+                <td class="zero">
+                  <input type="checkbox" name="orderCheck" [value]="order.id" (change)="checkIsAll()">
+                </td>
+                <td class="fir">{{order.orderNo}}</td>
+                <td class="fir">{{order.facilitator}}</td>
+                <td class="fir">{{order.serviceCenter}}</td>
+                <td class="sec">{{order.username}}</td>
+                <td class="sec">{{order.deptName}}</td>
+                <td class="sec">
+                  <p *ngFor="let item of order.orderItems;let j=index">{{item.appcontent}}</p>
+                </td>
+                <td class="three">
+                  <p *ngFor="let item of order.orderItems;let j=index">{{item.unitPrice}}</p>
+                </td>
+                <td class="three">
+                  <p *ngFor="let item of order.orderItems;let j=index">{{item.quantity}}</p>
+                </td>
+                <td class="three">{{order.payment}}
+                </td>
+              </tr>
             </table>
-            <dl *ngFor="let item of order.orderItems;let idx=index">
-              <dd>
-                <table style="width: 100%;">
-                  <tr>
-                    <td class="fir">{{order.orderNo}}</td>
-                    <td class="fir">{{order.serviceCenter}}</td>
-                    <td class="sec">{{item.appcontent}}</td>
-                    <td class="three">{{item.unitPrice}}</td>
-                    <td class="three">{{item.quantity}}</td>
-                    <td class="three">{{item.totalPrice}}</td>
-                    <td class="four">{{item.unit}}</td>
-
-                  </tr>
-                </table>
-              </dd>
-            </dl>
           </div>
           <app-turn-bar
             [pageNo]="pageNo"

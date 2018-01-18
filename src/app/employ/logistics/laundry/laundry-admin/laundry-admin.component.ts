@@ -62,7 +62,7 @@ export class LaundryAdminComponent implements OnInit {
     this.ipSetting.sendPost(url,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
-        console.log(this.orders);
+        // console.log(this.orders);
         this.total = data.data.total;
       }
     });
@@ -97,6 +97,7 @@ export class LaundryAdminComponent implements OnInit {
     let SOFTWARES_URL = '/mmall/laundryOrder/updateOrder';
     this.abc.balance = Number(this.list[0].value)+Number(this.list[1].value);
     this.abc.balanceReason = this.list;
+    console.log(this.abc);
     this.ipSetting.sendPost(SOFTWARES_URL,this.abc).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         confirmFunc.init({
@@ -105,6 +106,7 @@ export class LaundryAdminComponent implements OnInit {
           'popType': 0 ,
           'imgType': 1 ,
         });
+        this.search.orderNo = '';
         this.getOrderAllList(1);
         this.closeMask0();
       }
@@ -196,6 +198,7 @@ export class LaundryAdminComponent implements OnInit {
           'popType': 0 ,
           'imgType': 1 ,
         });
+        this.search.orderNo = '';
         this.getOrderAllList(1);
         this.closeMask();
       }
@@ -209,6 +212,14 @@ export class LaundryAdminComponent implements OnInit {
   /*关闭编辑扣款项目*/
   closeMask0(){
     this.list= [];
+    this.list[0]={
+      key:'',
+      value:''
+    };
+    this.list[1]={
+      key:'',
+      value:''
+    };
     $('.mask0').fadeOut();
   }
   /*x虚拟收货*/
