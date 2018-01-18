@@ -4,6 +4,7 @@ import { GroupNoticeService } from '../../../service/group-notice/group-notice.s
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import * as $ from 'jquery';
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
+import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 declare var $:any;
 declare var confirmFunc: any;
 declare var tinymce: any;
@@ -15,6 +16,9 @@ declare var tinymce: any;
   providers: [GroupNoticeService,UtilBuildingService,ErrorResponseService]
 })
 export class NoticeComponent implements OnInit {
+
+  public catas;
+  public rule;
   public groupNotice: GroupNotice;
   public search: GroupNotice;
   /*搜索*/
@@ -41,16 +45,33 @@ export class NoticeComponent implements OnInit {
   };
 
   constructor(private groupNoticeService: GroupNoticeService,
+              private globalCatalogService: GlobalCatalogService,
               private errorVoid: ErrorResponseService,) {
   }
 
-  ngOnInit() {
+  ngOnInit() {this.getRule();
     this.groupNotice = new GroupNotice();
     this.search = new GroupNotice();
     this.pages = [];
     this.getNoticeList();
   }
-
+  getRule(){
+    this.globalCatalogService.getCata(-1,'group','employ/group')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.catas = data.data;
+          for(let i = 0;i<this.catas.length;i++){
+            if(this.catas[i].routeUrl === "employ/group"){
+              this.catas.splice(i,1);
+              i = 0;
+            }
+            if(this.catas[i].routeUrl === "employ/group/notice"){
+              this.rule = this.catas[i];
+            }
+          }
+        }
+      })
+  }
   /*获取列表*/
   getNoticeList() {
     this.groupNoticeService.getNoticeList(this.search).subscribe(data => {

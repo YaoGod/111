@@ -5,13 +5,17 @@
       <div class="wrap-b">
         <div class="b-head clearfix">
           <div class="b-head-left">
-            <span [routerLink]="['../product']">团购商品新增</span>
+             <span *ngFor="let cata of catas"
+                   [ngClass]="cata.routeUrl===rule.routeUrl?'active':''"
+                   [routerLink]="['../../../'+cata.routeUrl]"
+             >{{cata.name}}</span>
+            <!--span [routerLink]="['../product']">团购商品新增</span>
             <span [routerLink]="['../check']">团购商品审核</span>
             <span class="active" >团购商品管理</span>
             <span [routerLink]="['../order']">订单管理</span>
             <span [routerLink]="['../notice']">公告管理</span>
             <span [routerLink]="['../report']">订单报表</span>
-            <span [routerLink]="['../count']">统计报表</span>
+            <span [routerLink]="['../count']">统计报表</span>-->
           </div>
           <div class="b-head-right">
             <div class="content-box" [routerLink]="['../groupbuy']"><i class="icon-action-undo"></i> 继续订购</div>
@@ -38,11 +42,11 @@
             <dl *ngFor="let product of groupProducts;let idx=index">
               <dt><span>商品名称：{{product.name}}</span>
               <div class="ope-list">
-                <a class="two"   title="修改" href="javascript:void(0);" (click)="update(product.code)"></a>
-                <a class="tre"   title="删除" href="javascript:void(0);" (click)="delete(product.code)"></a>
-              <button type="button" class="btn btn-info" *ngIf="product.status=='2'" style="padding: 2px 2px;float:inherit;"
+                <a class="two"   title="修改" *ngIf="rule&&rule.isUpdate" (click)="update(product.code)"></a>
+                <a class="tre"   title="删除" *ngIf="rule&&rule.isDelete" (click)="delete(product.code)"></a>
+              <button type="button" class="btn btn-info" *ngIf="rule&&rule.isUpdate&&product.status=='2'" style="padding: 2px 2px;float:inherit;"
                       (click)="updateStatus(product.code,'1')">上架</button>
-              <button type="button" class="btn btn-info" *ngIf="product.status=='1'" style="padding: 2px 2px;float:inherit;"
+              <button type="button" class="btn btn-info" *ngIf="rule&&rule.isUpdate&&product.status=='1'" style="padding: 2px 2px;float:inherit;"
                       (click)="updateStatus(product.code,'2')">下架</button>
               </div>
               </dt>

@@ -21,6 +21,8 @@ declare var tinymce: any;
 })
 export class GroupbuyComponent implements OnInit {
   public rule;
+  public catas;
+  public mangUrl = '';
   public groupProducts: Array<GroupProduct>;
   public search:GroupProduct;
   public  cart:GroupCart;
@@ -45,6 +47,7 @@ export class GroupbuyComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getRule();
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("employ/group");
@@ -57,7 +60,23 @@ export class GroupbuyComponent implements OnInit {
     this.getNoticeList();
 
   }
-
+  getRule(){
+    this.globalCatalogService.getCata(-1,'group','employ/group')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.catas = data.data;
+          for(let i = 0;i<this.catas.length;i++){
+            if(this.catas[i].routeUrl === "employ/group"){
+              this.catas.splice(i,1);
+              i = 0;
+            }
+          }
+          if(this.catas.length>0){
+            this.mangUrl = this.catas[0].routeUrl;
+          }
+        }
+      })
+  }
   autoRun(){
     let $this = $("#banner-list");
     let scrollTimer;

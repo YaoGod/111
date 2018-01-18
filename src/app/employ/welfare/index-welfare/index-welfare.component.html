@@ -7,7 +7,7 @@
         <span class="subtitle">极致优惠不容错过</span>
       </p>
       <span class="tb-fn">
-        <a class="btn-fn3" *ngIf="rule&&rule.isUpdate||rule.isInstall||rule.isDelete"
+        <a class="btn-fn3" *ngIf="catas&&(catas[2].isUpdate||catas[2].isInstall||catas[2].isDelete)"
            (click)="linkDiscountMag()">
           管&nbsp;&nbsp;理
         </a>
@@ -43,7 +43,7 @@
         <span class="subtitle">量身质造为您提供优质服务</span>
       </p>
       <span class="tb-fn">
-        <a class="btn-fn3" *ngIf="rule&&rule.isUpdate||rule.isInstall||rule.isDelete"
+        <a class="btn-fn3" *ngIf="catas&&(catas[1].isUpdate||catas[1].isInstall||catas[1].isDelete) "
            (click)="linkWelfareMag()">
           管&nbsp;&nbsp;理
         </a>

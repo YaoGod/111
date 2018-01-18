@@ -4,6 +4,7 @@ import { GroupOrderService } from '../../../service/group-order/group-order.serv
 import {GroupOrderItem} from '../../../mode/groupOrderItem/group-orderItem.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
+import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 declare var $: any;
 declare var confirmFunc: any;
 @Component({
@@ -13,6 +14,8 @@ declare var confirmFunc: any;
   providers:[GroupOrderService,ErrorResponseService]
 })
 export class CountComponent implements OnInit {
+  public catas;
+  public rule;
   public search: SearchOrder;
   public pageSize = 10;
   public pageNo = 1;
@@ -28,10 +31,29 @@ export class CountComponent implements OnInit {
   public orderItems:Array<GroupOrderItem>;
 
   constructor(private errorVoid: ErrorResponseService,
+              private globalCatalogService: GlobalCatalogService,
               private http: Http, private ipSetting:IpSettingService) { }
 
   ngOnInit() {
+    this.getRule();
     this.getCountList();
+  }
+  getRule(){
+    this.globalCatalogService.getCata(-1,'group','employ/group')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.catas = data.data;
+          for(let i = 0;i<this.catas.length;i++){
+            if(this.catas[i].routeUrl === "employ/group"){
+              this.catas.splice(i,1);
+              i = 0;
+            }
+            if(this.catas[i].routeUrl === "employ/group/count"){
+              this.rule = this.catas[i];
+            }
+          }
+        }
+      })
   }
   /*跳页加载数据*/
   goPage(page:number){

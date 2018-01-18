@@ -16,7 +16,7 @@ declare var $: any;
   providers: [IpSettingService,DiscountEmployeeService,WelfareEmployeeService]
 })
 export class IndexWelfareComponent implements OnInit {
-
+  public catas;
   public rule;
   public  discounts: Array<Discount>;
   public  welfares: Array<Welfare>;
@@ -44,6 +44,7 @@ export class IndexWelfareComponent implements OnInit {
         this.rule = this.globalCatalogService.getRole("employ/welfare");
       }
     );
+    this.getRule();
     this.pageNoD = 1;
     this.pageNoW = 1;
     this.pageSize = 6;
@@ -51,6 +52,14 @@ export class IndexWelfareComponent implements OnInit {
     this.welfares = [];
     this.getDiscount("",this.pageNoD,this.pageSize);
     this.getWelfare("",this.pageNoW,this.pageSize);
+  }
+  getRule(){
+    this.globalCatalogService.getCata(-1,'group','employ/welfare')
+      .subscribe(data=>{
+        if(this.errorResponseService.errorMsg(data)){
+          this.catas = data.data;
+        }
+      })
   }
   getDiscount(search,pageNo,pageSize) {
     this.discountEmployeeService.getDiscountList('execute',search,pageNo,pageSize)

@@ -4,6 +4,7 @@ import { GroupProductService } from '../../../service/group-product/group-produc
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import * as $ from 'jquery';
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
+import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 declare var $:any;
 declare var confirmFunc: any;
 declare var tinymce: any;
@@ -14,6 +15,8 @@ declare var tinymce: any;
   providers: [GroupProductService,UtilBuildingService,ErrorResponseService]
 })
 export class CheckComponent implements OnInit {
+  public catas;
+  public rule;
   public groupProducts: Array<GroupProduct>;
   public search: GroupProduct;
   private code: any;
@@ -30,12 +33,31 @@ export class CheckComponent implements OnInit {
   };
 
   constructor(private groupProductService: GroupProductService,
+              private globalCatalogService: GlobalCatalogService,
               private errorVoid: ErrorResponseService,) {
   }
   ngOnInit() {
+    this.getRule();
     this.search = new GroupProduct();
     this.pages = [];
     this.getProductList();
+  }
+  getRule(){
+    this.globalCatalogService.getCata(-1,'group','employ/group')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.catas = data.data;
+          for(let i = 0;i<this.catas.length;i++){
+            if(this.catas[i].routeUrl === "employ/group"){
+              this.catas.splice(i,1);
+              i = 0;
+            }
+            if(this.catas[i].routeUrl === "employ/group/check"){
+              this.rule = this.catas[i];
+            }
+          }
+        }
+      })
   }
   getProductList(){
     this.search.status = '0';

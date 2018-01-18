@@ -7,6 +7,7 @@ import {GroupOrderItem} from '../../../mode/groupOrderItem/group-orderItem.servi
 import { GroupOrderItemService } from '../../../service/group-orderItem/group-order-item.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import {forEach} from "@angular/router/src/utils/collection";
+import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 
 declare var $:any;
 declare var confirmFunc: any;
@@ -17,7 +18,8 @@ declare var confirmFunc: any;
   providers:[GroupOrderService,GroupOrderItemService,ErrorResponseService]
 })
 export class OrderComponent implements OnInit {
-
+  public catas;
+  public rule;
   public search: GroupOrder;
   private pageNo = 1;
   /*当前页码*/
@@ -51,13 +53,31 @@ export class OrderComponent implements OnInit {
   };
   public orderItems:Array<GroupOrderItem>;
 
-  constructor(private groupOrderService: GroupOrderService,private groupOrderItemService:GroupOrderItemService,
+  constructor(private groupOrderService: GroupOrderService,
+              private globalCatalogService: GlobalCatalogService,
               private errorVoid: ErrorResponseService,) { }
 
   ngOnInit() {
+    this.getRule();
     this.getOrderAllList();
   }
-
+  getRule(){
+    this.globalCatalogService.getCata(-1,'group','employ/group')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.catas = data.data;
+          for(let i = 0;i<this.catas.length;i++){
+            if(this.catas[i].routeUrl === "employ/group"){
+              this.catas.splice(i,1);
+              i = 0;
+            }
+            if(this.catas[i].routeUrl === "employ/group/order"){
+              this.rule = this.catas[i];
+            }
+          }
+        }
+      })
+  }
   getOrderAllList(){
     if(this.productName!=null){
       this.productName = this.productName.trim();

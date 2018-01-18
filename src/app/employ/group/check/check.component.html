@@ -5,13 +5,17 @@
       <div class="wrap-b">
         <div class="b-head clearfix">
           <div class="b-head-left">
-            <span [routerLink]="['../product']">团购商品新增</span>
+            <span *ngFor="let cata of catas"
+                  [ngClass]="cata.routeUrl===rule.routeUrl?'active':''"
+                  [routerLink]="['../../../'+cata.routeUrl]"
+            >{{cata.name}}</span>
+        <!--    <span [routerLink]="['../product']">团购商品新增</span>
             <span class="active" >团购商品审核</span>
             <span [routerLink]="['../manager']">团购商品管理</span>
             <span [routerLink]="['../order']">订单管理</span>
             <span [routerLink]="['../notice']">公告管理</span>
             <span [routerLink]="['../report']">订单报表</span>
-            <span [routerLink]="['../count']">统计报表</span>
+            <span [routerLink]="['../count']">统计报表</span>-->
           </div>
           <div class="b-head-right">
             <div class="content-box" [routerLink]="['../groupbuy']"><i class="icon-action-undo"></i> 继续订购</div>
@@ -37,7 +41,7 @@
             <dl *ngFor="let product of groupProducts;let idx=index">
               <dt><span>商品名称：{{product.name}}</span>
               <div class="ope-list">
-                <a class="four"  title="审核" href="javascript:void(0);" (click)="check(product.code)"></a>
+                <a class="four"  title="审核" (click)="check(product.code)" *ngIf="rule&&rule.isUpdate"></a>
               </div>
               </dt>
               <dd>
