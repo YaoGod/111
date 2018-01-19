@@ -539,3 +539,17 @@
 .b-head-left{
   height: 40px;
 }
+.table-head .btn-print{
+  display: block;
+  padding: 0;
+  width: 40px;
+  height: 20px;
+  line-height: 20px;
+  border-radius: 4px;
+  background: #999;
+  color: #fff;
+  cursor: pointer;
+}
+.btn-print:hover{
+  opacity: .7;
+}

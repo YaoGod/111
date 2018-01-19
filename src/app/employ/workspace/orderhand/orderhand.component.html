@@ -24,7 +24,7 @@
           <td>{{thing.itemType}}</td>
           <td>{{thing.itemStatus}}</td>
           <td>
-            <a *ngIf="thing.itemUrl" [routerLink]="['../../../'+thing.itemUrl]">前往处理</a>
+            <a *ngIf="thing.itemUrl" [routerLink]="['../../../../'+thing.itemUrl]">前往处理</a>
             <span class="red" *ngIf="!thing.itemUrl">当前路径为null请检查</span>
           </td>
         </tr>

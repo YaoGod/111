@@ -21,9 +21,9 @@ export class OrderComponent implements OnInit {
   public catas;
   public rule;
   public search: GroupOrder;
-  private pageNo = 1;
-  /*当前页码*/
-  private pageSize = 5;
+  public pageNo = 1;
+  public pageSize = 5;
+  public total = 0;
   public orders:Array<GroupOrder>;
   public productName= '';
   public orderId = '';
@@ -59,7 +59,7 @@ export class OrderComponent implements OnInit {
 
   ngOnInit() {
     this.getRule();
-    this.getOrderAllList();
+    this.getOrderAllList(1);
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'group','employ/group')
@@ -78,7 +78,8 @@ export class OrderComponent implements OnInit {
         }
       })
   }
-  getOrderAllList(){
+  getOrderAllList(pageNo){
+    this.pageNo = pageNo;
     if(this.productName!=null){
       this.productName = this.productName.trim();
     }
@@ -88,9 +89,11 @@ export class OrderComponent implements OnInit {
     if(this.productId!=null){
       this.productId = this.productId.trim();
     }
-    this.groupOrderService.getOrderAllList(this.productName,this.orderId,this.productId,this.pageNo,this.pageSize).subscribe(data => {
+    this.groupOrderService.getOrderAllList(this.productName,this.orderId,this.productId,this.pageNo,this.pageSize)
+      .subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
+        this.total = data.data.total;
        }
     });
   }
@@ -112,7 +115,7 @@ export class OrderComponent implements OnInit {
             'imgType': 1,
           });
           this.closeMask();
-          this.getOrderAllList();
+          this.getOrderAllList(1);
         }else{
           confirmFunc.init({
             'title': '提示',
@@ -142,8 +145,8 @@ export class OrderComponent implements OnInit {
                 'popType': 0,
                 'imgType': 1,
               });
+              this.getOrderAllList(1);
             }
-            this.getOrderAllList();
           });
       }
     });
@@ -231,7 +234,7 @@ export class OrderComponent implements OnInit {
             'imgType': 1,
           });
           this.closeMask0();
-          this.getOrderAllList();
+          this.getOrderAllList(1);
         }
       })
   }

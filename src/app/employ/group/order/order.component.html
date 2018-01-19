@@ -36,7 +36,7 @@
                     <label>商品编号</label>
                     <input type="text" name="addnum2" [(ngModel)]="productId">
                   </li>-->
-                  <li><a class="search" href="javascript: void(0);" (click)="getOrderAllList()" >查询</a></li>
+                  <li><a class="search" href="javascript: void(0);" (click)="getOrderAllList(1)" >查询</a></li>
                 </ul>
               </div>
               <div class="list-table" *ngFor="let order of orders;let idx=index">
@@ -89,6 +89,13 @@
                   </dd>
                 </dl>
               </div>
+              <!--翻页-->
+              <app-turn-bar
+                [pageNo] = "pageNo"
+                [pageSize] = "pageSize"
+                [total] = "total"
+                (turnEvent) = "getOrderAllList($event)">
+              </app-turn-bar>
             </div>
           </div>
         </div>

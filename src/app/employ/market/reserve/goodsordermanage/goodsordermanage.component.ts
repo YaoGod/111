@@ -16,9 +16,9 @@ export class GoodsordermanageComponent implements OnInit {
   public catas;
   public imgPrefix: string;
   public search: GoodsOrder;
-  private pageNo = 1;
-  /*当前页码*/
-  private pageSize = 6;
+  public pageNo = 1;
+  public pageSize = 6;
+  public total = 0;
   public orders:Array<GoodsOrder>;
   public productName = '';
   public orderId = '';
@@ -32,6 +32,8 @@ export class GoodsordermanageComponent implements OnInit {
     note:''
   }
   public orderItems:Array<GoodsOrderItem>;
+  public formData: Array<any>;
+  public title: string = "商品预定区订单";
   constructor(private ipSetting: IpSettingService,
               private errorVoid: ErrorResponseService,
               private globalCatalogService: GlobalCatalogService) { }
@@ -74,8 +76,7 @@ export class GoodsordermanageComponent implements OnInit {
       {
         if (this.errorVoid.errorMsg(data.status)) {
           this.orders = data.data.list;
-          let total = Math.ceil(data.data.total / this.pageSize);
-          this.initPage(total);
+          this.total =data.data.total;
 
         }
       });
@@ -132,32 +133,51 @@ export class GoodsordermanageComponent implements OnInit {
   noFunc() {
     $('.confirm').fadeOut();
   }
-
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
-    console.log(this.pages);
-    for(let i = 0;i< total ;i++){
-      this.pages[i] = i+1;
+  /*装载要打印的内容*/
+  loadFormData(data:any){
+    console.log(data);
+    this.formData =[
+      {
+        title:'',
+        type: 'bold',
+        hd:['系统订单号',"服务中心","订单创建时间"],
+        data: [data.orderNo,data.serviceCenter,data.createTime]
+      },
+      {
+        title:"",
+        type:"text",
+        hd:["订单状态","付款方式","付款时间","发货时间"],
+        data:[data.statusDesc,data.paymentTypeDesc,data.payTime,data.sendTime]
+      },
+      {
+        title:"收货人信息",
+        type:"text",
+        hd:["收货人姓名","收货人电话"],
+        data:[data.userName,data.telPhone]
+      },
+      {
+        title:"商品明细",
+        type:"form",
+        hd:["商品名称","单价(元)","数量","合计（元）"],
+        data:[],
+        total:"总计：￥"+data.payment.toFixed(2)
+      }
+    ];
+    /*switch(data.status){
+      case '0':this.formData[1].data[0] = "已付款"; break;
+      case '1':this.formData[1].data[0] = "已到货"; break;
+      case '2':this.formData[1].data[0] = "退单"; break;
+      case '40':this.formData[1].data[0] = "已配货"; break;
+      default:
+        this.formData[1].data[0] = "暂无订单状态信息";
+    }*/
+    for(let i = 0;i<data.orderItemVoList.length;i++){
+      this.formData[3].data[i]=[
+        data.orderItemVoList[i].productName,
+        '￥'+data.orderItemVoList[i].currentUnitPrice.toFixed(2),
+        data.orderItemVoList[i].quantity,
+        '￥'+data.orderItemVoList[i].totalPrice.toFixed(2)
+      ];
     }
   }
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
-  }
-  /*跳页加载数据*/
-  goPage(page:number){
-    this.pageNo = page;
-    this.getOrderAllList();
-  }
-
 }

@@ -18,6 +18,8 @@ declare var $: any;
 export class IndexWelfareComponent implements OnInit {
   public catas;
   public rule;
+  public rule1;
+  public rule2;
   public  discounts: Array<Discount>;
   public  welfares: Array<Welfare>;
   public  ip: string;
@@ -57,7 +59,15 @@ export class IndexWelfareComponent implements OnInit {
     this.globalCatalogService.getCata(-1,'group','employ/welfare')
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
-          this.catas = data.data[0];
+          this.catas = data.data;
+          for(let i = 0;i<this.catas.length;i++){
+            if(this.catas[i].routeUrl === "employ/welfare/discount/manage"){
+              this.rule1 = this.catas[i];
+            }
+            if(this.catas[i].routeUrl === "employ/welfare/staffWelfare/manage"){
+              this.rule2 = this.catas[i];
+            }
+          }
         }
       })
   }

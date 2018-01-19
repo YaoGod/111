@@ -65,6 +65,14 @@
                   <!--<td class="zero" style="padding-left: 6%;">
                     <a class="tre"  title="删除" href="javascript:void(0);"(click)="delete(order.id)"></a>
                   </td>-->
+                  <td class="zero" >
+                    <a class="btn-print" title="打印" (mouseover)="loadFormData(order)" *ngIf="rule&&rule.isSelect">打印
+                      <app-print-bar
+                        [title] = "title"
+                        [formData] = "formData">
+                      </app-print-bar>
+                    </a>
+                  </td>
                 </tr>
               </table>
               </dt>
@@ -81,16 +89,13 @@
               </dd>
             </dl>
           </div>
-          <div class="turn" name="pages" *ngIf="pages.length > 1">
-            <ul>
-              <li *ngFor="let i of pages"
-                  [hidden] = "pageLimit(i)"
-                  [ngClass]="{'active':i === pageNo}"
-                  (click)="goPage(i);">
-                {{i}}
-              </li>
-            </ul>
-          </div>
+          <!--翻页-->
+          <app-turn-bar
+            [pageNo] = "pageNo"
+            [pageSize] = "pageSize"
+            [total] = "total"
+            (turnEvent) = "getOrderAllList($event)">
+          </app-turn-bar>
         </div>
       </div>
     </div>
