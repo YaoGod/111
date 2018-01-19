@@ -136,8 +136,8 @@
                   </div>
                   <div style="width: 50%">
                     <label>商品价格：</label>
-                    <input type="text" class="producttext" id="newprice" name="newprice" style="width:75px;"
-                           (blur)="verifyEmpty('newprice','价格不能为空')"    placeholder="" [(ngModel)]="newGroupProduct.price">元
+                    <input type="number" class="producttext" id="newprice" name="newprice" style="width:75px;"
+                           (blur)="verifyEmpty('newprice','价格不能为空')" maxlength="9" [(ngModel)]="newGroupProduct.price">元
                     <span class="errorMessage"></span>
                   </div>
                 </div>

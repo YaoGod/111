@@ -67,10 +67,10 @@
                       <td class="sec">单价（元）</td>
                       <td class="three">数量</td>
                       <td class="four">合计（元）</td>
-                      <td class="zero" *ngIf="order.status!='2' " >
+                      <td class="zero" *ngIf="order.status=='0'">
                         <a class="two"  title="修改" *ngIf="rule&&rule.isUpdate" (click)="update(order.id,order.status)"></a>
                       </td>
-                      <td class="zero" *ngIf="order.status=='1' ">
+                      <td class="zero" *ngIf="order.status=='1'">
                         <a class="tre"  title="删除" *ngIf="rule&&rule.isDelete" (click)="delete(order.id)"></a>
                       </td>
                     </tr>
@@ -97,6 +97,13 @@
                 (turnEvent) = "getOrderAllList($event)">
               </app-turn-bar>
             </div>
+            <app-turn-bar
+              [pageNo]="pageNo"
+              [pageSize]="pageSize"
+              [total]="total"
+              [length] = 5
+              (turnEvent)="goPage($event)">
+            </app-turn-bar>
           </div>
         </div>
       </div>
@@ -107,30 +114,33 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">修改订单</h4>
-          <button type="button" class="close"(click)="closeMask()">×</button>
+          <button type="button" class="close" (click)="closeMask()">×</button>
         </div>
         <form class="form-building form-material">
           <input type="hidden" name="updateOrder.id"  [(ngModel)]="updateOrder.id">
           <div class="modal-body clearfix">
             <div>
               <label>订单状态：</label>
-              <select class="bor"  name="orderstatus" [(ngModel)]="updateOrder.status">
+              <select class="bor" id="form-status"  name="orderstatus" [(ngModel)]="updateOrder.status" (blur)="verifyEmpty('form-status','不能为空')">
                 <option value="1">已到货</option>
                 <option value="2">退单</option>
               </select>
+              <span class="errorMessage"></span>
             </div>
 
             <div class="modal-right">
               <label style="float: left">情况说明：</label>
-              <textarea name="notice" ui-tinymce
+              <textarea name="notice" (blur)="verifyEmpty('form-text','不能为空')" id="form-text"
                         class="form-control" rows="10"
                         style="width: 85%;!important; border-radius: 3px;"   [(ngModel)]="updateOrder.note" >
                </textarea>
+              <span style="display: block; margin-left:80px;" class="errorMessage"></span>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn-mask" (click)="updateOrders()" >保 存</button>
-            <button type="button" class="btn-mask btn-info" (click)="closeMask()">取 消</button>
+            <button type="button" class="btn-mask" (click)="closeMask()">取 消</button>
+            <button type="submit" class="btn-mask btn-info" (click)="updateOrders()" >保 存</button>
+
           </div>
         </form>
       </div>

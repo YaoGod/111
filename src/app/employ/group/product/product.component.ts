@@ -113,7 +113,23 @@ export class ProductComponent implements OnInit {
   }
   closeMask() {
     $('.mask').hide();
+    $('.errorMessage').html('');
     $('#prese1').val('');
+    this.newGroupProduct={
+      name: '',
+      image: '',
+      detail:'',
+      price: '',
+      status: '',
+      startTime: '',
+      endTime:'',
+      contact:'',
+      phone:    '',
+      payaccount:'',
+      label:  '',
+      producttype: '',
+      checkStatus:''
+    };
   }
   private verifyEmpty(id,label) {
 
@@ -137,83 +153,18 @@ export class ProductComponent implements OnInit {
   }
 
   private verifyPhone(id)  {
-    if (!this.verifyIsTel(id, '请输入正确的手机号')) {
+    if (!this.verifyIsTel(id, '手机号码异常')) {
       return false;
     }
     return true;
   }
 
-  /**非空校验*/
-  private isEmpty(id: string, error: string): boolean  {
-    const data =  $('#' + id).val();
-    if (data==null||data==''||data.trim() === '')  {
-      this.addErrorClass(id, error);
-      return false;
-    }else {
-      this.removeErrorClass(id);
-      return true;
-    }
-  }
-  /**
-   * 验证手机号码
-   * @return
-   */
-  private verifyIsTel(id: string, error?: string): boolean {
-    const data =  $('#' + id).val();/*/^1(3[4-9]|5[0-2]|8[0-3,78])\d{8}$/ 移动号段*/
-    if (!String(data).match( /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/ ))  {
-      this.addErrorClass(id, error);
-      return false;
-    }else {
-      this.removeErrorClass(id);
-      return true;
-    }
-  }
-  /**
-   * 匹配数字
-   * @param id
-   * @param error
-   * @returns {boolean}
-   */
-  private verifyIsNumber(id: string, error: string): boolean  {
-    const data =  $('#' + id).val();// /^[0-9]*$/
-    if (!String(data).match(/^[1-9]\d(\.\d+){0,2}$/))  {
-      this.addErrorClass(id, error);
-      return false;
-    }else {
-      this.removeErrorClass(id);
-      return true;
-    }
-  }
-  /**
-   * 添加错误信息class
-   * @param id
-   * @param error
-   */
-  private  addErrorClass(id: string, error?: string)  {
-    $('#' + id).parents('.form-control').addClass('form-error');
-    if (error === undefined || error.trim().length === 0 ) {
-      $('#' + id).next('span').html('输入错误');
-    }else {
-      $('#' + id).next('span').html(error);
-    }
-  }
-  /**
-   * 去除错误信息class
-   * @param id
-   */
-  private  removeErrorClass(id: string) {
-    $('#' + id).parents('.form-control').removeClass('form-error');
-    $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
-    $('#' + id).next('span').html('');
-  }
-
+  /*提交*/
   subGroupProduct() {
-
-
     if (!this.verifyEmpty('newname','名称不能为空')||!this.verifyEmpty('newprice','不能为空')||!this.verifyEmpty('newstartTime'
         ,'不能为空')|| !this.verifyEmpty('newendTime','不能为空')||!this.verifyEmpty('newpconcant','不能为空')||
-      !this.verifyEmpty('newphone','不能为空')|| !this.verifyEmpty('newpayaccount','收款账户不能为空')||!this.verifyEmpty(
-        'newesetail','商品详情不能为空')) {
+      !this.verifyEmpty('newphone','不能为空')|| !this.verifyPhone('newphone')|| !this.verifyEmpty('newpayaccount','收款账户不能为空')||
+      !this.verifyEmpty('newesetail','商品详情不能为空')) {
       return false;
     }
     if(this.newGroupProduct.startTime > this.newGroupProduct.endTime){
@@ -248,7 +199,6 @@ export class ProductComponent implements OnInit {
   }
 
   updateGroupProduct() {
-
     if (!this.verifyEmpty('upnewname','名称不能为空')||!this.verifyEmpty('upnewprice','不能为空')||!this.verifyEmpty('upnewstartTime'
         ,'不能为空')|| !this.verifyEmpty('upnewendTime','不能为空')||!this.verifyEmpty('upnewpconcant','联系人不能为空')||
       !this.verifyEmpty('upnewphone','不能为空')|| !this.verifyEmpty('upnewpayaccount','收款账户不能为空')||!this.verifyEmpty(
@@ -367,5 +317,68 @@ export class ProductComponent implements OnInit {
       this.search = new GroupProduct();
     }
     this.getProductList();
+  }
+  /**非空校验*/
+  private isEmpty(id: string, error: string): boolean  {
+    const data =  $('#' + id).val();
+    if (data==null||data==''||data.trim() === '')  {
+      this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /**
+   * 验证手机号码
+   * @return
+   */
+  private verifyIsTel(id: string, error?: string): boolean {
+    const data =  $('#' + id).val();/*/^1(3[4-9]|5[0-2]|8[0-3,78])\d{8}$/ 移动号段*/
+    if (!String(data).match( /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/ ))  {
+      this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /**
+   * 匹配数字
+   * @param id
+   * @param error
+   * @returns {boolean}
+   */
+  private verifyIsNumber(id: string, error: string): boolean  {
+    const data =  $('#' + id).val();// /^[0-9]*$/
+    if (!String(data).match(/^[1-9]\d(\.\d+){0,2}$/))  {
+      this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /**
+   * 添加错误信息class
+   * @param id
+   * @param error
+   */
+  private  addErrorClass(id: string, error?: string)  {
+    $('#' + id).parents('.form-control').addClass('form-error');
+    if (error === undefined || error.trim().length === 0 ) {
+      $('#' + id).next('span').html('输入错误');
+    }else {
+      $('#' + id).next('span').html(error);
+    }
+  }
+  /**
+   * 去除错误信息class
+   * @param id
+   */
+  private  removeErrorClass(id: string) {
+    $('#' + id).parents('.form-control').removeClass('form-error');
+    $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
+    $('#' + id).next('span').html('');
   }
 }

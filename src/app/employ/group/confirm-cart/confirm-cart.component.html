@@ -73,7 +73,7 @@
                 <div>
                   <div style="margin-top: 10px;">
                     <label>验证码：</label>
-                    <input type="text" style="width: 65px;"  id="message" class="noticetext"  name="message" (blur)="verifyEmpty('message','短信验证码不能为空')">
+                    <input type="number" style="width: 65px;"  id="message" class="noticetext"  name="message" (blur)="verifyEmpty('message','短信验证码不能为空')" maxlength="6">
 
                     <button type="button" style="padding: 5px 9px;border-radius: 5px;color: #fff;outline: none;cursor: pointer;margin-left: 13px;"
                             class="btn-danger" (click)="getcode()">获取验证码</button>

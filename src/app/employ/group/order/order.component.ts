@@ -21,9 +21,11 @@ export class OrderComponent implements OnInit {
   public catas;
   public rule;
   public search: GroupOrder;
-  public pageNo = 1;
   public pageSize = 5;
+  public pageNo = 1;
   public total = 0;
+  public length = 5;
+  public pages: Array<number>;
   public orders:Array<GroupOrder>;
   public productName= '';
   public orderId = '';
@@ -34,7 +36,7 @@ export class OrderComponent implements OnInit {
     id:'',
     status:'',
     note:''
-  }
+  };
   public  newMessage={
     orderNo:'',
     content:'',
@@ -59,6 +61,7 @@ export class OrderComponent implements OnInit {
 
   ngOnInit() {
     this.getRule();
+    this.pages = [];
     this.getOrderAllList(1);
   }
   getRule(){
@@ -105,12 +108,15 @@ export class OrderComponent implements OnInit {
   }
 
   updateOrders(){
+    if(!this.verifyEmpty('form-status','不能为空') || !this.verifyEmpty('form-text','不能为空')){
+      return false;
+    }
     this.groupOrderService.updateOrder(this.updateOrder)
       .subscribe(data => {
-        if(data['status'] === 0){
+        if (this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
             'title': '提示',
-            'mes': '修改成功',
+            'mes': data['msg'],
             'popType': 0,
             'imgType': 1,
           });
@@ -124,9 +130,9 @@ export class OrderComponent implements OnInit {
             'imgType': 2,
           });
           this.closeMask();
+          this.getOrderAllList(1);
         }
       });
-
   }
 
   delete(orderid:number){
@@ -145,8 +151,8 @@ export class OrderComponent implements OnInit {
                 'popType': 0,
                 'imgType': 1,
               });
-              this.getOrderAllList(1);
             }
+            this.getOrderAllList(1);
           });
       }
     });
@@ -174,7 +180,11 @@ export class OrderComponent implements OnInit {
     return true;
   }
 }
-
+  /*跳页加载数据*/
+  goPage(page:number){
+    this.pageNo = page;
+    this.getOrderAllList(this.pageNo);
+  }
   /**非空校验*/
   private isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();

@@ -268,7 +268,12 @@ export class FacilitatorComponent implements OnInit {
     let url = "/mmall/laundry/provider/providerUpdate";
     this.ipSetting.sendPost(url,this.applierEdit).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
-        alert(data.msg);
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': data['msg'],
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
         $('.maskUpdate').hide();
         this.providerList();
       }

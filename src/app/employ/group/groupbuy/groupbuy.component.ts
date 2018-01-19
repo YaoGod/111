@@ -85,7 +85,7 @@ export class GroupbuyComponent implements OnInit {
     }, function() {
       scrollTimer = setInterval(function() {
         scrollNews($this);
-      }, 2000);
+      }, 1500);
     }).trigger("mouseleave");
 
     function scrollNews(obj) {
@@ -93,7 +93,7 @@ export class GroupbuyComponent implements OnInit {
       let lineHeight = $self.find("li:first").height();
       $self.animate({
         "marginTop": -lineHeight + "px"
-      }, 600, function() {
+      }, 1000, function() {
         $self.css({
           marginTop: 0
         }).find("li:first").appendTo($self);
@@ -108,7 +108,7 @@ export class GroupbuyComponent implements OnInit {
       .subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.groupProducts = data.data.infos;
-        // console.log(this.groupProducts);
+        console.log(data.data);
         this.cartsize = data.data.cartsize;
         this.total = data.data.total;
       }
@@ -117,6 +117,7 @@ export class GroupbuyComponent implements OnInit {
   /*跳页加载数据*/
   goPage(page:number){
     this.pageNo = page;
+    console.log(this.pageNo)
     this.getProductShowList();
   }
   /*获取公告列表*/

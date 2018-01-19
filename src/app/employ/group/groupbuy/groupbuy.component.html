@@ -67,14 +67,14 @@
 
                 </div>
               </div>
-              <app-turn-bar
-                [pageNo]="pageNo"
-                [pageSize]="pageSize"
-                [total]="total"
-                [length] = 5
-                (turnEvent)="goPage($event)">
-              </app-turn-bar>
             </div>
+            <app-turn-bar
+              [pageNo]="pageNo"
+              [pageSize]="pageSize"
+              [total]="total"
+              [length] = 5
+              (turnEvent)="goPage($event)">
+            </app-turn-bar>
           </div>
         </div>
       </div>

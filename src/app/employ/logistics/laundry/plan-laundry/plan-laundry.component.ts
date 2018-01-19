@@ -179,12 +179,13 @@ export class PlanLaundryComponent implements OnInit {
     this.orderItemAdd.appcontent = "";
     for(let i=0;i<this.applierList.length;i++){
       if(this.applierList[i].applyId ==  this.orderItemAdd.applyid){
-        for(let j=0;j<this.applierList[i].prices.length;j++){
+        // console.log(this.applierList[i].prices);
+        /*for(let j=0;j<this.applierList[i].prices.length;j++){
           if(this.applierList[i].prices[j].applyid ==  this.orderItemAdd.applyid){
             this.products.push(this.applierList[i].prices[j]);
           }
-        }
-        // console.log(this.applierList[i].applyId+",.,.,,,.,,"+this.orderItemAdd.applyid);
+        }*/
+        this.products = this.applierList[i].prices;
       }
     }
   }
@@ -284,7 +285,7 @@ export class PlanLaundryComponent implements OnInit {
       unitPrice:  '',
       quantity:   '',
       totalPrice:  '',
-      applyid: '',
+      applyid: this.orderItemAdd.applyid,
       unit: ''
     };
     $('.errorMessage').html('');
