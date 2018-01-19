@@ -88,7 +88,7 @@
   <table border="0" cellspacing="0" cellpadding="0" class="list-box">
     <tr class="row"  style="height:45px;" *ngFor="let order of orders;let i = index">
       <td width="5%">
-        {{i+1}}
+        {{(pageNo-1)*pageSize+i+1}}
       </td>
       <td width="10%">
           {{order.orderId}}

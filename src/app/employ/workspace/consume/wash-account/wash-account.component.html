@@ -2,7 +2,7 @@
   <!--账户余额显示栏-->
   <div class="head-box">
     <div class="nav-title">
-      <a><h4>消费账户及记录查询</h4></a>
+      <a><h4>洗衣账户及记录查询</h4></a>
       <div class="b-head-right">
         <div class="content-box" tabindex="0"  onclick="history.go(-1);">
           <i class="icon-reload"></i> 返回
@@ -17,6 +17,18 @@
     </div>
     <div class="panel panel-right">
       <ul>
+        <li>
+          <label>查询年份</label>
+          <select name="year" [(ngModel)]="year" (change)="changeQueryType(1)">
+            <option *ngFor="let year of years" [value]="year">{{year}}年</option>
+          </select>
+        </li>
+        <li>
+          <label>查询月份</label>
+          <select name="month" [(ngModel)]="month" (change)="changeQueryType(1)">
+            <option *ngFor="let month of months" [value]="month">{{month}}月</option>
+          </select>
+        </li>
         <li>
           <label>查询类型</label>
           <select name="queryType" [(ngModel)]="queryType" (change)="changeQueryType(1)">

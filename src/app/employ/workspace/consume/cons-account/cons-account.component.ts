@@ -17,6 +17,10 @@ export class ConsAccountComponent implements OnInit {
   public balance     : number;
   public queryType   : string;
   public consumes    : Array<ConsumeService>;
+  public years       : Array<number>;
+  public months      : Array<number>;
+  public year        : number;
+  public month       : number;
   constructor(
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService: ErrorResponseService,
@@ -30,8 +34,22 @@ export class ConsAccountComponent implements OnInit {
     this.balance = 0;
     this.queryType = "消费记录";
     this.consumes = [];
+    this.initTime();
     this.getBalance();
     this.getConsumeInfo(1);
+  }
+  initTime(){
+    this.years = [];
+    this.months = [];
+    let nowDate = new Date();
+    this.year = nowDate.getFullYear();
+    this.month = nowDate.getMonth()+1;
+    for (let i = 0;i<10;i++){
+      this.years[i]=this.year-i;
+    }
+    for (let i = 0;i<12;i++){
+      this.months[i]=i+1;
+    }
   }
   /*获取用户总资产*/
   getBalance(){
@@ -49,7 +67,13 @@ export class ConsAccountComponent implements OnInit {
   /*获取消费记录信息*/
   getConsumeInfo(pageNo: number) {
     this.pageNo = pageNo;
-    this.workspaceMydeskService.getUserConsumeList("cost", this.pageNo, this.pageSize)
+    let date;
+    if(this.month>9){
+      date = this.year+"/"+this.month;
+    }else{
+      date = this.year+"/0"+this.month;
+    }
+    this.workspaceMydeskService.getUserConsumeList("cost",date, this.pageNo, this.pageSize)
       .subscribe(data => {
         if(this.errorResponseService.errorMsg(data)){
           this.consumes = data.data.infos;
@@ -60,7 +84,13 @@ export class ConsAccountComponent implements OnInit {
   /*获取消费账户充值*/
   getUserRechargeList(pageNo: number) {
     this.pageNo = pageNo;
-    this.workspaceMydeskService.getUserRechargeList(this.pageNo, this.pageSize)
+    let date;
+    if(this.month>9){
+      date = this.year+"/"+this.month;
+    }else{
+      date = this.year+"/0"+this.month;
+    }
+    this.workspaceMydeskService.getUserRechargeList("cost",date,this.pageNo, this.pageSize)
       .subscribe(data => {
         if(this.errorResponseService.errorMsg(data)){
           this.consumes = data.data.infos;

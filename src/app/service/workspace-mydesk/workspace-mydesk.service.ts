@@ -39,14 +39,14 @@ export class WorkspaceMydeskService {
       .map(res => res.json());
   }
   /*获取用户消费记录列表*/
-  getUserConsumeList(type,pageNo,pageSize){
-    const url = this.ipSetting.ip + "/employee/mydesk/getUserConsumeList/"+pageNo+"/"+pageSize+"/"+type;
+  getUserConsumeList(type,date,pageNo,pageSize){
+    const url = this.ipSetting.ip + "/employee/mydesk/getUserConsumeList/"+pageNo+"/"+pageSize+"/"+type+"?time=" +date;
     return this.http.get(url,this.ipSetting.options)
       .map(res => res.json());
   }
   /*获取用户充值记录列表*/
-  getUserRechargeList(pageNo,pageSize){
-    const url = this.ipSetting.ip + "/employee/mydesk/getUserRechargeList/"+pageNo+"/"+pageSize;
+  getUserRechargeList(type,date,pageNo,pageSize){
+    const url = this.ipSetting.ip + "/employee/mydesk/getUserRechargeList/"+type+"/"+pageNo+"/"+pageSize+"?time=" +date;
     return this.http.get(url,this.ipSetting.options)
       .map(res => res.json());
   }

@@ -60,7 +60,7 @@ export class ReportComponent implements OnInit {
       if (this.errorVoid.errorMsg(data)) {
         this.orderItems = data.data.infos;
         this.orderId = orderId;
-        this.totalPrice=data.data.totalPrice;
+        this.totalPrice=data.data.totalMoney;
         // console.log(this.orderItems);
         $('.mask0').show();
       }

@@ -94,8 +94,8 @@ export class CountComponent implements OnInit {
         });
         return false;
       }
-      if(this.productName===''||this.productName.trim()===""||this.productName==='undefined'){
-        this.productName = null;
+      if((this.productName!==null &&this.productName.trim()==="")||this.productName==='undefined'){
+        this.productName = '';
       }
       url = '/mmall/order/getCountList/'+this.pageNo+'/'+this.pageSize+'?countType='+this.countType+'&countValue='
         +this.countValue+'&productName='+this.productName;
@@ -113,7 +113,6 @@ export class CountComponent implements OnInit {
         if (this.errorVoid.errorMsg(data)) {
           this.orders = data.data.infos;
           this.total = data.data.total;
-          console.log(data);
         }
       });
   }
