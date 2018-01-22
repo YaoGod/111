@@ -31,10 +31,6 @@
 .b-head-right .content-box i{font-size:14px;}
 .b-head-right .content-box img{margin-right: 4px;vertical-align: -3px}
 .b-head-right .content-box:hover{cursor: pointer;border-color: #ff3c00;}
-
-.b-con{
-  display: inline-block;
-}
 .b-con h2{
   font-weight: normal;
   margin: 40px 0 28px 0;
@@ -103,103 +99,6 @@
   text-align: center;
   color: #fff;
   background: #66cdff;
-}
-
-/*团购*/
-.clearb{
-  clear: both;
-}
-.mt20{
-  margin-top: 20px;
-}
-.tuan .txt p{
-  text-indent: 32px;
-  color: #999;
-}
-.tuan dl{
-
-}
-.tuan dt{
-  display: inline-block;
-  float: left;
-  border: 1px solid #eee;
-}
-.tuan dd{
-  display: inline-block;
-  padding: 2px 0 0 30px;
-}
-.tuan .name-great{
-  color: #333;
-  font-size: 16px;
-}
-.tuan .line-nav{
-  margin:24px 0;
-}
-.tuan .line-nav li{
-  display: inline-block;
-  /*float*/
-  margin-right: 10px;
-  padding: 5px 10px;
-  background: #fc9778;
-  border-radius: 3px;
-  color: #fff;
-  font-size: 14px;
-}
-.tuan .bg-value{
-  width: 573px;
-  height: 67px;
-  background: url(../../../../../assets/image/icon-price.png) no-repeat;
-  position: relative;
-}
-.tuan .value{
-  height: 67px;
-  line-height: 67px;
-}
-.tuan .yudingbtn{
-  text-decoration: none;
-  color: #fff;
-  font-size: 16px;
-  padding: 8px 30px;
-  background: #ff5400;
-  border-radius: 6px;
-  float: right;
-  margin: 16px 40px 0 0;
-}
-.tuan .yudingbtn:hover{
-  color: #fff;
-  background: #ff3c00;
-}
-.tuan .bg-value .value{
-  color: #ff5c39;
-  font-size: 33px;
-  text-indent: 25px;
-  display: inline-block;
-}
-.tuan .time{
-  margin: 15px 0 35px 0;
-  font-size: 14px;
-  height: 25px;
-  line-height: 26px;
-  text-indent: 25px;
-  background: url('../../../../../assets/image/icon-time.jpg') no-repeat;
-}
-.tuan .list-txt{
-  margin: 10px 0;
-}
-.tuan .list-txt li{
-  margin: 10px 0;
-}
-.tuan .txt-name{
-  width: 100px;
-  display: inline-block;
-  margin-right: 20px;
-  color: #999;
-}
-.tuan .txt-value{
-  color: #333;
-}
-.tuan .line-txt{
-  margin-top: 30px;
 }
 
 /*团购商品管理*/
@@ -439,41 +338,6 @@
   font-size: 14px;
 }
 
-/*物业服务管理列表*/
-
-/*物业服务预订列表*/
-
-/*物业服务订单界面*/
-
-* {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: 0
-}
-
-ul,
-li {
-  list-style: none;
-}
-
-a {
-  text-decoration: none;
-}
-
-a:hover {
-  cursor: pointer;
-  text-decoration: none;
-}
-
-a:link {
-  text-decoration: none;
-}
-
-img {
-  vertical-align: middle;
-}
-
 .btn-numbox {
   overflow: hidden;
 
@@ -677,11 +541,9 @@ button{
   margin-left:20px;
   float: left;
 }
-
 .protop{
   display: inline-block;
 }
-
 .pdetail{
   margin-left: 10px;
 }
@@ -690,6 +552,19 @@ select{
   width: 74px;
   height: 31px;
   border: 1px solid #ddd;
+  box-shadow: 0 0 3px #ddd inset;
+  -webkit-box-shadow: 0 0 3px #ddd inset;
+  border-radius: 4px;
+}
+.errorMessage{
+  color: #ff0000;
+  font-size: 12px;
+}
+.noticetext{
+  width:160px;
+  text-indent: 5px;
+  height: 30px;
+  border: 1px solid #ccc;
   box-shadow: 0 0 3px #ddd inset;
   -webkit-box-shadow: 0 0 3px #ddd inset;
   border-radius: 4px;

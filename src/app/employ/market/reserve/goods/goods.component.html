@@ -35,9 +35,9 @@
             <dl *ngFor="let good of goods;let idx=index">
               <dt><span>商品名称：{{good.name}}</span>
               <div class="ope-list">
-                <a class="one"   title="查看" href="javascript:void(0);"(click)="view(good.code)"></a>
-                <a class="two"   title="修改" href="javascript:void(0);"(click)="update(good.code)"></a>
-                <a class="tre"   title="删除" href="javascript:void(0);"(click)="delete(good.code)"></a>
+                <a class="one"   title="查看" href="javascript:void(0);" (click)="view(good.code)"></a>
+                <a class="two"   title="修改" href="javascript:void(0);" (click)="update(good.code)"></a>
+                <a class="tre"   title="删除" href="javascript:void(0);" (click)="delete(good.code)"></a>
               </div>
               </dt>
               <dd>
@@ -57,16 +57,13 @@
               </dd>
             </dl>
           </div>
-          <div class="turn" name="pages" *ngIf="pages.length > 1">
-            <ul>
-              <li *ngFor="let i of pages"
-                  [hidden] = "pageLimit(i)"
-                  [ngClass]="{'active':i === pageNo}"
-                  (click)="goPage(i);">
-                {{i}}
-              </li>
-            </ul>
-          </div>
+          <app-turn-bar
+            [pageNo]="pageNo"
+            [pageSize]="pageSize"
+            [total]="total"
+            [length] = 5
+            (turnEvent)="goPage($event)">
+          </app-turn-bar>
         </div>
       </div>
     </div>
@@ -77,7 +74,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">新增商品</h4>
-      <button type="button" class="close"(click)="closeMaskAdd()">×</button>
+      <button type="button" class="close" (click)="closeMaskAdd()">×</button>
     </div>
     <form class="form-material">
       <div class="modal-body clearfix">
@@ -89,24 +86,23 @@
               </div>
               <p>点击此处上传图片</p>
               <input type="file" class="dropify" #prese1  id="prese1"  (change)="prese_upload(prese1.files)"  accept="image/gif, image/jpeg, image/png, image/jpg" >
-              <span class="errorMessage"></span>
             </div>
           </div>
           <div class="pdetail">
             <div>
               <label>商品编码：</label>
-              <input type="text" id="newcode" name="newcode" (blur)="verifyEmpty('newcode','商品编码不能为空')" class="noticetext" placeholder="" [(ngModel)]="goodsAdd.code">
+              <input type="text" id="newcode" name="newcode" (blur)="verifyEmpty('newcode','商品编码不能为空')" class="noticetext" placeholder="" [(ngModel)]="goodsAdd.code" maxlength="15">
               <span class="errorMessage"></span>
             </div>
             <div style="margin-top: 15px;">
               <label>商品名称：</label>
-              <input type="text" id="newname" name="newname" (blur)="verifyEmpty('newname','商品名称不能为空')" class="noticetext" placeholder="" [(ngModel)]="goodsAdd.name">
+              <input type="text" id="newname" name="newname" (blur)="verifyEmpty('newname','商品名称不能为空')" class="noticetext" placeholder="" [(ngModel)]="goodsAdd.name" maxlength="20">
               <span class="errorMessage"></span>
             </div>
             <div style="margin-top: 15px;">
               <div>
                 <label>商品价格：</label>
-                <input type="number" class="producttext" id="price" name="price" (blur)="verifyEmpty('price','价格不能为空')"   [(ngModel)]="goodsAdd.price">&nbsp;&nbsp;元
+                <input type="number" class="producttext" id="price" name="price" (blur)="verifyEmpty('price','价格不能为空')" [(ngModel)]="goodsAdd.price">&nbsp;&nbsp;元
                 <span class="errorMessage"></span>
               </div>
             </div>
@@ -122,11 +118,10 @@
         </div>
         <div class="modal-right2">
           <label>商品详情：</label>
-          <textarea name="upnewesetail" ui-tinymce
-                    class="form-control" rows="10"
-                    id="adddetail" name="adddetail" (blur)="verifyEmpty('adddetail','详情不能为空')"  [(ngModel)]="goodsAdd.detail"
-                    style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;">
+          <textarea class="form-control text-info" rows="10"
+                    id="adddetail" name="adddetail" (blur)="verifyEmpty('adddetail','商品详情不能为空')"  [(ngModel)]="goodsAdd.detail">
            </textarea>
+          <span class="errorMessage" style="display: block; margin-left:73px;"></span>
         </div>
       </div>
       <div class="modal-footer">
@@ -140,7 +135,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">修改商品</h4>
-      <button type="button" class="close"(click)="closeMaskUp()">×</button>
+      <button type="button" class="close" (click)="closeMaskUp()">×</button>
     </div>
     <form class="form-building form-material">
       <div class="modal-body clearfix">
@@ -160,7 +155,7 @@
               <input type="text" class="producttext" id="upnewcode" name="upnewcode"  (blur)="verifyEmpty('upnewcode','商品编码不能为空')"   [(ngModel)]="goodsUp.code">
               <span class="errorMessage"></span>
             </div>
-            <div>
+            <div style="margin-top:15px;">
               <label>商品名称：</label>
               <input type="text" class="producttext" id="upnewname" name="upnewname"  (blur)="verifyEmpty('upnewname','商品名称不能为空')"   [(ngModel)]="goodsUp.name">
               <span class="errorMessage"></span>
@@ -183,8 +178,7 @@
         </div>
         <div class="modal-right2">
           <label>商品详情：</label>
-          <textarea name="upnewesetail" ui-tinymce
-                    class="form-control" rows="10"
+          <textarea class="form-control" rows="10"
                     id="updetail" name="updetail" (blur)="verifyEmpty('updetail','详情不能为空')"  [(ngModel)]="goodsUp.detail"
                     style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;"  value="{{goodsUp.detail}}" >
            </textarea>
@@ -240,15 +234,6 @@
         </div>
       </div>
     </form>
-  </div>
-</div>
-<div class="confirm">
-  <div class="confirm-modal">
-    <div class="confirm-icon confirm-question">?</div>
-    <div class="confirm-content" >你确定要删除该商品吗?</div>
-    <hr style="margin-top: 20px; margin-bottom: 20px; height: 10px;color: transparent;border: 0;">
-    <button class="confirm-btn styled" (click)="okFunc()">确定</button>
-    <button class="confirm-btn cancel" (click)="noFunc()">取消</button>
   </div>
 </div>
 

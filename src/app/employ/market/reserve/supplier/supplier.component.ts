@@ -300,9 +300,8 @@ export class SupplierComponent implements OnInit {
   update(applid){
     this.upfile = new Array<File>();
     let url = '/goodsProduct/provider/detail/'+applid;
-    this.ipSetting.sendGet(url)
-    .subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
         this.applierEdit = data.data;
         this.upfile  = data.data.file;
         this.applierEdit.fileName1 = [];
@@ -319,25 +318,24 @@ export class SupplierComponent implements OnInit {
     });
     $('.maskUpdate').show();
   }
+  /** 删除 **/
   delete(code: number) {
-    this.code = code;
-    $('.confirm').fadeIn();
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否删除？',
+      'popType': 1,
+      'imgType': 3,
+      'callback': () => {
+        let url = '/goodsProduct/provider/del/' + code;
+        this.ipSetting.sendGet(url).subscribe(data => {
+          if (this.errorVoid.errorMsg(data)) {
+            this.providerList();
+          }
+        });
+      }
+    });
   }
-  /*删除*/
-  okFunc() {
-    $('.confirm').hide();
-    let url = '/goodsProduct/provider/del/'+this.code;
-    this.ipSetting.sendGet(url)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
-          alert("删除成功");
-        }
-        this.providerList();
-      });
-  }
-  noFunc() {
-    $('.confirm').fadeOut();
-  }
+
   /**
    * 添加错误信息class
    * @param id
@@ -362,7 +360,6 @@ export class SupplierComponent implements OnInit {
   }
 
   download(url){
-  //  window.open("proxy/" + url);
     window.open(this.ipSetting.ip + url);
   }
 }

@@ -40,8 +40,7 @@ export class ConfirmvegcartComponent implements OnInit {
   }
   getCartList(){
     this.vegetableInfoService.getCartList().subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
-
+      if (this.errorVoid.errorMsg(data)) {
         this.carts = data.data.infos;
         this.mutipalPrice=data.data.mutipalPrice;
         this.userInfo=data.data.userInfo;

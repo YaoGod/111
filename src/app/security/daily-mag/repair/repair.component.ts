@@ -424,6 +424,14 @@ export class RepairComponent implements OnInit {
           });
           $('#prese').val('');
         }
+      }else if (xhr.readyState === 4 && xhr.status === 413){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '文件太大',
+          'popType': 0 ,
+          'imgType': 2,
+        });
+        $('#prese').val('');
       }
     };
   }

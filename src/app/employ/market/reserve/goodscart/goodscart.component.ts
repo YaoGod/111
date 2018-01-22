@@ -30,15 +30,12 @@ export class GoodscartComponent implements OnInit {
 
   }
 
-  /*
-  * 获取购物车信息
-  * */
+  /** 获取购物车信息 **/
   getCartList(){
     let url = '/goodsCart/list?userId=' + localStorage.getItem("username");
     this.ipSetting.sendGet(url)
     .subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
-        console.log(data);
+      if (this.errorVoid.errorMsg(data)) {
         this.carts = data.data.cartProductVoList;
         this.mutipalPrice=data.data.cartTotalPrice;
         if(this.carts.length === 0){
@@ -50,9 +47,7 @@ export class GoodscartComponent implements OnInit {
     });
   }
 
-  /*
-  * 更新购物车
-  * */
+  /** 更新购物车*/
   cul(nums:number,productId:number){
     let url = '/goodsCart/update?userId=' + localStorage.getItem("username")
       + '&productId=' + productId + '&count=' + nums;
@@ -67,9 +62,7 @@ export class GoodscartComponent implements OnInit {
       });
   }
 
-  /*
-   * 购物车结算
-   * */
+  /** 购物车结算 **/
   balanceCart(){
     $('.maskSubmitOrder').show();
     /*let url = '/goodsOrder/create?userId=' + localStorage.getItem("username")
@@ -85,6 +78,7 @@ export class GoodscartComponent implements OnInit {
       });*/
   }
 
+  /** 增加商品数量 **/
   onclikadd(idxx:number,productId:number){
     if($("#input-num-"+idxx+"").val().toString().trim()==""){
       $("#input-num-"+idxx+"").val(1);
@@ -93,12 +87,18 @@ export class GoodscartComponent implements OnInit {
     }
     this.cul($("#input-num-"+idxx+"").val(),productId);
   }
+  /** 减少商品数量 **/
   onclikjian(idxx:number,productId:number){
     if($("#input-num-"+idxx+"").val().toString().trim()==""){
       $("#input-num-"+idxx+"").val(1);
     }
     if( $("#input-num-"+idxx+"").val() <= 1) {
-      alert("提示：商品数量不能小于1");
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': "商品数量不能小于1",
+        'popType': 0 ,
+        'imgType': 2 ,
+      });
       $("#input-num-"+idxx+"").val(1);
     } else {
       $("#input-num-"+idxx+"").val(parseInt( $("#input-num-"+idxx+"").val()) - 1);
@@ -107,15 +107,27 @@ export class GoodscartComponent implements OnInit {
   }
 
   del(id:number){
-    let url = '/goodsCart/deleteProduct?userId=' + localStorage.getItem("username")
-        + '&productIds=' +id;
-    this.ipSetting.sendGet(url)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
-          alert("删除成功");
-        }
-        this.getCartList();
-      });
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否删除？',
+      'popType': 1,
+      'imgType': 3,
+      'callback': () => {
+        let url = '/goodsCart/deleteProduct?userId=' + localStorage.getItem("username") + '&productIds=' + id;
+        this.ipSetting.sendGet(url)
+          .subscribe(data => {
+            if (this.errorVoid.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data['msg'],
+                'popType': 0,
+                'imgType': 2,
+              });
+              this.getCartList();
+            }
+          });
+      }
+    });
   }
 
 
@@ -157,25 +169,17 @@ export class GoodscartComponent implements OnInit {
         });
       }
     });
-
   }
   /*短信验证*/
   saveSubmitOrder(){
-    if(!this.verifyEmpty('serverCenter_add','服务中心不能为空')){
+    if(!this.verifyEmpty('serverCenter_add','服务中心不能为空') || !this.verifyEmpty('address','收货地址不能为空') ||
+      !this. verifyEmpty('message','短信验证码不能为空')){
       return false;
     }
-    if(!this. verifyEmpty('address','收货地址不能为空')){
-      return false;
-    }
-    if(!this. verifyEmpty('message','短信验证码不能为空')){
-      return false;
-    }
-
     let url = '/goodsOrder/pay?'+'userId='+localStorage.getItem("username")
       +'&serviceCenter=' + this.serviceCenter+'&payType='+ this.payType +
       '&address='+ $('#address').val() + '&payCode='+ $('#message').val();
-    this.ipSetting.sendGet(url)
-      .subscribe(data => {
+    this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         confirmFunc.init({
           'title': '提示' ,

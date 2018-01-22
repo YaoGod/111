@@ -232,7 +232,6 @@ chang(value) {
     this.vegetableUp.saletime = this.days;
     this.vegetableInfoService.updateVegetable(this.vegetableUp)
       .subscribe(data => {
-
         if(data['status'] === 0){
           alert("修改成功");
           this.closeMaskUp();
@@ -266,7 +265,6 @@ chang(value) {
     $('.confirm').fadeOut();
   }
   private verifyEmpty(id,label) {
-
     if (!this.isEmpty(id, label)) {
       return false;
     }
@@ -284,7 +282,6 @@ chang(value) {
         return true;
       }
     }
-
     if(id=="vprice"){
       var reg =/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
       if(!reg.test($('#' + id).val())){
@@ -299,7 +296,6 @@ chang(value) {
         return true;
       }
     }
-
   }
   /**非空校验*/
   private isEmpty(id: string, error: string): boolean  {

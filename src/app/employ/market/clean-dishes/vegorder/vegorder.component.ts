@@ -56,9 +56,8 @@ export class VegorderComponent implements OnInit {
       this.vegetableId = this.vegetableId.trim();
     }
     this.vegetableInfoService.getOrderAllList(this.productName,this.orderId,this.vegetableId,this.pageNo,this.pageSize).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
-
         this.total = data.data.total;
       }
     });

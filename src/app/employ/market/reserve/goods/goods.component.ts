@@ -3,6 +3,7 @@ import {ErrorResponseService} from "app/service/error-response/error-response.se
 import {IpSettingService} from "app/service/ip-setting/ip-setting.service";
 import * as $ from 'jquery';
 import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
+declare var confirmFunc:any;
 
 @Component({
   selector: 'app-goods',
@@ -16,11 +17,11 @@ export class GoodsComponent implements OnInit {
   public ipServer: String;
   public goods:Array<Goods>;
   public search: Goods;
-  public days:string;
   private code: any;
-  private pageNo = 1;
-  /*当前页码*/
-  private pageSize = 5;
+  public pageSize = 5;
+  public pageNo = 1;
+  public total = 0;
+  public length = 5;
   public pages: Array<number>;
   public  goodsView = {
     code:'',
@@ -57,10 +58,6 @@ export class GoodsComponent implements OnInit {
     this.search = new Goods();
     this.pages = [];
     this.getGoodsList();
-    $('.list-table dl').click(function () {
-      $(this).addClass('blueself').siblings().removeClass('blueself').find('.ope-list').addClass('hid');
-      $(this).find('.ope-list').removeClass('hid');
-    })
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'market','employ/market/reserve')
@@ -77,7 +74,6 @@ export class GoodsComponent implements OnInit {
   }
 
   chang(value) {
-
     if( $("#"+value).hasClass("btn-danger1")){
       $("#"+value).removeClass("btn-danger1");
       $("#"+value).addClass("btn-danger2");
@@ -87,181 +83,150 @@ export class GoodsComponent implements OnInit {
     }
   }
 
-  /*
-  * 获取商品列表
-  * param: ,
-  * return:
-   */
+  /** 获取商品列表*/
   getGoodsList(){
     let url = '/goodsProduct/search?';
-    if(typeof(this.search.name) == 'undefined'){
-      url += 'pageNum=' + this.pageNo + '&pageSize=' + this.pageSize;
+    console.log(typeof(this.search.name))
+    if(typeof(this.search.name) === 'undefined'){
+      url += 'pageNum='+ this.pageNo +'&pageSize='+ this.pageSize;
     }else {
-      url += 'name=' + this.search.name + '&pageNum='
-        + this.pageNo + '&pageSize=' + this.pageSize;
+      url += 'name='+ this.search.name +'&pageNum='+ this.pageNo + '&pageSize=' + this.pageSize;
     }
-
     this.ipSetting.sendGet(url)
       .subscribe(data => {
-        if (this.errorVoid.errorMsg(data)) {
+
+        if (this.errorVoid.errorMsg(data)) {console.log(data);
           this.goods = data.data.list;
-          this.initPage(data.data.pages);
+          this.total = data.data.total;
         }
       });
   }
-
-  /*
-   查询该code的商品详情
-   param: code:number,     #
-   return:
-   */
+  /**点击新增*/
+  add() {
+    $('.maskAdd').show();
+    this.goodsAdd.status = "1";
+  }
+  /**新增提交*/
+  addGoods() {
+    if (!this.verifyEmpty('newcode','商品编码不能为空')|| !this.verifyEmpty('newname','商品名称不能为空') ||
+      !this.verifyEmpty('price','价格不能为空') || !this.verifyEmpty('adddetail','商品详情不能为空')) {
+      return false;
+    }
+    let url = '/goodsProduct/save';
+    this.ipSetting.sendPost(url,this.goodsAdd)
+      .subscribe(data => {
+        if (this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': data['msg'],
+            'popType': 0 ,
+            'imgType': 1 ,
+          });
+          this.closeMaskAdd();
+          this.getGoodsList();
+        }
+      })
+  }
+  /**关闭新增*/
+  closeMaskAdd() {
+    $('.maskAdd').hide();
+    $('.errorMessage').html('');
+    $('#prese1').val('');
+    this.goodsAdd = {
+      code:'',
+      name: '',
+      image: '',
+      detail:'',
+      price: '',
+      status: ''
+    };
+  }
+  /**查询该code的商品详情*/
   view(code:string){
     let url = '/goodsProduct/detail?code=' + code;
     this.ipSetting.sendGet(url)
       .subscribe(data =>{
-        if (data['status'] === 0) {
+        if (this.errorVoid.errorMsg(data)) {
           this.goodsView = data.data;
           $('.maskView').show();
         }
       })
   }
-
-  /*新增商品*/
-  addGoods() {
-    if (!this.verifyEmpty('newname','商品名称不能为空')||!this.verifyEmpty('price','价格不能为空')||!this.verifyEmpty('adddetail','商品详情不能为空')) {
-
-    }
-    let url = '/goodsProduct/save';
-    this.ipSetting.sendPost(url,this.goodsAdd)
-      .subscribe(data => {
-        if(data['status'] === 0){
-          alert(data['msg']);
-          this.closeMaskAdd();
-          this.getGoodsList();
-        }else{
-          alert(data['msg']);
-          // this.closeMaskAdd();
-        }
-      })
-  }
-
+  /**关闭查看*/
   closeMaskView() {
     $('.maskView').hide();
   }
-  /*查看end*/
-  add() {
-    $('.maskAdd').show();
-    this.goodsAdd.status = "1";
-  }
-  closeMaskAdd() {
-    $('.maskAdd').hide();
-    $('#prese1').val('');
-  }
-  /*新增结束*/
-
-
-  /*修改*/
+  /**点击修改*/
   update(code: string) {
     let url ='/goodsProduct/detail?code=' + code;
     this.ipSetting.sendGet(url)
       .subscribe(data => {
-        if(data['status']=== 0){
+        if (this.errorVoid.errorMsg(data)) {
           this.goodsUp = data.data;
+          $('.maskUpdate').show();
         }
-        $('.maskUpdate').show();
       })
   }
+  /**关闭修改*/
   closeMaskUp() {
     $('.maskUpdate').hide();
     $('#prese').val('');
   }
-
-  /*
-   修改商品信息
-   param: id:number,     #商品id
-   return:
-   */
+  /**修改商品信息提交*/
   updateGoods() {
-    if (!this.verifyEmpty('upnewname','净菜名称不能为空')||!this.verifyEmpty('upprice','价格不能为空')||!this.verifyEmpty('updetail','净菜详情不能为空')) {
+    if (!this.verifyEmpty('upnewcode','商品编码不能为空') || !this.verifyEmpty('upnewname','商品名称不能为空') ||
+      !this.verifyEmpty('upprice','价格不能为空')||!this.verifyEmpty('updetail','商品详情不能为空')) {
     }
     let url = '/goodsProduct/save';
     this.ipSetting.sendPost(url,this.goodsUp)
       .subscribe(data => {
-        if(data['status'] === 0){
-          alert(data['msg']);
+        if (this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': data['msg'],
+            'popType': 0 ,
+            'imgType': 1 ,
+          });
           this.closeMaskUp();
           this.getGoodsList();
-        }else{
-          alert(data['msg']);
-          this.closeMaskUp();
         }
       })
   }
-  /*修改结束*/
+  /**修改结束*/
 
 
-  /*删除*/
-
+  /**删除商品*/
   delete(code: number) {
-    this.code = code;
-    $('.confirm').fadeIn();
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否删除？',
+      'popType': 1,
+      'imgType': 3,
+      'callback': () => {
+        let url = '/goodsProduct/del?code=' + code;
+        this.ipSetting.sendGet(url).subscribe(data => {
+            if (this.errorVoid.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data['msg'],
+                'popType': 0,
+                'imgType': 1,
+              });
+              this.pages = [];
+              this.pageNo = 1;
+              this.getGoodsList();
+            }
+          });
+      }
+    });
   }
 
-  /*删除*/
-  /*
-   删除商品信息
-   param: id:number,
-   return:
-   */
-  okFunc() {
-    $('.confirm').hide();
-    let url = '/goodsProduct/del?code=' + this.code;
-    this.ipSetting.sendGet(url)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
-          alert(data.msg);
-        }
-        this.getGoodsList();
-      });
-  }
-  noFunc() {
-    $('.confirm').fadeOut();
-  }
-  private verifyEmpty(id,label) {
+  public verifyEmpty(id,label) {
 
     if (!this.isEmpty(id, label)) {
       return false;
     }
-    if(id=="newLimitnum"){
-      var reg = /^[1-9]\d*$/;
-      if(!reg.test($('#' + id).val())){
-        this.addErrorClass(id, "请输入正确的数字");
-        return true;
-      }
-    }
-    if(id=="upLimitnum"){
-      var reg = /^[1-9]\d*$/;
-      if(!reg.test($('#' + id).val())){
-        this.addErrorClass(id, "请输入正确的数字");
-        return true;
-      }
-    }
-
-    if(id=="price"){
-      var reg =/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
-      if(!reg.test($('#' + id).val())){
-        this.addErrorClass(id, "请输入正确的价格");
-        return true;
-      }
-    }
-    if(id=="upprice"){
-      var reg =/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
-      if(!reg.test($('#' + id).val())){
-        this.addErrorClass(id, "请输入正确的价格");
-        return true;
-      }
-    }
-
+    return true;
   }
   /**非空校验*/
   private isEmpty(id: string, error: string): boolean  {
@@ -313,7 +278,7 @@ export class GoodsComponent implements OnInit {
    * 去除错误信息class
    * @param id
    */
-  private  removeErrorClass(id: string) {
+  private removeErrorClass(id: string) {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
     $('#' + id).next('span').html('');
@@ -325,11 +290,24 @@ export class GoodsComponent implements OnInit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
-
+        if(this.errorVoid.errorMsg(data)){
           this.goodsAdd.image = data.msg;
-          alert("上传成功");
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '上传成功',
+            'popType': 0,
+            'imgType': 1,
+          });
+          $('#prese1').val('');
         }
+      }else if (xhr.readyState === 4 && xhr.status === 413){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '文件太大',
+          'popType': 0 ,
+          'imgType': 2,
+        });
+        $('#prese1').val('');
       }
     };
   }
@@ -340,33 +318,26 @@ export class GoodsComponent implements OnInit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
-
+        if(this.errorVoid.errorMsg(data)){
           this.goodsUp.image = data.msg;
-          alert("上传成功");
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': '上传成功',
+            'popType': 0 ,
+            'imgType': 1,
+          });
+          $('#prese2').val('');
         }
+      }else if (xhr.readyState === 4 && xhr.status === 413){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '文件太大',
+          'popType': 0 ,
+          'imgType': 2,
+        });
+        $('#prese2').val('');
       }
     };
-  }
-  /*页码初始化*/
-  initPage(total){
-    this.pages = new Array(total);
-    for(let i = 0;i< total ;i++){
-      this.pages[i] = i+1;
-    }
-  }
-  /*页面显示区间5页*/
-  pageLimit(page:number){
-    if(this.pages.length < 5){
-      return false;
-    } else if(page<=5 && this.pageNo <= 3){
-      return false;
-    } else if(page>=this.pages.length -4 && this.pageNo>=this.pages.length-2){
-      return false;
-    } else if (page<=this.pageNo+2 && page>=this.pageNo-2){
-      return false;
-    }
-    return true;
   }
   /*跳页加载数据*/
   goPage(page:number){
@@ -376,9 +347,7 @@ export class GoodsComponent implements OnInit {
     }
     this.getGoodsList();
   }
-
 }
-
 
 export class Goods{
   id:                number;
