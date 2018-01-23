@@ -16,20 +16,22 @@
         <div class="b-con tuanmenu">
           <div class="wrap" *ngIf="rule&&rule.isSelect">
             <ul>
-              <li>
+              <!--<li>
                 <label>商品名称</label>
-                <input type="text"  [(ngModel)]="productName" >
-              </li>
+                <input class="search-ipt" type="text" name="productName1"  [(ngModel)]="productName" >
+              </li>-->
               <li>
                 <label>订单编号</label>
-                <input type="text" [(ngModel)]="orderId" >
+                <input class="search-ipt" type="text" name="orderId1" [(ngModel)]="orderId" >
               </li>
-              <li>
+              <!--<li>
                 <label>商品编号</label>
-                <input type="text" [(ngModel)]="vegetableId">
-              </li>
-              <li><a class="search" href="javascript: void(0);" (click)="getOrderAllList()" >查询</a></li>
+                <input class="search-ipt" type="text" name="vegetableId1" [(ngModel)]="vegetableId">
+              </li>-->
             </ul>
+            <div class="search-right">
+              <a class="search-btn" href="javascript:;" (click)="getOrderAllList(1)"><i class="icon-magnifier"></i> 查 询</a>
+            </div>
           </div>
 
           <div class="list-table" *ngFor="let order of orders;let idx=index">
@@ -81,6 +83,7 @@
                   <td class="eight">
                     <img *ngIf="goodsItem.productImage!==''" [src]="imgPrefix + goodsItem.productImage"/>
                   </td>
+                  <!--<td>{{imgPrefix + goodsItem.productImage}}</td>-->
                   <td class="sec" style="text-align: left"> <p class="headtxt">{{goodsItem.productName}}</p></td>
                   <td class="sec">￥{{goodsItem.currentUnitPrice}}</td>
                   <td class="three">{{goodsItem.quantity}}</td>
@@ -119,28 +122,19 @@
 
         <div class="modal-right">
           <label style="float: left">情况说明：</label>
-          <textarea name="notice" ui-tinymce
-                    class="form-control" rows="10"
-                    style="width: 85%;!important;"   [(ngModel)]="updateOrder.note" >
+          <textarea name="notice" class="form-control" rows="10" id="notice"
+                    style="width: 85%;!important;"   [(ngModel)]="updateOrder.note" (blur)="isEmpty('notice','说明不能为空')">
                </textarea>
+          <span class="errorMessage" style="display: block; margin-left:83px;"></span>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeMask()">取 消</button>
-        <button type="submit" class="btn btn-info" (click)="updateOrders()" >保 存</button>
+        <button type="submit" class="btn btn-info" style="margin-left: 15px;" (click)="updateOrders()" >保 存</button>
       </div>
     </form>
   </div>
 </div>
 
-<div class="confirm">
-  <div class="confirm-modal">
-    <div class="confirm-icon confirm-question">?</div>
-    <div class="confirm-content" >你确定要删除该订单吗?</div>
-    <hr style="margin-top: 20px; margin-bottom: 20px; height: 10px;color: transparent;border: 0;">
-    <button class="confirm-btn styled" (click)="okFunc()">确定</button>
-    <button class="confirm-btn cancel" (click)="noFunc()">取消</button>
-  </div>
-</div>
 
 

@@ -67,6 +67,13 @@
             </dl>
           </div>
         </div>
+        <!--翻页-->
+        <app-turn-bar
+          [pageNo] = "pageNo"
+          [pageSize] = "pageSize"
+          [total] = "total"
+          (turnEvent) = "getOrderList($event)">
+        </app-turn-bar>
       </div>
     </div>
   </div>

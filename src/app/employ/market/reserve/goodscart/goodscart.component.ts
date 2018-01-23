@@ -19,6 +19,7 @@ export class GoodscartComponent implements OnInit {
   public serverCenters:Array<ServerCenter>;
   public serviceCenter: String;
   public payType: string;
+  public myAddress: string;
 
   constructor(private ipSetting  : IpSettingService,
               private errorVoid: ErrorResponseService) { }
@@ -65,17 +66,10 @@ export class GoodscartComponent implements OnInit {
   /** 购物车结算 **/
   balanceCart(){
     $('.maskSubmitOrder').show();
-    /*let url = '/goodsOrder/create?userId=' + localStorage.getItem("username")
-      + '&serviceCenter=' + '';
-    this.ipSetting.sendGet(url)
-      .subscribe(data => {
-        if(data['status'] === 1){
-          alert(data['msg']);
-          this.getCartList();
-        }else{
-          this.getCartList();
-        }
-      });*/
+    this.serviceCenter = '';
+    this.payType = '1';
+    $('#address').val('');
+    $('#message').val('');
   }
 
   /** 增加商品数量 **/
@@ -119,9 +113,9 @@ export class GoodscartComponent implements OnInit {
             if (this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示',
-                'mes': data['msg'],
+                'mes': '删除成功',
                 'popType': 0,
-                'imgType': 2,
+                'imgType': 1,
               });
               this.getCartList();
             }

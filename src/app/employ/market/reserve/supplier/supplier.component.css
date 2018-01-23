@@ -315,7 +315,7 @@ button{
   width:80%;
   display: block;
   margin:-26px 0 0 83px;
-  height:120px;
+  height:auto;
   line-height:24px;
   overflow-y:  auto;
 }
@@ -413,7 +413,8 @@ select{
   border: 1px solid #ccc;
 }
 .row{
-  padding: 5px 0;
+  padding:0;
+  margin:15px 0;
   clear: both;
   display: block;
 }
@@ -684,14 +685,11 @@ select{
   margin: 5px 10px 0 0;
   line-height: 25px;
 }
-.list-table dt .ope-list li{
-  float: left;
-  display: inline-block;
-}
 .list-table dt .ope-list a{
   width: 22px;
   height: 22px;
   display: inline-block;
+  cursor: pointer;
 }
 .list-table dt .ope-list a.one{
   background: url('../../../../../assets/image/icon-view.png') no-repeat;
@@ -811,7 +809,6 @@ a[class="button-selectimg" ] {
 }
 .b-head{
   border-bottom: 2px solid #f7fbfe;
-  padding-bottom:10px;
 }
 .b-head span{
   font-size: 16px;
@@ -819,6 +816,8 @@ a[class="button-selectimg" ] {
   padding: 0 20px;
   display: inline-block;
   color: #04a9f3;
+  outline: none;
+  cursor: pointer;
 }
 .b-head span.active{
   color: #ff5c39;

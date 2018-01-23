@@ -5,6 +5,8 @@ import {GoodsOrder, GoodsOrderItem} from "../goodsorder/goodsorder.component";
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 
+declare var $: any;
+declare var confirmFunc: any;
 @Component({
   selector: 'app-goodsordermanage',
   templateUrl: './goodsordermanage.component.html',
@@ -30,7 +32,7 @@ export class GoodsordermanageComponent implements OnInit {
     orderNo:'',
     status:0,
     note:''
-  }
+  };
   public orderItems:Array<GoodsOrderItem>;
   public formData: Array<any>;
   public title: string = "商品预定区订单";
@@ -42,7 +44,7 @@ export class GoodsordermanageComponent implements OnInit {
     this.getRule();
     this.imgPrefix = this.ipSetting.ip;
     this.pages = [];
-    this.getOrderAllList();
+    this.getOrderAllList(1);
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'market','employ/market/reserve')
@@ -57,27 +59,28 @@ export class GoodsordermanageComponent implements OnInit {
         }
       })
   }
+
   /*获取订单列表*/
-  getOrderAllList(){
-    if(this.productName!=null){
+  getOrderAllList(i){
+    this.pageNo = i;
+    /*if(this.productName!=null){
       this.productName = this.productName.trim();
-    }
+    }*/
     if(this.orderId!=null){
       this.orderId = this.orderId.trim();
     }
-    if(this.vegetableId!=null){
+    /*if(this.vegetableId!=null){
       this.vegetableId = this.vegetableId.trim();
-    }
-
-    let url = '/goodsOrder/list?'
-      + 'pageNum='+ this.pageNo + '&pageSize=' +this.pageSize;
-    this.ipSetting.sendGet(url)
-      .subscribe(data =>
-      {
-        if (this.errorVoid.errorMsg(data.status)) {
+    }*/
+    let dataSearch = {
+      orderNo:this.orderId
+    };
+    let url = '/goodsOrder/list?userId=' + localStorage.getItem("username")+ '&pageNum='+ this.pageNo + '&pageSize=' +this.pageSize;
+    this.ipSetting.sendPost(url,dataSearch)
+      .subscribe(data => {
+        if (this.errorVoid.errorMsg(data)) {
           this.orders = data.data.list;
           this.total =data.data.total;
-
         }
       });
   }
@@ -89,50 +92,51 @@ export class GoodsordermanageComponent implements OnInit {
       this.updateOrders();
     }else{
       $('.mask').show();
+      this.updateOrder.note = '';
     }
   }
 
   /*更新订单*/
   updateOrders(){
+    if(!this.isEmpty('notice','说明不能为空')){
+      return false;
+    }
     let url = '/goodsOrder/updateOrderStatus?userId=' + localStorage.getItem("username")
     +'&orderNo=' + this.updateOrder.orderNo +'&status=' + this.updateOrder.status;
-    this.ipSetting.sendGet(url)
-      .subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
-        alert(data['msg']);
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示',
+          'mes': data['msg'],
+          'popType': 0,
+          'imgType': 1,
+        });
         this.closeMask();
-        this.getOrderAllList();
-      }else{
-        alert(data['msg']);
-        this.closeMask();
+        this.getOrderAllList(1);
       }
     });
   }
-
+  /**删除*/
   delete(orderid:number){
-    this.delId = orderid;
-    $('.confirm').fadeIn();
-  }
-
-  /*删除*/
-  okFunc() {
-    $('.confirm').hide();
-    let url = '/mmall/vegetabelOrder/deleteVegetableOrder/'+this.delId;
+    let url = '/mmall/vegetabelOrder/deleteVegetableOrder/'+orderid;
     this.ipSetting.sendPost(url,null)
       .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
-          alert("删除成功");
+        if (this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data['msg'],
+            'popType': 0,
+            'imgType': 1,
+          });
+          this.getOrderAllList(1);
         }
-        this.getOrderAllList();
       });
   }
 
   closeMask() {
     $('.mask').hide();
   }
-  noFunc() {
-    $('.confirm').fadeOut();
-  }
+
   /*装载要打印的内容*/
   loadFormData(data:any){
     console.log(data);
@@ -179,5 +183,38 @@ export class GoodsordermanageComponent implements OnInit {
         '￥'+data.orderItemVoList[i].totalPrice.toFixed(2)
       ];
     }
+  }
+  /**非空校验*/
+  public isEmpty(id: string, error: string): boolean  {
+    const data =  $('#' + id).val();
+    if (data==null||data==''||data.trim() === '')  {
+      this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /**
+   * 添加错误信息class
+   * @param id
+   * @param error
+   */
+  private  addErrorClass(id: string, error?: string)  {
+    $('#' + id).parents('.form-control').addClass('form-error');
+    if (error === undefined || error.trim().length === 0 ) {
+      $('#' + id).next('span').html('输入错误');
+    }else {
+      $('#' + id).next('span').html(error);
+    }
+  }
+  /**
+   * 去除错误信息class
+   * @param id
+   */
+  private  removeErrorClass(id: string) {
+    $('#' + id).parents('.form-control').removeClass('form-error');
+    $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
+    $('#' + id).next('span').html('');
   }
 }

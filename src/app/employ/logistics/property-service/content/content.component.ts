@@ -44,7 +44,7 @@ export class ContentComponent implements OnInit {
     this.repairname = new GuardName();
     this.pages = [];
     this.searchArch.servername = "";
-    this.serverName = ['保洁服务','报修服务','住家服务'];
+    this.serverName = ['保洁服务','报修服务'];
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
   }
   getRule(){
@@ -62,7 +62,6 @@ export class ContentComponent implements OnInit {
       this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.jurisdiction = data['data'][1];
-          console.log(this.jurisdiction);
         }
       });
     }

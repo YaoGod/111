@@ -331,7 +331,7 @@ button{
   transform:scale(1.05,1.05);
 }
 .b-con .wrap{
-  margin: 20px 0;
+  margin: 15px 0;
   position: relative;
 }
 .b-con .iptgroup{
@@ -347,7 +347,7 @@ button{
   height: 26px;
   background: url('../../../../../assets/image/icon-search.jpg') no-repeat;
   position: absolute;
-  top: 0;
+  top: 1px;
   right: 7px;
 }
 .b-con .iptgroup input{

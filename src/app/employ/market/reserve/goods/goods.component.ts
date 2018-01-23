@@ -86,15 +86,13 @@ export class GoodsComponent implements OnInit {
   /** 获取商品列表*/
   getGoodsList(){
     let url = '/goodsProduct/search?';
-    console.log(typeof(this.search.name))
-    if(typeof(this.search.name) === 'undefined'){
+    if(typeof(this.search.name) == 'undefined'){
       url += 'pageNum='+ this.pageNo +'&pageSize='+ this.pageSize;
     }else {
       url += 'name='+ this.search.name +'&pageNum='+ this.pageNo + '&pageSize=' + this.pageSize;
     }
     this.ipSetting.sendGet(url)
       .subscribe(data => {
-
         if (this.errorVoid.errorMsg(data)) {console.log(data);
           this.goods = data.data.list;
           this.total = data.data.total;

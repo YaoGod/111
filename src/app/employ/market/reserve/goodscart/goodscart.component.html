@@ -70,7 +70,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">提交订单</h4>
-      <button type="button" class="close"(click)="closeSubmitOrder()">×</button>
+      <button type="button" class="close" (click)="closeSubmitOrder()">×</button>
     </div>
     <form class="form-material">
       <div class="modal-body clearfix">
@@ -96,7 +96,7 @@
               </div>
               <div style="margin-top: 10px;">
                 <label>收货地址：</label>
-                <input type="text" style="width: 210px;"  id="address" class="noticetext"  name="address" (blur)="verifyEmpty('address','收货地址不能为空')">
+                <input type="text" style="width: 210px;"  id="address" class="noticetext" [(ngModel)]="myAddress" name="address" (blur)="verifyEmpty('address','收货地址不能为空')">
                 <span class="errorMessage"></span>
               </div>
               <div style="margin-top: 10px;">

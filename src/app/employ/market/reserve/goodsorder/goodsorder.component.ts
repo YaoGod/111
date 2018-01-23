@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 
+declare var $: any;
+declare var confirmFunc: any;
 @Component({
   selector: 'app-goodsorder',
   templateUrl: './goodsorder.component.html',
@@ -11,9 +13,11 @@ import {IpSettingService} from "../../../../service/ip-setting/ip-setting.servic
 export class GoodsorderComponent implements OnInit {
   public ipServer: String;
   public search: GoodsOrder;
-  private pageNo = 1;
-  /*当前页码*/
-  private pageSize = 10;
+  public pageSize = 6;
+  public pageNo = 1;
+  public total = 0;
+  public pages: Array<number>;
+  public orderId = '';
   public orders:Array<GoodsOrder>;
   public goodsOrderItems:Array<GoodsOrderItem>;
   public myOrder:GoodsOrder;
@@ -22,41 +26,36 @@ export class GoodsorderComponent implements OnInit {
 
   ngOnInit() {
     this.ipServer = this.ipSetting.ip;
-    this.getOrderList();
+    this.getOrderList(1);
   }
 
-  /**
-   * 我的订单列表
-   */
-  getOrderList(){
+  /**我的订单列表*/
+  getOrderList(i){
+    this.pageNo = i;
+    if(this.orderId!=null){
+      this.orderId = this.orderId.trim();
+    }
+    let dataSearch = {
+      orderNo:this.orderId
+    };
     let url = '/goodsOrder/list?userId=' + localStorage.getItem("username")
       + '&pageNum='+ this.pageNo + '&pageSize=' +this.pageSize;
-    this.ipSetting.sendGet(url)
-      .subscribe(data =>
-      {
-        if (this.errorVoid.errorMsg(data.status)) {
+    this.ipSetting.sendPost(url,dataSearch).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.list;
-        console.log(this.orders);
-
-        }
-     });
+        this.total = data.data.total;
+      }
+   });
   }
 
-  /**
-   * 获取订单详情
-   * @param order
-   * @returns
-   */
+  /**获取订单详情 **/
   getOrderDetail(orderId){
     let url = '/goodsOrder/detail?' + 'userId=' + localStorage.getItem("username")
       + '&orderNo=' + orderId;
-    this.ipSetting.sendGet(url)
-      .subscribe(data => {
-        if(data['status'] === 0){
+    this.ipSetting.sendGet(url).subscribe(data => {
+        if (this.errorVoid.errorMsg(data)) {
           alert(data['msg']);
-          this.getOrderList();
-        }else{
-          alert(data['msg']);
+          this.getOrderList(1);
         }
       });
   }
@@ -71,16 +70,12 @@ export class GoodsorderComponent implements OnInit {
   updateOrders(orderId,status){
     let url = '/goodsOrder/updateOrderStatus?' + 'userId=' + localStorage.getItem("username")
       + '&orderNo=' + orderId + '&status=' +status;
-    this.ipSetting.sendGet(url)
-     .subscribe(data => {
-      if(data['status'] === 0){
+    this.ipSetting.sendGet(url).subscribe(data => {
+       if (this.errorVoid.errorMsg(data)) {
         alert(data['msg']);
-        this.getOrderList();
-      }else{
-        alert(data['msg']);
+        this.getOrderList(1);
       }
     });
-
   }
 }
 

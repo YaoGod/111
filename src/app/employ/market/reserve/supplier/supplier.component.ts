@@ -71,43 +71,32 @@ export class SupplierComponent implements OnInit {
         }
       })
   }
+  /**获取服务商列表*/
   providerList(){
     let url = '/goodsProduct/provider/list';
     this.ipSetting.sendGet(url)
     .subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
-        console.log(data);
         this.appliers = data.data.providers;
-        console.log(this.appliers);
       }
     });
   }
 
-  /*删除合同文件*/
+  /*新增删除合同文件*/
   delFile(index,fileId) {
     this.applierAdd.filePath.splice(index,1);
     this.applierAdd.fileName.splice(index,1);
-    /*this.marketManagerService.delFile(fileId)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
-
-        }
-
-      });*/
-
   }
-
+  /*编辑删除合同文件*/
   delFile1(index,fileId) {
     this.applierEdit.filePath1.splice(index,1);
     this.applierEdit.fileName1.splice(index,1);
     this.applierEdit.file.splice(index,1);
     let url = '/mmall/util/delFile/'+fileId[index];
-    this.ipSetting.sendGet(url)
-    .subscribe(data => {
+    this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
-
+        console.log(data);
       }
-
     });
   }
 
@@ -117,19 +106,11 @@ export class SupplierComponent implements OnInit {
 
   uploadbutton1(){
     $('#prese1').click();
-
   }
 
   /*新增开始*/
   add() {
     $('.maskAdd').show();
-    /*let url = '/mmall/util/getCommonId';
-    this.ipSetting.sendGet(url)
-    .subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
-        this.applierAdd.applyId = data.data;
-      }
-    });*/
   }
   closeMaskAdd() {
     $('.maskAdd').hide();
@@ -143,6 +124,7 @@ export class SupplierComponent implements OnInit {
       fileName: [],
       filePath: []
     };
+    $('.errorMessage').html('');
   }
   closeMaskView(){
     $('.maskView').hide();
@@ -153,6 +135,7 @@ export class SupplierComponent implements OnInit {
       copEndtime:     '',
       applyDesc:      ''
     };
+    $('.errorMessage').html('');
     this.file = new Array<File>();
   }
   closemaskUpdate(){
@@ -168,51 +151,83 @@ export class SupplierComponent implements OnInit {
       fileName1: [],
       filePath1: []
     };
+    $('.errorMessage').html('');
   }
 
   upload(files){
     if (this.applierAdd.applyId == ''){
       // this.applierAdd.applyId = 'K';
-      alert("请将供应商信息填写完整!");
-      return;
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '请将供应商信息填写完整!',
+        'popType': 0,
+        'imgType': 2,
+      });
+      return false;
     }
     let url = '/mmall/util/uploadFile/'+'goodsProvider'+ '/' +this.applierAdd.applyId;
     let xhr = this.ipSetting.uploadFile(url,files[0]);
-
-    // var xhr = this.marketManagerService.uploadFile(files[0],'SupermarketApplier',this.applierAdd.applyId);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)){
-          console.log(data);
-          alert("上传成功");
           this.applierAdd.fileName.push(files[0].name);
           this.applierAdd.filePath.push(data.msg);
-       //   this.applierAdd.fileId.push(data.fileId);
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '上传成功',
+            'popType': 0,
+            'imgType': 1,
+          });
+          $('#prese').val('');
         }
+      }else if (xhr.readyState === 4 && xhr.status === 413){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '上传文件太大',
+          'popType': 0 ,
+          'imgType': 2,
+        });
+        $('#prese').val('');
       }
     };
   }
 
   upload1(files){
     if (this.applierEdit.applyId == ''){
-      alert("请将供应商信息填写完整!");
-      return;
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '请将供应商信息填写完整!',
+        'popType': 0,
+        'imgType': 2,
+      });
+      return false;
     }
     let url = '/mmall/util/uploadFile/'+'goodsProvider'+ '/' +this.applierEdit.applyId;
     let xhr = this.ipSetting.uploadFile(url,files[0]);
-
-   // var xhr = this.marketManagerService.uploadFile(files[0],'SupermarketApplier',this.applierEdit.applyId);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          console.log(data.msg);
-          alert("上传成功");
+
           this.applierEdit.fileName1.push(files[0].name);
           this.applierEdit.filePath1.push(data.msg);
-       //   this.applierEdit.fileId.push(data.data.fileId);
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '上传成功',
+            'popType': 0,
+            'imgType': 1,
+          });
+          $('#prese1').val('');
         }
+      }else if (xhr.readyState === 4 && xhr.status === 413){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '上传文件太大',
+          'popType': 0 ,
+          'imgType': 2,
+        });
+        $('#prese1').val('');
       }
     };
   }
@@ -236,7 +251,7 @@ export class SupplierComponent implements OnInit {
       return true;
     }
   }
-
+ /** 新增供应商*/
   addAppliar(){
     if(!this.verifyEmpty('suppliername','供应商名称不能为空')||!this.verifyEmpty('supplierstarttime','不能为空')||
       !this.verifyEmpty('supplierendtime','不能为空')||!this.verifyEmpty('supplierdetail','供应商介绍不能为空')){
@@ -248,19 +263,20 @@ export class SupplierComponent implements OnInit {
     }
 
     let url = '/goodsProduct/provider/save';
-    this.ipSetting.sendPost(url,this.applierAdd)
-      .subscribe(data => {
-        if(this.errorVoid.errorMsg(data)){
-        console.log(data);
-        alert(data.msg);
-       // $('.maskAdd').hide();
+    this.ipSetting.sendPost(url,this.applierAdd).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)){
+        confirmFunc.init({
+          'title': '提示',
+          'mes': data.msg,
+          'popType': 0,
+          'imgType': 1,
+        });
         this.closeMaskAdd();
         this.providerList();
-
       }
     });
   }
-
+  /**更新信息*/
   updateAppliar(){
     if(!this.verifyEmpty('vnewnane','供应商名称不能为空')||!this.verifyEmpty('upnewstartTime','不能为空')||
       !this.verifyEmpty('upnewendTime','不能为空')||!this.verifyEmpty('supplierdetailup','供应商介绍不能为空')){
@@ -274,11 +290,14 @@ export class SupplierComponent implements OnInit {
     this.ipSetting.sendPost(url,this.applierEdit)
     .subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
-        alert(data.msg);
+        confirmFunc.init({
+          'title': '提示',
+          'mes': data.msg,
+          'popType': 0,
+          'imgType': 1,
+        });
         $('.maskUpdate').hide();
         this.providerList();
-      }else{
-        alert(data.msg);
       }
     });
   }
@@ -292,7 +311,7 @@ export class SupplierComponent implements OnInit {
       if (this.errorVoid.errorMsg(data.status)) {
         this.applierView = data.data;
         this.file= data.data.file;
-        console.log(data.data);
+        // console.log(data.data);
       }
     });
     $('.maskView').show();
@@ -329,6 +348,12 @@ export class SupplierComponent implements OnInit {
         let url = '/goodsProduct/provider/del/' + code;
         this.ipSetting.sendGet(url).subscribe(data => {
           if (this.errorVoid.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示',
+              'mes': data['msg'],
+              'popType': 0,
+              'imgType': 1,
+            });
             this.providerList();
           }
         });

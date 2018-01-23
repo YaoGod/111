@@ -32,7 +32,9 @@
 .b-head-right .content-box img{margin-right: 4px;vertical-align: -3px}
 .b-head-right .content-box:hover{cursor: pointer;border-color: #ff3c00;}
 
-.b-con{}
+.b-con{
+  min-height:500px;
+}
 .b-con h2{
   font-weight: normal;
   margin: 40px 0 28px 0;

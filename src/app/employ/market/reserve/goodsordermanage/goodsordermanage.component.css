@@ -18,6 +18,7 @@
   display: inline-block;
   color: #04a9f3;
   cursor: pointer;
+  outline:none;
 }
 .b-head span.active{
   color: #ff5c39;
@@ -66,23 +67,26 @@
   display: block;
 }
 .btn{
-  padding: 13px 30px;
+  padding: 9px 20px;
   border-radius: 5px;
   color: #fff;
   outline:none;
   cursor: pointer;
+  font-size: 14px;
+  transition: all .4s;
 }
-.btn-yd{
-  background: #ff5400;
+.btn-info{
+  padding: 10px 16px;
+  background: #03a9f3;
+  color: #fff;
+}
+.btn-danger{
+  padding: 10px 16px;
+  background: #fb9678;
+  color: #fff;
 }
 .btn:hover{
-  background: #ff3c00;
-}
-.mt30{
-  margin-top: 40px;
-}
-.mb30{
-  margin-bottom: 40px;
+  transform:scale(1.05,1.05);
 }
 .line-txt{
   width: 100%;
@@ -98,6 +102,10 @@
   text-align: center;
   color: #fff;
   background: #66cdff;
+}
+.errorMessage{
+  color: #ff0000;
+  font-size: 12px;
 }
 /*团购商品管理*/
 .b-con .wrap{
@@ -370,19 +378,25 @@
   display: flex;
   flex-wrap:wrap;
 }
+.wrap>ul>li{
+  -webkit-box-flex: 0;
+  -ms-flex: 0;
+  flex: 0 0 30%;
+  max-width: 360px;
+}
 .wrap>ul>li>label{
   float: left;
   color: #686868;
   height: 30px;
-  width: 88px;
-  padding-right: 10px;
+  width: 48px;
+  padding: 0 20px;
   line-height: 30px;
   font-size: 12px;
   text-align: right;
 }
 .wrap>ul>li>input[type=text] {
-  height: 27px;
-  width: calc(100% - 115px);
+  height: 24px;
+  width: calc(100% - 130px);
   min-width: 100px;
   padding: 3px 10px;
   font-size: 12px;
@@ -390,6 +404,24 @@
   border-radius: 3px;
   background-color: #fff;
   border: 1px solid #e4e7ea;
+}
+.search-right {
+  position: absolute;
+  right: 10px;
+  top: 15px;
+}
+.search-right .search-btn {
+  margin-left: 10px;
+  display: block;
+  padding: 0 10px;
+  line-height: 32px;
+  height: 32px;
+  border: 1px solid #fff;
+  background-color: #66CCFF;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all .5s;
 }
 
 .mask{
@@ -456,6 +488,19 @@
   width: 100%;
   text-align: -webkit-center;
   margin-top: 10px;
+}
+.modal-footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding: 15px;
+  background-color: #f1f5f8;
 }
 .table-head a{
   width: 22px;
