@@ -47,18 +47,19 @@ export class GroupbuyComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getRule();
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("employ/group");
       }
     );
+    this.getRule();
     this.pages = [];
     this.search = new GroupProduct();
     this.globalCatalogService.setTitle("员工服务/员工团购网/商品订购");
     this.getProductShowList();
     this.getNoticeList();
 
+    console.log(this.mangUrl);
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'group','employ/group')
@@ -73,6 +74,7 @@ export class GroupbuyComponent implements OnInit {
           }
           if(this.catas.length>0){
             this.mangUrl = this.catas[0].routeUrl;
+            console.log(this.mangUrl);
           }
         }
       })

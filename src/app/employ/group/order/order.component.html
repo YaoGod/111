@@ -89,20 +89,13 @@
                   </dd>
                 </dl>
               </div>
-              <!--翻页-->
-              <app-turn-bar
-                [pageNo] = "pageNo"
-                [pageSize] = "pageSize"
-                [total] = "total"
-                (turnEvent) = "getOrderAllList($event)">
-              </app-turn-bar>
             </div>
+            <!--翻页-->
             <app-turn-bar
-              [pageNo]="pageNo"
-              [pageSize]="pageSize"
-              [total]="total"
-              [length] = 5
-              (turnEvent)="goPage($event)">
+              [pageNo] = "pageNo"
+              [pageSize] = "pageSize"
+              [total] = "total"
+              (turnEvent) = "getOrderAllList($event)">
             </app-turn-bar>
           </div>
         </div>

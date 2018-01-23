@@ -35,6 +35,9 @@
 .b-head-left{
   height: 40px;
 }
+.b-con{
+  min-height:500px;
+}
 .b-con h2{
   font-weight: normal;
   margin: 40px 0 28px 0;

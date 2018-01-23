@@ -87,7 +87,6 @@ export class VegorderComponent implements OnInit {
           'mes': data['msg'],
           'popType': 0 ,
           'imgType': 1 ,
-
         });
         this.closeMask();
         this.getOrderAllList();
