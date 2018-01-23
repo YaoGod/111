@@ -63,14 +63,9 @@ export class VegetableComponent implements OnInit {
     this.search = new Vegetable();
     this.pages = [];
     this.getVegetableList();
-    $('.list-table dl').click(function () {
-      $(this).addClass('blueself').siblings().removeClass('blueself').find('.ope-list').addClass('hid');
-      $(this).find('.ope-list').removeClass('hid');
-    })
   }
 
 chang(value) {
-
   if( $("#"+value).hasClass("btn-danger1")){
     $("#"+value).removeClass("btn-danger1");
     $("#"+value).addClass("btn-danger2");
@@ -82,7 +77,7 @@ chang(value) {
 
   getVegetableList(){
     this.vegetableInfoService.getVegetableList(this.pageNo,this.pageSize,this.search).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      if (this.errorVoid.errorMsg(data)) {
         this.vegetables = data.data.infos;
         this.total = data.data.total;
       }
@@ -92,11 +87,10 @@ chang(value) {
   view(code:string){
     this.vegetableInfoService.getVegetable(code)
       .subscribe(data => {
-        if (data['status']==0) {
+        if (this.errorVoid.errorMsg(data)) {
           this.vegetableView = data.data;
           $('.maskView').show();
         }
-
       })
   }
 /*新增净菜*/
@@ -106,19 +100,26 @@ chang(value) {
     }
     this.getSaleTime(1);
     if(this.days==""){
-      alert("请选择预定时间！");
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '请选择预定时间！',
+        'popType': 0 ,
+        'imgType': 2 ,
+      });
       return false;
     }
     this.vegetableAdd.saletime = this.days;
     this.vegetableInfoService.addVegetable(this.vegetableAdd)
       .subscribe(data => {
-        if(data['status'] === 0){
-          alert(data['msg']);
+        if (this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': data['msg'],
+            'popType': 0 ,
+            'imgType': 1 ,
+          });
           this.closeMaskAdd();
           this.getVegetableList();
-        }else{
-          alert(data['msg']);
-         // this.closeMaskAdd();
         }
       })
   }
@@ -169,56 +170,71 @@ chang(value) {
     this.vegetableAdd.limitnum = "1";
   }
   closeMaskAdd() {
-    $('.maskAdd').hide();
+
     $('#prese1').val('');
+    $('.errorMessage').html('');
+    this.vegetableAdd={
+      code:'',
+      vname: '',
+      vimage: '',
+      detail:'',
+      price: '',
+      status: '',
+      saletime: '',
+      limitnum:''
+    };
+    for(var i=1;i<8;i++){
+      $('#upsale'+i).removeClass("btn-danger2");
+    }
+    $('.maskAdd').hide();
   }
 /*新增结束*/
 /*修改*/
   update(code: string) {
     this.vegetableInfoService.getVegetable(code)
       .subscribe(data => {
-        if(data['status']==0){
+        if (this.errorVoid.errorMsg(data)) {
           this.vegetableUp = data.data;
-        }
-        $('.maskUpdate').show();
-        for(var i=1;i<8;i++){
-          $('#upsale'+i).addClass("btn-danger1");
-          $('#upsale'+i).removeClass("btn-danger2");
-        }
+          $('.maskUpdate').show();
+          for(var i=1;i<8;i++){
+            $('#upsale'+i).addClass("btn-danger1");
+            $('#upsale'+i).removeClass("btn-danger2");
+          }
           if(this.vegetableUp.saletime.indexOf("星期一")!=-1 ){
             $('#upsale1').addClass("btn-danger2");
             $('#upsale1').removeClass("btn-danger1");
           }
-        if(this.vegetableUp.saletime.indexOf("星期二")!=-1 ){
-          $('#upsale2').addClass("btn-danger2");
-          $('#upsale2').removeClass("btn-danger1");
+          if(this.vegetableUp.saletime.indexOf("星期二")!=-1 ){
+            $('#upsale2').addClass("btn-danger2");
+            $('#upsale2').removeClass("btn-danger1");
+          }
+          if(this.vegetableUp.saletime.indexOf("星期三")!=-1 ){
+            $('#upsale3').addClass("btn-danger2");
+            $('#upsale3').removeClass("btn-danger1");
+          }
+          if(this.vegetableUp.saletime.indexOf("星期四")!=-1 ){
+            $('#upsale4').addClass("btn-danger2");
+            $('#upsale4').removeClass("btn-danger1");
+          }
+          if(this.vegetableUp.saletime.indexOf("星期五")!=-1 ){
+            $('#upsale5').addClass("btn-danger2");
+            $('#upsale5').removeClass("btn-danger1");
+          }
+          if(this.vegetableUp.saletime.indexOf("星期六")!=-1 ){
+            $('#upsale6').addClass("btn-danger2");
+            $('#upsale6').removeClass("btn-danger1");
+          }
+          if(this.vegetableUp.saletime.indexOf("星期日")!=-1 ){
+            $('#upsale7').addClass("btn-danger2");
+            $('#upsale7').removeClass("btn-danger1");
+          }
         }
-        if(this.vegetableUp.saletime.indexOf("星期三")!=-1 ){
-          $('#upsale3').addClass("btn-danger2");
-          $('#upsale3').removeClass("btn-danger1");
-        }
-        if(this.vegetableUp.saletime.indexOf("星期四")!=-1 ){
-          $('#upsale4').addClass("btn-danger2");
-          $('#upsale4').removeClass("btn-danger1");
-        }
-        if(this.vegetableUp.saletime.indexOf("星期五")!=-1 ){
-          $('#upsale5').addClass("btn-danger2");
-          $('#upsale5').removeClass("btn-danger1");
-        }
-        if(this.vegetableUp.saletime.indexOf("星期六")!=-1 ){
-          $('#upsale6').addClass("btn-danger2");
-          $('#upsale6').removeClass("btn-danger1");
-        }
-        if(this.vegetableUp.saletime.indexOf("星期日")!=-1 ){
-          $('#upsale7').addClass("btn-danger2");
-          $('#upsale7').removeClass("btn-danger1");
-        }
-
       })
   }
   closeMaskUp() {
     $('.maskUpdate').hide();
     $('#prese').val('');
+    $('.errorMessage').html('');
   }
   updateVegetable() {
     if (!this.verifyEmpty('upnewname','净菜名称不能为空')||!this.verifyEmpty('vupprice','价格不能为空')||
@@ -226,45 +242,56 @@ chang(value) {
     }
     this.getSaleTime(2);
     if(this.days==""){
-      alert("请选择预定时间！");
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '请选择预定时间！',
+        'popType': 0 ,
+        'imgType': 2 ,
+      });
       return false;
     }
     this.vegetableUp.saletime = this.days;
     this.vegetableInfoService.updateVegetable(this.vegetableUp)
       .subscribe(data => {
-        if(data['status'] === 0){
-          alert("修改成功");
+        if (this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': "修改成功",
+            'popType': 0 ,
+            'imgType': 1 ,
+          });
           this.closeMaskUp();
           this.getVegetableList();
-        }else{
-          alert("修改失败");
-          this.closeMaskUp();
         }
       })
   }
 /*修改结束*/
-/*删除*/
-
-  delete(code: number) {
-    this.code = code;
-    $('.confirm').fadeIn();
-  }
 
   /*删除*/
-  okFunc() {
-    $('.confirm').hide();
-    this.vegetableInfoService.deleteVegetable(this.code)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data)) {
-          alert("删除成功");
-        }
-        this.getVegetableList();
-      });
+  delete(code: number) {
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否删除？',
+      'popType': 1,
+      'imgType': 3,
+      'callback': () => {
+        this.vegetableInfoService.deleteVegetable(code + '')
+          .subscribe(data => {
+            if (this.errorVoid.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data['msg'],
+                'popType': 0,
+                'imgType': 1,
+              });
+            }
+            this.getVegetableList();
+          });
+      }
+    });
   }
-  noFunc() {
-    $('.confirm').fadeOut();
-  }
-  private verifyEmpty(id,label) {
+
+  public verifyEmpty(id,label) {
     if (!this.isEmpty(id, label)) {
       return false;
     }
@@ -359,9 +386,13 @@ chang(value) {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-
           this.vegetableAdd.vimage = data.msg;
-          alert("上传成功");
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '上传成功',
+            'popType': 0,
+            'imgType': 1,
+          });
         }
       }
     };
@@ -373,9 +404,13 @@ chang(value) {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-
           this.vegetableUp.vimage = data.msg;
-          alert("上传成功");
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '上传成功',
+            'popType': 0,
+            'imgType': 1,
+          });
         }
       }
     };

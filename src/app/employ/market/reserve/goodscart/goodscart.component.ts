@@ -54,10 +54,7 @@ export class GoodscartComponent implements OnInit {
       + '&productId=' + productId + '&count=' + nums;
     this.ipSetting.sendGet(url)
       .subscribe(data => {
-        if(data['status'] === 1){
-          alert(data['msg']);
-          this.getCartList();
-        }else{
+        if (this.errorVoid.errorMsg(data)) {
           this.getCartList();
         }
       });

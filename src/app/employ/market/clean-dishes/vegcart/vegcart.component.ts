@@ -3,7 +3,7 @@ import * as $ from 'jquery';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
 import {VegetableCart} from '../../../../mode/vegetableCart/vegetable-cart.service';
 import { VegetableInfoService } from '../../../../service/vegetable-info/vegetable-info.service';
-
+declare var confirmFunc:any;
 @Component({
   selector: 'app-vegcart',
   templateUrl: './vegcart.component.html',
@@ -24,8 +24,7 @@ export class VegcartComponent implements OnInit {
   }
   getCartList(){
     this.vegetableInfoService.getCartList().subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
-
+      if (this.errorVoid.errorMsg(data)) {
         this.carts = data.data.infos;
         this.mutipalPrice=data.data.mutipalPrice;
         if(this.carts.length==0){
@@ -43,10 +42,7 @@ export class VegcartComponent implements OnInit {
     this.cart.quantity = nums;
     this.vegetableInfoService.updateVegetableCart(this.cart)
       .subscribe(data => {
-        if(data['status'] === 1){
-          alert(data['msg']);
-          this.getCartList();
-        }else{
+        if (this.errorVoid.errorMsg(data)) {
           this.getCartList();
         }
       });
@@ -65,7 +61,12 @@ export class VegcartComponent implements OnInit {
       $("#input-num-"+idxx+"").val(1);
     }
     if( $("#input-num-"+idxx+"").val() <= 1) {
-      alert("提示：商品数量不能小于1");
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '提示：商品数量不能小于1！',
+        'popType': 0 ,
+        'imgType': 2 ,
+      });
       $("#input-num-"+idxx+"").val(1);
     } else {
       $("#input-num-"+idxx+"").val(parseInt( $("#input-num-"+idxx+"").val()) - 1);
@@ -74,12 +75,26 @@ export class VegcartComponent implements OnInit {
   }
 
   del(id:number){
-    this.vegetableInfoService.deleteVegetableCart(id)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
-          alert("删除成功");
-        }
-        this.getCartList();
-      });
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否删除？',
+      'popType': 1,
+      'imgType': 3,
+      'callback': () => {
+        this.vegetableInfoService.deleteVegetableCart(id)
+          .subscribe(data => {
+            if (this.errorVoid.errorMsg(data)) {
+              console.log(data);
+              confirmFunc.init({
+                'title': '提示' ,
+                'mes': data['msg'],
+                'popType': 0 ,
+                'imgType': 1 ,
+              });
+              this.getCartList();
+            }
+          });
+      }
+    });
   }
 }

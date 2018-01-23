@@ -5,7 +5,7 @@ import { VegetableInfoService } from '../../../../service/vegetable-info/vegetab
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
 import * as $ from 'jquery';
 import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
-
+declare var confirmFunc:any;
 @Component({
   selector: 'app-vegbuy',
   templateUrl: './vegbuy.component.html',
@@ -45,7 +45,6 @@ export class VegbuyComponent implements OnInit {
     this.vegetableInfoService.getVegetableShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data.status)) {
         this.vegetables = data.data.infos;
-
         this.cartsize = data.data.cartsize;
         this.total = data.data.total;
       }
@@ -57,11 +56,14 @@ export class VegbuyComponent implements OnInit {
     this.cart.productId = id;
     this.vegetableInfoService.addToCart(this.cart)
       .subscribe(data => {
-        if(data['status']==0){
+        if (this.errorVoid.errorMsg(data.status)) {
           this.cartsize = data.data.cartsize;
-          alert("预定成功:已加入购物车！");
-        }else{
-          alert(data['msg']);
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': '预定成功:已加入购物车！',
+            'popType': 0 ,
+            'imgType': 1 ,
+          });
         }
       })
   }

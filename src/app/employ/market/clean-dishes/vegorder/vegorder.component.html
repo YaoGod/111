@@ -60,7 +60,7 @@
                       <td class="three">数量</td>
                       <td class="four">合计（元）</td>
                       <td class="zero">
-                        <a class="tre"  title="删除" href="javascript:void(0);" (click)="delete(order.id)"></a>
+                        <!--<a class="tre"  title="删除" href="javascript:void(0);" (click)="delete(order.id)"></a>-->
                       </td>
                       <td class="zero" >
                         <a class="btn-print" (mouseover)="loadFormData(order)">打印
@@ -104,7 +104,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">修改订单</h4>
-          <button type="button" class="close"(click)="closeMask()">×</button>
+          <button type="button" class="close" (click)="closeMask()">×</button>
         </div>
         <form class="form-building form-material">
           <input type="hidden" name="updateOrder.id"  [(ngModel)]="updateOrder.id">
@@ -116,10 +116,11 @@
 
             <div class="modal-right">
               <label style="float: left">情况说明：</label>
-              <textarea name="notice" ui-tinymce
+              <textarea name="notice" id="notice"
                         class="form-control" rows="10"
-                        style="width: 85%;!important;"   [(ngModel)]="updateOrder.note" >
+                        style="width: 85%;!important;"   [(ngModel)]="updateOrder.note" (blur)="isEmpty('notice','说明不能为空')" >
                </textarea>
+              <span class="errorMessage" style="display: block; margin-left:83px;"></span>
             </div>
           </div>
           <div class="modal-footer">
@@ -127,16 +128,6 @@
             <button type="submit" class="btn btn-info" (click)="updateOrders()" >保 存</button>
           </div>
         </form>
-      </div>
-    </div>
-
-    <div class="confirm">
-      <div class="confirm-modal">
-        <div class="confirm-icon confirm-question">?</div>
-        <div class="confirm-content" >你确定要删除该订单吗?</div>
-        <hr style="margin-top: 20px; margin-bottom: 20px; height: 10px;color: transparent;border: 0;">
-        <button class="confirm-btn styled" (click)="okFunc()">确定</button>
-        <button class="confirm-btn cancel" (click)="noFunc()">取消</button>
       </div>
     </div>
 

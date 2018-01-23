@@ -5,7 +5,7 @@ import {VegetableOrderItem} from '../../../../mode/vegetableOrderItem/vegetable-
 import { VegetableInfoService } from '../../../../service/vegetable-info/vegetable-info.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
 import {forEach} from "@angular/router/src/utils/collection";
-
+declare var confirmFunc: any;
 
 @Component({
   selector: 'app-vegorder',
@@ -74,42 +74,54 @@ export class VegorderComponent implements OnInit {
   }
 
   updateOrders(){
-    this.vegetableInfoService.updateOrder(this.updateOrder) .subscribe(data => {
+    if(this.updateOrder.status=="2"){
+      if(!this.isEmpty('notice','说明不能为空')){
+        return false;
+      }
+    }
 
-      if(data['status'] === 0){
-        alert(data['msg']);
+    this.vegetableInfoService.updateOrder(this.updateOrder) .subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': data['msg'],
+          'popType': 0 ,
+          'imgType': 1 ,
+
+        });
         this.closeMask();
         this.getOrderAllList();
-      }else{
-        alert(data['msg']);
-        this.closeMask();
       }
     });
   }
-
-  delete(orderid:number){
-    this.delId = orderid;
-    $('.confirm').fadeIn();
-  }
-
   /*删除*/
-  okFunc() {
-    $('.confirm').hide();
-    this.vegetableInfoService.deleteOrder( this.delId)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
-          alert("删除成功");
-        }
-        this.getOrderAllList();
-      });
+  delete(orderid:number){
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否删除？',
+      'popType': 1,
+      'imgType': 3,
+      'callback': () => {
+        this.vegetableInfoService.deleteOrder(orderid)
+          .subscribe(data => {
+            if (this.errorVoid.errorMsg(data.status)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data['msg'],
+                'popType': 0,
+                'imgType': 1,
+              });
+            }
+            this.getOrderAllList();
+          });
+      }
+    });
   }
 
   closeMask() {
     $('.mask').hide();
   }
-  noFunc() {
-    $('.confirm').fadeOut();
-  }
+
   /*跳页加载数据*/
   goPage(page:number){
     this.pageNo = page;
@@ -161,5 +173,57 @@ export class VegorderComponent implements OnInit {
       ];
     }
     console.log(this.formData);
+  }
+
+
+  /**非空校验*/
+  public isEmpty(id: string, error: string): boolean  {
+    const data =  $('#' + id).val();
+    if (data==null||data==''||data.trim() === '')  {
+      this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+
+  /**
+   * 匹配数字
+   * @param id
+   * @param error
+   * @returns {boolean}
+   */
+  private verifyIsNumber(id: string, error: string): boolean  {
+    const data =  $('#' + id).val();// /^[0-9]*$/
+    if (!String(data).match(/^[1-9]\d(\.\d+){0,2}$/))  {
+      this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /**
+   * 添加错误信息class
+   * @param id
+   * @param error
+   */
+  private  addErrorClass(id: string, error?: string)  {
+    $('#' + id).parents('.form-control').addClass('form-error');
+    if (error === undefined || error.trim().length === 0 ) {
+      $('#' + id).next('span').html('输入错误');
+    }else {
+      $('#' + id).next('span').html(error);
+    }
+  }
+  /**
+   * 去除错误信息class
+   * @param id
+   */
+  private  removeErrorClass(id: string) {
+    $('#' + id).parents('.form-control').removeClass('form-error');
+    $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
+    $('#' + id).next('span').html('');
   }
 }

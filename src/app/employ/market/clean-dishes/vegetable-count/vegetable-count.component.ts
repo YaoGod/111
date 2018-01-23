@@ -91,7 +91,6 @@ export class VegetableCountComponent implements OnInit {
           .subscribe(data => {
             window.location.href = url;
             this.search = new LaundryOrder();
-
           });
       }
     });
