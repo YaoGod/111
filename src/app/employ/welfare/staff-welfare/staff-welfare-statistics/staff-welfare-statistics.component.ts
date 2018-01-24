@@ -31,7 +31,7 @@ export class StaffWelfareStatisticsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.globalCatalogService.setTitle("员工服务/福利专区/福利信息统计");
+    this.globalCatalogService.setTitle("员工服务/惊喜专区/爱统计信息统计");
     this.welfare = new Welfare();
     this.welfare.feedBackMsg = [];
     this.users = [];

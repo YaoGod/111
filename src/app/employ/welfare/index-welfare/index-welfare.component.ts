@@ -40,7 +40,7 @@ export class IndexWelfareComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.globalCatalogService.setTitle("员工服务/福利专区");
+    this.globalCatalogService.setTitle("员工服务/惊喜专区");
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("employ/welfare");

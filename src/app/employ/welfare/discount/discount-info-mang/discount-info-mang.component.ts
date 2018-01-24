@@ -31,7 +31,7 @@ export class DiscountInfoMangComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.globalCatalogService.setTitle("员工服务/福利专区/优惠信息管理");
+    this.globalCatalogService.setTitle("员工服务/惊喜专区/优惠信息管理");
     this.discounts = new Array<Discount>();
     this.copyDiscount = new Discount();
     this.pages = new Array<number>();

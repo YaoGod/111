@@ -39,7 +39,7 @@ export class DiscountInfoListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.globalCatalogService.setTitle("员工服务/福利专区/优惠商品");
+    this.globalCatalogService.setTitle("员工服务/惊喜专区/优惠商品信息");
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("employ/welfare");

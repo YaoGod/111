@@ -33,7 +33,7 @@ export class StaffWelfareMangComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.globalCatalogService.setTitle("员工服务/福利专区/福利信息管理");
+    this.globalCatalogService.setTitle("员工服务/惊喜专区/爱统计信息管理");
     this.welfares = new Array<Welfare>();
     this.copyWelfare = new Welfare();
     this.copyWelfare.targetId = new TargetList();

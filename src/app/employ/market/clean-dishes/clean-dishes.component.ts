@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 
 @Component({
   selector: 'app-clean-dishes',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CleanDishesComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private globalCatalogService: GlobalCatalogService
+  ) { }
 
   ngOnInit() {
+    this.globalCatalogService.setTitle("员工服务/净菜订购区");
   }
 
 }
