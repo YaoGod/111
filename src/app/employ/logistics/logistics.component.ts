@@ -22,6 +22,12 @@ export class LogisticsComponent implements OnInit {
 
   ngOnInit() {
     this.globalCatalogService.setTitle("员工服务/后勤服务区");
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("employ/logistics");
+        this.getRule(this.rule.ID);
+      }
+    );
     if(this.rule){this.getRule(this.rule.ID);}
   }
 

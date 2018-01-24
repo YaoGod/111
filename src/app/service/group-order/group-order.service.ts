@@ -50,7 +50,6 @@ export class GroupOrderService {
   updateOrder(order:any){
     const url = '/proxy/mmall/order/updateGroupOrder/';
     const data = order;
-    console.log(data);
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }

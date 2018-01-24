@@ -71,7 +71,6 @@ export class IpSettingService {
   }
   /*post请求下载文件*/
   public downLoadFile(options) {
-    console.log(111222);
     let config = $.extend(true, { method: 'post' }, options);
     let $iframe = $('<iframe id="down-file-iframe" />');
     let $form = $('<form target="down-file-iframe" method="' + config.method + '" />');

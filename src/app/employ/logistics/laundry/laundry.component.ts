@@ -25,6 +25,12 @@ export class LaundryComponent implements OnInit {
       .subscribe(data=>{
         if(this.errorVoid.errorMsg(data)){
           this.catas = data.data;
+          for(let i = 0;i<this.catas.length;i++){
+            if(this.catas[i].routeUrl === "employ/logistics/laundry/serveTime"){
+              this.catas.splice(i,1);
+              i = 0;
+            }
+          }
         }
       })
   }

@@ -52,7 +52,6 @@ export class MycartComponent implements OnInit {
   }
 
   onclikadd(idxx:number,productId:number){
-    console.log(111);
     if($("#input-num-"+idxx+"").val().toString().trim()==""){
       $("#input-num-"+idxx+"").val(1);
     }else{

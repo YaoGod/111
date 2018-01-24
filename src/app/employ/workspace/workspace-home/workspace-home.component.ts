@@ -16,7 +16,7 @@ export class WorkspaceHomeComponent implements OnInit {
   public count          : number;
   public pendings       : Array<any>;
   public serviceCenters : Array<any>;
-  public myServiceCenter: string;
+  public myServiceCenter: string = "";
   constructor(
     private router:Router,
     private route:ActivatedRoute,
@@ -68,7 +68,7 @@ export class WorkspaceHomeComponent implements OnInit {
       legendData[i] = data[i].key;
       seriesData[i] = {};
       seriesData[i].name = data[i].key;
-      seriesData[i].value = data[i].value;
+      seriesData[i].value = data[i].value === null?0:data[i].value;
       this.count += seriesData[i].value;
     }
     let option = {
@@ -230,18 +230,22 @@ export class WorkspaceHomeComponent implements OnInit {
     this.utilBuildingService.getServiceCenter()
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
-          this.myServiceCenter = data.data;
-        }
+          if(typeof (data.data)!== "undefined"){
+            this.myServiceCenter = data.data;
+          }
+      }
       })
   }
   changeMyService(){
-    this.workspaceMydeskService.setMyService(this.myServiceCenter)
-      .subscribe(data=>{
-        if(this.errorResponseService.errorMsg(data)){
-          if(data.data.msg!=="操作成功"){
-            this.getMyServiceCenter();
+    if(this.myServiceCenter !== ""){
+      this.workspaceMydeskService.setMyService(this.myServiceCenter)
+        .subscribe(data=>{
+          if(this.errorResponseService.errorMsg(data)){
+            if(data.msg!=="操作成功"){
+              this.getMyServiceCenter();
+            }
           }
-        }
-      })
+        })
+    }
   }
 }

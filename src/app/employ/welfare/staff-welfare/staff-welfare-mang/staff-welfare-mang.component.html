@@ -146,7 +146,7 @@
                 <a class="btn-danger" (click)="exportMode()">模板下载</a>
                 <a class="btn-danger import">导入(HRMIS)
                   <input type="file" name="importFile" #pressFile
-                         (change)="importFile(press.files)"
+                         (change)="importFile(pressFile.files)"
                          (blur)="verifyTragetId(copyWelfare.targetId,'targetId')">
                 </a>
               </div>

@@ -61,7 +61,6 @@ export class PriceComponent implements OnInit {
     let url = '/mmall/laundry/getFacList/'+this.pageNo + '/' + this.pageSize;
     this.ipSetting.sendPost(url,this.search)
       .subscribe(data => {
-        console.log(data);
         if (this.errorVoid.errorMsg(data)) {
           this.products = data.data.infos;
           this.applierList = data.data.applierList;

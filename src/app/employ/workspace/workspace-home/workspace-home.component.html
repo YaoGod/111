@@ -39,8 +39,9 @@
   <div class="section" style="width: 100%">
     <div class="section-panel">
       <h3>服务中心
-        <a *ngIf="myServiceCenter">
+        <a>
         <select name="myService" [(ngModel)]="myServiceCenter" (change)="changeMyService()">
+          <option value="" *ngIf="myServiceCenter===''">请选择</option>
           <option *ngFor="let service of serviceCenters">{{service.name}}</option>
         </select>
         </a>

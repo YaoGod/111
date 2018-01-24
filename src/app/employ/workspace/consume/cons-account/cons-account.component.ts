@@ -58,7 +58,7 @@ export class ConsAccountComponent implements OnInit {
         if(this.errorResponseService.errorMsg(data)){
           for(let i = 0;i<data.data.length;i++){
             if(data.data[i].key === '消费账户'){
-              this.balance = data.data[i].value;
+              this.balance = data.data[i].value===null?0:data.data[i].value;
             }
           }
         }

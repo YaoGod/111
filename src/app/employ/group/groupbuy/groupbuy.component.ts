@@ -119,7 +119,6 @@ export class GroupbuyComponent implements OnInit {
   /*跳页加载数据*/
   goPage(page:number){
     this.pageNo = page;
-    console.log(this.pageNo)
     this.getProductShowList();
   }
   /*获取公告列表*/
