@@ -40,8 +40,9 @@
             </table>
             <dl *ngFor="let product of groupProducts;let idx=index">
               <dt><span>商品名称：{{product.name}}</span>
-              <div class="ope-list">
-                <a class="four"  title="审核" (click)="check(product.code)" *ngIf="rule&&rule.isUpdate"></a>
+              <div class="box-check">
+                <a title="审核"
+                   (click)="check(product.code)" *ngIf="rule&&rule.isUpdate">审核</a>
               </div>
               </dt>
               <dd>
@@ -55,10 +56,9 @@
                       <label *ngIf="product.status=='0'">录入</label>
                       <label *ngIf="product.status=='1'">上架</label>
                       <label *ngIf="product.status=='2'">下架</label>
-                      <label *ngIf="product.checkStatus=='0'">（待审核）</label>
+                      <label *ngIf="product.checkStatus=='0'">（待审核 ）</label>
                       <label *ngIf="product.checkStatus=='1'">（审核通过）</label>
                       <label *ngIf="product.checkStatus=='2'">（不通过）</label>
-
                     </td>
                     <td class="four">{{product.label}}</td>
                     <td class="five">

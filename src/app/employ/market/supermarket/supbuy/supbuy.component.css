@@ -1,81 +1,7 @@
-.clearfix::after,
-.clearfix::before{
-  clear: both;
-  content: '.';
-  height: 0;
-  line-height: 0;
-  visibility: hidden;
-  display: block;
-}
-.header{
-  height: 60px;
-  padding: 0 20px;
-  box-shadow: 1px 1px 1px #999;
-  background-color: #04a9f3;
-}
-.header>img{
-  margin-right: 30px;
-  width: 16px;
-}
-.header>h2{
-  font-size: 16px;
-
-  display: inline;
-  margin: 0;
-  line-height:60px;
-  color: #ffffff;
-  font-weight: 500;
-}
-.header-right{
-  float: right;
-  text-align: center;
-  width:45px;
-  height: 60px;
-  line-height: 70px;
-}
-.header-right:hover{
-  background: rgba(0, 0, 0, .1);
-}
-.header-right>img{
-  width: 16px;
-}
-.main{
-  width: 100%;
-  height:auto;
-  min-height: calc(100% - 65px);
-  background-color: #edf1f5;
-}
 ul,li{
   padding: 0;
   margin: 0;
   list-style: none;
-}
-.icon-magnifier:before{
-  content: "\e090";
-}
-.ti-minus:before {
-  content: "\e622";
-}
-.ti-plus:before {
-  content: "\e61a";
-}
-.panel-head{
-  color: #2b2b2b;
-  background-color: #fff;
-  border-bottom: 1px solid rgba(120, 130, 140, .13);
-  border-radius: 0;
-  font-weight: 300;
-  text-transform: uppercase;
-  padding: 20px 25px;
-}
-.panel-action{
-  float: right;
-}
-.panel-action>a{
-  color: #2b2b2b;
-  opacity: .5;
-  text-decoration: none;
-  touch-action: manipulation;
 }
 .search-bar{
   color: #2b2b2b;
@@ -89,13 +15,6 @@ select:focus{
 input[type=text]{
   padding: 0 10px;
   background-clip: padding-box;
-}
-html,body,div,span,img,button,ul,li,dl,dt,dd,input,select,option,table,tr,th,td,h1,h2,h3,h4,h5,h6{
-  margin: 0;
-  padding: 0;
-}
-body{
-  font-family: "微软雅黑";
 }
 ul,li{
   list-style: none;
@@ -482,4 +401,23 @@ strong{
 }
 .item-summary a.addCart .ill{
   background-color: #999999;
+}
+.sltgroup{
+  float: left;
+  padding-right: 10px;
+}
+.sltgroup label{
+  display: inline-block;
+  width: 60px;
+  color: #999999;
+}
+.sltgroup select{
+  position: relative;
+  width: 120px;
+  height: 30px;
+  padding-left: 10px;
+  border: 1px solid #66cdff;
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: #999999;
 }

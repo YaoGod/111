@@ -29,10 +29,8 @@ export class SupermarketManagerService {
       .map(res => res.json());
   }
 
-  getMarketShowList(pageNo:number,pageSize:number,search:any) {
-
+  getMarketShowList(pageNo:number,pageSize:number,data:any) {
     const url = '/proxy/mmall/supermarket/getMarketShowList/'+pageNo+'/'+pageSize;
-    const data = search;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }

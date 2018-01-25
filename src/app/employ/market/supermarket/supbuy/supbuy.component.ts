@@ -23,8 +23,9 @@ export class SupbuyComponent implements OnInit {
   public pageSize: number = 10;
   public total = 0;
   public cartsize:number = 0;
-  public pages: Array<number>;
-  public username = localStorage.getItem("username");
+  public username = sessionStorage.getItem("username");
+  public applierList: Array<any>;
+  public categories: Array<any>;
   constructor(
     private marketManagerService: SupermarketManagerService,
     private errorVoid: ErrorResponseService,
@@ -42,8 +43,10 @@ export class SupbuyComponent implements OnInit {
     );
     this.getRule();
     this.search = new SupermarketProduct();
-    this.pages = [];
+    this.search.applier = "";
+    this.search.stype = "";
     this.getMarketShowList(1);
+    this.getSupermarketList(1);
 
   }
   getRule(){
@@ -77,7 +80,7 @@ export class SupbuyComponent implements OnInit {
   }
   /*加入购物车*/
   addToCart(id: number,leftstatus: number){
-   if(leftstatus>1){
+   if(leftstatus<3){
      this.cart = new SupermarketCart();
      this.cart.productId = id;
      this.cart.quantity = 1;
@@ -102,5 +105,14 @@ export class SupbuyComponent implements OnInit {
      });
    }
   }
-
+  getSupermarketList(pageNo){
+    this.marketManagerService.getSupermarketList(pageNo,this.pageSize,this.search)
+      .subscribe(data => {
+        if (this.errorVoid.errorMsg(data)) {
+          this.applierList = data.data.applierList;
+          this.categories = data.data.categories;
+          this.total = data.data.total;
+        }
+      });
+  }
 }

@@ -36,9 +36,9 @@
                   <option value=''>全部</option>
                   <option value=10>未付款</option>
                   <option value=20>已付款</option>
-                  <option value=40>已配货</option>
-                  <option value=50>已到货</option>
-                  <option value=0>退单</option>
+                  <option value=40>已发货</option>
+                  <option value=50>订单完成</option>
+                  <option value=0>已取消</option>
                 </select>
               </li>
                <li>
@@ -89,6 +89,8 @@
                 <th class="tleft">单价（元）</th>
                 <th class="tleft">数量</th>
                 <th>总计（元）</th>
+                <th>支付方式</th>
+                <th>订单状态</th>
                 <th>创建时间</th>
                 <th>发货时间</th>
               </tr>
@@ -114,6 +116,8 @@
                   </p>
                 </td>
                 <td>{{order.payment |number:'1.2-2'}}</td>
+                <td>{{order.paymentTypeDesc}}</td>
+                <td>{{order.statusDesc}}</td>
                 <td>{{order.createTime}}</td>
                 <td>{{order.sendTime}}</td>
               </tr>

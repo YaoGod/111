@@ -15,12 +15,34 @@
         </div>
         <div class="b-con tuanmenu">
           <div class="wrap">
+            <div class="sltgroup">
+              <label>供应商</label>
+              <select name="searchArm" [(ngModel)]="search.applier">
+                <option value="">全部</option>
+                <option *ngFor="let applier of applierList" [value]="applier.applyId">{{applier.applyName}}</option>
+              </select>
+            </div>
+            <div class="sltgroup">
+              <label>商品类别</label>
+              <select name="searchArm" [(ngModel)]="search.stype">
+                <option value="">全部</option>
+                <option *ngFor="let categorie of categories" [value]="categorie.cid">{{categorie.cname}}</option>
+              </select>
+            </div>
             <div class="iptgroup" *ngIf="rule&&rule.isSelect">
               <input placeholder="请输入商品名称"  [(ngModel)]="search.sname" />
             </div>
             <a class="search" (click)="getSupermarketList(1)" *ngIf="rule&&rule.isSelect">查询</a>
             <a class="btn btn-danger"  (click)="add()" style="padding: 6px 22px;float: right;" *ngIf="rule&&rule.isInstall">
-              <i class="icon-plus"></i> 新增</a>
+              <i class="icon-plus"></i> 新增
+            </a>
+            <a class="btn btn-danger"  (click)="exportMode()" style="padding: 6px 22px;margin-right: 10px;float: right;" *ngIf="rule&&rule.isUpdate">
+              批量导入
+            </a>
+            <a class="btn btn-danger"  (click)="importAdd()" style="padding: 6px 22px;margin-right: 10px;float: right;" *ngIf="rule&&rule.isSelect">
+              模板导出
+            </a>
+
           </div>
           <div class="list-table">
             <table class="table-head">

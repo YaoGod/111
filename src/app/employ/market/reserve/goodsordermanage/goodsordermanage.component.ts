@@ -98,8 +98,10 @@ export class GoodsordermanageComponent implements OnInit {
 
   /*更新订单*/
   updateOrders(){
-    if(!this.isEmpty('notice','说明不能为空')){
-      return false;
+    if(this.updateOrder.status === 0){
+      if(!this.isEmpty('notice','说明不能为空')){
+        return false;
+      }
     }
     let url = '/goodsOrder/updateOrderStatus?userId=' + localStorage.getItem("username")
     +'&orderNo=' + this.updateOrder.orderNo +'&status=' + this.updateOrder.status;
@@ -107,7 +109,7 @@ export class GoodsordermanageComponent implements OnInit {
       if (this.errorVoid.errorMsg(data)) {
         confirmFunc.init({
           'title': '提示',
-          'mes': data['msg'],
+          'mes': data.msg,
           'popType': 0,
           'imgType': 1,
         });

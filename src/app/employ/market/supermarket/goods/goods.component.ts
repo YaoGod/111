@@ -33,6 +33,8 @@ export class GoodsComponent implements OnInit {
   ngOnInit() {
     this.getRule();
     this.search = new SupermarketProduct();
+    this.search.applier = "";
+    this.search.stype = "";
     this.productView = new SupermarketProduct();
     this.productAdd = new SupermarketProduct();
     this.productUp = new SupermarketProduct();
@@ -321,7 +323,14 @@ private  removeErrorClass(id: string) {
   $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
   $('#' + id).next('span').html('');
 }
+  /*模板导出*/
+  exportMode(){
 
+  }
+  /*批量导入*/
+  importAdd(){
+
+  }
 }
 
 export class SupermarketCategory {

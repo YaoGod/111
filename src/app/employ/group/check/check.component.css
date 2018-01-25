@@ -809,24 +809,26 @@ select{
   float: left;
   display: inline-block;
 }
-.list-table dt .ope-list a{
-  width: 22px;
-  height: 22px;
+.box-check{
+  float: right;
+  margin: 5px 10px 0 0;
+  line-height: 20px;
+  text-indent: 0;
+}
+.box-check a{
+  padding: 2px 2px;
+  float: inherit;
   display: inline-block;
+  width: 36px;
+  border-radius: 3px;
+  background: #fe5e5c;
+  color: #ffffff;
+  text-align: center;
+  cursor: pointer;
+  transition: all .5s;
 }
-.list-table dt .ope-list a.one{
-  background: url('../../../../assets/image/icon-view.png') no-repeat;
-  margin: 0 10px;
-}
-.list-table dt .ope-list a.two{
-  background: url('../../../../assets/image/icon-edit.png') no-repeat;
-  margin: 0 10px;
-}
-.list-table dt .ope-list a.tre{
-  background: url('../../../../assets/image/icon-del.png') no-repeat;
-}
-.list-table dt .ope-list a.four{
-  background: url('../../../../assets/image/check.png') no-repeat;
+.box-check a:hover{
+  opacity: .8;
 }
 .list-table dd{
   /*display: table;*/

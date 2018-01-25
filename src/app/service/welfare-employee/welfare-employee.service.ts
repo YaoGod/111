@@ -57,14 +57,26 @@ export class WelfareEmployeeService {
       .map(res => res.json());
   }
   /*
-   查询优惠信息
+   查询优惠信息 (管理界面)
+   param: search: string,
+   param: pageNo: number,
+   param: pageSize: number,
+   return: res.json
+   */
+  getWelfareMang(search,pageNo:number,pageSize:number){
+    const url = this.ipSetting.ip + "/employee/Welfare/getWelfare/"+pageNo+ "/" + pageSize + "?search=" + search;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  /*
+   查询优惠信息 (用户界面)
    param: search: string,
    param: pageNo: number,
    param: pageSize: number,
    return: res.json
    */
   getWelfareList(search,pageNo:number,pageSize:number){
-    const url = this.ipSetting.ip + "/employee/Welfare/getWelfare/"+pageNo+ "/" + pageSize + "?search=" + search;
+    const url = this.ipSetting.ip + "/employee/Welfare/getWelfareList/"+pageNo+ "/" + pageSize + "?search=" + search;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }

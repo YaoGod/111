@@ -30,11 +30,13 @@
                 <td class="zero">订单编号：{{order.orderNo}}</td>
                 <td class="zero">下单时间：{{order.createTime}}</td>
                 <td class="zero">订单价格：￥{{order.payment}}</td>
-                <td class="zero" *ngIf="order.status==0">订单状态：退单</td>
+                <td class="zero">交易方式：{{order.paymentTypeDesc}}</td>
+                <td class="zero">订单状态：{{order.statusDesc}}</td>
+                <!--<td class="zero" *ngIf="order.status==0">订单状态：退单</td>
                 <td class="zero" *ngIf="order.status==10">订单状态：未支付</td>
                 <td class="zero" *ngIf="order.status==20">订单状态：已付款</td>
                 <td class="zero" *ngIf="order.status==40">订单状态：已发货</td>
-                <td class="zero" *ngIf="order.status==50">订单状态：已到货</td>
+                <td class="zero" *ngIf="order.status==50">订单状态：已到货</td>-->
               </tr>
             </table>
             </dt>
@@ -47,7 +49,8 @@
                   <td class="three">数量</td>
                   <td class="four">合计（元）</td>
                   <td class="zero"  *ngIf="order.status==40" >
-                    <button type="button" class="btn btn-info" style="padding: 2px 2px" (click)="updateOrders(order.orderNo,50)">确认收货</button>
+                    <button type="button" class="btn btn-info" style="padding: 2px 2px"
+                            (click)="updateOrders(order.orderNo,50)">确认收货</button>
                   </td>
                 </tr>
               </table>

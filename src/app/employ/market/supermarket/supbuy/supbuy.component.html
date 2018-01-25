@@ -18,6 +18,20 @@
           </div>
         </div>
         <div class="wrap">
+          <div class="sltgroup">
+            <label>供应商</label>
+            <select name="searchArm" [(ngModel)]="search.applier">
+              <option value="">全部</option>
+              <option *ngFor="let applier of applierList" [value]="applier.applyId">{{applier.applyName}}</option>
+            </select>
+          </div>
+          <div class="sltgroup">
+            <label>商品类别</label>
+            <select name="searchArm" [(ngModel)]="search.stype">
+              <option value="">全部</option>
+              <option *ngFor="let categorie of categories" [value]="categorie.cid">{{categorie.cname}}</option>
+            </select>
+          </div>
           <div class="iptgroup">
             <input placeholder="请输入商品名称"  [(ngModel)]="search.sname"/>
           </div>
@@ -37,7 +51,7 @@
                   <a href="javascript:void(0)" [routerLink]="['../supbuysimple']" target="_blank">
                     {{product.sname}}
                   </a>
-                  <span class="product-status">{{product.leftstatus==='1'?'缺货':(product.leftstatus==='2'?'少量':'充足')}}</span>
+                  <span class="product-status">{{product.leftstatus==='3'?'缺货':(product.leftstatus==='2'?'少量':'充足')}}</span>
                 </h3>
                 <div class="item-summary">
                   <div class="item-price">
@@ -48,7 +62,7 @@
                   </div>
                   <a  href="javascript: void(0);"  class="addCart j_AddCart" (click)="addToCart(product.id,product.leftstatus)">
                    <!-- <img src="../../../../../assets/image/icon-shop.png">-->
-                    <i [ngClass]="product.leftstatus==='1'?'ill':''">+</i>
+                    <i [ngClass]="product.leftstatus==='3'?'ill':''">+</i>
                   </a>
                 </div>
               </div>

@@ -23,12 +23,13 @@
             </div>
             <div class="b-con tuanmenu">
               <div class="wrap clearfix">
-                <div class="iptgroup">
+                <div class="iptgroup" *ngIf="rule&&rule.isSelect">
                   <input placeholder="请输入商品名称" [(ngModel)]="search.name" />
                 </div>
-                <a class="search" href="javascript: void(0);" (click)="getProductList()" >查询</a>
-                <div class="row">
-                  <a class="btn btn-danger" (click)="fadeBom()"  href="javascript:;" style="padding: 6px 22px;"><i class="icon-plus"></i> 新增</a>
+                <a class="search" *ngIf="rule&&rule.isSelect" (click)="getProductList(1)" >查询</a>
+                <div class="row" *ngIf="rule&&rule.isInstall">
+                  <a class="btn btn-danger" (click)="fadeBom()" style="padding: 6px 22px;">
+                    <i class="icon-plus"></i> 新增</a>
                 </div>
               </div>
 
@@ -45,15 +46,17 @@
                 <dl *ngFor="let product of groupProducts;let idx=index">
                   <dt><span>商品名称：{{product.name}}</span>
                   <div class="ope-list">
-                    <a class="two" *ngIf="product.status=='0'"  title="修改" href="javascript:void(0);" (click)="update(product.code)"></a>
-                    <a class="tre" *ngIf="product.status=='0'"  title="删除" href="javascript:void(0);" (click)="delete(product.code)"></a>
+                    <a title="重新提交" *ngIf="rule&&rule.isUpdate&&product.checkStatus === '2'" (click)="reCheck(product.code)">
+                      <i class="icon-cloud-upload"></i></a>
+                    <a class="two" *ngIf="rule&&rule.isUpdate&&product.status=='0'"  title="修改" (click)="update(product.code)"></a>
+                    <a class="tre" *ngIf="rule&&rule.isDelete&&product.status=='0'"  title="删除" (click)="delete(product.code)"></a>
                   </div>
                   </dt>
                   <dd>
                     <table style="width: 100%;">
                       <tr>
                         <td class="fir">
-                          <img *ngIf="product.image!==''" [src]="'/proxy/' + product.image" />
+                          <img *ngIf="product.image!==''" [src]="ipSetting.ip + product.image" />
                         </td>
                         <td class="sec">￥{{product.price}}</td>
                         <td class="sec">
@@ -88,7 +91,7 @@
                 [pageSize]="pageSize"
                 [total]="total"
                 [length] = 5
-                (turnEvent)="goPage($event)">
+                (turnEvent)="getProductList($event)">
               </app-turn-bar>
             </div>
           </div>
@@ -197,7 +200,7 @@
               <div class="pimg">
                 <div class="dropify-wrapper">
                   <div class="dropify-message">
-                    <img *ngIf="upGroupProduct.image!==''" [src]="'/proxy/' + upGroupProduct.image" />
+                    <img *ngIf="upGroupProduct.image!==''" [src]="ipSetting.ip + upGroupProduct.image" />
                   </div>
                   <p>点击此处上传图片</p>
                   <input type="file" class="dropify" #prese2 id="prese2" (change)="prese_upload2(prese2.files)">
@@ -265,7 +268,6 @@
             </div>
           </div>
           <div class="modal-footer">
-
             <button type="button" class="btn btn-danger" (click)="closeMask2()">取 消</button>
             <button type="submit" class="btn btn-info"   (click)="updateGroupProduct()" >保 存</button>
           </div>

@@ -45,7 +45,7 @@ export class StaffWelfareMangComponent implements OnInit {
   }
   getWelfare(pageNo) {
     this.pageNo = pageNo;
-    this.welfareEmployeeService.getWelfareList(this.search,pageNo,this.pageSize)
+    this.welfareEmployeeService.getWelfareMang(this.search,pageNo,this.pageSize)
       .subscribe(data =>{
         if(this.errorResponseService.errorMsg(data)){
           this.welfares = data.data.infos;

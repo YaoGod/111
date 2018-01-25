@@ -15,18 +15,26 @@
           </div>
         </div>
         <div class="wrap clearfix">
+          <div class="sltgroup">
+            <label>供应商类别</label>
+            <select name="searchArm" [(ngModel)]="search.code">
+              <option value="">全部</option>
+              <option *ngFor="let provider of providers" [value]="provider">{{provider}}类</option>
+            </select>
+          </div>
           <div class="iptgroup">
             <input placeholder="请输入商品名称" name="name"  [(ngModel)]="search.name"  />
           </div>
-          <a class="search" href="javascript: void(0);" (click)="getGoodsShowList()">查询</a>
+          <a class="search" href="javascript: void(0);" (click)="getGoodsShowList(1)">查询</a>
         </div>
-        <div class="b-con tuan"  *ngFor="let good of goods;let idx=index">
+        <div class="tuan"  *ngFor="let good of goods;let idx=index">
           <div class="row mt20">
             <dl>
               <dt class="showpic">
-                <img *ngIf="good.image!==''" [src]="imgPrefix + good.image"/>
+                <img *ngIf="good.image!==''" [src]="ipSetting.ip + good.image"/>
               </dt>
               <dd>
+                <span class="name-great note">(编码:{{good.code}})</span>
                 <span class="name-great">{{good.name}}</span>
                 <div class="bg-value">
                   <span class="value">¥{{good.price}}</span>
@@ -47,8 +55,7 @@
           [pageNo]="pageNo"
           [pageSize]="pageSize"
           [total]="total"
-          [length] = 5
-          (turnEvent)="goPage($event)">
+          (turnEvent)="getGoodsShowList($event)">
         </app-turn-bar>
       </div>
     </div>

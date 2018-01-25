@@ -17,18 +17,17 @@ declare var confirmFunc:any;
 export class GoodsbuyComponent implements OnInit {
   public rule;
   public catas;
-  public imgPrefix: string;
   public goods:Array<Goods>;
   public search: Goods;
   public cart: GoodsCart;
   public pageSize = 5;
   public pageNo = 1;
   public total = 0;
-  public length = 5;
   public pages: Array<number>;
   public cartsize: number;
+  public providers: Array<any>;
   constructor(private errorVoid: ErrorResponseService,
-              private ipSetting  : IpSettingService,
+              public ipSetting  : IpSettingService,
               private globalCatalogService: GlobalCatalogService,
               private router:Router,
               private route:ActivatedRoute) {
@@ -42,10 +41,11 @@ export class GoodsbuyComponent implements OnInit {
       }
     );
     this.getRule();
-    this.imgPrefix = this.ipSetting.ip;
     this.search = new Goods();
-    this.pages = [];
-    this.getGoodsShowList();
+    this.search.name = "";
+    this.search.code = "";
+    this.getGoodsShowList(1);
+    this.getproviders();
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'market','employ/market/reserve')
@@ -55,16 +55,22 @@ export class GoodsbuyComponent implements OnInit {
         }
       })
   }
+  getproviders(){
+    let url = "/goodsProduct/provider/type";
+    this.ipSetting.sendGet(url)
+      .subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        this.providers = data.data;
+      }
+    });
+  }
   gotoMange(){
     this.router.navigate(["../../../../"+this.catas[0].routeUrl],{relativeTo: this.route});
   }
-  getGoodsShowList(){
-    let url = '/goodsProduct/search?';
-    if(typeof(this.search.name) === 'undefined'){
-      url += 'pageNum='+ this.pageNo +'&pageSize='+ this.pageSize;
-    }else {
-      url += 'name='+ this.search.name +'&pageNum='+ this.pageNo +'&pageSize='+ this.pageSize;
-    }
+  getGoodsShowList(pageNo){
+    this.pageNo = pageNo;
+    let url = '/goodsProduct/search?name='+ this.search.name +'&code='+this.search.code+
+      '&pageNum='+ this.pageNo +'&pageSize='+ this.pageSize;
     this.ipSetting.sendGet(url).subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           this.goods = data.data.list;
@@ -98,15 +104,6 @@ export class GoodsbuyComponent implements OnInit {
           });
         }
       })
-  }
-
-  /**跳页加载数据*/
-  goPage(page:number){
-    this.pageNo = page;
-    if(this.search==null){
-      this.search = new Goods();
-    }
-    this.getGoodsShowList();
   }
 }
 

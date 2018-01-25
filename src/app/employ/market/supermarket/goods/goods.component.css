@@ -1076,6 +1076,7 @@ select{
   font-size: 14px;
   border-radius: 3px;
   letter-spacing: 2px;
+  cursor: pointer;
 }
 .b-con .add{
   text-decoration: none;
@@ -1290,21 +1291,7 @@ select{
   background-color: #f7f7f7;
   border-radius: 5px;
 }
-select {
-  border: none;
-  outline: none;
-  appearance: none;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -ms-appearance: none;
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAARCAYAAAC8XK78AAAACXBIW…JwxShCCM2HuFQBiBGbcEb+SvN3AA9E9juD6NkB8/8LyuY+AHBRGpsCZezVAAAAAElFTkSuQmCC) no-repeat scroll right center #fff;
-  padding-right: 26px;
-}
-    select {
-      height: 22px;
-      line-height: 18px;
-      padding: 2px 0;
-    }
+
 
     .pdetail label{
       display: inline-block;
@@ -1336,3 +1323,22 @@ select {
 .b-head-right .content-box i{font-size:14px;}
 .b-head-right .content-box img{margin-right: 4px;vertical-align: -3px}
 .b-head-right .content-box:hover{cursor: pointer;border-color: #ff3c00;}
+.sltgroup{
+  float: left;
+  padding-right: 10px;
+}
+.sltgroup label{
+  display: inline-block;
+  width: 60px;
+  color: #999999;
+}
+.sltgroup select{
+  position: relative;
+  width: 120px;
+  height: 30px;
+  padding-left: 10px;
+  border: 1px solid #66cdff;
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: #999999;
+}

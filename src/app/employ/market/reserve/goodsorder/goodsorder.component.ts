@@ -54,7 +54,12 @@ export class GoodsorderComponent implements OnInit {
       + '&orderNo=' + orderId;
     this.ipSetting.sendGet(url).subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
-          alert(data['msg']);
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data.msg,
+            'popType': 0,
+            'imgType': 1,
+          });
           this.getOrderList(1);
         }
       });
@@ -72,7 +77,12 @@ export class GoodsorderComponent implements OnInit {
       + '&orderNo=' + orderId + '&status=' +status;
     this.ipSetting.sendGet(url).subscribe(data => {
        if (this.errorVoid.errorMsg(data)) {
-        alert(data['msg']);
+         confirmFunc.init({
+           'title': '提示',
+           'mes': data.msg,
+           'popType': 0,
+           'imgType': 1,
+         });
         this.getOrderList(1);
       }
     });
@@ -91,7 +101,8 @@ export class GoodsOrder {
   note:string;
   orderItemVoList:Array<GoodsOrderItem>;
   serviceCenter:string;
-
+  paymentTypeDesc:string; /*付款方式*/
+  statusDesc:string;/*订单中文状态*/
 }
 
 export class GoodsOrderItem {

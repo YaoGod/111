@@ -10,7 +10,7 @@
       <li><h4 routerLink="belong" routerLinkActive="active">所属信息</h4></li>
       <li><h4 routerLink="basic" routerLinkActive="active">详细信息</h4></li>
       <li><h4 routerLink="floor" routerLinkActive="active">楼层信息</h4></li>
-      <li>
+      <li *ngIf="rule&&(rule.isInstall||rule.isDelete||rule.isUpdate)">
         <h4 [ngClass]="{'active':setNavActive()}">合同信息&nbsp;&nbsp;&nbsp;<i class="icon-arrow-down-circle" style="font-size: 12px;"></i> </h4>
         <ol class="msg-child">
           <li [routerLink]="['contract', type]" routerLinkActive="s-active"><h3>自购/自建/租赁合同</h3></li>

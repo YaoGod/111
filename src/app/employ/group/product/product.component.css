@@ -851,26 +851,30 @@ select{
   display: inline-block;
 }
 .list-table dt .ope-list a{
+  display: inline-block;
+  margin: 0 10px;
   width: 22px;
   height: 22px;
-  display: inline-block;
+  cursor: pointer;
+}
+.list-table dt .ope-list a i{
+  position: relative;
+  right: 30px;
+  bottom: 3px;
+  font-size: 20px;
+  color: #999999;
 }
 .list-table dt .ope-list a.one{
   background: url('../../../../assets/image/icon-view.png') no-repeat;
-  margin: 0 10px;
 }
 .list-table dt .ope-list a.two{
   background: url('../../../../assets/image/icon-edit.png') no-repeat;
-  margin: 0 10px;
 }
 .list-table dt .ope-list a.tre{
   background: url('../../../../assets/image/icon-del.png') no-repeat;
 }
-.list-table dt .ope-list a.four{
-  background: url('../../../../assets/image/check.png') no-repeat;
-}
+
 .list-table dd{
-  /*display: table;*/
   width: 100%;
 }
 .list-table dd td{

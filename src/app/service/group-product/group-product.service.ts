@@ -4,6 +4,7 @@ import 'rxjs/add/operator/toPromise';
 import {isUndefined} from "util";
 import {until} from "selenium-webdriver";
 import titleContains = until.titleContains;
+import {IpSettingService} from "../ip-setting/ip-setting.service";
 
 @Injectable()
 export class GroupProductService {
@@ -14,13 +15,14 @@ export class GroupProductService {
 });
   constructor(
     private http: Http,
+    private ipSetting:IpSettingService
   ) { };
   /* 获取商品列表
 
    return:              #公告*/
 
   getProductList(pageNo:number,pageSize:number,search:any) {
-    const url = '/proxy/mmall/group/getProductList/'+pageNo+'/'+pageSize;
+    const url = this.ipSetting.ip+'/mmall/group/getProductList/'+pageNo+'/'+pageSize;
     const data = search;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -32,7 +34,7 @@ export class GroupProductService {
    */
   addGroupBuyProduct(postData){
     console.log(postData);
-    const url = '/proxy/mmall/group/addGroupbuyProduct';
+    const url = this.ipSetting.ip+'/mmall/group/addGroupbuyProduct';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -44,7 +46,7 @@ export class GroupProductService {
    return:
    */
   deleteGroupbuyProduct (code:string) {
-    const url = '/proxy/mmall/group/deleteGroupbuyProduct/'+code;
+    const url = this.ipSetting.ip+'/mmall/group/deleteGroupbuyProduct/'+code;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -54,7 +56,7 @@ export class GroupProductService {
    return:
    */
   getGroupProduct(code:string){
-    const url = '/proxy/mmall/group/getGroupProduct/'+code;
+    const url = this.ipSetting.ip+'/mmall/group/getGroupProduct/'+code;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -64,29 +66,32 @@ export class GroupProductService {
    param: id:number,     #大楼ID
    return:
    */
-updateGroupbuyProduct(postData){
-    console.log(postData);
-    const url = '/proxy/mmall/group/updateGroupbuyProduct';
+  updateGroupbuyProduct(postData){
+    const url = this.ipSetting.ip+'/mmall/group/updateGroupbuyProduct';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
   updateStatus(postData){
     console.log(postData);
-    const url = '/proxy/mmall/group/updateStatus';
+    const url = this.ipSetting.ip+'/mmall/group/updateStatus';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
-
-
+  /*重新提交审核*/
+  recheckGroupProduct(code){
+    const url = this.ipSetting.ip+'/mmall/group/recheckGroupProduct/'+code;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
   /*
    图片上传
    param: postData:img,
    return:
    */
   uploadImg(postData,type,id){
-    const url = '/proxy/mmall/util/uploadImg/'+type+ '/' +id;
+    const url = this.ipSetting.ip+'/mmall/util/uploadImg/'+type+ '/' +id;
     var form = new FormData();
     if (typeof(postData) === 'object') {
       form.append('img', postData);
@@ -103,33 +108,33 @@ updateGroupbuyProduct(postData){
    return:              #商品*/
 
   getProductShowList(pageNo:number,pageSize:number,search:any) {
-    const url = '/proxy/mmall/group/getProductShowList/'+pageNo+'/'+pageSize;
+    const url = this.ipSetting.ip+'/mmall/group/getProductShowList/'+pageNo+'/'+pageSize;
     const data = search;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
 
   addToCart(cart:any) {
-    const url = '/proxy/mmall/cart/addGroupbuyCart';
+    const url = this.ipSetting.ip+'/mmall/cart/addGroupbuyCart';
     const data = cart;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
 
   getCartList(){
-    const url = '/proxy/mmall/cart/getCartList/';
+    const url = this.ipSetting.ip+'/mmall/cart/getCartList/';
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
 
   deleteGroupCart(id:number){
-    const url = '/proxy/mmall/cart/deleteGroupbuyCart/'+id;
+    const url = this.ipSetting.ip+'/mmall/cart/deleteGroupbuyCart/'+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
 
   updateGroupCart(postData){
-    const url = '/proxy/mmall/cart/updateGroupbuyCart';
+    const url = this.ipSetting.ip+'/mmall/cart/updateGroupbuyCart';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -137,7 +142,7 @@ updateGroupbuyProduct(postData){
 
   submitCart(message){
 
-    const url = '/proxy/mmall/order/addGroupOrder/'+message;
+    const url = this.ipSetting.ip+'/mmall/order/addGroupOrder/'+message;
     return this.http.post(url,this.options)
       .map(res => res.json());
   }
@@ -148,7 +153,7 @@ updateGroupbuyProduct(postData){
    */
   checkGroupbuyProduct(postData){
     console.log(postData);
-    const url = '/proxy/mmall/group/updateGroupbuyProduct';
+    const url = this.ipSetting.ip+'/mmall/group/updateGroupbuyProduct';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());

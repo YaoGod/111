@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { GroupProduct } from '../../../mode/groupProduct/group-product.service';
 import { GroupProductService } from '../../../service/group-product/group-product.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
-
 import * as $ from 'jquery';
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 declare var $:any;
 declare var confirmFunc: any;
 declare var tinymce: any;
@@ -72,15 +72,17 @@ export class ProductComponent implements OnInit {
     producttype: '',
     checkStatus:''
   };
-  constructor(private groupProductService: GroupProductService,
-              private globalCatalogService: GlobalCatalogService,
-              private errorVoid: ErrorResponseService,) {
+  constructor(
+    private groupProductService: GroupProductService,
+    private globalCatalogService: GlobalCatalogService,
+    private errorVoid: ErrorResponseService,
+    public  ipSetting:IpSettingService ) {
   }
   ngOnInit() {
     this.getRule();
     this.search = new GroupProduct();
     this.pages = [];
-    this.getProductList();
+    this.getProductList(1);
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'group','employ/group')
@@ -99,10 +101,10 @@ export class ProductComponent implements OnInit {
         }
       })
   }
-  getProductList(){
+  getProductList(pageNo){
+    this.pageNo = pageNo;
     this.groupProductService.getProductList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
-        // console.log(data);
         this.groupProducts = data.data.infos;
         this.total = data.data.total;
       }
@@ -182,7 +184,7 @@ export class ProductComponent implements OnInit {
             'imgType': 1,
           });
           this.closeMask();
-          this.getProductList();
+          this.getProductList(1);
         }
       })
   }
@@ -214,12 +216,12 @@ export class ProductComponent implements OnInit {
         if (this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
             'title': '提示',
-            'mes': data['msg'],
+            'mes': data.msg,
             'popType': 0,
             'imgType': 1,
           });
           this.closeMask2();
-          this.getProductList();
+          this.getProductList(1);
         }
       })
   }
@@ -305,18 +307,10 @@ export class ProductComponent implements OnInit {
               this.pages = [];
               this.pageNo = 1;
             }
-            this.getProductList();
+            this.getProductList(1);
           });
       }
     });
-  }
-  /*跳页加载数据*/
-  goPage(page:number){
-    this.pageNo = page;
-    if(this.search==null){
-      this.search = new GroupProduct();
-    }
-    this.getProductList();
   }
   /**非空校验*/
   private isEmpty(id: string, error: string): boolean  {
@@ -380,5 +374,20 @@ export class ProductComponent implements OnInit {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
     $('#' + id).next('span').html('');
+  }
+  /*重新审核*/
+  reCheck(code){
+    this.groupProductService.recheckGroupProduct(code)
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '已重新提交，请等待管理员审核。',
+            'popType': 0,
+            'imgType': 1,
+          });
+          this.getProductList(1);
+        }
+      })
   }
 }
