@@ -5,7 +5,7 @@ export class Building{
   /* 大楼建筑 Building */
   id:            number; /*id*/
   buildingId:    number; /*大楼编号*/
-  name:          string; /*大楼名称*/
+  name:          string = ''; /*大楼名称*/
   imgPath:       string; /*图片地址*/
   address:       string; /*地址*/
   type:          string; /*大楼性质*/

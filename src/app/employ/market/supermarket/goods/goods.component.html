@@ -185,9 +185,8 @@
         </div>
         <div class="modal-right2">
           <label>商品详情：</label>
-          <textarea name="upnewesetail" ui-tinymce
-                    class="form-control" rows="10"
-                    id="detail_add" name="detail_add" (blur)="verifyEmpty('detail_add','详情不能为空')"  [(ngModel)]="productAdd.detail"
+          <textarea class="form-control" rows="10" id="detail_add" name="detail_add"
+                    (blur)="verifyEmpty('detail_add','详情不能为空')"  [(ngModel)]="productAdd.detail"
                     style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;">
            </textarea>
           <span class="errorMessage"></span>
@@ -285,9 +284,8 @@
         </div>
         <div class="modal-right2">
           <label>商品详情：</label>
-          <textarea name="upnewesetail" ui-tinymce
-                    class="form-control" rows="10"
-                    id="detail_edit" name="detail_edit" (blur)="verifyEmpty('detail_edit','详情不能为空')"  [(ngModel)]="productUp.detail"
+          <textarea class="form-control" rows="10" id="detail_edit" name="detail_edit"
+                    (blur)="verifyEmpty('detail_edit','详情不能为空')"  [(ngModel)]="productUp.detail"
                     style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;"  value="{{productUp.detail}}" >
            </textarea>
           <span class="errorMessage"></span>

@@ -56,9 +56,10 @@ input{
   font-size: 12px;
   text-align: right;
 }
-.guard-chandlery ul li input{
+.guard-chandlery ul li input,.guard-chandlery ul li select{
   height: 20px;
   width: calc(100% - 130px);
+  box-sizing: content-box;
   min-width: 70px;
   padding: 3px 5px;
   font-size: 12px;
@@ -333,9 +334,11 @@ button{
   right:5%;
   top:0;
   line-height:220px;
+  text-align: center;
 }
 .form-photo img{
-  width:100%;
+  width:auto;
+  max-width: 100%;
   vertical-align: middle;
   max-height:98%;
 }

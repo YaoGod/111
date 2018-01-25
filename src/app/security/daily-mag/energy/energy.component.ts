@@ -203,6 +203,7 @@ export class EnergyComponent implements OnInit {
   }
   /*点击新增*/
   creatList(){
+    this.editBool = true;
     $('.mask').fadeIn(500);
     $('.mask .mask-head p').html('新增能耗信息');
     this.repairname = new GuardName();
@@ -415,7 +416,7 @@ export class EnergyComponent implements OnInit {
 }
 export class Search {
   buildingId: string; // 大楼编号
-  buildingName: string;  // 大楼名称
+  buildingName: String = '';  // 大楼名称
   bTime: string; // 开始时间
   eTime: string; // 结束时间
   energyType:string; // 类型

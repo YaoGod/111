@@ -8,13 +8,15 @@
   <div class="energy-cont">
     <div class="energy-chandlery clearfix">
       <ul class="company-search clearfix">
-        <li>
-          <label>大楼编号</label>
-          <input type="text" name="searchA" class="search-ipt" maxlength="4" [(ngModel)]="search.buildingId">
-        </li>
+
         <li >
           <label >大楼名称</label>
-          <input type="text" name="searchB" class="search-ipt" maxlength="25" [(ngModel)]="search.buildingName">
+          <select name="searchB" class="search-ipt" [(ngModel)]="search.buildingName">
+            <option value="">-全部-</option>
+            <option *ngFor="let num of buildings"
+                    [value]="num.NAME">
+              {{num.NAME}}</option>
+          </select>
         </li>
         <li >
           <label >开始时间</label>

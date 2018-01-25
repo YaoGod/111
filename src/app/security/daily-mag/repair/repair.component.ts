@@ -37,6 +37,7 @@ export class RepairComponent implements OnInit {
   private contractBool = true;
   public rule : any;
   public jurisdiction:any;
+  public repairDept:any;
   constructor(
     private http: Http,
     private errorVoid:ErrorResponseService,
@@ -66,6 +67,7 @@ export class RepairComponent implements OnInit {
     this.contractName.fileName = [];
     this.contractName.filePath = [];
     this.getBuildings();
+    this.getRepairDept();
     if($('.repair-header a:last-child').hasClass('active')) {
       $('.repair-contract,.box2').fadeIn();
       this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
@@ -127,10 +129,8 @@ export class RepairComponent implements OnInit {
     if(((this.endTime === '' && this.beginTime !== '') || (this.endTime !== '' && this.beginTime === '') || ((this.beginTime !==
       '' &&  this.endTime !== '') && this.beginTime <= this.endTime)) || (this.beginTime === '' && this.endTime === '')){
       if($('.repair-header a:last-child').hasClass('active')) {
-        //
         this.getRecordSecond(this.searchContract, this.pageNo, this.pageSize);
       }else {
-        //
         this.getRecord(this.searchRepair, this.pageNo, this.pageSize);
       }
     }else {
@@ -151,19 +151,16 @@ export class RepairComponent implements OnInit {
     $('.mask-repair').fadeIn();
     $('.mask-repair .mask-head p').html('编辑维修记录');
   }
-  /*删除装修记录*/
+  /*删除维修记录*/
   delRecord(index) {
-    this.repairname = this.record[index];
     confirmFunc.init({
       'title': '提示' ,
       'mes': '是否删除？',
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = this.ipSetting.ip + "/building/repair/deleteRepairRecord/" +this.repairname.id;
-        this.http.get(SOFTWARES_URL)
-          .map(res => res.json())
-          .subscribe(data => {
+        let SOFTWARES_URL = "/building/repair/deleteRepairRecord/" + index;
+        this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
             if(this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示' ,
@@ -350,13 +347,10 @@ export class RepairComponent implements OnInit {
   }
   /*获取/查询维修合同*/
   private getRecordSecond(search, pageNo, pageSize) {
-    const SOFTWARES_URL = this.ipSetting.ip + "/building/repair/getRepairContract/" + pageNo + "/" + pageSize;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
+    let SOFTWARES_URL = "/building/repair/getRepairContract/" + pageNo + "/" + pageSize;
     this.searchContract.contractBtime = this.beginTime.replace(/-/g, "/");
     this.searchContract.contractEtime = this.endTime.replace(/-/g, "/");
-    this.http.post(SOFTWARES_URL, search, options)
-      .map(res => res.json())
+    this.ipSetting.sendPost(SOFTWARES_URL, search)
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)){
           this.contract = data['data']['infos'];
@@ -375,16 +369,14 @@ export class RepairComponent implements OnInit {
   }
   /* 删除维修合同*/
   delContract(index) {
-    this.contractName = this.contract[index];
     confirmFunc.init({
       'title': '提示' ,
       'mes': '是否删除？',
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = this.ipSetting.ip + "/building/repair/deleteRepairContract/" +this.contractName.id;
-        this.http.get(SOFTWARES_URL)
-          .map(res => res.json())
+        let SOFTWARES_URL = "/building/repair/deleteRepairContract/" + index;
+        this.ipSetting.sendGet(SOFTWARES_URL)
           .subscribe(data => {
             if(this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
@@ -507,9 +499,9 @@ export class RepairComponent implements OnInit {
   contractSubmit() {
     let SOFTWARES_URL;
     if(this.contractBool === false){
-      SOFTWARES_URL = this.ipSetting.ip + "/building/repair/updateRepairContract";
+      SOFTWARES_URL = "/building/repair/updateRepairContract";
     }else{
-      SOFTWARES_URL = this.ipSetting.ip + "/building/repair/addRepairContract";
+      SOFTWARES_URL = "/building/repair/addRepairContract";
     }
     if (!this.verifyContractId() ||!this.verifycontractNum() || !this.verifyCmccName() || !this.verifycontractcmccContacts() ||
       !this.verifycontractcmccPhone() || !this.verifycontractname2() || !this.verifycontacts() || !this.verifyphone() ||
@@ -536,12 +528,8 @@ export class RepairComponent implements OnInit {
     }
     this.contractName.contractBtime = this.contractName.contractBtime.replace(/-/g, "/");
     this.contractName.contractEtime = this.contractName.contractEtime.replace(/-/g, "/");
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({headers: headers});
     // JSON.stringify
-    this.http.post(SOFTWARES_URL, this.contractName, options)
-      .map(res => res.json())
-      .subscribe(data => {
+    this.ipSetting.sendPost(SOFTWARES_URL, this.contractName).subscribe(data => {
         if(this.errorVoid.errorMsg(data)){
           confirmFunc.init({
             'title': '提示' ,
@@ -566,8 +554,26 @@ export class RepairComponent implements OnInit {
       this.contractName.filePath = [];
       $('.mask-contract').hide();
   }
+  /*获取维修部门列表*/
+  getRepairDept(){
+    let url = '/building/repair/getRepairDept'
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        this.repairDept = data.data;
+      }
+    });
+  };
+  /*自动更改维修单号*/
+  changeType(cont){
+    if(this.repairname.recordId === undefined){
+      this.repairname.recordId = cont.slice(0,1);
+    }else if(this.repairname.recordId.length>1){
+      this.repairname.recordId = cont.slice(0,1)+this.repairname.recordId.slice(1);
+    }else{
+      this.repairname.recordId = cont.slice(0,1);
+    }
 
-
+  }
   /*跳页加载数据*/
   goPage(page:number){
     this.pageNo = page;
@@ -594,13 +600,16 @@ export class RepairComponent implements OnInit {
     }
   }
   /**
-   * 验证手机号码
+   * 验证电话号码
    * @return
    */
   private verifyIsTel(id: string, error?: string): boolean {
     const data =  $('#' + id).val();/*/^1(3[4-9]|5[0-2]|8[0-3,78])\d{8}$/ 移动号段*/
-    if (!String(data).match( /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/ ))  {
-      this.addErrorClass(id, '请填写正确手机号');
+    /*let isPhone = /^([0-9]{3,4}-)?[0-9]{7,8}$/;
+    let isMob=/^((\+?86)|(\+86))?(13[012356789][0-9]{8}|15[012356789][0-9]{8}|18[02356789][0-9]{8}|147[0-9]{8}|1349[0-9]{7})$/;*/
+    if (!String(data).match(/^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/)&&
+      !String(data).match(/^400\-[\d|\-]{7}|[\d]{1}$/) && !String(data).match(/^([0-9]{3,4}-)?[0-9]{7,8}$/)) {
+      this.addErrorClass(id, error);
       return false;
     }else {
       this.removeErrorClass(id);
@@ -699,7 +708,7 @@ export class RepairName {
   buildingName: string;
   recordId: string; // 维修单编号
   repairType: string; // 维修类别
-  cmccDepartment: string; // 需要维修部门
+  cmccDepartment: String = ''; // 需要维修部门
   cmccContacts: string; // 需要维修单位联系人
   cmccPhone: string; // 需要维修单位联系人电话
   repairCost: string; // 维修费用
@@ -730,7 +739,7 @@ export class ContractName {
 }
 export class SearchRecord {
   buildingId: string; // 大楼编号
-  buildingName: string;  // 大楼名称
+  buildingName: String = '';  // 大楼名称
   fitmentNum: string; // 维修单编号
   contractType: string; // 'decorate'
   decorateBtime: string; // 合同开始时间
@@ -738,7 +747,7 @@ export class SearchRecord {
 }
 export class SearchContract {
   buildingId: string; // 大楼编号
-  buildingName: string;  // 大楼名称
+  buildingName:  String = '';  // 大楼名称
   contractType: string; // 'decorate'
   contractBtime: string; // 合同开始时间
   contractEtime: string; // 合同结束时间

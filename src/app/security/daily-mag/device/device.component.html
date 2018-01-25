@@ -7,38 +7,59 @@
     <div class="device-chandlery clearfix">
       <div class="box1">
         <ul class="company-search clearfix">
-          <li>
-            <label>大楼编号</label>
-            <input type="text" name="aaa" class="search-ipt" [(ngModel)]="searchCompany.buildingId">
-          </li>
           <li >
             <label >大楼名称</label>
-            <input type="text" name="bbb" class="search-ipt" [(ngModel)]="searchCompany.buildingName">
+            <select name="bbb" class="search-ipt" [(ngModel)]="searchCompany.buildingName">
+              <option value="">-全部-</option>
+              <option *ngFor="let num of buildings"
+                      [value]="num.NAME">
+                {{num.NAME}}</option>
+            </select>
           </li>
           <li >
             <label >设备名称</label>
-            <input type="text" name="ccc" class="search-ipt" [(ngModel)]="searchCompany.equipmentName">
+            <!--<input type="text" name="ccc" class="search-ipt" [(ngModel)]="searchCompany.equipmentName">-->
+            <select name="bbb" class="search-ipt" [(ngModel)]="searchCompany.name">
+              <option value="">-全部-</option>
+              <option *ngFor="let num of deviceList"
+                      [value]="num"><!--num.BUILDING_ID-->
+                {{num}}</option>
+            </select>
           </li>
         </ul>
         <div class="search-right"><a href="javascript:;" class="search-btn" (click)="repairSearch()"><i class="icon-magnifier"></i> 查 询</a></div>
       </div>
       <div class="box2">
         <ul class="company-search clearfix">
-          <li>
-            <label>大楼编号</label>
-            <input type="text" name="qqq" class="search-ipt" [(ngModel)]="searchArch.buildingId">
-          </li>
           <li >
             <label>大楼名称</label>
-            <input type="text" name="www" class="search-ipt" [(ngModel)]="searchArch.buildingName">
+            <select name="eee" class="search-ipt" [(ngModel)]="searchArch.buildingName">
+              <option value="">-全部-</option>
+              <option *ngFor="let num of buildings"
+                      [value]="num.NAME"><!--num.BUILDING_ID-->
+                {{num.NAME}}</option>
+            </select>
+            <!--<input type="text" name="www" class="search-ipt" [(ngModel)]="searchArch.buildingName">-->
           </li>
           <li >
             <label>设备名称</label>
-            <input type="text" name="eee" class="search-ipt" [(ngModel)]="searchArch.equipmentName">
+            <!--<input type="text" name="eee" class="search-ipt" [(ngModel)]="searchArch.equipmentName">-->
+            <select name="www" class="search-ipt" [(ngModel)]="searchArch.name">
+              <option value="">-全部-</option>
+              <option *ngFor="let num of deviceList"
+                      [value]="num"><!--num.BUILDING_ID-->
+                {{num}}</option>
+            </select>
           </li>
           <li >
             <label>维保责任人</label>
-            <input type="text" name="rrr" class="search-ipt" [(ngModel)]="searchArch.liablePerson">
+            <!--<input type="text" name="rrr" class="search-ipt" [(ngModel)]="searchArch.liablePerson">-->
+            <select name="rrr" class="search-ipt" [(ngModel)]="searchArch.liablePerson">
+              <option value="">-全部-</option>
+              <option *ngFor="let lead of leading"
+                      [value]="lead.username"><!--num.BUILDING_ID-->
+                {{lead.username}}</option>
+            </select>
           </li>
         </ul>
         <div class="search-right">
@@ -54,7 +75,7 @@
       <ul class="form-msg clearfix" *ngFor="let inner of record; let i=index">
         <li class="form-bar">
           <span class="form-title text-right">大楼编号</span>
-          <span class="form-word">{{inner.buildingId}}</span>
+          <span class="form-word">{{inner.buildingNum}}</span>
         </li>
         <li class="form-bar">
           <span class="form-title text-right">大楼名称</span>
@@ -74,7 +95,7 @@
         </li>
         <li class="form-bar">
           <span class="form-title text-right">采购日期</span>
-          <span class="form-word">{{inner.buyDate}}</span>
+          <span class="form-word">{{inner.buyDate | date:'yyyy-MM-dd'}}</span>
         </li>
         <li class="form-bar">
           <span class="form-title text-right">维保单位</span>
@@ -82,11 +103,11 @@
         </li>
         <li class="form-bar">
           <span class="form-title text-right">最近维保日期</span>
-          <span class="form-word">{{inner.mLastDate}}</span>
+          <span class="form-word">{{inner.mLastDate | date:'yyyy-MM-dd'}}</span>
         </li>
         <li class="form-bar">
           <span class="form-title text-right">下次维保日期</span>
-          <span class="form-word">{{inner.mNextDate}}</span>
+          <span class="form-word">{{inner.mNextDate | date:'yyyy-MM-dd'}}</span>
         </li>
         <li class="form-bar">
           <span class="form-title text-right">维保责任人</span>
@@ -98,7 +119,7 @@
         </li>
         <li class="form-photo"><img [src]="+'/proxy'+inner.imgPath" *ngIf="inner.imgPath"></li>
         <li class="form-btn" *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" (click)="editRecord(i)"><i class="icon-pencil"></i></li>
-        <li class="form-btn form-del" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delRecord(i)"><i class="icon-trash"></i></li>
+        <li class="form-btn form-del" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delRecord(inner.id)"><i class="icon-trash"></i></li>
       </ul>
     </div>
     <!--工单-->
@@ -114,7 +135,7 @@
         </li>
         <li class="form-bar">
           <span class="form-title text-right">大楼编号</span>
-          <span class="form-word">{{inner.buildingId}}</span>
+          <span class="form-word">{{inner.buildingNum}}</span>
         </li>
         <li class="form-bar">
           <span class="form-title text-right">设备名称</span>
@@ -182,7 +203,7 @@
           <div class="form-inp">
             <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" (blur)="verifybuildingId()">
               <option *ngFor="let num of buildings"
-                      [value]="num.BUILDING_ID">
+                      [value]="num.ID">
                 {{num.NAME}}</option>
             </select>
             <span class="errorMessage"></span>
@@ -240,14 +261,25 @@
         <div class="form-control clearfix">
           <span class="form-label">维保责任人</span>
           <div class="form-inp">
-            <input type="text" autocomplete="off" class="company-ipt" id="liablePerson" name="liablePerson" [(ngModel)]="repairname.liablePerson" (blur)="verifyliablePerson()" required maxlength="25">
+            <select class="company-ipt" id="liablePerson" name="liablePerson" [(ngModel)]="repairname.liablePerson"
+                    (blur)="verifyliablePerson()" (change)="changePerson(repairname.liablePerson)">
+              <option value="">-请选择-</option>
+              <option *ngFor="let lead of leading" [value]="lead.userid">{{lead.username}}</option>
+            </select>
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control clearfix">
+          <span class="form-label">责任人部门</span>
+          <div class="form-inp">
+            <input type="text" autocomplete="off" class="company-ipt" id="deptId" name="deptId" [(ngModel)]="repairname.deptId" (blur)="verifylDeptId()">
             <span class="errorMessage"></span>
           </div>
         </div>
         <div class="form-control clearfix">
           <span class="form-label">责任人邮箱</span>
           <div class="form-inp">
-            <input type="text" autocomplete="off" class="company-ipt" id="lMail" name="lMail" [(ngModel)]="repairname.lMail" (blur)="verifylMail()" required maxlength="38">
+            <input type="text" autocomplete="off" class="company-ipt" id="lMail" name="lMail" [(ngModel)]="repairname.lMail" (blur)="verifylMail()">
             <span class="errorMessage"></span>
           </div>
         </div>
@@ -259,7 +291,7 @@
               <img *ngIf="repairname.imgPath" [src]="'/proxy/' + repairname.imgPath" />
             </div>
             <p *ngIf="!repairname.imgPath">点击此处上传图片</p>
-            <input type="file" class="dropify" #prese id="prese"
+            <input type="file" class="dropify" #prese id="prese" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
                    (change)="prese_upload(prese.files)">
           </div>
         </div>
@@ -292,7 +324,13 @@
       <div class="form-control form-entry clearfix">
         <span class="form-label">设备名称</span>
         <div class="form-inp">
-          <input type="text" autocomplete="off" class="company-ipt" id="equipmentName" name="equipmentName" [(ngModel)]="contractName.equipmentName" (blur)="verifyequipmentName()" required maxlength="25">
+          <!--<input type="text" autocomplete="off" class="company-ipt" id="equipmentName" name="equipmentName" [(ngModel)]="contractName.equipmentName" (blur)="verifyequipmentName()" required maxlength="25">-->
+          <select  class="company-ipt" id="equipmentName" name="equipmentName" [(ngModel)]="contractName.equipmentName" (blur)="verifyequipmentName()" >
+            <option value="">-请选择-</option>
+            <option *ngFor="let num of deviceList"
+                    [value]="num">
+              {{num}}</option>
+          </select>
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -320,7 +358,11 @@
       <div class="form-control form-entry clearfix">
         <span class="form-label">维保责任人</span>
         <div class="form-inp">
-          <input type="text" autocomplete="off" class="company-ipt" id="liablePerson2" name="liablePerson2" [(ngModel)]="contractName.liablePerson" (blur)="verifyliablePerson2()" required maxlength="25">
+          <!--<input type="text" autocomplete="off" class="company-ipt" id="liablePerson2" name="liablePerson2" [(ngModel)]="contractName.liablePerson" (blur)="verifyliablePerson2()" required maxlength="25">-->
+          <select class="company-ipt conpany-sel" id="liablePerson2" name="liablePerson2" [(ngModel)]="contractName.liablePerson" (blur)="verifyliablePerson2()">
+            <option value="">-请选择-</option>
+            <option *ngFor="let lead of leading" [value]="lead.userid">{{lead.username}}</option>
+          </select>
           <span class="errorMessage"></span>
         </div>
       </div>

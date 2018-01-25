@@ -26,10 +26,8 @@ export class OrdersComponent implements OnInit {
   public pages: Array<number>;
   public buildings: any;
   public rule : any;
-  public jurisdiction:any;
   public serviceCom:any;
   private editBool = true;
-
 
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
@@ -49,7 +47,7 @@ export class OrdersComponent implements OnInit {
     this.searchArch.orderStatus = "";
     this.getBuildings();
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
-
+    this.getDeptName();
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'logistics','employ/logistics/property')
@@ -59,16 +57,15 @@ export class OrdersComponent implements OnInit {
         }
       })
   }
-  /*获取权限*/
-  private getQuan(){
-    if(this.rule!=null){
-      let SOFTWARES_URL =  "/portal/user/getCata/"+this.rule.ID+"/repair?url=";
-      this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
+  /*获取用户部门*/
+  private getDeptName(){
+      let url =  "/portal/user/getDeptName";
+      this.ipSetting.sendGet(url).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
-          this.jurisdiction = data['data'][0];
+          console.log(data);
+          this.repairname.userDept = data['data'];
         }
       });
-    }
   }
   /*获取大楼列表*/
   private getBuildings() {
@@ -123,14 +120,13 @@ export class OrdersComponent implements OnInit {
   }
   /*删除信息*/
   delAttach(index){
-    this.repairname = JSON.parse(JSON.stringify(this.record[index]));
     confirmFunc.init({
       'title': '提示',
       'mes': '是否删除？',
       'popType': 1,
       'imgType': 3,
       'callback': () => {
-        let url = "/employee/property/deleteOrder/" + this.repairname.orderId;
+        let url = "/employee/property/deleteOrder/" +index;
         this.ipSetting.sendGet(url).subscribe(data => {
           if (this.errorVoid.errorMsg(data)) {
             confirmFunc.init({
@@ -138,7 +134,10 @@ export class OrdersComponent implements OnInit {
               'mes': data['msg'],
               'popType': 0,
               'imgType': 1,
-            })
+            });
+            this.pages = [];
+            this.pageNo = 1;
+            this.getRecord(this.searchArch, this.pageNo, this.pageSize);
           }
         });
       }
@@ -148,9 +147,8 @@ export class OrdersComponent implements OnInit {
   editAttach(index){
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
-    console.log(this.repairname );
+    console.log(this.repairname);
     /*虚拟员工部门电话*/
-    this.repairname.employeeDepart = localStorage.getItem("deptName");
     this.repairname.employeePhone = localStorage.getItem("teleNum");
 
     $('.mask').fadeIn();
@@ -163,7 +161,6 @@ export class OrdersComponent implements OnInit {
     this.repairname.filePath = [];
 
     /*虚拟员工部门电话*/
-    this.repairname.employeeDepart = localStorage.getItem("deptName");
     this.repairname.employeePhone = localStorage.getItem("teleNum");
 
     this.editBool = true;
@@ -372,7 +369,7 @@ export class GuardName {
   buildingName: string;
   floorId: string; // 楼层
   roomId:string; // 房间号
-  employeeDepart:string; // 员工部门
+  userDept:string; // 员工部门
   employeePhone: string; // 电话
   porpertyId:number; // 服务类型
   porpertyContent:string; // 服务详情

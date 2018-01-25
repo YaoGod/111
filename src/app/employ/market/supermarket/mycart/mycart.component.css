@@ -423,6 +423,7 @@ select{outline:medium;}
   width:100px;
   height:100px;
   float: left;
+  margin:5px;
 }
 .list-table .fir span{
   display: block;

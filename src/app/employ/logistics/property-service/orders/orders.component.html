@@ -2,12 +2,12 @@
   <div class="chandlery clearfix">
     <ul class="search clearfix">
       <li *ngIf="rule&&rule.isInstall">
-        <label>大楼编号</label>
-        <input type="text" name="searchbuildingId" class="search-ipt" [(ngModel)]="searchArch.buildingNum">
-      </li>
-      <li *ngIf="rule&&rule.isInstall">
         <label>大楼名称</label>
-        <input type="text" name="searchbuildingName" class="search-ipt" [(ngModel)]="searchArch.buildingName">
+        <!--<input type="text" name="searchbuildingName" class="search-ipt" [(ngModel)]="searchArch.buildingName">-->
+        <select  name="searchbuildingName" class="search-sel" [(ngModel)]="searchArch.buildingName">
+          <option value="">-全部-</option>
+          <option *ngFor="let num of buildings" [value]="num.NAME">{{num.NAME}}</option>
+        </select>
       </li>
       <li>
         <label>订单号</label>
@@ -89,7 +89,7 @@
         </ol>
       </div>
       <div class="form-btn" *ngIf="inner.orderStatus==='订购中'" (click)="editAttach(i)"><i class="icon-pencil"></i></div>
-      <div class="form-btn form-del" (click)="delAttach(i)" *ngIf="inner.orderStatus==='订购中'"><i class="icon-trash"></i></div>
+      <div class="form-btn form-del" (click)="delAttach(inner.id)" *ngIf="inner.orderStatus==='订购中'"><i class="icon-trash"></i></div>
     </div>
   </div>
   <app-turn-bar
@@ -138,7 +138,7 @@
           <select id="servername" name="servername" class="company-ipt company-sel" [(ngModel)]="repairname.porpertyId" (blur)="verifyservername()">
             <option value=0>保洁服务</option>
             <option value=1>报修服务</option>
-            <option value=2>住家服务</option>
+            <!--<option value=2>住家服务</option>-->
           </select>
           <span class="errorMessage"></span>
         </div>
@@ -147,7 +147,7 @@
       <div class="form-control">
         <span class="form-label">员工部门</span>
         <div class="form-inp">
-          <input type="text" id="employeeDepart" class="company-ipt" name="employeeDepart" [(ngModel)]="repairname.employeeDepart" required disabled="disabled">
+          <input type="text" id="employeeDepart" class="company-ipt" name="employeeDepart" [(ngModel)]="repairname.userDept" required disabled="disabled">
           <span class="errorMessage"></span>
         </div>
       </div>

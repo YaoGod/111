@@ -88,6 +88,7 @@ export class GoodsordermanageComponent implements OnInit {
   update(orderId,status){
     this.updateOrder.orderNo = orderId;
     this.updateOrder.status = status;
+    alert(orderId+'----'+status);
     if(this.updateOrder.status === 40){
       this.updateOrders();
     }else{
@@ -136,12 +137,12 @@ export class GoodsordermanageComponent implements OnInit {
   }
 
   closeMask() {
+    $('.errorMessage').html('');
     $('.mask').hide();
   }
 
   /*装载要打印的内容*/
   loadFormData(data:any){
-    console.log(data);
     this.formData =[
       {
         title:'',

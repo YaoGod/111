@@ -65,6 +65,7 @@ export class GuardComponent implements OnInit {
       $('.guard-company,.box1').fadeIn();
       this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
     }
+    this.getCompany();
   }
   /*获取权限*/
   private getQuan(){
@@ -102,6 +103,7 @@ export class GuardComponent implements OnInit {
     this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.serviceCom = data.data;
+          console.log(this.serviceCom);
         }
       });
   }
@@ -626,13 +628,13 @@ export class ArchName {
 }
 export class Company {
   buildingId: string; // 大楼编号
-  buildingName: string;  // 大楼名称
+  buildingName: String = '';  // 大楼名称
   type: string;
-  companyName: string; // 服务公司名称
+  companyName: String = ''; // 服务公司名称
 }
 export class Arch {
   buildingId: string; // 大楼编号
-  buildingName: string;  // 大楼名称
+  buildingName: String = '';  // 大楼名称
   personType: string;
-  companyName: string; // 服务公司名称
+  companyName: String = ''; // 服务公司名称
 }

@@ -64,6 +64,12 @@ export class MycartComponent implements OnInit {
       $("#input-num-"+idxx+"").val(1);
     }
     if( $("#input-num-"+idxx+"").val() <= 1) {
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '商品最小数量为1',
+        'popType': 0,
+        'imgType': 2,
+      });
       $("#input-num-"+idxx+"").val(1);
     } else {
       $("#input-num-"+idxx+"").val(parseInt( $("#input-num-"+idxx+"").val()) - 1);
@@ -74,7 +80,7 @@ export class MycartComponent implements OnInit {
   del(id:number){
     confirmFunc.init({
       'title': '提示',
-      'mes': '是否删除该商品',
+      'mes': '是否删除该商品?',
       'popType': 1,
       'imgType': 3,
       'callback': ()=>{
@@ -92,7 +98,5 @@ export class MycartComponent implements OnInit {
           });
       }
     });
-
   }
-
 }

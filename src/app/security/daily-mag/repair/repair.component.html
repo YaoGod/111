@@ -21,13 +21,15 @@
     <div class="box1">
       <div class="repair-chandlery clearfix">
         <ul class="record-search clearfix">
-          <li>
-            <label>大楼编号</label>
-            <input type="text" name="buildingId" class="search-ipt" [(ngModel)]="searchRepair.buildingId">
-          </li>
           <li >
             <label >大楼名称</label>
-            <input type="text" name="buildingName" class="search-ipt" [(ngModel)]="searchRepair.buildingName">
+            <!--<input type="text" name="buildingName" class="search-ipt" [(ngModel)]="searchRepair.buildingName">-->
+            <select name="buildingName" class="search-ipt" [(ngModel)]="searchRepair.buildingName">
+              <option value="">-全部-</option>
+              <option *ngFor="let num of buildings"
+                      [value]="num.NAME">
+                {{num.NAME}}</option>
+            </select>
           </li>
           <li >
             <label >开始时间</label>
@@ -46,13 +48,16 @@
     <div class="box2">
       <div class="repair-chandlery clearfix">
         <ul class="contract-search clearfix">
-          <li>
-            <label>大楼编号</label>
-            <input type="text" name="buildingId" class="search-ipt" [(ngModel)]="searchContract.buildingId">
-          </li>
+
           <li >
             <label >大楼名称</label>
-            <input type="text" name="buildingName" class="search-ipt" [(ngModel)]="searchContract.buildingName">
+            <!--<input type="text" name="buildingName" class="search-ipt" [(ngModel)]="searchContract.buildingName">-->
+            <select name="buildingName2" class="search-ipt" [(ngModel)]="searchContract.buildingName">
+              <option value="">-全部-</option>
+              <option *ngFor="let num of buildings"
+                      [value]="num.NAME">
+                {{num.NAME}}</option>
+            </select>
           </li>
           <li >
             <label >开始时间</label>
@@ -132,7 +137,7 @@
             <span class="word">{{inner.repairNote}}</span>
         </li>
         <li *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" class="form-btn" (click)="editRecord(i)">编&nbsp;&nbsp;辑</li>
-        <li *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" class="form-btn form-btn2" (click)="delRecord(i)">删&nbsp;&nbsp;除</li>
+        <li *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" class="form-btn form-btn2" (click)="delRecord(inner.id)">删&nbsp;&nbsp;除</li>
       </ul>
     </div>
     <!--维修合同-->
@@ -188,12 +193,12 @@
         </li>
         <li class="form-bar form-texarea">
           <span class="form-title">服务合同</span>
-          <ol *ngIf="ctct.fileName" class="word" style="overflow-y: auto;">
-            <li *ngFor="let abc of ctct.fileName; let j=index">{{abc}} <a [href]="'/proxy'+ ctct.filePath[j]"><i class="icon-cloud-download"></i>下载</a> </li>
+          <ol *ngIf="ctct.fileName" style="height:120px;overflow-y: auto;">
+            <li style="text-indent: 20px;" *ngFor="let abc of ctct.fileName; let j=index">{{abc}} <a [href]="'/proxy'+ ctct.filePath[j]"><i class="icon-cloud-download"></i>下载</a> </li>
           </ol>
         </li>
         <li *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" class="form-btn" (click)="editContract(i)">编&nbsp;&nbsp;辑</li>
-        <li *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" class="form-btn form-btn2" (click)="delContract(i)">删&nbsp;&nbsp;除</li>
+        <li *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" class="form-btn form-btn2" (click)="delContract(ctct.id)">删&nbsp;&nbsp;除</li>
       </ul>
     </div>
     <app-turn-bar
@@ -214,30 +219,23 @@
     <form method="post" name="topForm" class="repair-form">
         <div class="form-control">
           <span class="form-label">大楼名称</span>
-          <div class="form-inp">
-            <select id="Id" name="Id" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" onmousedown="if(this.options.length>6){this.size=7}" onblur="this.size=0" onchange="this.size=0" (blur)="verifyId()">
+          <div class="form-inp"><!--onmousedown="if(this.options.length>6){this.size=7}" onblur="this.size=0" onchange="this.size=0"-->
+            <select id="Id" name="Id" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId"  (blur)="verifyId()">
               <option *ngFor="let num of buildings"
-                      [value]="num.BUILDING_ID">
+                      [value]="num.ID">
                 {{num.NAME}}</option>
             </select>
             <span class="errorMessage"></span>
           </div>
         </div>
         <div class="form-control">
-          <span class="form-label">维修单编号</span>
-          <div class="form-inp">
-            <input type="text" id="recordId" class="company-ipt" name="recordId" [(ngModel)]="repairname.recordId" (blur)="verifyRecordId()" required minlength="4" maxlength="6" placeholder="请输入字母和四位数字" >
-            <span class="errorMessage"></span>
-          </div>
-        </div>
-        <div class="form-control">
           <span class="form-label">维修类别</span>
           <div class="form-inp">
-            <select id="repairType" class="company-ipt company-sel" name="repairType" [(ngModel)]="repairname.repairType" (blur)="verifyRepairType()">
-              <option value="A大楼整体维修">A大楼整体维修</option>
-              <option value="B大型设备维修">B大楼整体加固</option>
-              <option value="C零星设备维修">C大楼立面维修</option>
-              <option value="D大楼清洗">D大楼清洗</option>
+            <select id="repairType" class="company-ipt company-sel" name="repairType" [(ngModel)]="repairname.repairType" (blur)="verifyRepairType()" (change)="changeType(repairname.repairType)">
+              <option value="A大楼整体维修">大楼整体维修</option>
+              <option value="B大型设备维修">大楼整体加固</option>
+              <option value="C零星设备维修">大楼立面维修</option>
+              <option value="D大楼清洗">大楼清洗</option>
             </select>
             <span class="errorMessage"></span>
           </div>
@@ -245,10 +243,22 @@
         <div class="form-control">
           <span class="form-label">维修部门</span>
           <div class="form-inp">
-            <input id="cmccDepartment" class="company-ipt" name="cmccDepartment" [(ngModel)]="repairname.cmccDepartment" (blur)="verifyCmccDepartment()" type="text" maxlength="25">
+            <!--<input id="cmccDepartment" class="company-ipt" name="cmccDepartment" [(ngModel)]="repairname.cmccDepartment" (blur)="verifyCmccDepartment()" type="text" maxlength="25">-->
+
+            <select id="cmccDepartment" class="company-ipt company-sel" name="cmccDepartment" [(ngModel)]="repairname.cmccDepartment" (blur)="verifyCmccDepartment()">
+              <option value="">-请选择-</option>
+              <option *ngFor="let dept of repairDept" [value]="dept">{{dept}}</option>
+            </select>
             <span class="errorMessage"></span>
           </div>
         </div>
+      <div class="form-control">
+        <span class="form-label">维修单编号</span>
+        <div class="form-inp">
+          <input type="text" id="recordId" class="company-ipt" name="recordId" [(ngModel)]="repairname.recordId" (blur)="verifyRecordId()" required minlength="4" maxlength="5" placeholder="请输入字母和四位数字" >
+          <span class="errorMessage"></span>
+        </div>
+      </div>
         <div class="form-control">
           <span class="form-label">维修部门联系人</span>
           <div class="form-inp">
@@ -259,7 +269,7 @@
         <div class="form-control">
           <span class="form-label">维修部门电话</span>
           <div class="form-inp">
-            <input id="cmccPhone" class="company-ipt" name="cmccPhone" [(ngModel)]="repairname.cmccPhone" (blur)="verifyCmccPhone()" type="text">
+            <input id="cmccPhone" class="company-ipt" name="cmccPhone" [(ngModel)]="repairname.cmccPhone" (blur)="verifyCmccPhone()" type="text" maxlength="12">
             <span class="errorMessage"></span>
           </div>
         </div>
@@ -280,7 +290,7 @@
         <div class="form-control">
           <span class="form-label">维修商电话</span>
           <div class="form-inp">
-            <input id="repairPhone" class="company-ipt" name="repairPhone" [(ngModel)]="repairname.repairPhone" (blur)="verifyRepairPhone()" type="text">
+            <input id="repairPhone" class="company-ipt" name="repairPhone" [(ngModel)]="repairname.repairPhone" (blur)="verifyRepairPhone()" type="text" maxlength="12" placeholder="400或固话请加-">
             <span class="errorMessage"></span>
           </div>
         </div>
@@ -331,7 +341,7 @@
         <div class="form-inp">
           <select id="contractId" name="contractId" class="company-ipt company-sel" [(ngModel)]="contractName.buildingId" (blur)="verifyContractId()">
             <option *ngFor="let num of buildings"
-                    [value]="num.BUILDING_ID">
+                    [value]="num.ID">
               {{num.NAME}}</option>
           </select>
           <span class="errorMessage"></span>
@@ -362,7 +372,7 @@
       <div class="form-control">
         <span class="form-label">甲方联系人电话</span>
         <div class="form-inp">
-          <input id="contractcmccPhone" name="cmccPhone" class="company-ipt" [(ngModel)]="contractName.cmccPhone" (blur)="verifycontractcmccPhone()" type="text">
+          <input id="contractcmccPhone" name="cmccPhone" class="company-ipt" [(ngModel)]="contractName.cmccPhone" (blur)="verifycontractcmccPhone()" type="text" maxlength="12">
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -383,7 +393,7 @@
       <div class="form-control">
         <span class="form-label">乙方联系电话</span>
         <div class="form-inp">
-          <input id="phone" name="phone" class="company-ipt" [(ngModel)]="contractName.phone" (blur)="verifyphone()" type="text">
+          <input id="phone" name="phone" class="company-ipt" [(ngModel)]="contractName.phone" (blur)="verifyphone()" type="text" maxlength="12">
           <span class="errorMessage"></span>
         </div>
       </div>

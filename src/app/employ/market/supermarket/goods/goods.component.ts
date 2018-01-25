@@ -74,9 +74,6 @@ export class GoodsComponent implements OnInit {
     if(!this.verifyEmpty("price_add","价格不能为空")){
       return false;
     }
-    if(this.checkPrice("price_add")){
-      return false;
-    }
     if(!this.verifyEmpty("detail_add","商品详情不能为空")){
       return false;
     }
@@ -89,7 +86,7 @@ export class GoodsComponent implements OnInit {
     if(!this.verifyEmpty("code_add","商品编码不能为空")){
       return false;
     }
-    if(this.productAdd.simage==null||this.productAdd.simage===""){
+    /*if(this.productAdd.simage==null||this.productAdd.simage===""){
       confirmFunc.init({
         'title': '提示',
         'mes': "请上传图片！",
@@ -97,7 +94,7 @@ export class GoodsComponent implements OnInit {
         'imgType': 2,
       });
        return false;
-    }
+    }*/
     this.marketManagerService.addMarketProduct(this.productAdd)
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)){
@@ -118,18 +115,12 @@ export class GoodsComponent implements OnInit {
       return false;
     }
     if(!this.verifyEmpty("price_edit","价格不能为空")){
-
-      return false;
-    }
-    if(this.checkPrice("price_edit")){
       return false;
     }
     if(!this.verifyEmpty("detail_edit","商品详情不能为空")){
-
       return false;
     }
     if(!this.verifyEmpty("supplierId_edit","供应商不能为空")){
-
       return false;
     }
     if(!this.verifyEmpty("stype_edit","商品类型不能为空")){
@@ -200,7 +191,7 @@ export class GoodsComponent implements OnInit {
   deleteGoods(id) {
     confirmFunc.init({
       'title': '提示',
-      'mes': '是否删除改条数据？',
+      'mes': '是否删除此条数据？',
       'popType': 1,
       'imgType': 3,
       "callback": () => {
@@ -271,13 +262,11 @@ export class GoodsComponent implements OnInit {
     };
   }
   private checkPrice(id){
-
       var reg =/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
       if(!reg.test($('#' + id).val())){
         this.addErrorClass(id, "请输入正确的价格");
         return true;
       }
-
   }
 
   private verifyEmpty(id,label) {

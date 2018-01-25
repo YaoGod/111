@@ -5,6 +5,7 @@ import {UtilBuildingService} from "../../../service/util-building/util-building.
 import {InfoBuildingService} from "../../../service/info-building/info-building.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
+import {isUndefined} from "util";
 
 
 declare var $: any;
@@ -32,6 +33,8 @@ export class DeviceComponent implements OnInit {
   public length = 5;
   private editBool = true;
   private contractBool = true;
+  public leading:any;
+  public deviceList:any;
   constructor(
     private http: Http,
     private errorVoid:ErrorResponseService,
@@ -55,7 +58,7 @@ export class DeviceComponent implements OnInit {
     this.searchCompany =  new Company();
     this.searchArch = new Arch();
     this.pages = [];
-
+    this.deviceList = [];
     if($('.device-header a:last-child').hasClass('active')) {
       $('.guard-arch,.box2').fadeIn();
       // this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
@@ -64,6 +67,7 @@ export class DeviceComponent implements OnInit {
       this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
     }
     this.getBuildings();
+    this.getPeople();
   }
   /*获取权限*/
   private getQuan(){
@@ -85,12 +89,26 @@ export class DeviceComponent implements OnInit {
         }
       })
   }
-  /*获取/查询设备信息*/
+  /** 获取维保责任人 **/
+  private getPeople(){
+    let url = "/building/equipment/getLiablePerson?name=";
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        this.leading = data['data'];
+      }
+    });
+  }
+  /**获取/查询设备信息*/
   private getRecord(search, pageNo, pageSize) {
     let SOFTWARES_URL = "/building/equipment/getEquipmentList/" + pageNo + "/" + pageSize;
     this.ipSetting.sendPost(SOFTWARES_URL,search).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.record = data['data']['infos'];
+           if(this.deviceList.length<1){
+             for(let i=0;i<data['data']['infos'].length;i++){
+               this.deviceList.push(data['data']['infos'][i].name);
+             }
+           }
           this.total = data.data.total;
         }
       });
@@ -203,67 +221,67 @@ export class DeviceComponent implements OnInit {
     };
   }
   /*校验设备信息*/
-  private verifybuildingId() {
+  public verifybuildingId() {
     if (!this.isEmpty('buildingId', '不能为空')) {
-      return false;
-    }
-    if (!this.verifyIsNumber('buildingId', '编号为数字')) {
-      return false;
-    }
-    if (!this.verifyLength('buildingId', '请输入四位')) {
       return false;
     }
     return true;
   }
-  private verifyname() {
+  public verifyname() {
     if (!this.isEmpty('name', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifymodel() {
+  public verifymodel() {
     if (!this.isEmpty('model', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifybuyDate() {
+  public verifybuyDate() {
     if (!this.isEmpty('buyDate', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifysupplier() {
+  public verifysupplier() {
     if (!this.isEmpty('supplier', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifymaintenance() {
+  public verifymaintenance() {
     if (!this.isEmpty('maintenance', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifymLastDate() {
+  public verifymLastDate() {
     if (!this.isEmpty('mLastDate', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifymNextDate() {
+  public verifymNextDate() {
     if (!this.isEmpty('mNextDate', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyliablePerson() {
+  public verifyliablePerson() {
     if (!this.isEmpty('liablePerson', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifylMail()  {
+  public verifylDeptId(){
+    if (!this.isEmpty('deptId', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifylMail()  {
     if (!this.isEmpty('lMail', '邮箱不能为空')) {
       return false;
     }
@@ -310,6 +328,12 @@ export class DeviceComponent implements OnInit {
   editRecord(index) {
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
+    for(let i=0;i<this.leading.length;i++){
+      if(this.repairname.liablePerson === this.leading[i].username){
+        this.repairname.liablePerson = this.leading[i].userid;
+        this.repairname.deptId = this.leading[i].deptId;
+      }
+    }
     this.repairname.buyDate = this.repairname.buyDate.replace(/\//g, "-");
     this.repairname.mLastDate = this.repairname.mLastDate.replace(/\//g, "-");
     this.repairname.mNextDate = this.repairname.mNextDate.replace(/\//g, "-");
@@ -318,14 +342,13 @@ export class DeviceComponent implements OnInit {
   }
   /*删除设备信息*/
   delRecord(index) {
-    this.repairname = this.record[index];
     confirmFunc.init({
       'title': '提示' ,
       'mes': '是否删除？',
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = "/building/equipment/deleteEquipment/" +this.repairname.id;
+        let SOFTWARES_URL = "/building/equipment/deleteEquipment/" + index;
         this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
             if(this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
@@ -491,6 +514,14 @@ export class DeviceComponent implements OnInit {
         }
       });
   }
+  changePerson(name){
+    for(let i=0;i<this.leading.length;i++){
+      if(this.leading[i].userid === name) {
+        this.repairname.deptId=this.leading[i].deptId;
+        this.repairname.lMail=this.leading[i].oaEmail;
+      }
+    }
+  }
   /*跳页加载数据*/
   goPage(page:number) {
     this.pageNo = page;
@@ -527,12 +558,7 @@ export class DeviceComponent implements OnInit {
       return true;
     }
   }
-  /**
-   * 匹配数字
-   * @param id
-   * @param error
-   * @returns {boolean}
-   */
+  /** 匹配数字*/
   private verifyIsNumber(id: string, error: string): boolean  {
     const data =  $('#' + id).val();// /^[0-9]*$/
     if (!String(data).match(/^[0-9]*$/))  {
@@ -543,10 +569,7 @@ export class DeviceComponent implements OnInit {
       return true;
     }
   }
-  /**
-   * 验证手机号码
-   * @return
-   */
+  /**验证手机号码*/
   private verifyIsTel(id: string, error?: string): boolean {
     const data =  $('#' + id).val();
     if (!String(data).match( /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/ )){
@@ -557,12 +580,7 @@ export class DeviceComponent implements OnInit {
       return true;
     }
   }
-  /**
-   * 校验字符长度小于4
-   * @param id
-   * @param error
-   * @returns {boolean}
-   */
+  /**校验字符长度小于4 */
   private verifyLength(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data.length < 4)  {
@@ -573,11 +591,7 @@ export class DeviceComponent implements OnInit {
       return true;
     }
   }
-  /**
-   * 添加错误信息class
-   * @param id
-   * @param error
-   */
+  /**添加错误信息class*/
   private  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
@@ -586,10 +600,7 @@ export class DeviceComponent implements OnInit {
       $('#' + id).next('span').html(error);
     }
   }
-  /**
-   * 去除错误信息class
-   * @param id
-   */
+  /**去除错误信息class*/
   private  removeErrorClass(id: string) {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
@@ -609,6 +620,7 @@ export class GuardName {
   mNextDate: string;// 下次维保日期
   liablePerson: string;// 维保责任人
   lMail: string; // 邮箱
+  deptId:string;
 }
 export class ArchName {
   id: number; // 本条信息ID
@@ -627,13 +639,13 @@ export class ArchName {
 }
 export class Company {
   buildingId: string; // 大楼编号
-  buildingName: string;  // 大楼名称
-  equipmentName: string; // 设备名称
+  buildingName: String = '';  // 大楼名称
+  name: String = ''; // 设备名称
   liablePerson:string; // 维保责任人
 }
 export class Arch {
   buildingId: string; // 大楼编号
-  buildingName: string;  // 大楼名称
-  equipmentName: string; // 设备名称
+  buildingName: String = '';  // 大楼名称
+  name: String = ''; // 设备名称
   liablePerson:string; // 维保责任人
 }

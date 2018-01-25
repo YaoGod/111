@@ -306,8 +306,8 @@ ol, ul {
   background-color: #fff;
 }
  .product-img a, .product-img img {
-  vertical-align: middle;
-   height: 60%;
+   width:100%;
+   height:100%;
  }
 a {
   outline: 0;
@@ -375,8 +375,8 @@ strong{
 .item-summary a.addCart i {
   width: 36px;
   height: 36px;
-  font-size: 36px;
-  line-height: 36px;
+  font-size: 30px;
+  line-height: 32px;
   display: inline-block;
   position: absolute;
   right: 0;

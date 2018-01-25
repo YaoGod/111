@@ -9,20 +9,21 @@
       <div class="panel">
         <ul>
           <li>
-            <label>大楼编号</label>
-            <input type="text" [(ngModel)]="search.buildingId">
-          </li>
-          <li>
             <label>大楼名称</label>
-            <input type="text" [(ngModel)]="search.name">
+            <select name="searchB" class="search-ipt" [(ngModel)]="search.name">
+              <option value="">-全部-</option>
+              <option *ngFor="let num of buildings"
+                      [value]="num.name">
+                {{num.name}}</option>
+            </select>
           </li>
           <li>
             <label>大楼性质</label>
             <select [(ngModel)]="search.type">
               <option value=""> 全部</option>
-              <option>自建</option>
-              <option>自购</option>
-              <option>租赁</option>
+              <option value="自建">自建</option>
+              <option value="自购">自购</option>
+              <option value="租赁">租赁</option>
             </select>
           </li>
           <li>

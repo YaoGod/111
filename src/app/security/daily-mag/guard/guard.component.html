@@ -7,30 +7,38 @@
     <div class="guard-chandlery clearfix">
       <div class="box1">
         <ul class="company-search clearfix">
-          <li>
-            <label>大楼编号</label>
-            <input type="text" name="app" class="search-ipt" [(ngModel)]="searchCompany.buildingId">
-          </li>
           <li >
             <label >大楼名称</label>
-            <input type="text" name="aoo" class="search-ipt" [(ngModel)]="searchCompany.buildingName">
+            <select name="aoo" class="search-ipt" [(ngModel)]="searchCompany.buildingName">
+              <option value="">-全部-</option>
+              <option *ngFor="let num of buildings"
+                      [value]="num.NAME">
+                {{num.NAME}}</option>
+            </select>
           </li>
           <li >
             <label >服务公司名称</label>
-            <input type="text" name="aii" class="search-ipt" [(ngModel)]="searchCompany.companyName">
+            <!--<input type="text" name="aii" class="search-ipt" [(ngModel)]="searchCompany.companyName">-->
+            <select name="aii" class="search-ipt" [(ngModel)]="searchCompany.companyName">
+              <option value="">-全部-</option>
+              <option *ngFor="let company of serviceCom"
+                      [value]="company.companyName">
+                {{company.companyName}}</option>
+            </select>
           </li>
         </ul>
         <div class="search-right"><a href="javascript:;" class="search-btn" (click)="repairSearch()"><i class="icon-magnifier"></i> 查 询</a></div>
       </div>
       <div class="box2">
         <ul class="company-search clearfix">
-          <!--<li>
-            <label>大楼编号</label>
-            <input type="text" class="search-ipt" [(ngModel)]="searchArch.buildingId">
-          </li>-->
           <li >
             <label>服务公司名称</label>
-            <input type="text" class="search-ipt" name="searchArchCompanyName" [(ngModel)]="searchArch.companyName">
+            <select name="searchArchCompanyName" class="search-ipt" [(ngModel)]="searchArch.companyName">
+              <option value="">-全部-</option>
+              <option *ngFor="let company of serviceCom"
+                      [value]="company.companyName">
+                {{company.companyName}}</option>
+            </select>
           </li>
           <li >
             <label>人员类型</label>
@@ -119,7 +127,7 @@
           <span class="form-word">{{inner.personStatus}}</span>
         </li>
         <li class="form-photo">
-          <img [src]="+'/proxy'+inner.imgPath" *ngIf="inner.imgPath">
+          <img *ngIf="inner.imgPath" [src]="+'/proxy'+inner.imgPath" >
         </li>
         <li class="form-btn"  *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" (click)="editContract(i)"><i class="icon-pencil"></i></li>
         <li class="form-btn form-del" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delContract(i)"><i class="icon-trash"></i></li>

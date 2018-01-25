@@ -53,8 +53,9 @@ input{
   font-size: 12px;
   text-align: right;
 }
-.device-chandlery ul li input{
+.device-chandlery ul li input,.device-chandlery ul li select{
   height: 20px;
+  box-sizing: content-box;
   width: calc(100% - 115px);
   min-width: 70px;
   padding: 3px 5px;
@@ -172,9 +173,8 @@ button{
 }
 .new-device .form-inp{
   float: left;
-  width:280px;
+  width:300px;
 }
-
 .form-photo{
   width:14%;
   height:100%;
@@ -254,7 +254,8 @@ button{
   z-index: 5;
 }
 .company-ipt{
-  width:180px;
+  width:200px;
+  height:30px;
   line-height:30px;
   background-image: linear-gradient(#03a9f3, #03a9f3), linear-gradient(rgba(120, 130, 140, .13), rgba(120, 130, 140, .13));
   background-color: rgba(0, 0, 0, 0);
@@ -557,6 +558,7 @@ button{
 .order-form .company-ipt{
   width:150px;
   line-height: 37px;
+  height:37px;
   background-image: linear-gradient(#03a9f3, #03a9f3), linear-gradient(rgba(120, 130, 140, .13), rgba(120, 130, 140, .13));
   background-color: rgba(0, 0, 0, 0);
   background-position: center bottom, center calc(99%);

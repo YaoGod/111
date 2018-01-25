@@ -5,6 +5,8 @@ import {UtilBuildingService} from "../../../service/util-building/util-building.
 import {InfoBuildingService} from "../../../service/info-building/info-building.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
+import {Building} from "../../../mode/building/building.service";
+import {Floor} from "../../../mode/floor/floor.service";
 
 
 declare var $: any;
@@ -14,7 +16,7 @@ declare var confirmFunc: any;
   selector: 'app-fitment',
   templateUrl: './fitment.component.html',
   styleUrls: ['./fitment.component.css'],
-  providers: [InfoBuildingService,ErrorResponseService,UtilBuildingService]
+  providers: [InfoBuildingService,ErrorResponseService,UtilBuildingService,Building,Floor]
 })
 export class FitmentComponent implements OnInit {
   public jurisdiction: any;
@@ -32,12 +34,15 @@ export class FitmentComponent implements OnInit {
   public beginTime :string;
   public endTime :string;
   public buildings: any;
-  private editBool = true;
+  public editBool = true;
   private contractBool = true;
+  public floors       : Array<Floor>;   /*大楼楼层列表*/
+  public floorNames   : Array<any>;  /*大楼楼层名称列表*/
   public rule: any;
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
               private utilBuildingService:UtilBuildingService,
+              private infoBuildingService:InfoBuildingService,
               private globalCatalogService:GlobalCatalogService,
               private ipSetting  : IpSettingService
   ) {
@@ -89,8 +94,22 @@ export class FitmentComponent implements OnInit {
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.buildings = data['data'];
+          console.log(this.buildings);
         }
       })
+  }
+  /*获取楼层名称*/
+  getFloorNameListInfo(id:number) {
+    this.infoBuildingService.getFloorNameListMsg(id)
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data)) {
+          this.floorNames = data.data;
+          console.log(this.floorNames)
+        }
+      });
+  }
+  changeBuild(){
+    let url = '';
   }
   /*点击新增*/
   repairNew() {
@@ -566,7 +585,8 @@ export class FitmentComponent implements OnInit {
   /**验证手机号*/
   private verifyIsTel(id: string, error?: string): boolean {
     const data =  $('#' + id).val();
-    if (!String(data).match( /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/ )){
+    if (!String(data).match(/^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/)&&
+      !String(data).match(/^400\-[\d|\-]{7}[\d]{1}$/) )  {
       this.addErrorClass(id, error);
       return false;
     }else {
@@ -638,7 +658,7 @@ export class RepairName {
   buildingId: string;
   buildingName: string;
   recordId: string; // 装修单编号
-  decorateFloor: string; // 装修楼层
+  decorateFloor: string = ''; // 装修楼层
   cmccDepartment: string; // 需要装修部门
   cmccContacts: string; // 需要装修单位联系人
   cmccPhone: string; // 需要装修单位联系人电话
@@ -670,7 +690,7 @@ export class ContractName {
 }
 export class SearchRecord {
   buildingId: string; // 大楼编号
-  buildingName: string;  // 大楼名称
+  buildingName: String = '';  // 大楼名称
   fitmentNum: string; // 装修单编号
   contractType: string; // 'decorate'
   decorateBtime: string; // 开始时间
@@ -678,7 +698,7 @@ export class SearchRecord {
 }
 export class SearchContract {
   buildingId: string; // 大楼编号
-  buildingName: string;  // 大楼名称
+  buildingName: String = '';  // 大楼名称
   contractType: string; // 'decorate'
   contractBtime: string; // 合同开始时间
   contractEtime: string; // 合同结束时间

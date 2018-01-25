@@ -83,9 +83,10 @@
   font-size: 12px;
   text-align: right;
 }
-.energy-chandlery ul li input {
+.energy-chandlery ul li input,.energy-chandlery ul li select {
   height: 20px;
   width: calc(100% - 98px);
+  box-sizing: content-box;
   min-width: 70px;
   padding: 3px 5px;
   font-size: 12px;
