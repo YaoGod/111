@@ -25,6 +25,7 @@ export class NavTitleComponent implements OnInit {
   }
   loginOut() {
     sessionStorage.setItem('isLoginIn', '');
+    localStorage.removeItem("showUserName");
     this.router.navigate(['login']);
   }
 

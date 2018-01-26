@@ -31,6 +31,20 @@ export class LoginComponent implements OnInit {
       this.user.userid = localStorage.getItem("username");
       this.user.password = localStorage.getItem("password");
     }
+    if (sessionStorage.getItem('isLoginIn') === 'Login'&&localStorage.getItem("showUserName")===null) {
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '用户登陆过期，请重新登陆',
+        'popType': 2,
+        'imgType': 2,
+        'callback': ()=>{
+          sessionStorage.setItem('isLoginIn', '');
+        },
+        'cancel': () => {
+          sessionStorage.setItem('isLoginIn', '');
+        }
+      });
+    }
   }
   /*登陆*/
   loginIn() {

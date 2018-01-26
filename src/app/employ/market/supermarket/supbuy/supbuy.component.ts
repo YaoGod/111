@@ -6,6 +6,7 @@ import {SupermarketCart} from "../../../../mode/supermarketCart/supermarket-cart
 import {SupermarketProduct} from "../../../../mode/supermarketProduct/supermarket-product.service";
 import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 declare var confirmFunc:any;
 @Component({
   selector: 'app-supbuy',
@@ -31,7 +32,8 @@ export class SupbuyComponent implements OnInit {
     private errorVoid: ErrorResponseService,
     private globalCatalogService: GlobalCatalogService,
     private router:Router,
-    private route:ActivatedRoute) {
+    private route:ActivatedRoute,
+    public ipSetting:IpSettingService) {
     this.rule = this.globalCatalogService.getRole("employ/market");
   }
 

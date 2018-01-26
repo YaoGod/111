@@ -9,6 +9,7 @@ export class GlobalUserService {
 
   setVal(val:User) {
     this.user = val;
+    localStorage.setItem("showUserName",this.user.username);
     this.valueUpdated.next(this.user);
   }
   getVal():User {

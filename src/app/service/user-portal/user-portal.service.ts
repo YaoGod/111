@@ -44,4 +44,10 @@ export class UserPortalService {
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
+  /*密文登陆*/
+  getEncryptLogin(data){
+    const url = this.ipSetting.ip + '/portal/user/ttmm/'+data;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
 }

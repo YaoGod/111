@@ -12,22 +12,12 @@ export class ErrorResponseService {
   errorMsg(data) {
     if(this.globalUser.getVal().username !== localStorage.getItem("showUserName")){
       let newUser = this.globalUser.getVal();
-      newUser.username = localStorage.getItem("showUserName")
+      newUser.username = localStorage.getItem("showUserName");
       this.globalUser.setVal(newUser);
     }
     if (data.status === 10) {
-      confirmFunc.init({
-        'title': '提示' ,
-        'mes': data.msg,
-        'popType': 2 ,
-        'imgType': 2 ,
-        'callback':()=> {
-          this.router.navigate(['login']);
-        },
-        'cancel': ()=> {
-          this.router.navigate(['login']);
-        }
-      });
+      localStorage.removeItem("showUserName");
+      this.router.navigate(['login']);
       return false;
     }else if (data.status === 1) {
       confirmFunc.init({
@@ -38,7 +28,6 @@ export class ErrorResponseService {
       });
       return false;
     }else if (data === 103) {
-
       alert('权限不足');
       return false;
     }else if (data === 104) {

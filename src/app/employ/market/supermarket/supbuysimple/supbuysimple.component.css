@@ -466,7 +466,7 @@ select{outline:medium;}
   color: #ff5c39;
   border-bottom: 3px solid #ff5c39;
 }
-.b-head-right{float: right;right: 40px;margin-top: -40px;}
+.b-head-right{float: right;}
 .b-head-right .content-box{float: left;padding-left: 10px;padding-right: 10px;border:1px solid #eee;margin-right:10px;line-height: 30px;border-radius: 3px;font-size: 12px;color: #ff3c00;}
 .b-head-right .content-box img{margin-right: 4px;vertical-align: -3px}
 .b-head-right .content-box:hover{cursor: pointer;background: #ff3c00;color: #fff;}

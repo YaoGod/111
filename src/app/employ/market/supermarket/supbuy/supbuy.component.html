@@ -43,12 +43,12 @@
             <li  *ngFor="let product of products;let idx=index" class="product" >
               <div class="productInfo">
                 <div class="product-img">
-                  <a href="javascript: void(0);" target="_blank">
-                    <img *ngIf="product.simage!==''"  [src]="'/proxy/' + product.simage" />
+                  <a>
+                    <img *ngIf="product.simage!==''"  [src]="ipSetting.ip + product.simage" />
                   </a>
                 </div>
                 <h3 class="product-title">
-                  <a href="javascript:void(0)" [routerLink]="['../supbuysimple']" target="_blank">
+                  <a [routerLink]="['../supbuysimple']">
                     {{product.sname}}
                   </a>
                   <span class="product-status">{{product.leftstatus==='3'?'缺货':(product.leftstatus==='2'?'少量':'充足')}}</span>
@@ -60,8 +60,7 @@
                         <strong>{{product.price}}</strong>
                     </span>
                   </div>
-                  <a  href="javascript: void(0);"  class="addCart j_AddCart" (click)="addToCart(product.id,product.leftstatus)">
-                   <!-- <img src="../../../../../assets/image/icon-shop.png">-->
+                  <a class="addCart j_AddCart" (click)="addToCart(product.id,product.leftstatus)">
                     <i [ngClass]="product.leftstatus==='3'?'ill':''">+</i>
                   </a>
                 </div>

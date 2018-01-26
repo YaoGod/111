@@ -36,13 +36,6 @@
             <a class="btn btn-danger"  (click)="add()" style="padding: 6px 22px;float: right;" *ngIf="rule&&rule.isInstall">
               <i class="icon-plus"></i> 新增
             </a>
-            <a class="btn btn-danger"  (click)="exportMode()" style="padding: 6px 22px;margin-right: 10px;float: right;" *ngIf="rule&&rule.isUpdate">
-              批量导入
-            </a>
-            <a class="btn btn-danger"  (click)="importAdd()" style="padding: 6px 22px;margin-right: 10px;float: right;" *ngIf="rule&&rule.isSelect">
-              模板导出
-            </a>
-
           </div>
           <div class="list-table">
             <table class="table-head">

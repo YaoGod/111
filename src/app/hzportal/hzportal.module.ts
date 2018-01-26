@@ -12,6 +12,7 @@ import { FormsModule } from "@angular/forms";
 import { GlobalCatalogService } from "../service/global-catalog/global-catalog.service";
 import { IpSettingService } from "../service/ip-setting/ip-setting.service";
 import { TurnBarModule } from "../component/turn-bar/turn-bar.module";
+import {UserPortalService} from "../service/user-portal/user-portal.service";
 @NgModule({
   declarations: [
     HzportalComponent,
@@ -26,7 +27,7 @@ import { TurnBarModule } from "../component/turn-bar/turn-bar.module";
     FormsModule,
     TurnBarModule
   ],
-  providers: [ GlobalUserService,GlobalCatalogService,ErrorResponseService,IpSettingService],
+  providers: [ GlobalUserService,GlobalCatalogService,ErrorResponseService,IpSettingService,UserPortalService],
   bootstrap: [HzportalComponent]
 })
 export class HzportalModule { }

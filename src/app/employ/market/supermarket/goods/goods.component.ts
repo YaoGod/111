@@ -312,14 +312,6 @@ private  removeErrorClass(id: string) {
   $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
   $('#' + id).next('span').html('');
 }
-  /*模板导出*/
-  exportMode(){
-
-  }
-  /*批量导入*/
-  importAdd(){
-
-  }
 }
 
 export class SupermarketCategory {
