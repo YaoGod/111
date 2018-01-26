@@ -24,7 +24,6 @@ export class EnergyComponent implements OnInit {
   public theadG: Array<string>;
   public Head:Array<string>;
   public repairname: GuardName;
-  public contractName: ArchName;
   public buildings:any;
   public rule : any;
   public jurisdiction:any;
@@ -41,7 +40,6 @@ export class EnergyComponent implements OnInit {
               private ipSetting  : IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("security/daily");
-    this.getQuan();
   }
 
   ngOnInit() {
@@ -51,9 +49,9 @@ export class EnergyComponent implements OnInit {
         this.getQuan();
       }
     );
+    this.getQuan();
     this.search = new Search();
     this.repairname = new GuardName();
-    this.contractName = new ArchName();
     this.pages = [];
     this.theadW = ['大楼编号','大楼名称','月份','上期度数','本期度数','本月使用数','单价','水费','操作'];
     this.theadE = ['大楼编号','大楼名称','月份','上期度数','本期度数','本月使用数','单价','电费','操作'];
@@ -75,7 +73,12 @@ export class EnergyComponent implements OnInit {
       let SOFTWARES_URL = "/portal/user/getCata/"+this.rule.ID+"/repair?url=";
       this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
           if(this.errorVoid.errorMsg(data)) {
-            this.jurisdiction = data['data'][0];
+            for(let i = 0;i<data.data.length;i++){
+              if(data.data[i].routeUrl === "energy"){
+                this.jurisdiction = data.data[i];
+              }
+            }
+            console.log(this.jurisdiction);
           }
         });
     }
@@ -118,6 +121,8 @@ export class EnergyComponent implements OnInit {
     this.pages = [];
     this.search = new Search();
     this.Head = this.theadW;
+
+    $('#doubleT').html('水费');
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
     this.listSearch();
@@ -128,6 +133,7 @@ export class EnergyComponent implements OnInit {
     this.pages = [];
     this.search = new Search();
     this.Head = this.theadE;
+    $('#doubleT').html('电费');
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
     this.listSearch();
@@ -138,6 +144,7 @@ export class EnergyComponent implements OnInit {
     this.pages = [];
     this.search = new Search();
     this.Head = this.theadG;
+    $('#doubleT').html('燃气费');
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
     this.listSearch();
@@ -207,8 +214,7 @@ export class EnergyComponent implements OnInit {
     $('.mask').fadeIn(500);
     $('.mask .mask-head p').html('新增能耗信息');
     this.repairname = new GuardName();
-    $('#buildingId').attr('disabled',false);
-
+    // $('#buildingId').attr('disabled',false);
   }
   /*点击查询*/
   listSearch(){
@@ -217,37 +223,40 @@ export class EnergyComponent implements OnInit {
       this.search = new Search();
   }
   /*校验信息*/
-  private verifyId() {
+  public verifyId() {
     if (!this.isEmpty('buildingId', '不能为空')) {
-      return false;
-    }
-    if (!this.verifyIsNumber('buildingId', '编号为数字')) {
-      return false;
-    }
-    if (!this.verifyLength('buildingId', '请输入四位')) {
       return false;
     }
     return true;
   }
-  private verifymonth() {
+  public verifymonth() {
     if (!this.isEmpty('month', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifynomNum() {
+  public verifylastNum(){
+    if (!this.isEmpty('lastNum', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifynomNum() {
     if (!this.isEmpty('nomNum', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyunitprice() {
+  public verifyuseNum(){
+    if (!this.isEmpty('useNum', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifyunitprice() {
     if (!this.isEmpty('unitprice', '不能为空')) {
       return false;
     }
-    /*if (!this.verifyIsNumber('unitprice', '单价为数字')) {
-      return false;
-    }*/
     return true;
   }
   /*编辑信息*/
@@ -256,19 +265,18 @@ export class EnergyComponent implements OnInit {
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
     this.repairname.month = this.repairname.month.replace(/\//g, "-");
     $('.mask').fadeIn();
-    $('#buildingId').attr('disabled',true);
+    // $('#buildingId').attr('disabled',true);
     $('.mask .mask-head p').html('编辑能耗信息');
   }
   /*删除信息*/
   delAttach(index){
-    this.repairname = this.record[index];
     confirmFunc.init({
       'title': '提示' ,
       'mes': '是否删除？',
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = "/building/energy/deleteEnergyRecord/" +this.repairname.id;
+        let SOFTWARES_URL = "/building/energy/deleteEnergyRecord/" +index;
         this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
           if(this.errorVoid.errorMsg(data)) {
             confirmFunc.init({
@@ -294,7 +302,8 @@ export class EnergyComponent implements OnInit {
     }else {
       SOFTWARES_URL = "/building/energy/addEnergyRecord";
     }
-    if (!this.verifyId() || !this.verifymonth() || !this.verifynomNum() || !this.verifyunitprice()) {
+    if (!this.verifyId() || !this.verifymonth() || !this.verifylastNum() || !this.verifyuseNum()|| !this.verifynomNum() ||
+      !this.verifyunitprice()) {
       return false;
     }
     if($('.energy-header a:nth-of-type(1)').hasClass('active')){
@@ -326,13 +335,6 @@ export class EnergyComponent implements OnInit {
     this.repairname = new GuardName();
     $('.errorMessage').html('');
     $('.mask').hide();
-  }
-  /*页码初始化*/
-  initPage(total) {
-    this.pages = new Array(total);
-    for(let i = 0;i< total ;i++) {
-      this.pages[i] = i+1;
-    }
   }
   /*跳页加载数据*/
   goPage(page:number) {
@@ -432,19 +434,4 @@ export class GuardName {
   useNum: string;// 使用度数
   unitprice: string;// 单价
   cost: string;// 费用
-}
-export class ArchName {
-  id: number; // 本条信息ID
-  buildingId: string;
-  buildingName: string;
-  equipmentName:string; // 设备名称
-  equipModel: string;// 设备型号
-  maintenance:string; // 维保单位
-  mType: string; // 维保类型
-  liablePerson:string; // 维保责任人
-  liableBtime: string; // 维保开始日期
-  liableEtime: string; // 维保结束日期
-  liableNextTime: string;// 下次维保日期
-  liableCost:string; // 维保费用
-  liableNote: string; // 维保情况
 }

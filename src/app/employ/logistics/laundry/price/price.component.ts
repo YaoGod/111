@@ -256,7 +256,7 @@ export class PriceComponent implements OnInit {
 
 export class FacPrice {
   priceId;    number;
-  applyid:          string;
+  applyid:          string='';
   appcotent:        string;
   unit:              string;
   price:             number;

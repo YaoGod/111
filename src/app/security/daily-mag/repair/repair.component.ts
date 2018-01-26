@@ -46,7 +46,6 @@ export class RepairComponent implements OnInit {
     private ipSetting  : IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("security/daily");
-    this.getQuan();
   }
 
   ngOnInit() {
@@ -56,6 +55,7 @@ export class RepairComponent implements OnInit {
         this.getQuan();
       }
     );
+    this.getQuan();
     this.repairname = new RepairName();
     this.contractName = new ContractName();
     this.searchRepair = new SearchRecord();
@@ -82,7 +82,11 @@ export class RepairComponent implements OnInit {
       let SOFTWARES_URL = "/portal/user/getCata/"+this.rule.ID+"/repair?url=";
       this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
           if(this.errorVoid.errorMsg(data)) {
-            this.jurisdiction = data['data'][0];
+            for(let i = 0;i<data.data.length;i++){
+              if(data.data[i].routeUrl === "repair"){
+                this.jurisdiction = data.data[i];
+              }
+            }
           }
         });
     }
@@ -93,6 +97,7 @@ export class RepairComponent implements OnInit {
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.buildings = data['data'];
+          // console.log(this.buildings);
         }
       })
   }
@@ -705,6 +710,7 @@ private verifyRecoad(id: string, error: string): boolean {
 export class RepairName {
   id: number; // 本条信息ID
   buildingId: string;
+  buildingNum:string;
   buildingName: string;
   recordId: string; // 维修单编号
   repairType: string; // 维修类别
@@ -722,6 +728,7 @@ export class RepairName {
 export class ContractName {
   id: number; // 本条信息ID
   buildingId: string;
+  buildingNum:string;
   buildingName: string;
   contractId: string; // 合同编号
   cmccName: string; // 甲方（各级移动公司）

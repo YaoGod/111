@@ -35,6 +35,8 @@ export class DeviceComponent implements OnInit {
   private contractBool = true;
   public leading:any;
   public deviceList:any;
+  public modelList:any;
+
   constructor(
     private http: Http,
     private errorVoid:ErrorResponseService,
@@ -43,7 +45,6 @@ export class DeviceComponent implements OnInit {
     private ipSetting  : IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("security/daily");
-    this.getQuan();
   }
 
   ngOnInit() {
@@ -53,12 +54,14 @@ export class DeviceComponent implements OnInit {
         this.getQuan();
       }
     );
+    this.getQuan();
     this.repairname = new GuardName();
     this.contractName = new ArchName();
     this.searchCompany =  new Company();
     this.searchArch = new Arch();
     this.pages = [];
     this.deviceList = [];
+    this.modelList = [];
     if($('.device-header a:last-child').hasClass('active')) {
       $('.guard-arch,.box2').fadeIn();
       // this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
@@ -69,18 +72,23 @@ export class DeviceComponent implements OnInit {
     this.getBuildings();
     this.getPeople();
   }
-  /*获取权限*/
+  /**获取权限*/
   private getQuan(){
     if(this.rule!=null){
       let SOFTWARES_URL = "/portal/user/getCata/"+this.rule.ID+"/repair?url=";
       this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.jurisdiction = data['data'][0];
+          for(let i = 0;i<data.data.length;i++){
+            if(data.data[i].routeUrl === "device"){
+              this.jurisdiction = data.data[i];
+            }
+          }
         }
       });
     }
   }
-  /*获取大楼列表*/
+  /**获取大楼列表*/
   private getBuildings() {
     this.utilBuildingService.getBuildingList('')
       .subscribe(data => {
@@ -107,6 +115,7 @@ export class DeviceComponent implements OnInit {
            if(this.deviceList.length<1){
              for(let i=0;i<data['data']['infos'].length;i++){
                this.deviceList.push(data['data']['infos'][i].name);
+               this.modelList.push(data['data']['infos'][i].model)
              }
            }
           this.total = data.data.total;
@@ -141,7 +150,7 @@ export class DeviceComponent implements OnInit {
       this.contractName = new ArchName();
       $('.mask-contract').fadeIn();
       $('.mask-contract .mask-head p').html('新增工单信息');
-      $('.form-entry').find('input').attr("disabled",false);
+      $('.form-entry').find('input,select').attr("disabled",false);
       $('.form-disable').find('input,textarea').attr("disabled",true);
     }else {
       this.editBool = true;
@@ -367,14 +376,13 @@ export class DeviceComponent implements OnInit {
   }
   /*删除工单*/
   delOrder(index){
-    this.contractName = this.contract[index];
     confirmFunc.init({
       'title': '提示' ,
       'mes': '是否删除？',
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = "/building/equipment/deleteEquipmentWO/" +this.contractName.id;
+        let SOFTWARES_URL = "/building/equipment/deleteEquipmentWO/" + index;
         this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
             if(this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
@@ -395,20 +403,22 @@ export class DeviceComponent implements OnInit {
   editContract(index,event) {
     this.contractBool = false;
     this.contractName = JSON.parse(JSON.stringify(this.contract[index]));
+    for(let i=0;i<this.leading.length;i++){
+      let abc = this.contractName.liablePerson;
+      if(abc === this.leading[i].username){
+        this.contractName.liablePerson = this.leading[i].userid;
+      }
+    }
+    console.log(this.contractName );
+    this.changePerson2(this.contractName.liablePerson);
     $('.form-disable').find('input,textarea').attr("disabled",false);
-    $('.form-entry').find('input').attr("disabled",true);
+    $('.form-entry').find('input,select').attr("disabled",true);
     $('.mask-contract').fadeIn();
     $('.mask-contract .mask-head p').html('完善工单信息');
   }
   /*工单信息校验*/
   private verifyID() {
     if (!this.isEmpty('ID', '不能为空')) {
-      return false;
-    }
-    if (!this.verifyIsNumber('ID', '编号为数字')) {
-      return false;
-    }
-    if (!this.verifyLength('ID', '请输入四位')) {
       return false;
     }
     return true;
@@ -522,6 +532,14 @@ export class DeviceComponent implements OnInit {
       }
     }
   }
+  changePerson2(name){
+    for(let i=0;i<this.leading.length;i++){
+      if(this.leading[i].userid === name) {
+        this.contractName.deptId=this.leading[i].deptId;
+        this.contractName.lMail=this.leading[i].oaEmail;
+      }
+    }
+  }
   /*跳页加载数据*/
   goPage(page:number) {
     this.pageNo = page;
@@ -625,6 +643,7 @@ export class GuardName {
 export class ArchName {
   id: number; // 本条信息ID
   buildingId: string;
+  buildingnum:string;
   buildingName: string;
   equipmentName:string; // 设备名称
   equipModel: string;// 设备型号
@@ -636,6 +655,8 @@ export class ArchName {
   liableNextTime: string;// 下次维保日期
   liableCost:string; // 维保费用
   liableNote: string; // 维保情况
+  lMail: string; // 邮箱
+  deptId:string;
 }
 export class Company {
   buildingId: string; // 大楼编号

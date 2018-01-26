@@ -8,7 +8,6 @@
             <span class="active">服务内容</span>
             <span [routerLink]="['../serveTime']">服务时间</span>
           </div>
-
           <div class="b-head-right">
             <div class="content-box" onclick="history.go(-1)"><i class="icon-reload"></i>返回</div>
           </div>
@@ -18,6 +17,11 @@
             <div class="iptgroup">
               <input placeholder="请输入服务内容"  [(ngModel)]="search.appcotent"/>
             </div>
+            <select class="facilitator" [(ngModel)]="search.applyid" name="serveChat22">
+              <option value="">全部</option>
+              <option *ngFor="let applier of applierList;let idx=index" value="{{applier.applyId}}" >{{applier.applyName}}</option>
+            </select>
+
             <a class="search" (click)="getFacList()" *ngIf="rule&&rule.isSelect">查询</a>
             <a class="btn btn-danger"  (click)="add()" style="padding: 7px 15px;float: right;" *ngIf="rule&&rule.isInstall">
               <i class="icon-plus"></i> 新增</a>

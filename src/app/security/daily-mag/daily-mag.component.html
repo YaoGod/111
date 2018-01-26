@@ -1,25 +1,16 @@
 
 <div class="main">
-  <!--<div class="header">
-    <img src="../../../assets/image/icon_3line.png">
-    <h2>大楼管理/大楼日常管理</h2>
-    <div class="header-right">
-      <img src="../../../assets/image/icon_wheel.png">
-    </div>
-    <div class="header-right">
-      <img src="../../../assets/image/icon_email.png">
-    </div>
-  </div>-->
   <app-title></app-title>
   <!--大楼列表展示-->
   <div class="cont">
-    <!--<div class="cont-header">
-      <h2>浙江杭州移动大厦主楼</h2>
-      <p>地址:浙江省杭州市下城区环城北路288号</p>
-      <img src="../../../assets/image/view1.jpg" alt="images"/>
-    </div>-->
+
     <ul class="cont-nav clearfix">
-      <li>
+      <li *ngFor="let cata of catas">
+        <a [routerLink]="cata.routeUrl" routerLinkActive="active">
+          {{cata.name}}<span></span>
+        </a>
+      </li>
+      <!--<li>
         <a routerLink="repair" routerLinkActive="active">大楼维修记录<span></span></a>
 
       </li>
@@ -33,12 +24,9 @@
       <li>
         <a routerLink="device" routerLinkActive="active">大楼大型设备<span></span></a>
       </li>
-      <!--<li>
-        <a routerLink="clean" routerLinkActive="active">大楼保洁绿化管理<span></span></a>
-      </li>-->
       <li>
         <a routerLink="energy" routerLinkActive="active">大楼能耗信息<span></span></a>
-      </li>
+      </li>-->
     </ul>
     <div class="cont-inner">
       <router-outlet></router-outlet>

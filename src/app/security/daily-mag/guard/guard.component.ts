@@ -41,7 +41,6 @@ export class GuardComponent implements OnInit {
     private ipSetting  : IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("security/daily");
-    this.getQuan();
   }
 
   ngOnInit() {
@@ -51,6 +50,7 @@ export class GuardComponent implements OnInit {
         this.getQuan();
       }
     );
+    this.getQuan();
     this.repairname = new GuardName();
     this.contractName = new ArchName();
     this.searchCompany =  new Company();
@@ -73,7 +73,11 @@ export class GuardComponent implements OnInit {
       let SOFTWARES_URL = "/portal/user/getCata/"+this.rule.ID+"/repair?url=";
       this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
           if(this.errorVoid.errorMsg(data)) {
-            this.jurisdiction = data['data'][0];
+            for(let i = 0;i<data.data.length;i++){
+              if(data.data[i].routeUrl === "guard"){
+                this.jurisdiction = data.data[i];
+              }
+            }
           }
         });
     }
@@ -103,7 +107,6 @@ export class GuardComponent implements OnInit {
     this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.serviceCom = data.data;
-          console.log(this.serviceCom);
         }
       });
   }
@@ -211,7 +214,6 @@ export class GuardComponent implements OnInit {
   editRecord(index) {
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
-    console.log(this.repairname);
     $('.mask-repair').fadeIn();
     $('.mask-repair .mask-head p').html('编辑服务公司');
   }

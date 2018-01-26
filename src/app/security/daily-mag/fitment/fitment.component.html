@@ -66,7 +66,7 @@
       <ul class="form-msg clearfix" *ngFor="let inner of record; let i=index">
         <li class="form-bar">
           <span class="form-title">大楼编号</span>
-          <span class="word">{{inner.buildingId}}</span>
+          <span class="word">{{inner.buildingNum}}</span>
         </li>
         <li class="form-bar">
           <span class="form-title">大楼名称</span>
@@ -121,7 +121,7 @@
           <span class="word">{{inner.decorateNote}}</span>
         </li>
         <li class="form-btn" *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" (click)="editRecord(i)">编&nbsp;&nbsp;辑</li>
-        <li class="form-btn form-btn2"  *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delRecord(i)">删&nbsp;&nbsp;除</li>
+        <li class="form-btn form-btn2"  *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delRecord(inner.id)">删&nbsp;&nbsp;除</li>
       </ul>
     </div>
     <!--维修合同-->
@@ -129,7 +129,7 @@
       <ul class="form-msg clearfix" *ngFor="let ctct of contract; let i=index">
         <li class="form-bar">
           <span class="form-title">大楼编号</span>
-          <span class="word">{{ctct.buildingId}}</span>
+          <span class="word">{{ctct.buildingNum}}</span>
         </li>
         <li class="form-bar">
           <span class="form-title">大楼名称</span>
@@ -183,7 +183,7 @@
           <!--<a style="margin-left:20px; color: #1eaaf0" [href]="+'/proxy'+ ctct.filePath[j] " *ngFor="let abc of ctct.fileName; let j=index">{{abc}}</a>-->
         </li>
         <li class="form-btn" *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" (click)="editContract(i)">编&nbsp;&nbsp;辑</li>
-        <li class="form-btn form-btn2" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delContract(i)">删&nbsp;&nbsp;除</li>
+        <li class="form-btn form-btn2" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delContract(ctct.id)">删&nbsp;&nbsp;除</li>
       </ul>
     </div>
     <app-turn-bar

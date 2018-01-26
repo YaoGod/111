@@ -47,7 +47,6 @@ export class FitmentComponent implements OnInit {
               private ipSetting  : IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("security/daily");
-    this.getQuan();
   }
 
   ngOnInit() {
@@ -57,6 +56,7 @@ export class FitmentComponent implements OnInit {
         this.getQuan();
       }
     );
+    this.getQuan();
     this.searchRepair = new SearchRecord();
     this.searchContract = new SearchContract();
     this.repairname = new RepairName();
@@ -83,7 +83,11 @@ export class FitmentComponent implements OnInit {
       let SOFTWARES_URL = "/portal/user/getCata/"+this.rule.ID+"/repair?url=";
       this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
           if(this.errorVoid.errorMsg(data)) {
-            this.jurisdiction = data['data'][0];
+            for(let i = 0;i<data.data.length;i++){
+              if(data.data[i].routeUrl === "fitment"){
+                this.jurisdiction = data.data[i];
+              }
+            }
           }
         });
     }
@@ -94,7 +98,6 @@ export class FitmentComponent implements OnInit {
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.buildings = data['data'];
-          console.log(this.buildings);
         }
       })
   }
@@ -104,12 +107,8 @@ export class FitmentComponent implements OnInit {
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.floorNames = data.data;
-          console.log(this.floorNames)
         }
       });
-  }
-  changeBuild(){
-    let url = '';
   }
   /*点击新增*/
   repairNew() {
@@ -209,6 +208,7 @@ export class FitmentComponent implements OnInit {
   editRecord(index) {
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
+    this.getFloorNameListInfo(Number(this.repairname.buildingId));
     this.repairname.decorateBtime = this.repairname.decorateBtime.replace(/\//g, "-");
     this.repairname.decorateEtime = this.repairname.decorateEtime.replace(/\//g, "-");
     $('.mask-repair').fadeIn();
@@ -216,14 +216,13 @@ export class FitmentComponent implements OnInit {
   }
   /*删除装修记录*/
   delRecord(index) {
-    this.repairname = this.record[index];
     confirmFunc.init({
       'title': '提示' ,
       'mes': '是否删除？',
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = "/building/decorate/deleteDecorateRecord/" +this.repairname.id;
+        let SOFTWARES_URL = "/building/decorate/deleteDecorateRecord/" + index;
         this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
             if(this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
@@ -251,14 +250,13 @@ export class FitmentComponent implements OnInit {
   }
   /* 删除装修合同*/
   delContract(index) {
-    this.contractName = this.contract[index];
     confirmFunc.init({
       'title': '提示' ,
       'mes': '是否删除？',
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = "/building/decorate/deleteDecorateContract/" +this.contractName.id;
+        let SOFTWARES_URL = "/building/decorate/deleteDecorateContract/" + index;
         this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
             if(this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
@@ -656,6 +654,7 @@ export class FitmentComponent implements OnInit {
 export class RepairName {
   id: number; // 本条信息ID
   buildingId: string;
+  buildingNum: string;
   buildingName: string;
   recordId: string; // 装修单编号
   decorateFloor: string = ''; // 装修楼层
@@ -673,6 +672,7 @@ export class RepairName {
 export class ContractName {
   id: number; // 本条信息ID
   buildingId: string;
+  buildingNum: string;
   buildingName: string;
   contractId: string; // 合同编号
   cmccName: string; // 甲方（各级移动公司）

@@ -13,11 +13,11 @@ const routes: Routes = [
     canActivate: [RouteGuardService],
     component: DailyMagComponent,
     children: [
-      {
+     /* {
         path: '',
         redirectTo: "repair",
         pathMatch: 'full'
-      },
+      },*/
       {
         path: 'repair',
         loadChildren: './repair/repair.module#RepairModule'

@@ -82,7 +82,7 @@
       <ul class="form-msg clearfix" *ngFor="let inner of record; let i=index">
         <li class="form-bar">
             <span class="form-title">大楼编号</span>
-            <span class="word">{{inner.buildingId}}</span>
+            <span class="word">{{inner.buildingNum}}</span>
         </li>
         <li class="form-bar">
             <span class="form-title">大楼名称</span>
@@ -145,7 +145,7 @@
       <ul class="form-msg clearfix" *ngFor="let ctct of contract; let i=index">
         <li class="form-bar">
           <span class="form-title">大楼编号</span>
-          <span class="word">{{ctct.buildingId}}</span>
+          <span class="word">{{ctct.buildingNum}}</span>
         </li>
         <li class="form-bar">
           <span class="form-title">大楼名称</span>
@@ -194,7 +194,7 @@
         <li class="form-bar form-texarea">
           <span class="form-title">服务合同</span>
           <ol *ngIf="ctct.fileName" style="height:120px;overflow-y: auto;">
-            <li style="text-indent: 20px;" *ngFor="let abc of ctct.fileName; let j=index">{{abc}} <a [href]="'/proxy'+ ctct.filePath[j]"><i class="icon-cloud-download"></i>下载</a> </li>
+            <li style="text-indent: 20px;" *ngFor="let abc of ctct.fileName; let j=index">{{abc}} <a [href]="+'/proxy'+ ctct.filePath[j]"><i class="icon-cloud-download"></i>下载</a> </li>
           </ol>
         </li>
         <li *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" class="form-btn" (click)="editContract(i)">编&nbsp;&nbsp;辑</li>

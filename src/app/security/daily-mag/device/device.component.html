@@ -177,7 +177,7 @@
           <span class="form-title form-left text-right">维保情况</span>
           <span class="form-word form-text form-visiable">{{inner.liableNote}}</span>
         </li>
-        <li class="form-btn form-del" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delOrder(i)"><i class="icon-trash"></i></li>
+        <li class="form-btn form-del" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delOrder(inner.id)"><i class="icon-trash"></i></li>
         <li class="order-btn" *ngIf="!inner.liableBtime && (rule&&jurisdiction&&jurisdiction.isUpdate)" (click)="editContract(i)"><i class="icon-pencil"></i> 完善工单</li>
       </ul>
     </div>
@@ -191,7 +191,7 @@
   </div>
 </div>
 <!--新增设备信息-->
-<div class="mask mask-repair" *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
+<div class="mask mask-repair">
   <div class="new-device">
     <div class="mask-head"><i class="icon-film"></i> <p>新增大型设备信息</p>
       <button class="close" (click)="recordCancel()">×</button>
@@ -304,18 +304,18 @@
   </div>
 </div>
 <!--新增工单弹窗-->
-<div class="mask mask-contract" *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
+<div class="mask mask-contract">
   <div class="new-arch">
     <div class="mask-head"><i class="icon-film"></i> <p>新增工单</p>
       <button class="close" (click)="contractCancel()">×</button>
     </div>
     <form method="post" name="topForm" class="order-form clearfix">
-      <div class="form-control clearfix">
+      <div class="form-control form-entry clearfix">
         <span class="form-label">大楼名称</span>
         <div class="form-inp">
           <select id="ID" name="ID" class="company-ipt company-sel" [(ngModel)]="contractName.buildingId" (blur)="verifyID()">
             <option *ngFor="let num of buildings"
-                    [value]="num.BUILDING_ID">
+                    [value]="num.ID">
               {{num.NAME}}</option>
           </select>
           <span class="errorMessage"></span>
@@ -324,7 +324,6 @@
       <div class="form-control form-entry clearfix">
         <span class="form-label">设备名称</span>
         <div class="form-inp">
-          <!--<input type="text" autocomplete="off" class="company-ipt" id="equipmentName" name="equipmentName" [(ngModel)]="contractName.equipmentName" (blur)="verifyequipmentName()" required maxlength="25">-->
           <select  class="company-ipt" id="equipmentName" name="equipmentName" [(ngModel)]="contractName.equipmentName" (blur)="verifyequipmentName()" >
             <option value="">-请选择-</option>
             <option *ngFor="let num of deviceList"
@@ -337,7 +336,12 @@
       <div class="form-control form-entry clearfix">
         <span class="form-label">设备型号</span>
         <div class="form-inp">
-          <input type="text" autocomplete="off" class="company-ipt" id="equipModel" name="equipModel" [(ngModel)]="contractName.equipModel" (blur)="verifyequipModel()" required minlength="8" maxlength="25">
+          <select class="company-ipt" id="equipModel" name="equipModel" [(ngModel)]="contractName.equipModel" (blur)="verifyequipModel()">
+          <option value="">-请选择-</option>
+            <option *ngFor="let num of modelList"
+                    [value]="num"><!--num.BUILDING_ID-->
+              {{num}}</option>
+          </select>
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -358,12 +362,25 @@
       <div class="form-control form-entry clearfix">
         <span class="form-label">维保责任人</span>
         <div class="form-inp">
-          <!--<input type="text" autocomplete="off" class="company-ipt" id="liablePerson2" name="liablePerson2" [(ngModel)]="contractName.liablePerson" (blur)="verifyliablePerson2()" required maxlength="25">-->
-          <select class="company-ipt conpany-sel" id="liablePerson2" name="liablePerson2" [(ngModel)]="contractName.liablePerson" (blur)="verifyliablePerson2()">
+          <select class="company-ipt conpany-sel" id="liablePerson2" name="liablePerson2" [(ngModel)]="contractName.liablePerson"
+                  (blur)="verifyliablePerson2()" (change)="changePerson2(contractName.liablePerson)">
             <option value="">-请选择-</option>
             <option *ngFor="let lead of leading" [value]="lead.userid">{{lead.username}}</option>
           </select>
           <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control clearfix">
+        <span class="form-label">责任人部门</span>
+        <div class="form-inp">
+          <input class="company-ipt conpany-sel" name="liabledeptId" [(ngModel)]="contractName.deptId" disabled="disabled">
+        </div>
+      </div>
+      <div class="form-control form-entry clearfix">
+        <span class="form-label">责任人邮箱</span>
+        <div class="form-inp">
+          <input class="company-ipt conpany-sel" name="liablelMail" [(ngModel)]="contractName.lMail">
+          <!--<span class="errorMessage"></span>-->
         </div>
       </div>
       <div class="form-control form-disable clearfix">

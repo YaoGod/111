@@ -62,7 +62,6 @@ export class OrdersComponent implements OnInit {
       let url =  "/portal/user/getDeptName";
       this.ipSetting.sendGet(url).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
-          console.log(data);
           this.repairname.userDept = data['data'];
         }
       });
