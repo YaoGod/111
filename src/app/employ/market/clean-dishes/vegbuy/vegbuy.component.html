@@ -30,7 +30,7 @@
                     <span class="name-great">{{vegetable.vname}}</span>
                     <div class="bg-value">
                       <span class="value">¥{{vegetable.price}}</span>
-                      <a class="yudingbtn" href="javascript: void(0);" (click)="addToCart(vegetable.code)">预订</a>
+                      <a *ngIf="vegetable.status!=='0'" class="yudingbtn" href="javascript: void(0);" (click)="addToCart(vegetable.code)">预订</a>
                     </div>
                     <div class="time"><span>预定时间：</span><span>{{vegetable.saletime}}</span></div>
                     <ul class="list-txt">
