@@ -4,6 +4,7 @@ import 'rxjs/add/operator/toPromise';
 import {isUndefined} from "util";
 import {until} from "selenium-webdriver";
 import titleContains = until.titleContains;
+import {IpSettingService} from "../ip-setting/ip-setting.service";
 @Injectable()
 export class GroupNoticeService {
   private headers = new Headers({'Content-Type': 'application/json'});
@@ -14,6 +15,7 @@ export class GroupNoticeService {
 
   constructor(
     private http: Http,
+    private ipSetting: IpSettingService,
   ) { };
 
  /* 获取公告列表
@@ -21,7 +23,7 @@ export class GroupNoticeService {
   return:              #公告*/
 
   getNoticeList (title:any) {
-    const url = '/proxy/mmall/notice/getNoticeList';
+    const url = this.ipSetting.ip + '/mmall/notice/getNoticeList';
     const data = title;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -32,7 +34,7 @@ export class GroupNoticeService {
    return:
    */
   addGroupBuyNotice(postData){
-    const url = '/proxy/mmall/notice/addGroupbuyNotice';
+    const url = this.ipSetting.ip + '/mmall/notice/addGroupbuyNotice';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -44,12 +46,12 @@ export class GroupNoticeService {
    return:
    */
   deleteGroupbuyNotice (id:number) {
-    const url = '/proxy/mmall/notice/deleteGroupbuyNotice/'+id;
+    const url = this.ipSetting.ip + '/mmall/notice/deleteGroupbuyNotice/'+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
   getNotice(id:number){
-    const url = '/proxy/mmall/notice/getNotice/'+id;
+    const url = this.ipSetting.ip + '/mmall/notice/getNotice/'+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -60,14 +62,14 @@ export class GroupNoticeService {
    */
   updateGroupBuyNotice(postData){
     console.log(postData);
-    const url = '/proxy/mmall/notice/updateGroupNotice';
+    const url = this.ipSetting.ip + '/mmall/notice/updateGroupNotice';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
 
   getNoticeShowList(){
-    const url = '/proxy/mmall/notice/getNoticeShowList/';
+    const url = this.ipSetting.ip + '/mmall/notice/getNoticeShowList/';
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
