@@ -16,49 +16,49 @@ export class SupermarketManagerService {
   ) { }
 
   getMarketProduct(id){
-    const url = '/proxy/mmall/supermarket/getMarketProduct/'+id;
+    const url = this.ipSetting.ip+'/mmall/supermarket/getMarketProduct/'+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
 
   getSupermarketList(pageNo:number,pageSize:number,search:any) {
 
-    const url = '/proxy/mmall/supermarket/getSupermarketList/'+pageNo+'/'+pageSize;
+    const url = this.ipSetting.ip+'/mmall/supermarket/getSupermarketList/'+pageNo+'/'+pageSize;
     const data = search;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
 
   getMarketShowList(pageNo:number,pageSize:number,data:any) {
-    const url = '/proxy/mmall/supermarket/getMarketShowList/'+pageNo+'/'+pageSize;
+    const url = this.ipSetting.ip+'/mmall/supermarket/getMarketShowList/'+pageNo+'/'+pageSize;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
 
 
   providerList(pageNo,pageSize){
-    const url = '/proxy/mmall/supermarket/provider/providerList/'+pageNo+'/'+ pageSize;
+    const url = this.ipSetting.ip+'/mmall/supermarket/provider/providerList/'+pageNo+'/'+ pageSize;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
 
 
   providerSave(postData){
-    const url = '/proxy/mmall/supermarket/provider/providerSave';
+    const url = this.ipSetting.ip+'/mmall/supermarket/provider/providerSave';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
 
   updateProduct(postData){
-    const url = '/proxy/mmall/supermarket/updateProduct';
+    const url = this.ipSetting.ip+'/mmall/supermarket/updateProduct';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
 
   addMarketProduct(postData){
-    const url = '/proxy/mmall/supermarket/addMarketProduct';
+    const url = this.ipSetting.ip+'/mmall/supermarket/addMarketProduct';
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
@@ -68,20 +68,20 @@ export class SupermarketManagerService {
 
 
   providerUpdate(appliar :any){
-    const url = '/proxy/mmall/supermarket/provider/providerUpdate';
+    const url = this.ipSetting.ip+'/mmall/supermarket/provider/providerUpdate';
     const data = appliar;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
 
   providerDetail(applyid){
-    const url = '/proxy/mmall/supermarket/provider/detail/'+applyid;
+    const url = this.ipSetting.ip+'/mmall/supermarket/provider/detail/'+applyid;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
 
   providerDel(applyid){
-    const url = '/proxy/mmall/supermarket/provider/del/'+applyid;
+    const url = this.ipSetting.ip+'/mmall/supermarket/provider/del/'+applyid;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -92,7 +92,7 @@ export class SupermarketManagerService {
    return:
    */
   uploadImg(postData,type,id){
-    const url = '/proxy/mmall/util/uploadImg/'+type+ '/' +id;
+    const url = this.ipSetting.ip+'/mmall/util/uploadImg/'+type+ '/' +id;
     var form = new FormData();
     if (typeof(postData) === 'object') {
       form.append('img', postData);
@@ -105,25 +105,25 @@ export class SupermarketManagerService {
   }
 
   deletetProduct(id){
-    const url = '/proxy/mmall/supermarket/deletetProduct/'+id;
+    const url = this.ipSetting.ip+'/mmall/supermarket/deletetProduct/'+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
 
   delFile(id){
-    const url = '/proxy/mmall/util/delFile/'+id;
+    const url = this.ipSetting.ip+'/mmall/util/delFile/'+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
 
   getCommonId(){
-    const url = '/proxy/mmall/util/getCommonId';
+    const url = this.ipSetting.ip+'/mmall/util/getCommonId';
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
 
   uploadFile(postData,type,id){
-    const url = '/proxy/mmall/util/uploadFile/'+type+ '/' +id;
+    const url = this.ipSetting.ip+'/mmall/util/uploadFile/'+type+ '/' +id;
     var form = new FormData();
     if (typeof(postData) === 'object') {
       form.append('file', postData);
@@ -141,7 +141,7 @@ export class SupermarketManagerService {
    * @returns {OperatorFunction<T, R>}
    */
   addToCart(username,cart:any) {
-    const url = '/proxy/mmall/supermarketCart/addSupermarketCart/'+username;
+    const url = this.ipSetting.ip+'/mmall/supermarketCart/addSupermarketCart/'+username;
     const data = cart;
 
     return this.http.post(url,data,this.options)
@@ -152,7 +152,7 @@ export class SupermarketManagerService {
    * @returns {Observable<R>}
    */
   getOrderList(pageNo,pageSize,status) {
-    const url = '/proxy/mmall/supermarketOrder/getOrderList/' +pageNo+'/'+pageSize+'?search='+status;
+    const url = this.ipSetting.ip+'/mmall/supermarketOrder/getOrderList/' +pageNo+'/'+pageSize+'?search='+status;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -197,7 +197,7 @@ export class SupermarketManagerService {
    * @returns {Observable<R>}
    */
   updateOrder(order:any){
-    const url = '/proxy/mmall/supermarketOrder/updateOrder/';
+    const url = this.ipSetting.ip+'/mmall/supermarketOrder/updateOrder/';
     const data = order;
 
     return this.http.post(url,data,this.options)
@@ -209,13 +209,13 @@ export class SupermarketManagerService {
    * @returns {Observable<R>}
    */
   deleteOrder(orderid){
-    const url = '/proxy/mmall/supermarketOrder/deleteOrder/'+orderid;
+    const url = this.ipSetting.ip+'/mmall/supermarketOrder/deleteOrder/'+orderid;
     return this.http.post(url,this.options)
       .map(res => res.json());
   }
 
   deleteCart(id,username){
-    const url = '/proxy/mmall/supermarketCart/deleteCart/'+id+'/'+username;
+    const url = this.ipSetting.ip+'/mmall/supermarketCart/deleteCart/'+id+'/'+username;
     return this.http.get(url,this.options)
       .map(res => res.json());
 
@@ -225,7 +225,7 @@ export class SupermarketManagerService {
    * @returns {OperatorFunction<T, R>}
    */
   getCartList(username){
-    const url = '/proxy/mmall/supermarketCart/getCartList/'+username;
+    const url = this.ipSetting.ip+'/mmall/supermarketCart/getCartList/'+username;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -236,7 +236,7 @@ export class SupermarketManagerService {
    * @returns {Observable<R>}
    */
   updateCart(postData,username){
-    const url = '/proxy/mmall/supermarketCart/updateCart/'+username;
+    const url = this.ipSetting.ip+'/mmall/supermarketCart/updateCart/'+username;
     const data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());

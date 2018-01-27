@@ -5,6 +5,7 @@ import { VegetableInfoService } from '../../../../service/vegetable-info/vegetab
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
 import * as $ from 'jquery';
 import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 declare var confirmFunc:any;
 @Component({
   selector: 'app-vegbuy',
@@ -25,7 +26,8 @@ export class VegbuyComponent implements OnInit {
   public cartsize:number;
   constructor(private vegetableInfoService: VegetableInfoService,
               private errorVoid: ErrorResponseService,
-              private globalCatalogService: GlobalCatalogService,) {
+              private globalCatalogService: GlobalCatalogService,
+              public ipSetting:IpSettingService) {
     this.rule = this.globalCatalogService.getRole("employ/market");
   }
 

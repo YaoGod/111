@@ -24,7 +24,7 @@
               <div class="row mt20">
                 <dl>
                   <dt class="showpic">
-                    <img *ngIf="vegetable.vimage!==''" [src]="'/proxy/' + vegetable.vimage"/>
+                    <img *ngIf="vegetable.vimage!==''" [src]="ipSetting.ip + vegetable.vimage"/>
                   </dt>
                   <dd>
                     <span class="name-great">{{vegetable.vname}}</span>
