@@ -44,7 +44,7 @@
                 <table style="width: 100%;">
                   <tr>
                     <td width="20%" class="fir">
-                      <img  *ngIf="vegetable.vimage!==''"  [src]="'/proxy/' + vegetable.vimage" />
+                      <img  *ngIf="vegetable.vimage!==''"  [src]="ipSetting.ip + vegetable.vimage" />
                     </td>
                     <td class="sec">￥{{vegetable.price}}</td>
                     <td class="three" *ngIf="vegetable.status=='1'">上架</td>

@@ -5,6 +5,7 @@ import {VegetableOrderItem} from '../../../../mode/vegetableOrderItem/vegetable-
 import { VegetableInfoService } from '../../../../service/vegetable-info/vegetable-info.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
 import {forEach} from "@angular/router/src/utils/collection";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 declare var confirmFunc: any;
 
 @Component({
@@ -15,7 +16,7 @@ declare var confirmFunc: any;
 
 })
 export class VegorderComponent implements OnInit {
-
+  public serverCenters:Array<ServerCenter>;
   public search: VegetableOrder;
   public pageSize = 5;
   public pageNo = 1;
@@ -26,6 +27,9 @@ export class VegorderComponent implements OnInit {
   public productName:string = '';
   public orderId:string = '';
   public vegetableId:string = '';
+  public serviceCenter = '';
+  public orderBTime = '';
+  public orderETime = '';
   public deptId:string;
   private delId: any;
   public updateOrder={
@@ -38,10 +42,12 @@ export class VegorderComponent implements OnInit {
 
   public orderItems:Array<VegetableOrderItem>;
   constructor(private vegetableInfoService: VegetableInfoService,
-              private errorVoid: ErrorResponseService) { }
+              private errorVoid: ErrorResponseService,
+              public ipSetting:IpSettingService) { }
 
   ngOnInit() {
     this.pages = [];
+    this.initFac();
     this.getOrderAllList();
 
   }
@@ -55,7 +61,17 @@ export class VegorderComponent implements OnInit {
     if(this.vegetableId!=null){
       this.vegetableId = this.vegetableId.trim();
     }
-    this.vegetableInfoService.getOrderAllList(this.productName,this.orderId,this.vegetableId,this.pageNo,this.pageSize).subscribe(data => {
+    if(this.serviceCenter!=null){
+      this.serviceCenter = this.serviceCenter.trim();
+    }
+    if(this.orderETime!=null){
+      this.orderETime = this.orderETime.trim();
+    }
+    if(this.orderBTime!=null){
+      this.orderBTime = this.orderBTime.trim();
+    }
+    this.vegetableInfoService.getOrderAllList(this.productName,this.orderId,this.vegetableId,
+      this.serviceCenter,this.orderBTime,this.orderETime,this.pageNo,this.pageSize).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
         this.total = data.data.total;
@@ -63,6 +79,32 @@ export class VegorderComponent implements OnInit {
     });
   }
 
+  public batchCook(){
+    if (this.orderETime === ''){
+      alert('订单截止时间不能为空！');
+      return;
+    }
+    $('.batch').show();
+  }
+
+  public confirmBatch(){
+
+    let url = '/mmall/vegetabelOrder/batch';
+    this.ipSetting.sendPost(url,null).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': data['msg'],
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
+        this.closeBatch();
+        this.getOrderAllList();
+      }
+    });
+
+
+  }
   update(orderId,status){
     this.updateOrder.id = orderId;
     this.updateOrder.status = status;
@@ -117,8 +159,22 @@ export class VegorderComponent implements OnInit {
     });
   }
 
+  /*获取服务中心*/
+  initFac(){
+    let url = '/mmall/laundry/provider/initFac';
+    this.ipSetting.sendPost(url,null).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        this.serverCenters = data.data.centers;
+      }
+    });
+  }
+
   closeMask() {
     $('.mask').hide();
+  }
+
+  public closeBatch(){
+    $('.batch').hide();
   }
 
   /*跳页加载数据*/
@@ -225,4 +281,9 @@ export class VegorderComponent implements OnInit {
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
     $('#' + id).next('span').html('');
   }
+
+}
+export class ServerCenter{
+  name: string;
+  id:number;
 }

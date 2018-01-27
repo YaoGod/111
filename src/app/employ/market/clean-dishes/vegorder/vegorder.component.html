@@ -28,7 +28,21 @@
                     <label>净菜编号</label>
                     <input type="text" [(ngModel)]="vegetableId">
                   </li>
+                  <li>
+                    <label>服务中心</label>
+                    <select class="noticetext" [(ngModel)]="serviceCenter">
+                      <option value="">-全部-</option>
+                      <option *ngFor="let center of serverCenters; let idx=index" value="{{center.name}}">{{center.name}}</option>
+                    </select>
+                  </li>
+                  <li>
+                    <label>订单时间</label>
+                    <input type="date" [(ngModel)]="orderBTime">
+                    --
+                    <input type="date" [(ngModel)]="orderETime">
+                  </li>
                   <li><a class="search" href="javascript: void(0);" (click)="getOrderAllList()" >查询</a></li>
+                  <li><a class="search" href="javascript: void(0);" (click)="batchCook()" >批量配货</a></li>
                 </ul>
               </div>
 
@@ -76,7 +90,7 @@
                   <dd *ngFor="let vegetableOrderItem of order.vegetableOrderItems;let idx=index">
                     <table style="width:100%;">
                       <td class="eight">
-                        <img *ngIf="vegetableOrderItem.imagePath!==''" [src]="'/proxy/' + vegetableOrderItem.imagePath"/>
+                        <img *ngIf="vegetableOrderItem.imagePath!==''" [src]="ipSetting.ip + vegetableOrderItem.imagePath"/>
                       </td>
                       <td class="sec" style="text-align: left"> <p class="headtxt">{{vegetableOrderItem.productName}}</p></td>
                       <td class="sec">￥{{vegetableOrderItem.unitPrice}}</td>
@@ -126,6 +140,25 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" (click)="closeMask()">取 消</button>
             <button type="submit" class="btn btn-info" (click)="updateOrders()" >保 存</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="batch">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">批量配货</h4>
+          <button type="button" class="close" (click)="closeBatch()">×</button>
+        </div>
+        <form class="form-building form-material">
+          <div class="modal-body clearfix">
+            <div>
+              <label>订单时间{{orderETime}}之前，确定批量配货吗？</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="closeBatch()">取 消</button>
+            <button type="submit" class="btn btn-info" (click)="confirmBatch()" >确认配货</button>
           </div>
         </form>
       </div>

@@ -6,6 +6,7 @@ import { ErrorResponseService } from '../../../../service/error-response/error-r
 
 import * as $ from 'jquery';
 import {UtilBuildingService} from "../../../../service/util-building/util-building.service";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 declare var $:any;
 declare var confirmFunc: any;
 declare var tinymce: any;
@@ -57,7 +58,8 @@ export class VegetableComponent implements OnInit {
     limitnum:''
   };
   constructor(private vegetableInfoService: VegetableInfoService,
-              private errorVoid: ErrorResponseService,) { }
+              private errorVoid: ErrorResponseService,
+              public ipSetting:IpSettingService) { }
 
   ngOnInit() {
     this.search = new Vegetable();

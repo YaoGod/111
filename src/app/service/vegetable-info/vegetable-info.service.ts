@@ -177,10 +177,13 @@ export class VegetableInfoService {
    * @param pageSize
    * @returns {Observable<R>}
    */
-  getOrderAllList(productName,orderId,productId,pageNo,pageSize){
-    const url = this.ipSetting.ip +'/mmall/vegetabelOrder/getOrderAllList/'+pageNo+'/'+pageSize+"?productName="+productName+"&orderId="+orderId+"&productId="+productId;
-    return this.http.post(url,this.options)
-      .map(res => res.json());
+  getOrderAllList(productName,orderId,productId,serviceCenter,orderBTime,orderETime,pageNo,pageSize){
+    const url = '/mmall/vegetabelOrder/getOrderAllList/'+pageNo+'/'+pageSize
+      +"?productName="+productName+"&orderId="+orderId+"&productId="+productId
+      +"&orderId="+orderId+"&productId="+productId;
+    return this.ipSetting.sendPost(url,null);
+    /*return this.http.post(url,this.options)
+      .map(res => res.json());*/
   }
 
   /**
