@@ -3,9 +3,7 @@ import * as $ from 'jquery';
 import { GroupOrderService } from '../../../service/group-order/group-order.service';
 import {GroupMessage, GroupOrder} from '../../../mode/groupOrder/group-order.service';
 import {GroupOrderItem} from '../../../mode/groupOrderItem/group-orderItem.service'
-import { GroupOrderItemService } from '../../../service/group-orderItem/group-order-item.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
-import {forEach} from "@angular/router/src/utils/collection";
 import {GroupProductService} from "../../../service/group-product/group-product.service";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 declare var $:any;
@@ -15,7 +13,7 @@ declare var confirmFunc: any;
   selector: 'app-order',
   templateUrl: './myorder.component.html',
   styleUrls: ['./myorder.component.css'],
-  providers:[GroupOrderService,GroupOrderItemService,ErrorResponseService,GroupProductService]
+  providers:[GroupOrderService,ErrorResponseService,GroupProductService]
 })
 export class MyorderComponent implements OnInit {
   public search: GroupOrder;

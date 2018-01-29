@@ -81,14 +81,18 @@ export class VegorderComponent implements OnInit {
 
   public batchCook(){
     if (this.orderETime === ''){
-      alert('订单截止时间不能为空！');
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '订单截止时间不能为空！',
+        'popType': 0 ,
+        'imgType': 2 ,
+      });
       return;
     }
     $('.batch').show();
   }
 
   public confirmBatch(){
-
     let url = '/mmall/vegetabelOrder/batch';
     this.ipSetting.sendPost(url,null).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {

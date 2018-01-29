@@ -179,8 +179,8 @@ export class VegetableInfoService {
    */
   getOrderAllList(productName,orderId,productId,serviceCenter,orderBTime,orderETime,pageNo,pageSize){
     const url = '/mmall/vegetabelOrder/getOrderAllList/'+pageNo+'/'+pageSize
-      +"?productName="+productName+"&orderId="+orderId+"&productId="+productId
-      +"&orderId="+orderId+"&productId="+productId;
+      +"?productName="+productName+"&orderId="+orderId+"&serviceCenter="+serviceCenter
+      +"&orderBTime="+orderBTime+"&productId="+productId+"&orderETime="+orderETime;
     return this.ipSetting.sendPost(url,null);
     /*return this.http.post(url,this.options)
       .map(res => res.json());*/

@@ -22,18 +22,19 @@ export class OrdersReportComponent implements OnInit {
   public buildings: any;
   public rule : any;
   public jurisdiction:any;
-  public serviceCom:any;
   public pageSize = 6;
   public pageNo = 1;
   public total = 0;
   public length = 5;
   private editBool = true;
+  public floorNames   : Array<any>; /*大楼楼层名称列表*/
   public pin:string;
   public aot:string[];
 
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
               private utilBuildingService:UtilBuildingService,
+              private infoBuildingService:InfoBuildingService,
               private globalCatalogService:GlobalCatalogService,
               private ipSetting  : IpSettingService
   ) {
@@ -78,6 +79,15 @@ export class OrdersReportComponent implements OnInit {
         }
       })
   }
+  /*获取楼层名称*/
+  getFloorNameListInfo(id:number) {
+    this.infoBuildingService.getFloorNameListMsg(id)
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data)) {
+          this.floorNames = data.data;
+        }
+      });
+  }
   /*获取/查询物业服务订单*/
   private getRecord(search, pageNo, pageSize) {
     if((typeof search.buildingNum) === 'undefined'){
@@ -117,7 +127,7 @@ export class OrdersReportComponent implements OnInit {
       });
   }
   /*点击查询*/
-  private repairSearch(){
+  repairSearch(){
     this.getRecord(this.searchArch, this.pageNo, this.pageSize)
   }
   /*删除信息*/
@@ -131,8 +141,8 @@ export class OrdersReportComponent implements OnInit {
     }else if(this.repairname.porpertyId==2){
       this.pin = 'clean';
     }
-    let SOFTWARES_URL = "/building/person/getPersonInfoList/"+this.pin;
-    this.ipSetting.sendGet(SOFTWARES_URL)
+    let url = "/building/person/getPersonInfoList/"+this.pin;
+    this.ipSetting.sendGet(url)
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.aot = data['data'];
@@ -144,7 +154,9 @@ export class OrdersReportComponent implements OnInit {
   editAttach(index){
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
+    console.log(this.repairname);
     this.getPersonInfoList();
+    this.getFloorNameListInfo(Number(this.repairname.buildingId));
     if(this.repairname.orderStatus === '已执行'){
       this.repairname.orderStatus = '2';
     }else if(this.repairname.orderStatus === '结单'){
@@ -159,12 +171,6 @@ export class OrdersReportComponent implements OnInit {
   /*合同信息校验*/
   public verifybuildingId() {
     if (!this.isEmpty('buildingId', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifybuildingFloor() {
-    if (!this.isEmpty('buildingFloor', '不能为空')) {
       return false;
     }
     return true;
@@ -243,8 +249,7 @@ export class OrdersReportComponent implements OnInit {
     }else{
       SOFTWARES_URL = "/employee/property/addOrder";
     }
-    if (!this.verifybuildingId() || !this.verifybuildingFloor() || !this.verifyservername() || !this.verifyemployeeDepart() ||
-      !this.verifydetail() || !this.verifyexam()) {
+    if (!this.verifybuildingId() || !this.verifyservername() || !this.verifyemployeeDepart() || !this.verifydetail() || !this.verifyexam()) {
       return false;
     }
 

@@ -18,28 +18,30 @@
                 <ul>
                   <li>
                     <label>净菜名称：</label>
-                    <input type="text"  [(ngModel)]="productName" >
+                    <input type="text"  [(ngModel)]="productName" name="productName">
                   </li>
                   <li>
-                    <label>订单编号</label>
-                    <input type="text" [(ngModel)]="orderId" >
+                    <label>订单编号：</label>
+                    <input type="text" [(ngModel)]="orderId" name="orderId">
                   </li>
                   <li>
-                    <label>净菜编号</label>
-                    <input type="text" [(ngModel)]="vegetableId">
+                    <label>净菜编号：</label>
+                    <input type="text" [(ngModel)]="vegetableId" name="vegetableId">
                   </li>
                   <li>
-                    <label>服务中心</label>
+                    <label>服务中心：</label>
                     <select class="noticetext" [(ngModel)]="serviceCenter">
                       <option value="">-全部-</option>
                       <option *ngFor="let center of serverCenters; let idx=index" value="{{center.name}}">{{center.name}}</option>
                     </select>
                   </li>
                   <li>
-                    <label>订单时间</label>
-                    <input type="date" [(ngModel)]="orderBTime">
-                    --
-                    <input type="date" [(ngModel)]="orderETime">
+                    <label>开始日期：</label>
+                    <input type="date" [(ngModel)]="orderBTime" name="orderBTime">
+                  </li>
+                  <li>
+                    <label>截止日期：</label>
+                    <input type="date" [(ngModel)]="orderETime" name="orderETime">
                   </li>
                   <li><a class="search" href="javascript: void(0);" (click)="getOrderAllList()" >查询</a></li>
                   <li><a class="search" href="javascript: void(0);" (click)="batchCook()" >批量配货</a></li>

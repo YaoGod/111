@@ -110,7 +110,7 @@
       <div class="form-control">
         <span class="form-label">大楼名称</span>
         <div class="form-inp">
-          <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" (blur)="verifybuildingId()">
+          <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" (blur)="verifybuildingId()" (change)="getFloorNameListInfo(repairname.buildingId)">
             <option *ngFor="let num of buildings"
                     [value]="num.ID">
               {{num.NAME}}</option>
@@ -121,7 +121,10 @@
       <div class="form-control">
         <span class="form-label">服务楼层</span>
         <div class="form-inp">
-          <input type="text" id="buildingFloor" class="company-ipt" name="buildingFloor" [(ngModel)]="repairname.floorId" maxlength="9">
+          <select type="text" id="buildingFloor" class="company-ipt company-sel" name="buildingFloor" [(ngModel)]="repairname.floorId">
+            <option value="">-请选择-</option>
+            <option *ngFor="let floor of floorNames" [value]="floor.FLOOR_NUM">{{floor.FLOOR_NUM}}</option>
+          </select>
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -154,7 +157,7 @@
       <div class="form-control">
         <span class="form-label">员工电话</span>
         <div class="form-inp">
-          <input id="employeePhone" name="employeePhone" class="company-ipt" [(ngModel)]="repairname.employeePhone" type="text" disabled="disabled">
+          <input id="employeePhone" name="employeePhone" class="company-ipt" [(ngModel)]="repairname.userTel" type="text" disabled="disabled">
           <span class="errorMessage"></span>
         </div>
       </div>

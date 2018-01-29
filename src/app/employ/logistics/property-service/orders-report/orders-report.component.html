@@ -119,9 +119,9 @@
       <div class="form-control">
         <span class="form-label">大楼名称</span>
         <div class="form-inp">
-          <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingNum" (blur)="verifybuildingId()">
+          <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" (blur)="verifybuildingId()" (change)="getFloorNameListInfo(repairname.buildingId)">
             <option *ngFor="let num of buildings"
-                    [value]="num.BUILDING_ID">
+                    [value]="num.ID">
               {{num.NAME}}</option>
           </select>
           <span class="errorMessage"></span>
@@ -130,7 +130,11 @@
       <div class="form-control">
         <span class="form-label">服务楼层</span>
         <div class="form-inp">
-          <input type="text" id="buildingFloor" class="company-ipt" name="buildingFloor" [(ngModel)]="repairname.floorId" (blur)="verifybuildingFloor()" required maxlength="5">
+          <!--<input type="text" id="buildingFloor" class="company-ipt" name="buildingFloor" [(ngModel)]="repairname.floorId" (blur)="verifybuildingFloor()" required maxlength="5">-->
+          <select type="text" id="buildingFloor" class="company-ipt company-sel" name="buildingFloor" [(ngModel)]="repairname.floorId">
+            <option value="">-请选择-</option>
+            <option *ngFor="let floor of floorNames" [value]="floor.FLOOR_NUM">{{floor.FLOOR_NUM}}</option>
+          </select>
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -145,8 +149,8 @@
         <span class="form-label">服务类型</span>
         <div class="form-inp">
           <select id="servername" name="servername" class="company-ipt company-sel" [(ngModel)]="repairname.porpertyId" (change)="getPersonInfoList()" (blur)="verifyservername()"  >
-            <option value=0>保洁服务</option>
-            <option value=1>报修服务</option>
+            <option value='0'>保洁服务</option>
+            <option value='1'>报修服务</option>
             <!--<option value=2>住家服务</option>-->
           </select>
           <span class="errorMessage"></span>
@@ -166,8 +170,8 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <!--<div class="form-control">
-        <span class="form-label">员工电话</span>
+      <div class="form-control">
+        <span class="form-label">订单人电话</span>
         <div class="form-inp">
           <input id="employeePhone" name="employeePhone" class="company-ipt" [(ngModel)]="repairname.employeePhone" (blur)="verifyemployeePhone()" type="text" disabled="disabled">
           <span class="errorMessage"></span>

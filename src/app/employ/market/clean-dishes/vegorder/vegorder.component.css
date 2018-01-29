@@ -393,9 +393,10 @@
   font-size: 12px;
   text-align: right;
 }
-.wrap>ul>li>input[type=text] {
+.wrap>ul>li>input,.wrap>ul>li>select{
   height: 27px;
   width: calc(100% - 115px);
+  box-sizing: content-box;
   min-width: 100px;
   font-size: 12px;
   line-height: 1.5;

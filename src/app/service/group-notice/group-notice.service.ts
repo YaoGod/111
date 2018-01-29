@@ -15,7 +15,7 @@ export class GroupNoticeService {
 
   constructor(
     private http: Http,
-    private ipSetting: IpSettingService,
+    private ipSetting  : IpSettingService
   ) { };
 
  /* 获取公告列表
@@ -23,8 +23,8 @@ export class GroupNoticeService {
   return:              #公告*/
 
   getNoticeList (title:any) {
-    const url = this.ipSetting.ip + '/mmall/notice/getNoticeList';
-    const data = title;
+    let url = this.ipSetting.ip + '/mmall/notice/getNoticeList';
+    let data = title;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
@@ -34,8 +34,8 @@ export class GroupNoticeService {
    return:
    */
   addGroupBuyNotice(postData){
-    const url = this.ipSetting.ip + '/mmall/notice/addGroupbuyNotice';
-    const data = postData;
+    let url = this.ipSetting.ip + '/mmall/notice/addGroupbuyNotice';
+    let data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
@@ -46,7 +46,7 @@ export class GroupNoticeService {
    return:
    */
   deleteGroupbuyNotice (id:number) {
-    const url = this.ipSetting.ip + '/mmall/notice/deleteGroupbuyNotice/'+id;
+    let url = this.ipSetting.ip + '/mmall/notice/deleteGroupbuyNotice/'+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -61,16 +61,9 @@ export class GroupNoticeService {
    return:
    */
   updateGroupBuyNotice(postData){
-    console.log(postData);
-    const url = this.ipSetting.ip + '/mmall/notice/updateGroupNotice';
-    const data = postData;
+    let url = this.ipSetting.ip + '/mmall/notice/updateGroupNotice';
+    let data = postData;
     return this.http.post(url,data,this.options)
-      .map(res => res.json());
-  }
-
-  getNoticeShowList(){
-    const url = this.ipSetting.ip + '/mmall/notice/getNoticeShowList/';
-    return this.http.get(url,this.options)
       .map(res => res.json());
   }
 }

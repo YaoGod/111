@@ -22,8 +22,8 @@ export class GroupProductService {
    return:              #公告*/
 
   getProductList(pageNo:number,pageSize:number,search:any) {
-    const url = this.ipSetting.ip+'/mmall/group/getProductList/'+pageNo+'/'+pageSize;
-    const data = search;
+    let url = this.ipSetting.ip+'/mmall/group/getProductList/'+pageNo+'/'+pageSize;
+    let data = search;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
@@ -33,9 +33,8 @@ export class GroupProductService {
    return:
    */
   addGroupBuyProduct(postData){
-    console.log(postData);
-    const url = this.ipSetting.ip+'/mmall/group/addGroupbuyProduct';
-    const data = postData;
+    let url = this.ipSetting.ip+'/mmall/group/addGroupbuyProduct';
+    let data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
@@ -46,7 +45,7 @@ export class GroupProductService {
    return:
    */
   deleteGroupbuyProduct (code:string) {
-    const url = this.ipSetting.ip+'/mmall/group/deleteGroupbuyProduct/'+code;
+    let url = this.ipSetting.ip+'/mmall/group/deleteGroupbuyProduct/'+code;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -56,7 +55,7 @@ export class GroupProductService {
    return:
    */
   getGroupProduct(code:string){
-    const url = this.ipSetting.ip+'/mmall/group/getGroupProduct/'+code;
+    let url = this.ipSetting.ip+'/mmall/group/getGroupProduct/'+code;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -67,21 +66,20 @@ export class GroupProductService {
    return:
    */
   updateGroupbuyProduct(postData){
-    const url = this.ipSetting.ip+'/mmall/group/updateGroupbuyProduct';
-    const data = postData;
+    let url = this.ipSetting.ip+'/mmall/group/updateGroupbuyProduct';
+    let data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
   updateStatus(postData){
-    console.log(postData);
-    const url = this.ipSetting.ip+'/mmall/group/updateStatus';
-    const data = postData;
+    let url = this.ipSetting.ip+'/mmall/group/updateStatus';
+    let data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
   /*重新提交审核*/
   recheckGroupProduct(code){
-    const url = this.ipSetting.ip+'/mmall/group/recheckGroupProduct/'+code;
+    let url = this.ipSetting.ip+'/mmall/group/recheckGroupProduct/'+code;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -91,7 +89,7 @@ export class GroupProductService {
    return:
    */
   uploadImg(postData,type,id){
-    const url = this.ipSetting.ip+'/mmall/util/uploadImg/'+type+ '/' +id;
+    let url = this.ipSetting.ip+'/mmall/util/uploadImg/'+type+ '/' +id;
     var form = new FormData();
     if (typeof(postData) === 'object') {
       form.append('img', postData);
@@ -108,41 +106,40 @@ export class GroupProductService {
    return:              #商品*/
 
   getProductShowList(pageNo:number,pageSize:number,search:any) {
-    const url = this.ipSetting.ip+'/mmall/group/getProductShowList/'+pageNo+'/'+pageSize;
-    const data = search;
+    let url = this.ipSetting.ip+'/mmall/group/getProductShowList/'+pageNo+'/'+pageSize;
+    let data = search;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
 
   addToCart(cart:any) {
-    const url = this.ipSetting.ip+'/mmall/cart/addGroupbuyCart';
-    const data = cart;
+    let url = this.ipSetting.ip+'/mmall/cart/addGroupbuyCart';
+    let data = cart;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
 
   getCartList(){
-    const url = this.ipSetting.ip+'/mmall/cart/getCartList/';
+    let url = this.ipSetting.ip+'/mmall/cart/getCartList/';
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
 
   deleteGroupCart(id:number){
-    const url = this.ipSetting.ip+'/mmall/cart/deleteGroupbuyCart/'+id;
+    let url = this.ipSetting.ip+'/mmall/cart/deleteGroupbuyCart/'+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
 
   updateGroupCart(postData){
-    const url = this.ipSetting.ip+'/mmall/cart/updateGroupbuyCart';
-    const data = postData;
+    let url = this.ipSetting.ip+'/mmall/cart/updateGroupbuyCart';
+    let data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
 
   submitCart(message){
-
-    const url = this.ipSetting.ip+'/mmall/order/addGroupOrder/'+message;
+    let url = this.ipSetting.ip+'/mmall/order/addGroupOrder/'+message;
     return this.http.post(url,this.options)
       .map(res => res.json());
   }
@@ -152,9 +149,8 @@ export class GroupProductService {
    return:
    */
   checkGroupbuyProduct(postData){
-    console.log(postData);
-    const url = this.ipSetting.ip+'/mmall/group/updateGroupbuyProduct';
-    const data = postData;
+    let url = this.ipSetting.ip+'/mmall/group/updateGroupbuyProduct';
+    let data = postData;
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }

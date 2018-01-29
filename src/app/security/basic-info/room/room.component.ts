@@ -9,6 +9,7 @@ import { UtilBuildingService } from '../../../service/util-building/util-buildin
 import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
 import { sndCatalog } from '../../../mode/catalog/catalog.service';
 import * as $ from 'jquery';
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 declare var confirmFunc: any;
 declare var $:any;
 @Component({
@@ -37,7 +38,8 @@ export class RoomComponent implements OnInit {
     private route:ActivatedRoute,
     private infoBuildingService:InfoBuildingService,
     private utilBuildingService:UtilBuildingService,
-    private errorVoid:ErrorResponseService
+    private errorVoid:ErrorResponseService,
+    private ipSetting  : IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("security/basic");
   }
@@ -85,7 +87,7 @@ export class RoomComponent implements OnInit {
   /*查看图片*/
   viewImg(url:string){
     this.isViewImg = false;
-    this.imgSrcView = '/proxy' + url;
+    this.imgSrcView =  this.ipSetting.ip + url;
   }
   closeViewImg(){
     this.isViewImg = true;
