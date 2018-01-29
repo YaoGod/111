@@ -166,7 +166,6 @@ export class OrdersComponent implements OnInit {
     this.repairname = new GuardName();
     this.repairname.fileName = [];
     this.repairname.filePath = [];
-
     /*虚拟员工部门电话*/
     this.repairname.userTel = localStorage.getItem("teleNum");
     this.repairname.userDept = this.deptMent;
@@ -228,16 +227,15 @@ export class OrdersComponent implements OnInit {
   }
   /*新增/编辑信息提交*/
   contractSubmit() {
-    let SOFTWARES_URL;
+    let url;
     if(this.editBool === false){
-      SOFTWARES_URL = "/employee/property/updateOrder";
+      url = "/employee/property/updateOrder";
     }else{
-      SOFTWARES_URL = "/employee/property/addOrder";
+      url = "/employee/property/addOrder";
     }
     if (!this.verifybuildingId() || !this.verifyservername() || !this.verifydetail()) {
       return false;
     }
-
     if( this.repairname.filePath.length<1 ) {
       confirmFunc.init({
         'title': '提示' ,
@@ -247,7 +245,8 @@ export class OrdersComponent implements OnInit {
       });
       return false;
     }
-    this.ipSetting.sendPost(SOFTWARES_URL, this.repairname)
+    this.repairname.orderStatus = '1';
+    this.ipSetting.sendPost(url, this.repairname)
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)){
           confirmFunc.init({
@@ -270,38 +269,6 @@ export class OrdersComponent implements OnInit {
     $('.mask').hide();
   }
 
-  /*点击导出*/
-  outOrder(){
-    $('#deriving').fadeIn();
-  }
-  /*关闭导出对话框*/
-  private closeDeriving() {
-    $('#deriving').hide();
-  }
-  /*导出数据下载*/
-  private downDeriving(){
-    if((typeof this.searchArch.startTime) === 'undefined' || (typeof this.searchArch.finshTime) === 'undefined'){
-      this.searchArch.startTime = '';
-      this.searchArch.finshTime = '';
-    }
-    this.searchArch.startTime = this.searchArch.startTime.replace(/-/g, "/");
-    this.searchArch.finshTime = this.searchArch.finshTime.replace(/-/g, "/");
-    let url = this.ipSetting.ip + "/employee/property/getOrder/excel/"+ this.pageNo +"/"+ this.pageSize +"?buildingName="+
-      this.searchArch.buildingName+"&orderId="+this.searchArch.orderId+"&orderStatus="+this.searchArch.orderStatus+"&startTime="+
-      this.searchArch.startTime+"&finshTime="+ this.searchArch.finshTime+"&serverUserid="+this.searchArch.serverUserid+ "&userDept="+
-      this.searchArch.userDept;
-    this.http.get(url)
-    // .map(res => res.json())
-      .subscribe(data => {
-        window.location.href = url;
-          /*this.ipSetting.ip + "/employee/property/getOrder/list/"+ this.pageNo +"/"+ this.pageSize +"?buildingNum="+
-          this.searchArch.buildingNum+"&buildingName="+this.searchArch.buildingName+"&orderId="+this.searchArch.orderId+
-          "&orderStatus="+ this.searchArch.orderStatus+"&startTime="+this.searchArch.startTime+"&finshTime="+
-          this.searchArch.finshTime+"&serverUserid="+this.searchArch.serverUserid+ "&userDept="+this.searchArch.userDept;*/
-        this.searchArch = new Arch();
-        $('#deriving').fadeOut();
-      });
-  }
   /*跳页加载数据*/
   goPage(page:number) {
     this.pageNo = page;

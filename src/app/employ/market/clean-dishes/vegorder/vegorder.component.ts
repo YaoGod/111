@@ -94,7 +94,12 @@ export class VegorderComponent implements OnInit {
 
   public confirmBatch(){
     let url = '/mmall/vegetabelOrder/batch';
-    this.ipSetting.sendPost(url,null).subscribe(data => {
+    let cont = {
+      serviceCenter :this.serviceCenter,
+      orderBTime :this.orderBTime,
+      orderETime :this.orderETime
+    };
+    this.ipSetting.sendPost(url,cont).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         confirmFunc.init({
           'title': '提示' ,
@@ -103,6 +108,8 @@ export class VegorderComponent implements OnInit {
           'imgType': 1 ,
         });
         this.closeBatch();
+        this.orderBTime = '';
+        this.orderETime = '';
         this.getOrderAllList();
       }
     });

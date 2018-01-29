@@ -243,27 +243,17 @@ export class OrdersReportComponent implements OnInit {
   }
   /*新增/编辑信息提交*/
   contractSubmit() {
-    let SOFTWARES_URL;
+    let url;
     if(this.editBool === false){
-      SOFTWARES_URL = "/employee/property/updateOrder";
+      url = "/employee/property/updateOrder";
     }else{
-      SOFTWARES_URL = "/employee/property/addOrder";
+      url = "/employee/property/addOrder";
     }
-    if (!this.verifybuildingId() || !this.verifyservername() || !this.verifyemployeeDepart() || !this.verifydetail() || !this.verifyexam()) {
+    if (!this.verifybuildingId() || !this.verifyservername() || !this.verifyemployeeDepart() || !this.verifydetail() ||
+      !this.verifyexam()) {
       return false;
     }
-
-    if( this.repairname.filePath.length<1 ) {
-      confirmFunc.init({
-        'title': '提示' ,
-        'mes': '请上传文件信息',
-        'popType': 0 ,
-        'imgType': 2 ,
-      });
-      return false;
-    }
-
-    this.ipSetting.sendPost(SOFTWARES_URL, this.repairname).subscribe(data => {
+    this.ipSetting.sendPost(url, this.repairname).subscribe(data => {
         if(this.errorVoid.errorMsg(data)){
           confirmFunc.init({
             'title': '提示' ,
@@ -393,7 +383,7 @@ export class GuardName {
   roomId:string; // 房间号
   username:string; // 订单人
   userDept:string; // 订单部门
-  employeePhone: string; // 电话
+  userTel: string; // 电话
   porpertyId:number; // 服务类型
   porpertyContent:string; // 服务详情
   serverUserid:string;

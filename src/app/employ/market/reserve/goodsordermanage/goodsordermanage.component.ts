@@ -75,7 +75,7 @@ export class GoodsordermanageComponent implements OnInit {
     let dataSearch = {
       orderNo:this.orderId
     };
-    let url = '/goodsOrder/list?userId=' + localStorage.getItem("username")+ '&pageNum='+ this.pageNo + '&pageSize=' +this.pageSize;
+    let url = '/goodsOrder/list?userId=' + '' + '&pageNum='+ this.pageNo + '&pageSize=' +this.pageSize;
     this.ipSetting.sendPost(url,dataSearch)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {

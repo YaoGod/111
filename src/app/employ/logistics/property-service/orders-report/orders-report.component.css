@@ -125,9 +125,9 @@ button{
 .new-order{
   position: absolute;
   left:50%;
-  top:50%;
+  top:40%;
   width:750px;
-  height:550px;
+  height:auto;
   margin-top:-275px;
   margin-left:-375px;
   background-color: #fff;

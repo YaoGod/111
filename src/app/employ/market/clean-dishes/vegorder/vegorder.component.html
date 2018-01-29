@@ -43,9 +43,11 @@
                     <label>截止日期：</label>
                     <input type="date" [(ngModel)]="orderETime" name="orderETime">
                   </li>
-                  <li><a class="search" href="javascript: void(0);" (click)="getOrderAllList()" >查询</a></li>
-                  <li><a class="search" href="javascript: void(0);" (click)="batchCook()" >批量配货</a></li>
                 </ul>
+                <div class="search">
+                  <a class="search-a" href="javascript: void(0);" (click)="getOrderAllList()" >查 &nbsp;&nbsp;询</a>
+                  <a class="search-b" href="javascript: void(0);" (click)="batchCook()" >批量配货</a>
+                </div>
               </div>
 
               <div class="list-table" *ngFor="let order of orders;let idx=index">

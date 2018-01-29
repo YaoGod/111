@@ -122,14 +122,22 @@
 }
 .b-con .search{
   text-decoration: none;
-  padding: 6px 15px;
-  margin: 0 5px;
-  background: #66cdff;
+  position: absolute;
+  right:10px;
+  top:10px;
+  letter-spacing: 2px;
+}
+.search a{
+  display: block;
+  padding:5px;
   color: #fff;
   font-size: 14px;
   border-radius: 6px;
-  letter-spacing: 2px;
-  float: left;
+  background: #66cdff;
+  text-align: center;
+}
+.search-a{
+  margin-bottom:10px;
 }
 .b-con .add{
   text-decoration: none;
@@ -382,6 +390,15 @@
 .wrap>ul{
   display: flex;
   flex-wrap:wrap;
+}
+.wrap>ul>li{
+  -webkit-box-flex: 0;
+  -ms-flex: 0;
+  flex: 0 0 30%;
+  max-width: 360px;
+}
+.wrap>ul>li:first-child{
+  margin-bottom:10px;
 }
 .wrap>ul>li>label{
   float: left;
