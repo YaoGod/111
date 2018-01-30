@@ -29,6 +29,7 @@ export class OrdersComponent implements OnInit {
   public floorNames   : Array<any>; /*大楼楼层名称列表*/
   public deptMent:string;
   private editBool = true;
+  public URL: string;
 
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
@@ -50,6 +51,7 @@ export class OrdersComponent implements OnInit {
     this.getBuildings();
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
     this.getDeptName();
+    this.URL = this.ipSetting.ip;
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'logistics','employ/logistics/property')
@@ -173,7 +175,7 @@ export class OrdersComponent implements OnInit {
     $('.mask').fadeIn();
     $('.mask-head p').html('新增物业订单');
   }
-  /*合同信息校验*/
+  /*信息校验*/
   public verifybuildingId() {
     if (!this.isEmpty('buildingId', '不能为空')) {
       return false;

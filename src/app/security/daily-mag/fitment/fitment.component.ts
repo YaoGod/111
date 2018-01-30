@@ -36,7 +36,7 @@ export class FitmentComponent implements OnInit {
   public buildings: any;
   public editBool = true;
   private contractBool = true;
-  public floors       : Array<Floor>;   /*大楼楼层列表*/
+  public URL = this.ipSetting.ip;
   public floorNames   : Array<any>;  /*大楼楼层名称列表*/
   public rule: any;
   constructor(private http: Http,

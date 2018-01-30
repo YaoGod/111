@@ -94,7 +94,9 @@
       <div class="form-attach">
         <h4>附件</h4>
         <ol *ngIf="inner.fileName">
-          <li style="word-break: break-all;" *ngFor="let abc of inner.fileName; let j=index">{{abc}} <a [href]="+'/proxy'+ inner.filePath[j]"><i class="icon-cloud-download"></i>下载</a> </li>
+          <li style="word-break: break-all;" *ngFor="let abc of inner.fileName; let j=index">{{abc}}
+            <a [href]="URL + inner.filePath[j]" [download]="abc"><i class="icon-cloud-download"></i>下载</a>
+          </li>
         </ol>
       </div>
       <div class="form-btn" *ngIf="inner.orderStatus!=='结单'" (click)="editAttach(i)"><i class="icon-pencil"></i></div>
@@ -109,7 +111,7 @@
     (turnEvent)="goPage($event)">
   </app-turn-bar>
 </div>
-<!--新增订单弹窗-->
+<!--审批订单弹窗-->
 <div class="mask">
   <div class="new-order">
     <div class="mask-head"><i class="icon-film"></i> <p>新增物业订单</p>
@@ -157,23 +159,24 @@
         </div>
       </div>
       <div class="form-control">
-        <span class="form-label">订单人</span>
+        <span class="form-label">订单人1</span>
         <div class="form-inp">
-          <input type="text" id="username" class="company-ipt" name="employeeDepart" [(ngModel)]="repairname.username" required maxlength="25" disabled="disabled">
+          <input type="text" class="company-ipt" name="username" [(ngModel)]="repairname.username" required maxlength="25" disabled="disabled">
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">订单部门</span>
         <div class="form-inp">
-          <input type="text" id="employeeDepart" class="company-ipt" name="employeeDepart" [(ngModel)]="repairname.userDept" (blur)="verifyemployeeDepart()" required maxlength="25" disabled="disabled">
+          <input type="text" id="employeeDepart" class="company-ipt" name="employeeDepart" [(ngModel)]="repairname.userDept" maxlength="25"
+                 disabled="disabled">
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">订单人电话</span>
         <div class="form-inp">
-          <input id="employeePhone" name="employeePhone" class="company-ipt" [(ngModel)]="repairname.userTel" (blur)="verifyemployeePhone()" type="text" disabled="disabled">
+          <input id="employeePhone" name="employeePhone" class="company-ipt" [(ngModel)]="repairname.userTel" disabled="disabled">
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -208,7 +211,9 @@
       <div class="form-control form-alone">
         <span class="form-label">附件</span>
         <ul class="contract-list">
-          <li *ngFor="let abc of repairname.fileName; let k=index">{{abc}}<a  href="javascript:;" (click)="delFile(k)">×</a> </li>
+          <li *ngFor="let abc of repairname.fileName; let k=index">{{abc}}
+            <a  href="javascript:;" (click)="delFile(k)">×</a>
+          </li>
         </ul>
         <div class="form-inp" style=" margin-top:5px;">
           <a href="javascript:;" style="color:#666; margin-left:127px; border-radius:4px; padding:5px 10px; background: #f6f6f6;" onclick="$('#prese').trigger('click')">上 传</a>

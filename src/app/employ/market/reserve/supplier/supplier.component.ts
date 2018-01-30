@@ -20,7 +20,8 @@ export class SupplierComponent implements OnInit {
   public file: Array<File>;
   public upfile: Array<File>;
   public appliers:Array<GoodsApplier>;
-  public  applierAdd={
+  public URL = this.ipSetting.ip;
+  public applierAdd={
     applyId:   '',
     applyName:    '',
     copStarttime:  '',

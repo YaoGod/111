@@ -38,6 +38,7 @@ export class RepairComponent implements OnInit {
   public rule : any;
   public jurisdiction:any;
   public repairDept:any;
+  public URL = this.ipSetting.ip;
   constructor(
     private http: Http,
     private errorVoid:ErrorResponseService,

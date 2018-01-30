@@ -33,7 +33,6 @@ export class HeaderComponent implements OnInit {
     this.globalUserService.valueUpdated.subscribe(
       (val) => {
         this.user = this.globalUserService.getVal();
-        this.initCata();
       }
     );
     this.user = this.globalUserService.getVal();

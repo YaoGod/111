@@ -7,6 +7,7 @@ import 'rxjs/add/operator/switchMap';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
 import { sndCatalog } from '../../../mode/catalog/catalog.service';
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 declare var $: any;
 @Component({
   selector: 'app-building',
@@ -30,6 +31,7 @@ export class BuildingComponent implements OnInit {
     private errorVoid:ErrorResponseService,
     private route: ActivatedRoute,
     private router: Router,
+    private ipSetting  : IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("security/basic");
   }
@@ -122,7 +124,7 @@ export class BuildingComponent implements OnInit {
   viewImg(url:string) {
     $('.view-img-src').css('display','block');
    /* this.isViewImg = false;*/
-    this.imgSrcView = '/proxy' + url;
+    this.imgSrcView = this.ipSetting.ip + url;
   }
   closeViewImg(){
     $('.view-img-src').css('display','none');

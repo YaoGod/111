@@ -30,6 +30,7 @@ export class OrdersReportComponent implements OnInit {
   public floorNames   : Array<any>; /*大楼楼层名称列表*/
   public pin:string;
   public aot:string[];
+  public URL: string;
 
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
@@ -39,7 +40,6 @@ export class OrdersReportComponent implements OnInit {
               private ipSetting  : IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("property/orders");
-    this.getQuan();
   }
 
   ngOnInit() {
@@ -49,6 +49,7 @@ export class OrdersReportComponent implements OnInit {
         this.getQuan();
       }
     );
+    this.URL = this.ipSetting.ip;
     this.searchArch = new Arch();
     this.repairname = new GuardName();
     this.pages = [];
@@ -181,23 +182,8 @@ export class OrdersReportComponent implements OnInit {
     }
     return true;
   }
-  public verifyemployeeDepart() {
-    if (!this.isEmpty('employeeDepart', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
   public verifyexam() {
     if (!this.isEmpty('exam', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyemployeePhone()  {
-    if (!this.isEmpty('employeePhone', '不能为空')) {
-      return false;
-    }
-    if (!this.verifyIsTel('employeePhone', '格式不对')) {
       return false;
     }
     return true;
@@ -249,8 +235,7 @@ export class OrdersReportComponent implements OnInit {
     }else{
       url = "/employee/property/addOrder";
     }
-    if (!this.verifybuildingId() || !this.verifyservername() || !this.verifyemployeeDepart() || !this.verifydetail() ||
-      !this.verifyexam()) {
+    if (!this.verifybuildingId() || !this.verifyservername() || !this.verifydetail() || !this.verifyexam()) {
       return false;
     }
     this.ipSetting.sendPost(url, this.repairname).subscribe(data => {
@@ -397,9 +382,9 @@ export class GuardName {
 export class Arch {
   buildingId: string; // 大楼Id
   buildingNum:string; // 大楼编号
-  buildingName: string;// 大楼名称
+  buildingName: string='';// 大楼名称
   orderId:string;     // 订单号
-  orderStatus:string;   // 订单状态
+  orderStatus:string='';   // 订单状态
   startTime:string;        // 订单生成时间
   finshTime:string;        // 订单结束时间
   serverUserid:string;  // 订单人

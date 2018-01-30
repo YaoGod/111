@@ -85,7 +85,9 @@
       <div class="form-attach">
         <h4>附件</h4>
         <ol *ngIf="inner.fileName" style="height:120px; overflow-y: auto;">
-          <li *ngFor="let abc of inner.fileName; let j=index" style="word-wrap:break-word ">{{abc}} <a [href]="+'/proxy'+ inner.filePath[j]"><i class="icon-cloud-download"></i>下载</a> </li>
+          <li *ngFor="let abc of inner.fileName; let j=index" style="word-wrap:break-word ">{{abc}}
+            <a [href]="URL+ inner.filePath[j]" [download]="abc"><i class="icon-cloud-download"></i>下载</a>
+          </li>
         </ol>
       </div>
       <div class="form-btn" *ngIf="inner.orderStatus==='订购中'" (click)="editAttach(i)"><i class="icon-pencil"></i></div>
@@ -178,7 +180,6 @@
           <a href="javascript:;" style="color:#666; margin-left:127px; border-radius:4px; padding:5px 10px; background: #f6f6f6;" onclick="$('#prese').trigger('click')">上 传</a>
           <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;"
                  (change)="prese_upload(prese.files)">
-          <span class="errorMessage"></span>
         </div>
       </div>
     </form>

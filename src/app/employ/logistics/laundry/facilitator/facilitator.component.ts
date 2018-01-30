@@ -27,6 +27,7 @@ export class FacilitatorComponent implements OnInit {
   public total = 0;
   public length = 5;
   public pages: Array<number>;
+  public URL = this.ipSetting.ip;
   public  applierAdd={
     applyId:   '',
     applyName:    '',
@@ -188,16 +189,17 @@ export class FacilitatorComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          //
           confirmFunc.init({
             'title': '提示' ,
             'mes': '上传成功',
             'popType': 0 ,
             'imgType': 1 ,
           });
+          // console.log(data);
           this.applierEdit.fileName1.push(files[0].name);
           this.applierEdit.filePath1.push(data.msg);
           this.applierEdit.fileId.push(data.fileId);
+          // console.log(this.applierEdit);
           $('#prese1').val('');
         }
       }else if(xhr.readyState === 4 && xhr.status === 413){
@@ -266,6 +268,7 @@ export class FacilitatorComponent implements OnInit {
       return false;
     }
     let url = "/mmall/laundry/provider/providerUpdate";
+    console.log(this.applierEdit);
     this.ipSetting.sendPost(url,this.applierEdit).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         confirmFunc.init({
@@ -286,7 +289,7 @@ export class FacilitatorComponent implements OnInit {
     this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.applierView = data.data;
-        this.file= data.data.file; //
+        this.file= data.data.file;
       }
     });
     $('.maskView').show();
@@ -359,9 +362,9 @@ export class FacilitatorComponent implements OnInit {
     $('#' + id).next('span').html('');
   }
 
-  download(url){
+  /*download(url){
     window.open("proxy/" + url);
-  }
+  }*/
 
   /*跳页加载数据*/
   goPage(page:number){

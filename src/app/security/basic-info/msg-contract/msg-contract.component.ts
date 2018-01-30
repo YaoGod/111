@@ -11,6 +11,7 @@ import { GlobalCatalogService } from '../../../service/global-catalog/global-cat
 import { sndCatalog } from '../../../mode/catalog/catalog.service';
 declare var confirmFunc: any;
 import * as $ from 'jquery';
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 declare var $:any;
 @Component({
   selector: 'app-msg-contract',
@@ -47,6 +48,7 @@ export class MsgContractComponent implements OnInit {
     private errorVoid:ErrorResponseService,
     private router: Router,
     private route: ActivatedRoute,
+    private ipSetting  : IpSettingService,
   ) {
     this.building = globalBuilding.getVal();
     this.rule = this.globalCatalogService.getRole("security/basic");

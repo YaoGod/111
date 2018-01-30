@@ -4,6 +4,7 @@ import {SupermarketApplier} from "../../../../mode/supermarketApplier/supermarke
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import * as $ from 'jquery';
 import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 declare var $: any;
 declare var confirmFunc: any;
 @Component({
@@ -25,7 +26,9 @@ export class SupplierComponent implements OnInit {
   public pageNo   : number = 1;
   public pageSize : number = 5;
   public total    : number = 0;
+  public URL = this.ipSetting.ip;
   constructor(private marketManagerService:SupermarketManagerService ,
+  private ipSetting:IpSettingService ,
               private errorVoid: ErrorResponseService,
               private globalCatalogService: GlobalCatalogService) { }
 
@@ -294,10 +297,6 @@ export class SupplierComponent implements OnInit {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
     $('#' + id).next('span').html('');
-  }
-
-  download(url){
-    window.open("proxy/" + url);
   }
 }
 

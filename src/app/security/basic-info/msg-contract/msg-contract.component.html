@@ -208,7 +208,7 @@
       </div>
       <p class="file-msg" *ngFor="let filename of contract.fileName;let i = index">
         {{filename}}
-        <a (click)="openFile(contract.filePath[i]);">
+        <a [href]="ipSetting.ip + contract.filePath[i]" [download]="filename">
           <i class="icon-cloud-download"></i>下载
         </a>
       </p>
