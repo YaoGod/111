@@ -59,7 +59,7 @@
                 <table style="width: 100%;">
                   <tr>
                     <td class="fir">
-                      <img *ngIf="product.simage"  [src]="'/proxy/' + product.simage" />
+                      <img *ngIf="product.simage"  [src]="ipSetting.ip + product.simage" />
                     </td>
                     <td class="sec">￥{{product.price}}</td>
                     <td class="three" *ngIf="product.pstatus=='1'">上架</td>
@@ -104,7 +104,7 @@
           <div class="pimg">
             <div class="dropify-wrapper">
               <div class="dropify-message">
-                <img *ngIf="productAdd.simage"  [src]="'/proxy/' + productAdd.simage" />
+                <img *ngIf="productAdd.simage"  [src]="ipSetting.ip + productAdd.simage" />
               </div>
               <p>点击此处上传图片</p>
               <input type="file" class="dropify" #prese1  id="prese1"  (change)="prese_upload(prese1.files)">
@@ -204,7 +204,7 @@
           <div class="pimg">
             <div class="dropify-wrapper">
               <div class="dropify-message">
-                <img *ngIf="productUp.simage" [src]="'/proxy/' + productUp.simage" />
+                <img *ngIf="productUp.simage" [src]="ipSetting.ip + productUp.simage" />
               </div>
               <p>点击此处上传图片</p>
               <input type="file" class="dropify"  #prese2  id="prese2" (change)="prese_upload2(prese2.files)">
@@ -303,7 +303,7 @@
           <div class="pimg">
             <div class="dropify-wrapper">
               <div class="dropify-message">
-                <img *ngIf="productView.simage" [src]="'/proxy/' + productView.simage" />
+                <img *ngIf="productView.simage" [src]="ipSetting.ip + productView.simage" />
               </div>
             </div>
           </div>

@@ -4,6 +4,7 @@ import { Discount, Other } from '../../../../mode/discount/discount.service';
 import { GlobalCatalogService } from '../../../../service/global-catalog/global-catalog.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
 import { DiscountEmployeeService } from '../../../../service/discount-employee/discount-employee.service';
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 declare var confirmFunc:any;
 declare var $: any;
 @Component({
@@ -27,7 +28,8 @@ export class DiscountInfoMangComponent implements OnInit {
     private router: Router,
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
-    private discountEmployeeService:DiscountEmployeeService
+    private discountEmployeeService:DiscountEmployeeService,
+    public ipSetting  : IpSettingService
   ) { }
 
   ngOnInit() {

@@ -41,7 +41,7 @@ export class GroupbuyComponent implements OnInit {
   constructor( private globalCatalogService: GlobalCatalogService,
   private groupProductService: GroupProductService,
               private groupNoticeService: GroupNoticeService,
-              private errorVoid: ErrorResponseService,private ipSetting: IpSettingService,
+              private errorVoid: ErrorResponseService,public ipSetting: IpSettingService,
                private router:Router){
     this.rule = this.globalCatalogService.getRole("employ/group");
   }

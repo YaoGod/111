@@ -7,6 +7,7 @@ import { ErrorResponseService } from '../../../service/error-response/error-resp
 import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
 import { sndCatalog } from '../../../mode/catalog/catalog.service';
 import * as $ from 'jquery';
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 declare var confirmFunc: any;
 declare var $: any;
 @Component({
@@ -28,7 +29,8 @@ export class MsgBasicComponent implements OnInit {
     private infoBuildingService:InfoBuildingService,
     private utilBuildingService:UtilBuildingService,
     private globalBuilding:GlobalBuildingService,
-    private errorVoid:ErrorResponseService
+    private errorVoid:ErrorResponseService,
+    public ipSetting  : IpSettingService
   ) {
     this.building = globalBuilding.getVal();
     this.rule = this.globalCatalogService.getRole("security/basic");

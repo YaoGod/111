@@ -27,7 +27,7 @@
                   <dd>
                     <table class="list-body">
                       <td class="fir">
-                        <img *ngIf="cart.product.simage!==''" [src]="'/proxy/' + cart.product.simage"/>
+                        <img *ngIf="cart.product.simage!==''" [src]="ipSetting.ip + cart.product.simage"/>
                       </td>
                       <td class="sec">￥{{cart.product.price}}</td>
                       <td class="three">

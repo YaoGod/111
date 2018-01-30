@@ -31,7 +31,7 @@ export class BuildingComponent implements OnInit {
     private errorVoid:ErrorResponseService,
     private route: ActivatedRoute,
     private router: Router,
-    private ipSetting  : IpSettingService
+    public ipSetting  : IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("security/basic");
   }

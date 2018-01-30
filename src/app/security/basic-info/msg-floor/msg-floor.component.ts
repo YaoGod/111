@@ -9,6 +9,7 @@ import { UtilBuildingService } from '../../../service/util-building/util-buildin
 import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
 import { sndCatalog } from '../../../mode/catalog/catalog.service';
 import * as $ from 'jquery';
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 declare var confirmFunc: any;
 declare var $:any;
 @Component({
@@ -40,7 +41,8 @@ export class MsgFloorComponent implements OnInit {
     private infoBuildingService:InfoBuildingService,
     private utilBuildingService:UtilBuildingService,
     private router: Router,
-    private errorVoid:ErrorResponseService
+    private errorVoid:ErrorResponseService,
+    public ipSetting  : IpSettingService
   ) {
     this.building = globalBuilding.getVal();
     this.rule = this.globalCatalogService.getRole("security/basic");
@@ -109,7 +111,7 @@ export class MsgFloorComponent implements OnInit {
   /*查看图片*/
   viewImg(url:string){
     this.isViewImg = false;
-    this.imgSrcView = '/proxy' + url;
+    this.imgSrcView = this.ipSetting.ip + url;
   }
   closeViewImg(){
     this.isViewImg = true;

@@ -5,6 +5,7 @@ import { GroupCart} from '../../../mode/groupCart/group-cart.service';
 import { GroupProductService } from '../../../service/group-product/group-product.service';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import {Router} from "@angular/router";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 
 declare var $:any;
 declare var confirmFunc: any;
@@ -24,7 +25,8 @@ export class CartComponent implements OnInit {
     private groupProductService: GroupProductService,
     private errorVoid: ErrorResponseService,
     private globalCatalogService: GlobalCatalogService,
-    private router:Router
+    private router:Router,
+    public ipSetting  : IpSettingService
   ) {}
 
 

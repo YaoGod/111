@@ -5,6 +5,7 @@ import {VegetableCart} from '../../../../mode/vegetableCart/vegetable-cart.servi
 import {VegetableInfoService } from '../../../../service/vegetable-info/vegetable-info.service';
 import {VegetableOrder} from '../../../../mode/vegetableOrder/vegetable-order.service';
 import {ActivatedRoute, Router} from "@angular/router";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 declare var confirmFunc:any;
 
 @Component({
@@ -32,7 +33,8 @@ export class ConfirmvegcartComponent implements OnInit {
   constructor(private vegetableInfoService: VegetableInfoService,
               private errorVoid: ErrorResponseService,
               private router:Router,
-              private route:ActivatedRoute) { }
+              private route:ActivatedRoute,
+              public ipSetting  : IpSettingService) { }
 
   ngOnInit() {
     this.getCartList();

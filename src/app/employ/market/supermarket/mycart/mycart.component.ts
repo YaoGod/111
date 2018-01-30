@@ -3,6 +3,7 @@ import * as $ from 'jquery';
 import {SupermarketManagerService} from "../../../../service/supermarket-manager/supermarket-manager.service";
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {SupermarketCart} from "../../../../mode/supermarketCart/supermarket-cart.service";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 declare var confirmFunc:any;
 @Component({
   selector: 'app-mycart',
@@ -17,7 +18,8 @@ export class MycartComponent implements OnInit {
   public mutipalPrice:number;
   public username= localStorage.getItem("username");
   constructor(private marketManagerService: SupermarketManagerService,
-              private errorVoid: ErrorResponseService,) { }
+              private errorVoid: ErrorResponseService,
+              public ipSetting  : IpSettingService) { }
 
   ngOnInit() {
     this.getCartList();

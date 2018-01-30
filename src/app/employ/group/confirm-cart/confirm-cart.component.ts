@@ -33,7 +33,7 @@ export class ConfirmCartComponent implements OnInit {
     private errorVoid: ErrorResponseService,
     private router: Router,
     private globalCatalogService: GlobalCatalogService,
-    private ipSetting: IpSettingService,
+    public ipSetting: IpSettingService,
   ) {}
 
   ngOnInit() {

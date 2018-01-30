@@ -4,6 +4,7 @@ import {SupermarketManagerService} from "../../../../service/supermarket-manager
 import {SupermarketOrder} from "../../../../mode/supermarketOrder/supermarket-order.service";
 import {SupermarketOrderItem} from "../../../../mode/supermarketOrderItem/supermarket-order-item.service";
 import * as $ from 'jquery';
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 declare var confirmFunc:any;
 @Component({
   selector: 'app-myorder',
@@ -21,6 +22,7 @@ export class MyorderComponent implements OnInit {
   constructor(
     private supermarketManagerService: SupermarketManagerService,
     private errorVoid: ErrorResponseService,
+    public ipSetting  : IpSettingService
   ) { }
 
   ngOnInit() {

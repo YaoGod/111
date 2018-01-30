@@ -7,6 +7,7 @@ import {SupermarketOrder} from "../../../../mode/supermarketOrder/supermarket-or
 import {ActivatedRoute, Router} from "@angular/router";
 import {UtilBuildingService} from "../../../../service/util-building/util-building.service";
 import {WorkspaceMydeskService} from "../../../../service/workspace-mydesk/workspace-mydesk.service";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 declare var confirmFunc:any;
 @Component({
   selector: 'app-confirmsupcart',
@@ -37,7 +38,8 @@ export class ConfirmsupcartComponent implements OnInit {
     private utilBuildingService:UtilBuildingService,
     private workspaceMydeskService:WorkspaceMydeskService,
     private router:Router,
-    private route:ActivatedRoute)
+    private route:ActivatedRoute,
+    public ipSetting  : IpSettingService)
   { }
   ngOnInit() {
     this.getCartList();

@@ -117,7 +117,7 @@
           <span class="form-title text-right">责任人邮箱</span>
           <span class="form-word">{{inner.lMail}}</span>
         </li>
-        <li class="form-photo"><img [src]="+'/proxy'+inner.imgPath" *ngIf="inner.imgPath"></li>
+        <li class="form-photo"><img [src]="+ipSetting.ip+inner.imgPath" *ngIf="inner.imgPath"></li>
         <li class="form-btn" *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" (click)="editRecord(i)"><i class="icon-pencil"></i></li>
         <li class="form-btn form-del" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delRecord(inner.id)"><i class="icon-trash"></i></li>
       </ul>
@@ -288,7 +288,7 @@
         <div class="person-img">
           <div class="dropify-wrapper">
             <div class="dropify-message">
-              <img *ngIf="repairname.imgPath" [src]="'/proxy/' + repairname.imgPath" />
+              <img *ngIf="repairname.imgPath" [src]="ipSetting.ip + repairname.imgPath" />
             </div>
             <p *ngIf="!repairname.imgPath">点击此处上传图片</p>
             <input type="file" class="dropify" #prese id="prese" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"

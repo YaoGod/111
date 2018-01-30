@@ -5,6 +5,7 @@ import {ErrorResponseService} from "../../../../service/error-response/error-res
 import {SupermarketManagerService} from "../../../../service/supermarket-manager/supermarket-manager.service";
 import {SupermarketApplier} from "../../../../mode/supermarketApplier/supermarket-applier.service";
 import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 declare var confirmFunc:any;
 @Component({
   selector: 'app-goods',
@@ -28,7 +29,8 @@ export class GoodsComponent implements OnInit {
   public  productUp   : SupermarketProduct;
   constructor(private marketManagerService: SupermarketManagerService,
               private errorVoid: ErrorResponseService,
-              private globalCatalogService: GlobalCatalogService) { }
+              private globalCatalogService: GlobalCatalogService,
+              public ipSetting  : IpSettingService) { }
 
   ngOnInit() {
     this.getRule();

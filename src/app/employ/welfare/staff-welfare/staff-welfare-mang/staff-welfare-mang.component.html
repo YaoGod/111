@@ -100,7 +100,7 @@
         <div class="modal-left">
           <div  class="dropify-wrapper" id = "newImgPath">
             <div  class="dropify-message">
-              <img [src]="'/proxy'+copyWelfare.imgPath" *ngIf="copyWelfare.imgPath">
+              <img [src]="ipSetting.ip+copyWelfare.imgPath" *ngIf="copyWelfare.imgPath">
             </div>
             <p >点击上传福利信息内容图</p>
             <input  class="dropify" type="file"  id="pressNew"

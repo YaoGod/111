@@ -27,7 +27,7 @@ export class MyorderComponent implements OnInit {
 
   constructor(private vegetableInfoService:VegetableInfoService,
               private errorVoid: ErrorResponseService,
-              private ipSetting  : IpSettingService
+              public ipSetting  : IpSettingService
   ) { }
 
   ngOnInit() {

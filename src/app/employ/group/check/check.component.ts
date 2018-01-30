@@ -5,6 +5,7 @@ import { ErrorResponseService } from '../../../service/error-response/error-resp
 import * as $ from 'jquery';
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 declare var $:any;
 declare var confirmFunc: any;
 declare var tinymce: any;
@@ -34,7 +35,8 @@ export class CheckComponent implements OnInit {
 
   constructor(private groupProductService: GroupProductService,
               private globalCatalogService: GlobalCatalogService,
-              private errorVoid: ErrorResponseService,) {
+              private errorVoid: ErrorResponseService,
+              public ipSetting  : IpSettingService) {
   }
   ngOnInit() {
     this.getRule();

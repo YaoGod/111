@@ -97,11 +97,11 @@
       </td>
       <td width="25%" class="box-demo" [id]="'imgPath' + i">
         <img *ngIf="floor.imgPath && !copyFloors[i].editStatus"
-             [src]="'/proxy' + floor.imgPath"
+             [src]="ipSetting.ip + floor.imgPath"
              (click)="viewImg(floor.imgPath)">
         <img src="../../../../assets/image/icon_img.png" *ngIf="!floor.imgPath && !copyFloors[i].editStatus">
         <div  *ngIf="copyFloors[i].editStatus" class="btn-upload">
-          <img [src]="'/proxy' + copyFloors[i].imgPath" *ngIf="copyFloors[i].imgPath"
+          <img [src]="ipSetting.ip + copyFloors[i].imgPath" *ngIf="copyFloors[i].imgPath"
                (click)="viewImg(copyFloors[i].imgPath)">
           <img src="../../../../assets/image/icon_img.png" *ngIf="!copyFloors[i].imgPath && copyFloors[i].editStatus">
           <a>上传
@@ -153,7 +153,7 @@
         <div class="modal-left">
           <div  class="dropify-wrapper" id = "newImgPath">
             <div  class="dropify-message">
-              <img [src]="'/proxy'+newFloor.imgPath" *ngIf="newFloor.imgPath">
+              <img [src]="ipSetting.ip+newFloor.imgPath" *ngIf="newFloor.imgPath">
             </div>
             <p >点击此处上传大楼平面图</p>
             <input  class="dropify" type="file"  id="pressNew"

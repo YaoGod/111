@@ -6,6 +6,7 @@ import {GroupMessage, GroupOrder} from '../../../mode/groupOrder/group-order.ser
 import {GroupOrderItem} from '../../../mode/groupOrderItem/group-orderItem.service'
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 
 declare var $:any;
 declare var confirmFunc: any;
@@ -55,7 +56,8 @@ export class OrderComponent implements OnInit {
 
   constructor(private groupOrderService: GroupOrderService,
               private globalCatalogService: GlobalCatalogService,
-              private errorVoid: ErrorResponseService,) { }
+              private errorVoid: ErrorResponseService,
+              public ipSetting  : IpSettingService) { }
 
   ngOnInit() {
     this.getRule();

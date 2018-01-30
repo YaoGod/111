@@ -41,7 +41,7 @@ export class MyorderComponent implements OnInit {
   constructor(private groupOrderService: GroupOrderService,
               private groupProductService: GroupProductService,
               private errorVoid: ErrorResponseService,
-              private ipSetting  : IpSettingService) { }
+              public ipSetting  : IpSettingService) { }
 
   ngOnInit() {
     this.search = new GroupOrder();

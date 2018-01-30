@@ -110,7 +110,7 @@
               <div class="pimg">
                 <div class="dropify-wrapper">
                   <div class="dropify-message">
-                    <img *ngIf="newGroupProduct.image!==''"  [src]="'/proxy/' + newGroupProduct.image" />
+                    <img *ngIf="newGroupProduct.image!==''"  [src]="ipSetting.ip + newGroupProduct.image" />
                   </div>
                   <p>点击此处上传图片</p>
                   <input type="file" class="dropify" #prese1 id="prese1"  (change)="prese_upload(prese1.files)">

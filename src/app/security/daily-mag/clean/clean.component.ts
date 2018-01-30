@@ -4,6 +4,7 @@ import {InfoBuildingService} from "../../../service/info-building/info-building.
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 
 declare var $: any;
 declare var confirmFunc: any;
@@ -34,6 +35,7 @@ export class CleanComponent implements OnInit {
     private errorVoid:ErrorResponseService,
     private utilBuildingService:UtilBuildingService,
     private globalCatalogService:GlobalCatalogService,
+    public ipSetting  : IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("security/daily");
     this.getQuan();
@@ -66,7 +68,7 @@ export class CleanComponent implements OnInit {
   /*获取权限*/
   private getQuan(){
     if(this.rule!=null){
-      const SOFTWARES_URL = "/proxy/portal/user/getCata/"+this.rule.ID+"/repair?url=";
+      const SOFTWARES_URL = this.ipSetting.ip + "/portal/user/getCata/"+this.rule.ID+"/repair?url=";
       this.http.get(SOFTWARES_URL)
         .map(res => res.json())
         .subscribe(data => {
@@ -87,7 +89,7 @@ export class CleanComponent implements OnInit {
   }
   /*获取/查询保安公司*/
   private getRecord(search, pageNo, pageSize) {
-    const SOFTWARES_URL = "/proxy/building/company/getCompanyList/" + pageNo + "/" + pageSize;
+    const SOFTWARES_URL = this.ipSetting.ip + "/building/company/getCompanyList/" + pageNo + "/" + pageSize;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
@@ -104,7 +106,7 @@ export class CleanComponent implements OnInit {
   }
   /*获取/查询保安人员档案*/
   private getRecordSecond(search, pageNo, pageSize) {
-    const SOFTWARES_URL = "/proxy/building/person/getPersonList/" + pageNo + "/" + pageSize;
+    const SOFTWARES_URL = this.ipSetting.ip + "/building/person/getPersonList/" + pageNo + "/" + pageSize;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({headers: headers});
     // JSON.stringify
@@ -172,9 +174,9 @@ export class CleanComponent implements OnInit {
     let SOFTWARES_URL;
     if(this.editBool === false) {
       this.pageNo = 1;
-      SOFTWARES_URL = "/proxy/building/company/updateServerCompany";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/company/updateServerCompany";
     }else {
-      SOFTWARES_URL = "/proxy/building/company/addServerCompany";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/company/addServerCompany";
     }
     if (!this.verifyId() || !this.verifycompanyName() || !this.verifypersonNum()) {
       return false;
@@ -221,7 +223,7 @@ export class CleanComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = "/proxy/building/company/deleteServerCompany/" +this.repairname.id;
+        let SOFTWARES_URL = this.ipSetting.ip + "/building/company/deleteServerCompany/" +this.repairname.id;
         this.http.get(SOFTWARES_URL)
           .map(res => res.json())
           .subscribe(data => {
@@ -318,9 +320,9 @@ export class CleanComponent implements OnInit {
   contractSubmit() {
     let SOFTWARES_URL;
     if(this.contractBool === false) {
-      SOFTWARES_URL = "/proxy/building/person/updatePerson";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/person/updatePerson";
     }else {
-      SOFTWARES_URL = "/proxy/building/person/addPerson/1";
+      SOFTWARES_URL = this.ipSetting.ip + "/building/person/addPerson/1";
     }
     if (!this.verifycompanyName2() || !this.verifypersonId() || !this.verifypersonName() || !this.verifypersonPhone() ||
       !this.verifypersonIdcard() || !this.verifypersonStatus() ) {
@@ -370,7 +372,7 @@ export class CleanComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = "/proxy/building/person/deletePerson/" +this.contractName.id;
+        let SOFTWARES_URL = this.ipSetting.ip + "/building/person/deletePerson/" +this.contractName.id;
         this.http.get(SOFTWARES_URL)
           .map(res => res.json())
           .subscribe(data => {
@@ -472,10 +474,10 @@ export class CleanComponent implements OnInit {
     if((typeof this.searchArch.companyName) === 'undefined'){
       this.searchArch.companyName = 'null';
     }
-    this.http.get("/proxy/building/person/getPersonExcel/"+ this.searchArch.companyName +"/clean")
+    this.http.get(this.ipSetting.ip + "/building/person/getPersonExcel/"+ this.searchArch.companyName +"/clean")
     // .map(res => res.json())
       .subscribe(data => {
-        window.location.href = "/proxy/building/person/getPersonExcel/"+ this.searchArch.companyName +"/clean";
+        window.location.href = this.ipSetting.ip + "/building/person/getPersonExcel/"+ this.searchArch.companyName +"/clean";
         this.searchArch = new Arch();
         $('#deriving').fadeOut();
       });

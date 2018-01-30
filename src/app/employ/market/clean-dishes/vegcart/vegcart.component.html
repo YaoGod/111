@@ -33,7 +33,7 @@
                   <dd>
                     <table class="list-body">
                       <td class="fir">
-                        <img *ngIf="cart.vimage!==''" [src]="'/proxy/' + cart.vimage"/>
+                        <img *ngIf="cart.vimage!==''" [src]="ipSetting.ip + cart.vimage"/>
                       </td>
                       <td class="sec">￥{{cart.price}}</td>
                       <td class="three">

@@ -39,7 +39,7 @@ export class RoomComponent implements OnInit {
     private infoBuildingService:InfoBuildingService,
     private utilBuildingService:UtilBuildingService,
     private errorVoid:ErrorResponseService,
-    private ipSetting  : IpSettingService
+    public ipSetting  : IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("security/basic");
   }
