@@ -48,7 +48,6 @@
           <th *ngIf="queryType ==='消费记录'" class="text-left">消费类型</th>
           <th *ngIf="queryType ==='消费记录'">消费时间</th>
           <th *ngIf="queryType ==='消费记录'">消费金额</th>
-          <th *ngIf="queryType ==='消费记录'">消费明细</th>
           <th *ngIf="queryType ==='充值记录'">充值调账时间</th>
           <th *ngIf="queryType ==='充值记录'">金额</th>
           <th *ngIf="queryType ==='充值记录'">备注</th>
@@ -57,7 +56,6 @@
           <td *ngIf="queryType ==='消费记录'" class="text-left">{{consume.consumeType}}</td>
           <td *ngIf="queryType ==='消费记录'">{{consume.consumeTime}}</td>
           <td *ngIf="queryType ==='消费记录'">{{consume.consumeNum|number:'1.2-2'}}</td>
-          <td *ngIf="queryType ==='消费记录'">{{consume.detail}}</td>
           <td *ngIf="queryType ==='充值记录'">{{consume.OL_DATE}}</td>
           <td *ngIf="queryType ==='充值记录'">{{consume.AMOUNT}}</td>
           <td *ngIf="queryType ==='充值记录'">{{consume.note}}</td>
