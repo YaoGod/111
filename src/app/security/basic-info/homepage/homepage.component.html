@@ -12,9 +12,9 @@
             <label>大楼名称</label>
             <select name="searchB" class="search-ipt" [(ngModel)]="search.name">
               <option value="">-全部-</option>
-              <option *ngFor="let num of buildings"
-                      [value]="num.name">
-                {{num.name}}</option>
+              <option *ngFor="let buidingName of buidingNames"
+                      [value]="buidingName.NAME">
+                {{buidingName.NAME}}</option>
             </select>
           </li>
           <li>

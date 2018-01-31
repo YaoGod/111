@@ -72,9 +72,9 @@ ul,li{
   text-align: right;
 }
 .panel>ul>li>input[type=text],.panel>ul>li>select{
-  height: 20px;
-  width: calc(100% - 115px);
-  box-sizing: content-box;
+  height: 30px;
+  width: calc(100% - 80px);
+  box-sizing: border-box;
   min-width: 100px;
   padding: 5px 10px;
   font-size: 12px;
@@ -593,4 +593,7 @@ button{
 }
 .cancel{
   background-color:rgb(170, 170, 170);
+}
+.panel ul>li select.search-ipt{
+  padding-right: 30px;
 }

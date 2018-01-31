@@ -42,7 +42,7 @@ export class MsgFloorComponent implements OnInit {
     private utilBuildingService:UtilBuildingService,
     private router: Router,
     private errorVoid:ErrorResponseService,
-    public ipSetting  : IpSettingService
+    public ipSetting: IpSettingService
   ) {
     this.building = globalBuilding.getVal();
     this.rule = this.globalCatalogService.getRole("security/basic");

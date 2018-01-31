@@ -18,6 +18,7 @@ declare var confirmFunc: any;
 })
 export class HomepageComponent implements OnInit {
   public buildings :Array<Building>;
+  public buidingNames: Array<any>;
   public imgPaths : any;
   public pageNo = 1; /*当前页码*/
   public pageSize = 6; /*显示页数*/
@@ -45,6 +46,7 @@ export class HomepageComponent implements OnInit {
     this.search = new Building();
     this.search.type = '';
     this.search.use = '';
+    this.getBuildings();
     this.getBuildingMsg(1);
   }
   /*获取大楼列表*/
@@ -58,6 +60,15 @@ export class HomepageComponent implements OnInit {
           this.splitImgPaths(this.buildings);
         }
       });
+  }
+  /*获取搜索栏中大楼名称下拉列表*/
+  getBuildings(){
+    this.utilBuildingService.getBuildingList("")
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.buidingNames = data.data;
+        }
+      })
   }
   splitImgPaths(subject: any){
     var list = [];

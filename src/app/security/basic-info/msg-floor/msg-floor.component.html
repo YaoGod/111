@@ -96,14 +96,18 @@
         </select>
       </td>
       <td width="25%" class="box-demo" [id]="'imgPath' + i">
-        <img *ngIf="floor.imgPath && !copyFloors[i].editStatus"
+        <img
+          *ngIf="floor.imgPath && !copyFloors[i].editStatus"
              [src]="ipSetting.ip + floor.imgPath"
              (click)="viewImg(floor.imgPath)">
-        <img src="../../../../assets/image/icon_img.png" *ngIf="!floor.imgPath && !copyFloors[i].editStatus">
+        <img src="../../../../assets/image/icon_img.png"
+             *ngIf="!floor.imgPath && !copyFloors[i].editStatus">
         <div  *ngIf="copyFloors[i].editStatus" class="btn-upload">
-          <img [src]="ipSetting.ip + copyFloors[i].imgPath" *ngIf="copyFloors[i].imgPath"
+          <img [src]="ipSetting.ip + copyFloors[i].imgPath"
+               *ngIf="copyFloors[i].imgPath"
                (click)="viewImg(copyFloors[i].imgPath)">
-          <img src="../../../../assets/image/icon_img.png" *ngIf="!copyFloors[i].imgPath && copyFloors[i].editStatus">
+          <img  src="../../../../assets/image/icon_img.png"
+               *ngIf="!copyFloors[i].imgPath && copyFloors[i].editStatus">
           <a>上传
             <input type="file" name="imgPath" class="img-upload" #prese [id]="'prese'+i"
                    (change)="prese_upload(prese.files,i)"
@@ -113,16 +117,16 @@
         </div>
       </td>
       <td width="15%" class="box-option">
-        <img src="../../../../assets/image/icon_bird.png"
+        <img title="查看房间信息" src="../../../../assets/image/icon_bird.png"
              (click)="goToRoom(floor.id)">
-        <img src="../../../../assets/image/icon_edit.png"
+        <img title="编辑" src="../../../../assets/image/icon_edit.png"
              *ngIf="rule&&rule.isUpdate"
              (click)="initEdit(i)">
-        <img src="../../../../assets/image/icon_save.png"
+        <img title="保存" src="../../../../assets/image/icon_save.png"
              *ngIf="rule&&rule.isUpdate"
              [ngClass]="!copyFloors[i].editStatus?'disable':''"
              (click)="save(i)">
-        <img src="../../../../assets/image/icon_can.png"
+        <img title="删除" src="../../../../assets/image/icon_can.png"
              *ngIf="rule&&rule.isDelete"
              (click)="delRoom(floor.id)">
       </td>

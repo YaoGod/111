@@ -77,8 +77,7 @@ export class MsgBelongComponent implements OnInit {
       map.plugin('AMap.ToolBar',() =>{
         if(typeof(lat)==="undefined" || typeof(lon)==="undefined"
           || lat=== null || lon === null ) {
-            lat = 0;
-            lon = 0;
+            return false;
         }
         let marker = new AMap.Marker({
           position: [lat, lon],

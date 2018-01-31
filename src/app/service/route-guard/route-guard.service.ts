@@ -41,10 +41,10 @@ export class RouteGuardService implements CanActivate{
         if(this.errorResponseService.errorMsg(data)){
           this.globalUserService.setVal(data.data.userInfo);
           this.router.navigate([url]);
-          // 设置登陆状态
-          // 设置登陆后左侧用户信息展示
+          return true;
         }else{
           sessionStorage.setItem('isLoginIn','');
+          return false;
         }
       })
   }

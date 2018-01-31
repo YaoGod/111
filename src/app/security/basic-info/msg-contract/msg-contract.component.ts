@@ -48,7 +48,7 @@ export class MsgContractComponent implements OnInit {
     private errorVoid:ErrorResponseService,
     private router: Router,
     private route: ActivatedRoute,
-    private ipSetting  : IpSettingService,
+    public  ipSetting:IpSettingService
   ) {
     this.building = globalBuilding.getVal();
     this.rule = this.globalCatalogService.getRole("security/basic");
@@ -377,9 +377,6 @@ export class MsgContractComponent implements OnInit {
           })
       }
     });
-  }
-  openFile(url) {
-    window.open("proxy"+ url);
   }
   /**
    * 验证手机号码
