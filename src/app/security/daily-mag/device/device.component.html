@@ -36,28 +36,25 @@
             <select name="eee" class="search-ipt" [(ngModel)]="searchArch.buildingName">
               <option value="">-全部-</option>
               <option *ngFor="let num of buildings"
-                      [value]="num.NAME"><!--num.BUILDING_ID-->
+                      [value]="num.NAME">
                 {{num.NAME}}</option>
             </select>
-            <!--<input type="text" name="www" class="search-ipt" [(ngModel)]="searchArch.buildingName">-->
           </li>
           <li >
             <label>设备名称</label>
-            <!--<input type="text" name="eee" class="search-ipt" [(ngModel)]="searchArch.equipmentName">-->
-            <select name="www" class="search-ipt" [(ngModel)]="searchArch.name">
+            <select name="www" class="search-ipt" [(ngModel)]="searchArch.equipmentName">
               <option value="">-全部-</option>
               <option *ngFor="let num of deviceList"
-                      [value]="num"><!--num.BUILDING_ID-->
+                      [value]="num">
                 {{num}}</option>
             </select>
           </li>
           <li >
             <label>维保责任人</label>
-            <!--<input type="text" name="rrr" class="search-ipt" [(ngModel)]="searchArch.liablePerson">-->
             <select name="rrr" class="search-ipt" [(ngModel)]="searchArch.liablePerson">
               <option value="">-全部-</option>
               <option *ngFor="let lead of leading"
-                      [value]="lead.username"><!--num.BUILDING_ID-->
+                      [value]="lead.userid">
                 {{lead.username}}</option>
             </select>
           </li>
@@ -125,7 +122,6 @@
     <!--工单-->
     <div class="device-container device-arch">
       <div class="row text-right" *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
-        <!--<a class="btn btn-lead" href="javascript:;"><i class="icon-docs"></i> 批量导入</a>-->
         <a class="btn btn-new" href="javascript:;" (click)="addCompany()"><i class="icon-plus"></i> 新 增</a>
       </div>
       <ul class="form-msg clearfix" *ngFor="let inner of contract; let i=index">
@@ -313,7 +309,8 @@
       <div class="form-control form-entry clearfix">
         <span class="form-label">大楼名称</span>
         <div class="form-inp">
-          <select id="ID" name="ID" class="company-ipt company-sel" [(ngModel)]="contractName.buildingId" (blur)="verifyID()">
+          <select id="ID" name="ID" class="company-ipt company-sel" [(ngModel)]="contractName.buildingId" (blur)="verifyID()"
+          (change)="getDeviceList(contractName.buildingId,'');getDeviceList2(contractName.buildingId)">
             <option *ngFor="let num of buildings"
                     [value]="num.ID">
               {{num.NAME}}</option>
@@ -324,7 +321,9 @@
       <div class="form-control form-entry clearfix">
         <span class="form-label">设备名称</span>
         <div class="form-inp">
-          <select  class="company-ipt" id="equipmentName" name="equipmentName" [(ngModel)]="contractName.equipmentName" (blur)="verifyequipmentName()" >
+          <select  class="company-ipt" id="equipmentName" name="equipmentName" [(ngModel)]="contractName.equipmentName"
+                   (blur)="verifyequipmentName()" (change)="getDeviceList(contractName.buildingId,contractName.equipmentName);
+                   getDeviceList2(contractName.buildingId)">
             <option value="">-请选择-</option>
             <option *ngFor="let num of deviceList"
                     [value]="num">

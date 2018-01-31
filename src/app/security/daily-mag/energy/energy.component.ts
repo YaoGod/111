@@ -37,7 +37,7 @@ export class EnergyComponent implements OnInit {
               private errorVoid:ErrorResponseService,
               private utilBuildingService:UtilBuildingService,
               private globalCatalogService:GlobalCatalogService,
-              private ipSetting  : IpSettingService
+              public ipSetting  : IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("security/daily");
   }

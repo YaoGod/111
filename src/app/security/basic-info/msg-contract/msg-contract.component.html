@@ -208,7 +208,7 @@
       </div>
       <p class="file-msg" *ngFor="let filename of contract.fileName;let i = index">
         {{filename}}
-        <a [href]="ipSetting.ip + contract.filePath[i]" [download]="filename">
+        <a [href]="URL + contract.filePath[i]" [download]="filename">
           <i class="icon-cloud-download"></i>下载
         </a>
       </p>
@@ -252,7 +252,6 @@
         <div class="modal-left">
           <div  class="dropify-wrapper" id = "newImgPath">
             <div  class="dropify-message">
-              <!--   <img [src]="'/proxy'+tempContract.filePath" *ngIf="tempContract.filePath">-->
             </div>
             <ul class="dropify-list">
               <li *ngFor="let name of tempContract.fileName;let i = index">

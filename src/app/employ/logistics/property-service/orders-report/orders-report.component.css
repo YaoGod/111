@@ -410,6 +410,9 @@ input{
 .form-attach,.form-attach a{
   color:#8d9ea7;
 }
+.form-attach a i{
+  color:#66CCFF;
+}
 /* modal */
 .modal-back{
   position: fixed;

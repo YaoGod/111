@@ -93,7 +93,7 @@ export class VegorderComponent implements OnInit {
   }
 
   public confirmBatch(){
-    let url = '/mmall/vegetabelOrder/batch';
+    let url = '/mmall/vegetabelOrder/batch?serviceCenter='+this.serviceCenter+'&orderBTime='+this.orderBTime+'&orderETime='+this.orderETime;
     let cont = {
       serviceCenter :this.serviceCenter,
       orderBTime :this.orderBTime,
@@ -108,6 +108,7 @@ export class VegorderComponent implements OnInit {
           'imgType': 1 ,
         });
         this.closeBatch();
+        this.serviceCenter = '';
         this.orderBTime = '';
         this.orderETime = '';
         this.getOrderAllList();
@@ -238,7 +239,6 @@ export class VegorderComponent implements OnInit {
         '￥'+data.vegetableOrderItems[i].totalPrice.toFixed(2)
       ];
     }
-    console.log(this.formData);
   }
 
 

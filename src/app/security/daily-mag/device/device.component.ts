@@ -35,6 +35,7 @@ export class DeviceComponent implements OnInit {
   private contractBool = true;
   public leading:any;
   public deviceList:any;
+  public deviceListInfo:any;
   public modelList:any;
 
   constructor(
@@ -61,6 +62,7 @@ export class DeviceComponent implements OnInit {
     this.searchArch = new Arch();
     this.pages = [];
     this.deviceList = [];
+    this.deviceListInfo = [];
     this.modelList = [];
     if($('.device-header a:last-child').hasClass('active')) {
       $('.guard-arch,.box2').fadeIn();
@@ -70,13 +72,15 @@ export class DeviceComponent implements OnInit {
       this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
     }
     this.getBuildings();
+    this.getDeviceList2('');
+    this.getDeviceList('','');
     this.getPeople();
   }
   /**获取权限*/
   private getQuan(){
     if(this.rule!=null){
-      let SOFTWARES_URL = "/portal/user/getCata/"+this.rule.ID+"/repair?url=";
-      this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
+      let url = "/portal/user/getCata/"+this.rule.ID+"/repair?url=";
+      this.ipSetting.sendGet(url).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.jurisdiction = data['data'][0];
           for(let i = 0;i<data.data.length;i++){
@@ -108,21 +112,49 @@ export class DeviceComponent implements OnInit {
   }
   /**获取/查询设备信息*/
   private getRecord(search, pageNo, pageSize) {
-    let SOFTWARES_URL = "/building/equipment/getEquipmentList/" + pageNo + "/" + pageSize;
-    this.ipSetting.sendPost(SOFTWARES_URL,search).subscribe(data => {
+    let url = "/building/equipment/getEquipmentList/" + pageNo + "/" + pageSize;
+    this.ipSetting.sendPost(url,search).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.record = data['data']['infos'];
-           if(this.deviceList.length<1){
-             for(let i=0;i<data['data']['infos'].length;i++){
-               this.deviceList.push(data['data']['infos'][i].name);
-               this.modelList.push(data['data']['infos'][i].model)
-             }
-           }
           this.total = data.data.total;
         }
       });
   }
-  /*获取工单*/
+  /**获取大型设备*/
+  public getDeviceList2(id) {
+    let url = "/building/equipment/getEquipmentSelect";
+    let inner = {
+      buildingId:id
+    };
+    this.ipSetting.sendPost(url,inner).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        let result1 = [];
+        for(let i=0;i<data['data'].length;i++){
+            result1.push(data['data'][i].name);
+        }
+        this.deviceList = result1;
+      }
+    });
+  }
+  /**获取大型设备型号*/
+  public getDeviceList(id,name) {
+    let url = "/building/equipment/getEquipmentSelect";
+    let inner = {
+      buildingId: id,
+      name:name
+    };
+    this.ipSetting.sendPost(url,inner).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        let result2 = [];
+        for(let i=0;i<data['data'].length;i++){
+          // if(result2.indexOf(data['data'][i].model)===-1){}
+            result2.push(data['data'][i].model);
+        }
+        this.modelList = result2;
+      }
+    });
+  }
+  /**获取工单*/
   private getRecordSecond(search, pageNo, pageSize) {
     let url = "/building/equipment/getEquipmentWO/" + pageNo + "/" + pageSize;
     this.ipSetting.sendPost(url,search)
@@ -170,7 +202,7 @@ export class DeviceComponent implements OnInit {
     $('.box1').show();
     $('.box2').hide();
     $('.guard-company').fadeIn();
-    $('.device-arch').hide();// device-arch
+    $('.device-arch').hide();
   }
   /*点击工单*/
   mainFade(event) {
@@ -198,6 +230,7 @@ export class DeviceComponent implements OnInit {
     $('.form-control').removeClass('form-error');
     $('.errorMessage').html('');
     $('.mask-contract').hide();
+    this.getDeviceList('','');
   }
 
   /*图片上传*/
@@ -325,6 +358,8 @@ export class DeviceComponent implements OnInit {
             'imgType': 1 ,
           });
           this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
+          this.getDeviceList2('');
+          this.getDeviceList('','');
           this.recordCancel();
         }else{
           this.repairname.buyDate = this.repairname.buyDate.replace(/\//g, "-");
@@ -357,8 +392,8 @@ export class DeviceComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let SOFTWARES_URL = "/building/equipment/deleteEquipment/" + index;
-        this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
+        let url = "/building/equipment/deleteEquipment/" + index;
+        this.ipSetting.sendGet(url).subscribe(data => {
             if(this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示' ,
@@ -409,7 +444,7 @@ export class DeviceComponent implements OnInit {
         this.contractName.liablePerson = this.leading[i].userid;
       }
     }
-    console.log(this.contractName );
+    // console.log(this.contractName);
     this.changePerson2(this.contractName.liablePerson);
     $('.form-disable').find('input,textarea').attr("disabled",false);
     $('.form-entry').find('input,select').attr("disabled",true);
@@ -513,6 +548,7 @@ export class DeviceComponent implements OnInit {
           });
           this.contractName = new ArchName();
           this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
+          this.getDeviceList('','');
           this.contractCancel();
         }else{
           if(this.contractBool === false) {
@@ -667,6 +703,7 @@ export class Company {
 export class Arch {
   buildingId: string; // 大楼编号
   buildingName: String = '';  // 大楼名称
-  name: String = ''; // 设备名称
+  equipmentName: String = ''; // 设备名称
   liablePerson:string; // 维保责任人
 }
+

@@ -93,9 +93,9 @@
       </div>
       <div class="form-attach">
         <h4>附件</h4>
-        <ol *ngIf="inner.fileName">
-          <li style="word-break: break-all;" *ngFor="let abc of inner.fileName; let j=index">{{abc}}
-            <a [href]="URL + inner.filePath[j]" [download]="abc"><i class="icon-cloud-download"></i>下载</a>
+        <ol *ngIf="inner.fileName" style="height:120px; overflow-y: auto;">
+          <li style="word-break: break-all; margin-bottom:4px;" *ngFor="let abc of inner.fileName; let j=index">{{abc}}
+            <a [href]="URL + inner.filePath[j]" [download]="abc"><i class="icon-cloud-download">下载</i></a>
           </li>
         </ol>
       </div>
@@ -210,8 +210,8 @@
       </div>
       <div class="form-control form-alone">
         <span class="form-label">附件</span>
-        <ul class="contract-list">
-          <li *ngFor="let abc of repairname.fileName; let k=index">{{abc}}
+        <ul class="contract-list" style=" height:120px; overflow-y: auto">
+          <li *ngFor="let abc of repairname.fileName; let k=index" style="word-wrap:break-word; margin-bottom:4px;">{{abc}}
             <a  href="javascript:;" (click)="delFile(k)">×</a>
           </li>
         </ul>

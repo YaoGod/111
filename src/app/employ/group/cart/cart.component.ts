@@ -80,6 +80,7 @@ export class CartComponent implements OnInit {
         'imgType': 2,
       });
       $("#input-num-"+idxx+"").val(1);
+      return false;
     } else {
       $("#input-num-"+idxx+"").val(parseInt( $("#input-num-"+idxx+"").val()) - 1);
     }

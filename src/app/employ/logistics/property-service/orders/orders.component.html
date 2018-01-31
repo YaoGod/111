@@ -85,8 +85,8 @@
       <div class="form-attach">
         <h4>附件</h4>
         <ol *ngIf="inner.fileName" style="height:120px; overflow-y: auto;">
-          <li *ngFor="let abc of inner.fileName; let j=index" style="word-wrap:break-word ">{{abc}}
-            <a [href]="URL+ inner.filePath[j]" [download]="abc"><i class="icon-cloud-download"></i>下载</a>
+          <li *ngFor="let abc of inner.fileName; let j=index" style="word-wrap:break-word; margin-bottom:4px;">{{abc}}
+            <a [href]="URL+ inner.filePath[j]" [download]="abc"><i class="icon-cloud-download">下载</i></a>
           </li>
         </ol>
       </div>
