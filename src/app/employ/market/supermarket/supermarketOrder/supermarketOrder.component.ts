@@ -46,7 +46,7 @@ export class SupermarketOrderComponent implements OnInit {
 
   ngOnInit() {
     this.getRule();
-    this.search.serverCenter = "";
+    this.search.serviceCenter = "";
     this.getOrderAllList(1);
     this.getServiceCenter();
   }

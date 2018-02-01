@@ -23,7 +23,7 @@
               </li>
               <li>
                 <label>服务中心</label>
-                <select [(ngModel)]="search.serverCenter">
+                <select [(ngModel)]="search.serviceCenter">
                   <option value="">全部</option>
                   <option *ngFor="let serviceCenter of serviceCenters" [value]="serviceCenter.name">
                     {{serviceCenter.name}}

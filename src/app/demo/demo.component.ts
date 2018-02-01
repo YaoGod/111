@@ -1,4 +1,5 @@
 import {Component, OnInit, EventEmitter} from '@angular/core';
+import {Http} from '@angular/http';
 @Component({
   selector: 'app-demo',
   templateUrl: './demo.component.html',
@@ -8,7 +9,9 @@ export class DemoComponent implements OnInit {
 
   public title:string;
   public formData:any;
-  constructor() { }
+  constructor(
+    private http:Http
+  ) { }
 
   ngOnInit() {
     this.title = "发货清单";
@@ -41,5 +44,13 @@ export class DemoComponent implements OnInit {
         ]
       }
     ]
+  }
+  setSrc(e){
+    console.log(e);
+    this.http.get("proxy/common/image/getImage?path=")
+      .map(res=>res.json())
+      .subscribe(data=>{
+        e.src = data;
+      })
   }
 }
