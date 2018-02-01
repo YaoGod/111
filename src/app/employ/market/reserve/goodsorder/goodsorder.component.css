@@ -76,12 +76,11 @@
   color: #fff;
   outline:none;
   cursor: pointer;
-}
-.btn-yd{
-  background: #ff5400;
+  background: #ff3c00;
+  transition: all .5s;
 }
 .btn:hover{
-  background: #ff3c00;
+  transform: scale(1.1,1.1);
 }
 .mt30{
   margin-top: 40px;
@@ -460,7 +459,9 @@
   width: 33%;
   font-size: 12px;
 }
-
+.zero.status{
+  color:#ff0000;
+}
 .yuding .sec{
   width: 15%;
   font-size: 16px;

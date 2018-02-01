@@ -47,9 +47,9 @@
                     <td class="zero">下单人编号：{{order.userId}}</td>
                     <td class="zero">下单时间：{{order.payTime}}</td>
                     <td class="zero">订单价格：{{order.payment}}元</td>
-                    <td class="zero" *ngIf="order.status=='0'">订单状态：订购中</td>
-                    <td class="zero" *ngIf="order.status=='1'">订单状态：已到货</td>
-                    <td class="zero" *ngIf="order.status=='2'">订单状态：退单</td>
+                    <td class="zero status" *ngIf="order.status=='0'">订单状态：订购中</td>
+                    <td class="zero status" *ngIf="order.status=='1'">订单状态：已到货</td>
+                    <td class="zero status" *ngIf="order.status=='2'">订单状态：退单</td>
                     <td class="zero" *ngIf="order.groupMessage!=null">
                     <button *ngIf="rule&&rule.isUpdate&&order.groupMessage.reply==null" type="button" class="btn btn-info" style="padding: 2px 2px;float:inherit;color:black"
                             (click)="addMessage(order.id)">已评价</button>

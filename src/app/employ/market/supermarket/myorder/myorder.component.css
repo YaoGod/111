@@ -219,12 +219,12 @@ select{outline:medium;}
   color: #fff;
   outline:none;
   cursor: pointer;
-}
-.btn-yd{
-  background: #ff5400;
-}
-.btn:hover{
   background: #ff3c00;
+  transition: all .4s;
+}
+
+.btn:hover{
+  transform: scale(1.05,1.05);
 }
 .mt30{
   margin-top: 40px;
@@ -247,7 +247,9 @@ select{outline:medium;}
   color: #fff;
   background: #66cdff;
 }
-
+.zero.status{
+  color:#ff0000;
+}
 /*团购*/
 .clearb{
   clear: both;

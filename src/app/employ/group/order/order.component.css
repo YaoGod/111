@@ -35,6 +35,9 @@
 .b-head-left{
   height: 40px;
 }
+.zero.status{
+  color:#ff0000;
+}
 .b-con{
   min-height:500px;
 }

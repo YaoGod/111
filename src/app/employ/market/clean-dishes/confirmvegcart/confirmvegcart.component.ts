@@ -6,6 +6,7 @@ import {VegetableInfoService } from '../../../../service/vegetable-info/vegetabl
 import {VegetableOrder} from '../../../../mode/vegetableOrder/vegetable-order.service';
 import {ActivatedRoute, Router} from "@angular/router";
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
+import {isUndefined} from "util";
 declare var confirmFunc:any;
 
 @Component({
@@ -97,6 +98,15 @@ export class ConfirmvegcartComponent implements OnInit {
   }
   payCount(){
     if(this.leftMoney>0){
+      if(this.order.serviceCenter === undefined){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '请选择服务中心！',
+          'popType': 0 ,
+          'imgType': 2 ,
+        });
+        return false;
+      }
       $('.maskYzm').show();
       this.djs = 0;
       this.getYzm();
@@ -105,7 +115,7 @@ export class ConfirmvegcartComponent implements OnInit {
         'title': '提示' ,
         'mes': '账户余额不足，请先充值！',
         'popType': 0 ,
-        'imgType': 1 ,
+        'imgType': 2 ,
       });
     }
   }

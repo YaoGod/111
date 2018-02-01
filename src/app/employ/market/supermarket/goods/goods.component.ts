@@ -180,15 +180,12 @@ export class GoodsComponent implements OnInit {
   closeMaskUp() {
     $('.maskUpdate').hide();
     $('#prese').val('');
+    $('.errorMessage').html('');
     this.productUp =  new SupermarketProduct();
   }
   closeMaskView(){
     $('.maskView').hide();
   }
-    delete(code: number) {
-      this.code = code;
-      $('.confirm').fadeIn();
-    }
   /*删除*/
   deleteGoods(id) {
     confirmFunc.init({
@@ -212,9 +209,6 @@ export class GoodsComponent implements OnInit {
       }
     });
   }
-  noFunc() {
-    $('.confirm').fadeOut();
-  }
   add() {
     $('.maskAdd').show();
     this.productAdd.pstatus = "1";
@@ -223,6 +217,7 @@ export class GoodsComponent implements OnInit {
   closeMaskAdd() {
     $('.maskAdd').hide();
     $('#prese1').val('');
+    $('.errorMessage').html('');
     this.productAdd = new SupermarketProduct();
   }
   /*新增页面文件图片上传*/

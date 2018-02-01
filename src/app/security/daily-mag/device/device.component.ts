@@ -35,7 +35,6 @@ export class DeviceComponent implements OnInit {
   private contractBool = true;
   public leading:any;
   public deviceList:any;
-  public deviceListInfo:any;
   public modelList:any;
 
   constructor(
@@ -62,7 +61,6 @@ export class DeviceComponent implements OnInit {
     this.searchArch = new Arch();
     this.pages = [];
     this.deviceList = [];
-    this.deviceListInfo = [];
     this.modelList = [];
     if($('.device-header a:last-child').hasClass('active')) {
       $('.guard-arch,.box2').fadeIn();
@@ -231,6 +229,7 @@ export class DeviceComponent implements OnInit {
     $('.errorMessage').html('');
     $('.mask-contract').hide();
     this.getDeviceList('','');
+    this.getDeviceList2('');
   }
 
   /*图片上传*/

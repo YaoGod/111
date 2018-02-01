@@ -770,6 +770,9 @@ select{outline:medium;}
 .table-head .zero .tre{
   background: url('../../../../../assets/image/icon-del.png') no-repeat;
 }
+.zero.status{
+  color:#ff0000;
+}
 .confirm-btn {
   color: #fff;
   border: 0;

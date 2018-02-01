@@ -59,7 +59,6 @@ export class GroupbuyComponent implements OnInit {
     this.getProductShowList();
     this.getNoticeList();
 
-    console.log(this.mangUrl);
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'group','employ/group')
@@ -74,7 +73,6 @@ export class GroupbuyComponent implements OnInit {
           }
           if(this.catas.length>0){
             this.mangUrl = this.catas[0].routeUrl;
-            console.log(this.mangUrl);
           }
         }
       })
@@ -110,7 +108,6 @@ export class GroupbuyComponent implements OnInit {
       .subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.groupProducts = data.data.infos;
-        console.log(data.data);
         this.cartsize = data.data.cartsize;
         this.total = data.data.total;
       }
@@ -155,7 +152,6 @@ export class GroupbuyComponent implements OnInit {
     this.groupNoticeService.getNotice(id).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.groupNotice = data.data;
-        // console.log(this.groupNotice);
       }
     });
     $('.mask').show();
