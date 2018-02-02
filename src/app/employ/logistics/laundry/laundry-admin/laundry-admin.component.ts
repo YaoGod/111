@@ -94,11 +94,11 @@ export class LaundryAdminComponent implements OnInit {
   }
   /*增加扣款项目*/
   updateNew(){
-    let SOFTWARES_URL = '/mmall/laundryOrder/updateOrder';
+    let url = '/mmall/laundryOrder/updateOrder';
     this.abc.balance = Number(this.list[0].value)+Number(this.list[1].value);
     this.abc.balanceReason = this.list;
     console.log(this.abc);
-    this.ipSetting.sendPost(SOFTWARES_URL,this.abc).subscribe(data => {
+    this.ipSetting.sendPost(url,this.abc).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         confirmFunc.init({
           'title': '提示' ,
@@ -146,8 +146,8 @@ export class LaundryAdminComponent implements OnInit {
       'callback': () => {
         this.offline.id = id;
         this.offline.status = '4';
-        let SOFTWARES_URL = '/mmall/laundryOrder/updateOrder';
-        this.ipSetting.sendPost(SOFTWARES_URL,this.offline).subscribe(data => {
+        let url = '/mmall/laundryOrder/updateOrder';
+        this.ipSetting.sendPost(url,this.offline).subscribe(data => {
           if(this.errorVoid.errorMsg(data)) {
             confirmFunc.init({
               'title': '提示' ,

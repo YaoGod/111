@@ -24,6 +24,9 @@
 .list-table{
   margin-top: 10px;
 }
+.zero.status{
+  color:#ff0000;
+}
 .list-table .table-head0 {
   width: 100%;
   height: 34px;

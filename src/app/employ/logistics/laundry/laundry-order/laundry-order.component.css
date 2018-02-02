@@ -24,6 +24,9 @@
 .b-con{
   min-height:500px;
 }
+.zero.status{
+  color:#ff0000;
+}
 .list-table{
   margin-top: 10px;
 }
