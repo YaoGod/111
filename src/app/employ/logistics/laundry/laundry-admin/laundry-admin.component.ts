@@ -81,13 +81,20 @@ export class LaundryAdminComponent implements OnInit {
   /*编辑*/
   addOrderItems(index){
     this.orderId = index;
-    let linshi = index;
-    this.search.orderNo = linshi;
+    let linshi = {
+      orderNo:index
+    };
+    // this.search.orderNo = linshi;
     let url = '/mmall/laundryOrder/getOrderAllList/'+this.pageNo+'/'+this.pageSize;
-    this.ipSetting.sendPost(url,this.search).subscribe(data => {
+    this.ipSetting.sendPost(url,linshi).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
-        this.abc = data.data.infos[0];
-        console.log(this.abc);
+        if(data.data.infos[0] === undefined){
+          this.abc = {
+            balance:'',
+          }
+        }else{
+          this.abc = data.data.infos[0];
+        }
       }
     });
     $('.mask0').fadeIn();
@@ -97,7 +104,7 @@ export class LaundryAdminComponent implements OnInit {
     let url = '/mmall/laundryOrder/updateOrder';
     this.abc.balance = Number(this.list[0].value)+Number(this.list[1].value);
     this.abc.balanceReason = this.list;
-    console.log(this.abc);
+
     this.ipSetting.sendPost(url,this.abc).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         confirmFunc.init({
