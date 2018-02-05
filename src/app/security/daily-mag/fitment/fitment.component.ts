@@ -102,8 +102,8 @@ export class FitmentComponent implements OnInit {
       })
   }
   /*获取楼层名称*/
-  getFloorNameListInfo(id:number) {
-    this.infoBuildingService.getFloorNameListMsg(id)
+  getFloorNameListInfo(id:string) {
+    this.infoBuildingService.getFloorNameListMsg(Number(id))
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.floorNames = data.data;
@@ -208,7 +208,7 @@ export class FitmentComponent implements OnInit {
   editRecord(index) {
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
-    this.getFloorNameListInfo(Number(this.repairname.buildingId));
+    this.getFloorNameListInfo(this.repairname.buildingId);
     this.repairname.decorateBtime = this.repairname.decorateBtime.replace(/\//g, "-");
     this.repairname.decorateEtime = this.repairname.decorateEtime.replace(/\//g, "-");
     $('.mask-repair').fadeIn();
@@ -274,13 +274,13 @@ export class FitmentComponent implements OnInit {
     });
   }
   /*装修记录校验规则*/
-  private verifyId() {
+  public verifyId() {
     if (!this.isEmpty('Id', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyRecordId() {
+  public verifyRecordId() {
     if (!this.isEmpty('recordId', '不能为空')) {
       return false;
     }
@@ -289,25 +289,25 @@ export class FitmentComponent implements OnInit {
     }
     return true;
   }
-  private verifydecorateFloor() {
+  public verifydecorateFloor() {
     if (!this.isEmpty('decorateFloor', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyCmccDepartment() {
+  public verifyCmccDepartment() {
     if (!this.isEmpty('cmccDepartment', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyCmccContacts() {
+  public verifyCmccContacts() {
     if (!this.isEmpty('cmccContacts', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyCmccPhone()  {
+  public verifyCmccPhone()  {
     if (!this.isEmpty('cmccPhone', '不能为空')) {
       return false;
     }
@@ -316,19 +316,19 @@ export class FitmentComponent implements OnInit {
     }
     return true;
   }
-  private verifydecorateDepartment() {
+  public verifydecorateDepartment() {
     if (!this.isEmpty('decorateDepartment', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifydecorateContacts() {
+  public verifydecorateContacts() {
     if (!this.isEmpty('decorateContacts', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifydecoratePhone()  {
+  public verifydecoratePhone()  {
     if (!this.isEmpty('decoratePhone', '不能为空')) {
       return false;
     }
@@ -337,19 +337,19 @@ export class FitmentComponent implements OnInit {
     }
     return true;
   }
-  private verifydecorateBtime() {
+  public verifydecorateBtime() {
     if (!this.isEmpty('decorateBtime', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifydecorateEtime() {
+  public verifydecorateEtime() {
     if (!this.isEmpty('decorateEtime', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifydecorateCost() {
+  public verifydecorateCost() {
     if (!this.isEmpty('decorateCost', '不能为空')) {
       return false;
     }
@@ -358,7 +358,7 @@ export class FitmentComponent implements OnInit {
     }
     return true;
   }
-  private verifydecorateNote() {
+  public verifydecorateNote() {
     if (!this.isEmpty('repairNote', '不能为空')) {
       return false;
     }
@@ -367,7 +367,7 @@ export class FitmentComponent implements OnInit {
 
   /*新增/编辑装修记录提交*/
   recordSubmit() {
-    var SOFTWARES_URL;
+    let SOFTWARES_URL;
     if(this.editBool === false){
       SOFTWARES_URL = "/building/decorate/updateDecorateRecord";
     }else{
@@ -407,31 +407,31 @@ export class FitmentComponent implements OnInit {
       });
   }
   /*合同信息校验*/
-  private verifyContractId() {
+  public verifyContractId() {
     if (!this.isEmpty('contractId', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifycontractNum() {
+  public verifycontractNum() {
     if (!this.isEmpty('contractNum', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyCmccName() {
+  public verifyCmccName() {
     if (!this.isEmpty('cmccName', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifycontractcmccContacts() {
+  public verifycontractcmccContacts() {
     if (!this.isEmpty('contractcmccContacts', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifycontractcmccPhone()  {
+  public verifycontractcmccPhone()  {
     if (!this.isEmpty('contractcmccPhone', '不能为空')) {
       return false;
     }
@@ -440,19 +440,19 @@ export class FitmentComponent implements OnInit {
     }
     return true;
   }
-  private verifycontractname2() {
+  public verifycontractname2() {
     if (!this.isEmpty('contractname2', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifycontacts() {
+  public verifycontacts() {
     if (!this.isEmpty('contacts', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyphone()  {
+  public verifyphone()  {
     if (!this.isEmpty('phone', '不能为空')) {
       return false;
     }
@@ -461,13 +461,13 @@ export class FitmentComponent implements OnInit {
     }
     return true;
   }
-  private verifycontractBtime() {
+  public verifycontractBtime() {
     if (!this.isEmpty('contractBtime', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifycontractEtime() {
+  public verifycontractEtime() {
     if (!this.isEmpty('contractEtime', '不能为空')) {
       return false;
     }
@@ -475,10 +475,10 @@ export class FitmentComponent implements OnInit {
   }
   /*合同上传*/
   prese_upload(files){
-    var xhr = this.utilBuildingService.uploadFile(files[0],'decorate',-1);
+    let xhr = this.utilBuildingService.uploadFile(files[0],'decorate',-1);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
-        var data:any = JSON.parse(xhr.responseText);
+        let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
           this.contractName.fileName.push(files[0].name);
           this.contractName.filePath.push(data.msg);
@@ -508,7 +508,7 @@ export class FitmentComponent implements OnInit {
   }
   /*新增/编辑合同信息提交*/
   contractSubmit() {
-    var SOFTWARES_URL;
+    let SOFTWARES_URL;
     if(this.contractBool === false){
       SOFTWARES_URL = "/building/decorate/updateDecorateContract";
     }else{
@@ -565,7 +565,7 @@ export class FitmentComponent implements OnInit {
     }
   }
   /**非空校验*/
-  private isEmpty(id: string, error: string): boolean  {
+  public isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if(data === null){
       this.addErrorClass(id, error);
@@ -581,7 +581,7 @@ export class FitmentComponent implements OnInit {
     }
   }
   /**验证手机号*/
-  private verifyIsTel(id: string, error?: string): boolean {
+  public verifyIsTel(id: string, error?: string): boolean {
     const data =  $('#' + id).val();
     if (!String(data).match(/^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/)&&
       !String(data).match(/^400\-[\d|\-]{7}[\d]{1}$/) )  {
@@ -593,7 +593,7 @@ export class FitmentComponent implements OnInit {
     }
   }
   /**匹配数字 */
-  private verifyIsNumber(id: string, error: string): boolean  {
+  public verifyIsNumber(id: string, error: string): boolean  {
     const data =  $('#' + id).val();// /^[0-9]*$/
     if (!String(data).match(/^[0-9]*$/))  {
       this.addErrorClass(id, error);
@@ -604,7 +604,7 @@ export class FitmentComponent implements OnInit {
     }
   }
   /**校验是否包含中文英文数字   */
-  private verifyIsBlend(id: string, error: string): boolean {
+  public verifyIsBlend(id: string, error: string): boolean {
     const data =  $('#' + id).val();
     if (!String(data).match(/^[\u4E00-\u9FA5A-Za-z0-9]+$/))  {
       this.addErrorClass(id, error);
@@ -615,7 +615,7 @@ export class FitmentComponent implements OnInit {
     }
   }
   /**校验字符长度小于4*/
-  private verifyLength(id: string, error: string): boolean  {
+  public verifyLength(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data.length < 4)  {
       this.addErrorClass(id, error);
@@ -626,7 +626,7 @@ export class FitmentComponent implements OnInit {
     }
   }
   /**校验装修单*/
-  private verifyRecoad(id: string, error: string): boolean {
+  public verifyRecoad(id: string, error: string): boolean {
     const data =  $('#' + id).val();
     if (!String(data).match(/^Z\d{4}$/))  {
       this.addErrorClass(id, error);
@@ -637,7 +637,7 @@ export class FitmentComponent implements OnInit {
     }
   }
   /** * 添加错误信息class   */
-  private  addErrorClass(id: string, error?: string)  {
+  public  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
       $('#' + id).next('span').html('输入错误');
@@ -646,7 +646,7 @@ export class FitmentComponent implements OnInit {
     }
   }
   /**去除错误信息class */
-  private  removeErrorClass(id: string) {
+  public  removeErrorClass(id: string) {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
   }
@@ -657,7 +657,7 @@ export class RepairName {
   buildingNum: string;
   buildingName: string;
   recordId: string; // 装修单编号
-  decorateFloor: string = ''; // 装修楼层
+  decorateFloor = ''; // 装修楼层
   cmccDepartment: string; // 需要装修部门
   cmccContacts: string; // 需要装修单位联系人
   cmccPhone: string; // 需要装修单位联系人电话
@@ -685,8 +685,8 @@ export class ContractName {
   contractStatus: string; // 合同状态
   contractBtime: string; // 合同开始时间
   contractEtime: string; // 合同结束时间
-  filePath: string[]; //合同路径
-  fileName: string[]; //合同名字
+  filePath: string[]; // 合同路径
+  fileName: string[]; // 合同名字
 }
 export class SearchRecord {
   buildingId: string; // 大楼编号

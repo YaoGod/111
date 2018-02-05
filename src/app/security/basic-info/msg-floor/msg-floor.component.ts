@@ -70,10 +70,10 @@ export class MsgFloorComponent implements OnInit {
     this.searchFloor.floorNum = '';
     this.searchFloor.floorUse = '';
     this.getFloorNameListInfo(id);
-    this.getFloorInfo(1);
+    this.getFloorInfo(null,1);
   }
   /*获取楼层信息*/
-  getFloorInfo(pageNo:number) {
+  getFloorInfo(e,pageNo:number) {
     this.pageNo = pageNo;
     let copySearch = JSON.parse(JSON.stringify(this.searchFloor));
     if(this.searchFloor.floorNum === '') {
@@ -101,7 +101,7 @@ export class MsgFloorComponent implements OnInit {
       });
   }
   search(){
-    this.getFloorInfo(1);
+    this.getFloorInfo(null,1);
   }
   /*查看大楼房间信息*/
   goToRoom(id){

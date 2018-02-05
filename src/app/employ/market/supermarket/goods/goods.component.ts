@@ -221,7 +221,7 @@ export class GoodsComponent implements OnInit {
     this.productAdd = new SupermarketProduct();
   }
   /*新增页面文件图片上传*/
-  prese_upload(files,index){
+  prese_upload(files){
     var xhr = this.marketManagerService.uploadImg(files[0],'supermarket',-4);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
@@ -240,7 +240,7 @@ export class GoodsComponent implements OnInit {
     };
   }
   /*修改文件图片上传*/
-  prese_upload2(files,index){
+  prese_upload2(files){
     var xhr = this.marketManagerService.uploadImg(files[0],'supermarket',-4);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
@@ -258,7 +258,7 @@ export class GoodsComponent implements OnInit {
       }
     };
   }
-  private checkPrice(id){
+  public checkPrice(id){
       var reg =/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
       if(!reg.test($('#' + id).val())){
         this.addErrorClass(id, "请输入正确的价格");
@@ -266,7 +266,7 @@ export class GoodsComponent implements OnInit {
       }
   }
 
-  private verifyEmpty(id,label) {
+  public verifyEmpty(id,label) {
     if (!this.isEmpty(id, label)) {
       return false;
     }else{
@@ -277,7 +277,7 @@ export class GoodsComponent implements OnInit {
 
 
 /**非空校验*/
-private isEmpty(id: string, error: string): boolean  {
+public isEmpty(id: string, error: string): boolean  {
   const data =  $('#' + id).val();
   if (data==null||data===''||data.trim() === '')  {
     this.addErrorClass(id, error);
@@ -292,7 +292,7 @@ private isEmpty(id: string, error: string): boolean  {
  * @param id
  * @param error
  */
-private  addErrorClass(id: string, error?: string)  {
+public  addErrorClass(id: string, error?: string)  {
   $('#' + id).parents('.form-control').addClass('form-error');
   if (error === undefined || error.trim().length === 0 ) {
     $('#' + id).next('span').html('输入错误');
@@ -304,7 +304,7 @@ private  addErrorClass(id: string, error?: string)  {
  * 去除错误信息class
  * @param id
  */
-private  removeErrorClass(id: string) {
+public  removeErrorClass(id: string) {
   $('#' + id).parents('.form-control').removeClass('form-error');
   $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
   $('#' + id).next('span').html('');

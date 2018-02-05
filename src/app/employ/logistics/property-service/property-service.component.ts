@@ -19,7 +19,7 @@ export class PropertyServiceComponent implements OnInit {
               private errorVoid:ErrorResponseService,
               private utilBuildingService:UtilBuildingService,
               private globalCatalogService:GlobalCatalogService,
-              private ipSetting  : IpSettingService
+              public ipSetting  : IpSettingService
   ) {}
 
   ngOnInit() {

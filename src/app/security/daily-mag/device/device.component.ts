@@ -233,7 +233,7 @@ export class DeviceComponent implements OnInit {
   }
 
   /*图片上传*/
-  prese_upload(files,index) {
+  prese_upload(files) {
     var xhr = this.utilBuildingService.uploadImg(files[0],'equip',-1);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
@@ -451,67 +451,67 @@ export class DeviceComponent implements OnInit {
     $('.mask-contract .mask-head p').html('完善工单信息');
   }
   /*工单信息校验*/
-  private verifyID() {
+  public verifyID() {
     if (!this.isEmpty('ID', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyequipmentName() {
+  public verifyequipmentName() {
     if (!this.isEmpty('equipmentName', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyequipModel() {
+  public verifyequipModel() {
     if (!this.isEmpty('equipModel', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifymaintenance2() {
+  public verifymaintenance2() {
     if (!this.isEmpty('maintenance2', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifymType() {
+  public verifymType() {
     if (!this.isEmpty('mType', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyliablePerson2() {
+  public verifyliablePerson2() {
     if (!this.isEmpty('liablePerson2', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyliableBtime() {
+  public verifyliableBtime() {
     if (!this.isEmpty('liableBtime', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyliableEtime() {
+  public verifyliableEtime() {
     if (!this.isEmpty('liableEtime', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyliableNextTime() {
+  public verifyliableNextTime() {
     if (!this.isEmpty('liableNextTime', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyliableCost()  {
+  public verifyliableCost()  {
     if (!this.isEmpty('liableCost', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyliableNote()  {
+  public verifyliableNote()  {
     if (!this.isEmpty('liableNote', '不能为空')) {
       return false;
     }
@@ -585,7 +585,7 @@ export class DeviceComponent implements OnInit {
     }
   }
   /**非空校验*/
-  private isEmpty(id: string, error: string): boolean  {
+  public isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if(data === null){
       this.addErrorClass(id, error);
@@ -601,7 +601,7 @@ export class DeviceComponent implements OnInit {
     }
   }
   /**邮箱格式校验*/
-  private verifyIsEmail(id: string, error?: string): boolean {
+  public verifyIsEmail(id: string, error?: string): boolean {
     const data =  $('#' + id).val();
     if (!String(data).match(/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/)) {
       this.addErrorClass(id,  '邮箱格式错误' );
@@ -612,7 +612,7 @@ export class DeviceComponent implements OnInit {
     }
   }
   /** 匹配数字*/
-  private verifyIsNumber(id: string, error: string): boolean  {
+  public verifyIsNumber(id: string, error: string): boolean  {
     const data =  $('#' + id).val();// /^[0-9]*$/
     if (!String(data).match(/^[0-9]*$/))  {
       this.addErrorClass(id, error);
@@ -623,7 +623,7 @@ export class DeviceComponent implements OnInit {
     }
   }
   /**验证手机号码*/
-  private verifyIsTel(id: string, error?: string): boolean {
+  public verifyIsTel(id: string, error?: string): boolean {
     const data =  $('#' + id).val();
     if (!String(data).match( /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/ )){
       this.addErrorClass(id, error);
@@ -634,7 +634,7 @@ export class DeviceComponent implements OnInit {
     }
   }
   /**校验字符长度小于4 */
-  private verifyLength(id: string, error: string): boolean  {
+  public verifyLength(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data.length < 4)  {
       this.addErrorClass(id, error);
@@ -645,7 +645,7 @@ export class DeviceComponent implements OnInit {
     }
   }
   /**添加错误信息class*/
-  private  addErrorClass(id: string, error?: string)  {
+  public  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
       $('#' + id).next('span').html('输入错误');
@@ -654,7 +654,7 @@ export class DeviceComponent implements OnInit {
     }
   }
   /**去除错误信息class*/
-  private  removeErrorClass(id: string) {
+  public  removeErrorClass(id: string) {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
   }

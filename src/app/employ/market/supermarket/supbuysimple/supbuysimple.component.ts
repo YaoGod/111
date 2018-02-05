@@ -10,6 +10,7 @@ declare var confirmFunc:any;
   styleUrls: ['./supbuysimple.component.css']
 })
 export class SupbuysimpleComponent implements OnInit {
+  public idx = 0;
   public cart: SupermarketCart;
   constructor(private supermarketManagerService: SupermarketManagerService,
               private errorVoid: ErrorResponseService,) { }

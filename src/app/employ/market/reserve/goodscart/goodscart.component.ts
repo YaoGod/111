@@ -21,7 +21,7 @@ export class GoodscartComponent implements OnInit {
   public payType: string;
   public myAddress: string;
 
-  constructor(private ipSetting  : IpSettingService,
+  constructor(public ipSetting  : IpSettingService,
               private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
@@ -187,7 +187,7 @@ export class GoodscartComponent implements OnInit {
     $('.maskSubmitOrder').hide();
   }
 
-  private verifyEmpty(id,label) {
+  public verifyEmpty(id,label) {
     if (!this.isEmpty(id, label)) {
       return false;
     }else{
@@ -195,7 +195,7 @@ export class GoodscartComponent implements OnInit {
     }
   }
   /**非空校验*/
-  private isEmpty(id: string, error: string): boolean  {
+  public isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data==null||data==''||data.trim() == '')  {
       this.addErrorClass(id, error);
@@ -210,7 +210,7 @@ export class GoodscartComponent implements OnInit {
    * @param id
    * @param error
    */
-  private  addErrorClass(id: string, error?: string)  {
+  public  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
       $('#' + id).siblings('span').html('输入错误');
@@ -222,7 +222,7 @@ export class GoodscartComponent implements OnInit {
    * 去除错误信息class
    * @param id
    */
-  private  removeErrorClass(id: string) {
+  public  removeErrorClass(id: string) {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
     $('#' + id).next('span').html('');

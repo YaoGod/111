@@ -27,7 +27,7 @@ export class EnergyComponent implements OnInit {
   public buildings:any;
   public rule : any;
   public jurisdiction:any;
-  private editBool = true;
+  public editBool = true;
 
   public pageSize = 12;
   public pageNo = 1;
@@ -154,7 +154,7 @@ export class EnergyComponent implements OnInit {
     $('#induction').fadeIn();
   }
   /*关闭导入对话框*/
-  private closeInduction()  {
+  public closeInduction()  {
     $('#induction').fadeOut();
     $('#prese').val('');
   }
@@ -187,11 +187,11 @@ export class EnergyComponent implements OnInit {
     $('#deriving').fadeIn();
   }
   /*关闭导出对话框*/
-  private closeDeriving() {
+  public closeDeriving() {
     $('#deriving').hide();
   }
   /*导出数据下载*/
-  private downDeriving(){
+  public downDeriving(){
     if((typeof this.search.energyType) === 'undefined'){
       // this.search.companyName = 'null';
     }
@@ -342,7 +342,7 @@ export class EnergyComponent implements OnInit {
      this.getRecord(this.search, this.pageNo, this.pageSize);
   }
   /**非空校验*/
-  private isEmpty(id: string, error: string): boolean  {
+  public isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if(data === null){
       this.addErrorClass(id, error);
@@ -358,7 +358,7 @@ export class EnergyComponent implements OnInit {
     }
   }
   /**邮箱格式校验*/
-  private verifyIsEmail(id: string, error?: string): boolean {
+  public verifyIsEmail(id: string, error?: string): boolean {
     const data =  $('#' + id).val();
     if (!String(data).match(/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/)) {
       this.addErrorClass(id,  '请填写正确邮箱');
@@ -369,7 +369,7 @@ export class EnergyComponent implements OnInit {
     }
   }
   /** 匹配数字*/
-  private verifyIsNumber(id: string, error: string): boolean  {
+  public verifyIsNumber(id: string, error: string): boolean  {
     const data =  $('#' + id).val();// /^[0-9]*$/
     if (!String(data).match(/^[0-9]*$/))  {
       this.addErrorClass(id, error);
@@ -380,7 +380,7 @@ export class EnergyComponent implements OnInit {
     }
   }
   /** 验证手机号码*/
-  private verifyIsTel(id: string, error?: string): boolean {
+  public verifyIsTel(id: string, error?: string): boolean {
     const data =  $('#' + id).val();
     if (!String(data).match( /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/ )){
       this.addErrorClass(id, error);
@@ -391,7 +391,7 @@ export class EnergyComponent implements OnInit {
     }
   }
   /**校验字符长度小于4*/
-  private verifyLength(id: string, error: string): boolean  {
+  public verifyLength(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data.length < 4)  {
       this.addErrorClass(id, error);
@@ -402,7 +402,7 @@ export class EnergyComponent implements OnInit {
     }
   }
   /**添加错误信息class*/
-  private  addErrorClass(id: string, error?: string)  {
+  public  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
       $('#' + id).next('span').html('输入错误');
@@ -411,7 +411,7 @@ export class EnergyComponent implements OnInit {
     }
   }
   /**去除错误信息class*/
-  private  removeErrorClass(id: string) {
+  public  removeErrorClass(id: string) {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
   }

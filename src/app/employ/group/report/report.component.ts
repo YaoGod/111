@@ -30,7 +30,7 @@ export class ReportComponent implements OnInit {
   constructor(private groupOrderService: GroupOrderService,
               private globalCatalogService: GlobalCatalogService,
               private errorVoid: ErrorResponseService,
-              private http: Http, private ipSetting:IpSettingService) { }
+              private http: Http, public ipSetting:IpSettingService) { }
 
   ngOnInit() {
     this.getRule();
@@ -89,14 +89,14 @@ export class ReportComponent implements OnInit {
   }
 
   /*关闭导出对话框*/
-  private closeDeriving() {
+  public closeDeriving() {
     $('#deriving').hide();
   }
   downLoad(key){
     window.location.href = this.ipSetting.ip + '/mmall/order/downExcel/'+key;
   }
   /*导出数据下载*/
-  private downDeriving(){
+  public downDeriving(){
     let url = '/mmall/order/getOrderExcel';
     this.ipSetting.sendPost(url,this.search)
       .subscribe(data => {

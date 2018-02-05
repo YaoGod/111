@@ -86,7 +86,7 @@ export class StaffWelfareMangComponent implements OnInit {
     this.tempOther = [];
   }
   /*文件图片上传*/
-  prese_upload(files,index){
+  prese_upload(files){
     var xhr = this.welfareEmployeeService.uploadImg(files[0],-1);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {

@@ -12,7 +12,7 @@ export class WelfareEmployeeService {
   });
   constructor(
     private http: Http,
-    private ipSetting  : IpSettingService
+    public ipSetting  : IpSettingService
   ) { }
   /*
    图片上传

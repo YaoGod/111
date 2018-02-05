@@ -48,7 +48,7 @@ export class GoodsComponent implements OnInit {
     status: ''
   };
   constructor(
-    private ipSetting: IpSettingService,
+    public ipSetting: IpSettingService,
     private errorVoid: ErrorResponseService,
     private globalCatalogService: GlobalCatalogService) { }
 
@@ -227,7 +227,7 @@ export class GoodsComponent implements OnInit {
     return true;
   }
   /**非空校验*/
-  private isEmpty(id: string, error: string): boolean  {
+  public isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data==null||data==''||data.trim() === '')  {
       this.addErrorClass(id, error);
@@ -237,7 +237,7 @@ export class GoodsComponent implements OnInit {
       return true;
     }
   }
-  private verifyProductPrice(id) {
+  public verifyProductPrice(id) {
     if (!this.verifyIsNumber(id, '请输入正确的费用格式')) {
       return false;
     }
@@ -249,7 +249,7 @@ export class GoodsComponent implements OnInit {
    * @param error
    * @returns {boolean}
    */
-  private verifyIsNumber(id: string, error: string): boolean  {
+  public verifyIsNumber(id: string, error: string): boolean  {
     const data =  $('#' + id).val();// /^[0-9]*$/
     if (!String(data).match(/^[1-9]\d(\.\d+){0,2}$/))  {
       this.addErrorClass(id, error);
@@ -264,7 +264,7 @@ export class GoodsComponent implements OnInit {
    * @param id
    * @param error
    */
-  private  addErrorClass(id: string, error?: string)  {
+  public  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
       $('#' + id).next('span').html('输入错误');
@@ -276,7 +276,7 @@ export class GoodsComponent implements OnInit {
    * 去除错误信息class
    * @param id
    */
-  private removeErrorClass(id: string) {
+  public removeErrorClass(id: string) {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
     $('#' + id).next('span').html('');

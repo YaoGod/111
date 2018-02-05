@@ -382,7 +382,7 @@ chang(value) {
     $('#' + id).next('span').html('');
   }
   /*新增页面文件图片上传*/
-  prese_upload(files,index){
+  prese_upload(files){
     var xhr = this.vegetableInfoService.uploadImg(files[0],'vegetableInfo',-3);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
@@ -400,7 +400,7 @@ chang(value) {
     };
   }
   /*修改文件图片上传*/
-  prese_upload2(files,index){
+  prese_upload2(files){
     var xhr = this.vegetableInfoService.uploadImg(files[0],'vegetableInfo',-3);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {

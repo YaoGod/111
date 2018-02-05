@@ -120,7 +120,7 @@ export class HeaderComponent implements OnInit {
     }
 
   }
-  private verifyPassword(id:string){
+  public verifyPassword(id:string){
     if (!this.isEmpty(id,'· 请输入你的密码')) {
       return false;
     }
@@ -138,7 +138,7 @@ export class HeaderComponent implements OnInit {
 
   }
   //  校验是否为空
-  private isEmpty(id: string, error: string): boolean  {
+  public isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data.toString().trim() === '')  {
       this.addErrorClass(id,error);
@@ -149,7 +149,7 @@ export class HeaderComponent implements OnInit {
     }
   }
   /*匹配数字*/
-  private verifyIsNumber(id: string, error: string): boolean {
+  public verifyIsNumber(id: string, error: string): boolean {
     const data =  $('#' + id).val();
     if (!String(data).match(/^[0-9]*$/))  {
       this.addErrorClass(id, error);
@@ -160,7 +160,7 @@ export class HeaderComponent implements OnInit {
     }
   }
   /*匹配长度*/
-  private verifyLength(id: string, error: string): boolean {
+  public verifyLength(id: string, error: string): boolean {
     const data =  $('#' + id).val();
     if (data.length < 5)  {
       this.addErrorClass(id, error);
@@ -171,12 +171,12 @@ export class HeaderComponent implements OnInit {
     }
   }
   /* 添加错误信息*/
-  private addErrorClass(id: string, error: string)  {
+  public addErrorClass(id: string, error: string)  {
     $('#' + id).addClass('red');
     $('#' + id).parent().next('.error').fadeIn().html(error);
   }
   /*去除错误信息*/
-  private  removeErrorClass(id: string) {
+  public  removeErrorClass(id: string) {
     $('#' + id).removeClass('red');
     $('#' + id).parent().next('.error').fadeOut();
   }

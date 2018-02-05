@@ -44,7 +44,7 @@ export class RepairComponent implements OnInit {
     private errorVoid:ErrorResponseService,
     private utilBuildingService:UtilBuildingService,
     private globalCatalogService:GlobalCatalogService,
-    private ipSetting  : IpSettingService
+    public ipSetting  : IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("security/daily");
   }
@@ -191,13 +191,13 @@ export class RepairComponent implements OnInit {
   }
 
   /*维修记录校验规则*/
-  private verifyId() {
+  public verifyId() {
     if (!this.isEmpty('Id', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyRecordId() {
+  public verifyRecordId() {
     if (!this.isEmpty('recordId', '不能为空')) {
       return false;
     }
@@ -206,25 +206,25 @@ export class RepairComponent implements OnInit {
     }
     return true;
   }
-  private verifyRepairType() {
+  public verifyRepairType() {
     if (!this.isEmpty('repairType', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyCmccDepartment() {
+  public verifyCmccDepartment() {
     if (!this.isEmpty('cmccDepartment', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyCmccContacts() {
+  public verifyCmccContacts() {
     if (!this.isEmpty('cmccContacts', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyCmccPhone()  {
+  public verifyCmccPhone()  {
     if (!this.isEmpty('cmccPhone', '不能为空')) {
       return false;
     }
@@ -233,19 +233,19 @@ export class RepairComponent implements OnInit {
     }
     return true;
   }
-  private verifyRepairDepartment() {
+  public verifyRepairDepartment() {
     if (!this.isEmpty('repairDepartment', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyRepairContacts() {
+  public verifyRepairContacts() {
     if (!this.isEmpty('repairContacts', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyRepairPhone()  {
+  public verifyRepairPhone()  {
     if (!this.isEmpty('repairPhone', '不能为空')) {
       return false;
     }
@@ -254,19 +254,19 @@ export class RepairComponent implements OnInit {
     }
     return true;
   }
-  private verifyRepairBtime() {
+  public verifyRepairBtime() {
     if (!this.isEmpty('repairBtime', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyRepairEtime() {
+  public verifyRepairEtime() {
     if (!this.isEmpty('repairEtime', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyRepairCost() {
+  public verifyRepairCost() {
     if (!this.isEmpty('repairCost', '不能为空')) {
       return false;
     }
@@ -275,7 +275,7 @@ export class RepairComponent implements OnInit {
     }
     return true;
   }
-  private verifyRepairNote() {
+  public verifyRepairNote() {
     if (!this.isEmpty('repairNote', '不能为空')) {
       return false;
     }
@@ -434,31 +434,31 @@ export class RepairComponent implements OnInit {
     };
   }
   /*合同信息校验*/
-  private verifyContractId() {
+  public verifyContractId() {
     if (!this.isEmpty('contractId', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifycontractNum() {
+  public verifycontractNum() {
   if (!this.isEmpty('contractNum', '不能为空')) {
     return false;
   }
   return true;
 }
-  private verifyCmccName() {
+  public verifyCmccName() {
     if (!this.isEmpty('cmccName', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifycontractcmccContacts() {
+  public verifycontractcmccContacts() {
     if (!this.isEmpty('contractcmccContacts', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifycontractcmccPhone()  {
+  public verifycontractcmccPhone()  {
     if (!this.isEmpty('contractcmccPhone', '不能为空')) {
       return false;
     }
@@ -467,19 +467,19 @@ export class RepairComponent implements OnInit {
     }
     return true;
   }
-  private verifycontractname2() {
+  public verifycontractname2() {
     if (!this.isEmpty('contractname2', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifycontacts() {
+  public verifycontacts() {
     if (!this.isEmpty('contacts', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifyphone()  {
+  public verifyphone()  {
     if (!this.isEmpty('phone', '不能为空')) {
       return false;
     }
@@ -488,13 +488,13 @@ export class RepairComponent implements OnInit {
     }
     return true;
   }
-  private verifycontractBtime() {
+  public verifycontractBtime() {
     if (!this.isEmpty('contractBtime', '不能为空')) {
       return false;
     }
     return true;
   }
-  private verifycontractEtime() {
+  public verifycontractEtime() {
     if (!this.isEmpty('contractEtime', '不能为空')) {
       return false;
     }
@@ -590,7 +590,7 @@ export class RepairComponent implements OnInit {
     }
   }
   /**非空校验*/
-  private isEmpty(id: string, error: string): boolean  {
+  public isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if(data === null){
       this.addErrorClass(id, error);
@@ -609,7 +609,7 @@ export class RepairComponent implements OnInit {
    * 验证电话号码
    * @return
    */
-  private verifyIsTel(id: string, error?: string): boolean {
+  public verifyIsTel(id: string, error?: string): boolean {
     const data =  $('#' + id).val();/*/^1(3[4-9]|5[0-2]|8[0-3,78])\d{8}$/ 移动号段*/
     /*let isPhone = /^([0-9]{3,4}-)?[0-9]{7,8}$/;
     let isMob=/^((\+?86)|(\+86))?(13[012356789][0-9]{8}|15[012356789][0-9]{8}|18[02356789][0-9]{8}|147[0-9]{8}|1349[0-9]{7})$/;*/
@@ -628,7 +628,7 @@ export class RepairComponent implements OnInit {
    * @param error
    * @returns {boolean}
    */
-  private verifyIsNumber(id: string, error: string): boolean  {
+  public verifyIsNumber(id: string, error: string): boolean  {
     const data =  $('#' + id).val();// /^[0-9]*$/
     if (!String(data).match(/^[0-9]*$/))  {
       this.addErrorClass(id, error);
@@ -644,7 +644,7 @@ export class RepairComponent implements OnInit {
    * @param error
    * @returns {boolean}
    */
-  private verifyIsBlend(id: string, error: string): boolean {
+  public verifyIsBlend(id: string, error: string): boolean {
     const data =  $('#' + id).val();
     if (!String(data).match(/^[\u4E00-\u9FA5A-Za-z0-9]+$/))  {
       this.addErrorClass(id, error);
@@ -660,7 +660,7 @@ export class RepairComponent implements OnInit {
  * @param error
  * @returns {boolean}
  */
-private verifyRecoad(id: string, error: string): boolean {
+public verifyRecoad(id: string, error: string): boolean {
   const data =  $('#' + id).val();
   if (!String(data).match(/^[A-Z]\d{4}$/))  {
     this.addErrorClass(id, error);
@@ -676,7 +676,7 @@ private verifyRecoad(id: string, error: string): boolean {
    * @param error
    * @returns {boolean}
    */
-  private verifyLength(id: string, error: string): boolean  {
+  public verifyLength(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data.length < 4)  {
       this.addErrorClass(id, error);
@@ -691,7 +691,7 @@ private verifyRecoad(id: string, error: string): boolean {
    * @param id
    * @param error
    */
-  private  addErrorClass(id: string, error?: string)  {
+  public  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-inp').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
       $('#' + id).next('span').html('输入错误');
@@ -703,7 +703,7 @@ private verifyRecoad(id: string, error: string): boolean {
    * 去除错误信息class
    * @param id
    */
-  private  removeErrorClass(id: string) {
+  public  removeErrorClass(id: string) {
     $('#' + id).parents('.form-inp').removeClass('form-error');
     $('#' + id).parents('.form-inp').children('.errorMessage').html('');
   }

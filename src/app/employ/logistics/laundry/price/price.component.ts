@@ -39,7 +39,7 @@ export class PriceComponent implements OnInit {
     appliar:''
   };
   constructor(
-    private ipSetting: IpSettingService,
+    public ipSetting: IpSettingService,
     private globalCatalogService: GlobalCatalogService,
     private errorVoid: ErrorResponseService) { }
 
@@ -101,7 +101,7 @@ export class PriceComponent implements OnInit {
   }
 
   /**非空校验*/
-  private isEmpty(id: string, error: string): boolean  {
+  public isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data==null||data==''||data.trim() == '')  {
       this.addErrorClass(id, error);
@@ -112,7 +112,7 @@ export class PriceComponent implements OnInit {
     }
   }
 
-  private checkPrice(id){
+  public checkPrice(id){
     let reg =/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
     if(!reg.test($('#' + id).val())){
       this.addErrorClass(id, "请输入正确的价格");
@@ -120,7 +120,7 @@ export class PriceComponent implements OnInit {
     }
   }
 
-  private verifyEmpty(id,label) {
+  public verifyEmpty(id,label) {
     if(!this.isEmpty(id, label)) {
       return false;
     }else{
@@ -227,7 +227,7 @@ export class PriceComponent implements OnInit {
    * @param id
    * @param error
    */
-  private  addErrorClass(id: string, error?: string)  {
+  public  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
       $('#' + id).next('span').html('输入错误');
@@ -239,13 +239,13 @@ export class PriceComponent implements OnInit {
    * 去除错误信息class
    * @param id
    */
-  private  removeErrorClass(id: string) {
+  public  removeErrorClass(id: string) {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
     $('#' + id).next('span').html('');
   }
   /*跳页加载数据*/
-  goPage(page:number){
+  public goPage(page:number){
     this.pageNo = page;
     if(this.search==null){
       this.search = new FacPrice();

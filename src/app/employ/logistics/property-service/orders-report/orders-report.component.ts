@@ -37,7 +37,7 @@ export class OrdersReportComponent implements OnInit {
               private utilBuildingService:UtilBuildingService,
               private infoBuildingService:InfoBuildingService,
               private globalCatalogService:GlobalCatalogService,
-              private ipSetting  : IpSettingService
+              public ipSetting  : IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("property/orders");
   }
@@ -81,8 +81,8 @@ export class OrdersReportComponent implements OnInit {
       })
   }
   /*获取楼层名称*/
-  getFloorNameListInfo(id:number) {
-    this.infoBuildingService.getFloorNameListMsg(id)
+  getFloorNameListInfo(id:string) {
+    this.infoBuildingService.getFloorNameListMsg(Number(id))
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.floorNames = data.data;
@@ -134,7 +134,7 @@ export class OrdersReportComponent implements OnInit {
   /*删除信息*/
   delAttach(){  }
   /*获取人员下拉*/
-  private getPersonInfoList() {
+  public getPersonInfoList() {
     if(this.repairname.porpertyId==0){
       this.pin = 'clean';
     }else if(this.repairname.porpertyId==1){
@@ -157,7 +157,7 @@ export class OrdersReportComponent implements OnInit {
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
     console.log(this.repairname);
     this.getPersonInfoList();
-    this.getFloorNameListInfo(Number(this.repairname.buildingId));
+    this.getFloorNameListInfo(this.repairname.buildingId);
     if(this.repairname.orderStatus === '已执行'){
       this.repairname.orderStatus = '2';
     }else if(this.repairname.orderStatus === '结单'){
@@ -265,11 +265,11 @@ export class OrdersReportComponent implements OnInit {
     $('#deriving').fadeIn();
   }
   /*关闭导出对话框*/
-  private closeDeriving() {
+  public closeDeriving() {
     $('#deriving').hide();
   }
   /*导出数据下载*/
-  private downDeriving(){
+  public downDeriving(){
     if((typeof this.searchArch.startTime) === 'undefined' || (typeof this.searchArch.finshTime) === 'undefined'){
       this.searchArch.startTime = '';
       this.searchArch.finshTime = '';
@@ -296,7 +296,7 @@ export class OrdersReportComponent implements OnInit {
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
   }
   /**非空校验*/
-  private isEmpty(id: string, error: string): boolean  {
+  public isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if(data === null){
       this.addErrorClass(id, error);
@@ -312,7 +312,7 @@ export class OrdersReportComponent implements OnInit {
     }
   }
   /** 匹配数字 */
-  private verifyIsNumber(id: string, error: string): boolean  {
+  public verifyIsNumber(id: string, error: string): boolean  {
     const data =  $('#' + id).val();// /^[0-9]*$/
     if (!String(data).match(/^[0-9]*$/))  {
       this.addErrorClass(id, error);
@@ -323,7 +323,7 @@ export class OrdersReportComponent implements OnInit {
     }
   }
   /**验证手机号码   */
-  private verifyIsTel(id: string, error?: string): boolean {
+  public verifyIsTel(id: string, error?: string): boolean {
     const data =  $('#' + id).val();
     if (!String(data).match( /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/ )){
       this.addErrorClass(id, error);
@@ -334,7 +334,7 @@ export class OrdersReportComponent implements OnInit {
     }
   }
   /**校验字符长度小于8 */
-  private verifyLength8(id: string, error: string): boolean  {
+  public verifyLength8(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data.length < 8)  {
       this.addErrorClass(id, error);
@@ -345,7 +345,7 @@ export class OrdersReportComponent implements OnInit {
     }
   }
   /** 添加错误信息class   */
-  private  addErrorClass(id: string, error?: string)  {
+  public  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
       $('#' + id).next('span').html('输入错误');
@@ -354,7 +354,7 @@ export class OrdersReportComponent implements OnInit {
     }
   }
   /** 去除错误信息class */
-  private  removeErrorClass(id: string) {
+  public  removeErrorClass(id: string) {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
   }

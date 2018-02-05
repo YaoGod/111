@@ -32,7 +32,7 @@ export class LaundryAdminComponent implements OnInit {
   public list: Array<any>;
   public formData: Array<any>;
   public title: String = "洗衣服务订单";
-  constructor(private ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
+  constructor(public ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
     this.search = new LaundryOrder();
@@ -297,7 +297,7 @@ export class LaundryAdminComponent implements OnInit {
   }
 
   /**非空校验*/
-  private isEmpty(id: string, error: string): boolean  {
+  public isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if(data === null){
       this.addErrorClass(id, error);
@@ -313,7 +313,7 @@ export class LaundryAdminComponent implements OnInit {
     }
   }
   /**添加错误信息class*/
-  private  addErrorClass(id: string, error?: string)  {
+  public  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
       $('#' + id).next('span').html('输入错误');
@@ -322,7 +322,7 @@ export class LaundryAdminComponent implements OnInit {
     }
   }
   /**去除错误信息class*/
-  private  removeErrorClass(id: string) {
+  public  removeErrorClass(id: string) {
     $('#' + id).parents('.form-control').children('.errorMessage').html('');
   }
 }

@@ -19,7 +19,7 @@ export class LaundryOrderComponent implements OnInit {
   public length = 5;
   public pages: Array<number>;
   public orders:Array<LaundryOrder>;
-  constructor(private ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
+  constructor(public ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
     this.search = new LaundryOrder();
@@ -28,7 +28,7 @@ export class LaundryOrderComponent implements OnInit {
     this.getOrderList(1);
   }
   /*查询|获取我的订单*/
-  getOrderList(i){
+  public getOrderList(i){
     this.pageNo = i;
     let url = '/mmall/laundryOrder/getOrderList/'+this.pageNo+'/'+this.pageSize;
     this.ipSetting.sendPost(url,this.search).subscribe(data => {

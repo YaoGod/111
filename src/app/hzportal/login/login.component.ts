@@ -100,7 +100,7 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  private verifyUserName(id:string){
+  public verifyUserName(id:string){
       if (!this.isEmpty(id,'· 请输入你的用户名')) {
         return false;
       }
@@ -109,7 +109,7 @@ export class LoginComponent implements OnInit {
       }
       return true;
   }
-  private verifyPassword(id:string){
+  public verifyPassword(id:string){
   if (!this.isEmpty(id,'· 请输入你的登录密码')) {
     return false;
   }
@@ -135,7 +135,7 @@ export class LoginComponent implements OnInit {
   }
 
   //  校验是否为空
-  private isEmpty(id: string, error: string): boolean  {
+  public isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data.toString().trim() === '')  {
       this.addErrorClass(id,error);
@@ -146,7 +146,7 @@ export class LoginComponent implements OnInit {
     }
   }
   /*匹配数字*/
-  private verifyIsNumber(id: string, error: string): boolean  {
+  public verifyIsNumber(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (!String(data).match(/^[0-9]*$/))  {
       this.addErrorClass(id, error);
@@ -157,7 +157,7 @@ export class LoginComponent implements OnInit {
     }
   }
   /*匹配长度*/
-  private verifyLength(id: string, error: string): boolean  {
+  public verifyLength(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data.length < 5)  {
       this.addErrorClass(id, error);
@@ -168,13 +168,13 @@ export class LoginComponent implements OnInit {
     }
   }
   /* 添加错误信息*/
-  private addErrorClass(id: string, error: string)  {
+  public addErrorClass(id: string, error: string)  {
     $('#' + id).parents('.input').addClass('red');
 
     $('#' + id).parents('.input').siblings('.error').fadeIn().html(error);
   }
   /*去除错误信息*/
-  private  removeErrorClass(id: string) {
+  public  removeErrorClass(id: string) {
     $('#' + id).parents('.input').removeClass('red');
     $('#' + id).parents('.input').siblings('.error').fadeOut();
   }

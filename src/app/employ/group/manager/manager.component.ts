@@ -109,7 +109,7 @@ export class ManagerComponent implements OnInit {
     $('.mask').hide();
     $('#prese1').val('');
   }
-  private verifyEmpty(id,label) {
+  public verifyEmpty(id,label) {
 
     if (!this.isEmpty(id, label)) {
       return false;
@@ -123,14 +123,14 @@ export class ManagerComponent implements OnInit {
       return true;
     }
   }
-  private verifyProductPrice(id) {
+  public verifyProductPrice(id) {
     if (!this.verifyIsNumber(id, '请输入正确的费用格式')) {
       return false;
     }
     return true;
   }
 
-  private verifyPhone(id)  {
+  public verifyPhone(id)  {
     if (!this.verifyIsTel(id, '请输入正确的手机号')) {
       return false;
     }
@@ -138,7 +138,7 @@ export class ManagerComponent implements OnInit {
   }
 
   /**非空校验*/
-  private isEmpty(id: string, error: string): boolean  {
+  public isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data==null||data==''||data.trim() === '')  {
       this.addErrorClass(id, error);
@@ -152,7 +152,7 @@ export class ManagerComponent implements OnInit {
    * 验证手机号码
    * @return
    */
-  private verifyIsTel(id: string, error?: string): boolean {
+  public verifyIsTel(id: string, error?: string): boolean {
     const data =  $('#' + id).val();/*/^1(3[4-9]|5[0-2]|8[0-3,78])\d{8}$/ 移动号段*/
     if (!String(data).match( /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/ ))  {
       this.addErrorClass(id, error);
@@ -168,7 +168,7 @@ export class ManagerComponent implements OnInit {
    * @param error
    * @returns {boolean}
    */
-  private verifyIsNumber(id: string, error: string): boolean  {
+  public verifyIsNumber(id: string, error: string): boolean  {
     const data =  $('#' + id).val();// /^[0-9]*$/
     if (!String(data).match(/^[1-9]\d(\.\d+){0,2}$/))  {
       this.addErrorClass(id, error);
@@ -183,7 +183,7 @@ export class ManagerComponent implements OnInit {
    * @param id
    * @param error
    */
-  private  addErrorClass(id: string, error?: string)  {
+  public  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
       $('#' + id).next('span').html('输入错误');
@@ -195,7 +195,7 @@ export class ManagerComponent implements OnInit {
    * 去除错误信息class
    * @param id
    */
-  private  removeErrorClass(id: string) {
+  public  removeErrorClass(id: string) {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
     $('#' + id).next('span').html('');
@@ -251,7 +251,7 @@ export class ManagerComponent implements OnInit {
     $('.mask3').hide();
   }
   /*修改文件图片上传*/
-  prese_upload2(files,index){
+  prese_upload2(files){
     let xhr = this.groupProductService.uploadImg(files[0],'group',-2);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {

@@ -25,7 +25,7 @@ export class PlanLaundryReportComponent implements OnInit {
   public pages: Array<number>;
   public all :boolean;
   public checks : Array<any>;
-  constructor(private http: Http,private ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
+  constructor(private http: Http,public ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
 
 
   ngOnInit() {
@@ -58,12 +58,12 @@ export class PlanLaundryReportComponent implements OnInit {
     });
   }
   /*跳页加载数据*/
-  goPage(page:number){
+  public goPage(page:number){
     this.pageNo = page;
     this.getOrderAllList();
   }
   /*导出*/
-  export(){
+  public export(){
     confirmFunc.init({
       'title': '提示',
       'mes': '是否导出数据?',
@@ -96,7 +96,7 @@ export class PlanLaundryReportComponent implements OnInit {
     });
   }
   /*全选*/
-  checkedAll(){
+  public checkedAll(){
     let list = document.getElementsByName("orderCheck");
     for(let i = 0;i<list.length;i++){
       list[i]['checked'] = this.all;
@@ -104,7 +104,7 @@ export class PlanLaundryReportComponent implements OnInit {
     console.log(this.all);
   }
   /*判断是否全选*/
-  checkIsAll(){
+  public checkIsAll(){
     let list = document.getElementsByName("orderCheck");
     for(let i = 0;i<list.length;i++){
       if(!list[i]['checked']){

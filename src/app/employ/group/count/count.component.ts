@@ -32,7 +32,7 @@ export class CountComponent implements OnInit {
 
   constructor(private errorVoid: ErrorResponseService,
               private globalCatalogService: GlobalCatalogService,
-              private http: Http, private ipSetting:IpSettingService) { }
+              private http: Http, public ipSetting:IpSettingService) { }
 
   ngOnInit() {
     this.getRule();

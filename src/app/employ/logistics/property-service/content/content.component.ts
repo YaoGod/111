@@ -35,7 +35,7 @@ export class ContentComponent implements OnInit {
               private errorVoid:ErrorResponseService,
               private utilBuildingService:UtilBuildingService,
               private globalCatalogService:GlobalCatalogService,
-              private ipSetting  : IpSettingService
+              public ipSetting  : IpSettingService
   ) {}
 
   ngOnInit() {
@@ -219,7 +219,7 @@ export class ContentComponent implements OnInit {
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
   }
   /**非空校验*/
-  private isEmpty(id: string, error: string): boolean  {
+  public isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if(data === null){
       this.addErrorClass(id, error);
@@ -235,7 +235,7 @@ export class ContentComponent implements OnInit {
     }
   }
   /** 匹配数字 */
-  private verifyIsNumber(id: string, error: string): boolean  {
+  public verifyIsNumber(id: string, error: string): boolean  {
     const data =  $('#' + id).val();// /^[0-9]*$/
     if (!String(data).match(/^[0-9]*$/))  {
       this.addErrorClass(id, error);
@@ -246,7 +246,7 @@ export class ContentComponent implements OnInit {
     }
   }
   /**验证手机号码   */
-  private verifyIsTel(id: string, error?: string): boolean {
+  public verifyIsTel(id: string, error?: string): boolean {
     const data =  $('#' + id).val();
     if (!String(data).match( /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/ )){
       this.addErrorClass(id, error);
@@ -257,7 +257,7 @@ export class ContentComponent implements OnInit {
     }
   }
   /** 验证身份证号码  */
-  private verifyIsCard(id: string, error?: string): boolean {
+  public verifyIsCard(id: string, error?: string): boolean {
     const data =  $('#' + id).val();
     if (!String(data).match( /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/ )){
       this.addErrorClass(id, error);
@@ -268,7 +268,7 @@ export class ContentComponent implements OnInit {
     }
   }
   /**校验字符长度小于8 */
-  private verifyLength8(id: string, error: string): boolean  {
+  public verifyLength8(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data.length < 8)  {
       this.addErrorClass(id, error);
@@ -279,7 +279,7 @@ export class ContentComponent implements OnInit {
     }
   }
   /** 添加错误信息class   */
-  private  addErrorClass(id: string, error?: string)  {
+  public  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
       $('#' + id).next('span').html('输入错误');
@@ -288,7 +288,7 @@ export class ContentComponent implements OnInit {
     }
   }
   /** 去除错误信息class */
-  private  removeErrorClass(id: string) {
+  public  removeErrorClass(id: string) {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
   }

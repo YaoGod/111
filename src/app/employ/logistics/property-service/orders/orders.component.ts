@@ -36,7 +36,7 @@ export class OrdersComponent implements OnInit {
               private utilBuildingService:UtilBuildingService,
               private infoBuildingService:InfoBuildingService,
               private globalCatalogService:GlobalCatalogService,
-              private ipSetting  : IpSettingService
+              public ipSetting  : IpSettingService
   ) {
   }
 
@@ -81,8 +81,8 @@ export class OrdersComponent implements OnInit {
       })
   }
   /*获取楼层名称*/
-  getFloorNameListInfo(id:number) {
-    this.infoBuildingService.getFloorNameListMsg(id)
+  getFloorNameListInfo(id:string) {
+    this.infoBuildingService.getFloorNameListMsg(Number(id))
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.floorNames = data.data;
@@ -159,7 +159,7 @@ export class OrdersComponent implements OnInit {
   editAttach(index){
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
-    this.getFloorNameListInfo(Number(this.repairname.buildingId));
+    this.getFloorNameListInfo(this.repairname.buildingId);
     $('.mask').fadeIn();
     $('.mask-head p').html('编辑物业订单');
   }
@@ -277,7 +277,7 @@ export class OrdersComponent implements OnInit {
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
   }
   /**非空校验*/
-  private isEmpty(id: string, error: string): boolean  {
+  public isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if(data === null){
       this.addErrorClass(id, error);
@@ -293,7 +293,7 @@ export class OrdersComponent implements OnInit {
     }
   }
   /** 匹配数字 */
-  private verifyIsNumber(id: string, error: string): boolean  {
+  public verifyIsNumber(id: string, error: string): boolean  {
     const data =  $('#' + id).val();// /^[0-9]*$/
     if (!String(data).match(/^[0-9]*$/))  {
       this.addErrorClass(id, error);
@@ -304,7 +304,7 @@ export class OrdersComponent implements OnInit {
     }
   }
   /**验证手机号码   */
-  private verifyIsTel(id: string, error?: string): boolean {
+  public verifyIsTel(id: string, error?: string): boolean {
     const data =  $('#' + id).val();
     if (!String(data).match( /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/ )){
       this.addErrorClass(id, error);
@@ -315,7 +315,7 @@ export class OrdersComponent implements OnInit {
     }
   }
   /**校验字符长度小于8 */
-  private verifyLength8(id: string, error: string): boolean  {
+  public verifyLength8(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data.length < 8)  {
       this.addErrorClass(id, error);
@@ -326,7 +326,7 @@ export class OrdersComponent implements OnInit {
     }
   }
   /** 添加错误信息class   */
-  private  addErrorClass(id: string, error?: string)  {
+  public  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
       $('#' + id).next('span').html('输入错误');
