@@ -26,10 +26,10 @@ export class VegorderComponent implements OnInit {
   public orders:Array<VegetableOrder>;
   public productName:string = '';
   public orderId:string = '';
-  public vegetableId:string = '';
   public serviceCenter = '';
   public orderBTime = '';
   public orderETime = '';
+  public orderStatus = "";
   public deptId:string;
   private delId: any;
   public updateOrder={
@@ -58,8 +58,8 @@ export class VegorderComponent implements OnInit {
     if(this.orderId!=null){
       this.orderId = this.orderId.trim();
     }
-    if(this.vegetableId!=null){
-      this.vegetableId = this.vegetableId.trim();
+    if(this.orderStatus!=null){
+      this.orderStatus = this.orderStatus.trim();
     }
     if(this.serviceCenter!=null){
       this.serviceCenter = this.serviceCenter.trim();
@@ -70,7 +70,7 @@ export class VegorderComponent implements OnInit {
     if(this.orderBTime!=null){
       this.orderBTime = this.orderBTime.trim();
     }
-    this.vegetableInfoService.getOrderAllList(this.productName,this.orderId,this.vegetableId,
+    this.vegetableInfoService.getOrderAllList(this.productName,this.orderId,this.orderStatus,
       this.serviceCenter,this.orderBTime,this.orderETime,this.pageNo,this.pageSize).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
@@ -157,7 +157,7 @@ export class VegorderComponent implements OnInit {
       'callback': () => {
         this.vegetableInfoService.deleteOrder(orderid)
           .subscribe(data => {
-            if (this.errorVoid.errorMsg(data.status)) {
+            if (this.errorVoid.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示',
                 'mes': data['msg'],
@@ -170,7 +170,21 @@ export class VegorderComponent implements OnInit {
       }
     });
   }
-
+  /*订单数据导出*/
+  exportOrderAllList(){
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否导出数据？',
+      'popType': 1,
+      'imgType': 3,
+      'callback': () => {
+        let url = this.ipSetting.ip + '/mmall/vegetabelOrder/getOrderAllList/'+this.pageNo+'/'+this.pageSize
+          +"?productName="+this.productName+"&orderId="+this.orderId+"&serviceCenter="+this.serviceCenter
+          +"&orderBTime="+this.orderBTime+"&orderStatus="+this.orderStatus+"&orderETime="+this.orderETime+"&type=excel";
+        window.open(url);
+      }
+    });
+  }
   /*获取服务中心*/
   initFac(){
     let url = '/mmall/laundry/provider/initFac';

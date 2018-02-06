@@ -21,28 +21,33 @@ export class VegetableCountComponent implements OnInit {
   public pageNo = 1;
   public total = 0;
   public length = 5;
-  public pages: Array<number>;
-  constructor(private http: Http,private ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
+  constructor(private http: Http,
+              private ipSetting: IpSettingService,
+              private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
     this.search = new LaundryOrder();
+    this.search.productName = '';
+    this.search.serviceCenter = '';
+    this.search.BTime = "";
+    this.search.ETime = "";
+    this.search.status = "";
     this.vegetables = [];
-    this.getOrderAllList();
+    this.getOrderAllList(1);
     this.initFac();
   }
   /*查询*/
-  getOrderAllList(){
-    if(this.search.productName===undefined){
-      this.search.productName = '';
-    }
-    if(this.search.serviceCenter===undefined){
-      this.search.serviceCenter = '';
-    }
-    let url = '/mmall/vegetabelOrder/getOrderReport/'+this.pageNo+'/'+this.pageSize+'?productName='+this.search.productName;
-    this.ipSetting.sendPost(url,this.search).subscribe(data => {
+  getOrderAllList(pageNo){
+    this.pageNo = pageNo;
+    let url = '/mmall/vegetabelOrder/getOrderReport/'+this.pageNo+'/'+this.pageSize+
+      '?serviceCenter='+this.search.serviceCenter+
+      '&productName=' +this.search.productName +
+      "&BTime=" + this.search.BTime+
+      "&ETime=" + this.search.ETime+
+      "&orderStatus=" + this.search.status;
+    this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
-        // console.log(data.data);
         this.total = data.data.total;
       }
     });
@@ -50,7 +55,6 @@ export class VegetableCountComponent implements OnInit {
   /*查询净菜名称*/ // GET /mmall/vegetableInfo/getVegetableByName/{name}
   getVegetables(){
     let nnt = $('#productName').val().trim();
-      // $('#productName').val().trim()===''?'小':$('#productName').val().trim();
     let url = '/mmall/vegetableInfo/getVegetableByName?name='+nnt;
     this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
@@ -62,11 +66,6 @@ export class VegetableCountComponent implements OnInit {
   synchro(name){
     this.search.productName = name;
     this.vegetables = [];
-  }
-  /*跳页加载数据*/
-  goPage(page:number){
-    this.pageNo = page;
-    this.getOrderAllList();
   }
   /*获取服务中心*/
   initFac(){
@@ -84,14 +83,13 @@ export class VegetableCountComponent implements OnInit {
       'popType': 1,
       'imgType': 3,
       'callback': ()=>{
-        let url = this.ipSetting.ip + '/mmall/vegetabelOrder/getOrderExcel?serviceCenter='+this.search.serviceCenter+
-          '&productName=' +this.search.productName;
-        this.http.get(url)
-        // .map(res => res.json())
-          .subscribe(data => {
-            window.location.href = url;
-            this.search = new LaundryOrder();
-          });
+        let url = this.ipSetting.ip + "/mmall/vegetabelOrder/getOrderExcel"+
+          "?serviceCenter=" +this.search.serviceCenter+
+          "&productName=" +this.search.productName +
+          "&BTime=" + this.search.BTime+
+          "&ETime=" + this.search.ETime+
+          "&orderStatus=" + this.search.status;
+        window.location.href = url;
       }
     });
   }
@@ -105,7 +103,9 @@ export class LaundryOrder {
   totalPrice:string;
   orderNo:string;
   status:string;
-  serviceCenter:           string;
+  serviceCenter:string;
+  BTime:string;
+  ETime:string;
 }
 export class ServerCenter{
   name: string;

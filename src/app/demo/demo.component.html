@@ -11,4 +11,4 @@
 <a href="proxy/common/image/getImage?path=">
 asdasd
 </a>
-<img (waiting)="setSrc($event)">
+<img *ngIf="base64" [src]="base64">

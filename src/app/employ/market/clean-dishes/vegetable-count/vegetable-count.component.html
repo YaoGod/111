@@ -17,9 +17,11 @@
           <div class="wrap">
             <ul class="search-list clearfix">
               <li>
-                <label>净菜名称：</label>
-                <div class="slideUl"><input type="text" id="productName" class="noticetext"  [(ngModel)]="search.productName"
-                                            (change)="getVegetables()">
+                <label>净菜名称</label>
+                <div class="slideUl">
+                  <input type="text" id="productName" class="noticetext"
+                         [(ngModel)]="search.productName"
+                         (keyup)="getVegetables()">
                   <ul *ngIf="vegetables.length>0" id="slideUl-list">
                     <li *ngFor="let abc of vegetables;let i=index;" (click)="synchro(abc)">{{abc}}</li>
                   </ul>
@@ -32,36 +34,28 @@
                   <option *ngFor="let center of serverCenters; let idx=index" value="{{center.name}}">{{center.name}}</option>
                 </select>
               </li>
-              <li><a class="search" href="javascript: void(0);" (click)="getOrderAllList()" >查询</a></li>
+              <li>
+                <label>开始日期</label>
+                <input class="noticetext" type="date" [(ngModel)]="search.BTime" name="orderBTime">
+              </li>
+              <li>
+                <label>截止日期</label>
+                <input class="noticetext" type="date" [(ngModel)]="search.ETime" name="orderETime">
+              </li>
+              <li>
+                <label>订单状态</label>
+                <select class="noticetext" [(ngModel)]="search.status" name="orderType">
+                  <option value="">全部</option>
+                  <option value="0">已付款</option>
+                  <option value="4">已配货</option>
+                  <option value="1">已到货</option>
+                </select>
+              </li>
             </ul>
-            <!--<ul>
-              <li>
-                <label>统计类型</label>
-                <select
-                  name="floorUse">
-                  <option value="1">按月份</option>
-                  <option value="2">按季度</option>
-                  <option value="3">按年份</option>
-                </select>
-              </li>
-              <li>
-                <label>时间</label>
-                <input type="month" style="display: none;">
-
-                <select style="display: none;">
-                  <option value="1">一季度</option>
-                  <option value="2">二季度</option>
-                  <option value="3">三季度</option>
-                  <option value="4">四季度</option>
-                </select>
-                <select>
-                  <option value="2017">2017年</option>
-                  <option value="2018">2018年</option>
-                </select>
-              </li>
-              <li><a class="search" href="javascript: void(0);" >查询</a></li>
-            </ul>-->
-            <a class="btn btn-danger"  href="javascript:;" (click)="export()"><i class="icon-plus"></i> 导出</a>
+            <div class="search">
+              <a class="add" (click)="getOrderAllList(1)" >查询</a>
+              <a class="btn btn-danger" (click)="export()">导出</a>
+            </div>
           </div>
           <!--表头-->
           <div class="table-head">
@@ -89,8 +83,7 @@
             [pageNo]="pageNo"
             [pageSize]="pageSize"
             [total]="total"
-            [length] = 'length'
-            (turnEvent)="goPage($event)">
+            (turnEvent)="getOrderAllList($event)">
           </app-turn-bar>
         </div>
       </div>

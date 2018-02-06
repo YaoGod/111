@@ -1,5 +1,6 @@
 import {Component, OnInit, EventEmitter} from '@angular/core';
 import {Http} from '@angular/http';
+import 'rxjs/add/operator/toPromise';
 @Component({
   selector: 'app-demo',
   templateUrl: './demo.component.html',
@@ -9,6 +10,7 @@ export class DemoComponent implements OnInit {
 
   public title:string;
   public formData:any;
+  public base64;
   constructor(
     private http:Http
   ) { }
@@ -43,14 +45,16 @@ export class DemoComponent implements OnInit {
           ["AB034036","INBIKB 塑料水壶架","","1","8.80","8.80","8.80"]
         ]
       }
-    ]
+    ];
+    this.setSrc();
   }
-  setSrc(e){
-    console.log(e);
+  setSrc(){
     this.http.get("proxy/common/image/getImage?path=")
-      .map(res=>res.json())
-      .subscribe(data=>{
-        e.src = data;
+      .map(res =>{
+        res.toString();
+      })
+      .subscribe(data => {
+        this.base64 = data;
       })
   }
 }

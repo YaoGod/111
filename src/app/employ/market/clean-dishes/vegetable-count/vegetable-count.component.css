@@ -104,11 +104,11 @@ select{outline:medium;}
   background: #66cdff;
 }
 
-/*团购商品管理*/
 .b-con .wrap{
   display: block;
   position: relative;
   padding-top: 10px;
+  min-height: 70px;
 }
 .b-con .iptgroup{
   width: 200px;
@@ -136,26 +136,27 @@ select{outline:medium;}
   top: 1px;
   left: 10px;
 }
-.b-con .search{
-  text-decoration: none;
-  padding: 6px 15px;
-  margin: 0 5px;
-  background: #66cdff;
-  color: #fff;
-  font-size: 14px;
-  border-radius: 3px;
-  letter-spacing: 2px;
-  float: left;
-}
 .b-con .add{
   text-decoration: none;
   padding: 6px 15px;
   background: #66cdff;
   color: #fff;
   font-size: 14px;
-  border-radius: 3px;
+  border-radius: 4px;
   letter-spacing: 2px;
-  float: left;
+}
+.search{
+  float: right;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.search a{
+  display: block;
+  margin: 3px;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
 }
 .list-table{
   width: 100%;
@@ -334,30 +335,18 @@ select{outline:medium;}
   color: #fff;
   border: 1px solid #ff4401;
 }
-
+.wrap>ul{
+  margin-right: 80px
+}
 .wrap>a{
-  position: absolute;
-  top:0;
-  right: 0;
+  float: right;
   padding: 6px 22px;
   margin: 10px;
 }
 
-.wrap>ul{
-  display: flex;
-  flex-wrap:wrap;
-}
-@media (min-width: 1000px ) {
-  .wrap > ul > li {
-    /* width: 20%;*/
-    height: 36px;
-  }
-}
-@media (max-width: 1000px ){
-  .wrap>ul>li{
-    float: left;
-    height: 36px;
-  }
+.wrap>ul>li{
+  float: left;
+  line-height: 36px;
 }
 .wrap>ul>li>label{
   float: left;
@@ -473,11 +462,6 @@ select{outline:medium;}
   border: 1px solid #03a9f3;
   color: #fff;
 
-}
-.btn-danger{
-  padding: 10px 16px;
-  border-radius: 4px;
-  color: #fff;
 }
 .bor{
   border: 1px solid #ccc;
@@ -633,7 +617,7 @@ td>img{
   vertical-align: middle;
 }
 .btn-danger{
-  padding: .5rem 1.2rem;
+  padding: 6px 15px;
   padding-left:16px;
   padding-right:16px;
   -moz-border-radius:6px;

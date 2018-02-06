@@ -130,15 +130,14 @@
 .search a{
   display: block;
   padding:5px;
+  margin: 2px;
   color: #fff;
-  font-size: 14px;
+  font-size: 12px;
   border-radius: 6px;
   background: #66cdff;
   text-align: center;
 }
-.search-a{
-  margin-bottom:10px;
-}
+
 .b-con .add{
   text-decoration: none;
   padding: 6px 15px;
@@ -396,9 +395,7 @@
   -ms-flex: 0;
   flex: 0 0 30%;
   max-width: 360px;
-}
-.wrap>ul>li:first-child{
-  margin-bottom:10px;
+  line-height: 34px;
 }
 .wrap>ul>li>label{
   float: left;
