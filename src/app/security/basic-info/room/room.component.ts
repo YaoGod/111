@@ -22,7 +22,7 @@ export class RoomComponent implements OnInit {
   public floor        : Floor =  new Floor();
   public rooms        : Array<Room>;
   public pageNo      : number = 1;
-  public pageSize    : number = 6;
+  public pageSize    : number = 16;
   public total        : number =0;
   public isViewImg    : boolean = true;
   public imgWidth     : number = 500;

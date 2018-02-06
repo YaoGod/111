@@ -78,7 +78,7 @@ export class EnergyComponent implements OnInit {
                 this.jurisdiction = data.data[i];
               }
             }
-            console.log(this.jurisdiction);
+            // console.log(this.jurisdiction);
           }
         });
     }

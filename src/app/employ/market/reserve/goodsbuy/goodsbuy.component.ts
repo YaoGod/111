@@ -26,6 +26,7 @@ export class GoodsbuyComponent implements OnInit {
   public pages: Array<number>;
   public cartsize: number;
   public providers: Array<any>;
+  public imgUrl:string;
   constructor(private errorVoid: ErrorResponseService,
               public ipSetting  : IpSettingService,
               private globalCatalogService: GlobalCatalogService,
@@ -46,6 +47,7 @@ export class GoodsbuyComponent implements OnInit {
     this.search.code = "";
     this.getGoodsShowList(1);
     this.getproviders();
+    this.imgUrl = 'ftp://hzmh:1qaz2wsx@20.26.28.4/home/img/666.jpg';
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'market','employ/market/reserve')

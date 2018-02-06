@@ -211,8 +211,8 @@ export class GoodsComponent implements OnInit {
   }
   add() {
     $('.maskAdd').show();
-    this.productAdd.pstatus = "1";
-    this.productAdd.leftstatus="1";
+    this.productAdd.pstatus = "3";
+    this.productAdd.leftstatus="3";
   }
   closeMaskAdd() {
     $('.maskAdd').hide();
@@ -227,7 +227,6 @@ export class GoodsComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)){
-
           this.productAdd.simage = data.msg;
           confirmFunc.init({
             'title': '提示',

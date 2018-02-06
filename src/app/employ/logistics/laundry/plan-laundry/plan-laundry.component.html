@@ -144,8 +144,8 @@
             <div>
               <div>
                 <label>支付方式：</label>
-                <select id="myOrderNote" name="myOrderNote" [(ngModel)]="myOrder.note"  (blur)="verifyEmpty('myOrderNote','支付方式不能为空')">
-                  <option value="【线上支付】">一卡通支付</option>
+                <select id="myOrderNote" name="myOrderNote" [(ngModel)]="myOrder.note" (blur)="verifyEmpty('myOrderNote','支付方式不能为空')">
+                  <!--<option value="【线上支付】">一卡通支付</option>-->
                   <option value="【线下支付】">线下支付</option>
                 </select>
                 <span class="errorMessage"></span>

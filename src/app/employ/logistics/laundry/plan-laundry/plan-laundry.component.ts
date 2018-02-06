@@ -12,7 +12,6 @@ import {IpSettingService} from "app/service/ip-setting/ip-setting.service";
   providers: [ErrorResponseService]
 })
 export class PlanLaundryComponent implements OnInit {
-  // public products:Array<FacPrice>;
   public applierList:Array<Facilitator>;
   public serverCenters:Array<ServerCenter>;
   public myOrder:LaundryOrder;
@@ -52,7 +51,6 @@ export class PlanLaundryComponent implements OnInit {
       if (this.errorVoid.errorMsg(data)) {
         this.applierList = data.data.providers;
         this.serverCenters = data.data.centers;
-        // console.log(this.applierList);
         this.getOrderList(1);
       }
     });
@@ -88,9 +86,6 @@ export class PlanLaundryComponent implements OnInit {
   }
   /*增加洗衣服务*/
   addOrderItem() {
-    /* if(!this.verifyEmpty('serverCenter_add','服务中心不能为空')){
-     return false;
-     }*/
     if(!this.verifyEmpty("quantity_add","洗衣数量不能为空")){
       return false;
     }

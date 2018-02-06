@@ -30,9 +30,10 @@
         <div class="tuan"  *ngFor="let good of goods;let idx=index">
           <div class="row mt20">
             <dl>
-              <dt class="showpic">
-                <img *ngIf="good.image!==''" [src]="ipSetting.ip + good.image"/>
-              </dt>
+              <dt class="showpic"><!--ftp://hzmh:1qaz2wsx@20.26.28.4-->
+                <img *ngIf="good.image!==''" src="ftp://hzmh:1qaz2wsx@20.26.28.4/home/img/666.jpg" />
+              </dt><!--ftp://ftp.sjtu.edu.cn/favicon.ico-->
+              <!--+'/home/img/goodsProduct/4d1fa0ef-8d32-42fb-be42-a7bea26a78f4.jpg'-->
               <dd>
                 <span class="name-great note">(编码:{{good.code}})</span>
                 <span class="name-great">{{good.name}}</span>

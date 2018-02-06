@@ -261,7 +261,6 @@ export class GuardComponent implements OnInit {
     this.pageNo = 1;
     this.pages = [];
     this.searchArch = new Arch();
-    this.searchArch.personType = '';
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
     this.repairSearch();
@@ -472,12 +471,12 @@ export class GuardComponent implements OnInit {
   }
   /*导出数据下载*/
   public downDeriving(){
-    let InductURL;
+    var InductURL;
     var inerURL = this.searchArch.companyName;
-    if((typeof this.searchArch.companyName) === 'undefined'){
+    if(this.searchArch.companyName === ""){
       inerURL = 'null';
     }
-    if((typeof this.searchArch.personType) === 'undefined'){
+    if(this.searchArch.personType === ""){
       confirmFunc.init({
         'title': '提示' ,
         'mes': '请选择导出人员类型',
@@ -488,17 +487,19 @@ export class GuardComponent implements OnInit {
       this.searchArch = new Arch();
       return false;
     }
-    if(this.searchArch.personType === "保安"){
+    console.log(this.searchArch.personType);
+    if(this.searchArch.personType === "security"){
       InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ inerURL +"/security"
-    }else if(this.searchArch.personType === "保洁"){
+    }else if(this.searchArch.personType === "clean"){
       InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ inerURL +"/clean"
-    }else if(this.searchArch.personType === "绿化"){
+    }else if(this.searchArch.personType === "green"){
       InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ inerURL +"/green"
-    }else if(this.searchArch.personType === "物业维修"){
+    }else if(this.searchArch.personType === "repair"){
       InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ inerURL +"/repair"
     }if(this.searchArch.personType === ""){
       InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ inerURL +"/null"
     }
+    console.log(InductURL);
     this.http.get( InductURL )
     // .map(res => res.json())
       .subscribe(data => {
@@ -637,6 +638,6 @@ export class Company {
 export class Arch {
   buildingId: string; // 大楼编号
   buildingName: String = '';  // 大楼名称
-  personType: string;
+  personType: String = '';
   companyName: String = ''; // 服务公司名称
 }

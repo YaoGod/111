@@ -96,7 +96,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">新增商品</h4>
-      <button type="button" class="close"(click)="closeMaskAdd()">×</button>
+      <button type="button" class="close" (click)="closeMaskAdd()">×</button>
     </div>
     <form class="form-material">
       <div class="modal-body clearfix">
@@ -137,7 +137,8 @@
             </div>
             <div>
               <label>商品名称：</label>
-              <input type="text" id="sname_add" name="sname_add" (blur)="verifyEmpty('sname_add','商品名称不能为空')"   [(ngModel)]="productAdd.sname">
+              <input type="text" id="sname_add" name="sname_add" (blur)="verifyEmpty('sname_add','商品名称不能为空')"
+                     [(ngModel)]="productAdd.sname" maxlength="16">
               <span class="errorMessage"></span>
             </div>
             <div>
@@ -164,13 +165,13 @@
               <div>
                 <label>库存情况：</label>
                 <label>
+                  <input name="new_leftstatus" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productAdd.leftstatus" value="3">缺货
+                </label>
+                <label>
                   <input name="new_leftstatus" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productAdd.leftstatus" value="1">充足
                 </label>
                 <label>
                   <input name="new_leftstatus" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productAdd.leftstatus" value="2">少量
-                </label>
-                <label>
-                  <input name="new_leftstatus" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="productAdd.leftstatus" value="3">缺货
                 </label>
               </div>
             </div>
