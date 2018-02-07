@@ -11,11 +11,19 @@
     <ul class="search clearfix">
       <li>
         <label>大楼名称</label>
-        <input type="text" class="search-ipt" name="searchArchBuildingName" [(ngModel)]="searchArch.buildingName">
+        <select  name="searchArchBuildingName" class="search-sel" [(ngModel)]="searchArch.buildingName">
+          <option value="">-全部-</option>
+          <option *ngFor="let num of buildings" [value]="num.NAME">{{num.NAME}}</option>
+        </select>
       </li>
       <li>
         <label>物业公司</label>
-        <input type="text" class="search-ipt" name="searchArchCompanyName" [(ngModel)]="searchArch.companyName">
+        <select name="searchArchCompanyName" class="search-ipt" [(ngModel)]="searchArch.companyName" >
+          <option value="">-全部-</option>
+          <option *ngFor="let num of serviceCom"
+                  [value]="num.companyName">
+            {{num.companyName}}</option>
+        </select>
       </li>
       <li>
         <label>服务内容</label>

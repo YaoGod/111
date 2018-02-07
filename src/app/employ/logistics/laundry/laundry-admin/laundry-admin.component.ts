@@ -32,6 +32,7 @@ export class LaundryAdminComponent implements OnInit {
   public list: Array<any>;
   public formData: Array<any>;
   public title: String = "洗衣服务订单";
+  public note:string;
   constructor(public ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
@@ -62,7 +63,6 @@ export class LaundryAdminComponent implements OnInit {
     this.ipSetting.sendPost(url,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
-        // console.log(this.orders);
         this.total = data.data.total;
       }
     });
@@ -104,7 +104,6 @@ export class LaundryAdminComponent implements OnInit {
     let url = '/mmall/laundryOrder/updateOrder';
     this.abc.balance = Number(this.list[0].value)+Number(this.list[1].value);
     this.abc.balanceReason = this.list;
-
     this.ipSetting.sendPost(url,this.abc).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         confirmFunc.init({
@@ -123,7 +122,6 @@ export class LaundryAdminComponent implements OnInit {
   maskFadeIn(orderStatus,orderNo){
     this.inner.id = orderNo;
     this.inner.status = '4';
-    // console.log(orderStatus+'///'+orderNo);
     for(let i=0;i<this.orders.length;i++){
       if(orderNo===this.orders[i].id) {
           this.inner.note = this.orders[i].note;
@@ -135,10 +133,10 @@ export class LaundryAdminComponent implements OnInit {
   chargeBack(orderStatus,orderNo){
     this.inner.id = orderNo;
     this.inner.status = orderStatus;
-    // console.log(orderStatus+'///'+orderNo);
+    this.inner.note = '';
     for(let i=0;i<this.orders.length;i++){
       if(orderNo===this.orders[i].id) {
-        this.inner.note = this.orders[i].note;
+        this.note = this.orders[i].note;
       }
     }
     $('.mask').fadeIn();
@@ -197,6 +195,7 @@ export class LaundryAdminComponent implements OnInit {
       });
       return false;
     }
+    this.inner.note = this.note + this.inner.note;
     this.ipSetting.sendPost(SOFTWARES_URL,this.inner).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         confirmFunc.init({

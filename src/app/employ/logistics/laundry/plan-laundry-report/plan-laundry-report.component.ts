@@ -77,7 +77,15 @@ export class PlanLaundryReportComponent implements OnInit {
             this.checks.push(list[i]['value']);
           }
         }
-
+        if(this.checks.length<1){
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '请选择要导出的数据',
+            'popType': 0,
+            'imgType': 2,
+          });
+          return false;
+        }
         let abc = this.checks.join(",");
         let url = this.ipSetting.ip+'/mmall/laundryOrder/getOrderExcel?ids='+abc;
         this.http.get(url)

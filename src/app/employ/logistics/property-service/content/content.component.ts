@@ -21,7 +21,6 @@ export class ContentComponent implements OnInit {
   public repairname: GuardName;
   public buildings: any;
   public rule : any;
-  public jurisdiction:any;
   public serviceCom:any;
   public pageSize = 10;
   public pageNo = 1;
@@ -43,8 +42,9 @@ export class ContentComponent implements OnInit {
     this.searchArch = new Arch();
     this.repairname = new GuardName();
     this.pages = [];
-    this.searchArch.servername = "";
     this.serverName = ['保洁服务','报修服务'];
+    this.getBuildings();
+    this.getCompany();
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
   }
   getRule(){
@@ -55,17 +55,7 @@ export class ContentComponent implements OnInit {
         }
       })
   }
-  /*获取权限*/
-  private getQuan(){
-    if(this.rule!=null){
-      let SOFTWARES_URL =  "/portal/user/getCata/"+this.rule.ID+"/repair?url=";
-      this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
-        if(this.errorVoid.errorMsg(data)) {
-          this.jurisdiction = data['data'][1];
-        }
-      });
-    }
-  }
+
   /*获取大楼列表*/
   private getBuildings() {
     this.utilBuildingService.getBuildingList('')
@@ -77,8 +67,8 @@ export class ContentComponent implements OnInit {
   }
   /*获取/查询服务公司*/
   private getRecord(search, pageNo, pageSize) {
-    let SOFTWARES_URL = "/employee/property/getAllServer/" + pageNo + "/" + pageSize;
-    this.ipSetting.sendPost(SOFTWARES_URL, search).subscribe(data => {
+    let url = "/employee/property/getAllServer/" + pageNo + "/" + pageSize;
+    this.ipSetting.sendPost(url, search).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.record = data['data']['infos'];
           this.total = data.data.total;
@@ -87,8 +77,8 @@ export class ContentComponent implements OnInit {
   }
   /*获取全部服务公司*/
   private getCompany() {
-    const SOFTWARES_URL =  this.ipSetting.ip + "/building/company/getCompany";
-    this.http.get(SOFTWARES_URL)
+    let url =  this.ipSetting.ip + "/building/company/getCompany";
+    this.http.get(url)
       .map(res => res.json())
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
@@ -108,8 +98,6 @@ export class ContentComponent implements OnInit {
   /*编辑信息*/
   editAttach(index){
     this.editBool = false;
-    this.getBuildings();
-    this.getCompany();
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
     $('.mask').fadeIn();
     $('.mask-head p').html('编辑物业服务');
@@ -305,7 +293,7 @@ export class GuardName {
 }
 export class Arch {
   buildingId: string; // 大楼编号
-  buildingName: string;  // 大楼名称
-  servername: string;           // 服务类型
-  companyName: string; // 服务公司名称
+  buildingName: string='';  // 大楼名称
+  servername: string='';           // 服务类型
+  companyName: string=''; // 服务公司名称
 }

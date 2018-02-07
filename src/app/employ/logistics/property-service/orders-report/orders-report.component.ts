@@ -31,6 +31,7 @@ export class OrdersReportComponent implements OnInit {
   public pin:string;
   public aot:string[];
   public URL: string;
+  public repairDept :any;
 
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
@@ -56,6 +57,7 @@ export class OrdersReportComponent implements OnInit {
     this.repairname.fileName = [];
     this.repairname.filePath = [];
     this.getBuildings();
+    this.getRepairDept();
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
 
   }
@@ -89,6 +91,15 @@ export class OrdersReportComponent implements OnInit {
         }
       });
   }
+  /*获取维修部门列表*/
+  getRepairDept(){
+    let url = '/building/repair/getRepairDept'
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        this.repairDept = data.data;
+      }
+    });
+  };
   /*获取/查询物业服务订单*/
   private getRecord(search, pageNo, pageSize) {
     if((typeof search.buildingNum) === 'undefined'){
@@ -155,7 +166,6 @@ export class OrdersReportComponent implements OnInit {
   editAttach(index){
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
-    console.log(this.repairname);
     this.getPersonInfoList();
     this.getFloorNameListInfo(this.repairname.buildingId);
     if(this.repairname.orderStatus === '已执行'){
