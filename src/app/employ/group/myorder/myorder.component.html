@@ -53,7 +53,7 @@
                   <dd *ngFor="let orderItem of order.groupOrderItems;let idx=index">
                     <table style="width:100%;">
                       <td class="eight">
-                        <img *ngIf="orderItem.imagePath!==''" [src]="ipSetting.ip + orderItem.imagePath"/>
+                        <img *ngIf="orderItem.image!==''" [src]="orderItem.image  | imgsafeurl"/>
                      </td>
                       <td class="sec" style="text-align: left"> <p class="headtxt">{{orderItem.productName}}</p></td>
                       <td class="sec">￥{{orderItem.unitPrice}}</td>

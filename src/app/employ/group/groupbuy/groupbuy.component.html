@@ -36,7 +36,7 @@
               <div class="tuan" *ngFor="let groupProduct of groupProducts;let idx=index">
                 <dl class="clearfix">
                   <dt class="showpic">
-                    <img *ngIf="groupProduct.image!==''" [src]="ipSetting.ip + groupProduct.image"/>
+                    <img *ngIf="groupProduct.image!==''" [src]="groupProduct.image | imgsafeurl"/>
                   </dt>
                   <dd>
                     <h4 class="name-great">{{groupProduct.name}}</h4>

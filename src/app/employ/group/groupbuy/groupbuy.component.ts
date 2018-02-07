@@ -9,6 +9,11 @@ import { GroupNoticeService } from '../../../service/group-notice/group-notice.s
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import * as $ from 'jquery';
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
+import { DomSanitizer } from '@angular/platform-browser'
+import { Pipe } from '@angular/core';
+import {forEach} from "@angular/router/src/utils/collection";
+
+
 declare var $:any;
 declare var confirmFunc: any;
 declare var tinymce: any;
@@ -19,6 +24,7 @@ declare var tinymce: any;
   styleUrls: ['./groupbuy.component.css'],
   providers:[GroupProductService,ErrorResponseService,GroupNoticeService]
 })
+@Pipe({name: 'safeHtml'})
 export class GroupbuyComponent implements OnInit {
   public rule;
   public catas;
@@ -42,8 +48,11 @@ export class GroupbuyComponent implements OnInit {
   private groupProductService: GroupProductService,
               private groupNoticeService: GroupNoticeService,
               private errorVoid: ErrorResponseService,public ipSetting: IpSettingService,
-               private router:Router){
+               private router:Router,private sanitizer: DomSanitizer){
     this.rule = this.globalCatalogService.getRole("employ/group");
+  }
+  transform(html) {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
   ngOnInit() {
@@ -110,9 +119,13 @@ export class GroupbuyComponent implements OnInit {
         this.groupProducts = data.data.infos;
         this.cartsize = data.data.cartsize;
         this.total = data.data.total;
+        for(let i =0; i< this.groupProducts.length; i++){
+          this.sanitizer.bypassSecurityTrustUrl(this.groupProducts[i].image);
+        }
       }
     });
   }
+
   /*跳页加载数据*/
   goPage(page:number){
     this.pageNo = page;

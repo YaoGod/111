@@ -112,6 +112,7 @@ export class GoodsOrderItem {
   orderNo:         number;/*订单id*/
   productName:      string;/*商品名称*/
   productImage:         string;/*商品图片*/
+  image:         string;/*商品图片*/
   detail:            string;/*商品详情*/
   currentUnitPrice:         number;/*商品单价*/
   quantity:          number;/*该商品购买数量*/

@@ -30,7 +30,7 @@
                   </tr>
                   <tr>
                     <td class="fir">
-                      <img *ngIf="cart.image!==''" [src]="ipSetting.ip + cart.image"/>
+                      <img *ngIf="cart.image!==''" [src]="cart.image  | imgsafeurl"/>
                     </td>
                     <td class="sec">{{cart.name}}</td>
                     <td class="sec">￥{{cart.price}}</td>

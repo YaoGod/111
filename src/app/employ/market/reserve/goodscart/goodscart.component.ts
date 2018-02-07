@@ -236,6 +236,7 @@ export class GoodsCart {
   userId: string;
   productName: string;
   productMainImage: string;
+  image: string;
   productPrice:number;
   quantity:number;
   productChecked: string;

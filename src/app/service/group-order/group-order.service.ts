@@ -33,7 +33,7 @@ export class GroupOrderService {
   getOrderAllList(productName,orderId,productId,pageNo,pageSize){
     let url = this.ipSetting.ip + '/mmall/order/getOrderAllList/'+pageNo+'/'+pageSize+"?productName="+productName
       +"&orderId="+orderId+"&productId="+productId;
-    return this.http.post(url,this.options)
+    return this.http.post(url,null,this.options)
       .map(res => res.json());
   }
 

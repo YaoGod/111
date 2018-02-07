@@ -59,7 +59,7 @@
               <dd  *ngFor="let goodsOrderItem of order.orderItemVoList;let idx=index">
                 <table style="width:100%;">
                   <td class="eight">
-                    <img *ngIf="goodsOrderItem.productImage!==''" [src]="ipServer + goodsOrderItem.productImage"/>
+                    <img *ngIf="goodsOrderItem.image!==''" [src]="goodsOrderItem.image | imgsafeurl"/>
                   </td>
                   <td class="sec" style="text-align: left"> <p class="headtxt">{{goodsOrderItem.productName}}</p></td>
                   <td class="sec">￥{{goodsOrderItem.currentUnitPrice}}</td>

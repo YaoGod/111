@@ -20,6 +20,7 @@ import { CheckComponent } from './check/check.component';
 import { ManagerComponent } from './manager/manager.component';
 import { ReportComponent } from './report/report.component';
 import { CountComponent } from './count/count.component';
+import {ImgurlModule} from "../../pipe/imgurl/imgurl.module";
 const routes: Routes = [
   { path: '',
     component : GroupComponent,
@@ -79,6 +80,7 @@ const routes: Routes = [
     FormsModule,
     TurnBarModule,
     GlobalFooterModule,
+    ImgurlModule,
     RouterModule.forChild(routes)
   ],
   exports:[RouterModule],
