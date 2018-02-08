@@ -31,16 +31,9 @@ export class GoodsbuyComponent implements OnInit {
               public ipSetting  : IpSettingService,
               private globalCatalogService: GlobalCatalogService,
               private router:Router,
-              private route:ActivatedRoute) {
-    this.rule = this.globalCatalogService.getRole("employ/market");
-  }
+              private route:ActivatedRoute) {}
 
   ngOnInit() {
-    this.globalCatalogService.valueUpdated.subscribe(
-      (val) =>{
-        this.rule = this.globalCatalogService.getRole("employ/market");
-      }
-    );
     this.getRule();
     this.search = new Goods();
     this.search.name = "";
@@ -54,6 +47,21 @@ export class GoodsbuyComponent implements OnInit {
       .subscribe(data=>{
         if(this.errorVoid.errorMsg(data)){
           this.catas = data.data;
+          this.rule = {};
+          for(let i = 0;i<this.catas.length;i++){
+            if(this.catas[i].isInstall){
+              this.rule.isInstall = true;
+            }
+            if(this.catas[i].isUpdate){
+              this.rule.isUpdate = true;
+            }
+            if(this.catas[i].isDelete){
+              this.rule.isDelete = true;
+            }
+            if(this.catas[i].isSelect){
+              this.rule.isSelect = true;
+            }
+          }
         }
       })
   }

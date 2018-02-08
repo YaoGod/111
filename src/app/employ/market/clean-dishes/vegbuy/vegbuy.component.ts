@@ -15,6 +15,7 @@ declare var confirmFunc:any;
 })
 export class VegbuyComponent implements OnInit {
   public rule;
+  public catas;
   public vegetables:Array<Vegetable>;
   public search: Vegetable;
   public cart: VegetableCart;
@@ -27,22 +28,38 @@ export class VegbuyComponent implements OnInit {
   constructor(private vegetableInfoService: VegetableInfoService,
               private errorVoid: ErrorResponseService,
               private globalCatalogService: GlobalCatalogService,
-              public ipSetting:IpSettingService) {
-    this.rule = this.globalCatalogService.getRole("employ/market");
-  }
+              public ipSetting:IpSettingService) {}
 
   ngOnInit() {
-    this.globalCatalogService.valueUpdated.subscribe(
-      (val) =>{
-        this.rule = this.globalCatalogService.getRole("employ/market");
-      }
-    );
     this.search = new Vegetable();
     this.pages = [];
+    this.getRule();
     this.getVegetableShowList();
 
   }
-
+  getRule(){
+    this.globalCatalogService.getCata(-1,'market','employ/market/cleanDishes')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.catas = data.data;
+          this.rule = {};
+          for(let i = 0;i<this.catas.length;i++){
+            if(this.catas[i].isInstall){
+              this.rule.isInstall = true;
+            }
+            if(this.catas[i].isUpdate){
+              this.rule.isUpdate = true;
+            }
+            if(this.catas[i].isDelete){
+              this.rule.isDelete = true;
+            }
+            if(this.catas[i].isSelect){
+              this.rule.isSelect = true;
+            }
+          }
+        }
+      })
+  }
   getVegetableShowList(){
     this.vegetableInfoService.getVegetableShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {

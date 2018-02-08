@@ -100,10 +100,10 @@
     </div>
     <img class="div-img origin"
          (click)="viewImg(building.imgPath);"
-         [src]="ipSetting.ip + building.imgList[0] | imgsafeurl"
+         [src]="building.imgList | imgsafeurl"
          *ngIf="building.imgPath&&!editStatus">
     <img class="div-img"
-         [src]="copyBuilding.imgList[0] | imgsafeurl"
+         [src]="copyBuilding.imgList | imgsafeurl"
          *ngIf="copyBuilding.imgPath&&editStatus">
     <input name="file" id="file_upload" style=" visibility:hidden;"
            type="file"

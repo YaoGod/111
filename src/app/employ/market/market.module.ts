@@ -15,7 +15,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'reserve',
+        redirectTo: 'cleanDishes',
         pathMatch: 'full'
       },
       {
