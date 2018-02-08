@@ -19,7 +19,7 @@
       <div class="msg-panel">
         <h5>{{doc.buildingName}}<span>（编号:{{doc.buildingNum}}）</span></h5>
         <div class="word-panel">
-          <a class="keyword" *ngFor="let h of doc.title;let j = index"
+          <a class="keyword" *ngFor="let h of doc.title;let j = index" title="查看"
             (click)="linkDetail(doc.id[j])">
             <span><i class="fa fa-quote-left"></i>{{h}} <i class="fa fa-quote-right"></i></span>
           </a>
@@ -27,14 +27,14 @@
         <div class="msg-count">共<span>{{doc.title.length}}</span>项</div>
       </div>
       <div class="msg-detail">
-        <a (click)="linkGroupList(doc.classId,doc.buildingId)">
+        <a (click)="linkGroupList(doc.classId,doc.buildingId)" title="查看">
           <i class="icon-doc"></i>详情
         </a>
-        <a  *ngIf="rule&&rule.isSelect"
+        <a  *ngIf="rule&&rule.isSelect" title="导出"
           (click)="exportList(doc.classId,doc.buildingId)">
           <i class="icon-cloud-download"></i>导出
         </a>
-        <a  *ngIf="rule&&rule.isDelete"
+        <a  *ngIf="rule&&rule.isDelete" title="删除"
           (click)="deleteGroup(doc.classId,doc.buildingId)">
           <i class="icon-trash"></i>删除
         </a>

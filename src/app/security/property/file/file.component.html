@@ -20,11 +20,11 @@
         <div class="msg-count">共<span>{{doc.bookName.length}}</span>项</div>
       </div>
       <div class="msg-detail">
-        <a (click)="linkGroupList(doc.classId,doc.buildingId)">
+        <a (click)="linkGroupList(doc.classId,doc.buildingId)" title="查看">
           <i class="icon-doc"></i>详情
         </a>
         <a *ngIf="rule&&rule.isDelete"
-           (click)="deleteGroup(doc.classId,doc.buildingId)">
+           (click)="deleteGroup(doc.classId,doc.buildingId)" title="删除">
           <i class="icon-trash"></i>删除
         </a>
       </div>

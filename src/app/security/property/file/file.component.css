@@ -91,9 +91,7 @@
   padding: 0 5px;
   color: #828c8c;
   font-size: 14px;
-
   transition-duration: 300ms;
-  cursor: pointer;
 }
 .keyword span i{
   position: relative;
