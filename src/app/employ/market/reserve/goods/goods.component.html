@@ -44,7 +44,7 @@
                 <table style="width: 100%;">
                   <tr>
                     <td width="20%" class="fir">
-                      <img  *ngIf="good.image!==''"  [src]="good.image | imgsafeurl" />
+                      <img  *ngIf="good.imgPath"  [src]="good.imgPath | imgsafeurl" />
                     </td>
                     <td class="sec">￥{{good.price}}</td>
                     <td class="three" *ngIf="good.status=='1'">上架</td>
@@ -82,7 +82,7 @@
           <div class="pimg">
             <div class="dropify-wrapper">
               <div class="dropify-message">
-                <img *ngIf="goodsAdd.image!==''"  [src]="goodsAdd.image | imgsafeurl" />
+                <img *ngIf="goodsAdd.imgPath"  [src]="goodsAdd.imgPath | imgsafeurl" />
               </div>
               <p>点击此处上传图片</p>
               <input type="file" class="dropify" #prese1  id="prese1"  (change)="prese_upload(prese1.files)"  accept="image/gif, image/jpeg, image/png, image/jpg" >
@@ -143,7 +143,7 @@
           <div class="pimg">
             <div class="dropify-wrapper">
               <div class="dropify-message">
-                <img *ngIf="goodsUp.image!==''" [src]="goodsUp.image | imgsafeurl" />
+                <img *ngIf="goodsUp.imgPath" [src]="goodsUp.imgPath | imgsafeurl" />
               </div>
               <p>点击此处上传图片</p>
               <input type="file" class="dropify"  #prese2  id="prese2" (change)="prese_upload2(prese2.files)">
@@ -203,7 +203,7 @@
           <div class="pimg">
             <div class="dropify-wrapper">
               <div class="dropify-message">
-                <img *ngIf="goodsView.image!==''" [src]="goodsView.image | imgsafeurl" />
+                <img *ngIf="goodsView.imgPath" [src]="goodsView.imgPath | imgsafeurl" />
               </div>
             </div>
           </div>

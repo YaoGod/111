@@ -13,15 +13,6 @@
             <!--<div class="content-box" [routerLink]="['../goodscart']"><i class="icon-basket-loaded"></i> 购物车</div>-->
           </div>
         </div>
-        <!--<div class="path">
-          <img src="assets/image/bg-path.png" />
-          <ul>
-            <li class="one active">订购中</li>
-            <li class="two">已发货</li>
-            <li class="three">确认收货</li>
-            <li class="four">交易成功</li>
-          </ul>
-        </div>-->
         <div class="b-con tuanmenu">
           <div class="list-table" *ngFor="let order of orders;let idx=index">
             <dt>
@@ -32,11 +23,6 @@
                 <td class="zero">订单价格：￥{{order.payment}}</td>
                 <td class="zero">交易方式：{{order.paymentTypeDesc}}</td>
                 <td class="zero status">订单状态：{{order.statusDesc}}</td>
-                <!--<td class="zero" *ngIf="order.status==0">订单状态：退单</td>
-                <td class="zero" *ngIf="order.status==10">订单状态：未支付</td>
-                <td class="zero" *ngIf="order.status==20">订单状态：已付款</td>
-                <td class="zero" *ngIf="order.status==40">订单状态：已发货</td>
-                <td class="zero" *ngIf="order.status==50">订单状态：已到货</td>-->
               </tr>
             </table>
             </dt>
@@ -59,7 +45,7 @@
               <dd  *ngFor="let goodsOrderItem of order.orderItemVoList;let idx=index">
                 <table style="width:100%;">
                   <td class="eight">
-                    <img *ngIf="goodsOrderItem.image!==''" [src]="goodsOrderItem.image | imgsafeurl"/>
+                    <img *ngIf="goodsOrderItem.imgPath" [src]="goodsOrderItem.imgPath | imgsafeurl"/>
                   </td>
                   <td class="sec" style="text-align: left"> <p class="headtxt">{{goodsOrderItem.productName}}</p></td>
                   <td class="sec">￥{{goodsOrderItem.currentUnitPrice}}</td>

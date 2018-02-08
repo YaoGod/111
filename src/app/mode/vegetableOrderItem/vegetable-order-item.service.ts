@@ -7,7 +7,7 @@ export class VegetableOrderItem {
   productCode:     string;/*净菜id*/
   orderNo:         number;/*订单id*/
   productName:      string;/*净菜名称*/
-  imagePath:         string;/*净菜图片*/
+  imgPath:         string;/*净菜图片*/
   detail:            string;/*净菜详情*/
   unitPrice:         number;/*净菜单价*/
   quantity:          number;/*该净菜购买数量*/

@@ -5,6 +5,7 @@ import { RouteGuardService } from '../../service/route-guard/route-guard.service
 import { Routes, RouterModule } from '@angular/router';
 import { IndexWelfareComponent } from './index-welfare/index-welfare.component';
 import { TurnBarModule } from "../../component/turn-bar/turn-bar.module";
+import {ImgurlModule} from "../../pipe/imgurl/imgurl.module";
 const routes: Routes = [
   {
     path: '',
@@ -36,7 +37,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    TurnBarModule
+    TurnBarModule,
+    ImgurlModule,
   ],
   exports: [RouterModule],
   declarations: [WelfareComponent, IndexWelfareComponent]

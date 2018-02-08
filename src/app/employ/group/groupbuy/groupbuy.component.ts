@@ -120,7 +120,7 @@ export class GroupbuyComponent implements OnInit {
         this.cartsize = data.data.cartsize;
         this.total = data.data.total;
         for(let i =0; i< this.groupProducts.length; i++){
-          this.sanitizer.bypassSecurityTrustUrl(this.groupProducts[i].image);
+          this.sanitizer.bypassSecurityTrustUrl(this.groupProducts[i].imgPath);
         }
       }
     });

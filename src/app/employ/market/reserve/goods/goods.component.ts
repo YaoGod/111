@@ -26,7 +26,7 @@ export class GoodsComponent implements OnInit {
   public  goodsView = {
     code:'',
     name: '',
-    image: '',
+    imgPath: '',
     detail:'',
     price: '',
     status: ''
@@ -34,7 +34,7 @@ export class GoodsComponent implements OnInit {
   public  goodsAdd = {
     code:'',
     name: '',
-    image: '',
+    imgPath: '',
     detail:'',
     price: '',
     status: ''
@@ -42,7 +42,7 @@ export class GoodsComponent implements OnInit {
   public  goodsUp={
     code:'',
     name: '',
-    image: '',
+    imgPath: '',
     detail:'',
     price: '',
     status: ''
@@ -133,7 +133,7 @@ export class GoodsComponent implements OnInit {
     this.goodsAdd = {
       code:'',
       name: '',
-      image: '',
+      imgPath: '',
       detail:'',
       price: '',
       status: ''
@@ -289,7 +289,7 @@ export class GoodsComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)){
-          this.goodsAdd.image = data.msg;
+          this.goodsAdd.imgPath = data.msg;
           confirmFunc.init({
             'title': '提示',
             'mes': '上传成功',
@@ -317,7 +317,7 @@ export class GoodsComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)){
-          this.goodsUp.image = data.msg;
+          this.goodsUp.imgPath = data.msg;
           confirmFunc.init({
             'title': '提示' ,
             'mes': '上传成功',
@@ -351,7 +351,7 @@ export class Goods{
   id:                number;
   code:              string;/*商品编号*/
   name:             string;/*商品名称*/
-  image:            string;/*商品图片*/
+  imgPath:            string;/*商品图片*/
   detail:            string;/*商品详情*/
   price:             number;/*商品价格*/
   status:            string;/*商品状态*/

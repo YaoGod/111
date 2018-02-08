@@ -77,13 +77,11 @@ export class ContentComponent implements OnInit {
   }
   /*获取全部服务公司*/
   private getCompany() {
-    let url =  this.ipSetting.ip + "/building/company/getCompany";
-    this.http.get(url)
-      .map(res => res.json())
+    let url = "/building/company/getCompany";
+    this.ipSetting.sendGet(url)
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.serviceCom = data.data;
-          //
           /*for(let i=0;i<data['data'].length;i++){
            this.serviceCom.push(data['data'][i].companyName);
            }*/

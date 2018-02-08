@@ -10,6 +10,7 @@ import { DiscountEmployeeService } from '../../../service/discount-employee/disc
 import { DiscountInfoDetailComponent } from './discount-info-detail/discount-info-detail.component';
 import { DiscountInfoListComponent } from './discount-info-list/discount-info-list.component';
 import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
+import {ImgurlModule} from "../../../pipe/imgurl/imgurl.module";
 const routes: Routes = [
   {
     path: '',
@@ -41,6 +42,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     TurnBarModule,
+    ImgurlModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

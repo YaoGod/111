@@ -18,6 +18,7 @@ import {SupermarketManagerService} from "../../../service/supermarket-manager/su
 import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
 import { SupermarketCountComponent } from './supermarket-count/supermarket-count.component';
 import {PrintBarModule} from "../../../component/print-bar/print-bar.module";
+import {ImgurlModule} from "../../../pipe/imgurl/imgurl.module";
 const routes: Routes = [
   {
     path: '',
@@ -76,6 +77,7 @@ const routes: Routes = [
     GlobalFooterModule,
     TurnBarModule,
     PrintBarModule,
+    ImgurlModule,
     RouterModule.forChild(routes),
   ],
   providers: [SupermarketManagerService],

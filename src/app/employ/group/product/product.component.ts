@@ -29,7 +29,7 @@ export class ProductComponent implements OnInit {
   public  productview={
     code:'',
     name: '',
-    image: '',
+    imgPath: '',
     detail:'',
     price: '',
     status: '',
@@ -44,7 +44,7 @@ export class ProductComponent implements OnInit {
   public upGroupProduct={
     code:'',
     name: '',
-    image: '',
+    imgPath: '',
     detail:'',
     price: '',
     status: '',
@@ -59,7 +59,7 @@ export class ProductComponent implements OnInit {
   };
   public newGroupProduct={
     name: '',
-    image: '',
+    imgPath: '',
     detail:'',
     price: '',
     status: '',
@@ -119,7 +119,7 @@ export class ProductComponent implements OnInit {
     $('#prese1').val('');
     this.newGroupProduct={
       name: '',
-      image: '',
+      imgPath: '',
       detail:'',
       price: '',
       status: '',
@@ -257,7 +257,7 @@ export class ProductComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          this.newGroupProduct.image = data.msg;
+          this.newGroupProduct.imgPath = data.msg;
           confirmFunc.init({
             'title': '提示',
             'mes': '上传成功',
@@ -275,7 +275,7 @@ export class ProductComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          this.upGroupProduct.image = data.msg;
+          this.upGroupProduct.imgPath = data.msg;
           confirmFunc.init({
             'title': '提示',
             'mes': '上传成功',

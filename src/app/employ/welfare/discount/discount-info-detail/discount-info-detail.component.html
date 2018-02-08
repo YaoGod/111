@@ -12,7 +12,7 @@
 <!--信息内容-->
 <div class="warp">
   <div class="warp-left">
-    <img [src]="'proxy/'+discount.imgPath" *ngIf="discount&&discount.imgPath">
+    <img *ngIf="discount&&discount.imgPath" [src]="discount.imgPath | imgsafeurl" >
   </div>
   <div class="warp-right" *ngIf="discount&&discount.title">
     <h4>{{discount.title}}</h4>

@@ -37,7 +37,10 @@
       </li>
       <li *ngIf="rule&&rule.isInstall">
         <label>订单部门</label>
-        <input  type="text" name="searchorderDepart" class="search-ipt" [(ngModel)]="searchArch.userDept">
+        <select class="search-ipt" name="searchorderDepart" [(ngModel)]="searchArch.userDept">
+          <option value="">-请选择-</option>
+          <option *ngFor="let dept of repairDept" [value]="dept">{{dept}}</option>
+        </select>
       </li>
     </ul>
     <div class="search-right"><a href="javascript:;" class="search-btn" (click)="repairSearch()"><i class="icon-magnifier"></i> 查 询</a></div>

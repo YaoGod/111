@@ -6,7 +6,7 @@ export class GroupCart{
   id:number;
   userId: string;
   name: string;
-  image: string;
+  imgPath: string;
   price:number;
   quantity:number;
   ckecked: string;

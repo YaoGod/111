@@ -5,7 +5,7 @@ export class SupermarketProduct {
   code:              string;/*商品编号*/
   supplierId:       string;/*经销商id*/
   sname:              string;/*商品名称*/
-  simage:             string;/*商品图片*/
+  imgPath:             string;/*商品图片*/
   detail:            string;/*商品详情*/
   price:              number;/*商品价格*/
   stype:              string;/*商品分类*/

@@ -32,7 +32,7 @@
               <dd>
                 <table class="list-body">
                   <td class="fir">
-                    <img *ngIf="cart.image!==''" [src]="cart.image | imgsafeurl"/>
+                    <img *ngIf="cart.imgPath" [src]="cart.imgPath | imgsafeurl"/>
                   </td>
                   <td class="sec">￥{{cart.productPrice}}</td>
                   <td class="three">

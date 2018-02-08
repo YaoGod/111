@@ -44,7 +44,7 @@
               <div class="productInfo">
                 <div class="product-img">
                   <a>
-                    <img *ngIf="product.simage!==''"  [src]="ipSetting.ip + product.simage" />
+                    <img *ngIf="product.imgPath"  [src]="product.imgPath | imgsafeurl" />
                   </a>
                 </div>
                 <h3 class="product-title">

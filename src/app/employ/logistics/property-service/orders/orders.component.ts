@@ -30,7 +30,7 @@ export class OrdersComponent implements OnInit {
   public deptMent:string;
   private editBool = true;
   public URL: string;
-
+  public repairDept :any;
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
               private utilBuildingService:UtilBuildingService,
@@ -51,6 +51,7 @@ export class OrdersComponent implements OnInit {
     this.getBuildings();
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
     this.getDeptName();
+    this.getRepairDept();
     this.URL = this.ipSetting.ip;
   }
   getRule(){
@@ -71,6 +72,15 @@ export class OrdersComponent implements OnInit {
         }
       });
   }
+  /*获取维修部门列表*/
+  getRepairDept(){
+    let url = '/building/repair/getRepairDept';
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        this.repairDept = data.data;
+      }
+    });
+  };
   /*获取大楼列表*/
   private getBuildings() {
     this.utilBuildingService.getBuildingList('')

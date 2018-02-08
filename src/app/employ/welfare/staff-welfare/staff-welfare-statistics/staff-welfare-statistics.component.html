@@ -10,7 +10,7 @@
 <!--福利信息简介-->
 <div class="goods-box">
   <div class="goods-img">
-    <img [src]="ip+welfare.imgPath" *ngIf="welfare&&welfare.imgPath">
+    <img [src]="welfare.imgPath | imgsafeurl" *ngIf="welfare&&welfare.imgPath">
   </div>
   <p>品类名称：&nbsp;{{welfare.title}}</p>
   <p>是否需要反馈：&nbsp;{{welfare.feedBack}}</p>

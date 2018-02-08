@@ -131,7 +131,7 @@ export class GoodsComponent implements OnInit {
     if(!this.verifyEmpty("code_edit","商品编码不能为空")){
       return false;
     }
-    if(this.productUp.simage==null||this.productUp.simage===""){
+    if(this.productUp.imgPath==null||this.productUp.imgPath===""){
       confirmFunc.init({
         'title': '提示',
         'mes': "请上传图片！",
@@ -227,7 +227,7 @@ export class GoodsComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)){
-          this.productAdd.simage = data.msg;
+          this.productAdd.imgPath = data.msg;
           confirmFunc.init({
             'title': '提示',
             'mes': "上传成功",
@@ -246,7 +246,7 @@ export class GoodsComponent implements OnInit {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)){
 
-          this.productUp.simage = data.msg;
+          this.productUp.imgPath = data.msg;
           confirmFunc.init({
             'title': '提示',
             'mes': "上传成功",

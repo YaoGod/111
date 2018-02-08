@@ -31,7 +31,7 @@
           <div class="row mt20">
             <dl>
               <dt class="showpic">
-                <img *ngIf="good.image!==''" [src]="good.image | imgsafeurl"/>
+                <img *ngIf="good.imgPath" [src]="good.imgPath | imgsafeurl"/>
               </dt>
               <dd>
                 <span class="name-great note">(编码:{{good.code}})</span>

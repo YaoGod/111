@@ -63,6 +63,7 @@ export class VegbuyComponent implements OnInit {
   getVegetableShowList(){
     this.vegetableInfoService.getVegetableShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
+        console.log(data);
         this.vegetables = data.data.infos;
         this.cartsize = data.data.cartsize;
         this.total = data.data.total;

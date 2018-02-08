@@ -1,4 +1,4 @@
-<!--<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">-->
+
     <div class="right">
       <div class="wrap-content">
         <div class="wrap-space">
@@ -79,7 +79,7 @@
                   <dd *ngFor="let orderItem of order.groupOrderItems;let idx=index">
                     <table style="width:100%;">
                       <td class="eight">
-                        <img *ngIf="orderItem.image!==''" [src]="orderItem.image | imgsafeurl"/>
+                        <img *ngIf="orderItem.imgPath!==''" [src]="orderItem.imgPath | imgsafeurl"/>
                       </td>
                       <td class="sec" style="text-align: left"> <p class="headtxt">{{orderItem.productName}}</p></td>
                       <td class="sec">￥{{orderItem.unitPrice}}</td>

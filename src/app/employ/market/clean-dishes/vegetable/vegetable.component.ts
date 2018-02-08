@@ -30,7 +30,7 @@ export class VegetableComponent implements OnInit {
   public  vegetableView={
     code:'',
     vname: '',
-    vimage: '',
+    imgPath: '',
     detail:'',
     price: '',
     status: '',
@@ -40,7 +40,7 @@ export class VegetableComponent implements OnInit {
   public  vegetableAdd={
     code:'',
     vname: '',
-    vimage: '',
+    imgPath: '',
     detail:'',
     price: '',
     status: '',
@@ -50,7 +50,7 @@ export class VegetableComponent implements OnInit {
   public  vegetableUp={
     code:'',
     vname: '',
-    vimage: '',
+    imgPath: '',
     detail:'',
     price: '',
     status: '',
@@ -178,14 +178,14 @@ chang(value) {
     this.vegetableAdd={
       code:'',
       vname: '',
-      vimage: '',
+      imgPath: '',
       detail:'',
       price: '',
       status: '',
       saletime: '',
       limitnum:''
     };
-    for(var i=1;i<8;i++){
+    for(let i=1;i<8;i++){
       $('#upsale'+i).removeClass("btn-danger2");
     }
     $('.maskAdd').hide();
@@ -298,28 +298,28 @@ chang(value) {
       return false;
     }
     if(id=="vnewLimitnum"){
-      var reg = /^[1-9]\d*$/;
+      let reg = /^[1-9]\d*$/;
       if(!reg.test($('#' + id).val())){
         this.addErrorClass(id, "请输入正确的数字");
         return true;
       }
     }
     if(id=="vupLimitnum"){
-      var reg = /^[1-9]\d*$/;
+      let reg = /^[1-9]\d*$/;
       if(!reg.test($('#' + id).val())){
         this.addErrorClass(id, "请输入正确的数字");
         return true;
       }
     }
     if(id=="vprice"){
-      var reg =/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+      let reg =/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
       if(!reg.test($('#' + id).val())){
         this.addErrorClass(id, "请输入正确的价格");
         return true;
       }
     }
     if(id=="vupprice"){
-      var reg =/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+      let reg =/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
       if(!reg.test($('#' + id).val())){
         this.addErrorClass(id, "请输入正确的价格");
         return true;
@@ -388,7 +388,7 @@ chang(value) {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          this.vegetableAdd.vimage = data.msg;
+          this.vegetableAdd.imgPath = data.msg;
           confirmFunc.init({
             'title': '提示',
             'mes': '上传成功',
@@ -406,7 +406,7 @@ chang(value) {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
-          this.vegetableUp.vimage = data.msg;
+          this.vegetableUp.imgPath = data.msg;
           confirmFunc.init({
             'title': '提示',
             'mes': '上传成功',

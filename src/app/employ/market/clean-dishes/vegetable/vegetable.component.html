@@ -44,7 +44,7 @@
                 <table style="width: 100%;">
                   <tr>
                     <td width="20%" class="fir">
-                      <img  *ngIf="vegetable.vimage!==''"  [src]="ipSetting.ip + vegetable.vimage" />
+                      <img  *ngIf="vegetable.imgPath"  [src]="vegetable.imgPath | imgsafeurl" />
                     </td>
                     <td class="sec">￥{{vegetable.price}}</td>
                     <td class="three" *ngIf="vegetable.status=='1'">上架</td>
@@ -84,7 +84,7 @@
           <div class="pimg">
             <div class="dropify-wrapper">
               <div class="dropify-message">
-                <img *ngIf="vegetableAdd.vimage!==''"  [src]="ipSetting.ip + vegetableAdd.vimage" />
+                <img *ngIf="vegetableAdd.imgPath"  [src]="vegetableAdd.imgPath | imgsafeurl" />
               </div>
               <p>点击此处上传图片</p>
               <input type="file" class="dropify" #prese1  id="prese1"  (change)="prese_upload(prese1.files)"  accept="image/gif, image/jpeg, image/png, image/jpg" >
@@ -176,7 +176,7 @@
           <div class="pimg">
             <div class="dropify-wrapper">
               <div class="dropify-message">
-                <img *ngIf="vegetableUp.vimage!==''" [src]="ipSetting.ip + vegetableUp.vimage" />
+                <img *ngIf="vegetableUp.imgPath" [src]=" vegetableUp.imgPath | imgsafeurl" />
               </div>
               <p>点击此处上传图片</p>
               <input type="file" class="dropify"  #prese2  id="prese2" (change)="prese_upload2(prese2.files)">
@@ -267,7 +267,7 @@
           <div class="pimg">
             <div class="dropify-wrapper">
               <div class="dropify-message">
-                <img *ngIf="vegetableView.vimage!==''" [src]="ipSetting.ip+ vegetableView.vimage" />
+                <img *ngIf="vegetableView.imgPath" [src]="vegetableView.imgPath | imgsafeurl" />
               </div>
             </div>
           </div>

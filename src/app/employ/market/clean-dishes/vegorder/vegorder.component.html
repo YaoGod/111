@@ -101,7 +101,7 @@
                   <dd *ngFor="let vegetableOrderItem of order.vegetableOrderItems;let idx=index">
                     <table style="width:100%;">
                       <td class="eight">
-                        <img *ngIf="vegetableOrderItem.imagePath!==''" [src]="ipSetting.ip + vegetableOrderItem.imagePath"/>
+                        <img *ngIf="vegetableOrderItem.imgPath" [src]="vegetableOrderItem.imgPath | imgsafeurl"/>
                       </td>
                       <td class="sec" style="text-align: left"> <p class="headtxt">{{vegetableOrderItem.productName}}</p></td>
                       <td class="sec">￥{{vegetableOrderItem.unitPrice}}</td>

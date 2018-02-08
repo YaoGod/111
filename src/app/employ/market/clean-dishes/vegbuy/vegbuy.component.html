@@ -24,7 +24,7 @@
               <div class="row mt20">
                 <dl>
                   <dt class="showpic">
-                    <img *ngIf="vegetable.vimage!==''" [src]="ipSetting.ip + vegetable.vimage"/>
+                    <img *ngIf="vegetable.imgPath" [src]="vegetable.imgPath | imgsafeurl"/>
                   </dt>
                   <dd>
                     <span class="name-great">{{vegetable.vname}}</span>

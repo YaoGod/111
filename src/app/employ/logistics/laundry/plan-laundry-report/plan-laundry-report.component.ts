@@ -77,10 +77,10 @@ export class PlanLaundryReportComponent implements OnInit {
             this.checks.push(list[i]['value']);
           }
         }
-        if(this.checks.length<1){
+       if(this.checks.length<1){
           confirmFunc.init({
             'title': '提示',
-            'mes': '请选择要导出的数据',
+            'mes': '请选择要导出的数据！',
             'popType': 0,
             'imgType': 2,
           });

@@ -52,7 +52,7 @@
       </td>
       <td width="20%" class="box-demo">
         <img *ngIf="discount.imgPath"
-             [src]="ipSetting.ip + discount.imgPath">
+             [src]="discount.imgPath | imgsafeurl">
       </td>
       <td width="15%">
         {{discount.feedBack}}
@@ -100,7 +100,7 @@
         <div class="modal-left">
           <div  class="dropify-wrapper" id = "newImgPath">
             <div  class="dropify-message">
-              <img [src]="ipSetting.ip+copyWelfare.imgPath" *ngIf="copyWelfare.imgPath">
+              <img [src]="copyWelfare.imgPath | imgsafeurl" *ngIf="copyWelfare.imgPath">
             </div>
             <p >点击上传福利信息内容图</p>
             <input  class="dropify" type="file"  id="pressNew"

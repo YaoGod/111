@@ -21,7 +21,7 @@
 <!--信息内容-->
 <div class="warp">
   <div class="warp-left">
-    <img [src]="'proxy/'+welfare.imgPath" *ngIf="welfare&&welfare.imgPath">
+    <img [src]="welfare.imgPath | imgsafeurl" *ngIf="welfare&&welfare.imgPath">
   </div>
   <div class="warp-right">
     <h4>{{welfare.title}}</h4>

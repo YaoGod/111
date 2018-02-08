@@ -6,7 +6,7 @@ export class VegetableCart {
   id:number;
   userId: string;
   vname: string;
-  vimage: string;
+  imgPath: string;
   price:number;
   quantity:number;
   ckecked: string;

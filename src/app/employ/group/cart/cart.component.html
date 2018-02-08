@@ -1,5 +1,4 @@
-<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
-    <!--购物车-->
+<!--购物车-->
     <div class="right">
       <div class="wrap-content">
         <div class="wrap-space">
@@ -30,7 +29,7 @@
                   <dd>
                     <table width="100%">
                       <td class="fir">
-                        <img *ngIf="cart.image!==''" [src]="cart.image  | imgsafeurl"/>
+                        <img *ngIf="cart.imgPath!==''" [src]="cart.imgPath  | imgsafeurl"/>
                       </td>
                       <td class="sec">{{cart.name}}</td>
                       <td class="sec">{{cart.price}}</td>

@@ -13,6 +13,7 @@ import { WelfareEmployeeService } from '../../../service/welfare-employee/welfar
 import { StaffWelfareDetailComponent } from './staff-welfare-detail/staff-welfare-detail.component';
 import { SraffWelfareListComponent } from './sraff-welfare-list/sraff-welfare-list.component';
 import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
+import {ImgurlModule} from "../../../pipe/imgurl/imgurl.module";
 const routes: Routes = [
   {
     path: '',
@@ -53,6 +54,7 @@ const routes: Routes = [
     FormsModule,
     TextareaModule,
     TurnBarModule,
+    ImgurlModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
