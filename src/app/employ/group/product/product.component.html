@@ -110,7 +110,7 @@
               <div class="pimg">
                 <div class="dropify-wrapper">
                   <div class="dropify-message">
-                    <img *ngIf="newGroupProduct.imgPath"  [src]="newGroupProduct.imgPath | imgsafeurl" />
+                    <img *ngIf="newGroupProduct.imgPath"  [src]="imgurl | imgsafeurl" />
                   </div>
                   <p>点击此处上传图片</p>
                   <input type="file" class="dropify" #prese1 id="prese1"  (change)="prese_upload(prese1.files)">

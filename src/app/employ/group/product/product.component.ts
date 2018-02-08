@@ -16,6 +16,7 @@ declare var tinymce: any;
   providers: [GroupProductService,UtilBuildingService,ErrorResponseService]
 })
 export class ProductComponent implements OnInit {
+  public imgurl: any;
   public catas;
   public rule;
   public groupProducts: Array<GroupProduct>;
@@ -257,6 +258,7 @@ export class ProductComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data.status)){
+          this.imgurl = window.URL.createObjectURL(files[0]);
           this.newGroupProduct.imgPath = data.msg;
           confirmFunc.init({
             'title': '提示',
