@@ -59,7 +59,7 @@
         <div class="card-img" [routerLink]="['detail',building.id]">
           <div class="el-overlay">
           </div>
-          <img  [src]="ipSetting.ip+imgPaths[idx][0]" *ngIf="imgPaths[idx][0]">
+          <img  [src]="imgPaths[idx][0] | imgsafeurl" *ngIf="imgPaths[idx][0]">
         </div>
         <div class="mark">
           <span>No.{{building.buildingId}}</span>
@@ -94,7 +94,7 @@
           <div class="modal-left">
             <div class="dropify-wrapper" id="newBuildingImgPath">
               <div class="dropify-message">
-                <img *ngIf="newBuilding.imgPath" [src]="ipSetting.ip + newBuilding.imgPath" />
+                <img *ngIf="newBuilding.imgPath" [src]="newBuilding.imgPath | imgsafeurl" />
               </div>
               <p>点击此处上传图片</p>
               <input type="file" class="dropify" #prese id="prese"
@@ -104,18 +104,6 @@
             <div class="error"></div>
           </div>
           <div class="modal-right">
-             <!-- <div class="form-group">
-                <label class="control-label">
-                  <span>大楼编号</span>
-                  <input type="number" min-length="4"
-                         name="newBuildingId"
-                         id="newBuildingId"
-                         class="form-control" placeholder=""
-                         [(ngModel)]="newBuilding.buildingId"
-                         (blur)="verifyEmpty(newBuilding.buildingId,'newBuildingId')">
-                </label>
-                <div class="error"></div>
-              </div>-->
               <div class="form-group">
                 <label class="control-label">
                   <span>大楼名称</span>

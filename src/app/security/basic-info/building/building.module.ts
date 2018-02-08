@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
 import { GlobalBuildingService } from '../../../service/global-building/global-building.service';
 import { EmptyValueModule } from '../../../pipe/rename/rename.module';
+import {ImgurlModule} from "../../../pipe/imgurl/imgurl.module";
 const routes: Routes = [
   {
     path: '',
@@ -47,6 +48,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    ImgurlModule,
     RouterModule.forChild(routes),
     EmptyValueModule
   ],

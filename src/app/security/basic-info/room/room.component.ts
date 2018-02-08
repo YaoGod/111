@@ -87,7 +87,7 @@ export class RoomComponent implements OnInit {
   /*查看图片*/
   viewImg(url:string){
     this.isViewImg = false;
-    this.imgSrcView =  this.ipSetting.ip + url;
+    this.imgSrcView = url;
   }
   closeViewImg(){
     this.isViewImg = true;

@@ -5,6 +5,7 @@ import { MsgBelongComponent } from './msg-belong.component';
 import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
 import { EmptyValueModule } from '../../../pipe/rename/rename.module';
+import {ImgurlModule} from "../../../pipe/imgurl/imgurl.module";
 const routes: Routes = [
   {
     path: '',
@@ -16,6 +17,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    ImgurlModule,
     RouterModule.forChild(routes),
     EmptyValueModule
   ],

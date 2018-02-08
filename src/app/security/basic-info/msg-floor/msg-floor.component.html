@@ -98,7 +98,7 @@
       <td width="25%" class="box-demo" [id]="'imgPath' + i">
         <img
           *ngIf="floor.imgPath && !copyFloors[i].editStatus"
-             [src]="ipSetting.ip + floor.imgPath"
+             [src]="floor.imgPath | imgsafeurl"
              (click)="viewImg(floor.imgPath)">
         <img src="../../../../assets/image/icon_img.png"
              *ngIf="!floor.imgPath && !copyFloors[i].editStatus">
@@ -156,7 +156,7 @@
         <div class="modal-left">
           <div  class="dropify-wrapper" id = "newImgPath">
             <div  class="dropify-message">
-              <img [src]="ipSetting.ip+newFloor.imgPath" *ngIf="newFloor.imgPath">
+              <img [src]="ipSetting.ip+newFloor.imgPath | imgsafeurl" *ngIf="newFloor.imgPath">
             </div>
             <p >点击此处上传大楼平面图</p>
             <input  class="dropify" type="file"  id="pressNew"
@@ -212,7 +212,7 @@
   <span class="close" (click)="closeViewImg()"></span>
   <img class="big-img" *ngIf="imgSrcView"
        [ngStyle]="{'width':imgWidth+'px','margin-left':- imgWidth/2 +'px'}"
-       [src]="imgSrcView">
+       [src]="imgSrcView | imgsafeurl">
   <div class="option-bar">
     <span class="enlarge" (click)="addImg()"></span>
     <span class="less" (click)="decsImg()"></span>

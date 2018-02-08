@@ -44,7 +44,7 @@
           <div class="card-right">
             <div  class="card-wrapper">
               <div  class="card-message">
-                <img [src]="ipSetting.ip+room.imgPath" *ngIf="room.imgPath"  (click)="viewImg(room.imgPath)">
+                <img [src]="room.imgPath | imgsafeurl" *ngIf="room.imgPath"  (click)="viewImg(room.imgPath)">
                 <div class="text-center">
                   <a class="text-muted font-12" href="javascript:;"  (click)="viewImg(room.imgPath)">
                     <i class="icon-magnifier-add"></i> 放大
@@ -81,7 +81,7 @@
         <div class="modal-left">
           <div  class="dropify-wrapper" id = "newImgPath">
             <div  class="dropify-message">
-              <img [src]="ipSetting.ip+newRoom.imgPath" *ngIf="newRoom.imgPath">
+              <img [src]="newRoom.imgPath | imgsafeurl" *ngIf="newRoom.imgPath">
             </div>
             <p>点击此处上传房间平面图</p>
             <input  class="dropify" type="file" #pres  id="pres"
@@ -180,7 +180,7 @@
   <span class="close" (click)="closeViewImg()"></span>
   <img class="big-img" *ngIf="imgSrcView"
        [ngStyle]="{'width':imgWidth+'px','margin-left':- imgWidth/2 +'px'}"
-       [src]="imgSrcView">
+       [src]="imgSrcView | imgsafeurl">
   <div class="option-bar">
     <span class="enlarge" (click)="addImg()"></span>
     <span class="less" (click)="decsImg()"></span>

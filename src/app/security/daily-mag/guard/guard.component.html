@@ -127,7 +127,7 @@
           <span class="form-word">{{inner.personStatus}}</span>
         </li>
         <li class="form-photo">
-          <img *ngIf="inner.imgPath" [src]="+ipSetting.ip+inner.imgPath" >
+          <img *ngIf="inner.imgPath" [src]="inner.imgPath | imgsafeurl" >
         </li>
         <li class="form-btn"  *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" (click)="editContract(i)"><i class="icon-pencil"></i></li>
         <li class="form-btn form-del" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delContract(i)"><i class="icon-trash"></i></li>
@@ -274,7 +274,7 @@
         <div class="person-img">
           <div class="dropify-wrapper">
             <div class="dropify-message">
-              <img *ngIf="contractName.imgPath" [src]="ipSetting.ip + contractName.imgPath" />
+              <img *ngIf="contractName.imgPath" [src]="contractName.imgPath | imgsafeurl" />
             </div>
             <p>点击此处上传图片</p>
             <input type="file" class="dropify" #prese id="prese"

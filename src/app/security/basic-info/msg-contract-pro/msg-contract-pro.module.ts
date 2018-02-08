@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MsgContractProComponent } from './msg-contract-pro.component';
 import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
+import {ImgurlModule} from "../../../pipe/imgurl/imgurl.module";
 const routes: Routes = [
   {
     path: '',
@@ -15,6 +16,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    ImgurlModule,
     RouterModule.forChild(routes)
   ],
   exports: [RouterModule],

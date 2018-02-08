@@ -124,7 +124,7 @@ export class BuildingComponent implements OnInit {
   viewImg(url:string) {
     $('.view-img-src').css('display','block');
    /* this.isViewImg = false;*/
-    this.imgSrcView = this.ipSetting.ip + url;
+    this.imgSrcView = url;
   }
   closeViewImg(){
     $('.view-img-src').css('display','none');

@@ -6,6 +6,7 @@ import { PropertyComponent } from './property.component';
 import { NavTitleModule } from '../../component/nav-title/nav-title.module';
 import { GlobalFooterModule } from '../../component/global-footer/global-footer.module';
 import { GlobalOptionService } from './global-option.service';
+import {ImgurlModule} from "../../pipe/imgurl/imgurl.module";
 const routes: Routes = [
   {
     path: '',
@@ -33,6 +34,7 @@ const routes: Routes = [
     CommonModule,
     NavTitleModule,
     GlobalFooterModule,
+    ImgurlModule,
     RouterModule.forChild(routes)
   ],
   exports: [RouterModule],
