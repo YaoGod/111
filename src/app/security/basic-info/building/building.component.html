@@ -1,6 +1,6 @@
 <div class="view">
   <div class="msg">
-    <div class="img-border" (click)="viewImg(building.imgList[0])">
+    <div class="img-border" (click)="viewImg(building.imgList)">
       <img class="div-img" [src]="building.imgList|imgsafeurl" *ngIf="building.imgPath">
     </div>
     <h3><i class="icon-home"></i>{{building.name | emptyValue:'暂无数据'}}</h3>

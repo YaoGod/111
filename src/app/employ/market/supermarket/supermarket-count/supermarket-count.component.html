@@ -75,9 +75,9 @@
                   </select>
                 </th>
                 <th class="tleft goods">商品名称</th>
-                <th>单价（元）</th>
+                <th>单价</th>
                 <th>数量</th>
-                <th>总计（元）</th>
+                <th>总计</th>
                 <th>创建时间</th>
                 <th>发货时间</th>
               </tr>
@@ -105,7 +105,7 @@
                 </td>
                 <td>
                   <p *ngFor="let item of order.orderItems">
-                    {{item.unitPrice|number:'1.2-2'}}
+                    ¥{{item.unitPrice|number:'1.2-2'}}
                   </p>
                 </td>
                 <td>
@@ -113,7 +113,7 @@
                     {{item.quantity}}
                   </p>
                 </td>
-                <td>{{order.payment |number:'1.2-2'}}</td>
+                <td>¥{{order.payment |number:'1.2-2'}}</td>
                 <td>{{order.createTime}}</td>
                 <td>{{order.sendTime}}</td>
               </tr>

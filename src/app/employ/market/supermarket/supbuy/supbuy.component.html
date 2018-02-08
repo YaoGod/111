@@ -56,7 +56,7 @@
                   <div class="item-price">
                     <span class="ui-price">
                         <span class="price-icon">¥</span>
-                        <strong>{{product.price}}</strong>
+                        <strong>{{product.price|number:'1.2-2'}}</strong>
                     </span>
                   </div>
                   <a class="addCart j_AddCart" (click)="addToCart(product.id,product.leftstatus)">

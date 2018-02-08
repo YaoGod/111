@@ -46,7 +46,7 @@
                     <td width="20%" class="fir">
                       <img  *ngIf="good.imgPath"  [src]="good.imgPath | imgsafeurl" />
                     </td>
-                    <td class="sec">￥{{good.price}}</td>
+                    <td class="sec">￥{{good.price|number:'1.2-2'}}</td>
                     <td class="three" *ngIf="good.status=='1'">上架</td>
                     <td class="three" *ngIf="good.status=='2'">下架</td>
                   </tr>

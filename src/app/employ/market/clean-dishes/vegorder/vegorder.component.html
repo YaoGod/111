@@ -63,7 +63,7 @@
                   <tr>
                     <td class="zero">订单编号：{{order.id}}</td>
                     <td class="zero">服务中心：{{order.serviceCenter}}</td>
-                    <td class="zero">订单价格：{{order.payment}}元</td>
+                    <td class="zero">订单价格：{{order.payment|number:'1.2-2'}}元</td>
                     <td class="zero status" *ngIf="order.status=='0'">订单状态：已付款</td>
                     <td class="zero status" *ngIf="order.status=='4'">订单状态：已配货</td>
                     <td class="zero status" *ngIf="order.status=='1'">订单状态：已到货</td>
@@ -104,9 +104,9 @@
                         <img *ngIf="vegetableOrderItem.imgPath" [src]="vegetableOrderItem.imgPath | imgsafeurl"/>
                       </td>
                       <td class="sec" style="text-align: left"> <p class="headtxt">{{vegetableOrderItem.productName}}</p></td>
-                      <td class="sec">￥{{vegetableOrderItem.unitPrice}}</td>
+                      <td class="sec">￥{{vegetableOrderItem.unitPrice|number:'1.2-2'}}</td>
                       <td class="three">{{vegetableOrderItem.quantity}}</td>
-                      <td class="four">￥{{vegetableOrderItem.totalPrice}}</td>
+                      <td class="four">￥{{vegetableOrderItem.totalPrice|number:'1.2-2'}}</td>
                     </table>
                   </dd>
                 </dl>

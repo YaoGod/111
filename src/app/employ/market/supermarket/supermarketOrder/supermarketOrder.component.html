@@ -40,7 +40,7 @@
               <tr>
                 <td class="zero">订单编号：{{order.orderNo}}</td>
                 <td class="zero">服务中心：{{order.serviceCenter}}</td>
-                <td class="zero">订单价格：{{order.payment|number:'1.2-2'}}元</td>
+                <td class="zero">订单价格：¥{{order.payment|number:'1.2-2'}}元</td>
                 <td class="zero status" *ngIf="order.status=='0'">订单状态：已付款</td>
                 <td class="zero status" *ngIf="order.status=='4'">订单状态：已配货</td>
                 <td class="zero status" *ngIf="order.status=='1'">订单状态：已到货</td>
@@ -68,9 +68,9 @@
               <table class="table-head">
                 <tr>
                   <td class="fir">商品信息</td>
-                  <td class="sec">单价（元）</td>
+                  <td class="sec">单价</td>
                   <td class="three">数量</td>
-                  <td class="four">合计（元）</td>
+                  <td class="four">合计</td>
                  <!-- <td class="zero" *ngIf="order.status=='0'">
                     <a class="tre"  title="删除h" href="javascript:void(0);" (click)="delete(order.id)"></a>
                   </td>-->

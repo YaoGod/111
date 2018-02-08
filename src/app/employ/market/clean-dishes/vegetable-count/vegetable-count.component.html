@@ -74,8 +74,8 @@
                 <td>{{order.PRODUCT_CODE}}</td>
                 <td>{{order.SERVICE_CENTER}}</td>
                 <td>{{order.QUANTITY}}</td>
-                <td>{{order.UNIT_PRICE}}</td>
-                <td>{{order.TOTAL_PRICE}}</td>
+                <td>￥{{order.UNIT_PRICE|number:'1.2-2'}}</td>
+                <td>￥{{order.TOTAL_PRICE|number:'1.2-2'}}</td>
               </tr>
             </table>
           </div>
