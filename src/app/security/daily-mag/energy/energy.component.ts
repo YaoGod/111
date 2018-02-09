@@ -419,8 +419,8 @@ export class EnergyComponent implements OnInit {
 export class Search {
   buildingId: string; // 大楼编号
   buildingName: String = '';  // 大楼名称
-  bTime: string; // 开始时间
-  eTime: string; // 结束时间
+  bTime: string=''; // 开始时间
+  eTime: string=''; // 结束时间
   energyType:string; // 类型
 }
 export class GuardName {

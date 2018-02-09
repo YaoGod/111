@@ -27,6 +27,7 @@ export class ProductComponent implements OnInit {
   public total = 0;
   public length = 5;
   public pages: Array<number>;
+  public imgUrl:any;
   public  productview={
     code:'',
     name: '',
