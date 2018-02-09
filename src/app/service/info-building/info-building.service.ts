@@ -164,7 +164,10 @@ export class InfoBuildingService {
    */
   updateFloor(postData){
     const url = this.ipSetting.ip + '/building/info/updateFloor';
-    const data = postData;
+    const data = JSON.parse(JSON.stringify(postData));
+    if(data.imgPath.indexOf("/")!==0){  /*斜杠为数据存储地址*/
+      delete data.imgPath;
+    }
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }

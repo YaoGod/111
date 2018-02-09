@@ -81,7 +81,7 @@
         <div class="modal-left">
           <div  class="dropify-wrapper" id = "newImgPath">
             <div  class="dropify-message">
-              <img [src]="newRoom.imgPath | imgsafeurl" *ngIf="newRoom.imgPath">
+              <img [src]="newRoom.imgPath | imgsafeurl:pres.files" *ngIf="newRoom.imgPath">
             </div>
             <p>点击此处上传房间平面图</p>
             <input  class="dropify" type="file" #pres  id="pres"

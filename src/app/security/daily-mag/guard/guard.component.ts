@@ -337,6 +337,7 @@ export class GuardComponent implements OnInit {
     }
     this.ipSetting.sendPost(SOFTWARES_URL,this.contractName).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
+          $('#prese').val('');
           confirmFunc.init({
             'title': '提示' ,
             'mes': this.contractBool === false?'更改成功':'新增成功',
@@ -352,6 +353,7 @@ export class GuardComponent implements OnInit {
   /*新增编辑档案信息的取消按钮*/
   contractCancel() {
     this.contractName = new ArchName();
+    $('#prese').val('');
     $('.form-control').removeClass('form-error');
     $('.errorMessage').html('');
     $('.mask-contract').hide();
@@ -405,7 +407,6 @@ export class GuardComponent implements OnInit {
             'popType': 0 ,
             'imgType': 1,
           });
-          $('#prese').val('');
         }else{
           $('#prese').val('');
         }

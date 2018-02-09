@@ -219,6 +219,7 @@ export class DeviceComponent implements OnInit {
   /*记录新增和编辑界面的取消按钮*/
   recordCancel() {
     this.repairname = new GuardName();
+    $('#prese').val('');
     $('.errorMessage').html('');
     $('.mask-repair').hide();
   }
@@ -246,7 +247,6 @@ export class DeviceComponent implements OnInit {
             'popType': 0 ,
             'imgType': 1,
           });
-          $('#prese').val('');
         }else{
           $('#prese').val('');
         }
@@ -350,6 +350,7 @@ export class DeviceComponent implements OnInit {
     this.repairname.mNextDate = this.repairname.mNextDate.replace(/-/g, "/");
     this.ipSetting.sendPost(SOFTWARES_URL,this.repairname).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
+          $('#prese').val('');
           confirmFunc.init({
             'title': '提示' ,
             'mes': this.editBool === false?'更新成功':'新增成功',

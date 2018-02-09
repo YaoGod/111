@@ -59,10 +59,12 @@ export class MsgBasicComponent implements OnInit {
   }
   /*切换图片编辑状态*/
   clickImg(){
-    $('#file_upload').trigger('click');
+    $('#prese').trigger('click');
   }
   /*取消操作*/
   closeEdit(){
+    this.editStatus = false;
+    $("#prese").val("");
     $('.ipt').hide();
     $('.word').fadeIn(700);
     $('.box-option').hide();
@@ -80,8 +82,10 @@ export class MsgBasicComponent implements OnInit {
             'imgType': 1,
             "callback": () => {
               if(data.msg === '更新成功') {
-                this.building = this.copyBuilding;
+                this.building = JSON.parse(JSON.stringify(this.copyBuilding));
+                this.building.imgPath = $('#view').attr("src");
                 this.globalBuilding.setVal(this.building);
+                $("#prese").val("");
                 this.closeEdit();
               }
             }
@@ -97,7 +101,6 @@ export class MsgBasicComponent implements OnInit {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)){
           this.copyBuilding.imgPath = data.msg;
-          this.copyBuilding.imgList[0] = data.msg;
         }
       }else if(xhr.readyState === 4 && xhr.status === 413 ){
         confirmFunc.init({

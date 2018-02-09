@@ -6,6 +6,7 @@ import { UtilBuildingService } from '../../../service/util-building/util-buildin
 import { Router,ActivatedRoute} from '@angular/router';
 import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
 import { sndCatalog } from '../../../mode/catalog/catalog.service';
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 declare var $:any;
 declare var confirmFunc: any;
 @Component({
@@ -25,6 +26,7 @@ export class FileGroupComponent implements OnInit {
   public pages      : Array<number>;
   public search     : any;
   public rule       : sndCatalog = new sndCatalog();
+  public URL = this.ipSetting.ip+"/common/file/downLoadFile?path=";
   constructor(
     private globalCatalogService:GlobalCatalogService,
     private router:Router,
@@ -32,6 +34,7 @@ export class FileGroupComponent implements OnInit {
     private dossierBuildingService:DossierBuildingService,
     private errorResponseService:ErrorResponseService,
     private utilBuildingService:UtilBuildingService,
+    public ipSetting:IpSettingService,
   ) {
     this.rule = this.globalCatalogService.getRole("security/property");
   }
@@ -89,10 +92,6 @@ export class FileGroupComponent implements OnInit {
           this.initPage(total);
         }
       })
-  }
-  /*下载文件*/
-  download(url){
-    window.open("proxy/" + url);
   }
   /*新增方法*/
   add() {

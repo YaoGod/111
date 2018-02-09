@@ -96,23 +96,17 @@
         </select>
       </td>
       <td width="25%" class="box-demo" [id]="'imgPath' + i">
-        <img
-          *ngIf="floor.imgPath && !copyFloors[i].editStatus"
+        <img *ngIf="floor.imgPath && !copyFloors[i].editStatus"
              [src]="floor.imgPath | imgsafeurl"
              (click)="viewImg(floor.imgPath)">
-        <img src="../../../../assets/image/icon_img.png"
-             *ngIf="!floor.imgPath && !copyFloors[i].editStatus">
-        <div  *ngIf="copyFloors[i].editStatus" class="btn-upload">
-          <img [src]="copyFloors[i].imgPath | imgsafeurl: prese.files"
-               *ngIf="copyFloors[i].imgPath"
+        <div *ngIf="copyFloors[i].editStatus" class="btn-upload">
+          <img [src]="copyFloors[i].imgPath | imgsafeurl:prese.files"
+               *ngIf="copyFloors[i].imgPath" [id]="'view'+i"
                (click)="viewImg(copyFloors[i].imgPath)">
-          <img  src="../../../../assets/image/icon_img.png"
-               *ngIf="!copyFloors[i].imgPath && copyFloors[i].editStatus">
           <a>上传
             <input type="file" name="imgPath" class="img-upload" #prese [id]="'prese'+i"
                    (change)="prese_upload(prese.files,i)"
-                   (blur)="verifyEmpty(copyFloors[i].imgPath,'imgPath' + i)"
-            >
+                   (blur)="verifyEmpty(copyFloors[i].imgPath,'imgPath' + i)">
           </a>
         </div>
       </td>
@@ -156,7 +150,8 @@
         <div class="modal-left">
           <div  class="dropify-wrapper" id = "newImgPath">
             <div  class="dropify-message">
-              <img [src]="ipSetting.ip+newFloor.imgPath | imgsafeurl" *ngIf="newFloor.imgPath">
+              <img [src]="newFloor.imgPath | imgsafeurl:pressNew.files"
+                   *ngIf="newFloor.imgPath">
             </div>
             <p >点击此处上传大楼平面图</p>
             <input  class="dropify" type="file"  id="pressNew"

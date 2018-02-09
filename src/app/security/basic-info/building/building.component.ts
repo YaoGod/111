@@ -17,7 +17,6 @@ declare var $: any;
 })
 export class BuildingComponent implements OnInit {
   public building : Building;  /*大楼信息*/
-  public imgPaths : Array<string>;
   private id;
   public type;
   public isViewImg    : boolean = true;
@@ -44,8 +43,6 @@ export class BuildingComponent implements OnInit {
       }
     );
     this.building = new Building;
-    this.building.imgList = [];
-    this.imgPaths = new Array<string>(1);
     this.loading();
   }
 
@@ -76,10 +73,6 @@ export class BuildingComponent implements OnInit {
         if(this.errorVoid.errorMsg(data)){
           this.building = data.data.buildingInfo;
           this.globalCatalogService.setTitle("大楼管理/大楼基础信息/"+this.building.name);
-          this.building.imgList = [];
-          if(this.building.imgPath != null){
-            this.building.imgList = this.building.imgPath.split(',');
-          }
           if(typeof (data.data.attachInfo) !== 'undefined' && data.data.attachInfo !== null){
             this.building.buildDept = data.data.attachInfo.buildDept;
             this.building.buildTime = data.data.attachInfo.buildTime;
@@ -123,7 +116,6 @@ export class BuildingComponent implements OnInit {
   /*查看图片*/
   viewImg(url:string) {
     $('.view-img-src').css('display','block');
-   /* this.isViewImg = false;*/
     this.imgSrcView = url;
   }
   closeViewImg(){

@@ -4,6 +4,7 @@ import { ErrorResponseService } from "../../../service/error-response/error-resp
 import { DossierBuildingService } from '../../../service/dossier-building/dossier-building.service';
 import { UtilBuildingService } from '../../../service/util-building/util-building.service';
 import { Router,ActivatedRoute} from '@angular/router';
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 @Component({
   selector: 'app-detail-dossier',
   templateUrl: './detail-dossier.component.html',
@@ -13,12 +14,14 @@ import { Router,ActivatedRoute} from '@angular/router';
 export class DetailDossierComponent implements OnInit {
 
   public dossier: Dossier;
+  public URL = this.ipSetting.ip+"/common/file/downLoadFile?path=";
   constructor(
     private router:Router,
     private route:ActivatedRoute,
     private dossierBuildingService:DossierBuildingService,
     private errorResponseService:ErrorResponseService,
     private utilBuildingService:UtilBuildingService,
+    public ipSetting:IpSettingService
   ) { }
 
   ngOnInit() {
@@ -36,9 +39,5 @@ export class DetailDossierComponent implements OnInit {
             this.dossier=  data.data;
           }
       })
-  }
-  /*下载文件*/
-  download(url){
-    window.open("proxy/" + url);
   }
 }

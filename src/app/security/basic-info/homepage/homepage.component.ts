@@ -57,7 +57,6 @@ export class HomepageComponent implements OnInit {
         if(this.errorVoid.errorMsg(data)){
           this.buildings = data.data.infos;
           this.total = data.data.total ;
-          this.splitImgPaths(this.buildings);
         }
       });
   }
@@ -69,17 +68,6 @@ export class HomepageComponent implements OnInit {
           this.buidingNames = data.data;
         }
       })
-  }
-  splitImgPaths(subject: any){
-    var list = [];
-    for (var i = 0; i < subject.length; i++) {
-      if(subject[i].imgPath !== null) {
-        list[i] = subject[i].imgPath.split(',');
-      }else{
-        list[i] = new Array(0);
-      }
-    }
-    this.imgPaths = list;
   }
   fadeBom(){
     this.newBuilding = new Building();
