@@ -387,7 +387,7 @@ chang(value) {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
           this.vegetableAdd.imgPath = data.msg;
           confirmFunc.init({
             'title': '提示',
@@ -405,7 +405,7 @@ chang(value) {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
           this.vegetableUp.imgPath = data.msg;
           confirmFunc.init({
             'title': '提示',

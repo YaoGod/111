@@ -6,9 +6,13 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class ImgsafeurlPipe implements PipeTransform {
   constructor(private sanitizer:DomSanitizer){}
-  transform(html) {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(html);
+  transform(html, args?: any): any {
+    if(args&&args.length>0){
+      return  this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(args[0]));
+    }
+    if(html.indexOf("data:")===0){
+      return this.sanitizer.bypassSecurityTrustResourceUrl(html);
+    }
+    return;
   }
-
-
 }

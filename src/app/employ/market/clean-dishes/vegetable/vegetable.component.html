@@ -84,7 +84,7 @@
           <div class="pimg">
             <div class="dropify-wrapper">
               <div class="dropify-message">
-                <img *ngIf="vegetableAdd.imgPath"  [src]="vegetableAdd.imgPath | imgsafeurl" />
+                <img *ngIf="vegetableAdd.imgPath"  [src]="vegetableAdd.imgPath | imgsafeurl:prese1.files" />
               </div>
               <p>点击此处上传图片</p>
               <input type="file" class="dropify" #prese1  id="prese1"  (change)="prese_upload(prese1.files)"  accept="image/gif, image/jpeg, image/png, image/jpg" >
@@ -176,7 +176,7 @@
           <div class="pimg">
             <div class="dropify-wrapper">
               <div class="dropify-message">
-                <img *ngIf="vegetableUp.imgPath" [src]=" vegetableUp.imgPath | imgsafeurl" />
+                <img *ngIf="vegetableUp.imgPath" [src]=" vegetableUp.imgPath | imgsafeurl:prese2.files" />
               </div>
               <p>点击此处上传图片</p>
               <input type="file" class="dropify"  #prese2  id="prese2" (change)="prese_upload2(prese2.files)">

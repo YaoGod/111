@@ -210,7 +210,7 @@ export class OrdersComponent implements OnInit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
           this.repairname.fileName.push(files[0].name);
           this.repairname.filePath.push(data.msg);
           confirmFunc.init({

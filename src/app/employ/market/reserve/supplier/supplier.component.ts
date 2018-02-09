@@ -77,7 +77,7 @@ export class SupplierComponent implements OnInit {
     let url = '/goodsProduct/provider/list';
     this.ipSetting.sendGet(url)
     .subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      if (this.errorVoid.errorMsg(data)) {
         this.appliers = data.data.providers;
       }
     });
@@ -209,7 +209,7 @@ export class SupplierComponent implements OnInit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
 
           this.applierEdit.fileName1.push(files[0].name);
           this.applierEdit.filePath1.push(data.msg);
@@ -309,7 +309,7 @@ export class SupplierComponent implements OnInit {
     let url = '/goodsProduct/provider/detail/'+applid;
     this.ipSetting.sendGet(url)
     .subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      if (this.errorVoid.errorMsg(data)) {
         this.applierView = data.data;
         this.file= data.data.file;
         // console.log(data.data);

@@ -76,7 +76,7 @@ export class VegbuyComponent implements OnInit {
     this.cart.productId = id;
     this.vegetableInfoService.addToCart(this.cart)
       .subscribe(data => {
-        if (this.errorVoid.errorMsg(data.status)) {
+        if (this.errorVoid.errorMsg(data)) {
           this.cartsize = data.data.cartsize;
           confirmFunc.init({
             'title': '提示' ,

@@ -479,7 +479,7 @@ export class FitmentComponent implements OnInit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
           this.contractName.fileName.push(files[0].name);
           this.contractName.filePath.push(data.msg);
           confirmFunc.init({

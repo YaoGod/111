@@ -16,7 +16,7 @@ declare var tinymce: any;
   providers: [GroupProductService,UtilBuildingService,ErrorResponseService]
 })
 export class ProductComponent implements OnInit {
-  public imgurl: any;
+
   public catas;
   public rule;
   public groupProducts: Array<GroupProduct>;
@@ -232,7 +232,6 @@ export class ProductComponent implements OnInit {
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           this.productview = data.data;
-          // console.log(this.productview);
           $('.mask3').show();
         }
       })
@@ -257,8 +256,7 @@ export class ProductComponent implements OnInit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
-          this.imgurl = window.URL.createObjectURL(files[0]);
+        if(this.errorVoid.errorMsg(data)){
           this.newGroupProduct.imgPath = data.msg;
           confirmFunc.init({
             'title': '提示',
@@ -266,6 +264,8 @@ export class ProductComponent implements OnInit {
             'popType': 0,
             'imgType': 1,
           });
+        }else {
+          $("#prese1").val("");
         }
       }
     };
@@ -276,7 +276,7 @@ export class ProductComponent implements OnInit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data.status)){
+        if(this.errorVoid.errorMsg(data)){
           this.upGroupProduct.imgPath = data.msg;
           confirmFunc.init({
             'title': '提示',
@@ -284,6 +284,8 @@ export class ProductComponent implements OnInit {
             'popType': 0,
             'imgType': 1,
           });
+        }else {
+          $("#prese2").val("");
         }
       }
     };

@@ -59,7 +59,7 @@ export class SupplierComponent implements OnInit {
     this.pageNo = pageNo;
     this.marketManagerService.providerList(this.pageNo,this.pageSize)
       .subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      if (this.errorVoid.errorMsg(data)) {
         this.appliers = data.data.infos;
         this.total = data.data.total;
       }
@@ -195,7 +195,7 @@ export class SupplierComponent implements OnInit {
     if(this.deleteFileList.length>0){
       this.marketManagerService.delFile(this.deleteFileList)
         .subscribe(data => {
-          if (this.errorVoid.errorMsg(data.status)) {
+          if (this.errorVoid.errorMsg(data)) {
           }
         });
     }
@@ -235,7 +235,7 @@ export class SupplierComponent implements OnInit {
   view(applid){
     this.file = new Array<File>();
     this.marketManagerService.providerDetail(applid).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      if (this.errorVoid.errorMsg(data)) {
         this.applierView = data.data;
         this.file= data.data.file;
 
@@ -246,7 +246,7 @@ export class SupplierComponent implements OnInit {
   update(applid){
     this.upfile = new Array<File>();
     this.marketManagerService.providerDetail(applid).subscribe(data => {
-      if (this.errorVoid.errorMsg(data.status)) {
+      if (this.errorVoid.errorMsg(data)) {
         this.applierEdit = data.data;
       }
     });
