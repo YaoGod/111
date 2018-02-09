@@ -100,12 +100,12 @@
     </div>
     <img class="div-img origin"
          (click)="viewImg(building.imgPath);"
-         [src]="building.imgList | imgsafeurl"
+         [src]="building.imgPath | imgsafeurl"
          *ngIf="building.imgPath&&!editStatus">
-    <img class="div-img"
-         [src]="copyBuilding.imgList | imgsafeurl:prese.files"
-         *ngIf="copyBuilding.imgPath&&editStatus">
-    <input name="file" id="file_upload" style=" visibility:hidden;"
+    <img class="div-img" id="view"
+         [src]="copyBuilding.imgPath | imgsafeurl:prese.files"
+         *ngIf="copyBuilding.imgPath && editStatus">
+    <input name="file" id="prese" style=" visibility:hidden;"
            type="file"
            multiple
            #prese

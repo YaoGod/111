@@ -353,6 +353,7 @@ export class GuardComponent implements OnInit {
   /*新增编辑档案信息的取消按钮*/
   contractCancel() {
     this.contractName = new ArchName();
+    $('#prese').val('');
     $('.form-control').removeClass('form-error');
     $('.errorMessage').html('');
     $('.mask-contract').hide();

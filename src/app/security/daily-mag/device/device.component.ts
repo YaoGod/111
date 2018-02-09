@@ -219,6 +219,7 @@ export class DeviceComponent implements OnInit {
   /*记录新增和编辑界面的取消按钮*/
   recordCancel() {
     this.repairname = new GuardName();
+    $('#prese').val('');
     $('.errorMessage').html('');
     $('.mask-repair').hide();
   }

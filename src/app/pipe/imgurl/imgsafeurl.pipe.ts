@@ -16,8 +16,11 @@ export class ImgsafeurlPipe implements PipeTransform {
       }
     }
     if(html&&html.indexOf("/")===0){
-      /*图片地址错误的*/
-      return;
+      /*图片地址错误未转换的*/
+      return "../assets/image/icon_img.png";
+    }
+    if(typeof(html)==="undefined"){
+      return "../assets/image/icon_img.png";
     }
     return this.sanitizer.bypassSecurityTrustResourceUrl(html);
   }
