@@ -179,7 +179,7 @@ export class DiscountInfoMangComponent implements OnInit {
   delete(id:number){
     confirmFunc.init({
       'title': '提示',
-      'mes': '是否删除改条数据？',
+      'mes': '是否删除该条数据？',
       'popType': 1,
       'imgType': 3,
       "callback": () => {

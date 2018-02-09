@@ -156,19 +156,19 @@ export class GoodsComponent implements OnInit {
   }
   /**点击修改*/
   update(code: string) {
+    $('.maskUpdate').show();
     let url ='/goodsProduct/detail?code=' + code;
     this.ipSetting.sendGet(url)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           this.goodsUp = data.data;
-          $('.maskUpdate').show();
         }
       })
   }
   /**关闭修改*/
   closeMaskUp() {
     $('.maskUpdate').hide();
-    $('#prese').val('');
+    $('#prese2').val('');
   }
   /**修改商品信息提交*/
   updateGoods() {
@@ -284,7 +284,7 @@ export class GoodsComponent implements OnInit {
   /*新增页面文件图片上传*/
   prese_upload(files){
     let url = '/goodsProduct/uploadImg/'+'goodsProduct';
-    let xhr = this.ipSetting.uploadImg(url,files[0]);
+    let xhr = this.ipSetting.uploadImg(url,files[0])
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
@@ -296,7 +296,6 @@ export class GoodsComponent implements OnInit {
             'popType': 0,
             'imgType': 1,
           });
-          $('#prese1').val('');
         }
       }else if (xhr.readyState === 4 && xhr.status === 413){
         confirmFunc.init({
@@ -324,7 +323,6 @@ export class GoodsComponent implements OnInit {
             'popType': 0 ,
             'imgType': 1,
           });
-          $('#prese2').val('');
         }
       }else if (xhr.readyState === 4 && xhr.status === 413){
         confirmFunc.init({

@@ -52,15 +52,18 @@
                   </table>
                   </dt>
                   <!--  <dd *ngFor="let orderItem of order.groupOrderItems;let idx=index">-->
-                  <dd  *ngFor="let vegetableOrderItem of order.vegetableOrderItems;let idx=index">
+                  <dd  *ngFor="let item of order.vegetableOrderItems;let idx=index">
                     <table style="width:100%;">
-                      <td class="eight">
-                         <img *ngIf="vegetableOrderItem.imgPath" [src]="vegetableOrderItem.imgPath | imgsafeurl"/>
-                      </td>
-                      <td class="sec" style="text-align: left"> <p class="headtxt">{{vegetableOrderItem.productName}}</p></td>
-                      <td class="sec">￥{{vegetableOrderItem.unitPrice}}</td>
-                      <td class="three">{{vegetableOrderItem.quantity}}</td>
-                      <td class="four">￥{{vegetableOrderItem.totalPrice}}</td>
+                      <tr>
+                        <td class="eight">
+                          <img *ngIf="item.imgPath" [src]="item.imgPath | imgsafeurl"/>
+                        </td>
+                        <td class="sec" style="text-align: left"> <p class="headtxt">{{item.productName}}</p></td>
+                        <td class="sec">￥{{item.unitPrice}}</td>
+                        <td class="three">{{item.quantity}}</td>
+                        <td class="four">￥{{item.totalPrice}}</td>
+                      </tr>
+
                     </table>
                   </dd>
                 </dl>

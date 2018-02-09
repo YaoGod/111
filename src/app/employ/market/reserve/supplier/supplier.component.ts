@@ -125,6 +125,7 @@ export class SupplierComponent implements OnInit {
       fileName: [],
       filePath: []
     };
+    $('#prese').val('');
     $('.errorMessage').html('');
   }
   closeMaskView(){
@@ -152,6 +153,7 @@ export class SupplierComponent implements OnInit {
       fileName1: [],
       filePath1: []
     };
+    $('#prese').val('');
     $('.errorMessage').html('');
   }
 
@@ -180,7 +182,6 @@ export class SupplierComponent implements OnInit {
             'popType': 0,
             'imgType': 1,
           });
-          $('#prese').val('');
         }
       }else if (xhr.readyState === 4 && xhr.status === 413){
         confirmFunc.init({
@@ -210,7 +211,6 @@ export class SupplierComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)){
-
           this.applierEdit.fileName1.push(files[0].name);
           this.applierEdit.filePath1.push(data.msg);
           confirmFunc.init({
@@ -219,7 +219,6 @@ export class SupplierComponent implements OnInit {
             'popType': 0,
             'imgType': 1,
           });
-          $('#prese1').val('');
         }
       }else if (xhr.readyState === 4 && xhr.status === 413){
         confirmFunc.init({

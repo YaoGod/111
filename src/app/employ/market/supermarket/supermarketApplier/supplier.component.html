@@ -154,7 +154,7 @@
               <ul style="height: 100px;min-width: 160px;line-height: 20px; overflow-y: auto;background: #f6f6f6;color: #666; border-radius: 4px;width: 80%; margin: -24px 0 10px 82px;">
                 <li *ngFor="let f of file; let k=index">
                   {{f.fileName}}
-                  <a style="margin-left:6px;cursor: pointer;" [href]="URL+f.fileAddress" [download]="f.fileName" >
+                  <a style="margin-left:6px;cursor: pointer;" [href]="URL+'/common/file/downLoadFile?path='+f.fileAddress" [download]="f.fileName" >
                     <i class="icon-cloud-download"></i>下载
                   </a>
                 </li>

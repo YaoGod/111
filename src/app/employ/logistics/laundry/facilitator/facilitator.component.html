@@ -67,7 +67,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">新增服务商</h4>
-      <button type="button" class="close"(click)="closeMaskAdd()">×</button>
+      <button type="button" class="close" (click)="closeMaskAdd()">×</button>
     </div>
     <form class="form-material">
       <div class="modal-body clearfix">
@@ -151,7 +151,7 @@
               <ul class="attachment">
                 <li *ngFor="let f of file; let k=index">
                   {{f.fileName}}
-                  <a style="margin-left:6px;cursor: pointer;" [href]="URL+f.fileAddress" [download]="f.fileName">
+                  <a style="margin-left:6px;cursor: pointer;" [href]="URL+'/common/file/downLoadFile?path='+f.fileAddress" [download]="f.fileName">
                     <i class="icon-cloud-download"></i>下载
                   </a>
                 </li>

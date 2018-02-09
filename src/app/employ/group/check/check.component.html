@@ -31,12 +31,15 @@
 
           <div class="list-table">
             <table class="table-head">
-              <td class="fir">商品信息</td>
-              <td class="sec">单价(元)</td>
-              <td class="three">状态</td>
-              <td class="four">标签</td>
-              <td class="five">团购时间</td>
-              <td class="six">发起人信息</td>
+              <tr>
+                <td class="fir">商品信息</td>
+                <td class="sec">单价(元)</td>
+                <td class="three">状态</td>
+                <td class="four">标签</td>
+                <td class="five">团购时间</td>
+                <td class="six">发起人信息</td>
+              </tr>
+
             </table>
             <dl *ngFor="let product of groupProducts;let idx=index">
               <dt><span>商品名称：{{product.name}}</span>

@@ -100,10 +100,10 @@
         <div class="modal-left">
           <div  class="dropify-wrapper" id = "newImgPath">
             <div  class="dropify-message">
-              <img [src]="copyWelfare.imgPath | imgsafeurl" *ngIf="copyWelfare.imgPath">
+              <img [src]="copyWelfare.imgPath | imgsafeurl:press.files" *ngIf="copyWelfare.imgPath">
             </div>
             <p >点击上传福利信息内容图</p>
-            <input  class="dropify" type="file"  id="pressNew"
+            <input  class="dropify" type="file"  id="press"
                     #press
                     (change)="prese_upload(press.files)"
                     (blur)="verifyImgPath()">

@@ -44,7 +44,7 @@
                 <table style="width: 100%;">
                   <tr>
                     <td width="20%" class="fir">
-                      <img  *ngIf="vegetable.imgPath"  [src]="vegetable.imgPath | imgsafeurl" />
+                      <img *ngIf="vegetable.imgPath" [src]="vegetable.imgPath | imgsafeurl" />
                     </td>
                     <td class="sec">￥{{vegetable.price|number:'1.2-2'}}</td>
                     <td class="three" *ngIf="vegetable.status=='1'">上架</td>
@@ -76,7 +76,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">新增净菜</h4>
-      <button type="button" class="close"(click)="closeMaskAdd()">×</button>
+      <button type="button" class="close" (click)="closeMaskAdd()">×</button>
     </div>
     <form class="form-material">
       <div class="modal-body clearfix">
@@ -150,8 +150,7 @@
         </div>
         <div class="modal-right2">
           <label>净菜详情：</label>
-          <textarea name="upnewesetail" ui-tinymce
-                    class="form-control" rows="10"
+          <textarea ui-tinymce class="form-control" rows="10"
                     id="adddetail" name="adddetail" (blur)="verifyEmpty('adddetail','详情不能为空')"  [(ngModel)]="vegetableAdd.detail"
                     style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;">
            </textarea>
@@ -168,7 +167,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">修改商品</h4>
-      <button type="button" class="close"(click)="closeMaskUp()">×</button>
+      <button type="button" class="close" (click)="closeMaskUp()">×</button>
     </div>
     <form class="form-building form-material">
       <div class="modal-body clearfix">
@@ -243,7 +242,7 @@
           <label>净菜详情：</label>
           <textarea name="upnewesetail" ui-tinymce
                     class="form-control" rows="10"
-                    id="updetail" name="updetail" (blur)="verifyEmpty('updetail','详情不能为空')"  [(ngModel)]="vegetableUp.detail"
+                    id="updetail" (blur)="verifyEmpty('updetail','详情不能为空')"  [(ngModel)]="vegetableUp.detail"
                     style="margin-left:73px;margin-top:-20px;border:1px solid #dddddd;width: 88%;!important;height: 140px;background-color: #ffffff !important;"  value="{{vegetableUp.detail}}" >
            </textarea>
         </div>

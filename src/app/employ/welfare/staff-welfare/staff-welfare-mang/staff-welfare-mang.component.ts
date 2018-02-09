@@ -73,7 +73,7 @@ export class StaffWelfareMangComponent implements OnInit {
   }
   closeMask(){
     $('.mask').hide();
-    $('#prese').val('');
+    $('#press').val('');
     $('.form-control').removeClass('red');
     $('.dropify-wrapper').removeClass('red');
     $('.error').fadeOut();
@@ -81,7 +81,6 @@ export class StaffWelfareMangComponent implements OnInit {
     this.copyWelfare.targetId = new TargetList();
     this.copyWelfare.targetId.role = [];
     this.copyWelfare.targetId.HRMIS = "";
-    $('#press').val('');
     $('#pressFile').val('');
     this.tempOther = [];
   }
@@ -292,7 +291,7 @@ export class StaffWelfareMangComponent implements OnInit {
   delete(id:number){
     confirmFunc.init({
       'title': '提示',
-      'mes': '是否删除改条数据？',
+      'mes': '是否删除该条数据？',
       'popType': 1,
       'imgType': 3,
       "callback": () => {

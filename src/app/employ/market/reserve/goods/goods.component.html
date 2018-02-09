@@ -46,7 +46,7 @@
                     <td width="20%" class="fir">
                       <img  *ngIf="good.imgPath"  [src]="good.imgPath | imgsafeurl" />
                     </td>
-                    <td class="sec">￥{{good.price|number:'1.2-2'}}</td>
+                    <td class="sec">￥{{good.price | number:'1.2-2'}}</td>
                     <td class="three" *ngIf="good.status=='1'">上架</td>
                     <td class="three" *ngIf="good.status=='2'">下架</td>
                   </tr>
@@ -82,7 +82,7 @@
           <div class="pimg">
             <div class="dropify-wrapper">
               <div class="dropify-message">
-                <img *ngIf="goodsAdd.imgPath"  [src]="goodsAdd.imgPath | imgsafeurl" />
+                <img *ngIf="goodsAdd.imgPath"  [src]="goodsAdd.imgPath | imgsafeurl:prese1.files" />
               </div>
               <p>点击此处上传图片</p>
               <input type="file" class="dropify" #prese1  id="prese1"  (change)="prese_upload(prese1.files)"  accept="image/gif, image/jpeg, image/png, image/jpg" >
@@ -143,7 +143,7 @@
           <div class="pimg">
             <div class="dropify-wrapper">
               <div class="dropify-message">
-                <img *ngIf="goodsUp.imgPath" [src]="goodsUp.imgPath | imgsafeurl" />
+                <img *ngIf="goodsUp.imgPath" [src]="goodsUp.imgPath | imgsafeurl:prese2.files" />
               </div>
               <p>点击此处上传图片</p>
               <input type="file" class="dropify"  #prese2  id="prese2" (change)="prese_upload2(prese2.files)">
@@ -195,7 +195,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">查看商品</h4>
-      <button type="button" class="close"(click)="closeMaskView()">×</button>
+      <button type="button" class="close" (click)="closeMaskView()">×</button>
     </div>
     <form class="form-building form-material">
       <div class="modal-body clearfix">

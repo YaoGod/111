@@ -179,7 +179,7 @@ export class GoodsComponent implements OnInit {
 
   closeMaskUp() {
     $('.maskUpdate').hide();
-    $('#prese').val('');
+    $('#prese2').val('');
     $('.errorMessage').html('');
     this.productUp =  new SupermarketProduct();
   }
