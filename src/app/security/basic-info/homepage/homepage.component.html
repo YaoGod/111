@@ -94,7 +94,7 @@
           <div class="modal-left">
             <div class="dropify-wrapper" id="newBuildingImgPath">
               <div class="dropify-message">
-                <img *ngIf="newBuilding.imgPath" [src]="newBuilding.imgPath | imgsafeurl" />
+                <img *ngIf="newBuilding.imgPath" [src]="newBuilding.imgPath | imgsafeurl:prese.files" />
               </div>
               <p>点击此处上传图片</p>
               <input type="file" class="dropify" #prese id="prese"

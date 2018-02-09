@@ -103,7 +103,7 @@
         <img src="../../../../assets/image/icon_img.png"
              *ngIf="!floor.imgPath && !copyFloors[i].editStatus">
         <div  *ngIf="copyFloors[i].editStatus" class="btn-upload">
-          <img [src]="ipSetting.ip + copyFloors[i].imgPath"
+          <img [src]="copyFloors[i].imgPath | imgsafeurl: prese.files"
                *ngIf="copyFloors[i].imgPath"
                (click)="viewImg(copyFloors[i].imgPath)">
           <img  src="../../../../assets/image/icon_img.png"
