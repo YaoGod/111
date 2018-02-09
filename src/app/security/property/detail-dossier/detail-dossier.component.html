@@ -9,7 +9,7 @@
     <li class="file-list"
         *ngFor="let doc of dossier.fileName;let i = index">
       {{doc}}
-      <a  (click)="download(dossier.filePath[i])">
+      <a  [href]="URL+dossier.filePath[i]">
         <i class="icon-cloud-download"></i>下载</a>
     </li>
   </ul>

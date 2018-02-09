@@ -38,7 +38,7 @@ export class MsgContractComponent implements OnInit {
      }*/
   public watchType : boolean = true;
   public title = "";
-  public URL = this.ipSetting.ip;
+  public URL = this.ipSetting.ip + "/common/file/downLoadFile?path=";
   public rule : sndCatalog = new sndCatalog();
   constructor(
     private globalCatalogService:GlobalCatalogService,

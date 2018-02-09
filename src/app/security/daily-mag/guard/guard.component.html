@@ -274,7 +274,7 @@
         <div class="person-img">
           <div class="dropify-wrapper">
             <div class="dropify-message">
-              <img *ngIf="contractName.imgPath" [src]="contractName.imgPath | imgsafeurl" />
+              <img *ngIf="contractName.imgPath" [src]="contractName.imgPath | imgsafeurl:prese.files" />
             </div>
             <p>点击此处上传图片</p>
             <input type="file" class="dropify" #prese id="prese"

@@ -7,6 +7,7 @@ import { Router,ActivatedRoute} from '@angular/router';
 import { MinLengthPipe } from './min-length.pipe';
 import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
 import { sndCatalog } from '../../../mode/catalog/catalog.service';
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 declare var $:any;
 declare var confirmFunc: any;
 @Component({
@@ -26,6 +27,7 @@ export class GroupListComponent implements OnInit {
   public pages      : Array<number>;
   public search     : any;
   public rule       : sndCatalog = new sndCatalog();
+  public URL = this.ipSettingService.ip + "/common/file/downLoadFile?path=";
   constructor(
     private globalCatalogService:GlobalCatalogService,
     private router:Router,
@@ -33,6 +35,7 @@ export class GroupListComponent implements OnInit {
     private dossierBuildingService:DossierBuildingService,
     private errorResponseService:ErrorResponseService,
     private utilBuildingService:UtilBuildingService,
+    public  ipSettingService:IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("security/property");
   }
@@ -89,10 +92,6 @@ export class GroupListComponent implements OnInit {
           this.initPage(total);
         }
       })
-  }
-  /*下载文件*/
-  download(url){
-    window.open("proxy/" + url);
   }
   /*查看档案详情*/
   linkDetail(id){

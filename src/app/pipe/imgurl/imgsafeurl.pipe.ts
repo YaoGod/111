@@ -7,12 +7,18 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class ImgsafeurlPipe implements PipeTransform {
   constructor(private sanitizer:DomSanitizer){}
   transform(html, args?: any): any {
-    if(args&&args.length>0){
-      return  this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(args[0]));
+    if(args){
+      /*带参数的情况，主要用于编辑和新增中的图片地址*/
+      if(args.length>0){
+        return  this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(args[0]));
+      }else if(html.indexOf("/")===0){
+        return "../assets/image/icon_img.png";
+      }
     }
-    if(html.indexOf("data:")===0){
-      return this.sanitizer.bypassSecurityTrustResourceUrl(html);
+    if(html&&html.indexOf("/")===0){
+      /*图片地址错误的*/
+      return;
     }
-    return;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(html);
   }
 }

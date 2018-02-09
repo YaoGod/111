@@ -292,7 +292,7 @@ export class AccountComponent implements OnInit {
   }
   /*字数限制*/
   limitText(value,id,limit) {
-    if(value.length > limit) {
+    if(value&&value.length > limit) {
       this.addErrorClass(id,'超出限制，最大'+limit+'个字符');
       return value.substr(0,limit);
     }

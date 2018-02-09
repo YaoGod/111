@@ -284,7 +284,7 @@
         <div class="person-img">
           <div class="dropify-wrapper">
             <div class="dropify-message">
-              <img *ngIf="repairname.imgPath" [src]="repairname.imgPath | imgsafeurl" />
+              <img *ngIf="repairname.imgPath" [src]="repairname.imgPath | imgsafeurl:prese.files" />
             </div>
             <p *ngIf="!repairname.imgPath">点击此处上传图片</p>
             <input type="file" class="dropify" #prese id="prese" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"

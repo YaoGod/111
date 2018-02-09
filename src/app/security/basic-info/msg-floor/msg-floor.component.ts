@@ -154,11 +154,13 @@ export class MsgFloorComponent implements OnInit {
                 'imgType': 1 ,
                 "callback": () => {
                   this.floors[index] = this.copyFloors[index];
+                  this.floors[index].imgPath = $('#view'+index).attr("src");
                   $('#prese'+index).val('');
                   this.copyFloors[index].editStatus = false;
                 },
                 "cancel": () => {
                   this.floors[index] = this.copyFloors[index];
+                  this.floors[index].imgPath = $('#view'+index).attr("src");
                   $('#prese'+index).val('');
                   this.copyFloors[index].editStatus = false;
                 }

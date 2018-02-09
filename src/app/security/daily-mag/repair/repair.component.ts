@@ -38,7 +38,7 @@ export class RepairComponent implements OnInit {
   public rule : any;
   public jurisdiction:any;
   public repairDept:any;
-  public URL = this.ipSetting.ip;
+  public URL = this.ipSetting.ip + "/common/file/downLoadFile?path=";
   constructor(
     private http: Http,
     private errorVoid:ErrorResponseService,
