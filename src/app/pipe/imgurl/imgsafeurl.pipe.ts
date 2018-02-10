@@ -12,15 +12,15 @@ export class ImgsafeurlPipe implements PipeTransform {
       if(args.length>0){
         return  this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(args[0]));
       }else if(html.indexOf("/")===0){
-        return "../assets/image/icon_img.png";
+        return "assets/image/icon_img.png";
       }
     }
     if(html&&html.indexOf("/")===0){
       /*图片地址错误未转换的*/
-      return "../assets/image/icon_img.png";
+      return "assets/image/icon_img.png";
     }
     if(typeof(html)==="undefined"){
-      return "../assets/image/icon_img.png";
+      return "assets/image/icon_img.png";
     }
     return this.sanitizer.bypassSecurityTrustResourceUrl(html);
   }

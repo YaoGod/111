@@ -198,8 +198,8 @@ confirmFunc={
 			$(".cpMasking").css("zIndex",data.zIndex);
 		};
 	},
-	'imgHint': '../assets/image/hint.png',
-	'imgOK': '../assets/image/successpop.png',
-	'imgWarn': '../assets/image/warnpop.png'
+	'imgHint': 'assets/image/hint.png',
+	'imgOK': 'assets/image/successpop.png',
+	'imgWarn': 'assets/image/warnpop.png'
 };
 

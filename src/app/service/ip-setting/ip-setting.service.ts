@@ -11,7 +11,8 @@ export class IpSettingService {
   });
   /* nginx */
    public ip = "/proxy";
-   // public ip = "http://localhost:8080";
+    //public ip = "http://hzzh.zj.chinamobile.com/hzbs";
+     //public ip = "http://localhost:8080";
 
   /*set ip and port for personal*/
  /* public ip = "http://10.71.246.83:8080";*/
