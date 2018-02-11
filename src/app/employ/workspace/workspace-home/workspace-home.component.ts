@@ -112,7 +112,7 @@ export class WorkspaceHomeComponent implements OnInit {
             normal:{
               color: function(params) {
                 // build a color map as your need.
-                let colorList = ['#568dfe','#7d56fe','#e456fe','#f7894d','#f7d54d','#9df74d','#55ff33','#00ffae','#1b6bff'];
+                let colorList = ['#568dfe','#e456fe','#f7894d','#f7d54d','#9df74d','#55ff33','#00ffae','#1b6bff'];
                 return colorList[params.dataIndex]
               }
             }
