@@ -250,9 +250,11 @@ export class StaffWelfareMangComponent implements OnInit {
             }
           });
       }else{
+        if(postdata.imgPath.length>150){
+          delete postdata.imgPath;
+        }
         this.welfareEmployeeService.updateWelfare(postdata)
           .subscribe(data => {
-
             if (this.errorResponseService.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示',

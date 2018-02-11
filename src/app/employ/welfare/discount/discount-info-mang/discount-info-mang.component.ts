@@ -121,6 +121,7 @@ export class DiscountInfoMangComponent implements OnInit {
       postdata.effectBtime = postdata.effectBtime.replace(/-/g, '/');
       postdata.effectEtime = postdata.effectEtime.replace(/-/g, '/');
       if(typeof (postdata.id) === "undefined" || postdata.id === null) {
+        console.log(postdata);
         this.discountEmployeeService.addDiscount(postdata)
           .subscribe(data => {
             if (this.errorResponseService.errorMsg(data)) {
@@ -141,6 +142,9 @@ export class DiscountInfoMangComponent implements OnInit {
             }
           });
       }else{
+        if(postdata.imgPath.length>150){
+          delete postdata.imgPath;
+        }
         this.discountEmployeeService.updateDiscount(postdata)
           .subscribe(data => {
             if (this.errorResponseService.errorMsg(data)) {

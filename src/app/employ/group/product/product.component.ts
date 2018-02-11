@@ -209,11 +209,15 @@ export class ProductComponent implements OnInit {
         'upnewesetail','商品详情不能为空')) {
       return false;
     }
-    if(this.upGroupProduct.startTime > this.upGroupProduct.endTime){
+    let postdata = JSON.parse(JSON.stringify(this.upGroupProduct));
+    if(postdata.startTime > postdata.endTime){
       this.addErrorClass('upnewendTime', '结束时间不能早于开始时间');
       return false;
     }
-    this.groupProductService.updateGroupbuyProduct(this.upGroupProduct)
+    /*if(postdata.imgPath.length>150){
+      delete postdata.imgPath;
+    }*/
+    this.groupProductService.updateGroupbuyProduct(postdata)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
