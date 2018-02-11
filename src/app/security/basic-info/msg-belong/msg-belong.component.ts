@@ -75,31 +75,26 @@ export class MsgBelongComponent implements OnInit {
       center:[120.323189,30.235673]
     });
       map.plugin('AMap.ToolBar',() =>{
-        if(typeof(lat)==="undefined" || typeof(lon)==="undefined"
-          || lat=== null || lon === null ) {
-            return false;
-        }
-        let marker = new AMap.Marker({
-          position: [lat, lon],
+        let marker= new AMap.Marker({
           title: this.building.name,
           map: map
         });
-        if(lat === 0 && lon === 0 && !this.mapEditStatus) {
-          map.remove(marker);
+        if(typeof(lat)!=="undefined" && typeof(lon)!=="undefined"
+          && lat!== null && lon !== null && lat !==""&& lon!=="") {
+          marker.setPosition([lat, lon]);
+          map.setFitView();
         }
-        map.setFitView();
-        let marker1 = new AMap.Marker({
-          position: [0, 0],
-          title: this.building.name,
-          map: map
-        });
         let clickEventListener = map.on('click', (e) => {
           if (this.mapEditStatus) {
             map.remove(marker);
+            marker= new AMap.Marker({
+              title: this.building.name,
+              map: map
+            });
             this.copyBuilding.lat = e.lnglat.getLat();
             this.copyBuilding.lon = e.lnglat.getLng();
             let position = [this.copyBuilding.lon, this.copyBuilding.lat];
-            marker1.setPosition(position);
+            marker.setPosition(position);
             map.setFitView();
           }
         });
@@ -110,11 +105,13 @@ export class MsgBelongComponent implements OnInit {
   }
   /*进入编辑*/
   initEdit(){
-    $('.ipt').fadeIn(700);
-    $('.word').hide();
-    $('.box-option').slideDown(500);
-    this.copyBuilding = JSON.parse(JSON.stringify(this.building));
-    this.mapEditStatus = true;
+    if(!this.mapEditStatus){
+      $('.ipt').fadeIn(700);
+      $('.word').hide();
+      $('.box-option').slideDown(500);
+      this.copyBuilding = JSON.parse(JSON.stringify(this.building));
+      this.mapEditStatus = true;
+    }
   }
   /*取消操作*/
   closeEdit(){

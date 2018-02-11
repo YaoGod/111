@@ -335,7 +335,11 @@ export class GuardComponent implements OnInit {
       !this.verifypersonPhone() || !this.verifypersonIdcard() || !this.verifypersonStatus()||this.contractName.imgPath ==='') {
       return false;
     }
-    this.ipSetting.sendPost(SOFTWARES_URL,this.contractName).subscribe(data => {
+    const postdata = JSON.parse(JSON.stringify(this.contractName));
+    if(postdata.imgPath.indexOf("/")!==0){
+      delete postdata.imgPath;
+    }
+    this.ipSetting.sendPost(SOFTWARES_URL,postdata).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           $('#prese').val('');
           confirmFunc.init({

@@ -153,7 +153,10 @@ export class InfoBuildingService {
    */
   updateBuilding(postData){
     const url = this.ipSetting.ip + '/building/info/updateBuilding';
-    const data = postData;
+    const data = JSON.parse(JSON.stringify(postData));
+    if(data.imgPath.indexOf("/")!==0){  /*斜杠为数据存储地址*/
+      delete data.imgPath;
+    }
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
@@ -178,7 +181,10 @@ export class InfoBuildingService {
    */
   updateRoom(postData){
     const url = this.ipSetting.ip + '/building/info/updateRoom';
-    const data = postData;
+    const data = JSON.parse(JSON.stringify(postData));
+    if(data.imgPath.indexOf("/")!==0){  /*斜杠为数据存储地址*/
+      delete data.imgPath;
+    }
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }

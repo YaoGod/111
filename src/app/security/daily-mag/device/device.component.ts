@@ -345,10 +345,14 @@ export class DeviceComponent implements OnInit {
       !this.verifylMail()) {
       return false;
     }
-    this.repairname.buyDate = this.repairname.buyDate.replace(/-/g, "/");
-    this.repairname.mLastDate = this.repairname.mLastDate.replace(/-/g, "/");
-    this.repairname.mNextDate = this.repairname.mNextDate.replace(/-/g, "/");
-    this.ipSetting.sendPost(SOFTWARES_URL,this.repairname).subscribe(data => {
+    const postdata = JSON.parse(JSON.stringify(this.repairname));
+    if(postdata.imgPath.indexOf("/")!==0){
+      delete postdata.imgPath;
+    }
+    postdata.buyDate = postdata.buyDate.replace(/-/g, "/");
+    postdata.mLastDate = postdata.mLastDate.replace(/-/g, "/");
+    postdata.mNextDate = postdata.mNextDate.replace(/-/g, "/");
+    this.ipSetting.sendPost(SOFTWARES_URL,postdata).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           $('#prese').val('');
           confirmFunc.init({
