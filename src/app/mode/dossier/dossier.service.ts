@@ -14,4 +14,5 @@ export class Dossier {
   content      : string;
   filePath     : Array<string>;
   fileName     : Array<string>;
+  baseDossier  : Array<any>;
 }

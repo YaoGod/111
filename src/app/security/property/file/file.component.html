@@ -13,11 +13,11 @@
       <div class="msg-panel">
         <h5>{{doc.buildingName}}<span>（编号:{{doc.buildingNum}}）</span></h5>
         <div class="word-panel">
-          <a class="keyword" *ngFor="let h of doc.bookName;let j = index">
-            <span><i class="fa fa-quote-left"></i>{{h}}<i class="fa fa-quote-right"></i></span>
+          <a class="keyword" *ngFor="let h of doc.baseDossier;let j = index">
+            <span><i class="fa fa-quote-left"></i>{{h.baseTitle}}<i class="fa fa-quote-right"></i></span>
           </a>
         </div>
-        <div class="msg-count">共<span>{{doc.bookName.length}}</span>项</div>
+        <div class="msg-count">共<span>{{doc.baseDossier.length}}</span>项</div>
       </div>
       <div class="msg-detail">
         <a (click)="linkGroupList(doc.classId,doc.buildingId)" title="查看">

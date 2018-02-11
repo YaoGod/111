@@ -22,6 +22,7 @@ export class MsgBelongComponent implements OnInit {
   public copyBuilding:Building = new Building();
   private mapEditStatus :boolean = false;
   public rule : sndCatalog = new sndCatalog();
+  public map;
   constructor(
     private globalCatalogService:GlobalCatalogService,
     private infoBuildingService:InfoBuildingService,
@@ -70,35 +71,56 @@ export class MsgBelongComponent implements OnInit {
   }
   /*地图打点展示*/
   showMap(lat,lon){
-    let map = new AMap.Map('map',{
+    this.map = new AMap.Map('map',{
       zoom: 10,
-      center:[120.323189,30.235673]
+      center:[120.323189,30.235673],
+      resizeEnable: true,
     });
-      map.plugin('AMap.ToolBar',() =>{
+    this.map.plugin(['AMap.ToolBar','AMap.Geocoder'],() =>{
         let marker= new AMap.Marker({
           title: this.building.name,
-          map: map
+          map: this.map
         });
+        let geocoder = new AMap.Geocoder({});
         if(typeof(lat)!=="undefined" && typeof(lon)!=="undefined"
           && lat!== null && lon !== null && lat !==""&& lon!=="") {
           marker.setPosition([lat, lon]);
-          map.setFitView();
+          this.map.setFitView();
         }
-        let clickEventListener = map.on('click', (e) => {
+        let clickEventListener = this.map.on('click', (e) => {
           if (this.mapEditStatus) {
-            map.remove(marker);
+            this.map.remove(marker);
             marker= new AMap.Marker({
               title: this.building.name,
-              map: map
+              map: this.map
             });
             this.copyBuilding.lat = e.lnglat.getLat();
             this.copyBuilding.lon = e.lnglat.getLng();
             let position = [this.copyBuilding.lon, this.copyBuilding.lat];
             marker.setPosition(position);
-            map.setFitView();
+            this.map.setFitView();
+            geocoder.getAddress(e.lnglat,(status, result)=>{
+              if (status === 'complete') {
+                console.log(result.regeocode.formattedAddress);
+              }else{
+                /*获取地址失败*/
+              }
+            });
           }
         });
       })
+  }
+  getAddress(position){
+    this.map.plugin("AMap.Geocoder",()=>{
+      let geocoder = new AMap.Geocoder({});
+      geocoder.getAddress(position,(status, result)=>{
+        if (status === 'complete' && result.info === 'OK') {
+          console.log(result.regeocode.formattedAddress);
+        }else{
+          /*获取地址失败*/
+        }
+      });
+    });
   }
   updateMarker(){
     this.showMap(this.copyBuilding.lon,this.copyBuilding.lat);
