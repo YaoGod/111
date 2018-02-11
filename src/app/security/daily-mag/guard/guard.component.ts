@@ -417,7 +417,7 @@ export class GuardComponent implements OnInit {
       }else if (xhr.readyState === 4 && xhr.status === 413){
         confirmFunc.init({
           'title': '提示' ,
-          'mes': '文件太大',
+          'mes': '文件太大！',
           'popType': 0 ,
           'imgType': 2,
         });
@@ -432,12 +432,25 @@ export class GuardComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)) {
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': '导入成功',
-            'popType': 0 ,
-            'imgType': 1,
-          });
+          if(data.status === 0 && data.data.result==='success'){
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': '导入成功',
+              'popType': 0 ,
+              'imgType': 1,
+            });
+          }else if(data.data.result==='fail'){
+            confirmFunc.init({
+              'title': '提示',
+              'mes': '导入失败，是否下载错误信息？',
+              'popType': 1,
+              'imgType': 3,
+              "callback": () => {
+                window.location.href = this.ipSetting.ip+'/common/file/downErrorExcel/'+data.data.fileName;
+              }
+            })
+          }
+
           $('#prese2').val('');
           $('#induction').hide();
           this.pages =[];
@@ -492,7 +505,6 @@ export class GuardComponent implements OnInit {
       this.searchArch = new Arch();
       return false;
     }
-    console.log(this.searchArch.personType);
     if(this.searchArch.personType === "security"){
       InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ inerURL +"/security"
     }else if(this.searchArch.personType === "clean"){
@@ -504,7 +516,6 @@ export class GuardComponent implements OnInit {
     }if(this.searchArch.personType === ""){
       InductURL = this.ipSetting.ip + "/building/person/getPersonExcel/"+ inerURL +"/null"
     }
-    console.log(InductURL);
     this.http.get( InductURL )
     // .map(res => res.json())
       .subscribe(data => {
