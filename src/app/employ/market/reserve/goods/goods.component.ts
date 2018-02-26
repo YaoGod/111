@@ -93,7 +93,7 @@ export class GoodsComponent implements OnInit {
     }
     this.ipSetting.sendGet(url)
       .subscribe(data => {
-        if (this.errorVoid.errorMsg(data)) {console.log(data);
+        if (this.errorVoid.errorMsg(data)) {
           this.goods = data.data.list;
           this.total = data.data.total;
         }

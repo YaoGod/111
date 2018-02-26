@@ -605,10 +605,7 @@ export class RepairComponent implements OnInit {
       }
     }
   }
-  /**
-   * 验证电话号码
-   * @return
-   */
+  /**验证电话号码 */
   public verifyIsTel(id: string, error?: string): boolean {
     const data =  $('#' + id).val();/*/^1(3[4-9]|5[0-2]|8[0-3,78])\d{8}$/ 移动号段*/
     const pattern = /(^0?(13[0-9]|15[0-9]|17[013678]|18[0-9]|14[57])[0-9]{8}$)|(^400\-[\d|\-]{7,8}$)|(^[0-9]{3,4}\-[0-9]{5,8}$)/;
@@ -632,12 +629,7 @@ export class RepairComponent implements OnInit {
       return true;
     }
   }
-  /**
-   * 匹配数字
-   * @param id
-   * @param error
-   * @returns {boolean}
-   */
+  /**匹配数字*/
   public verifyIsNumber(id: string, error: string): boolean  {
     const data =  $('#' + id).val();// /^[0-9]*$/
     if (!String(data).match(/^[0-9]*$/))  {
@@ -648,12 +640,7 @@ export class RepairComponent implements OnInit {
       return true;
     }
   }
-  /**
-   * 校验是否包含中文英文数字
-   * @param id
-   * @param error
-   * @returns {boolean}
-   */
+  /** 校验是否包含中文英文数字*/
   public verifyIsBlend(id: string, error: string): boolean {
     const data =  $('#' + id).val();
     if (!String(data).match(/^[\u4E00-\u9FA5A-Za-z0-9]+$/))  {
@@ -664,12 +651,7 @@ export class RepairComponent implements OnInit {
       return true;
     }
   }
-  /**
- * 校验维修单号
- * @param id
- * @param error
- * @returns {boolean}
- */
+  /**校验维修单号*/
 public verifyRecoad(id: string, error: string): boolean {
   const data =  $('#' + id).val();
   if (!String(data).match(/^[A-Z]\d{4}$/))  {
@@ -680,12 +662,7 @@ public verifyRecoad(id: string, error: string): boolean {
     return true;
   }
 }
-  /**
-   * 校验字符长度小于4
-   * @param id
-   * @param error
-   * @returns {boolean}
-   */
+  /** 校验字符长度小于4   */
   public verifyLength(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data.length < 4)  {
@@ -696,11 +673,7 @@ public verifyRecoad(id: string, error: string): boolean {
       return true;
     }
   }
-  /**
-   * 添加错误信息class
-   * @param id
-   * @param error
-   */
+  /** 添加错误信息class */
   public  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-inp').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
@@ -709,10 +682,7 @@ public verifyRecoad(id: string, error: string): boolean {
       $('#' + id).next('span').html(error);
     }
   }
-  /**
-   * 去除错误信息class
-   * @param id
-   */
+  /**去除错误信息class */
   public  removeErrorClass(id: string) {
     $('#' + id).parents('.form-inp').removeClass('form-error');
     $('#' + id).parents('.form-inp').children('.errorMessage').html('');
