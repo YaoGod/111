@@ -104,7 +104,7 @@ export class HeaderComponent implements OnInit {
   }
   /*发送验证码*/
   sendCode() {
-    console.log(this.user.userid);
+    // console.log(this.user.userid);
     if(typeof (this.user.userid) !== "undefined" && this.user.userid !== null){
       this.userPortal.sendMessage("updatePassword",this.user.userid)
         .subscribe(data => {

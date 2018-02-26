@@ -109,7 +109,6 @@ export class PlanLaundryReportComponent implements OnInit {
     for(let i = 0;i<list.length;i++){
       list[i]['checked'] = this.all;
     }
-    console.log(this.all);
   }
   /*判断是否全选*/
   public checkIsAll(){

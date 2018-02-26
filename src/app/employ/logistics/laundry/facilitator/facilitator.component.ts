@@ -268,7 +268,6 @@ export class FacilitatorComponent implements OnInit {
       return false;
     }
     let url = "/mmall/laundry/provider/providerUpdate";
-    console.log(this.applierEdit);
     this.ipSetting.sendPost(url,this.applierEdit).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         confirmFunc.init({

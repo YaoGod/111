@@ -159,7 +159,6 @@ chang(value) {
       this.days = this.days.replace("2","星期二");
       this.days = this.days.replace("1","星期一");
     }
-
   }
 
   closeMaskView() {
@@ -172,7 +171,6 @@ chang(value) {
     this.vegetableAdd.limitnum = "1";
   }
   closeMaskAdd() {
-
     $('#prese1').val('');
     $('.errorMessage').html('');
     this.vegetableAdd={
@@ -235,7 +233,7 @@ chang(value) {
   }
   closeMaskUp() {
     $('.maskUpdate').hide();
-    $('#prese').val('');
+    $('#prese2').val('');
     $('.errorMessage').html('');
   }
   updateVegetable() {
@@ -396,6 +394,13 @@ chang(value) {
             'imgType': 1,
           });
         }
+      }else if(xhr.readyState === 4 && xhr.status === 413 ){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '文件大小超出限制',
+          'popType': 0 ,
+          'imgType': 2 ,
+        });
       }
     };
   }
@@ -414,6 +419,13 @@ chang(value) {
             'imgType': 1,
           });
         }
+      }else if(xhr.readyState === 4 && xhr.status === 413 ){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '文件大小超出限制',
+          'popType': 0 ,
+          'imgType': 2 ,
+        });
       }
     };
   }

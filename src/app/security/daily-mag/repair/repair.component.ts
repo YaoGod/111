@@ -228,7 +228,7 @@ export class RepairComponent implements OnInit {
     if (!this.isEmpty('cmccPhone', '不能为空')) {
       return false;
     }
-    if (!this.verifyIsTel('cmccPhone', '格式不正确')) {
+    if (!this.verifyIsTelNo('cmccPhone', '格式不正确')) {
       return false;
     }
     return true;
@@ -462,7 +462,7 @@ export class RepairComponent implements OnInit {
     if (!this.isEmpty('contractcmccPhone', '不能为空')) {
       return false;
     }
-    if (!this.verifyIsTel('contractcmccPhone', '格式不对')) {
+    if (!this.verifyIsTelNo('contractcmccPhone', '格式不对')) {
       return false;
     }
     return true;
@@ -483,7 +483,7 @@ export class RepairComponent implements OnInit {
     if (!this.isEmpty('phone', '不能为空')) {
       return false;
     }
-    if (!this.verifyIsTel('phone', '格式不对')) {
+    if (!this.verifyIsTelNo('phone', '格式不对')) {
       return false;
     }
     return true;
@@ -611,10 +611,20 @@ export class RepairComponent implements OnInit {
    */
   public verifyIsTel(id: string, error?: string): boolean {
     const data =  $('#' + id).val();/*/^1(3[4-9]|5[0-2]|8[0-3,78])\d{8}$/ 移动号段*/
-    /*let isPhone = /^([0-9]{3,4}-)?[0-9]{7,8}$/;
-    let isMob=/^((\+?86)|(\+86))?(13[012356789][0-9]{8}|15[012356789][0-9]{8}|18[02356789][0-9]{8}|147[0-9]{8}|1349[0-9]{7})$/;*/
-    if (!String(data).match(/^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/)&&
-      !String(data).match(/^400\-[\d|\-]{7}|[\d]{1}$/) && !String(data).match(/^([0-9]{3,4}-)?[0-9]{7,8}$/)) {
+    const pattern = /(^0?(13[0-9]|15[0-9]|17[013678]|18[0-9]|14[57])[0-9]{8}$)|(^400\-[\d|\-]{7,8}$)|(^[0-9]{3,4}\-[0-9]{5,8}$)/;
+
+    if(!pattern.test(data)){
+      // console.log(pattern.test(data));
+      this.addErrorClass(id, error);
+      return false;
+    }else {
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  public verifyIsTelNo(id: string, error?: string): boolean {
+    const data =  $('#' + id).val();
+    if (!String(data).match(/^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/)) {
       this.addErrorClass(id, error);
       return false;
     }else {

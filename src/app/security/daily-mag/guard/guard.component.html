@@ -126,8 +126,10 @@
           <span class="form-title text-right">人员状态</span>
           <span class="form-word">{{inner.personStatus}}</span>
         </li>
-        <li class="form-photo">
-          <img *ngIf="inner.imgPath" [src]="inner.imgPath | imgsafeurl" >
+        <li class="form-photo" style="">
+          <div style="position: relative; height: 0; width: 100%;">
+            <img style="padding-top:-5%;" *ngIf="inner.imgPath" [src]="inner.imgPath | imgsafeurl" >
+          </div>
         </li>
         <li class="form-btn"  *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" (click)="editContract(i)"><i class="icon-pencil"></i></li>
         <li class="form-btn form-del" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delContract(i)"><i class="icon-trash"></i></li>

@@ -86,7 +86,6 @@ export class VegcartComponent implements OnInit {
         this.vegetableInfoService.deleteVegetableCart(id)
           .subscribe(data => {
             if (this.errorVoid.errorMsg(data)) {
-              console.log(data);
               confirmFunc.init({
                 'title': '提示' ,
                 'mes': data['msg'],
