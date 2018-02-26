@@ -267,19 +267,25 @@ export class LaundryAdminComponent implements OnInit {
       {
         title:"",
         type:"text",
-        hd:["订单状态","服务中心"],
-        data:["",data.serviceCenter]
+        hd:["订单状态","支付时间"],
+        data:["",data.payTime]
+      },
+      {
+        title:"服务信息",
+        type:"text",
+        hd:["服务商名称","服务中心"],
+        data:[data.facilitator,data.serviceCenter]
       },
       {
         title:"收货人信息",
         type:"text",
         hd:["收货人姓名","收货人电话","付款时间"],
-        data:[data.userName,data.telPhone,data.payTime]
+        data:[data.username,data.telPhone,data.payTime]
       },
       {
-        title:"商品明细",
+        title:"服务内容明细",
         type:"form",
-        hd:["商品名称","单价(元)","数量","合计（元）"],
+        hd:["服务内容","单价(元)","数量","合计（元）"],
         data:[],
         total:"总计：￥"+data.payment.toFixed(2)
       }
@@ -293,8 +299,8 @@ export class LaundryAdminComponent implements OnInit {
         this.formData[1].data[0] = "暂无订单状态信息";
     }
     for(let i = 0;i<data.orderItems.length;i++){
-      this.formData[3].data[i]=[
-        data.orderItems[i].productName,
+      this.formData[4].data[i]=[
+        data.orderItems[i].appcontent,
         '￥'+data.orderItems[i].unitPrice.toFixed(2),
         data.orderItems[i].quantity,
         '￥'+data.orderItems[i].totalPrice.toFixed(2)
