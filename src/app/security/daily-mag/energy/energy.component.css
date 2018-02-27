@@ -170,9 +170,8 @@ button{
 .mask-cotainer{
   position: absolute;
   left:50%;
-  top:36%;
+  top: 120px;
   width:650px;
-  margin-top:-180px;
   margin-left:-325px;
   background-color: #fff;
   border-radius:5px;

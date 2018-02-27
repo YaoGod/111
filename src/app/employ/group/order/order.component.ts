@@ -267,4 +267,15 @@ export class OrderComponent implements OnInit {
         }
       })
   }
+  packageSure(){
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否对所有选中的订单进行批量到货操作？',
+      'popType': 1,
+      'imgType': 3,
+      'callback': () => {
+        console.log(111);
+      }
+    });
+  }
 }

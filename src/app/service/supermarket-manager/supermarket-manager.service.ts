@@ -49,10 +49,12 @@ export class SupermarketManagerService {
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }
-
   updateProduct(postData){
     let url =  this.ipSetting.ip + '/mmall/supermarket/updateProduct';
-    let data = postData;
+    const data = JSON.parse(JSON.stringify(postData));
+    if(data.imgPath.indexOf("/")!==0){  /*斜杠为数据存储地址*/
+      delete data.imgPath;
+    }
     return this.http.post(url,data,this.options)
       .map(res => res.json());
   }

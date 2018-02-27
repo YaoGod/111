@@ -6,7 +6,6 @@ import {InfoBuildingService} from "../../../service/info-building/info-building.
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 
-
 declare var $: any;
 declare var confirmFunc: any;
 @Component({
@@ -53,9 +52,9 @@ export class EnergyComponent implements OnInit {
     this.search = new Search();
     this.repairname = new GuardName();
     this.pages = [];
-    this.theadW = ['大楼编号','大楼名称','月份','上期度数','本期度数','本月使用数','单价','水费','操作'];
-    this.theadE = ['大楼编号','大楼名称','月份','上期度数','本期度数','本月使用数','单价','电费','操作'];
-    this.theadG = ['大楼编号','大楼名称','月份','上期度数','本期度数','本月使用数','单价','燃气费','操作'];
+    this.theadW = ['大楼编号','大楼名称','户号','月份','上期度数','本期度数','本月使用数','单价','水费','能耗费','缴费方式','备注','操作'];
+    this.theadE = ['大楼编号','大楼名称','户号','月份','上期度数','本期度数','本月使用数','单价','电费','能耗费','缴费方式','备注','操作'];
+    this.theadG = ['大楼编号','大楼名称','户号','月份','上期度数','本期度数','本月使用数','单价','燃气费','能耗费','缴费方式','备注','操作'];
     this.Head = this.theadW;
     if($('.energy-header a:nth-of-type(1)').hasClass('active')){
       this.repairname.energyType = 'water';
@@ -226,6 +225,7 @@ export class EnergyComponent implements OnInit {
     $('.mask').fadeIn(500);
     $('.mask .mask-head p').html('新增能耗信息');
     this.repairname = new GuardName();
+    this.repairname.payMethod = "";
     // $('#buildingId').attr('disabled',false);
   }
   /*点击查询*/
@@ -237,6 +237,12 @@ export class EnergyComponent implements OnInit {
   /*校验信息*/
   public verifyId() {
     if (!this.isEmpty('buildingId', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifyCode() {
+    if (!this.isEmpty('code', '不能为空')) {
       return false;
     }
     return true;
@@ -271,13 +277,24 @@ export class EnergyComponent implements OnInit {
     }
     return true;
   }
+  public verifyEnergyCost(){
+    if (!this.isEmpty('energyCost', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifyPayMethod(){
+    if (!this.isEmpty('payMethod', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
   /*编辑信息*/
   editAttach(index){
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
     this.repairname.month = this.repairname.month.replace(/\//g, "-");
     $('.mask').fadeIn();
-    // $('#buildingId').attr('disabled',true);
     $('.mask .mask-head p').html('编辑能耗信息');
   }
   /*删除信息*/
@@ -438,7 +455,9 @@ export class Search {
 export class GuardName {
   id: number; // 本条信息ID
   buildingId: string;
+  buildingNum: string;
   buildingName: string;
+  code: string;
   energyType: string; // 能耗类型
   month: string;// 月份
   lastNum: string;// 上期度数
@@ -446,4 +465,7 @@ export class GuardName {
   useNum: string;// 使用度数
   unitprice: string;// 单价
   cost: string;// 费用
+  energyCost: string; // 能耗费
+  payMethod:string; // 缴费方式
+  mark: string; // 备注
 }

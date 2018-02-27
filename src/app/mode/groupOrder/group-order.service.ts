@@ -5,6 +5,7 @@ export class GroupOrder {
 
   id:number;/*订单id*/
   userId:string;/*用户id*/
+  userName:string; /*用户名*/
   payment:number;/*订单金额*/
   status:string;/*订单状态*/
   payTime:string;/*付款时间*/

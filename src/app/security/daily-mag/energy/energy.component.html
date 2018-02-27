@@ -47,12 +47,16 @@
           <tr *ngFor="let inner of record; let i=index">
             <td>{{inner.buildingNum}}</td>
             <td>{{inner.buildingName}}</td>
+            <td>{{inner.code}}</td>
             <td>{{inner.month}}</td>
             <td>{{inner.lastNum}}</td>
             <td>{{inner.nomNum}}</td>
             <td>{{inner.useNum}}</td>
             <td>{{inner.unitprice}}</td>
             <td>{{inner.cost}}</td>
+            <td>{{inner.energyCost}}</td>
+            <td>{{inner.payMethod}}</td>
+            <td>{{inner.mark}}</td>
             <td>
               <a href="javascript:void(0)" class="text-inverse" *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate"
                  (click)="editAttach(i);" style="padding-right: 10px;">
@@ -96,6 +100,13 @@
         </div>
       </div>
       <div class="form-control clearfix">
+        <span class="form-label">户号</span>
+        <div class="form-inp">
+          <input autocomplete="off" class="company-ipt" id="code" name="code" required type="text" [(ngModel)]="repairname.code" (blur)="verifyCode()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control clearfix">
         <span class="form-label">月份</span>
         <div class="form-inp">
           <input autocomplete="off" class="company-ipt" id="month" name="month" required type="month" [(ngModel)]="repairname.month" (blur)="verifymonth()">
@@ -107,14 +118,13 @@
         <div class="form-inp">
           <input autocomplete="off" type="number" id="lastNum" name="lastNum" class="company-ipt company-sel"
                  [(ngModel)]="repairname.lastNum" (blur)="verifylastNum()">
-
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control clearfix">
         <span class="form-label">本期度数</span>
         <div class="form-inp">
-          <input autocomplete="off" class="company-ipt" id="nomNum" name="nomNum" required type="text" [(ngModel)]="repairname.nomNum" (blur)="verifynomNum()" maxlength="9">
+          <input autocomplete="off" class="company-ipt" id="nomNum" name="nomNum" required type="number" [(ngModel)]="repairname.nomNum" (blur)="verifynomNum()" maxlength="9">
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -136,12 +146,45 @@
       <div class="form-control  clearfix" *ngIf="!editBool">
         <span class="form-label" id="doubleT">水费</span>
         <div class="form-inp">
-          <input autocomplete="off" class="company-ipt" name="cost" required type="number" [(ngModel)]="repairname.cost" maxlength="5">
+          <input autocomplete="off" class="company-ipt" name="cost" required type="number"
+                 [(ngModel)]="repairname.cost" maxlength="5">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control clearfix">
+        <span class="form-label">能耗费</span>
+        <div class="form-inp">
+          <input autocomplete="off" type="number" id="energyCost" name="energyCost"
+                  class="company-ipt company-sel"
+                  [(ngModel)]="repairname.energyCost"
+                  (blur)="verifyEnergyCost()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control clearfix">
+        <span class="form-label">缴费方式</span>
+        <div class="form-inp">
+          <select autocomplete="off" id="payMethod" name="payMethod"
+                  class="company-ipt company-sel"
+                 [(ngModel)]="repairname.payMethod"
+                  (blur)="verifyPayMethod()">
+            <option value="">请选择</option>
+            <option value="托收">托收</option>
+            <option value="转账">转账</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control clearfix">
+        <span class="form-label">备注</span>
+        <div class="form-inp">
+          <input autocomplete="off" type="text" id="mark" name="mark"
+                 class="company-ipt company-sel"
+                 [(ngModel)]="repairname.mark">
           <span class="errorMessage"></span>
         </div>
       </div>
     </form>
-
     <div class="mask-footer">
       <button type="submit" class="btn-mask btn-info" (click)="recordSubmit()">保 存</button>
       <button type="button" class="btn-mask btn-danger" (click)="recordCancel()">取 消</button>

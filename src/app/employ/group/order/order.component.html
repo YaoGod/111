@@ -9,13 +9,6 @@
                       [ngClass]="cata.routeUrl===rule.routeUrl?'active':''"
                       [routerLink]="['../../../'+cata.routeUrl]"
                 >{{cata.name}}</span>
-                <!--<span [routerLink]="['../product']">团购商品新增</span>
-                <span [routerLink]="['../check']">团购商品审核</span>
-                <span [routerLink]="['../manager']">团购商品管理</span>
-                <span class="active">订单管理</span>
-                <span [routerLink]="['../notice']">公告管理</span>
-                <span [routerLink]="['../report']">订单报表</span>
-                <span [routerLink]="['../count']">统计报表</span>-->
               </div>
               <div class="b-head-right">
                 <div class="content-box" [routerLink]="['../groupbuy']"><i class="icon-action-undo"></i> 继续订购</div>
@@ -23,6 +16,9 @@
             </div>
             <div class="b-con tuanmenu">
               <div class="wrap">
+                <div class="float-right">
+                  <a class="btn btn-danger" (click)="packageSure()">批量到货</a>
+                </div>
                 <ul>
                   <li>
                     <label>商品名称：</label>
@@ -32,19 +28,20 @@
                     <label>订单编号</label>
                     <input type="text" name="addnum" [(ngModel)]="orderId">
                   </li>
-                  <!--<li>
-                    <label>商品编号</label>
-                    <input type="text" name="addnum2" [(ngModel)]="productId">
-                  </li>-->
                   <li><a class="search" href="javascript: void(0);" (click)="getOrderAllList(1)" >查询</a></li>
                 </ul>
               </div>
               <div class="list-table" *ngFor="let order of orders;let idx=index">
+                <label [for]="order.id">
                 <dt>
                 <table class="table-head0">
                   <tr>
+                    <td class="check">
+                      <input type="checkbox" name="check" [value]="order.id" [id]="order.id" *ngIf="order.status=='0'">
+                    </td>
                     <td class="zero">订单编号：{{order.id}}</td>
                     <td class="zero">下单人编号：{{order.userId}}</td>
+                    <td class="zero">下单人姓名：{{order.userName}}</td>
                     <td class="zero">下单时间：{{order.payTime}}</td>
                     <td class="zero">订单价格：{{order.payment}}元</td>
                     <td class="zero status" *ngIf="order.status=='0'">订单状态：订购中</td>
@@ -88,6 +85,7 @@
                     </table>
                   </dd>
                 </dl>
+                </label>
               </div>
             </div>
             <!--翻页-->

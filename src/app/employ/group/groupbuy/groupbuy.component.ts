@@ -64,7 +64,7 @@ export class GroupbuyComponent implements OnInit {
     this.getRule();
     this.pages = [];
     this.search = new GroupProduct();
-    this.globalCatalogService.setTitle("员工服务/员工团购网/商品订购");
+    this.globalCatalogService.setTitle("员工服务/员工团购网");
     this.getProductShowList();
     this.getNoticeList();
 
