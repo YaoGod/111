@@ -36,7 +36,7 @@ export class DeviceComponent implements OnInit {
   public leading:any;
   public deviceList:any;
   public modelList:any;
-
+  public URL = this.ipSetting.ip + "/common/file/downLoadFile?path=";
   constructor(
     private http: Http,
     private errorVoid:ErrorResponseService,
@@ -147,6 +147,7 @@ export class DeviceComponent implements OnInit {
         for(let i=0;i<data['data'].length;i++){
           // if(result2.indexOf(data['data'][i].model)===-1){}
             result2.push(data['data'][i].model);
+            this.contractName.maintenance = data['data'][i].maintenance;
         }
         this.modelList = result2;
       }
@@ -187,6 +188,8 @@ export class DeviceComponent implements OnInit {
       this.repairname = new GuardName();
       $('.mask-repair').fadeIn();
       $('.mask-repair .mask-head p').html('新增大型设备信息');
+      this.repairname.fileName = [];
+      this.repairname.filePath = [];
     }
   }
   /*点击设备基础信息*/
@@ -219,6 +222,8 @@ export class DeviceComponent implements OnInit {
   /*记录新增和编辑界面的取消按钮*/
   recordCancel() {
     this.repairname = new GuardName();
+    this.repairname.fileName = [];
+    this.repairname.filePath = [];
     $('#prese').val('');
     $('.errorMessage').html('');
     $('.mask-repair').hide();
@@ -232,15 +237,20 @@ export class DeviceComponent implements OnInit {
     this.getDeviceList('','');
     this.getDeviceList2('');
   }
-
+  /*删除合同文件*/
+  delFile(index) {
+    this.repairname.filePath.splice(index,1);
+    this.repairname.fileName.splice(index,1);
+  }
   /*图片上传*/
   prese_upload(files) {
-    var xhr = this.utilBuildingService.uploadImg(files[0],'equip',-1);
+    var xhr = this.utilBuildingService.uploadFile(files[0],'equipment',-1);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)) {
-          this.repairname.imgPath = data.msg;
+          this.repairname.fileName.push(files[0].name);
+          this.repairname.filePath.push(data.msg);
           confirmFunc.init({
             'title': '提示' ,
             'mes': '上传成功',
@@ -288,6 +298,21 @@ export class DeviceComponent implements OnInit {
   }
   public verifysupplier() {
     if (!this.isEmpty('supplier', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifyfactoryContacts() {
+    if (!this.isEmpty('factoryContacts', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifyfactoryPhone() {
+    if (!this.isEmpty('factoryPhone', '不能为空')) {
+      return false;
+    }
+    if (!this.verifyIsTel('factoryPhone', '格式不正确')) {
       return false;
     }
     return true;
@@ -346,9 +371,7 @@ export class DeviceComponent implements OnInit {
       return false;
     }
     const postdata = JSON.parse(JSON.stringify(this.repairname));
-    if(postdata.imgPath.indexOf("/")!==0){
-      delete postdata.imgPath;
-    }
+
     postdata.buyDate = postdata.buyDate.replace(/-/g, "/");
     postdata.mLastDate = postdata.mLastDate.replace(/-/g, "/");
     postdata.mNextDate = postdata.mNextDate.replace(/-/g, "/");
@@ -668,10 +691,14 @@ export class GuardName {
   id: number; // 本条信息ID
   buildingId: string;
   buildingName: string;
+  buildingNum:string;
   name: string; // 设备名称
   model: string;// 设备型号
   supplier: string;// 设备供应商
-  imgPath: string;// 设备图片
+  sPerson:string; // 厂家联系人
+  sPhone:string; // 厂家联系人电话
+  fileName: string[];// 维保合同附件名称
+  filePath: string[];// 维保合同附件路径
   buyDate: string;// 采购日期
   maintenance: string;// 维保单位
   mLastDate: string;// 最近维保日期
@@ -683,7 +710,7 @@ export class GuardName {
 export class ArchName {
   id: number; // 本条信息ID
   buildingId: string;
-  buildingnum:string;
+  buildingNum:string;
   buildingName: string;
   equipmentName:string; // 设备名称
   equipModel: string;// 设备型号

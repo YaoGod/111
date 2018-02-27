@@ -104,7 +104,7 @@ export class LoginComponent implements OnInit {
       if (!this.isEmpty(id,'· 请输入你的用户名')) {
         return false;
       }
-      if(!this.verifyLength(id, '· 户名编号过短'))  {
+      if (!this.verifyLength(id, '· 户名编号过短'))  {
         return false;
       }
       return true;

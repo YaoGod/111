@@ -33,6 +33,9 @@ export class GuardComponent implements OnInit {
   private editBool = true;
   private contractBool = true;
   public serviceCom:any;
+  public exist = true;
+  public URL = this.ipSetting.ip + "/common/file/downLoadFile?path=";
+
   constructor(
     private http: Http,
     private errorVoid:ErrorResponseService,
@@ -143,17 +146,47 @@ export class GuardComponent implements OnInit {
       this.repairname = new GuardName();
       $('.mask-repair').fadeIn();
       $('.mask-repair .mask-head p').html('新增服务公司');
+      this.repairname.filePath = [];
+      this.repairname.fileName = [];
     }
+  }
+  /*删除合同文件*/
+  delFile(index) {
+    this.repairname.filePath.splice(index,1);
+    this.repairname.fileName.splice(index,1);
+  }
+  /*合同上传*/
+  prese_upload3(files) {
+    var xhr = this.utilBuildingService.uploadFile(files[0],'serverCompany',-1);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
+        var data:any = JSON.parse(xhr.responseText);
+        if(this.errorVoid.errorMsg(data)){
+          this.repairname.fileName.push(files[0].name);
+          this.repairname.filePath.push(data.msg);
+
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': '上传成功',
+            'popType': 0 ,
+            'imgType': 1,
+          });
+          $('#prese3').val('');
+        }
+      }else if (xhr.readyState === 4 && xhr.status === 413){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '文件太大',
+          'popType': 0 ,
+          'imgType': 2,
+        });
+        $('#prese3').val('');
+      }
+    };
   }
   /*校验公司信息*/
   public verifyId() {
     if (!this.isEmpty('Id', '不能为空')) {
-      return false;
-    }
-    if (!this.verifyIsNumber('Id', '编号为数字')) {
-      return false;
-    }
-    if (!this.verifyLength('Id', '请输入四位')) {
       return false;
     }
     return true;
@@ -165,11 +198,17 @@ export class GuardComponent implements OnInit {
     return true;
   }
   public verifytype() {
-  if (!this.isEmpty('type', '不能为空')) {
-    return false;
+    if (!this.isEmpty('type', '不能为空')) {
+      return false;
+    }
+    return true;
   }
-  return true;
-}
+  public verifycharge() {
+    if (!this.isEmpty('charge', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
   public verifypersonNum() {
     if (!this.isEmpty('personNum', '信息不能为空')) {
       return false;
@@ -188,7 +227,7 @@ export class GuardComponent implements OnInit {
     }else {
       SOFTWARES_URL = "/building/company/addServerCompany";
     }
-    if (!this.verifyId()|| !this.verifytype() || !this.verifycompanyName() || !this.verifypersonNum()) {
+    if (!this.verifyId()|| !this.verifytype() || !this.verifycompanyName() || !this.verifypersonNum() || !this.verifycharge()) {
       return false;
     }
     this.ipSetting.sendPost(SOFTWARES_URL,this.repairname).subscribe(data => {
@@ -317,6 +356,18 @@ export class GuardComponent implements OnInit {
     }
     return true;
   }
+  public verifyentryTime() {
+    if (!this.isEmpty('entryTime', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifyleaveTime() {
+    if (!this.isEmpty('leaveTime', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
   public verifypersonType() {
     if (!this.isEmpty('personType', '不能为空')) {
       return false;
@@ -353,6 +404,13 @@ export class GuardComponent implements OnInit {
           this.contractCancel();
         }
       });
+  }
+  changeInfo(info){
+    if(info === '在职'){
+      this.exist = true;
+    }else{
+      this.exist = false;
+    }
   }
   /*新增编辑档案信息的取消按钮*/
   contractCancel() {
@@ -397,6 +455,7 @@ export class GuardComponent implements OnInit {
       }
     });
   }
+
   /*图片上传*/
   prese_upload(files) {
     var xhr = this.utilBuildingService.uploadImg(files[0],'person',-1);
@@ -450,7 +509,6 @@ export class GuardComponent implements OnInit {
               }
             })
           }
-
           $('#prese2').val('');
           $('#induction').hide();
           this.pages =[];
@@ -549,12 +607,7 @@ export class GuardComponent implements OnInit {
       }
     }
   }
-  /**
-   * 匹配数字
-   * @param id
-   * @param error
-   * @returns {boolean}
-   */
+  /** 匹配数字 */
   public verifyIsNumber(id: string, error: string): boolean  {
     const data =  $('#' + id).val();// /^[0-9]*$/
     if (!String(data).match(/^[0-9]*$/))  {
@@ -631,12 +684,17 @@ export class GuardName {
   companyName: string; // 公司名字
   type: string; // 服务公司类别
   personNum: number; // 人数
+  charge:string; // 收费
+  filePath:string[]; // 附件路径
+  fileName:string[]; // 附件名称
 }
 export class ArchName {
   id: number; // 本条信息ID
   companyName: string; // 公司名称
   imgPath: string; // 头像地址
   personAge: 0; // 年龄
+  entryTime:string; // 入职时间
+  leaveTime:string; // 离职时间
   personId:string; // 编号
   personIdcard: 0; // 身份证号
   personName:string; // 姓名

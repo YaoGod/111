@@ -67,16 +67,32 @@
           <span class="form-word">{{inner.buildingId}}</span>
         </li>
         <li class="form-bar">
-          <span class="form-title text-right">大楼名称</span>
-          <span class="form-word">{{inner.buildingName}}</span>
-        </li>
-        <li class="form-bar">
           <span class="form-title text-right">服务公司名称</span>
           <span class="form-word">{{inner.companyName}}</span>
         </li>
         <li class="form-bar">
+          <span class="form-title text-right">大楼名称</span>
+          <span class="form-word">{{inner.buildingName}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">服务公司性质</span>
+          <span class="form-word">{{inner.type}}</span>
+        </li>
+        <li class="form-bar">
           <span class="form-title text-right">派驻大楼人数</span>
           <span class="form-word">{{inner.personNum}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">是否收费</span>
+          <span class="form-word">{{inner.charge}}</span>
+        </li>
+        <li class="form-bar form-texarea">
+          <span class="form-title text-right">附件</span>
+          <ol *ngIf="inner.fileName" style="height:72px;overflow-y: auto;">
+            <li style="text-indent: 1em; line-height: 24px;" *ngFor="let abc of inner.fileName; let j=index">{{abc}}
+              <a [href]="URL + inner.filePath[j]" [download]="abc"><i class="icon-cloud-download"></i>下载</a>
+            </li>
+          </ol>
         </li>
         <li class="form-btn"  *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" (click)="editRecord(i)"><i class="icon-pencil"></i></li>
         <li class="form-btn form-del" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delRecord(i)"><i class="icon-trash"></i></li>
@@ -170,7 +186,7 @@
         </div>
       </div>
       <div class="form-control clearfix">
-        <span class="form-label">公司性质</span>
+        <span class="form-label">服务性质</span>
         <div class="form-inp">
           <select id="type" name="type" class="company-ipt company-sel" [(ngModel)]="repairname.type" (blur)="verifytype()" >
             <!--<option value="security">保安</option>
@@ -188,7 +204,30 @@
       <div class="form-control clearfix">
         <span class="form-label">派驻大楼人数</span>
         <div class="form-inp">
-          <input type="text" autocomplete="off" class="company-ipt" id="personNum" name="personNum" [(ngModel)]="repairname.personNum" (blur)="verifypersonNum()" required minlength="4" maxlength="4">
+          <input type="number" autocomplete="off" class="company-ipt" id="personNum" name="personNum" [(ngModel)]="repairname.personNum" (blur)="verifypersonNum()" required minlength="4" maxlength="4">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control clearfix">
+        <span class="form-label">收费</span>
+        <div class="form-inp">
+          <select id="charge" name="charge" class="company-ipt company-sel" [(ngModel)]="repairname.charge" (blur)="verifycharge()" >
+            <option value="是">是</option>
+            <option value="否">否</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone">
+        <span class="form-label">附件</span>
+        <ul class="contract-list">
+          <li style="word-break:break-all; line-height: 24px;" *ngFor="let abc of repairname.fileName; let k=index">{{abc}}
+            <a style="color: #ff1103;" href="javascript:;" (click)="delFile(k)">×</a> </li>
+        </ul>
+        <div style=" margin-top:5px;">
+          <a href="javascript:;" style="color:#666; margin-left:138px; border-radius:4px; padding:5px 10px; background: #f6f6f6;" onclick="$('#prese3').trigger('click')">上 传</a>
+          <input type="file" class="dropify" #prese3 id="prese3" style="visibility: hidden;"
+                 (change)="prese_upload3(prese3.files)">
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -199,7 +238,7 @@
     </div>
   </div>
 </div>
-<!--新增档案信息弹窗-->
+<!--新增人员信息弹窗-->
 <div class="mask mask-contract">
   <div class="new-arch">
     <div class="mask-head"><i class="icon-film"></i> <p>新增人员档案</p>
@@ -219,7 +258,7 @@
           </div>
         </div>
         <div class="form-control clearfix">
-          <span class="form-label">人员类型</span>
+          <span class="form-label">服务性质</span>
           <div class="form-inp">
             <!--<input id="personType" name="personType" class="company-ipt company-sel" [(ngModel)]="contractName.personType" (blur)="verifypersonType()" disabled="disabled">-->
             <select id="personType" name="personType" class="company-ipt company-sel" [(ngModel)]="contractName.personType" (blur)="verifypersonType()">
@@ -263,11 +302,25 @@
           <span class="form-label">在职状态</span>
           <div class="form-inp">
             <select class="company-ipt company-sel" id="personStatus" name="personStatus"
-                    [(ngModel)]="contractName.personStatus"
+                    [(ngModel)]="contractName.personStatus" (change)="changeInfo(contractName.personStatus)"
                     (blur)="verifypersonStatus()">
               <option value="在职">在职</option>
               <option value="离职">离职</option>
             </select>
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control clearfix" *ngIf="exist">
+          <span class="form-label">入职时间</span>
+          <div class="form-inp">
+            <input class="company-ipt" type="date" name="zzzd" id="entryTime" [(ngModel)]="contractName.entryTime" (blur)="verifyentryTime()">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control clearfix" *ngIf="!exist">
+          <span class="form-label">离职时间</span>
+          <div class="form-inp">
+            <input class="company-ipt" type="date" name="zzzd" id="leaveTime" [(ngModel)]="contractName.leaveTime" (blur)="verifyleaveTime()">
             <span class="errorMessage"></span>
           </div>
         </div>

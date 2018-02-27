@@ -19,7 +19,7 @@
           <li >
             <label >设备名称</label>
             <!--<input type="text" name="ccc" class="search-ipt" [(ngModel)]="searchCompany.equipmentName">-->
-            <select name="bbb" class="search-ipt" [(ngModel)]="searchCompany.name">
+            <select name="ccc" class="search-ipt" [(ngModel)]="searchCompany.name">
               <option value="">-全部-</option>
               <option *ngFor="let num of deviceList"
                       [value]="num"><!--num.BUILDING_ID-->
@@ -70,10 +70,10 @@
         <a class="btn btn-new" href="javascript:;" (click)="addCompany()"><i class="icon-plus"></i> 新 增</a>
       </div>
       <ul class="form-msg clearfix" *ngFor="let inner of record; let i=index">
-        <li class="form-bar">
+        <!--<li class="form-bar">
           <span class="form-title text-right">大楼编号</span>
           <span class="form-word">{{inner.buildingNum}}</span>
-        </li>
+        </li>-->
         <li class="form-bar">
           <span class="form-title text-right">大楼名称</span>
           <span class="form-word">{{inner.buildingName}}</span>
@@ -114,7 +114,14 @@
           <span class="form-title text-right">责任人邮箱</span>
           <span class="form-word">{{inner.lMail}}</span>
         </li>
-        <li class="form-photo"><img [src]="inner.imgPath | imgsafeurl" *ngIf="inner.imgPath"></li>
+        <li class="form-photo">
+          <span class="form-pboto-title text-right">服务合同</span>
+          <ol *ngIf="inner.fileName" style="height:72px;overflow-y: auto;">
+            <li style="text-indent: 1em; line-height: 24px;" *ngFor="let abc of inner.fileName; let j=index">{{abc}}
+              <a [href]="URL + inner.filePath[j]" [download]="abc"><i class="icon-cloud-download"></i>下载</a>
+            </li>
+          </ol>
+        </li>
         <li class="form-btn" *ngIf="rule&&jurisdiction&&jurisdiction.isUpdate" (click)="editRecord(i)"><i class="icon-pencil"></i></li>
         <li class="form-btn form-del" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delRecord(inner.id)"><i class="icon-trash"></i></li>
       </ul>
@@ -227,6 +234,23 @@
           </div>
         </div>
         <div class="form-control clearfix">
+          <span class="form-label">厂家联系人</span>
+          <div class="form-inp">
+            <input type="text" autocomplete="off" class="company-ipt" id="factoryContacts" name="factoryContacts"
+                   [(ngModel)]="repairname.sPerson" (blur)="verifyfactoryContacts()" required  maxlength="25">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+        <div class="form-control clearfix">
+          <span class="form-label">厂家联系人电话</span>
+          <div class="form-inp">
+            <input type="text" autocomplete="off" class="company-ipt" id="factoryPhone" name="factoryPhone"
+                   [(ngModel)]="repairname.sPhone" (blur)="verifyfactoryPhone()" required  maxlength="11">
+            <span class="errorMessage"></span>
+          </div>
+        </div>
+
+        <div class="form-control clearfix">
           <span class="form-label">采购日期</span>
           <div class="form-inp">
             <input type="date" autocomplete="off" class="company-ipt" id="buyDate" name="buyDate" [(ngModel)]="repairname.buyDate" (blur)="verifybuyDate()" required>
@@ -281,15 +305,15 @@
         </div>
       </div>
       <div class="form-right">
-        <div class="person-img">
-          <div class="dropify-wrapper">
-            <div class="dropify-message">
-              <img *ngIf="repairname.imgPath" [src]="repairname.imgPath | imgsafeurl:prese.files" />
-            </div>
-            <p *ngIf="!repairname.imgPath">点击此处上传图片</p>
-            <input type="file" class="dropify" #prese id="prese" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
-                   (change)="prese_upload(prese.files)">
-          </div>
+        <div class="right-title">维保合同附件</div>
+        <ul class="contract-list">
+          <li *ngFor="let abc of repairname.fileName; let k=index">{{abc}}<a  href="javascript:;" (click)="delFile(k)">×</a> </li>
+        </ul>
+        <div class="form-inp" style=" margin-top:10px;">
+          <a href="javascript:;" style="color:#666; border-radius:4px; padding:5px 10px; background: #f6f6f6;" onclick="$('#prese').trigger('click')">上 传</a>
+          <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;"
+                 (change)="prese_upload(prese.files)">
+          <span class="errorMessage"></span>
         </div>
       </div>
     </form>

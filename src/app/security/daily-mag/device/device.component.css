@@ -132,11 +132,9 @@ button{
 .new-device{
   position: absolute;
   left:50%;
-  top:50%;
-  width:650px;
-  height:610px;
-  margin-top:-305px;
-  margin-left:-325px;
+  top:14%;
+  width:700px;
+  margin-left:-350px;
   background-color: #fff;
   border-radius:5px;
 }
@@ -152,106 +150,64 @@ button{
   width:400px;
 }
 .new-device .form-right{
-  width:180px;
-  height:200px;
-  border: 2px solid #E5E5E5;
+  width:230px;
+  height:300px;
   float:left;
+  margin:0;
+}
+.new-device .right-title{
+  line-height:30px;
+}
+.new-device .contract-list{
+  border: 2px solid #E5E5E5;
+  width:100%;
+  height:100%;
+}
+.contract-list li{
+  word-break:break-all;
+}
+.contract-list a{
+  color: #CE0004;;
 }
 .new-device .form-control{
   width:100%;
   line-height:30px;
-  margin:0 auto 5px;
+  margin:0 auto;
   color: #686868;
 }
 .new-device .form-label{
   float: left;
   height:100%;
   text-align: center;
-  width:88px;
+  width:100px;
   margin-bottom: 0;
   margin-right:10px;
 }
 .new-device .form-inp{
   float: left;
-  width:300px;
+  width:288px;
 }
 .form-photo{
-  width:14%;
-  height:100%;
-  position: absolute;
-  right:5%;
-  line-height:261px;
-  top:0;
+  -webkit-box-flex: 0;
+  flex: 1 0 100%;
+  color:#8d9ea7;
+  margin-bottom:5px;
+  font-size:12px;
+
 }
-.form-photo img{
-  width:100%;
-  vertical-align: middle;
-  max-height:98%;
-}
-.dropify-wrapper {
+.form-pboto-title{
   position: relative;
-  cursor: pointer;
-  overflow: hidden;
   width: 100%;
-  max-width: 100%;
-  height: 200px;
-  font-size: 14px;
-  line-height: 22px;
-  color: #777;
-  background-color: #FFF;
-  background-image: none;
-  text-align: center;
-}
-.dropify-wrapper p{
-  position: absolute;
-  left:0;
-  top:88px;
-  width:100%;
-  line-height:24px;
-  z-index: 2;
-}
-.dropify-wrapper .dropify-message {
-  position: relative;
-  z-index: 3;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
-.dropify-message img{
-  width:100%;
-}
-.dropify-wrapper .dropify-loader {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  display: none;
-  z-index: 9;
-}
-.dropify-wrapper .dropify-errors-container {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 3;
-  background: rgba(243,65,65,.8);
-  text-align: left;
-  visibility: hidden;
-  opacity: 0;
-  -webkit-transition: visibility 0s linear .15s,opacity .15s linear;
-  transition: visibility 0s linear .15s,opacity .15s linear;
-}
-.dropify-wrapper input {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  opacity: 0;
-  cursor: pointer;
-  z-index: 5;
+  min-height: 1px;
+  background-color: #f8f8f8;
+  padding:10px;
+  float: left;
+  font-weight: 300;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 17.5%;
+  -ms-flex: 0 0 17.5%;
+  flex: 0 0 17.5%;
+  max-width:17.5%;
 }
 .company-ipt{
   width:200px;
