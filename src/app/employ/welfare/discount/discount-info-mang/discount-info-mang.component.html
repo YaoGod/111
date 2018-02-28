@@ -108,17 +108,20 @@
                       (blur)="verifyImgPath()">
           </div>
           <span class="error"></span>
-          <!--<div  class="dropify-file">
+          <div  class="dropify-file">
             <a class="btn-danger">上传附件</a>
             <input  class="dropify" type="file"  id="presefile"
-                    #prese
-                    (change)="prese_upload(prese.files)">
+                    #presefile
+                    (change)="prese_uploadFile(presefile.files)">
           </div>
           <div class="file-message">
-            <p>lalal.txt <a class="btn-close" (click)="delLine(0)">
-              <i class="icon-close"></i>
-            </a></p>
-          </div>-->
+            <p *ngFor="let fileName of copyDiscount.fileName;let i =index">
+              {{fileName}}
+              <a class="btn-close" (click)="delfile(i)">
+                <i class="icon-close"></i>
+              </a>
+            </p>
+          </div>
         </div>
         <div  class="modal-right">
           <div  class="form-group">

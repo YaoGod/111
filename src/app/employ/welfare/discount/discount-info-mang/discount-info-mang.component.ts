@@ -85,6 +85,32 @@ export class DiscountInfoMangComponent implements OnInit {
       }
     };
   }
+  /*文件上传*/
+  prese_uploadFile(files){
+    console.log(files[0]);
+    var xhr = this.discountEmployeeService.uploadFile(files[0],-1);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
+        var data:any = JSON.parse(xhr.responseText);
+        if(this.errorResponseService.errorMsg(data)){
+          if(!this.copyDiscount.filePath||!this.copyDiscount.fileName){
+            this.copyDiscount.filePath = [];
+            this.copyDiscount.fileName = [];
+          }
+          this.copyDiscount.filePath.push(data.msg);
+          this.copyDiscount.fileName.push(files[0].name);
+          $('#presefile').val("");
+        }
+      }else if(xhr.readyState === 4 && xhr.status === 413 ){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '文件大小超出限制',
+          'popType': 1 ,
+          'imgType': 2 ,
+        });
+      }
+    };
+  }
   addLine(){
     let length = 0;
     for(let i = 0;i<this.tempOther.length;i++){
@@ -99,6 +125,10 @@ export class DiscountInfoMangComponent implements OnInit {
   }
   delLine(index){
     this.tempOther[index].isShow = false;
+  }
+  delfile(index){
+    this.copyDiscount.fileName.splice(index,1);
+    this.copyDiscount.filePath.splice(index,1);
   }
   submit(){
     this.verifyImgPath();

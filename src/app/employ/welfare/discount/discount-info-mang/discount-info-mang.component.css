@@ -399,7 +399,6 @@ i{
 }
 .modal-left {
   width: 180px;
-  height: 200px;
   float: left;
 }
 .modal-right {
@@ -574,6 +573,7 @@ select{
 }
 .dropify-file{
   position: relative;
+  padding: 10px 0;
   cursor: pointer;
 }
 .dropify-file input {
@@ -587,4 +587,17 @@ select{
   opacity: 0;
   cursor: pointer;
   z-index: 5;
+}
+.file-message{
+  clear: both;
+}
+.file-message>p{
+  color: #333333;
+}
+.file-message>p>a{
+  opacity: 0;
+  transition-duration: 500ms;
+}
+.file-message>p:hover a{
+  opacity: 1;
 }

@@ -31,6 +31,18 @@ export class DiscountEmployeeService {
     xhr.send(form);
     return xhr;
   }
+  uploadFile(postData,id){
+    const url = this.ipSetting.ip + "/employee/discount/uploadFile/discount/" +id;
+    var form = new FormData();
+    if (typeof(postData) === 'object') {
+      form.append('file', postData);
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.withCredentials = true;
+    xhr.send(form);
+    return xhr;
+  }
   /*
    新增优惠信息
    param: postData:Discount,

@@ -12,6 +12,8 @@ export class Discount {
   effectEtime : string;  /*有效期结束时间*/
   status      : string;  /*状态*/
   others      : Array<Other>;     /*自定义字段*/
+  filePath    : Array<string>; /*附件地址*/
+  fileName    : Array<string>; /*附件名称*/
 }
 
 export class Other {
