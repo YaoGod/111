@@ -122,7 +122,7 @@ input{
 .form-bar{
   -webkit-box-flex: 0;
   flex: 1 0 50%;
-  max-width: 50%;
+  max-width: 45%;
   color:#8d9ea7;
   margin-bottom:5px;
   font-size:12px;
@@ -136,7 +136,7 @@ input{
   -webkit-flex: 0 0 17.5%;
   -ms-flex: 0 0 17.5%;
   flex: 0 0 17.5%;
-  max-width:17.5%;
+  max-width:15.75%;
 }
 .contract-list{
   width:280px;
@@ -347,13 +347,14 @@ button{
   position: absolute;
   right:5%;
   top:0;
-  line-height:220px;
+  line-height:256px;
   text-align: center;
 }
 .form-photo img{
   width:auto;
   max-width: 100%;
   vertical-align: middle;
+  max-height: 248px;
 }
 .dropify-wrapper {
   position: relative;

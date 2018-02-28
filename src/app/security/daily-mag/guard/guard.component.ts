@@ -35,7 +35,7 @@ export class GuardComponent implements OnInit {
   public serviceCom:any;
   public exist = true;
   public URL = this.ipSetting.ip + "/common/file/downLoadFile?path=";
-
+  public deptId = [];
   constructor(
     private http: Http,
     private errorVoid:ErrorResponseService,
@@ -61,6 +61,7 @@ export class GuardComponent implements OnInit {
     this.pages = [];
     this.contractName.imgPath = '';
     this.getBuildings();
+    this.getDeptId();
     if($('.guard-header a:last-child').hasClass('active')) {
       $('.guard-arch,.box2').fadeIn();
       this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
@@ -150,6 +151,17 @@ export class GuardComponent implements OnInit {
       this.repairname.fileName = [];
     }
   }
+  // /building/person/getDeptList?name=
+  /** 获取归属部门*/
+  private getDeptId(){
+    let url = "/building/person/getDeptList?name=";
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        this.deptId = data.data;
+      }
+    });
+  }
+
   /*删除合同文件*/
   delFile(index) {
     this.repairname.filePath.splice(index,1);
@@ -308,6 +320,7 @@ export class GuardComponent implements OnInit {
     $('.guard-arch').fadeIn();
     $('.guard-company').hide();
   }
+  /*人员信息校验*/
   public verifycompanyName2() {
     if (!this.isEmpty('companyName2', '不能为空')) {
       return false;
@@ -374,7 +387,25 @@ export class GuardComponent implements OnInit {
     }
     return true;
   }
-  /*新增/编辑档案信息提交*/
+  public verifyserverType() {
+    if (!this.isEmpty('serverType', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifychargeP() {
+    if (!this.isEmpty('chargeP', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifydeptId() {
+    if (!this.isEmpty('deptId', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  /*新增/编辑人员信息提交*/
   contractSubmit() {
     let SOFTWARES_URL;
     if(this.contractBool === false) {
@@ -390,6 +421,13 @@ export class GuardComponent implements OnInit {
     if(postdata.imgPath.indexOf("/")!==0){
       delete postdata.imgPath;
     }
+    if(postdata.entryTime){
+      postdata.entryTime = this.contractName.entryTime.replace(/-/g, "/");
+    }
+    if(postdata.leaveTime){
+      postdata.leaveTime = this.contractName.leaveTime.replace(/-/g, "/");
+    }
+
     this.ipSetting.sendPost(SOFTWARES_URL,postdata).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           $('#prese').val('');
@@ -425,7 +463,11 @@ export class GuardComponent implements OnInit {
     this.getCompany();
     this.contractBool = false;
     this.contractName = JSON.parse(JSON.stringify(this.contract[index]));
-
+    for(let i=0;i<this.deptId.length;i++){
+      if(this.deptId[i].DEPT_NAME === this.contractName.deptId){
+        this.contractName.deptId = this.deptId[i].DEPT_ID
+      }
+    }
     $('.mask-contract').fadeIn();
     $('.mask-contract .mask-head p').html('编辑人员档案');
   }
@@ -702,6 +744,9 @@ export class ArchName {
   personSex:string; // 性别
   personStatus: string; // 人员状态
   personType:string; // 人员类别
+  serverType:string; // 服务性质
+  deptId:string; // 归属部门
+  charge:string; // 收费
 }
 export class Company {
   buildingId: string; // 大楼编号

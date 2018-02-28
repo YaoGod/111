@@ -97,28 +97,35 @@
               <input type="text" id="vnewnane" name="vnewnane" (blur)="verifyEmpty('vnewnane','净菜名称不能为空')" class="noticetext" placeholder="" [(ngModel)]="vegetableAdd.vname">
               <span class="errorMessage"></span>
             </div>
-            <div style="margin-top: 15px;">
+            <div style="margin-top: 6px;">
               <div>
                 <label>净菜价格：</label>
                 <input type="text" class="producttext" id="vprice" name="vprice" (blur)="verifyEmpty('vprice','价格不能为空')"   [(ngModel)]="vegetableAdd.price">&nbsp;&nbsp;元
                 <span class="errorMessage"></span>
               </div>
             </div>
-            <div style="margin-top: 15px;">
+            <div style="margin-top: 6px;">
+              <div>
+                <label>&nbsp;&nbsp;&nbsp;库存量：</label>
+                <input type="number" class="producttext" id="stock" name="stock" (blur)="verifyEmpty('stock','库存量不能为空')"   [(ngModel)]="vegetableAdd.stock">
+                <span class="errorMessage"></span>
+              </div>
+            </div>
+            <div style="margin-top: 6px;">
               <div>
                 <label>限购数量：</label>
                 <input type="text" class="producttext" id="vnewLimitnum" name="vnewLimitnum"  (blur)="verifyEmpty('vnewLimitnum','限购数量不能为空')"    placeholder="" [(ngModel)]="vegetableAdd.limitnum">
                 <span class="errorMessage"></span>
               </div>
             </div>
-            <div style="margin-top: 15px;">
+            <div style="margin-top: 6px;">
               <div>
                 <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态：</label>
                 <input type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="vegetableAdd.status" value="1">上架
                 <input type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="vegetableAdd.status" value="2">下架
               </div>
             </div>
-            <div style="margin-top: 15px;">
+            <div style="margin-top: 6px;">
               <div>
                 <label style="float: left">预定时间：</label>
                 <ul class="saletime">
@@ -187,28 +194,35 @@
               <input type="text" class="producttext" id="upnewname" name="upnewname"  (blur)="verifyEmpty('upnewname','商品名称不能为空')"   [(ngModel)]="vegetableUp.vname">
               <span class="errorMessage"></span>
             </div>
-            <div style="margin-top: 15px;">
+            <div style="margin-top: 6px;">
               <div>
                 <label>净菜价格：</label>
                 <input type="text" class="producttext" id="vupprice" name="vupprice" (blur)="verifyEmpty('vupprice','费用不能为空')"   [(ngModel)]="vegetableUp.price">
                 <span class="errorMessage"></span>
               </div>
             </div>
-            <div style="margin-top: 15px;">
+            <div style="margin-top: 6px;">
+              <div>
+                <label>&nbsp;&nbsp;&nbsp;库存量：</label>
+                <input type="number" class="producttext" id="stock1" name="stock1" (blur)="verifyEmpty('stock1','库存量不能为空')"   [(ngModel)]="vegetableUp.stock">
+                <span class="errorMessage"></span>
+              </div>
+            </div>
+            <div style="margin-top: 6px;">
               <div>
                 <label>限购数量：</label>
                 <input type="text" class="producttext" id="vupLimitnum" name="vupLimitnum"  (blur)="verifyEmpty('vupLimitnum','限购数量不能为空')"    placeholder="" [(ngModel)]="vegetableUp.limitnum">
                 <span class="errorMessage"></span>
               </div>
             </div>
-            <div style="margin-top: 15px;">
+            <div style="margin-top: 6px;">
               <div>
                 <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态：</label>
                 <input type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="vegetableUp.status" value="1">上架
                 <input type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="vegetableUp.status" value="2">下架
               </div>
             </div>
-            <div style="margin-top: 15px;">
+            <div style="margin-top: 6px;">
               <div>
                 <label style="float: left">预定时间：</label>
                 <ul class="saletime">
@@ -258,7 +272,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">查看净菜</h4>
-      <button type="button" class="close"(click)="closeMaskView()">×</button>
+      <button type="button" class="close" (click)="closeMaskView()">×</button>
     </div>
     <form class="form-building form-material">
       <div class="modal-body clearfix">
@@ -271,28 +285,33 @@
             </div>
           </div>
           <div class="pdetail">
-            <div>
+            <div class="seeview">
               <label>净菜名称：</label>
               {{vegetableView.vname}}
             </div>
-            <div style="margin-top: 15px;">
+            <div class="seeview">
               <div  style="width: 48%">
                 <label>净菜价格：</label>
                 ￥{{vegetableView.price}}
               </div>
             </div>
-            <div style="margin-top: 15px;">
+            <div class="seeview">
+                <div  style="width: 48%">
+                  <label>&nbsp;&nbsp;&nbsp;库存量：</label> {{vegetableView.stock}}
+                </div>
+            </div>
+            <div class="seeview">
               <div style="width: 52%">
                 <label>限购数量：</label>
                 {{vegetableView.limitnum}}
               </div>
             </div>
-            <div style="margin-top: 15px;">
+            <div class="seeview">
               <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态：</label>
               <span class="three" *ngIf="vegetableView.status=='1'">上架</span>
               <span class="three" *ngIf="vegetableView.status=='2'">下架</span>
             </div>
-            <div style="margin-top: 15px;">
+            <div class="seeview">
               <div  style="width: 48%">
                 <label>预定时间：</label>
                 {{vegetableView.saletime}}

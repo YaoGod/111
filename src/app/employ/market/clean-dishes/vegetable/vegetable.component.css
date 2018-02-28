@@ -406,6 +406,13 @@ button{
   font-size: 22px;
   text-indent: 20px;
 }
+.pdetail>.seeview{
+  margin-top:6px;
+  height:30px;
+}
+.pdetail>.seeview:first-child{
+  margin-top:0;
+}
 .in-list label{
   margin-right: 10px;
 }

@@ -47,7 +47,7 @@ export class PriceComponent implements OnInit {
     this. getRule();
     this.search = new FacPrice();
     this.pages = [];
-    this.getFacList();
+    this.getFacList(1);
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'logistics','employ/logistics/laundry/price')
@@ -57,7 +57,8 @@ export class PriceComponent implements OnInit {
         }
       })
   }
-  getFacList(){
+  getFacList(num){
+    this.pageNo = num;
     let url = '/mmall/laundry/getFacList/'+this.pageNo + '/' + this.pageSize;
     this.ipSetting.sendPost(url,this.search)
       .subscribe(data => {
@@ -95,7 +96,7 @@ export class PriceComponent implements OnInit {
           'imgType': 1 ,
         });
         this.closeMaskAdd();
-        this.getFacList();
+        this.getFacList(1);
       }
     })
   }
@@ -154,7 +155,7 @@ export class PriceComponent implements OnInit {
           'imgType': 1 ,
         });
         this.closeMaskUp();
-        this.getFacList();
+        this.getFacList(1);
       }
     })
   }
@@ -201,7 +202,7 @@ export class PriceComponent implements OnInit {
               'imgType': 1 ,
             });
           }
-          this.getFacList();
+          this.getFacList(1);
         });
       }
     });
@@ -246,11 +247,15 @@ export class PriceComponent implements OnInit {
   }
   /*跳页加载数据*/
   public goPage(page:number){
-    this.pageNo = page;
     if(this.search==null){
       this.search = new FacPrice();
     }
-    this.getFacList();
+    if(this.search.applyid === ''){
+      this.getFacList(page);
+    }else{
+      this.getFacList(1);
+    }
+
   }
 }
 

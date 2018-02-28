@@ -22,7 +22,7 @@
               <option *ngFor="let applier of applierList;let idx=index" value="{{applier.applyId}}" >{{applier.applyName}}</option>
             </select>
 
-            <a class="search" (click)="getFacList()" *ngIf="rule&&rule.isSelect">查询</a>
+            <a class="search" (click)="getFacList(1)" *ngIf="rule&&rule.isSelect">查询</a>
             <a class="btn btn-danger"  (click)="add()" style="padding: 7px 15px;float: right;" *ngIf="rule&&rule.isInstall">
               <i class="icon-plus"></i> 新增</a>
           </div>
