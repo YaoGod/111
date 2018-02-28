@@ -79,8 +79,5 @@ export class SraffWelfareListComponent implements OnInit {
     this.welfares = [];
     this.getWelfare(this.search,this.pageNo,this.pageSize);
   }
-  back(){
-    history.go(-1);
-  }
 }
 

@@ -400,7 +400,6 @@ i{
 .modal-left {
   width: 180px;
   height: 200px;
-  border: 2px solid #E5E5E5;
   float: left;
 }
 .modal-right {
@@ -414,10 +413,11 @@ i{
   overflow: hidden;
   width: 100%;
   max-width: 100%;
-  height: 200px;
+  height: 135px;
   font-size: 14px;
   line-height: 22px;
   color: #777;
+  border: 2px solid #E5E5E5;
   background-color: #FFF;
   background-image: none;
   text-align: center;
@@ -432,7 +432,7 @@ i{
 .dropify-wrapper p {
   position: absolute;
   left: 0;
-  top: 88px;
+  top: 54px;
   width: 100%;
   line-height: 24px;
   z-index: 2;
@@ -571,4 +571,20 @@ select{
 .btn-close{
   color: #d75452;
   cursor: pointer;
+}
+.dropify-file{
+  position: relative;
+  cursor: pointer;
+}
+.dropify-file input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 5;
 }

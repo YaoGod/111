@@ -127,6 +127,7 @@ export class SearchOrder {
   orderStartTime:string;
   orderEndTime:string;
   userName:string;
+  telPhone: string;
   deptName:string;
   payTime:string;
 }

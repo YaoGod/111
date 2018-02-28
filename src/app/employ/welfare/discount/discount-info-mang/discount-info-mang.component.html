@@ -101,13 +101,24 @@
             <div  class="dropify-message">
               <img *ngIf="copyDiscount.imgPath" [src]="copyDiscount.imgPath | imgsafeurl:prese.files">
             </div>
-            <p >点击上传优惠信息内容图</p>
+            <p>点击上传优惠信息内容图</p>
             <input  class="dropify" type="file"  id="prese"
                     #prese
                     (change)="prese_upload(prese.files)"
                       (blur)="verifyImgPath()">
           </div>
           <span class="error"></span>
+          <!--<div  class="dropify-file">
+            <a class="btn-danger">上传附件</a>
+            <input  class="dropify" type="file"  id="presefile"
+                    #prese
+                    (change)="prese_upload(prese.files)">
+          </div>
+          <div class="file-message">
+            <p>lalal.txt <a class="btn-close" (click)="delLine(0)">
+              <i class="icon-close"></i>
+            </a></p>
+          </div>-->
         </div>
         <div  class="modal-right">
           <div  class="form-group">

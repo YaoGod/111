@@ -11,6 +11,6 @@ export class VegetableOrder {
   note:string;
   vegetableOrderItems:Array<VegetableOrderItem>;
   serviceCenter:string;
-  constructor() { }
-
+  userName:string;
+  telPhone:string;
 }

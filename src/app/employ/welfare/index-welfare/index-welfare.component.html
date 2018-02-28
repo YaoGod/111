@@ -22,7 +22,7 @@
           </div>
           <div class="goods-msg">
             <h5>{{discount.title}}</h5>
-            <p>{{discount.summary}}</p>
+            <textarea  rows="6" readonly>{{discount.summary}}</textarea>
           </div>
           <div class="goods-extra">
           </div>
@@ -58,19 +58,20 @@
           </div>
           <div class="goods-msg">
             <h5>{{welfare.title}}</h5>
-            <p>{{welfare.content}}</p>
-          </div>
-          <div class="goods-extra">
+            <div class="goods-extra">
             <span class="response" *ngIf="welfare.details==='否'&&welfare.feedBack==='是'">
               <i class="icon-diamond"></i>需要反馈
             </span>
-            <span class="finish" *ngIf="welfare.details==='是'&&welfare.feedBack==='是'">
+              <span class="finish" *ngIf="welfare.details==='是'&&welfare.feedBack==='是'">
               <i class="icon-check"></i>我已反馈
             </span>
-            <span class="wait" *ngIf="welfare.feedBack==='否'">
+              <span class="wait" *ngIf="welfare.feedBack==='否'">
               <i class="icon-clock"></i> 静候佳音
             </span>
+            </div>
+            <textarea  rows="5" readonly>{{welfare.content}}</textarea>
           </div>
+
         </a>
       </li>
     </ul>

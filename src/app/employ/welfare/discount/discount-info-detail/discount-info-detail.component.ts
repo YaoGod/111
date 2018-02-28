@@ -44,7 +44,7 @@ export class DiscountInfoDetailComponent implements OnInit {
     if(BeginTime>nowTime){
       this.time = "活动暂未开始，敬请期待。";
     }else{
-      let leftTime = EndTime - nowTime;
+      let leftTime = EndTime+86400000 - nowTime;
       if(leftTime>0){
         this.time = this.readTime(leftTime);
         setInterval(()=>{

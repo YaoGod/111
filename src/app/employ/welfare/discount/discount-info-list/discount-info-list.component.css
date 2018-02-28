@@ -11,7 +11,7 @@
   margin-top: 20px;
   margin-bottom: 20px;
   line-height: 20px;
-  width: 60%;
+  width: 70%;
   font-weight: 600;
 }
 .wrap-fixed{
@@ -54,26 +54,15 @@
   text-align: right;
   cursor: pointer;
 }
-@media (min-width: 1600px) {
-  .goods-list{
-    width: 1340px;
-  }
-}
-@media (max-width: 1599px){
-  .goods-list{
-    width: 1040px;
-  }
-}
 .goods-list{
-  padding: 0;
-  margin: 0 auto;
-  min-height: 564px;
+  padding: 0 21px;
+  min-height: 200px;
   overflow: hidden;
 }
 .goods-list a{
   display: block;
   float: left;
-  width: 250px;
+  width: 48.5%;
   overflow: hidden;
   margin: 0 5px 25px 5px;
   cursor: pointer;
@@ -81,23 +70,27 @@
 .goods-list a h5 {
   margin-top: 5px;
   font-size: 16px;
-  height: 28px;
-  overflow: hidden;
   line-height: 28px;
   font-weight: normal;
 }
 .goods-list a:hover h5{
   color: #F40;
 }
-.goods-list a p {
+.goods-list a textarea{
+  width: 100%;
   line-height: 24px;
+  border: none;
   color: #999;
   font-size: 14px;
   overflow: hidden;
-  height: 24px;
+}
+.goods-list a:hover textarea{
+  overflow-y: auto;
 }
 .img-wrap{
+  float: left;
   height: 180px;
+  width: 240px;
   background: #4f4f4f;
   overflow: hidden;
 }
@@ -119,6 +112,7 @@
   filter: alpha(opacity=80);
 }
 .goods-msg{
+  height: 180px;
   overflow: hidden;
   padding: 0 4px 0 6px;
 }

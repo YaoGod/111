@@ -75,6 +75,10 @@ export class GroupOrderService {
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
-
+  postPackageSure(checks){
+    let url = this.ipSetting.ip + '/mmall/order/packageSure';
+    return this.http.post(url,checks,this.options)
+      .map(res => res.json());
+  }
 
 }

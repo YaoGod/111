@@ -9,16 +9,10 @@
                   [ngClass]="cata.routeUrl===rule.routeUrl?'active':''"
                   [routerLink]="['../../../'+cata.routeUrl]"
             >{{cata.name}}</span>
-            <!--<span [routerLink]="['../product']">团购商品新增</span>
-            <span [routerLink]="['../check']">团购商品审核</span>
-            <span [routerLink]="['../manager']">团购商品管理</span>
-            <span [routerLink]="['../order']">订单管理</span>
-            <span [routerLink]="['../notice']">公告管理</span>
-            <span [routerLink]="['../report']">订单报表</span>
-            <span class="active">统计报表</span>-->
           </div>
           <div class="b-head-right">
-            <div class="content-box" [routerLink]="['../groupbuy']"><i class="icon-action-undo"></i> 继续订购</div>
+            <div class="content-box" [routerLink]="['../groupbuy']">
+              <i class="icon-action-undo"></i> 继续订购</div>
           </div>
         </div>
         <div class="search-bar">
@@ -55,7 +49,8 @@
             </li>
           </ul>
           <div class="panel-search">
-            <a href="javascript:;" class="search-btn" (click)="getCountList()"><i class="icon-magnifier"></i> 查 询</a>
+            <a href="javascript:;" class="search-btn"
+               (click)="getCountList()"><i class="icon-magnifier"></i> 查 询</a>
           </div>
 
         </div>

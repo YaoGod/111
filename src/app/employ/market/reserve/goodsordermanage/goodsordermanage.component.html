@@ -48,7 +48,6 @@
                 <td class="zero" *ngIf="order.status==40">订单状态：已配货</td>
                 <td class="zero" *ngIf="order.status==50">订单状态：已到货</td>
                 <td class="zero" *ngIf="order.status==0">订单状态：退单</td>-->
-                <td class="zero">下单时间：{{order.createTime}}</td>
                 <td class="zero"  *ngIf="order.status==20 || order.status==10" >
                   <button type="button" class="btn btn-info" style="padding: 2px 2px"
                           *ngIf="rule&&rule.isInstall" (click)="update(order.orderNo,40)">已配货</button>
@@ -56,6 +55,13 @@
                           *ngIf="rule&&rule.isInstall" (click)="update(order.orderNo,0)">退单</button>
                 </td>
               </tr>
+            <tr>
+              <td  class="zero">下单人姓名：{{order.userName}}</td>
+              <td  class="zero">下单人电话：{{order.telPhone}}</td>
+              <td class="zero">下单时间：{{order.createTime}}</td>
+              <td class="zero"></td>
+              <td class="zero"></td>
+            </tr>
             </table>
             </dt>
             <dl>

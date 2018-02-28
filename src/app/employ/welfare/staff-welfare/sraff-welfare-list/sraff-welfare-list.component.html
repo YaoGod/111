@@ -1,7 +1,7 @@
 
 <div class="goods-inner">
   <div class="b-head-right">
-    <div class="content-box" tabindex="0" (click)="back()">
+    <div class="content-box" tabindex="0" onclick="history.go(-1)">
       <i class="icon-reload"></i> 返回
     </div>
   </div>
@@ -27,19 +27,20 @@
         </div>
         <div class="goods-msg">
           <h5>{{welfare.title}}</h5>
-          <p>{{welfare.content}}</p>
-        </div>
-        <div class="goods-extra">
+          <div class="goods-extra">
             <span class="response" *ngIf="welfare.details==='否'&&welfare.feedBack==='是'">
               <i class="icon-diamond"></i>需要反馈
             </span>
-          <span class="finish" *ngIf="welfare.details==='是'&&welfare.feedBack==='是'">
+            <span class="finish" *ngIf="welfare.details==='是'&&welfare.feedBack==='是'">
               <i class="icon-check"></i>我已反馈
             </span>
-          <span class="wait" *ngIf="welfare.feedBack==='否'">
+            <span class="wait" *ngIf="welfare.feedBack==='否'">
               <i class="icon-clock"></i>静候佳音
             </span>
+          </div>
+          <textarea readonly rows="6">{{welfare.content}}</textarea>
         </div>
+
       </a>
     </li>
   </ul>

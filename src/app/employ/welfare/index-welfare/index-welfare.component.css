@@ -3,10 +3,9 @@
   min-width: 1100px;
 }
 .goods-inner{
-  float: left;
-  width: 49%;
-  height: 658px;
-  margin: 0.5%;
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 20px;
   background-color: #ffffff;
 }
 .goods-hd{
@@ -44,13 +43,13 @@
 }
 .goods-list{
   padding: 0 21px;
-  min-height: 564px;
+  min-height: 200px;
   overflow: hidden;
 }
 .goods-list a{
   display: block;
   float: left;
-  width: 32.8%;
+  width: 48.5%;
   overflow: hidden;
   margin: 0 0.5% 25px 0;
   cursor: pointer;
@@ -58,23 +57,35 @@
 .goods-list a h5 {
   margin-top: 5px;
   font-size: 16px;
-  height: 28px;
   overflow: hidden;
   line-height: 28px;
   font-weight: normal;
 }
-.goods-list a:hover h5{
+.goods-list a:hover h5,.goods-list a:hover h6{
   color: #F40;
 }
-.goods-list a p {
+.goods-list a h6{
+  font-size: 14px;
+  color: #fb9678;
+}
+.goods-list a textarea{
+  width: 100%;
   line-height: 24px;
+  border: none;
   color: #999;
   font-size: 14px;
   overflow: hidden;
-  height: 24px;
+}
+.goods-list a:hover textarea{
+  overflow-y: auto;
+}
+textarea:disabled{
+  background-color: rgba(255,255,255,0);
 }
 .img-wrap{
+  float: left;
   height: 180px;
+  width: 240px;
   background: #4f4f4f;
   overflow: hidden;
 }
@@ -96,6 +107,7 @@
   filter: alpha(opacity=80);
 }
 .goods-msg{
+  height: 180px;
   overflow: hidden;
   padding: 0 4px 0 6px;
 }

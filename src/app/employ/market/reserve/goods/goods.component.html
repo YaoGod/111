@@ -33,7 +33,9 @@
               <td class="three">商品状态</td>
             </table>
             <dl *ngFor="let good of goods;let idx=index">
-              <dt><span>商品名称：{{good.name}}</span>
+              <dt>
+                <span>商品名称：{{good.name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <span>编码：{{good.code}}</span>
               <div class="ope-list">
                 <a class="one"   title="查看" href="javascript:void(0);" (click)="view(good.code)"></a>
                 <a class="two"   title="修改" href="javascript:void(0);" (click)="update(good.code)"></a>

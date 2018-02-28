@@ -268,14 +268,42 @@ export class OrderComponent implements OnInit {
       })
   }
   packageSure(){
-    confirmFunc.init({
-      'title': '提示',
-      'mes': '是否对所有选中的订单进行批量到货操作？',
-      'popType': 1,
-      'imgType': 3,
-      'callback': () => {
-        console.log(111);
+let list = document.getElementsByName("check");
+    let checks = [];
+    for(let i = 0;i<list.length;i++){
+      if(list[i]['checked']){
+        checks.push(list[i]['value']);
       }
-    });
+    }
+    if(checks.length>0){
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '是否对所有选中的订单进行批量到货操作？',
+        'popType': 1,
+        'imgType': 3,
+        'callback': () => {
+          this.groupOrderService.postPackageSure(checks)
+            .subscribe(data => {
+              if (this.errorVoid.errorMsg(data)) {
+                confirmFunc.init({
+                  'title': '提示',
+                  'mes': '订单到货成功',
+                  'popType': 0,
+                  'imgType': 1,
+                });
+                this.getOrderAllList(1);
+            }
+            })
+        }
+      });
+    }else{
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '请选择需要到货的订单！',
+        'popType': 0,
+        'imgType': 2,
+      });
+    }
+
   }
 }
