@@ -23,7 +23,7 @@
             </table>
             <dl  *ngFor="let cart of carts;let idx=index">
               <dt>
-                <span>商品名称：{{cart.productName}}</span>
+                <span>商品名称：{{cart.productName}} &nbsp; &nbsp; &nbsp; &nbsp; 商品编码：{{cart.productId}}</span>
               <div class="ope-list">
                 <a class="tre" href="javascript:void(0)" (click)="del(cart.productId)"></a>
               </div>
