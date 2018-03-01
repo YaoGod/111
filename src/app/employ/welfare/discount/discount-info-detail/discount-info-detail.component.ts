@@ -4,7 +4,8 @@ import { Discount } from '../../../../mode/discount/discount.service';
 import { GlobalCatalogService } from '../../../../service/global-catalog/global-catalog.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
 import { DiscountEmployeeService } from '../../../../service/discount-employee/discount-employee.service';
-
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
+declare var $:any;
 @Component({
   selector: 'app-discount-info-detail',
   templateUrl: './discount-info-detail.component.html',
@@ -19,7 +20,8 @@ export class DiscountInfoDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
-    private discountEmployeeService:DiscountEmployeeService
+    private discountEmployeeService:DiscountEmployeeService,
+    public ipSetting:IpSettingService
   ) { }
 
   ngOnInit() {
@@ -75,14 +77,9 @@ export class DiscountInfoDetailComponent implements OnInit {
     }
     return i;
   }
-  print(){
-    let oldstr =window.document.body.innerHTML;
-    let newstr = document.getElementById("print").innerHTML;
-    document.body.innerHTML =newstr;
-    window.print();
-    document.body.innerHTML = oldstr;
-  }
-  back(){
-    history.go(-1);
+  /*判断textarea的行数自适应*/
+  definedRows(){
+    let length = $("#aaa").val().split(/\r?\n/).length;
+    return length+1;
   }
 }

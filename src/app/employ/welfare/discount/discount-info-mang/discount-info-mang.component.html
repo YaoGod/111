@@ -101,7 +101,7 @@
             <div  class="dropify-message">
               <img *ngIf="copyDiscount.imgPath" [src]="copyDiscount.imgPath | imgsafeurl:prese.files">
             </div>
-            <p>点击上传优惠信息内容图</p>
+            <p>点击添加内容图</p>
             <input  class="dropify" type="file"  id="prese"
                     #prese
                     (change)="prese_upload(prese.files)"

@@ -43,11 +43,6 @@
                 <td class="zero">订单价格：{{order.payment}}元</td>
                 <td class="zero">交易方式：{{order.paymentTypeDesc}}</td>
                 <td class="zero status">订单状态：{{order.statusDesc}}</td>
-               <!-- <td class="zero" *ngIf="order.status==10">订单状态：未付款</td>
-                <td class="zero" *ngIf="order.status==20">订单状态：已付款</td>
-                <td class="zero" *ngIf="order.status==40">订单状态：已配货</td>
-                <td class="zero" *ngIf="order.status==50">订单状态：已到货</td>
-                <td class="zero" *ngIf="order.status==0">订单状态：退单</td>-->
                 <td class="zero"  *ngIf="order.status==20 || order.status==10" >
                   <button type="button" class="btn btn-info" style="padding: 2px 2px"
                           *ngIf="rule&&rule.isInstall" (click)="update(order.orderNo,40)">已配货</button>
@@ -56,11 +51,12 @@
                 </td>
               </tr>
             <tr>
-              <td  class="zero">下单人姓名：{{order.userName}}</td>
-              <td  class="zero">下单人电话：{{order.telPhone}}</td>
+              <td class="zero">下单人姓名：{{order.userName}}</td>
+              <td class="zero">下单人电话：{{order.telPhone}}</td>
+              <td class="zero">收货地址：{{order.address}}</td>
               <td class="zero">下单时间：{{order.createTime}}</td>
               <td class="zero"></td>
-              <td class="zero"></td>
+              <td class="zero"  *ngIf="order.status==20 || order.status==10"></td>
             </tr>
             </table>
             </dt>
@@ -72,9 +68,6 @@
                   <td class="sec">单价（元）</td>
                   <td class="three">数量</td>
                   <td class="four">合计（元）</td>
-                  <!--<td class="zero" style="padding-left: 6%;">
-                    <a class="tre"  title="删除" href="javascript:void(0);"(click)="delete(order.id)"></a>
-                  </td>-->
                   <td class="zero" >
                     <a class="btn-print" title="打印" (mouseover)="loadFormData(order)" *ngIf="rule&&rule.isSelect">打印
                       <app-print-bar
@@ -91,7 +84,7 @@
                   <td class="eight">
                     <img *ngIf="goodsItem.imgPath" [src]="goodsItem.imgPath | imgsafeurl"/>
                   </td>
-                  <td class="sec" style="text-align: left"> <p class="headtxt">{{goodsItem.productName}}</p></td>
+                  <td class="sec" style="text-align: left"> <p class="headtxt">{{goodsItem.productName}}(编码:{{goodsItem.productId}})</p></td>
                   <td class="sec">￥{{goodsItem.currentUnitPrice}}</td>
                   <td class="three">{{goodsItem.quantity}}</td>
                   <td class="four">￥{{goodsItem.totalPrice}}</td>

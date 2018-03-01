@@ -106,6 +106,7 @@ export class GoodsOrder {
   userName:string;
   telPhone:string;
   payTime:string;
+  address:string;
 }
 
 export class GoodsOrderItem {

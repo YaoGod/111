@@ -108,6 +108,9 @@ export class IndexWelfareComponent implements OnInit {
     this.router.navigate(['/hzportal/employ/welfare/staffWelfare/list']);
   }
   rand(pageNo,total):number{
+    if(total === 0) {
+      return 1;
+    }
     let pages = Math.ceil(total/6);
     if(pages === 1){
       return 1;

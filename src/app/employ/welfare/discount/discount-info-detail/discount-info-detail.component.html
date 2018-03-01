@@ -3,7 +3,7 @@
 <div class="nav-title">
   <a><h4>优惠信息</h4></a>
   <div class="b-head-right">
-    <div class="content-box" tabindex="0" (click)="back()">
+    <div class="content-box" tabindex="0" onclick="history.go(-1);">
       <i class="icon-reload"></i> 返回
     </div>
   </div>
@@ -34,10 +34,16 @@
 <div class="cont">
   <h5><span>详情介绍</span></h5>
   <div class="summary-text">
-    <i class="fa fa-quote-left" style="font-size: 18px; color:#e8e8e8;"></i>
-    {{discount.summary}}
-    <i class="fa fa-quote-right" style="font-size: 18px; color:#e8e8e8;"></i>
+    <textarea id="aaa" [rows]="definedRows()" wrap="hard" readonly>{{discount.summary}}</textarea>
   </div>
 </div>
-<!--endprint-->
+<div class="cont" *ngIf="discount.fileName&&discount.fileName.length>0">
+  <h5><span>相关附件</span></h5>
+  <div class="summary-file">
+    <p *ngFor="let file of discount.fileName;let i = index">
+      {{i+1}}.&nbsp;{{file}}
+      <a [href]="ipSetting.ip+'/common/file/downLoadFile?path='+discount.filePath[i]" [download]="file">下载</a>
+    </p>
+  </div>
+</div>
 </div>
