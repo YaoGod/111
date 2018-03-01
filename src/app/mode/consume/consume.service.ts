@@ -16,4 +16,5 @@ export class ConsumeService {
   AMOUNT      : number;
   OL_DATE     : string;
   note        : string;
+  consumeContent: string;
 }

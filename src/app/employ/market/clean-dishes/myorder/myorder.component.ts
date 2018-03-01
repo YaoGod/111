@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
-import {VegetableOrder} from '../../../../mode/vegetableOrder/vegetable-order.service';
-import {VegetableOrderItem} from '../../../../mode/vegetableOrderItem/vegetable-order-item.service'
+import { VegetableOrder} from '../../../../mode/vegetableOrder/vegetable-order.service';
+import { VegetableOrderItem} from '../../../../mode/vegetableOrderItem/vegetable-order-item.service'
 import { VegetableInfoService } from '../../../../service/vegetable-info/vegetable-info.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
-import {forEach} from "@angular/router/src/utils/collection";
-import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
+import { IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
+import {ActivatedRoute, Params} from "@angular/router";
 declare var confirmFunc:any;
 @Component({
   selector: 'app-myorder',
@@ -24,20 +24,35 @@ export class MyorderComponent implements OnInit {
   public orders:Array<VegetableOrder>;
   public vegetableOrderItems:Array<VegetableOrderItem>;
   public myOrder:VegetableOrder;
-
+  public chooseId:string;
   constructor(private vegetableInfoService:VegetableInfoService,
               private errorVoid: ErrorResponseService,
+              private route: ActivatedRoute,
               public ipSetting  : IpSettingService
   ) { }
 
   ngOnInit() {
-    this.getOrderList(1);
+    if(typeof (this.route.params['_value']['id']) === "undefined"){
+      this.getOrderList(1,"");
+    }else{
+      let tempid: number = 0;
+      this.route.params
+        .switchMap((params: Params) => this.chooseId = params['id'])
+        .subscribe(() => {
+          if (tempid === 0) {
+            this.getOrderList(1,this.chooseId);
+            tempid++;
+          }
+        });
+    }
   }
-
   /** 我的订单*/
-  getOrderList(i) {
+  getOrderList(i,id) {
     this.pageNo = i;
     let url = '/mmall/vegetabelOrder/getOrderList/'+this.pageNo+'/'+this.pageSize;
+    if(id !== ""){
+      url += "?id="+id;
+    }
     this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
@@ -45,7 +60,6 @@ export class MyorderComponent implements OnInit {
       }
     });
   }
-
   updateOrders(orderId,status){
     this.myOrder = new VegetableOrder();
     this.myOrder.id = orderId;
@@ -58,7 +72,7 @@ export class MyorderComponent implements OnInit {
           'popType': 0 ,
           'imgType': 1 ,
         });
-        this.getOrderList(1);
+        this.getOrderList(1,'');
       }
     });
   }

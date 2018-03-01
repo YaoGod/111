@@ -13,6 +13,7 @@ export class Welfare {
   status      : string;           /*状态*/
   others      : Array<Other>;     /*自定义字段*/
   details     : any;              /*是否反馈*/
+  imgPathList : Array<string>;
 }
 
 export class Other {

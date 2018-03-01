@@ -12,7 +12,14 @@
 <!--信息内容-->
 <div class="warp">
   <div class="warp-left">
-    <img *ngIf="discount&&discount.imgPath" [src]="discount.imgPath | imgsafeurl" >
+    <div class="warp-fist">
+      <img *ngIf="discount&&discount.imgPath" [src]="discount.imgPath | imgsafeurl" >
+    </div>
+    <ul class="warp-list">
+      <li *ngFor="let image of discount.imgPathList;let i = index" (mouseover)="chooseImg(i)">
+        <img [src]="image | imgsafeurl">
+      </li>
+    </ul>
   </div>
   <div class="warp-right" *ngIf="discount&&discount.title">
     <h4>{{discount.title}}</h4>

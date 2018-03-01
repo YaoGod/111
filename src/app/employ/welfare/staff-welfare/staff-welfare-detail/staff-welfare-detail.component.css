@@ -35,16 +35,42 @@
 .warp-left{
   float: left;
   padding: 10px;
+}
+.warp-fist{
   width: 300px;
-  height: 300px;
-  line-height: 300px;
+  height: 225px;
+  line-height: 225px;
   border: 1px solid #f7fafc;
   text-align: center;
   overflow: hidden;
 }
-.warp-left>img{
+.warp-fist>img{
   width: 300px;
   vertical-align: middle;
+}
+.warp-list{
+  width: 300px;
+}
+.warp-list>li{
+  float: left;
+  width: 80px;
+  height: 60px;
+  line-height: 60px;
+  border: 1px solid #f7fafc;
+  text-align: center;
+  overflow: hidden;
+}
+.warp-list>li.active{
+  border-color: #2162B6;
+}
+.warp-list>li img{
+  width: 80px;
+  opacity: .8;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.warp-list>li:hover img{
+  opacity: 1;
 }
 .warp-right{
   float: left;

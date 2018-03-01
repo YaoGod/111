@@ -35,6 +35,9 @@ export class DiscountInfoDetailComponent implements OnInit {
       .subscribe(data=> {
         if(this.errorResponseService.errorMsg(data)){
           this.discount = data.data;
+          if(this.discount.imgPathList.length>0){
+            this.discount.imgPath = this.discount.imgPathList[0];
+          }
           this.timeDjs(this.discount.effectBtime,this.discount.effectEtime);
         }
       })
@@ -81,5 +84,9 @@ export class DiscountInfoDetailComponent implements OnInit {
   definedRows(){
     let length = $("#aaa").val().split(/\r?\n/).length;
     return length+1;
+  }
+  /*查看图片*/
+  chooseImg(i){
+    this.discount.imgPath = this.discount.imgPathList[i];
   }
 }

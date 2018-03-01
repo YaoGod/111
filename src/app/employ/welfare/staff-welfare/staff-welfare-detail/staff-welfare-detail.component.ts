@@ -42,6 +42,9 @@ export class StaffWelfareDetailComponent implements OnInit {
       .subscribe(data=> {
         if(this.errorResponseService.errorMsg(data)){
           this.welfare = data.data;
+          if(this.welfare.imgPathList.length>0){
+            this.welfare.imgPath = this.welfare.imgPathList[0];
+          }
           for(let i= 0;i<this.welfare.feedBackMsg.length;i++){
             this.welfare.feedBackMsg[i].list = this.welfare.feedBackMsg[i].list.split('|');
           }
@@ -110,5 +113,9 @@ export class StaffWelfareDetailComponent implements OnInit {
   }
   back(){
     history.go(-1);
+  }
+  /*查看图片*/
+  chooseImg(i){
+    this.welfare.imgPath = this.welfare.imgPathList[i];
   }
 }

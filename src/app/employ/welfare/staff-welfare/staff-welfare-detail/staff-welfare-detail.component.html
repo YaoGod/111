@@ -21,7 +21,14 @@
 <!--信息内容-->
 <div class="warp">
   <div class="warp-left">
-    <img [src]="welfare.imgPath | imgsafeurl" *ngIf="welfare&&welfare.imgPath">
+    <div class="warp-fist">
+      <img *ngIf="welfare&&welfare.imgPath" [src]="welfare.imgPath | imgsafeurl" >
+    </div>
+    <ul class="warp-list">
+      <li *ngFor="let image of welfare.imgPathList;let i = index" (mouseover)="chooseImg(i)">
+        <img [src]="image | imgsafeurl">
+      </li>
+    </ul>
   </div>
   <div class="warp-right">
     <h4>{{welfare.title}}</h4>

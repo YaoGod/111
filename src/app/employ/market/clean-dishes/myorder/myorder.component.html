@@ -9,19 +9,10 @@
                 <span class="active">我的订单</span>
               </div>
               <div class="b-head-right">
-                <div class="content-box" [routerLink]="['../vegbuy']"><i class="icon-action-undo"></i> 继续订购</div>
+                <div class="content-box" onclick="history.go(-1);"><i class="icon-action-undo"></i> 继续订购</div>
                 <div class="content-box" [routerLink]="['../vegcart']"><i class="icon-basket-loaded"></i> 购物车</div>
               </div>
             </div>
-            <!--<div class="path">
-              <img src="assets/image/bg-path.png" />
-              <ul>
-                <li class="one active">订购中</li>
-                <li class="two">已发货</li>
-                <li class="three">确认收货</li>
-                <li class="four">交易成功</li>
-              </ul>
-            </div>-->
             <div class="b-con tuanmenu">
               <div class="list-table" *ngFor="let order of orders;let idx=index">
                 <dt>
@@ -73,7 +64,7 @@
                 [pageSize]="pageSize"
                 [total]="total"
                 [length] = 5
-                (turnEvent)="getOrderList($event)">
+                (turnEvent)="getOrderList($event,'')">
               </app-turn-bar>
             </div>
           </div>
