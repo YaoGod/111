@@ -41,7 +41,8 @@ export class ProductComponent implements OnInit {
     phone: '',
     payaccount:'',
     label:'',
-    producttype: ''
+    producttype: '',
+    shipping:''
   };
   public upGroupProduct={
     code:'',
@@ -57,7 +58,8 @@ export class ProductComponent implements OnInit {
     payaccount:'',
     label:  '',
     producttype: '',
-    checkStatus:''
+    checkStatus:'',
+    shipping:''
   };
   public newGroupProduct={
     name: '',
@@ -72,7 +74,8 @@ export class ProductComponent implements OnInit {
     payaccount:'',
     label:  '',
     producttype: '',
-    checkStatus:''
+    checkStatus:'',
+    shipping:''
   };
   constructor(
     private groupProductService: GroupProductService,
@@ -132,7 +135,8 @@ export class ProductComponent implements OnInit {
       payaccount:'',
       label:  '',
       producttype: '',
-      checkStatus:''
+      checkStatus:'',
+      shipping:''
     };
   }
   public verifyEmpty(id,label) {

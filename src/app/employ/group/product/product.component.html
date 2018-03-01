@@ -32,7 +32,7 @@
                     <td class="fir">商品信息</td>
                     <td class="sec">单价(元)</td>
                     <td class="sec">状态</td>
-                    <td class="three">审核意见</td>
+                    <td class="three">配送方式</td>
                     <td class="four">标签</td>
                     <td class="five">团购时间</td>
                     <td class="six">发起人信息</td>
@@ -62,7 +62,7 @@
                           <label *ngIf="product.checkStatus=='1'" style="color: green;">（审核通过）</label>
                           <label *ngIf="product.checkStatus=='2'" style="color: red;">（不通过）</label>
                         </td>
-                        <td class="three" >{{product.checkResult}}</td>
+                        <td class="three" >配送至{{product.shipping}}</td>
                         <td class="four">{{product.label}}</td>
                         <td class="five">
                           <span>{{product.startTime}}</span>
@@ -120,10 +120,19 @@
                   <span class="errorMessage"></span>
                 </div>
                 <div class="for">
-                  <div style="width: 58%">
+                  <div style="width: 55%">
                     <label>收款账号：</label>
                     <input type="text" class="producttext" id="newpayaccount" name="newpayaccount"
                            (blur)="verifyEmpty('newpayaccount','账户不能为空')"   [(ngModel)]="newGroupProduct.payaccount">
+                    <span class="errorMessage"></span>
+                  </div>
+                  <div style="width: 50%">
+                    <label>配送方式：</label>
+                    <select class="producttext" id="shipping" name="shipping"
+                            (blur)="verifyEmpty('shipping','不能为空')"   [(ngModel)]="newGroupProduct.shipping">
+                      <option value="公司">公司</option>
+                      <option value="家">家</option>
+                    </select>
                     <span class="errorMessage"></span>
                   </div>
                 </div>
@@ -211,6 +220,15 @@
                   <div>
                     <label>收款账号：</label>
                     <input type="text" class="producttext" id="upnewpayaccount" name="upnewpayaccount" (blur)="verifyEmpty('upnewpayaccount','账户不能为空')"   [(ngModel)]="upGroupProduct.payaccount">
+                    <span class="errorMessage"></span>
+                  </div>
+                  <div style="width: 50%">
+                    <label>配送方式：</label>
+                    <select class="producttext" id="upshipping" name="upshipping"
+                            (blur)="verifyEmpty('upshipping','不能为空')"   [(ngModel)]="upGroupProduct.shipping">
+                      <option value="公司">公司</option>
+                      <option value="家">家</option>
+                    </select>
                     <span class="errorMessage"></span>
                   </div>
                 </div>

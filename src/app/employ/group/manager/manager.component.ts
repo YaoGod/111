@@ -39,7 +39,8 @@ export class ManagerComponent implements OnInit {
     phone:    '',
     payaccount:'',
     label:  '',
-    producttype: ''
+    producttype: '',
+    shipping:''
   };
 
   public upStatusProduct={

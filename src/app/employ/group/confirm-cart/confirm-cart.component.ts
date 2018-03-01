@@ -77,11 +77,7 @@ export class ConfirmCartComponent implements OnInit {
     }
   }
 
-  /**
-   * 添加错误信息class
-   * @param id
-   * @param error
-   */
+  /**  添加错误信息class*/
   private  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
@@ -90,10 +86,7 @@ export class ConfirmCartComponent implements OnInit {
       $('#' + id).next('button').next('span').html(error);
     }
   }
-  /**
-   * 去除错误信息class
-   * @param id
-   */
+  /** 去除错误信息class */
   private  removeErrorClass(id: string) {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
@@ -101,7 +94,6 @@ export class ConfirmCartComponent implements OnInit {
   }
 
   getcode(){
-
     let url = '/mmall/laundryOrder/getPayCode/'+this.username;
     this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
@@ -119,7 +111,7 @@ export class ConfirmCartComponent implements OnInit {
     if(!this.verifyEmpty('message','短信验证码不能为空')){
       return false;
     }
-    this.groupProductService.submitCart($('#message').val()).subscribe(data => {
+    this.groupProductService.submitCart($('#message').val(),this.userInfo.homeAddr).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         confirmFunc.init({
           'title': '提示' ,

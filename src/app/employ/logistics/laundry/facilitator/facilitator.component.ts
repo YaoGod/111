@@ -63,9 +63,10 @@ export class FacilitatorComponent implements OnInit {
     this.search = new Facilitator();
     this.ipServer = this.ipSetting.ip;
     this.pages = [];
-    this.providerList();
+    this.providerList(1);
   }
-  providerList(){
+  providerList(num){
+    this.pageNo = num;
     let url = '/mmall/laundry/provider/providerList/'+this.pageNo + '/' + this.pageSize;
     this.ipSetting.sendPost(url,this.search)
       .subscribe(data => {
@@ -253,7 +254,7 @@ export class FacilitatorComponent implements OnInit {
           'imgType': 1 ,
         });
         $('.maskAdd').hide();
-        this.providerList();
+        this.providerList(1);
       }
     });
   }
@@ -277,7 +278,7 @@ export class FacilitatorComponent implements OnInit {
           'imgType': 1 ,
         });
         $('.maskUpdate').hide();
-        this.providerList();
+        this.providerList(1);
       }
     });
   }
@@ -332,7 +333,7 @@ export class FacilitatorComponent implements OnInit {
               'imgType': 1 ,
             });
           }
-          this.providerList();
+          this.providerList(1);
         });
       }
     });
@@ -371,7 +372,7 @@ export class FacilitatorComponent implements OnInit {
     if(this.search==null){
       this.search = new Facilitator();
     }
-    this.providerList();
+    this.providerList(page);
   }
 }
 

@@ -12,6 +12,7 @@ export class GroupOrderItem{
   unitPrice:         number;/*商品单价*/
   quantity:          number;/*该商品购买数量*/
   totalPrice:        string;/*总价*/
+  shipping:          string;
   status:             string;/*商品状态*/
 
   constructor() { }

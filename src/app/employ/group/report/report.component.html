@@ -15,112 +15,110 @@
               <i class="icon-action-undo"></i> 继续订购</div>
           </div>
         </div>
-<div class="search-bar">
-  <div class="panel">
-  <ul>
-    <li>
-      <label>订单编号</label>
-      <input type="text" [(ngModel)]="search.orderId">
-    </li>
-    <li>
-      <label>商品编号</label>
-      <input type="text" [(ngModel)]="search.productId">
-    </li>
-    <li>
-      <label>商品名称</label>
-      <input type="text" [(ngModel)]="search.productName">
-    </li>
-    <li>
-      <label>部门名称</label>
-      <input type="text" [(ngModel)]="search.deptName">
-    </li>
-    <li>
-      <label>订单人</label>
-      <input type="text" [(ngModel)]="search.userName">
-    </li>
-    <li>
-      <label>订单状态</label>
-      <select
-        name="floorUse" [(ngModel)]="search.orderStatus">
-        <option value="">全部</option>
-        <option value="0">订购中</option>
-        <option value="1">已到货</option>
-      </select>
-    </li>
-    <li>
-      <label>订单时间</label>
-      <input type="date" [(ngModel)]="search.orderStartTime">
-      --
-      <input type="date" [(ngModel)]="search.orderEndTime">
-    </li>
-  </ul>
-    <div class="panel-search">
-      <a href="javascript:;" class="search-btn" (click)="getReportAllList()">
-        <i class="icon-magnifier"></i> 查 询</a>
-      <a class="btn btn-new" *ngIf="rule&&rule.isUpdate" (click)="leadOut()">
-        <i class="icon-docs"></i> 导 出</a>
-    </div>
-  </div>
-</div>
-<!--表头-->
-<div class="table-head">
-  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
-    <tr class="row list-title" style="height:45px;">
-      <th width="5%">序号</th>
-      <th width="10%" >订单编号</th>
-      <th width="10%">订单状态</th>
-      <th width="15%">订单时间</th>
-      <th width="10%">订单金额</th>
-      <th width="10%">订单人</th>
-      <th width="10%">订单人电话</th>
-      <th width="15%">订单部门</th>
-      <th width="15%">操作</th>
-    </tr>
-  </table>
-</div>
-<!--表格内容-->
-<div class="table-content" style="min-height: 450px">
-  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
-    <tr class="row"  style="height:45px;" *ngFor="let order of orders;let i = index">
-      <td width="5%">
-        {{(pageNo-1)*pageSize+i+1}}
-      </td>
-      <td width="10%">
-          {{order.orderId}}
-      </td>
-      <td width="10%" *ngIf="order.orderStatus=='0'">
-        订购中
-      </td>
-      <td width="10%" *ngIf="order.orderStatus=='1'">
-        已到货
-      </td>
-      <td width="15%">
-        <span>
-          {{order.payTime}}
-        </span>
-      </td>
-      <td width="10%">
-        ￥{{order.payment}}
-      </td>
-      <td width="10%">
-        {{order.userName}}
-      </td>
-      <td width="10%">
-        {{order.telPhone}}
-      </td>
-      <td width="15%">
-        {{order.deptName}}
-      </td>
-      <td width="15%" class="box-option">
-      <img src="assets/image/icon-view.png" title="查看订单明细" (click)="getOrderItems(order.orderId)">
-      </td>
-    </tr>
-  </table>
-</div>
-        <div>
-          <div>
-            <div>
-              <div>
+        <div class="search-bar">
+          <div class="panel">
+          <ul>
+            <li>
+              <label>订单编号</label>
+              <input type="text" [(ngModel)]="search.orderId">
+            </li>
+            <li>
+              <label>商品编号</label>
+              <input type="text" [(ngModel)]="search.productId">
+            </li>
+            <li>
+              <label>商品名称</label>
+              <input type="text" [(ngModel)]="search.productName">
+            </li>
+            <li>
+              <label>部门名称</label>
+              <input type="text" [(ngModel)]="search.deptName">
+            </li>
+            <li>
+              <label>订单人</label>
+              <input type="text" [(ngModel)]="search.userName">
+            </li>
+            <li>
+              <label>订单状态</label>
+              <select
+                name="floorUse" [(ngModel)]="search.orderStatus">
+                <option value="">全部</option>
+                <option value="0">订购中</option>
+                <option value="1">已到货</option>
+              </select>
+            </li>
+            <li>
+              <label>订单时间</label>
+              <input type="date" [(ngModel)]="search.orderStartTime">
+              --
+              <input type="date" [(ngModel)]="search.orderEndTime">
+            </li>
+          </ul>
+          <div class="panel-search">
+            <a href="javascript:;" class="search-btn" (click)="getReportAllList()">
+              <i class="icon-magnifier"></i> 查 询</a>
+            <a class="btn btn-new" *ngIf="rule&&rule.isUpdate" (click)="leadOut()">
+              <i class="icon-docs"></i> 导 出</a>
+          </div>
+        </div>
+      </div>
+      <!--表头-->
+      <div class="table-head">
+        <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+          <tr class="row list-title" style="height:45px;">
+            <th width="5%">序号</th>
+            <th width="10%" >订单编号</th>
+            <th width="10%">订单状态</th>
+            <th width="15%">订单时间</th>
+            <th width="10%">订单金额</th>
+            <th width="10%">订单人</th>
+            <th width="10%">订单人电话</th>
+            <th width="15%">订单部门</th>
+            <th width="15%">操作</th>
+          </tr>
+        </table>
+      </div>
+      <!--表格内容-->
+      <div class="table-content" style="min-height: 450px">
+        <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+          <tr class="row"  style="height:45px;" *ngFor="let order of orders;let i = index">
+            <td width="5%">
+              {{(pageNo-1)*pageSize+i+1}}
+            </td>
+            <td width="10%">
+                {{order.orderId}}
+            </td>
+            <td width="10%" *ngIf="order.orderStatus=='0'">
+              订购中
+            </td>
+            <td width="10%" *ngIf="order.orderStatus=='1'">
+              已到货
+            </td>
+            <td width="15%">
+              <span>
+                {{order.payTime}}
+              </span>
+            </td>
+            <td width="10%">
+              ￥{{order.payment}}
+            </td>
+            <td width="10%">
+              {{order.userName}}
+            </td>
+            <td width="10%">
+              {{order.teleNum}}
+            </td>
+            <td width="15%">
+              {{order.deptName}}
+            </td>
+            <td width="15%" class="box-option">
+            <img src="assets/image/icon-view.png" title="查看订单明细" (click)="getOrderItems(order.orderId)">
+            </td>
+          </tr>
+        </table>
+      </div>
+
+
 <!--翻页-->
 <app-turn-bar
   [pageNo]="pageNo"
@@ -162,7 +160,9 @@
     </div>
     <form class="form-building form-material" style="background-color:aliceblue;">
       <div style="margin-left:20px;">订单编号：{{orderId}}</div>
-      <div style="margin-left:20px;">订单总价(元)：￥{{totalPrice}}</div>
+      <div style="margin-left:20px;">订单人：{{userName}}</div>
+      <div style="margin-left:20px;">联系电话：{{teleNum}}</div>
+      <div style="margin-left:20px;">配送地址：{{address}}</div>
       <dl>
         <dt>
         <table class="table-head" style="width:100%;border-bottom: 1px solid #dddddd">
@@ -191,7 +191,3 @@
     </form>
   </div>
 </div>
-
-
-
-

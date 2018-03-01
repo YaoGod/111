@@ -608,7 +608,8 @@ button{
 
 select{
   outline:medium;
-  width: 74px;
+  width:auto;
+  padding-right:3em;
   height: 31px;
   border: 1px solid #ddd;
   box-shadow: 0 0 3px #ddd inset;

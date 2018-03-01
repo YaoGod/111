@@ -144,6 +144,15 @@ export class GroupbuyComponent implements OnInit {
     });
   }
   addToCart(id: number){
+    if(this.cartsize>0){
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '请先结算或清空购物车！',
+        'popType': 0 ,
+        'imgType': 2 ,
+      });
+      return false;
+    }
     this.cart = new GroupCart();
     this.cart.productId = id;
     this.groupProductService.addToCart(this.cart)

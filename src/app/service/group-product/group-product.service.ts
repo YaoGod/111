@@ -138,9 +138,9 @@ export class GroupProductService {
       .map(res => res.json());
   }
 
-  submitCart(message){
+  submitCart(message,inner){
     let url = this.ipSetting.ip+'/mmall/order/addGroupOrder/'+message;
-    return this.http.post(url,this.options)
+    return this.http.post(url,inner,this.options)
       .map(res => res.json());
   }
   /*

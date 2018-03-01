@@ -20,7 +20,7 @@
                     <th class="fir">商品信息</th>
                     <th class="sec">商品名称</th>
                     <th class="sec">单价(元)</th>
-                    <th class="three">够买数量</th>
+                    <th class="three">购买数量</th>
                     <th class="four">合计（元）</th>
                   </tr>
                 </table>
@@ -48,7 +48,9 @@
             <div class="address">
               <div class="info"><label>姓名：</label> <span>{{userInfo.username}}</span></div>
               <div class="info"><label>号码：</label> <span>{{userInfo.teleNum}}</span></div>
-              <!--<div class="info"><label>地址：</label> <span>{{userInfo.homeAddr}}</span></div>-->
+              <div class="info" *ngIf="carts&&carts[0].shipping==='家'"><label>配送地址：</label>
+                <input style="border-bottom: 1px solid #000; width:auto;" autofocus="autofocus" type="text" [(ngModel)]="userInfo.homeAddr">
+              </div>
             </div>
             <div class="b-foot">
               <div class="total"><label>总计：</label> <span>￥{{mutipalPrice}}</span>
@@ -85,7 +87,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" (click)="closeSubmitOrder()">取 消</button>
-            <button type="submit" class="btn btn-info"(click)="saveSubmitOrder()" >提 交</button>
+            <button type="submit" class="btn btn-info" (click)="saveSubmitOrder()" >提 交</button>
           </div>
         </form>
       </div>

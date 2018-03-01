@@ -468,6 +468,12 @@ export class GuardComponent implements OnInit {
         this.contractName.deptId = this.deptId[i].DEPT_ID
       }
     }
+    if(this.contractName.entryTime){
+      this.contractName.entryTime = this.contractName.entryTime.replace(/\//g, "-");
+    }
+    if(this.contractName.leaveTime){
+      this.contractName.leaveTime = this.contractName.leaveTime.replace(/\//g, "-");;
+    }
     $('.mask-contract').fadeIn();
     $('.mask-contract .mask-head p').html('编辑人员档案');
   }

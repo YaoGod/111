@@ -12,6 +12,7 @@ export class GroupCart{
   ckecked: string;
   detail: string;
   totalPrice:number;
+  shipping:string;
   constructor() { }
 
 }

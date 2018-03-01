@@ -10,6 +10,7 @@ export class GroupOrder {
   status:string;/*订单状态*/
   payTime:string;/*付款时间*/
   closeTime:string;/*订单关闭时间*/
+  address:string;
   note:string;
   groupOrderItems:Array<GroupOrderItem>;
   groupMessage:GroupMessage;

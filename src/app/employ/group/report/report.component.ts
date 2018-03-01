@@ -23,6 +23,9 @@ export class ReportComponent implements OnInit {
   public length = 5;
   public totalPrice = 0;
   public orderId = '';
+  public userName= '';
+  public teleNum= '';
+  public address= '';
   public pages: Array<number>;
   public orders:Array<SearchOrder>;
   public orderItems:Array<GroupOrderItem>;
@@ -55,7 +58,14 @@ export class ReportComponent implements OnInit {
         }
       })
   }
-  getOrderItems(orderId){/*this.pageNo,this.pageSize,*/
+  getOrderItems(orderId) {/*this.pageNo,this.pageSize,*/
+    for(let i=0;i<this.orders.length;i++){
+      if(this.orders[i].orderId===orderId){
+        this.userName = this.orders[i].userName;
+        this.teleNum = this.orders[i].teleNum;
+        this.address = this.orders[i].address;
+      }
+    }
     this.groupOrderService.getOrderItems(orderId).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orderItems = data.data.infos;
@@ -130,4 +140,6 @@ export class SearchOrder {
   telPhone: string;
   deptName:string;
   payTime:string;
+  address:string;
+  teleNum:string;
 }
