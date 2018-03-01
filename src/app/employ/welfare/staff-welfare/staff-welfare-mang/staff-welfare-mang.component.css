@@ -365,11 +365,11 @@ i{
   z-index: 999;
 }
 .modal-content{
-  width: 620px;
+  width: 650px;
   position: absolute;
   left: 50%;
   top: 100px;
-  margin-left: -310px;
+  margin-left: -325px;
 }
 .modal-header {
   display: -webkit-box;
@@ -404,7 +404,7 @@ i{
   float: left;
 }
 .modal-right {
-  width: 365px;
+  width: 400px;
   margin-left: 20px;
   float: left;
 }
@@ -482,7 +482,7 @@ i{
 }
 .control-label>span{
   display: inline-block;
-  width: 70px;
+  width: 90px;
   line-height: 38px;
   padding-right: 10px;
   vertical-align: top;
@@ -513,7 +513,7 @@ i{
 .form-control {
   float: none;
   padding: 0 10px;
-  width: 255px;
+  width: 275px;
   max-width: 100%;
   line-height: 38px;
   background-color: rgba(0, 0, 0, 0);
@@ -532,7 +532,7 @@ i{
 }
 input[type=date].form-control{
   padding-right: 0;
-  width: 120px;
+  width: 275px;
   font-size: 10px;
 }
 select{

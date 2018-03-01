@@ -82,7 +82,7 @@ export class DiscountInfoDetailComponent implements OnInit {
   }
   /*判断textarea的行数自适应*/
   definedRows(){
-    let length = $("#aaa").val().split(/\r?\n/).length;
+    let length = $("#summary").val().split(/\r?\n/).length;
     return length+1;
   }
   /*查看图片*/

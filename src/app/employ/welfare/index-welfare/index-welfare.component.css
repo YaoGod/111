@@ -68,7 +68,7 @@
   font-size: 14px;
   color: #fb9678;
 }
-.goods-list a textarea{
+.goods-list a textarea,.goods-list a p{
   width: 100%;
   line-height: 24px;
   border: none;

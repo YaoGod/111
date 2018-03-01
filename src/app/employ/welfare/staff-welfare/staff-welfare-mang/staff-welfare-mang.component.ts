@@ -225,10 +225,12 @@ export class StaffWelfareMangComponent implements OnInit {
       if(!this.verifyEmptyArray(this.copyWelfare.feedBackMsg,'feedback2')){
         $('#feedbackModal').show();
       }
+      this.verifyfeedBackEtime(this.copyWelfare.feedBack,this.copyWelfare.feedBackEtime,'feedBackEtime');
     }
     this.verifyEmpty(this.copyWelfare.status,'status2');
     if($('.red').length === 0 && error === 0) {
       let postdata = JSON.parse(JSON.stringify(this.copyWelfare));
+      postdata.feedBackEtime =  postdata.feedBackEtime.replace(/-/g, '/');
       if(typeof (postdata.id) === "undefined" || postdata.id === null) {
         this.welfareEmployeeService.addWelfare(postdata)
           .subscribe(data => {
@@ -279,6 +281,9 @@ export class StaffWelfareMangComponent implements OnInit {
   edit(data){
     this.fadeBom();
     this.copyWelfare = JSON.parse(JSON.stringify(data));
+    if(this.copyWelfare.feedBackEtime){
+      this.copyWelfare.feedBackEtime = this.copyWelfare.feedBackEtime.replace(/\//g,'-');
+    }
     this.winTitle = "编辑";
     this.tempOther = JSON.parse(JSON.stringify(data.others));
     for(let i = 0;i< this.tempOther.length;i++){
@@ -406,6 +411,12 @@ export class StaffWelfareMangComponent implements OnInit {
       return this.verifyEmptyArray(targetId.role,id);
     }else{
       return this.verifyEmpty(targetId.HRMIS,id);
+    }
+  }
+  verifyfeedBackEtime(status,feedBackEtime,id){
+    if(status === "是"){
+      console.log(feedBackEtime);
+      this.verifyEmpty(feedBackEtime,id);
     }
   }
 }

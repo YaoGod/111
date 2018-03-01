@@ -573,7 +573,7 @@ select{
   cursor: pointer;
 }
 .goods-box{
-  height: 100px;
+  min-height: 100px;
   padding: 0 10px;
 }
 .goods-box p{

@@ -45,8 +45,10 @@ export class StaffWelfareDetailComponent implements OnInit {
           if(this.welfare.imgPathList.length>0){
             this.welfare.imgPath = this.welfare.imgPathList[0];
           }
-          for(let i= 0;i<this.welfare.feedBackMsg.length;i++){
-            this.welfare.feedBackMsg[i].list = this.welfare.feedBackMsg[i].list.split('|');
+          if(this.welfare.feedBack === "是"){
+            for(let i= 0;i<this.welfare.feedBackMsg.length;i++){
+              this.welfare.feedBackMsg[i].list = this.welfare.feedBackMsg[i].list.split('|');
+            }
           }
         }
       })
@@ -113,6 +115,11 @@ export class StaffWelfareDetailComponent implements OnInit {
   }
   back(){
     history.go(-1);
+  }
+  /*判断textarea的行数自适应*/
+  definedRows(){
+    let length = $("#content").val().split(/\r?\n/).length;
+    return length+1;
   }
   /*查看图片*/
   chooseImg(i){

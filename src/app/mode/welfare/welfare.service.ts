@@ -14,6 +14,7 @@ export class Welfare {
   others      : Array<Other>;     /*自定义字段*/
   details     : any;              /*是否反馈*/
   imgPathList : Array<string>;
+  feedBackEtime: string;           /*反馈截止日期*/
 }
 
 export class Other {
