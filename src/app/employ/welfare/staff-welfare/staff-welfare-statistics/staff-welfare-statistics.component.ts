@@ -48,6 +48,9 @@ export class StaffWelfareStatisticsComponent implements OnInit {
       .subscribe(data=> {
         if(this.errorResponseService.errorMsg(data)){
           this.welfare = data.data;
+          if(this.welfare.imgPathList&&this.welfare.imgPathList.length>0){
+            this.welfare.imgPath = this.welfare.imgPathList[0];
+          }
           if(this.welfare.feedBack === "是"){
             for(let i= 0;i<this.welfare.feedBackMsg.length;i++){
               this.welfare.feedBackMsg[i].list = this.welfare.feedBackMsg[i].list.split('|');

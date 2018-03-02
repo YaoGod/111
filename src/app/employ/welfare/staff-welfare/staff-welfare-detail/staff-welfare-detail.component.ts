@@ -34,6 +34,7 @@ export class StaffWelfareDetailComponent implements OnInit {
     );
     this.welfare = new Welfare();
     this.route.params.subscribe(data => {
+      this.welfare.id = data.id;
       this.getWelfare(data.id);
     });
   }
@@ -111,7 +112,7 @@ export class StaffWelfareDetailComponent implements OnInit {
     $('#forms').fadeOut();
   }
   linkDiscountStatistics(){
-      this.router.navigate(['/hzportal/employ/welfare/staffWelfare/statistics/',this.welfare.id]);
+      this.router.navigate(['../../statistics',this.welfare.id],{relativeTo:this.route});
   }
   back(){
     history.go(-1);

@@ -14,11 +14,6 @@
   </div>
   <p>品类名称：&nbsp;{{welfare.title}}</p>
   <p>是否需要反馈：&nbsp;{{welfare.feedBack}}</p>
-  <p *ngIf="welfare.feedBack==='是'">需要反馈的信息：&nbsp;
-    <span *ngFor="let feedMsg of welfare.feedBackMsg">
-      {{feedMsg.key}}<span *ngIf="feedMsg.msg">({{feedMsg.msg}})</span>&nbsp;&nbsp;
-    </span>
-  </p>
   <p *ngIf="welfare.feedBack==='是'">反馈截止日期：{{welfare.feedBackEtime}}</p>
 </div>
 <!--搜索栏-->
@@ -55,7 +50,9 @@
     </tr>
     <tr style="height:20px;" *ngIf="welfare.feedBack!=='是'"></tr>
     <tr class="row list-title" style="height:20px;" *ngIf="welfare.feedBack==='是'">
-      <th *ngFor="let feedback of welfare.feedBackMsg">{{feedback.key}}</th>
+      <th *ngFor="let feedback of welfare.feedBackMsg" [title]="feedback.msg">
+        {{feedback.key}}
+      </th>
     </tr>
     <tr class="row" *ngFor="let user of users;let i = index">
       <td width="10%">

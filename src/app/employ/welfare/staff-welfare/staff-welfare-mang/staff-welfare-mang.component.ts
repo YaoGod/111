@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Welfare, Other, TargetList} from '../../../../mode/welfare/welfare.service';
 import { GlobalCatalogService } from '../../../../service/global-catalog/global-catalog.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
@@ -26,6 +26,7 @@ export class StaffWelfareMangComponent implements OnInit {
   public  winTitle: string;
   constructor(
     private router: Router,
+    private route:ActivatedRoute,
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
     private welfareEmployeeService:WelfareEmployeeService,
@@ -324,10 +325,10 @@ export class StaffWelfareMangComponent implements OnInit {
     });
   }
   linkDetail(id){
-    this.router.navigate(['/hzportal/employ/welfare/staffWelfare/detail',id]);
+    this.router.navigate(['../detail',id],{relativeTo:this.route});
   }
   linkStatistics(id){
-    this.router.navigate(['/hzportal/employ/welfare/staffWelfare/statistics',id]);
+    this.router.navigate(['../statistics',id],{relativeTo:this.route});
   }
   verifyImgPath(){
     if(typeof (this.copyWelfare.imgPath) === "undefined" ||

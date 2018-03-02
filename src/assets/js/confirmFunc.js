@@ -9,6 +9,7 @@ confirmFunc={
 	"callbackSinleBtn":null,
 	"thisPointer":"window",
 	init:function(jsonData){
+    $(".cpMasking").remove();
 		this.thisPointer=this;
 		this.ownData={}
 		if(jsonData){

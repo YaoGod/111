@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Discount, Other } from '../../../../mode/discount/discount.service';
 import { GlobalCatalogService } from '../../../../service/global-catalog/global-catalog.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
@@ -26,6 +26,7 @@ export class DiscountInfoMangComponent implements OnInit {
   public navtitle:string;
   constructor(
     private router: Router,
+    private route:ActivatedRoute,
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
     private discountEmployeeService:DiscountEmployeeService,
@@ -88,10 +89,10 @@ export class DiscountInfoMangComponent implements OnInit {
   /*文件上传*/
   prese_uploadFile(files){
     console.log(files[0]);
-    var xhr = this.discountEmployeeService.uploadFile(files[0],-1);
+    let xhr = this.discountEmployeeService.uploadFile(files[0],-1);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
-        var data:any = JSON.parse(xhr.responseText);
+        let data:any = JSON.parse(xhr.responseText);
         if(this.errorResponseService.errorMsg(data)){
           if(!this.copyDiscount.filePath||!this.copyDiscount.fileName){
             this.copyDiscount.filePath = [];
@@ -238,7 +239,7 @@ export class DiscountInfoMangComponent implements OnInit {
     });
   }
   linkDetail(id){
-    this.router.navigate(['/hzportal/employ/welfare/discount/detail',id]);
+    this.router.navigate(['../detail',id],{relativeTo:this.route});
   }
   verifyImgPath(){
     if(typeof (this.copyDiscount.imgPath) === "undefined" ||
