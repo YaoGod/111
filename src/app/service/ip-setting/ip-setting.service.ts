@@ -15,7 +15,7 @@ export class IpSettingService {
   // public ip = "http://localhost:8080";
 
   /*set ip and port for personal*/
- /* public ip = "http://10.71.246.83:8080";*/
+  // public ip = "http://10.71.246.81:8080";
 
  constructor(
     private http: Http,

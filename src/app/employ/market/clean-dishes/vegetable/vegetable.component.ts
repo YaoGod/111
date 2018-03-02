@@ -255,6 +255,9 @@ chang(value) {
       return false;
     }
     this.vegetableUp.saletime = this.days;
+    if(this.vegetableUp.imgPath&&this.vegetableUp.imgPath.length>200){
+      this.vegetableUp.imgPath = null;
+    }
     this.vegetableInfoService.updateVegetable(this.vegetableUp)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
