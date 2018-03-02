@@ -21,6 +21,7 @@ export class StaffWelfareStatisticsComponent implements OnInit {
   public  users    : Array<UserTarget>;
   public  search   : string;
   public  ip       :string;
+  public editUserMsg:UserTarget;
   constructor(
     private router   : Router,
     private route    : ActivatedRoute,
@@ -40,12 +41,18 @@ export class StaffWelfareStatisticsComponent implements OnInit {
     this.route.params.subscribe(data => {
       this.getWelfare(data.id);
     });
+    this.editUserMsg = new UserTarget();
   }
   getWelfare(id){
     this.welfareEmployeeService.getWelfare(id)
       .subscribe(data=> {
         if(this.errorResponseService.errorMsg(data)){
           this.welfare = data.data;
+          if(this.welfare.feedBack === "是"){
+            for(let i= 0;i<this.welfare.feedBackMsg.length;i++){
+              this.welfare.feedBackMsg[i].list = this.welfare.feedBackMsg[i].list.split('|');
+            }
+          }
           this.getWelfareCount(1);
         }
       })
@@ -71,8 +78,64 @@ export class StaffWelfareStatisticsComponent implements OnInit {
       }
     });
   }
-  back(){
-    history.go(-1);
+  /*添加窗口关闭*/
+  closeView() {
+    $('.form-control').removeClass('red');
+    $('.error').fadeOut();
+    $('.mask').css('display', 'none');
+  }
+  /*点击编辑反馈信息*/
+  editFeedbackMsg(userMsg:UserTarget){
+    $('.mask').css('display', 'block');
+    this.editUserMsg = JSON.parse(JSON.stringify(userMsg));
+    this.editUserMsg.WELFARE_ID = this.welfare.id;
+    if(this.editUserMsg.DETAILS === null){
+      this.editUserMsg.DETAILS = this.welfare.feedBackMsg;
+    }
+  }
+  /*提交编辑信息*/
+  submit(){
+    for(let i = 0;i<this.editUserMsg.DETAILS.length;i++){
+      this.verifyEmpty(this.editUserMsg.DETAILS[i].value,'listValue'+i);
+    }
+    if($('.red').length === 0) {
+      this.welfareEmployeeService.updateFeedByAdmin(this.editUserMsg)
+        .subscribe(data=>{
+          if(this.errorResponseService.errorMsg(data)){
+            confirmFunc.init({
+              'title': '提示',
+              'mes': data.msg,
+              'popType': 0,
+              'imgType': 1,
+            });
+            this.closeView();
+            this.getWelfare(this.editUserMsg.WELFARE_ID);
+          }
+        })
+
+    }
+  }
+  /*判断是否为空*/
+  verifyEmpty( value, id){
+    if(typeof (value) === "undefined" ||
+      value === null ||
+      value === ''){
+      this.addErrorClass(id,'该值不能为空');
+      return false;
+    }else{
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /* 添加错误信息*/
+  private addErrorClass(id: string, error: string)  {
+    $('#' + id).addClass('red');
+    $('#' + id).parent().next('.error').fadeIn().html(error);
+  }
+  /*去除错误信息*/
+  private  removeErrorClass(id: string) {
+    $('#' + id).removeClass('red');
+    $('#' + id).parent().next('.error').fadeOut();
   }
 }
 export class UserTarget{
@@ -83,4 +146,5 @@ export class UserTarget{
   OA_EMAIL :string;
   DETAILS  :any;
   CREATE_TIME: string;
+  WELFARE_ID: number;
 }

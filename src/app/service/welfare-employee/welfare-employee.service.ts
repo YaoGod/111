@@ -21,7 +21,7 @@ export class WelfareEmployeeService {
    */
   uploadImg(postData,id){
     const url = this.ipSetting.ip + "/employee/Welfare/uploadImg/" +id;
-    var form = new FormData();
+    let form = new FormData();
     if (typeof(postData) === 'object') {
       form.append('img', postData);
     }
@@ -132,7 +132,7 @@ export class WelfareEmployeeService {
 
   importTemplate(postData){
     const url = this.ipSetting.ip + "/employee/Welfare/importTemplate";
-    var form = new FormData();
+    let form = new FormData();
     if (typeof(postData) === 'object') {
       form.append('file', postData);
     }
@@ -141,5 +141,11 @@ export class WelfareEmployeeService {
     xhr.withCredentials = true;
     xhr.send(form);
     return xhr;
+  }
+  updateFeedByAdmin(data){
+    const url =  this.ipSetting.ip + "/employee/Welfare/updateFeedByAdmin";
+    return this.http.post(url,data,this.options)
+      .map(res => res.json());
+
   }
 }

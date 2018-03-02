@@ -475,7 +475,7 @@ td>img{
 .form-control {
   color: #565656;
   /*height: 38px;*/
-  line-height: 38px;
+  line-height: 22px;
   min-height: 38px;
   max-width: 100%;
   padding-left: 5px;
@@ -514,15 +514,15 @@ textarea.form-control{
   color: #CCCCCC;
   text-align: center;
 }
-.room-list{
-  padding: 0 35px;
-}
 .room-card{
   float: left;
   width: 50%;
   min-width: 450px;
   height: auto;
   margin-bottom: 15px;
+  padding-left: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 .room-card>h5{
   position: relative;
@@ -540,8 +540,7 @@ textarea.form-control{
   background: #ab8ce4;
 }
 .card-border{
-  height: 100%;
-  max-height: 195px;
+  height: 195px;
   margin-left: 20px;
   margin-right: 10px;
   padding: 15px;

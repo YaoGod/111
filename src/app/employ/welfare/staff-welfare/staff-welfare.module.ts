@@ -6,7 +6,6 @@ import { StaffWelfareComponent } from './staff-welfare.component';
 import { RouteGuardService } from '../../../service/route-guard/route-guard.service';
 import { Routes, RouterModule } from '@angular/router';
 import { StaffWelfareMangComponent } from './staff-welfare-mang/staff-welfare-mang.component';
-import { StaffWelfareSearchComponent } from './staff-welfare-search/staff-welfare-search.component';
 import { StaffWelfareStatisticsComponent } from './staff-welfare-statistics/staff-welfare-statistics.component';
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import { WelfareEmployeeService } from '../../../service/welfare-employee/welfare-employee.service';
@@ -34,10 +33,6 @@ const routes: Routes = [
         component: StaffWelfareDetailComponent
       },
       {
-        path: 'search',
-        component: StaffWelfareSearchComponent
-      },
-      {
         path: 'list',
         component: SraffWelfareListComponent
       },
@@ -62,7 +57,6 @@ const routes: Routes = [
   declarations: [
     StaffWelfareComponent,
     StaffWelfareMangComponent,
-    StaffWelfareSearchComponent,
     StaffWelfareStatisticsComponent,
     StaffWelfareDetailComponent,
     SraffWelfareListComponent]

@@ -513,7 +513,7 @@ i{
 .form-control {
   float: none;
   padding: 0 10px;
-  width: 275px;
+  width: 260px;
   max-width: 100%;
   line-height: 38px;
   background-color: rgba(0, 0, 0, 0);
@@ -534,6 +534,9 @@ input[type=date].form-control{
   padding-right: 0;
   width: 275px;
   font-size: 10px;
+}
+input[type=date]:disabled.form-control{
+  color: #8d9ea7;
 }
 select{
   width: calc(100% - 90px);

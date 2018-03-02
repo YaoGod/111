@@ -2,7 +2,7 @@
 <div class="nav-title">
   <a><h4>爱统计信息统计</h4></a>
   <div class="b-head-right">
-    <div class="content-box" tabindex="0" (click)="back()">
+    <div class="content-box" tabindex="0" onclick="history.go(-1)">
       <i class="icon-reload"></i> 返回
     </div>
   </div>
@@ -19,7 +19,7 @@
       {{feedMsg.key}}<span *ngIf="feedMsg.msg">({{feedMsg.msg}})</span>&nbsp;&nbsp;
     </span>
   </p>
-  <p *ngIf="welfare.feedBackEtime">反馈截止日期：{{welfare.feedBackEtime}}</p>
+  <p *ngIf="welfare.feedBack==='是'">反馈截止日期：{{welfare.feedBackEtime}}</p>
 </div>
 <!--搜索栏-->
 <div class="search-bar">
@@ -44,14 +44,17 @@
     <tr class="row list-title" style="height:20px;">
       <th width="10%" rowspan="2">工号</th>
       <th width="10%" class="text-left" rowspan="2">姓名</th>
-      <th style="width: 80px;"  rowspan="2">性别</th>
-      <th style="width: 150px;" rowspan="2">联系电话</th>
-      <th width="15%" rowspan="2"  class="text-left">邮箱</th>
+      <th style="width: 50px;"  rowspan="2">性别</th>
+      <th style="width: 120px;" rowspan="2">联系电话</th>
+      <th rowspan="2"  class="text-left">邮箱</th>
       <th [attr.colspan]="welfare.feedBackMsg.length"
-          *ngIf="welfare.feedBackMsg&&welfare.feedBackMsg.length>0">反馈信息</th>
-      <th  width="15%" rowspan="2" *ngIf="welfare.feedBackMsg&&welfare.feedBackMsg.length>0">反馈时间</th>
+          *ngIf="welfare.feedBack==='是'">反馈信息</th>
+      <th style="width: 120px;" rowspan="2" *ngIf="welfare.feedBack==='是'">反馈时间</th>
+      <th style="width: 80px;" rowspan="2" *ngIf="welfare.feedBack==='是'">操作</th>
+      <th *ngIf="welfare.feedBack!=='是'" rowspan="2"></th>
     </tr>
-    <tr class="row list-title" style="height:20px;">
+    <tr style="height:20px;" *ngIf="welfare.feedBack!=='是'"></tr>
+    <tr class="row list-title" style="height:20px;" *ngIf="welfare.feedBack==='是'">
       <th *ngFor="let feedback of welfare.feedBackMsg">{{feedback.key}}</th>
     </tr>
     <tr class="row" *ngFor="let user of users;let i = index">
@@ -61,20 +64,23 @@
       <td width="10%" class="text-left">
         <span>{{user.USERNAME}}</span>
       </td>
-      <td style="width: 80px;">
+      <td style="width: 50px;">
         <span>{{user.SEX}}</span>
       </td>
-      <td style="width: 150px;">
+      <td style="width: 120px;">
         <span>{{user.TELE_NUM}}</span>
       </td>
-      <td width="15%"  class="text-left" >
+      <td class="text-left" >
         <span>{{user.OA_EMAIL}}</span>
       </td>
       <td *ngIf="!user.DETAILS&&welfare.feedBackMsg" [attr.colspan]="welfare.feedBackMsg.length"></td>
       <td *ngFor="let detail of user.DETAILS">
         <span>{{detail.value}}</span>
       </td>
-      <td *ngIf="welfare.feedBackMsg&&welfare.feedBackMsg.length>0">{{user.CREATE_TIME}}</td>
+      <td style="width: 120px;" *ngIf="welfare.feedBack==='是'">{{user.CREATE_TIME}}</td>
+      <td style="width: 80px;" *ngIf="welfare.feedBack==='是'">
+        <a class="btn-edit" (click)="editFeedbackMsg(user)"><i class="icon-pencil"></i>编辑</a>
+      </td>
     </tr>
   </table>
   <div class="div-none" *ngIf="users && users.length < 1">
@@ -88,3 +94,60 @@
   [total] = "total"
   (turnEvent) = "getWelfareCount($event)">
 </app-turn-bar>
+
+<!--新建弹框-->
+<div class="mask" style="display: none;">
+  <div  class="modal-content">
+    <div  class="modal-header">
+      <h4 class="modal-title"><i class="icon-home"></i>反馈信息编辑</h4>
+      <button class="modal-close" type="button" (click)="closeView()">×</button>
+    </div>
+    <form  class="form-building form-material ng-untouched ng-pristine ng-valid" novalidate="">
+      <div  class="modal-body clearfix">
+        <div   class="modal-right">
+          <div  class="form-group">
+            <label  class="control-label">
+              <span>工号</span>
+              <span>{{editUserMsg.USERID}}</span>
+            </label>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label">
+              <span>姓名</span>
+              <span>{{editUserMsg.USERNAME}}</span>
+            </label>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label">
+              <span>联系电话</span>
+              <span>{{editUserMsg.TELE_NUM}}</span>
+            </label>
+          </div>
+          <div  class="form-group" *ngFor="let feedbackMsg of editUserMsg.DETAILS;let i = index">
+            <label  class="control-label" [title]="feedbackMsg.msg">
+              <span>{{feedbackMsg.key}}</span>
+              <select class="form-control" *ngIf="feedbackMsg.type==='下拉框'"
+                      [name]="'listValue'+i" [id]="'listValue'+i"
+                      [(ngModel)] = "feedbackMsg.value"
+                      (blur)="verifyEmpty(feedbackMsg.value,'listValue'+i);">
+                <option value="">请选择</option>
+                <option *ngFor="let opt of feedbackMsg.list">{{opt}}</option>
+              </select>
+              <input class="form-control" type="text" *ngIf="feedbackMsg.type==='文本'"
+                     [name]="'listValue'+i" [id]="'listValue'+i"
+                     [(ngModel)] = "feedbackMsg.value"
+                     (blur)="verifyEmpty(feedbackMsg.value,'listValue'+i);">
+            </label>
+            <div class="error"></div>
+          </div>
+        </div>
+      </div>
+      <div  class="modal-footer">
+        <button  class="btn btn-info" type="submit"
+                 (click)="submit()">保 存</button>
+        <button  class="btn btn-danger" type="button"
+                 (click)="closeView()">取 消</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -146,14 +146,14 @@
                 <option *ngFor="let target of targets" [value]="target.ID">
                   {{target.NAME}}</option>
               </select>
-              <div class="form-mode">
+              <p class="form-mode">
                 <a class="btn-danger" (click)="exportMode()">模板下载</a>
                 <a class="btn-danger import">导入(HRMIS)
                   <input type="file" name="importFile" #pressFile
                          (change)="importFile(pressFile.files)"
                          (blur)="verifyTragetId(copyWelfare.targetId,'targetId')">
                 </a>
-              </div>
+              </p>
             </label>
             <div class="error"></div>
           </div>
@@ -237,7 +237,8 @@
           </div>
           <div  class="form-group" *ngIf="copyWelfare.feedBack==='是'">
             <label  class="control-label"><span>反馈截止日期</span>
-                <input class="form-control" id="feedBackEtime" name="feedBackEtime" type="date"
+                <input class="form-control" id="feedBackEtime" name="feedBackEtime"
+                       type="date" [disabled]="winTitle === '编辑'"
                        [(ngModel)]="copyWelfare.feedBackEtime"
                        (blur)="verifyfeedBackEtime(copyWelfare.feedBack,copyWelfare.feedBackEtime,'feedBackEtime')">
               <div class="error" style="position: absolute;right: 0;margin-top: -40px;padding-right: 50px;width: auto;"></div>

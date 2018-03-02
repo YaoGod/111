@@ -86,10 +86,10 @@ export class StaffWelfareMangComponent implements OnInit {
   }
   /*文件图片上传*/
   prese_upload(files){
-    var xhr = this.welfareEmployeeService.uploadImg(files[0],-1);
+    let xhr = this.welfareEmployeeService.uploadImg(files[0],-1);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
-        var data:any = JSON.parse(xhr.responseText);
+        let data:any = JSON.parse(xhr.responseText);
         if(this.errorResponseService.errorMsg(data)){
           this.copyWelfare.imgPath = data.msg;
         }
@@ -194,7 +194,6 @@ export class StaffWelfareMangComponent implements OnInit {
     }
   }
   submit(){
-
     let error = 0;
     this.verifyImgPath();
     this.verifyEmpty(this.copyWelfare.title,'title');
@@ -225,12 +224,14 @@ export class StaffWelfareMangComponent implements OnInit {
       if(!this.verifyEmptyArray(this.copyWelfare.feedBackMsg,'feedback2')){
         $('#feedbackModal').show();
       }
-      this.verifyfeedBackEtime(this.copyWelfare.feedBack,this.copyWelfare.feedBackEtime,'feedBackEtime');
+       this.verifyfeedBackEtime(this.copyWelfare.feedBack,this.copyWelfare.feedBackEtime,'feedBackEtime');
     }
     this.verifyEmpty(this.copyWelfare.status,'status2');
     if($('.red').length === 0 && error === 0) {
       let postdata = JSON.parse(JSON.stringify(this.copyWelfare));
-      postdata.feedBackEtime =  postdata.feedBackEtime.replace(/-/g, '/');
+      if(postdata.feedBackEtime){
+        postdata.feedBackEtime =  postdata.feedBackEtime.replace(/-/g, '/');
+      }
       if(typeof (postdata.id) === "undefined" || postdata.id === null) {
         this.welfareEmployeeService.addWelfare(postdata)
           .subscribe(data => {
@@ -382,10 +383,10 @@ export class StaffWelfareMangComponent implements OnInit {
   }
   /*享受对象导入*/
   importFile(files){
-    var xhr =   this.welfareEmployeeService.importTemplate(files[0])
+    let xhr =   this.welfareEmployeeService.importTemplate(files[0])
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
-        var data:any = JSON.parse(xhr.responseText);
+        let data:any = JSON.parse(xhr.responseText);
         if(this.errorResponseService.errorMsg(data)){
           this.copyWelfare.targetId.HRMIS = data.msg;
           $('#pressFile').val('');
