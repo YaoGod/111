@@ -153,8 +153,9 @@ export class SupermarketManagerService {
    * 我的订单
    * @returns {Observable<R>}
    */
-  getOrderList(pageNo,pageSize,status) {
-    let url =  this.ipSetting.ip + '/mmall/supermarketOrder/getOrderList/' +pageNo+'/'+pageSize+'?search='+status;
+  getOrderList(pageNo,pageSize,status,id) {
+    let url =  this.ipSetting.ip + '/mmall/supermarketOrder/getOrderList/' +pageNo+'/'+pageSize+
+      '?search='+status+'&id='+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }

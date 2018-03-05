@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
-
+import {ActivatedRoute,Params} from "@angular/router";
 declare var $: any;
 declare var confirmFunc: any;
 @Component({
@@ -21,16 +21,32 @@ export class GoodsorderComponent implements OnInit {
   public orders:Array<GoodsOrder>;
   public goodsOrderItems:Array<GoodsOrderItem>;
   public myOrder:GoodsOrder;
-  constructor(private ipSetting: IpSettingService,
-              private errorVoid: ErrorResponseService) { }
+  public chooseId;
+  constructor(
+    private route: ActivatedRoute,
+    private ipSetting: IpSettingService,
+    private errorVoid: ErrorResponseService) { }
 
   ngOnInit() {
     this.ipServer = this.ipSetting.ip;
-    this.getOrderList(1);
+    this.chooseId = "";
+    if(typeof (this.route.params['_value']['id']) === "undefined"){
+      this.getOrderList(1,this.chooseId);
+    }else{
+      let tempid: number = 0;
+      this.route.params
+        .switchMap((params: Params) => this.chooseId = params['id'])
+        .subscribe(() => {
+          if (tempid === 0) {
+            this.getOrderList(1,this.chooseId);
+            tempid++;
+          }
+        });
+    }
   }
 
   /**我的订单列表*/
-  getOrderList(i){
+  getOrderList(i,chooseId){
     this.pageNo = i;
     if(this.orderId!=null){
       this.orderId = this.orderId.trim();
@@ -39,7 +55,7 @@ export class GoodsorderComponent implements OnInit {
       orderNo:this.orderId
     };
     let url = '/goodsOrder/list?userId=' + localStorage.getItem("username")
-      + '&pageNum='+ this.pageNo + '&pageSize=' +this.pageSize;
+      + '&pageNum='+ this.pageNo + '&pageSize=' +this.pageSize+"&id="+chooseId;
     this.ipSetting.sendPost(url,dataSearch).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.list;
@@ -60,7 +76,7 @@ export class GoodsorderComponent implements OnInit {
             'popType': 0,
             'imgType': 1,
           });
-          this.getOrderList(1);
+          this.getOrderList(1,this.chooseId);
         }
       });
   }
@@ -83,7 +99,7 @@ export class GoodsorderComponent implements OnInit {
            'popType': 0,
            'imgType': 1,
          });
-        this.getOrderList(1);
+        this.getOrderList(1,this.chooseId);
       }
     });
   }

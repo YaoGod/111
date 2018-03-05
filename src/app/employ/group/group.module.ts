@@ -58,7 +58,12 @@ const routes: Routes = [
       {
         path:'myorder',
         component:MyorderComponent
-      },{
+      },
+      {
+        path:'myorder/:id',
+        component:MyorderComponent
+      },
+      {
         path: 'check',
         component:CheckComponent
       },{

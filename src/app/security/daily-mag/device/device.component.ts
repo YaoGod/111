@@ -69,10 +69,15 @@ export class DeviceComponent implements OnInit {
       $('.guard-company,.box1').fadeIn();
       this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
     }
-    this.getBuildings();
+    this.getBuildings(); 
     this.getDeviceList2('');
     this.getDeviceList('','');
     this.getPeople();
+    this.repairSearch();
+    $('.box1').hide();
+    $('.box2').show();
+    $('.device-arch').fadeIn();
+    $('.guard-company').hide();
   }
   /**获取权限*/
   private getQuan(){

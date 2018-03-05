@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {SupermarketManagerService} from "../../../../service/supermarket-manager/supermarket-manager.service";
 import {SupermarketOrder} from "../../../../mode/supermarketOrder/supermarket-order.service";
-import {SupermarketOrderItem} from "../../../../mode/supermarketOrderItem/supermarket-order-item.service";
 import * as $ from 'jquery';
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
+import {ActivatedRoute,Params} from "@angular/router";
 declare var confirmFunc:any;
 @Component({
   selector: 'app-myorder',
@@ -19,7 +19,9 @@ export class MyorderComponent implements OnInit {
   public total    : number = 0;
   public orders   : Array<SupermarketOrder>;
   public myOrder  : SupermarketOrder;
+  public chooseId;
   constructor(
+    private route: ActivatedRoute,
     private supermarketManagerService: SupermarketManagerService,
     private errorVoid: ErrorResponseService,
     public ipSetting  : IpSettingService
@@ -27,14 +29,27 @@ export class MyorderComponent implements OnInit {
 
   ngOnInit() {
     this.orders = [];
-    this.getOrderList(1);
+    if(typeof (this.route.params['_value']['id']) === "undefined"){
+      this.chooseId = "";
+      this.getOrderList(1,this.chooseId);
+    }else{
+      let tempid: number = 0;
+      this.route.params
+        .switchMap((params: Params) => this.chooseId = params['id'])
+        .subscribe(() => {
+          if (tempid === 0) {
+            this.getOrderList(1,this.chooseId);
+            tempid++;
+          }
+        });
+    }
   }
   /**
    * 我的订单列表
    */
-  getOrderList(pageNo){
+  getOrderList(pageNo,chooseId){
     this.pageNo = pageNo;
-    this.supermarketManagerService.getOrderList(this.pageNo,this.pageSize,this.search)
+    this.supermarketManagerService.getOrderList(this.pageNo,this.pageSize,this.search,chooseId)
       .subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
@@ -57,7 +72,7 @@ export class MyorderComponent implements OnInit {
           'popType': 0,
           'imgType': 1,
         });
-        this.getOrderList(1);
+        this.getOrderList(1,this.chooseId);
       }
     });
   }

@@ -11,6 +11,10 @@ const routes: Routes = [
     path: '',
     canActivate: [RouteGuardService],
     component: DeviceComponent,
+  },
+  {
+    path: '/:id',
+    component: DeviceComponent,
   }
 ];
 @NgModule({

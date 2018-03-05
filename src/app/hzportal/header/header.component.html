@@ -1,18 +1,3 @@
-<!--<div class="nav-left">
-  <p>
-    杭分统一门户<input type="button" (click)="loginOut()" value="登出"/>
-  </p>
-  <ul>
-    <li *ngFor="let catalog of catalogs">
-      <p>{{catalog.name}}</p>
-      <ul>
-        <li *ngFor="let child of catalog.childs">
-          <a [routerLink]="[child.routeUrl]">{{child.name}}</a>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</div>-->
 <div class="main">
   <div class="nav-left">
       <div class="logo"><img src="assets/image/yd_logo.png" alt="images/logo" /> </div>
@@ -29,7 +14,6 @@
       </div>
       <ul class="nav-list">
         <li *ngFor="let catalog of catalogs;">
-          <!--<li (click)="Listslider($event)">-->
           <div class="menu-one" (click)="Listslider($event, catalog.routeUrl)">
             <i [class]="catalog.icon"></i>&nbsp;&nbsp;
             {{catalog.name}}<span></span>
@@ -40,7 +24,6 @@
             </li>
           </ol>
         </li>
-      <!--  <li><a routerLink = "employ">点我到员工服务</a></li>-->
       </ul>
   </div>
   <div class="nav-right">

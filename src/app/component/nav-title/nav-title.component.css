@@ -1,6 +1,7 @@
 .header{
   position: relative;
   height: 60px;
+  line-height: 60px;
   padding: 0 20px;
   box-shadow: 1px 1px 1px #999;
   background-color: #04a9f3;
@@ -11,10 +12,8 @@
 }
 .header>h2{
   font-size: 16px;
-
   display: inline;
   margin: 0;
-  line-height:60px;
   color: #ffffff;
   font-weight: 500;
 }
@@ -22,8 +21,6 @@
   float: right;
   padding: 0 10px;
   text-align: center;
-  height: 60px;
-  line-height: 70px;
   color: #ffffff;
   cursor: pointer;
 }
@@ -33,12 +30,25 @@
 .header-right>img{
   width: 16px;
 }
-.main{
-  width: 100%;
-  height:auto;
-  min-height: calc(100% - 65px);
-  background-color: #edf1f5;
-}
 .waves-light{
   color: #ffffff;
+}
+@media screen and (max-width: 1400px){
+  .header{
+    height: 40px;
+    line-height: 40px;
+  }
+  .header>h2{
+    font-size: 14px;
+  }
+  .header>img{
+    width: 14px;
+    margin-right: 15px;
+  }
+  .header-right{
+    padding: 0 5px;
+  }
+  .header-right>img{
+    width: 14px;
+  }
 }
