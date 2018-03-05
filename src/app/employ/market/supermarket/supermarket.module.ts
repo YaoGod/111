@@ -55,6 +55,10 @@ const routes: Routes = [
         component:MyorderComponent
       },
       {
+        path: 'myorder/:id',
+        component:MyorderComponent
+      },
+      {
         path: 'mycart',
         component:MycartComponent
       },

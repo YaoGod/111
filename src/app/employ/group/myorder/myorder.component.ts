@@ -6,6 +6,7 @@ import {GroupOrderItem} from '../../../mode/groupOrderItem/group-orderItem.servi
 import { ErrorResponseService } from '../../../service/error-response/error-response.service';
 import {GroupProductService} from "../../../service/group-product/group-product.service";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
+import {ActivatedRoute,Params} from "@angular/router";
 declare var $:any;
 declare var confirmFunc: any;
 
@@ -22,7 +23,6 @@ export class MyorderComponent implements OnInit {
   public pageNo = 1;
   public total = 0;
   public length = 5;
-  public pages: Array<number>;
   public cartsize:number;
   public orders:Array<GroupOrder>;
   public orderItems:Array<GroupOrderItem>;
@@ -38,21 +38,36 @@ export class MyorderComponent implements OnInit {
     replyUser:'',
     insterTime:''
   };
-  constructor(private groupOrderService: GroupOrderService,
-              private groupProductService: GroupProductService,
-              private errorVoid: ErrorResponseService,
-              public ipSetting  : IpSettingService) { }
+  public chooseId;
+  constructor(
+    private route: ActivatedRoute,
+    private groupOrderService: GroupOrderService,
+    private groupProductService: GroupProductService,
+    private errorVoid: ErrorResponseService,
+    public ipSetting  : IpSettingService) { }
 
   ngOnInit() {
     this.search = new GroupOrder();
-    this.getOrderList(1);
-    this.pages = [];
+    this.chooseId = "";
     this.getProductShowList();
+    if(typeof (this.route.params['_value']['id']) === "undefined"){
+      this.getOrderList(1,this.chooseId);
+    }else{
+      let tempid: number = 0;
+      this.route.params
+        .switchMap((params: Params) => this.chooseId = params['id'])
+        .subscribe(() => {
+          if (tempid === 0) {
+            this.getOrderList(1,this.chooseId);
+            tempid++;
+          }
+        });
+    }
   }
 
-  getOrderList(i){
+  getOrderList(i,chooseId){
     this.pageNo = i;
-      let url = '/mmall/order/getOrderList/'+this.pageNo+'/'+this.pageSize;
+      let url = '/mmall/order/getOrderList/'+this.pageNo+'/'+this.pageSize+"?id="+chooseId;
       this.ipSetting.sendGet(url).subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           this.orders = data.data.infos;
@@ -89,7 +104,7 @@ export class MyorderComponent implements OnInit {
             'imgType': 1 ,
           });
           this.closeMask0();
-          this.getOrderList(1);
+          this.getOrderList(1,this.chooseId);
         }
       })
   }

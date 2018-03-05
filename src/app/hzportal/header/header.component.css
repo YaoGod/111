@@ -3,11 +3,6 @@
   height: 100%;
 }
 .nav-left {
-/*  position: absolute;
-  left:0;
-  top:0px;
-  z-index:5;*/
-
   flex: 0 0 190px;
   height:100%;
   background-color:#fff;
@@ -35,10 +30,10 @@
 }
 .menu-one{
   position: relative;
-  line-height:56px;
+  line-height:40px;
   width:100%;
   box-sizing: border-box;
-  padding:0 10%;
+  padding:0 10px;
 }
 .active.menu-one{
   background-color:#fafafa;
@@ -51,7 +46,7 @@
   display: block;
   position: absolute;
   right:16px;
-  top:25px;
+  top:18px;
   width: 6px;
   height: 6px;
   border-top: 1px solid #666;
@@ -83,7 +78,6 @@
 .logo{
   box-sizing: border-box;
   padding:5% 5%;
-  height:68px;
   width:100%;
 }
 .logo>img{
@@ -120,7 +114,7 @@
 .user-onner{
   width:160px;
   height:1px;
-  position: relative;
+  position: absolute;
   margin:0 auto;
 }
 .user-menu{
@@ -138,9 +132,27 @@
 .user-menu>li{
   padding:6px 0;
 }
-/*@media screen and (min-width: 1600px){
-
-}*/
+@media screen and (max-width: 1400px){
+  .nav-left{
+    flex: 0 0 130px;
+  }
+  .menu-one{
+    font-size: 12px;
+  }
+  .user-name{
+    font-size: 12px;
+  }
+  .menu-second > li{
+    line-height: 30px;
+    text-indent: 25px;
+    font-size: 10px;
+  }
+  .menu-one span{
+    right: 12px;
+    width: 4px;
+    height: 4px;
+  }
+}
 .user-name:hover + .user-onner>.user-menu{
   display: block;
 }

@@ -21,7 +21,7 @@
                   <option value="4">已配货</option>
                 </select>
               </li>
-              <li><a class="search" href="javascript: void(0);" (click)="getOrderList(1)" >查询</a></li>
+              <li><a class="search" href="javascript: void(0);" (click)="getOrderList(1,chooseId)" >查询</a></li>
             </ul>
           </div>
           <div class="div-none" *ngIf="orders&&orders.length === 0">暂无信息</div>
@@ -73,7 +73,7 @@
           [pageNo] = "pageNo"
           [pageSize] = "pageSize"
           [total] = "total"
-          (turnEvent) = "getOrderList($event)">
+          (turnEvent) = "getOrderList($event,chooseId)">
         </app-turn-bar>
       </div>
     </div>

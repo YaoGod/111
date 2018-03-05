@@ -47,6 +47,10 @@ const routes: Routes = [
         component: GoodsorderComponent
       },
       {
+        path: 'goodsorder/:id',
+        component: GoodsorderComponent
+      },
+      {
         path: 'goodsorderconfirm',
         component: GoodsorderconfirmComponent
       },
