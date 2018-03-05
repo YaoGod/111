@@ -348,10 +348,10 @@ export class DeviceComponent implements OnInit {
     return true;
   }
   public verifylMail()  {
-    if (!this.isEmpty('lMail', '邮箱不能为空')) {
+    if (!this.isEmpty('lMail', '不能为空')) {
       return false;
     }
-    if (!this.verifyIsEmail('lMail', '邮箱格式不正确')) {
+    if (!this.verifyIsEmail('lMail', '格式不正确')) {
       return false;
     }
     return true;

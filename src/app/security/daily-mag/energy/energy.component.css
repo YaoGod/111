@@ -144,7 +144,7 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding: 15px;
+  padding: 13px;
   background-color: #f1f5f8;
   font-size:18px;
 }
@@ -170,7 +170,7 @@ button{
 .mask-cotainer{
   position: absolute;
   left:50%;
-  top: 120px;
+  top: 8%;
   width:650px;
   margin-left:-325px;
   background-color: #fff;
@@ -195,8 +195,8 @@ button{
 }
 .repair-form .form-control {
   width: 440px;
-  height: 45px;
-  line-height: 45px;
+  height: 36px;
+  line-height: 36px;
   margin: 0 auto 10px;
   color: #686868;
   font-weight: 300;
@@ -218,7 +218,7 @@ button{
 .company-ipt{
   border:none;
   width:180px;
-  line-height:43px;
+  line-height:36px;
   background-image: linear-gradient(#03a9f3, #03a9f3), linear-gradient(rgba(120, 130, 140, .13), rgba(120, 130, 140, .13));
   background-color: rgba(0, 0, 0, 0);
   background-position: center bottom, center calc(99%);
@@ -228,7 +228,7 @@ button{
   transition: all .3s ease-out;
 }
 .company-sel{
-  height:43px;
+  height:36px;
 }
 
 .company-ipt:focus{
@@ -247,7 +247,7 @@ button{
   -webkit-justify-content: flex-end;
   -ms-flex-pack: end;
   justify-content: flex-end;
-  padding: 15px;
+  padding: 10px;
   background-color: #f1f5f8;
 }
 .btn-mask{

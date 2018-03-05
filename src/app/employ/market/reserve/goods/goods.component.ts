@@ -176,6 +176,9 @@ export class GoodsComponent implements OnInit {
       !this.verifyEmpty('upprice','价格不能为空')||!this.verifyEmpty('updetail','商品详情不能为空')) {
     }
     let url = '/goodsProduct/save';
+    if(this.goodsUp&&this.goodsUp.imgPath.length>240){
+      delete this.goodsUp.imgPath;
+    }
     this.ipSetting.sendPost(url,this.goodsUp)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {

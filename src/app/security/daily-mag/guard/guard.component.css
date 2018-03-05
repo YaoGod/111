@@ -301,14 +301,14 @@ button{
 .new-arch{
   position: absolute;
   left:50%;
-  top:15%;
+  top:8%;
   width:650px;
   margin-left:-325px;
   background-color: #fff;
   border-radius:5px;
 }
 .arch-form{
-  margin:30px auto;
+  margin:0 auto;
   padding:0 32px;
 }
 .new-arch .form-left{
@@ -318,7 +318,6 @@ button{
 .new-arch .form-right{
   width:180px;
   height:200px;
-  border: 2px solid #E5E5E5;
   float:left;
  }
 .new-arch .form-control{
@@ -451,7 +450,7 @@ button{
   -webkit-justify-content: flex-end;
   -ms-flex-pack: end;
   justify-content: flex-end;
-  padding: 15px;
+  padding: 10px;
   background-color: #f1f5f8;
 }
 .btn-mask{
@@ -570,6 +569,10 @@ button{
 .modal-body .btn:hover{
   background-color: #1d72df;
   cursor: pointer;
+}
+.person-img{
+  margin-top:30px;
+  border: 2px solid #E5E5E5;
 }
 /* excel-out */
 .excel-out{

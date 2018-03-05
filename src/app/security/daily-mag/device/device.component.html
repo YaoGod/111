@@ -278,6 +278,8 @@
             <span class="errorMessage"></span>
           </div>
         </div>
+      </div>
+      <div class="form-right">
         <div class="form-control clearfix">
           <span class="form-label">维保责任人</span>
           <div class="form-inp">
@@ -303,8 +305,7 @@
             <span class="errorMessage"></span>
           </div>
         </div>
-      </div>
-      <div class="form-right">
+
         <div class="right-title">维保合同附件</div>
         <ul class="contract-list">
           <li *ngFor="let abc of repairname.fileName; let k=index">{{abc}}<a  href="javascript:;" (click)="delFile(k)">×</a> </li>

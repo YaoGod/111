@@ -241,8 +241,14 @@ chang(value) {
     $('.errorMessage').html('');
   }
   updateVegetable() {
-    if (!this.verifyEmpty('upnewname','净菜名称不能为空')||!this.verifyEmpty('vupprice','价格不能为空')||
-      !this.verifyEmpty('vupLimitnum','限购数量')||!this.verifyEmpty('updetail','净菜详情不能为空')) {
+    if (!this.verifyEmpty('upnewname','净菜名称不能为空')||!this.verifyEmpty('vupprice','价格不能为空')||!this.verifyEmpty('stock1','库存量不能为空')
+      ||!this.verifyEmpty('vupLimitnum','限购数量不能为空')||!this.verifyEmpty('updetail','净菜详情不能为空')) {
+      this.verifyEmpty('upnewname','净菜名称不能为空');
+      this.verifyEmpty('vupprice','价格不能为空');
+      this.verifyEmpty('stock1','库存量不能为空');
+      this.verifyEmpty('vupLimitnum','限购数量不能为空');
+      this.verifyEmpty('updetail','净菜详情不能为空');
+      return false;
     }
     this.getSaleTime(2);
     if(this.days==""){
@@ -256,7 +262,7 @@ chang(value) {
     }
     this.vegetableUp.saletime = this.days;
     if(this.vegetableUp.imgPath&&this.vegetableUp.imgPath.length>200){
-      this.vegetableUp.imgPath = null;
+      delete this.vegetableUp.imgPath;
     }
     this.vegetableInfoService.updateVegetable(this.vegetableUp)
       .subscribe(data => {
