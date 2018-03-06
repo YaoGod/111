@@ -99,9 +99,51 @@ chang(value) {
       })
   }
 /*新增净菜*/
+  public verifyvnewnane(id) {
+    if (!this.isEmpty(id, '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifyvprice(id) {
+    let reg =/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+    if (!this.isEmpty(id, '不能为空')) {
+      return false;
+    }
+    if(!reg.test($('#' + id).val())){
+      this.addErrorClass(id, "请输入正确的价格");
+      return false;
+    }
+    return true;
+  }
+  public verifystock(id) {
+    if (!this.isEmpty(id, '不能为空')) {
+      return false;
+    }
+    if(!this.verifyIsNumber(id, "请输入正确的库存数")){
+      return false;
+    }
+    return true;
+  }
+  public verifyvnewLimitnum(id) {
+    if (!this.isEmpty(id, '不能为空')) {
+      return false;
+    }
+    if(!this.verifyIsNumber(id, "请输入整数份")){
+      return false;
+    }
+    return true;
+  }
+  public verifyadddetail(id) {
+    if (!this.isEmpty(id, '不能为空')) {
+      return false;
+    }
+    return true;
+  }
   addVegetable() {
-    if (!this.verifyEmpty('vnewnane','净菜名称不能为空')||!this.verifyEmpty('vprice','价格不能为空')||
-      !this.verifyEmpty('vnewLimitnum','限购数量')||!this.verifyEmpty('adddetail','净菜详情不能为空')) {
+    if (!this.verifyvnewnane('vnewnane')||!this.verifyvprice('vprice')||!this.verifystock('stock')||
+      !this.verifyvnewLimitnum('vnewLimitnum')||!this.verifyadddetail('adddetail')) {
+      return false;
     }
     this.getSaleTime(1);
     if(this.days==""){
@@ -240,43 +282,81 @@ chang(value) {
     $('#prese2').val('');
     $('.errorMessage').html('');
   }
+  /*编辑商品信息校验并提交*/
+  public verifyupnewname(id) {
+    if (!this.isEmpty(id, '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifyvupprice(id) {
+    let reg =/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+    if (!this.isEmpty(id, '不能为空')) {
+      return false;
+    }
+    if(!reg.test($('#' + id).val())){
+      this.addErrorClass(id, "请输入正确的价格");
+      return false;
+    }
+    return true;
+  }
+  public verifystock1(id) {
+    if (!this.isEmpty(id, '不能为空')) {
+      return false;
+    }
+    if(!this.verifyIsNumber(id, "请输入正确的库存数")){
+      return false;
+    }
+    return true;
+  }
+  public verifyvupLimitnum(id) {
+    if (!this.isEmpty(id, '不能为空')) {
+      return false;
+    }
+    if(!this.verifyIsNumber(id, "请输入整数份")){
+
+      return false;
+    }
+    return true;
+  }
+  public verifyupdetail(id) {
+    if (!this.isEmpty(id, '不能为空')) {
+      return false;
+    }
+    return true;
+  }
   updateVegetable() {
-    if (!this.verifyEmpty('upnewname','净菜名称不能为空')||!this.verifyEmpty('vupprice','价格不能为空')||!this.verifyEmpty('stock1','库存量不能为空')
-      ||!this.verifyEmpty('vupLimitnum','限购数量不能为空')||!this.verifyEmpty('updetail','净菜详情不能为空')) {
-      this.verifyEmpty('upnewname','净菜名称不能为空');
-      this.verifyEmpty('vupprice','价格不能为空');
-      this.verifyEmpty('stock1','库存量不能为空');
-      this.verifyEmpty('vupLimitnum','限购数量不能为空');
-      this.verifyEmpty('updetail','净菜详情不能为空');
+    if (!this.verifyupnewname('upnewname')||!this.verifyvupprice('vupprice')||!this.verifystock1('stock1') ||
+      !this.verifyvupLimitnum('vupLimitnum')||!this.verifyupdetail('updetail')) {
       return false;
     }
-    this.getSaleTime(2);
-    if(this.days==""){
-      confirmFunc.init({
-        'title': '提示' ,
-        'mes': '请选择预定时间！',
-        'popType': 0 ,
-        'imgType': 2 ,
-      });
-      return false;
-    }
-    this.vegetableUp.saletime = this.days;
-    if(this.vegetableUp.imgPath&&this.vegetableUp.imgPath.length>200){
-      delete this.vegetableUp.imgPath;
-    }
-    this.vegetableInfoService.updateVegetable(this.vegetableUp)
-      .subscribe(data => {
-        if (this.errorVoid.errorMsg(data)) {
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': "修改成功",
-            'popType': 0 ,
-            'imgType': 1 ,
-          });
-          this.closeMaskUp();
-          this.getVegetableList();
-        }
-      })
+      this.getSaleTime(2);
+      if(this.days==""){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '请选择预定时间！',
+          'popType': 0 ,
+          'imgType': 2 ,
+        });
+        return false;
+      }
+      this.vegetableUp.saletime = this.days;
+      if(this.vegetableUp.imgPath&&this.vegetableUp.imgPath.length>200){
+        delete this.vegetableUp.imgPath;
+      }
+      this.vegetableInfoService.updateVegetable(this.vegetableUp)
+        .subscribe(data => {
+          if (this.errorVoid.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': "修改成功",
+              'popType': 0 ,
+              'imgType': 1 ,
+            });
+            this.closeMaskUp();
+            this.getVegetableList();
+          }
+        })
   }
 /*修改结束*/
 
@@ -304,44 +384,11 @@ chang(value) {
     });
   }
 
-  public verifyEmpty(id,label) {
-    if (!this.isEmpty(id, label)) {
-      return false;
-    }
-    if(id=="vnewLimitnum"){
-      let reg = /^[1-9]\d*$/;
-      if(!reg.test($('#' + id).val())){
-        this.addErrorClass(id, "请输入正确的数字");
-        return true;
-      }
-    }
-    if(id=="vupLimitnum"){
-      let reg = /^[1-9]\d*$/;
-      if(!reg.test($('#' + id).val())){
-        this.addErrorClass(id, "请输入正确的数字");
-        return true;
-      }
-    }
-    if(id=="vprice"){
-      let reg =/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
-      if(!reg.test($('#' + id).val())){
-        this.addErrorClass(id, "请输入正确的价格");
-        return true;
-      }
-    }
-    if(id=="vupprice"){
-      let reg =/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
-      if(!reg.test($('#' + id).val())){
-        this.addErrorClass(id, "请输入正确的价格");
-        return true;
-      }
-    }
-  }
   /**非空校验*/
   private isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
     if (data==null||data==''||data.trim() === '')  {
-  this.addErrorClass(id, error);
+      this.addErrorClass(id, error);
       return false;
     }else {
       this.removeErrorClass(id);
@@ -354,15 +401,10 @@ chang(value) {
     }
     return true;
   }
-  /**
-   * 匹配数字
-   * @param id
-   * @param error
-   * @returns {boolean}
-   */
+  /** 匹配数字 */
   private verifyIsNumber(id: string, error: string): boolean  {
     const data =  $('#' + id).val();// /^[0-9]*$/
-    if (!String(data).match(/^[1-9]\d(\.\d+){0,2}$/))  {
+    if (!String(data).match(/^[0-9]*$/))  {
       this.addErrorClass(id, error);
       return false;
     }else {
@@ -370,11 +412,7 @@ chang(value) {
       return true;
     }
   }
-  /**
-   * 添加错误信息class
-   * @param id
-   * @param error
-   */
+  /** 添加错误信息class */
   private  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
@@ -383,10 +421,7 @@ chang(value) {
       $('#' + id).next('span').html(error);
     }
   }
-  /**
-   * 去除错误信息class
-   * @param id
-   */
+  /** 去除错误信息class */
   private  removeErrorClass(id: string) {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');

@@ -196,7 +196,7 @@ button{
   overflow: hidden;
   width: 100%;
   max-width: 100%;
-  height: 190px;
+  height: 120px;
   font-size: 14px;
   line-height: 22px;
   color: #777;
@@ -207,7 +207,7 @@ button{
 .dropify-wrapper p{
   position: absolute;
   left:0;
-  top:88px;
+  top:51px;
   width:100%;
   line-height:24px;
   z-index: 2;
@@ -345,12 +345,6 @@ button{
   -webkit-box-shadow: 0 0 3px #ddd inset;
   border-radius: 4px;
 }
-.modal-right2{
-  width: 100%;
-  height:150px;
-  text-align: -webkit-left;
-  margin-top: 30px;
-}
 .producttext{
   font-size: 12px;
   text-indent: 1px;
@@ -375,23 +369,24 @@ button{
 .cancel{
   background-color:rgb(170, 170, 170);
 }
-.protop{
-  height: 190px;
-  display: inline-block;
+.protop{ }
+.protop-left{
+  float: left;
 }
 .pimg{
-  width: 250px;
-  height:200px;
-  float: left;
+  width: 150px;
+  height:120px;
+  margin-bottom:5px;
   border: 2px solid #E5E5E5;
+  position: relative;
 }
 .pdetail{
-  width: 507px;
-  float: right;
+  width: 610px;
+  float: left;
   margin-left: 2px;
 }
 .for{
-  margin-top: 6px;
+  margin-top: 15px;
   display: -webkit-box;
   white-space: nowrap;
 }
@@ -406,67 +401,9 @@ button{
   text-align: right;
 }
 
-
-
-
-html,body,div,span,img,button,ul,li,dl,dt,dd,input,select,option,table,tr,th,td,h1,h2,h3,h4,h5,h6{
-  margin: 0;
-  padding: 0;
-}
-body{
-  font-family: "微软雅黑";
-}
-ul,li{
-  list-style: none;
-}
-.hid{
-  display: none;
-}
-.left{
-  position: relative;
-  display: inline-block;
-  width: 222px;
-  top: 0;
-  left: 0;
-  background: #fff;
-}
-.right{
-  width: 100%;
-  height: auto;
-  float: right;
-  background: #edf1f5;
-}
-.logo{
-  width: 184px;
-  height: 54px;
-  margin: 12px auto 19px auto;
-  background: url('../../../../assets/image/logo.jpg') no-repeat;
-}
-.user-info{
-  text-align: center;
-}
-.user-img{
-  width: 70px;
-  height: 70px;
-  display: inline-block;
-  background: url('../../../../assets/image/user.jpg') no-repeat;
-}
-.user-txt{
-  display: block;
-  margin: 8px 0;
-  background-image: url('../../../../assets/image/icon-down.jpg');
-  background-repeat: no-repeat;
-  background-position-x: 130px;
-}
-.user-list{
-  border: none;
-  font-size: 16px;
-  font-family: "微软雅黑";
-  /*display: none;*/
-}
 select{
   outline:medium;
-  width: auto;
+  width: 77px;
   padding-right: 3em;
   height: 31px;
   border: 1px solid #ddd;

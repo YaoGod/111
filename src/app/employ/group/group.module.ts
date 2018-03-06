@@ -21,6 +21,7 @@ import { ManagerComponent } from './manager/manager.component';
 import { ReportComponent } from './report/report.component';
 import { CountComponent } from './count/count.component';
 import {ImgurlModule} from "../../pipe/imgurl/imgurl.module";
+import { GroupinfoComponent } from './groupinfo/groupinfo.component';
 const routes: Routes = [
   { path: '',
     component : GroupComponent,
@@ -75,6 +76,9 @@ const routes: Routes = [
       },{
         path: 'count',
         component:CountComponent
+      },{
+        path: 'info/:id',
+        component:GroupinfoComponent
       }
     ]
   }
@@ -91,6 +95,6 @@ const routes: Routes = [
   exports:[RouterModule],
   declarations: [HomepageComponent, ProductComponent, OrderComponent, GroupbuyComponent, NoticeComponent, CartComponent,
     GroupComponent, ConfirmCartComponent, MyorderComponent, SlideImgComponent, CheckComponent, ManagerComponent,
-    ReportComponent, CountComponent]
+    ReportComponent, CountComponent, GroupinfoComponent]
 })
 export class GroupModule { }

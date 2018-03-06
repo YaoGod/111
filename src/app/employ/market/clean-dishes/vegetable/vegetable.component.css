@@ -745,6 +745,8 @@ button{
   vertical-align: middle;
   color: #666;
   font-size: 12px;
+  max-height: 200px;
+  overflow: hidden;
   box-sizing: border-box;
 }
 .list-table dd span{

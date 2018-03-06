@@ -26,6 +26,8 @@ export class ManagerComponent implements OnInit {
   public total = 0;
   public length = 5;
   public pages: Array<number>;
+  public imgUrl: Array<string>;
+  public open = false;
   public upGroupProduct={
     code:'',
     name: '',
@@ -40,7 +42,8 @@ export class ManagerComponent implements OnInit {
     payaccount:'',
     label:  '',
     producttype: '',
-    shipping:''
+    shipping:'',
+    imgPathList:[]
   };
 
   public upStatusProduct={
@@ -79,7 +82,6 @@ export class ManagerComponent implements OnInit {
     this.search.checkStatus = '1';
     this.groupProductService.getProductList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
-        // console.log(data);
         this.groupProducts = data.data.infos;
         this.total = data.data.total;
       }
@@ -163,12 +165,7 @@ export class ManagerComponent implements OnInit {
       return true;
     }
   }
-  /**
-   * 匹配数字
-   * @param id
-   * @param error
-   * @returns {boolean}
-   */
+  /** 匹配数字 */
   public verifyIsNumber(id: string, error: string): boolean  {
     const data =  $('#' + id).val();// /^[0-9]*$/
     if (!String(data).match(/^[1-9]\d(\.\d+){0,2}$/))  {
@@ -179,34 +176,29 @@ export class ManagerComponent implements OnInit {
       return true;
     }
   }
-  /**
-   * 添加错误信息class
-   * @param id
-   * @param error
-   */
+  /** 添加错误信息class */
   public  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
-      $('#' + id).next('span').html('输入错误');
+      $('#' + id).siblings('span').html('输入错误');
     }else {
-      $('#' + id).next('span').html(error);
+      $('#' + id).siblings('span').html(error);
     }
   }
-  /**
-   * 去除错误信息class
-   * @param id
-   */
+  /** 去除错误信息class */
   public  removeErrorClass(id: string) {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
-    $('#' + id).next('span').html('');
+    $('#' + id).siblings('span').html('');
   }
-  /*点击修改*/
+  /** 点击修改*/
   update(code: string) {
     this.groupProductService.getGroupProduct(code)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
+          this.open = true;
           this.upGroupProduct = data.data;
+          this.imgUrl = this.upGroupProduct.imgPath.split(';');
           $('.mask2').show();
         }
       })
@@ -219,11 +211,16 @@ export class ManagerComponent implements OnInit {
         'upnewesetail','商品详情不能为空')) {
       return false;
     }
-    if(this.upGroupProduct.startTime > this.upGroupProduct.endTime){
+    let postdata = JSON.parse(JSON.stringify(this.upGroupProduct));
+    if(postdata.startTime > postdata.endTime){
       this.addErrorClass('upnewendTime', '结束时间不能早于开始时间');
       return false;
     }
-    this.groupProductService.updateGroupbuyProduct(this.upGroupProduct)
+    postdata.imgPath = '';
+    for(let i=0;i<this.imgUrl.length;i++){
+      postdata.imgPath += this.imgUrl[i] + ';'
+    }
+    this.groupProductService.updateGroupbuyProduct(postdata)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
@@ -240,31 +237,25 @@ export class ManagerComponent implements OnInit {
   closeMask2() {
     $('.errorMessage').html('');
     $('.mask2').hide();
-    $('#prese').val('');
+    $('#prese1,#prese2,#prese3').val('');
   }
-  closeMask0() {
-    $('.errorMessage').html('');
-    $('.mask0').hide();
-    $('#prese0').val('');
-  }
-  closeMask3() {
-    $('.errorMessage').html('');
-    $('.mask3').hide();
-  }
+
   /*修改文件图片上传*/
-  prese_upload2(files){
+  prese_upload2(files,index){
     let xhr = this.groupProductService.uploadImg(files[0],'group',-2);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)){
-          this.upGroupProduct.imgPath = data.msg;
+          this.imgUrl[index] = data.msg;
           confirmFunc.init({
             'title': '提示',
-            'mes': data['上传成功'],
+            'mes':'上传成功',
             'popType': 0,
             'imgType': 1,
           });
+        }else {
+          $("#prese1,#prese2,#prese3").val("");
         }
       }
     };
