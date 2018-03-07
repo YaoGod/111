@@ -87,7 +87,7 @@ export class StaffWelfareMangComponent implements OnInit {
   }
   /*文件图片上传*/
   prese_upload(files){
-    let xhr = this.welfareEmployeeService.uploadImg(files[0],-1);
+    let xhr = this.welfareEmployeeService.uploadImg(files[0],"welfare",-1);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);

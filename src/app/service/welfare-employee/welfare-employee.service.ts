@@ -19,8 +19,8 @@ export class WelfareEmployeeService {
    param: postData:file,
    return:
    */
-  uploadImg(postData,id){
-    const url = this.ipSetting.ip + "/employee/Welfare/uploadImg/" +id;
+  uploadImg(postData,type,id){
+    const url = this.ipSetting.ip + "/employee/util/uploadImg/"+ type+"/"+id;
     let form = new FormData();
     if (typeof(postData) === 'object') {
       form.append('img', postData);

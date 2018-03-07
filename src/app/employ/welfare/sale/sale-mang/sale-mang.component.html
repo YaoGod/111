@@ -1,0 +1,259 @@
+<!--页面标题-->
+<div class="nav-title">
+  <a><h4>商品管理</h4></a>
+  <div class="b-head-right">
+    <div class="content-box" tabindex="0" onclick="history.go(-1)">
+      <i class="icon-reload"></i> 返回
+    </div>
+  </div>
+</div>
+<!--搜索栏-->
+<div class="search-bar">
+  <ul>
+    <li>
+      <input type="text" name="search" [(ngModel)]="search">
+      <a (click)="getSale(1);"><i class="icon-magnifier"></i>查询</a>
+    </li>
+    <li>
+      <a class="btn-danger"
+         (click)="fadeBom()">
+        <i class="icon-plus"></i>
+        添加
+      </a>
+    </li>
+  </ul>
+</div>
+<!--表头-->
+<div class="table-head" style="margin-top: 10px">
+  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+    <tr class="row list-title" style="height:45px;">
+      <th width="10%" class="text-left">名称</th>
+      <th width="5%" class="text-left">类型</th>
+      <th width="20%">图片</th>
+      <th width="5%">价格</th>
+      <th width="5%">数量</th>
+      <th width="10%">开始时间</th>
+      <th width="10%">结束时间</th>
+      <th width="15%">抢购对象</th>
+      <th width="10%">审核状态</th>
+      <th width="10%">操作</th>
+    </tr>
+  </table>
+</div>
+<!--表格内容-->
+<div class="table-content" style="min-height: 500px">
+  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+    <tr class="row"  style="height:100px;" *ngFor="let sale of saleList;let i = index">
+      <td width="10%" class="text-left">
+        <span>
+          {{sale.name}}
+        </span>
+      </td>
+      <td width="5%" class="text-left">
+        <p class="tb-text">
+          {{sale.type}}
+        </p>
+      </td>
+      <td width="20%" class="box-demo">
+        <img *ngIf="sale.imgPathList&&sale.imgPathList.length>0"
+             [src]="sale.imgPathList[0] | imgsafeurl">
+      </td>
+      <td width="5%">
+        {{sale.price}}
+      </td>
+      <td width="5%">
+        {{sale.maxNumber}}
+      </td>
+      <td width="10%">
+        {{sale.beginTime}}
+      </td>
+      <td width="10%">
+        {{sale.endTime}}
+      </td>
+      <td width="15%">
+        {{sale.deptId}}
+      </td>
+      <td width="10%">
+        {{sale.isCheck}}
+      </td>
+      <td width="10%" class="box-option">
+        <a (click)="linkDetail(discount.id)">
+          <i class="icon-screen-desktop"></i>详情
+        </a>
+        <a (click)="linkStatistics(discount.id)">
+          <i class="icon-chart"></i>统计
+        </a>
+        <a (click)="edit(discount)">
+          <i class="icon-pencil"></i>编辑
+        </a>
+        <a (click)="delete(discount.id)">
+          <i class="icon-trash"></i>删除
+        </a>
+      </td>
+    </tr>
+  </table>
+  <div class="div-none" *ngIf="saleList&&saleList.length < 1">
+    <p>暂无信息</p>
+  </div>
+</div>
+<!--翻页-->
+<app-turn-bar
+  [pageNo] = "pageNo"
+  [pageSize] = "pageSize"
+  [total] = "total"
+  (turnEvent) = "getSale($event)">
+</app-turn-bar>
+
+<!--新建-->
+<div class="mask" style="display: none;">
+  <div  class="modal-content">
+    <div  class="modal-header">
+      <h4 class="modal-title"><i class="icon-home"></i>{{winTitle}}商品信息</h4>
+      <button class="modal-close" type="button" (click)="closeMask()">×</button>
+    </div>
+    <form  class="form-building form-material ng-untouched ng-pristine ng-valid" novalidate="">
+      <div  class="modal-body clearfix">
+        <div class="modal-left">
+          <div class="dropify-wrapper" *ngFor="let img of copySale.imgPathList;let i = index">
+            <a class="top-trash" title="删除图片" (click)="delImgPath(i)">x</a>
+            <div  class="dropify-message">
+              <img [src]="img | imgsafeurl" *ngIf="img">
+            </div>
+          </div>
+          <div  class="dropify-wrapper bpt">
+            <div  class="dropify-message"></div>
+            <p>点击上传图片</p>
+            <input  class="dropify" type="file"  id="press" #press
+                    (change)="prese_upload(press.files)">
+          </div>
+          <span class="error"></span>
+        </div>
+        <div  class="modal-right">
+          <div  class="form-group">
+            <label  class="control-label"><span>商品名称</span>
+              <input class="form-control" id="name"
+                     name="name" placeholder="" type="text"
+                     [(ngModel)]="copySale.name"
+                     (blur)="verifyEmpty(copySale.name,'name')">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label"><span>商品类型</span>
+              <input class="form-control" id="type"
+                     name="type" placeholder="" type="text"
+                     [(ngModel)]="copySale.type"
+                     (blur)="verifyEmpty(copySale.type,'type')">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label"><span>价&nbsp;&nbsp;格</span>
+              <input class="form-control" id="price"
+                     name="price" placeholder="" type="number"
+                     [(ngModel)]="copySale.price"
+                     (blur)="verifyEmpty(copySale.price,'price')">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label"><span>数量</span>
+              <input class="form-control" id="maxNumber"
+                     name="maxNumber" placeholder="" type="number"
+                     [(ngModel)]="copySale.maxNumber"
+                     (blur)="verifyEmpty(copySale.maxNumber,'maxNumber')">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label"><span>内容介绍</span>
+              <textarea class="form-control" id="summary" name="summary" rows="5"
+                        style="line-height: 20px;"
+                        [(ngModel)]="copySale.summary"
+                        (blur)="verifyEmpty(copySale.summary,'summary')"
+              ></textarea>
+            </label>
+            <div class="error"></div>
+          </div>
+        </div>
+        <div  class="modal-right">
+          <div  class="form-group">
+            <label  class="control-label"><span>开始时间</span>
+              <input class="form-control" id="beginTime"
+                     name="beginTime" placeholder="" type="datetime-local"
+                     [(ngModel)]="copySale.beginTime"
+                     (blur)="verifyEmpty(copySale.beginTime,'beginTime')">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label"><span>结束时间</span>
+              <input class="form-control" id="endTime"
+                     name="endTime" placeholder="" type="datetime-local"
+                     [(ngModel)]="copySale.endTime"
+                     (blur)="verifyEmpty(copySale.endTime,'endTime')">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label"><span>抢购对象</span>
+              <textarea class="form-control" rows="4" style="line-height: 20px"
+                        id="deptName" name="deptName" readonly
+                     [(ngModel)]="copySale.deptName">
+              </textarea>
+              <a class="btn-slt btn-info" onclick="$('#deptSltWin').show()">选取</a>
+            </label>
+            <div class="error"></div>
+          </div>
+          <div class="modal-more" id="deptSltWin" style="display: none">
+            <h5>杭州移动各部门</h5>
+            <h5>已选：&nbsp;&nbsp;
+              <span>{{copySale.deptName.join(',')}}</span></h5>
+            <div class="choose-group">
+              <label class="cb-blue">
+                <input type="checkbox" name="all" id="all" [(ngModel)]="isAllDept" (change)="chooseAll()">
+                <span>所有人员</span>
+              </label>
+            </div>
+            <div class="choose-list">
+              <div class="choose-group" *ngFor="let dept of deptList;let i=index">
+                <label class="cb-blue">
+                  <input type="checkbox" name="deptID" [(ngModel)]="dept.choose"
+                         [value]="dept.DEPT_ID"
+                         (change)="chooseDept()">
+                  <span>{{dept.DEPT_NAME}}</span>
+                </label>
+              </div>
+            </div>
+            <div  class="modal-more-footer">
+              <button  class="btn btn-info" type="submit"
+                       onclick="$('#deptSltWin').fadeOut()">确定</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <div  class="control-label"><span>提交审核</span>
+              <label>
+                <input id="isCheck1" name="isCheck"
+                       type="radio" value="是"
+                       [(ngModel)]="copySale.isCheck">
+                是
+              </label>
+              <label>
+                <input id="isCheck2" name="isCheck"
+                       type="radio" value="否"
+                       [(ngModel)]="copySale.isCheck">
+                否
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div  class="modal-footer">
+        <button  class="btn btn-info" type="submit"
+                 (click)="submit()">保 存</button>
+        <button  class="btn btn-danger" type="button"
+                 (click)="closeMask()">取 消</button>
+      </div>
+    </form>
+  </div>
+</div>

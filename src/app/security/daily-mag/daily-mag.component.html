@@ -3,39 +3,19 @@
   <app-title></app-title>
   <!--大楼列表展示-->
   <div class="cont">
-
+    <div class="cont-nav-box">
     <ul class="cont-nav clearfix">
       <li *ngFor="let cata of catas">
         <a [routerLink]="cata.routeUrl" routerLinkActive="active">
           {{cata.name}}<span></span>
         </a>
       </li>
-      <!--<li>
-        <a routerLink="repair" routerLinkActive="active">大楼维修记录<span></span></a>
-
-      </li>
-      <li>
-        <a routerLink="fitment" routerLinkActive="active">大楼装修记录<span></span></a>
-
-      </li>
-      <li>
-        <a routerLink="guard" routerLinkActive="active">大楼服务公司人员<span></span></a>
-      </li>
-      <li>
-        <a routerLink="device" routerLinkActive="active">大楼大型设备<span></span></a>
-      </li>
-      <li>
-        <a routerLink="energy" routerLinkActive="active">大楼能耗信息<span></span></a>
-      </li>-->
     </ul>
+    </div>
     <div class="cont-inner">
       <router-outlet></router-outlet>
-      <div class="footer">
-        2017&copy; 中国移动集团浙江有限公司杭州分公司
-      </div>
     </div>
+    <app-footer></app-footer>
   </div>
-
-
 </div>
 

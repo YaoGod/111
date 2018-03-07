@@ -286,7 +286,7 @@ export class GoodsComponent implements OnInit {
   }
   /*新增页面文件图片上传*/
   prese_upload(files){
-    let url = '/goodsProduct/uploadImg/'+'goodsProduct';
+    let url = '/employee/util/uploadImg/goodsProduct/-1';
     let xhr = this.ipSetting.uploadImg(url,files[0])
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
@@ -313,7 +313,7 @@ export class GoodsComponent implements OnInit {
   }
   /*修改文件图片上传*/
   prese_upload2(files){
-    let url = '/goodsProduct/uploadImg/'+'goodsProduct';
+    let url = '/employee/util/uploadImg/goodsProduct/-1';
     let xhr = this.ipSetting.uploadImg(url,files[0]);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {

@@ -69,7 +69,7 @@ export class DiscountInfoMangComponent implements OnInit {
   }
   /*文件图片上传*/
   prese_upload(files){
-    var xhr = this.discountEmployeeService.uploadImg(files[0],-1);
+    var xhr = this.discountEmployeeService.uploadImg(files[0],"discount",-1);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);

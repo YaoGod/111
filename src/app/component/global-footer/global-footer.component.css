@@ -4,7 +4,8 @@
   color: #56646c;
   background: #ffffff;
   text-align: center;
-  border-top: 1px solid #e1eaf2;
+  box-shadow: 0 1px 2px #e1eaf2;
+  clear: both;
 }
 @media screen and (max-width: 1400px){
   .foot{

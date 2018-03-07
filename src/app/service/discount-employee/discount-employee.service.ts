@@ -19,8 +19,8 @@ export class DiscountEmployeeService {
    param: postData:file,
    return:
    */
-  uploadImg(postData,id){
-    const url = this.ipSetting.ip + "/employee/discount/uploadImg/" +id;
+  uploadImg(postData,type,id){
+    const url = this.ipSetting.ip + "/employee/util/uploadImg/"+type+"/"+id;
     var form = new FormData();
     if (typeof(postData) === 'object') {
       form.append('img', postData);

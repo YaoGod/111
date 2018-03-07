@@ -4,7 +4,7 @@
 }
 .msg{
   height:  100%;
-  padding: 2%;
+  padding: 25px;
   background: #ffffff;
   box-shadow: 0 0 2px rgba(181, 186, 193, 0.25);
 }
@@ -22,7 +22,7 @@
 .nav-msg{
   display: flex;
   height: 40px;
-  margin-top:25px;
+  margin-top:20px;
   border-bottom: 1px solid #ddd;
 }
 .nav-msg>li{

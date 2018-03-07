@@ -28,6 +28,10 @@ const routes: Routes = [
       {
         path: 'staffWelfare',
         loadChildren: './staff-welfare/staff-welfare.module#StaffWelfareModule'
+      },
+      {
+        path: 'sale',
+        loadChildren: './sale/sale.module#SaleModule'
       }
 
     ]
