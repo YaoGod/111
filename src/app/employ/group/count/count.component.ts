@@ -36,7 +36,7 @@ export class CountComponent implements OnInit {
 
   ngOnInit() {
     this.getRule();
-    this.getCountList();
+    this.getCountList(1);
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'group','employ/group')
@@ -57,11 +57,10 @@ export class CountComponent implements OnInit {
   }
   /*跳页加载数据*/
   goPage(page:number){
-    this.pageNo = page;
     if(this.search==null){
       this.search = new SearchOrder();
     }
-    this.getCountList();
+    this.getCountList(page);
   }
 
   changeDate(){
@@ -82,7 +81,8 @@ export class CountComponent implements OnInit {
     }
     this.pageNo = 1;
   }
-  getCountList(){
+  getCountList(num){
+    this.pageNo = num;
     let url = '';
     if(this.countType ==='1'){
       if(this.countValue==null || this.countValue===''){

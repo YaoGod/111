@@ -89,8 +89,8 @@ export class ContentComponent implements OnInit {
       });
   }
   /*点击查询*/
-  repairSearch() {
-      this.pageNo = 1;
+  repairSearch(num) {
+      this.pageNo = num;
       this.getRecord(this.searchArch, this.pageNo, this.pageSize);
   }
   /*编辑信息*/

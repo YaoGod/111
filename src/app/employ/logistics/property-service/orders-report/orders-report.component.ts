@@ -139,7 +139,8 @@ export class OrdersReportComponent implements OnInit {
       });
   }
   /*点击查询*/
-  repairSearch(){
+  repairSearch(num){
+    this.pageNo = num;
     this.getRecord(this.searchArch, this.pageNo, this.pageSize)
   }
   /*删除信息*/

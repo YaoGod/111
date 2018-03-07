@@ -116,37 +116,33 @@ export class EnergyComponent implements OnInit {
   }
   /*用水管理*/
   waterFade(event) {
-    this.pageNo = 1;
     this.pages = [];
     this.search = new Search();
     this.Head = this.theadW;
-
     $('#doubleT').html('水费');
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
-    this.listSearch();
+    this.listSearch(1);
   }
   /*用电管理*/
   electricFade(event) {
-    this.pageNo = 1;
     this.pages = [];
     this.search = new Search();
     this.Head = this.theadE;
     $('#doubleT').html('电费');
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
-    this.listSearch();
+    this.listSearch(1);
   }
   /*燃气管理*/
   gasFade(event) {
-    this.pageNo = 1;
     this.pages = [];
     this.search = new Search();
     this.Head = this.theadG;
     $('#doubleT').html('燃气费');
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
-    this.listSearch();
+    this.listSearch(1);
   }
   /*点击导入*/
   leadIn(){
@@ -229,8 +225,8 @@ export class EnergyComponent implements OnInit {
     // $('#buildingId').attr('disabled',false);
   }
   /*点击查询*/
-  listSearch(){
-      this.pageNo = 1;
+  listSearch(num){
+      this.pageNo = num;
       this.getRecord(this.search, this.pageNo, this.pageSize);
       this.search = new Search();
   }
@@ -368,7 +364,7 @@ export class EnergyComponent implements OnInit {
   /*跳页加载数据*/
   goPage(page:number) {
     this.pageNo = page;
-     this.getRecord(this.search, this.pageNo, this.pageSize);
+    this.getRecord(this.search, this.pageNo, this.pageSize);
   }
   /**非空校验*/
   public isEmpty(id: string, error: string): boolean  {

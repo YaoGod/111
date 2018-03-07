@@ -59,7 +59,7 @@ export class ManagerComponent implements OnInit {
     this.getRule();
     this.search = new GroupProduct();
     this.pages = [];
-    this.getProductList();
+    this.getProductList(1);
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'group','employ/group')
@@ -78,7 +78,8 @@ export class ManagerComponent implements OnInit {
         }
       })
   }
-  getProductList(){
+  getProductList(num){
+    this.pageNo = num;
     this.search.checkStatus = '1';
     this.groupProductService.getProductList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
@@ -99,7 +100,7 @@ export class ManagerComponent implements OnInit {
             'popType': 0,
             'imgType': 1,
           });
-          this.getProductList();
+          this.getProductList(1);
         }
       })
   }
@@ -220,6 +221,7 @@ export class ManagerComponent implements OnInit {
     for(let i=0;i<this.imgUrl.length;i++){
       postdata.imgPath += this.imgUrl[i] + ';'
     }
+    delete postdata.imgPathList;
     this.groupProductService.updateGroupbuyProduct(postdata)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
@@ -230,7 +232,7 @@ export class ManagerComponent implements OnInit {
             'imgType': 1,
           });
           this.closeMask2();
-          this.getProductList();
+          this.getProductList(1);
         }
       })
   }
@@ -282,18 +284,17 @@ export class ManagerComponent implements OnInit {
               this.pages = [];
               this.pageNo = 1;
             }
-            this.getProductList();
+            this.getProductList(1);
           });
       }
     });
   }
   /*跳页加载数据*/
   goPage(page:number){
-    this.pageNo = page;
     if(this.search==null){
       this.search = new GroupProduct();
     }
-    this.getProductList();
+    this.getProductList(page);
   }
 
 }

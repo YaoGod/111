@@ -39,7 +39,7 @@ export class ReportComponent implements OnInit {
     this.getRule();
     this.search = new SearchOrder();
     this.search.orderStatus="";
-    this.getReportAllList();
+    this.getReportAllList(1);
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'group','employ/group')
@@ -76,7 +76,8 @@ export class ReportComponent implements OnInit {
       }
     });
   }
-  getReportAllList(){
+  getReportAllList(num){
+    this.pageNo = num;
     this.groupOrderService.getReportAllList(this.search,this.pageNo,this.pageSize).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
@@ -119,13 +120,11 @@ export class ReportComponent implements OnInit {
   }
   /*跳页加载数据*/
   goPage(page:number){
-    this.pageNo = page;
     if(this.search==null){
       this.search = new SearchOrder();
     }
-    this.getReportAllList();
+    this.getReportAllList(page);
   }
-
 }
 
 export class SearchOrder {

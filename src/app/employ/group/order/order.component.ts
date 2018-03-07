@@ -96,7 +96,6 @@ export class OrderComponent implements OnInit {
       .subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
-        console.log(data);
         this.total = data.data.total;
        }
     });

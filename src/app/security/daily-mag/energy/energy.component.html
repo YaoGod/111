@@ -27,7 +27,7 @@
           <input type="month" name="searchD" class="search-ipt" [(ngModel)]="search.eTime">
         </li>
       </ul>
-      <div class="search-right"><a href="javascript:;" class="search-btn" (click)="listSearch()"><i class="icon-magnifier"></i> 查 询</a></div>
+      <div class="search-right"><a href="javascript:;" class="search-btn" (click)="listSearch(1)"><i class="icon-magnifier"></i> 查 询</a></div>
     </div>
     <div class="row" *ngIf="rule&&jurisdiction&&jurisdiction.isInstall">
       <a class="btn btn-lead" href="javascript:;" (click)="leadIn()"><i class="icon-docs"></i> 导 入</a>

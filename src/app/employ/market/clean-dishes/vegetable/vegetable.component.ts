@@ -67,7 +67,7 @@ export class VegetableComponent implements OnInit {
   ngOnInit() {
     this.search = new Vegetable();
     this.pages = [];
-    this.getVegetableList();
+    this.getVegetableList(1);
   }
 
 chang(value) {
@@ -80,7 +80,8 @@ chang(value) {
   }
 }
 
-  getVegetableList(){
+  getVegetableList(num){
+    this.pageNo = num;
     this.vegetableInfoService.getVegetableList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.vegetables = data.data.infos;
@@ -166,7 +167,7 @@ chang(value) {
             'imgType': 1 ,
           });
           this.closeMaskAdd();
-          this.getVegetableList();
+          this.getVegetableList(1);
         }
       })
   }
@@ -354,7 +355,7 @@ chang(value) {
               'imgType': 1 ,
             });
             this.closeMaskUp();
-            this.getVegetableList();
+            this.getVegetableList(1);
           }
         })
   }
@@ -378,7 +379,7 @@ chang(value) {
                 'imgType': 1,
               });
             }
-            this.getVegetableList();
+            this.getVegetableList(1);
           });
       }
     });
@@ -480,10 +481,9 @@ chang(value) {
 
   /*跳页加载数据*/
   goPage(page:number){
-    this.pageNo = page;
     if(this.search==null){
       this.search = new Vegetable();
     }
-    this.getVegetableList();
+    this.getVegetableList(page);
   }
 }

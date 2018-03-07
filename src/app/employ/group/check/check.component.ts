@@ -42,7 +42,7 @@ export class CheckComponent implements OnInit {
     this.getRule();
     this.search = new GroupProduct();
     this.pages = [];
-    this.getProductList();
+    this.getProductList(1);
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'group','employ/group')
@@ -61,7 +61,8 @@ export class CheckComponent implements OnInit {
         }
       })
   }
-  getProductList(){
+  getProductList(num){
+    this.pageNo = num;
     this.search.status = '0';
     this.search.checkStatus='0';
     this.groupProductService.getProductList(this.pageNo,this.pageSize,this.search).subscribe(data => {
@@ -150,7 +151,7 @@ export class CheckComponent implements OnInit {
             'imgType': 1 ,
           });
           this.closeMask0();
-          this.getProductList();
+          this.getProductList(1);
         }
       })
   }
@@ -161,10 +162,9 @@ export class CheckComponent implements OnInit {
 
   /*跳页加载数据*/
   goPage(page:number){
-    this.pageNo = page;
     if(this.search==null){
       this.search = new GroupProduct();
     }
-    this.getProductList();
+    this.getProductList(page);
   }
 }

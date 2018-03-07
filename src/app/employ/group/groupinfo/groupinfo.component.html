@@ -1,3 +1,47 @@
-<p>
-  groupinfo works!
-</p>
+<div class="cont">
+  <div class="cont-wrap">
+    <div class="nav-title">
+      <a><h4>商品详情</h4></a>
+      <div class="b-head-right">
+        <div class="content-box" tabindex="0" onclick="history.go(-1);">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>
+    </div>
+    <div id="print">
+      <!--信息内容-->
+      <div class="warp">
+        <div class="warp-left">
+          <div class="warp-fist">
+            <img *ngIf="discount&&discount.imgPath" [src]="discount.imgPath | imgsafeurl" >
+          </div>
+          <ul class="warp-list">
+            <li *ngFor="let image of discount.imgPathList;let i = index" (mouseover)="chooseImg(i)">
+              <img [src]="image | imgsafeurl">
+            </li>
+          </ul>
+        </div>
+        <div class="warp-right" *ngIf="discount&&discount.name">
+          <h4>{{discount.name}}</h4>
+          <ul>
+            <li>{{discount.label}}</li>
+          </ul>
+          <p><span class="txt-name">联系人:</span><span class="txt-value">{{discount.contact}}</span></p>
+          <p><span class="txt-name">联系电话:</span><span class="txt-value">{{discount.phone}}</span></p>
+          <div class="time clearfix"><i class="icon-clock"></i>
+            <span>团购时间：</span><br><span>{{discount.startTime}}至{{discount.endTime}}</span>
+            <a class="yudingbtn" href="javascript: void(0);" (click)="addToCart(discount.code)">马上预订</a>
+          </div>
+        </div>
+      </div>
+      <div class="cont">
+        <h5><span>详情介绍</span></h5>
+        <div class="summary-text">
+          <textarea id="summary" [rows]="definedRows()" wrap="hard" readonly>{{discount.detail}}</textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+

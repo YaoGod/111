@@ -25,7 +25,7 @@
             <div class="iptgroup">
               <input  name="search" [(ngModel)]="search.title"/>
             </div>
-            <a class="search" href="javascript: void(0);" (click)="getNoticeList()" >查询</a>
+            <a class="search" href="javascript: void(0);" (click)="getNoticeList(1)" >查询</a>
             <div class="row">
               <a class="btn btn-danger" (click)="fadeBom()"  *ngIf="rule&&rule.isInstall" style="padding: 6px 22px;">
                 <i class="icon-plus"></i> 新增</a>

@@ -53,7 +53,7 @@ export class NoticeComponent implements OnInit {
     this.groupNotice = new GroupNotice();
     this.search = new GroupNotice();
     this.pages = [];
-    this.getNoticeList();
+    this.getNoticeList(1);
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'group','employ/group')
@@ -73,7 +73,8 @@ export class NoticeComponent implements OnInit {
       })
   }
   /*获取列表*/
-  getNoticeList() {
+  getNoticeList(num) {
+    this.pageNo = num;
     this.groupNoticeService.getNoticeList(this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.groupNotices = data.data.infos;
@@ -117,7 +118,7 @@ export class NoticeComponent implements OnInit {
             'imgType': 1,
           });
           this.closeMask();
-          this.getNoticeList();
+          this.getNoticeList(1);
         }
       })
   }
@@ -142,7 +143,7 @@ export class NoticeComponent implements OnInit {
               this.pages = [];
               this.pageNo = 1;
             }
-            this.getNoticeList();
+            this.getNoticeList(1);
           });
       }
     });
@@ -183,7 +184,7 @@ export class NoticeComponent implements OnInit {
             'imgType': 1,
           });
           this.closeMask2();
-          this.getNoticeList();
+          this.getNoticeList(1);
         }
       })
   }
@@ -213,7 +214,6 @@ export class NoticeComponent implements OnInit {
     $('.mask3').hide();
   }
   goPage(i){
-    this.pageNo = i;
-    this.getNoticeList();
+    this.getNoticeList(i);
   }
 }

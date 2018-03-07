@@ -125,7 +125,8 @@ export class GuardComponent implements OnInit {
       });
   }
   /*点击查询*/
-  repairSearch() {
+  repairSearch(num) {
+    this.pageNo = num;
     if($('.guard-header a:last-child').hasClass('active')) {
       this.pageNo = 1;
       this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
@@ -296,12 +297,11 @@ export class GuardComponent implements OnInit {
   }
   /*点击公司*/
   companyFade(event) {
-    this.pageNo = 1;
     this.pages = [];
     this.searchCompany = new Company();
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
-    this.repairSearch();
+    this.repairSearch(1);
     $('.box1').show();
     $('.box2').hide();
     $('.guard-company').fadeIn();
@@ -309,12 +309,11 @@ export class GuardComponent implements OnInit {
   }
   /*点击人员档案*/
   archFade(event) {
-    this.pageNo = 1;
     this.pages = [];
     this.searchArch = new Arch();
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
-    this.repairSearch();
+    this.repairSearch(1);
     $('.box1').hide();
     $('.box2').show();
     $('.guard-arch').fadeIn();

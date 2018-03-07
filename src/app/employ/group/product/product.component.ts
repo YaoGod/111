@@ -208,6 +208,7 @@ export class ProductComponent implements OnInit {
     for(let i=0;i<this.imgUrl.length;i++){
       postdata.imgPath += this.imgUrl[i] + ';'
     }
+    delete postdata.imgPathList;
     this.groupProductService.updateGroupbuyProduct(postdata)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {

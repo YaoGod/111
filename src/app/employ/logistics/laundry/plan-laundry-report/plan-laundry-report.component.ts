@@ -34,10 +34,11 @@ export class PlanLaundryReportComponent implements OnInit {
     this.search.serviceCenter = '';
     this.pages = [];
     this.initFac();
-    this.getOrderAllList();
+    this.getOrderAllList(1);
   }
   /*获取订单*/
-  getOrderAllList(){
+  getOrderAllList(num){
+    this.pageNo = num;
     this.checkIsAll();
     let url = '/mmall/laundryOrder/getOrderAllList/'+this.pageNo+'/'+this.pageSize;
     this.ipSetting.sendPost(url,this.search).subscribe(data => {
@@ -59,8 +60,7 @@ export class PlanLaundryReportComponent implements OnInit {
   }
   /*跳页加载数据*/
   public goPage(page:number){
-    this.pageNo = page;
-    this.getOrderAllList();
+    this.getOrderAllList(page);
   }
   /*导出*/
   public export(){
@@ -94,12 +94,6 @@ export class PlanLaundryReportComponent implements OnInit {
             window.location.href = url;
 
           });
-        /*if(this.checks.length>0){
-          this.supermarketManagerService.getOrderAllList('excel',this.checks,this.search,this.pageNo,this.pageSize)
-
-        }else{
-          this.supermarketManagerService.getOrderAllList('excel',['all'],this.search,this.pageNo,this.pageSize)
-        }*/
       }
     });
   }

@@ -57,7 +57,7 @@ export class GoodsComponent implements OnInit {
     this.ipServer = this.ipSetting.ip;
     this.search = new Goods();
     this.pages = [];
-    this.getGoodsList();
+    this.getGoodsList(1);
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'market','employ/market/reserve')
@@ -84,7 +84,8 @@ export class GoodsComponent implements OnInit {
   }
 
   /** 获取商品列表*/
-  getGoodsList(){
+  getGoodsList(num){
+    this.pageNo = num;
     let url = '/goodsProduct/search?';
     if(typeof(this.search.name) == 'undefined'){
       url += 'pageNum='+ this.pageNo +'&pageSize='+ this.pageSize;
@@ -121,7 +122,7 @@ export class GoodsComponent implements OnInit {
             'imgType': 1 ,
           });
           this.closeMaskAdd();
-          this.getGoodsList();
+          this.getGoodsList(1);
         }
       })
   }
@@ -189,7 +190,7 @@ export class GoodsComponent implements OnInit {
             'imgType': 1 ,
           });
           this.closeMaskUp();
-          this.getGoodsList();
+          this.getGoodsList(1);
         }
       })
   }
@@ -214,8 +215,7 @@ export class GoodsComponent implements OnInit {
                 'imgType': 1,
               });
               this.pages = [];
-              this.pageNo = 1;
-              this.getGoodsList();
+              this.getGoodsList(1);
             }
           });
       }
@@ -340,11 +340,10 @@ export class GoodsComponent implements OnInit {
   }
   /*跳页加载数据*/
   goPage(page:number){
-    this.pageNo = page;
     if(this.search==null){
       this.search = new Goods();
     }
-    this.getGoodsList();
+    this.getGoodsList(page);
   }
 }
 

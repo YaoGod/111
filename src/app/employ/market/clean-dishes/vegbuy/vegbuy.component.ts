@@ -34,7 +34,7 @@ export class VegbuyComponent implements OnInit {
     this.search = new Vegetable();
     this.pages = [];
     this.getRule();
-    this.getVegetableShowList();
+    this.getVegetableShowList(1);
 
   }
   getRule(){
@@ -60,7 +60,8 @@ export class VegbuyComponent implements OnInit {
         }
       })
   }
-  getVegetableShowList(){
+  getVegetableShowList(num){
+    this.pageNo = num;
     this.vegetableInfoService.getVegetableShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.vegetables = data.data.infos;
@@ -88,10 +89,9 @@ export class VegbuyComponent implements OnInit {
   }
   /*跳页加载数据*/
   goPage(page:number){
-    this.pageNo = page;
     if(this.search==null){
       this.search = new Vegetable();
     }
-    this.getVegetableShowList();
+    this.getVegetableShowList(page);
   }
 }

@@ -43,7 +43,7 @@ export class GroupbuyComponent implements OnInit {
   public groupNotice = {
     title: '',
     notice: ''
-  }
+  };
   constructor( private globalCatalogService: GlobalCatalogService,
   private groupProductService: GroupProductService,
               private groupNoticeService: GroupNoticeService,
@@ -65,7 +65,7 @@ export class GroupbuyComponent implements OnInit {
     this.pages = [];
     this.search = new GroupProduct();
     this.globalCatalogService.setTitle("员工服务/员工团购网");
-    this.getProductShowList();
+    this.getProductShowList(1);
     this.getNoticeList();
 
   }
@@ -109,9 +109,12 @@ export class GroupbuyComponent implements OnInit {
       })
     }
   }
-
+  skip(id){
+    this.router.navigate(['/hzportal/employ/group/info',id]);
+  }
   /*获取商品列表*/
-  getProductShowList(){
+  getProductShowList(num){
+    this.pageNo = num;
     let url = '/mmall/group/getProductShowList/'+this.pageNo+'/'+this.pageSize;
     this.ipSetting.sendPost(url,this.search)
       .subscribe(data => {
@@ -128,8 +131,7 @@ export class GroupbuyComponent implements OnInit {
 
   /*跳页加载数据*/
   goPage(page:number){
-    this.pageNo = page;
-    this.getProductShowList();
+    this.getProductShowList(page);
   }
   /*获取公告列表*/
   getNoticeList() {

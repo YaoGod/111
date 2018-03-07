@@ -19,7 +19,7 @@
               <input placeholder="请输入商品名称"  [(ngModel)]="search.name"  />
               <a href="javascript: void(0);" class="ipt-search"></a>
             </div>
-            <a class="search" (click)="getGoodsList()" *ngIf="rule&&rule.isSelect">查询</a>
+            <a class="search" (click)="getGoodsList(1)" *ngIf="rule&&rule.isSelect">查询</a>
             <div class="row">
               <a class="btn btn-danger" (click)="add()" style="padding: 6px 22px;" *ngIf="rule&&rule.isInstall">
                 <i class="icon-plus"></i> 新增</a>

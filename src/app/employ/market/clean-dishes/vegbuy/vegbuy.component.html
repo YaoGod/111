@@ -18,7 +18,7 @@
               <div class="iptgroup">
                 <input placeholder="请输入净菜名称" name="vname"  [(ngModel)]="search.vname"  />
               </div>
-              <a class="search" href="javascript: void(0);" (click)="getVegetableShowList()">查询</a>
+              <a class="search" href="javascript: void(0);" (click)="getVegetableShowList(1)">查询</a>
             </div>
             <div class="b-con tuan"  *ngFor="let vegetable of vegetables;let idx=index">
               <div class="row mt20">

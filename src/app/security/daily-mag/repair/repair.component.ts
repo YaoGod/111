@@ -131,7 +131,8 @@ export class RepairComponent implements OnInit {
       });
   }
   /*点击查询*/
-  repairSearch() {
+  repairSearch(num) {
+    this.pageNo = num;
     if(((this.endTime === '' && this.beginTime !== '') || (this.endTime !== '' && this.beginTime === '') || ((this.beginTime !==
       '' &&  this.endTime !== '') && this.beginTime <= this.endTime)) || (this.beginTime === '' && this.endTime === '')){
       if($('.repair-header a:last-child').hasClass('active')) {
@@ -328,11 +329,10 @@ export class RepairComponent implements OnInit {
   recordFade(event) {
     this.beginTime = '';
     this.endTime = '';
-    this.pageNo = 1;
     this.searchRepair = new SearchRecord();
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
-    this.repairSearch();
+    this.repairSearch(1);
     $('.box1').show();
     $('.box2').hide();
     $('.repair-record').fadeIn();
@@ -342,10 +342,9 @@ export class RepairComponent implements OnInit {
   contractFade(event) {
     this.beginTime = '';
     this.endTime = '';
-    this.pageNo = 1;
     $(event.target).addClass('active');
     $(event.target).siblings('a').removeClass('active');
-    this.repairSearch();
+    this.repairSearch(1);
     $('.box1').hide();
     $('.box2').show();
     $('.repair-contract').fadeIn();

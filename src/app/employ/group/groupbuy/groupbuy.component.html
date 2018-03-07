@@ -29,12 +29,12 @@
               <div class="iptgroup">
                 <input type="text" name="search" [(ngModel)]="search.name"/>
               </div>
-              <a class="search" href="javascript: void(0);" (click)="getProductShowList()">查询</a>
+              <a class="search" href="javascript: void(0);" (click)="getProductShowList(1)">查询</a>
               <!-- <input class="search" type="button" value="查询" (click)="getProductShowList()">-->
             </div>
             <div class="b-con">
               <div class="tuan" *ngFor="let groupProduct of groupProducts;let idx=index">
-                <dl class="clearfix">
+                <dl class="clearfix" (click)="skip(groupProduct.code)">
                   <dt class="showpic">
                     <img *ngIf="groupProduct.imgPathList" [src]="groupProduct.imgPathList[0] | imgsafeurl"/>
                   </dt>
@@ -44,28 +44,19 @@
                       <li>{{groupProduct.label}}</li>
                     </ul>
                     <div class="bg-value">¥ {{groupProduct.price}}</div>
-                    <p><span class="txt-name">联系人:</span><span class="txt-value">{{groupProduct.contact}}</span></p>
-                    <p><span class="txt-name">联系电话:</span><span class="txt-value">{{groupProduct.phone}}</span></p>
-                    <!--<ul class="count">
-                      <li>数量：</li>
-                      <li (click)="onclikjian(idx,groupProduct.code)"><span id="num-jian" class="num-jian">-</span></li>
-                      <li><input type="text" class="input-num" readonly id="input-num-{{idx}}" [ngModelOptions]="{standalone: true}"  [(ngModel)]="groupProduct.quantity"/></li>
-                      <li  (click)="onclikadd(idx,groupProduct.code)"><span id="num-jia" class="num-jia">+</span></li>
-                    </ul>-->
-
+                    <!--<p><span class="txt-name">联系人:</span><span class="txt-value">{{groupProduct.contact}}</span></p>
+                    <p><span class="txt-name">联系电话:</span><span class="txt-value">{{groupProduct.phone}}</span></p>-->
+                    <div class="time clearfix"><i class="icon-clock"></i>
+                      <span>团购时间：</span><br><span>{{groupProduct.startTime}}至{{groupProduct.endTime}}</span>
+                      <!--<a class="yudingbtn" href="javascript: void(0);" (click)="addToCart(groupProduct.code)">马上预订</a>-->
+                    </div>
                   </dd>
                 </dl>
-                <div class="time clearfix"><i class="icon-clock"></i>
-                  <span>团购时间：</span><span>{{groupProduct.startTime}}至{{groupProduct.endTime}}</span>
-                  <a class="yudingbtn" href="javascript: void(0);" (click)="addToCart(groupProduct.code)">马上预订</a>
-                </div>
-                <div class="line-txt">
+
+                <!--<div class="line-txt">
                   <span>商品描述</span>
                   <p>{{groupProduct.detail}}</p>
-                </div>
-                <div class="txt">
-
-                </div>
+                </div>-->
               </div>
             </div>
             <app-turn-bar

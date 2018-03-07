@@ -48,10 +48,11 @@ export class VegorderComponent implements OnInit {
   ngOnInit() {
     this.pages = [];
     this.initFac();
-    this.getOrderAllList();
+    this.getOrderAllList(1);
 
   }
-  getOrderAllList(){
+  getOrderAllList(num){
+    this.pageNo = num;
     if(this.productName!=null){
       this.productName = this.productName.trim();
     }
@@ -111,7 +112,7 @@ export class VegorderComponent implements OnInit {
         this.serviceCenter = '';
         this.orderBTime = '';
         this.orderETime = '';
-        this.getOrderAllList();
+        this.getOrderAllList(1);
       }
     });
 
@@ -143,7 +144,7 @@ export class VegorderComponent implements OnInit {
           'imgType': 1 ,
         });
         this.closeMask();
-        this.getOrderAllList();
+        this.getOrderAllList(1);
       }
     });
   }
@@ -165,7 +166,7 @@ export class VegorderComponent implements OnInit {
                 'imgType': 1,
               });
             }
-            this.getOrderAllList();
+            this.getOrderAllList(1);
           });
       }
     });
@@ -205,8 +206,7 @@ export class VegorderComponent implements OnInit {
 
   /*跳页加载数据*/
   goPage(page:number){
-    this.pageNo = page;
-    this.getOrderAllList();
+    this.getOrderAllList(page);
   }
   /*装载要打印的内容*/
   loadFormData(data:any){
