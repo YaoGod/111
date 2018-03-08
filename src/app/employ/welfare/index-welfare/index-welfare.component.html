@@ -1,13 +1,13 @@
 <div class="goods-area">
 
   <!--限时抢购-->
-  <div class="goods-inner" ><!--*ngIf="rule3&&rule3.isSelect"-->
+  <div class="goods-inner" *ngIf="rule3&&rule3.isSelect">
     <h4 class="goods-hd">
       <em class="fn3">限时抢购</em>
       <p>
         <span class="subtitle">限时限量提供</span>
       </p>
-      <span class="tb-fn"><!--*ngIf="rule3&&(rule3.isUpdate||rule3.isInstall||rule3.isDelete)"-->
+      <span class="tb-fn" *ngIf="rule3&&(rule3.isUpdate||rule3.isInstall||rule3.isDelete)">
         <a class="btn-mg"
            (click)="linkSaleMag()">管&nbsp;&nbsp;理</a>
         <a class="btn-mg active">我的订单</a>

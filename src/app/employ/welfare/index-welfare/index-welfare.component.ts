@@ -77,7 +77,7 @@ export class IndexWelfareComponent implements OnInit {
             if(this.catas[i].routeUrl === "employ/welfare/staffWelfare/manage"){
               this.rule2 = this.catas[i];
             }
-            if(this.catas[i].routeUrl === "employ/welfare/staffWelfare/manage"){
+            if(this.catas[i].routeUrl === "employ/welfare/sale/manage"){
               this.rule3 = this.catas[i];
             }
           }
