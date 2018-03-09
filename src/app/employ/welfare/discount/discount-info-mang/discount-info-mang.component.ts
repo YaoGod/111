@@ -24,6 +24,8 @@ export class DiscountInfoMangComponent implements OnInit {
   public tempOther: Array<any>;
   public search: string;      /*搜索字段*/
   public navtitle:string;
+  public open = false;
+  public imgUrl: Array<string>;
   constructor(
     private router: Router,
     private route:ActivatedRoute,
@@ -56,25 +58,34 @@ export class DiscountInfoMangComponent implements OnInit {
     this.copyDiscount.others = new Array<Other>();
     this.tempOther = [];
     this.navtitle = "新增";
+    this.open = false;
+    this.imgUrl = ['','',''];
+    this.copyDiscount.imgPathList = [];
     $('.mask').show();
   }
   closeMask(){
     $('.mask').hide();
-    $('#prese').val('');
+    $('#prese1,#prese2,#prese3').val('');
     $('.form-control').removeClass('red');
     $('.dropify-wrapper').removeClass('red');
-    $('.error').fadeOut();
+    $('.error').html('');
     this.copyDiscount = new Discount();
+    this.copyDiscount.imgPathList = ['','',''];
     this.tempOther = [];
   }
   /*文件图片上传*/
-  prese_upload(files){
+  prese_upload(files,index){
     var xhr = this.discountEmployeeService.uploadImg(files[0],"discount",-1);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorResponseService.errorMsg(data)){
-          this.copyDiscount.imgPath = data.msg;
+          this.imgUrl[index] = data.msg;
+          if(this.open){
+            this.copyDiscount.imgPathList[index] = data.msg;
+          }else{
+            this.copyDiscount.imgPathList.push(data.msg);
+          }
         }
       }else if(xhr.readyState === 4 && xhr.status === 413 ){
         confirmFunc.init({
@@ -88,7 +99,6 @@ export class DiscountInfoMangComponent implements OnInit {
   }
   /*文件上传*/
   prese_uploadFile(files){
-    console.log(files[0]);
     let xhr = this.discountEmployeeService.uploadFile(files[0],-1);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
@@ -149,6 +159,15 @@ export class DiscountInfoMangComponent implements OnInit {
         }
       }
       let postdata = JSON.parse(JSON.stringify(this.copyDiscount));
+      if(postdata.imgPathList.length<3){
+        confirmFunc.init({
+          'title': '提示',
+          'mes': '请上传三张图片',
+          'popType': 0,
+          'imgType': 2,
+        });
+        return false;
+      }
       postdata.effectBtime = postdata.effectBtime.replace(/-/g, '/');
       postdata.effectEtime = postdata.effectEtime.replace(/-/g, '/');
       if(typeof (postdata.id) === "undefined" || postdata.id === null) {
@@ -173,8 +192,23 @@ export class DiscountInfoMangComponent implements OnInit {
             }
           });
       }else{
-        if(postdata.imgPath.length>150){
-          delete postdata.imgPath;
+        if(postdata.imgPathList.length<3){
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '请上传三张图片',
+            'popType': 0,
+            'imgType': 2,
+          });
+          return false;
+        }
+        for(let i=0;i<postdata.imgPathList.length;i++){
+          if(postdata.imgPathList[i].length>250){
+            postdata.imgPathList[i] = this.imgUrl[i];
+          }
+        }
+        postdata.imgPath = '';
+        for(let i=0;i<this.imgUrl.length;i++){
+          postdata.imgPath += this.imgUrl[i] + ','
         }
         this.discountEmployeeService.updateDiscount(postdata)
           .subscribe(data => {
@@ -198,12 +232,32 @@ export class DiscountInfoMangComponent implements OnInit {
       }
     }
   }
-  /*编辑*/
+  /*点击编辑*/
+  onEdit(id){
+      this.discountEmployeeService.getDiscount(id)
+        .subscribe(data=> {
+          if(this.errorResponseService.errorMsg(data)){
+            this.open = true;
+            $('.mask').show();
+            this.navtitle = "编辑";
+            this.copyDiscount = data.data;
+            this.imgUrl = this.copyDiscount.imgPath.split(',');
+            this.copyDiscount.effectBtime = this.copyDiscount.effectBtime.replace(/\//g,'-');
+            this.copyDiscount.effectEtime = this.copyDiscount.effectEtime.replace(/\//g,'-');
+            this.tempOther = JSON.parse(JSON.stringify(data.data.others));
+            for(let i = 0;i< this.tempOther.length;i++){
+              this.tempOther[i].isShow = true;
+            }
+          }
+        });
+  }
+  /*之前的编辑*/
   edit(data){
     this.copyDiscount = JSON.parse(JSON.stringify(data));
     this.copyDiscount.effectBtime = this.copyDiscount.effectBtime.replace(/\//g,'-');
     this.copyDiscount.effectEtime = this.copyDiscount.effectEtime.replace(/\//g,'-');
-    this.fadeBom();
+    this.open = true;
+    $('.mask').show();
     this.navtitle = "编辑";
     this.tempOther = JSON.parse(JSON.stringify(data.others));
     for(let i = 0;i< this.tempOther.length;i++){

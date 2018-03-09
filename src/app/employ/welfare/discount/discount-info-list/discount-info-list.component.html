@@ -23,7 +23,7 @@
       <li *ngFor="let discount of discounts">
         <a (click)="linkDiscount(discount.id)">
           <div class="img-wrap">
-            <img *ngIf="discount.imgPath" [src]="discount.imgPath | imgsafeurl">
+            <img *ngIf="discount.imgPath" [src]="discount.imgPathList[0] | imgsafeurl">
           </div>
           <div class="goods-msg">
             <h5>{{discount.title}}</h5>

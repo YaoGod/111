@@ -51,6 +51,7 @@ export class GroupinfoComponent implements OnInit {
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           this.discount = data.data;
+          this.discount.imgPath = this.discount.imgPathList[0];
         }
 
       })

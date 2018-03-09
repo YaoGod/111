@@ -53,7 +53,7 @@
       </td>
       <td width="20%" class="box-demo">
         <img *ngIf="discount.imgPath"
-             [src]="discount.imgPath | imgsafeurl">
+             [src]="discount.imgPathList[0] | imgsafeurl">
       </td>
       <td width="10%">
         {{discount.feedBack}}
@@ -72,6 +72,7 @@
           <i class="icon-chart"></i>统计
         </a>
         <a (click)="edit(discount)">
+        <!--<a (click)="onEdit(discount.id)">-->
           <i class="icon-pencil"></i>编辑
         </a>
         <a (click)="delete(discount.id)">
@@ -102,17 +103,39 @@
     <form  class="form-building form-material ng-untouched ng-pristine ng-valid" novalidate="">
       <div  class="modal-body clearfix">
         <div class="modal-left">
-          <div  class="dropify-wrapper" id = "newImgPath">
+          <div  class="dropify-wrapper">
             <div  class="dropify-message">
-              <img [src]="copyWelfare.imgPath | imgsafeurl:press.files" *ngIf="copyWelfare.imgPath">
+              <!--<img [src]="copyWelfare.imgPath | imgsafeurl:press1.files" *ngIf="copyWelfare.imgPath">-->
+              <img *ngIf="!open&&imgUrl&&imgUrl[0].length>0" [src]="copyWelfare.imgPath | imgsafeurl:press1.files">
+              <img *ngIf="open&&copyWelfare.imgPathList[0]" [src]="copyWelfare.imgPathList[0] | imgsafeurl:press1.files" />
             </div>
-            <p >点击上传福利信息内容图</p>
-            <input  class="dropify" type="file"  id="press"
-                    #press
-                    (change)="prese_upload(press.files)"
-                    (blur)="verifyImgPath()">
+            <p >点击上传图片</p>
+            <input  class="dropify" type="file"  id="press1"
+                    #press1
+                    (change)="prese_upload(press1.files,0)">
           </div>
-          <span class="error"></span>
+          <div  class="dropify-wrapper">
+            <div  class="dropify-message">
+              <!--<img [src]="copyWelfare.imgPath | imgsafeurl:press2.files" *ngIf="copyWelfare.imgPath">-->
+              <img *ngIf="!open&&imgUrl&&imgUrl[1].length>0" [src]="copyWelfare.imgPath | imgsafeurl:press2.files">
+              <img *ngIf="open&&copyWelfare.imgPathList[1]" [src]="copyWelfare.imgPathList[1] | imgsafeurl:press2.files" />
+            </div>
+            <p >点击上传图片</p>
+            <input  class="dropify" type="file"  id="press2"
+                    #press2
+                    (change)="prese_upload(press2.files,1)">
+          </div>
+          <div  class="dropify-wrapper">
+            <div  class="dropify-message">
+              <!--<img [src]="copyWelfare.imgPath | imgsafeurl:press3.files" *ngIf="copyWelfare.imgPath">-->
+              <img *ngIf="!open&&imgUrl&&imgUrl[2].length>0" [src]="copyWelfare.imgPath | imgsafeurl:press3.files">
+              <img *ngIf="open&&copyWelfare.imgPathList[2]" [src]="copyWelfare.imgPathList[2] | imgsafeurl:press3.files" />
+            </div>
+            <p >点击上传图片</p>
+            <input  class="dropify" type="file"  id="press3"
+                    #press3
+                    (change)="prese_upload(press3.files,2)">
+          </div>
         </div>
         <div  class="modal-right">
           <div  class="form-group">
@@ -135,7 +158,7 @@
             </label>
             <div class="error"></div>
           </div>
-          <div  class="form-group">
+          <div  class="form-group" *ngIf="copyWelfare.targetId">
             <label  class="control-label" style="height: 50px;">
               <span>享受对象</span>
               <select class="form-control" multiple

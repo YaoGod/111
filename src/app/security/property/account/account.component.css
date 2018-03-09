@@ -172,7 +172,7 @@
   width: 500px;
   position: absolute;
   left: 50%;
-  top: 100px;
+  top: 8%;
   margin-left: -250px;
 }
 .modal-header {
@@ -185,7 +185,7 @@
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  padding: 15px;
+  padding: 10px;
   background-color: #f1f5f8;
 }
 .modal-close{
@@ -300,7 +300,7 @@
   -webkit-box-pack: end;
   -ms-flex-pack: end;
   justify-content: flex-end;
-  padding: 15px;
+  padding: 10px;
   background-color: #f1f5f8;
 }
 .btn-info {

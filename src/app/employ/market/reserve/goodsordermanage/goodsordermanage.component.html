@@ -24,10 +24,17 @@
                 <label>订单编号</label>
                 <input class="search-ipt" type="text" name="orderId1" [(ngModel)]="orderId" >
               </li>
-              <!--<li>
-                <label>商品编号</label>
-                <input class="search-ipt" type="text" name="vegetableId1" [(ngModel)]="vegetableId">
-              </li>-->
+              <li>
+                <label>订单状态</label>
+                <select class="search-ipt" [(ngModel)]="statusDesc">
+                  <option value="">全部</option>
+                  <option value="10">未支付</option>
+                  <option value="20">已付款</option>
+                  <option value="40">已发货</option>
+                  <option value="50">已完成</option>
+                  <option value="0">已取消</option>
+                </select>
+              </li>
             </ul>
             <div class="search-right">
               <a class="search-btn" href="javascript:;" (click)="getOrderAllList(1)"><i class="icon-magnifier"></i> 查 询</a>
@@ -55,7 +62,6 @@
               <td class="zero">下单人电话：{{order.telPhone}}</td>
               <td class="zero">收货地址：{{order.address}}</td>
               <td class="zero">下单时间：{{order.createTime}}</td>
-              <td class="zero"></td>
               <td class="zero"  *ngIf="order.status==20 || order.status==10"></td>
             </tr>
             </table>
@@ -110,7 +116,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">修改订单</h4>
-      <button type="button" class="close"(click)="closeMask()">×</button>
+      <button type="button" class="close" (click)="closeMask()">×</button>
     </div>
     <form class="form-building form-material">
       <input type="hidden" name="updateOrder.id"  [(ngModel)]="updateOrder.orderNo">

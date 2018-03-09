@@ -24,6 +24,7 @@ export class GoodsordermanageComponent implements OnInit {
   public orders:Array<GoodsOrder>;
   public productName = '';
   public orderId = '';
+  public statusDesc = '';
   public vegetableId = '';
   public deptId:string;
   private delId: any;
@@ -65,15 +66,16 @@ export class GoodsordermanageComponent implements OnInit {
     this.pageNo = i;
     /*if(this.productName!=null){
       this.productName = this.productName.trim();
-    }*/
+    }
     if(this.orderId!=null){
       this.orderId = this.orderId.trim();
     }
-    /*if(this.vegetableId!=null){
+    if(this.vegetableId!=null){
       this.vegetableId = this.vegetableId.trim();
     }*/
     let dataSearch = {
-      orderNo:this.orderId
+      orderNo:this.orderId,
+      status:this.statusDesc
     };
     let url = '/goodsOrder/list?userId=' + '' + '&pageNum='+ this.pageNo + '&pageSize=' +this.pageSize;
     this.ipSetting.sendPost(url,dataSearch)
@@ -146,14 +148,14 @@ export class GoodsordermanageComponent implements OnInit {
       {
         title:'',
         type: 'bold',
-        hd:['系统订单号',"服务中心","订单创建时间"],
-        data: [data.orderNo,data.serviceCenter,data.createTime]
+        hd:['系统订单号',"服务中心"],
+        data: [data.orderNo,data.serviceCenter]
       },
       {
         title:"",
         type:"text",
         hd:["订单状态","付款方式","付款时间","发货时间"],
-        data:[data.statusDesc,data.paymentTypeDesc,data.payTime,data.sendTime]
+        data:[data.statusDesc,data.paymentTypeDesc,data.createTime,data.sendTime]
       },
       {
         title:"收货人信息",

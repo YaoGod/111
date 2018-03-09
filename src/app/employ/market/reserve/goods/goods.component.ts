@@ -23,6 +23,7 @@ export class GoodsComponent implements OnInit {
   public total = 0;
   public length = 5;
   public pages: Array<number>;
+  public providers: Array<any>;
   public  goodsView = {
     code:'',
     name: '',
@@ -57,7 +58,10 @@ export class GoodsComponent implements OnInit {
     this.ipServer = this.ipSetting.ip;
     this.search = new Goods();
     this.pages = [];
+    this.search.name = "";
+    this.search.code = "";
     this.getGoodsList(1);
+    this.getproviders();
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'market','employ/market/reserve')
@@ -72,7 +76,15 @@ export class GoodsComponent implements OnInit {
         }
       })
   }
-
+  getproviders(){
+    let url = "/goodsProduct/provider/type";
+    this.ipSetting.sendGet(url)
+      .subscribe(data => {
+        if (this.errorVoid.errorMsg(data)) {
+          this.providers = data.data;
+        }
+      });
+  }
   chang(value) {
     if( $("#"+value).hasClass("btn-danger1")){
       $("#"+value).removeClass("btn-danger1");
@@ -86,12 +98,14 @@ export class GoodsComponent implements OnInit {
   /** 获取商品列表*/
   getGoodsList(num){
     this.pageNo = num;
-    let url = '/goodsProduct/search?';
+    /*let url = '/goodsProduct/search?';
     if(typeof(this.search.name) == 'undefined'){
       url += 'pageNum='+ this.pageNo +'&pageSize='+ this.pageSize;
     }else {
       url += 'name='+ this.search.name +'&pageNum='+ this.pageNo + '&pageSize=' + this.pageSize;
-    }
+    }*/
+    let url = '/goodsProduct/search?name='+ this.search.name +'&code='+this.search.code+
+      '&pageNum='+ this.pageNo +'&pageSize='+ this.pageSize;
     this.ipSetting.sendGet(url)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {

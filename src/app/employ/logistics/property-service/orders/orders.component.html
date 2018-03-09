@@ -126,7 +126,8 @@
       <div class="form-control">
         <span class="form-label">服务楼层</span>
         <div class="form-inp">
-          <select type="text" id="buildingFloor" class="company-ipt company-sel" name="buildingFloor" [(ngModel)]="repairname.floorId">
+          <select type="text" id="buildingFloor" class="company-ipt company-sel" name="buildingFloor" [(ngModel)]="repairname.floorId"
+          (change)="changeSel(repairname.floorId)">
             <option value="">-请选择-</option>
             <option *ngFor="let floor of floorNames" [value]="floor.FLOOR_NUM">{{floor.FLOOR_NUM}}</option>
           </select>
@@ -136,7 +137,11 @@
       <div class="form-control">
         <span class="form-label">服务房间</span>
         <div class="form-inp">
-          <input type="text" id="roomNum" class="company-ipt" name="roomNum" [(ngModel)]="repairname.roomId" required maxlength="9">
+          <!--<input type="text" id="roomNum" class="company-ipt" name="roomNum" [(ngModel)]="repairname.roomId" required maxlength="9">-->
+          <select type="text" id="roomNum" class="company-ipt company-sel" name="roomNum" [(ngModel)]="repairname.roomId">
+            <option value="">-请选择-</option>
+            <option *ngFor="let room of rooms" [value]="room.roomNum">{{room.roomNum}}</option>
+          </select>
           <span class="errorMessage"></span>
         </div>
       </div>

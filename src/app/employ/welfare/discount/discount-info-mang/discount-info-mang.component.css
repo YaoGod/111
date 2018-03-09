@@ -409,14 +409,16 @@ i{
 .dropify-wrapper{
   position: relative;
   cursor: pointer;
+  float: left;
   overflow: hidden;
-  width: 100%;
+  width: 80px;
   max-width: 100%;
-  height: 135px;
+  height: 60px;
   font-size: 14px;
   line-height: 22px;
   color: #777;
   border: 2px solid #E5E5E5;
+  border-radius:5px;
   background-color: #FFF;
   background-image: none;
   text-align: center;
@@ -431,7 +433,7 @@ i{
 .dropify-wrapper p {
   position: absolute;
   left: 0;
-  top: 54px;
+  top: 20px;
   width: 100%;
   line-height: 24px;
   z-index: 2;
@@ -572,7 +574,9 @@ select{
   cursor: pointer;
 }
 .dropify-file{
+  width: 100%;
   position: relative;
+  float: left;
   padding: 10px 0;
   cursor: pointer;
 }

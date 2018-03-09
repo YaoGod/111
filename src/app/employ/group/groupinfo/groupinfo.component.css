@@ -186,3 +186,27 @@
   -webkit-box-shadow: 6px 0 6px rgba(0,0,0,.1);
   box-shadow: 6px 0 6px rgba(0,0,0,.1);
 }
+.yudingbtn{
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  padding: 10px 20px;
+  background: #ff5400;
+  border-radius: 6px;
+  float: right;
+  text-indent: 0;
+  margin-right:40px;
+}
+.ul-label{
+
+}
+.ul-label>li{
+  display: inline-block;
+  margin-right: 10px;
+  padding: 5px 10px;
+  background: #fc9778;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 14px;
+  margin-bottom:0;
+}

@@ -8,6 +8,26 @@
 .row a{
   display: block;
 }
+.sltgroup{
+  float: left;
+  padding-right: 10px;
+}
+.sltgroup label{
+  display: inline-block;
+  width: 80px;
+  color: #999999;
+}
+.sltgroup select{
+  position: relative;
+  width: 120px;
+  height: 30px;
+  padding-left: 10px;
+  border: 1px solid #66cdff;
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: #999999;
+}
+
 .btn-danger{
   padding: .5rem 1.2rem;
   padding-left:16px;

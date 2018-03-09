@@ -5,6 +5,7 @@ import {UtilBuildingService} from "../../../../service/util-building/util-buildi
 import {Http, RequestOptions, Headers} from "@angular/http";
 import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
+import {Room} from "../../../../mode/room/room.service";
 
 declare var $: any;
 declare var confirmFunc: any;
@@ -13,7 +14,7 @@ declare var confirmFunc: any;
   selector: 'app-orders',
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.css'],
-  providers: [InfoBuildingService,ErrorResponseService,UtilBuildingService]
+  providers: [InfoBuildingService,ErrorResponseService,UtilBuildingService,Room]
 })
 export class OrdersComponent implements OnInit {
   public searchArch : Arch;
@@ -31,6 +32,7 @@ export class OrdersComponent implements OnInit {
   private editBool = true;
   public URL: string;
   public repairDept :any;
+  public rooms  : Array<Room>;
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
               private utilBuildingService:UtilBuildingService,
@@ -96,6 +98,7 @@ export class OrdersComponent implements OnInit {
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.floorNames = data.data;
+          // console.log(data.data);
         }
       });
   }
@@ -173,6 +176,20 @@ export class OrdersComponent implements OnInit {
     this.getFloorNameListInfo(this.repairname.buildingId);
     $('.mask').fadeIn();
     $('.mask-head p').html('编辑物业订单');
+  }
+  /*获取楼层房间信息*/
+  changeSel(id){
+    for (let i=0;i<this.floorNames.length;i++) {
+      if (this.floorNames[i].FLOOR_NUM == id) {
+        this.infoBuildingService.getRoomListMsg( this.floorNames[i].ID, 1,99)
+          .subscribe(data =>{
+            if(this.errorVoid.errorMsg(data)) {
+              this.rooms = data.data.infos;
+            }
+          });
+      }
+    }
+
   }
   /*点击新增*/
   addOrder(){

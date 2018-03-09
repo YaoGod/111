@@ -15,6 +15,13 @@
         </div>
         <div class="b-con tuanmenu">
           <div class="wrap clearfix">
+            <div class="sltgroup">
+              <label>供应商类别</label>
+              <select name="searchArm" [(ngModel)]="search.code">
+                <option value="">全部</option>
+                <option *ngFor="let provider of providers" [value]="provider">{{provider}}类</option>
+              </select>
+            </div>
             <div class="iptgroup" *ngIf="rule&&rule.isSelect">
               <input placeholder="请输入商品名称"  [(ngModel)]="search.name"  />
               <a href="javascript: void(0);" class="ipt-search"></a>
