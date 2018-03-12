@@ -144,11 +144,11 @@ export class ConfirmsupcartComponent implements OnInit {
        .subscribe(data=>{
        if(this.errorVoid.errorMsg(data)){
        confirmFunc.init({
-       'title': '提示',
-       'mes': '验证码已发送到'+this.userInfo.teleNum+'，请注意查收！',
-       'popType': 0,
-       'imgType': 1,
-       });
+           'title': '提示',
+           'mes': '验证码已发送到'+this.userInfo.teleNum+'，请注意查收！',
+           'popType': 0,
+           'imgType': 1,
+         });
        }
        })
     }

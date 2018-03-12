@@ -14,37 +14,26 @@
   <div class="opt-box">
      <span class="tb-fn">
       <div class="box-search" >
-        <input type="text" [(ngModel)]="search">
-        <a (click)="searchDiscount()"><i class="icon-magnifier"></i>搜索</a>
+        <input type="text" [(ngModel)]="search.name">
+        <a (click)="getSaleProductList(search,1);"><i class="icon-magnifier"></i>搜索</a>
       </div>
     </span>
   </div>
-  <ul class="goods-list" *ngIf="welfares && welfares.length >0">
-    <li *ngFor="let welfare of welfares">
-      <a (click)="linkWelfare(welfare.id)">
+  <ul class="goods-list" *ngIf="saleProducts && saleProducts.length > 0">
+    <li *ngFor="let sale of saleProducts">
+      <a (click)="linkSale(sale.id)">
         <div class="img-wrap">
-          <img *ngIf="welfare.imgPath" [src]="welfare.imgPath | imgsafeurl">
+          <img *ngIf="sale.imgPathList&&sale.imgPathList.length>0"
+               [src]="sale.imgPathList[0] | imgsafeurl">
         </div>
         <div class="goods-msg">
-          <h5>{{welfare.title}}</h5>
-          <div class="goods-extra">
-            <span class="response" *ngIf="welfare.details==='否'&&welfare.feedBack==='是'">
-              <i class="icon-diamond"></i>需要反馈
-            </span>
-            <span class="finish" *ngIf="welfare.details==='是'&&welfare.feedBack==='是'">
-              <i class="icon-check"></i>我已反馈
-            </span>
-            <span class="wait" *ngIf="welfare.feedBack==='否'">
-              <i class="icon-clock"></i>静候佳音
-            </span>
-          </div>
-          <textarea readonly rows="5">{{welfare.content}}</textarea>
+          <h5>{{sale.name}}</h5>
+          <textarea  rows="6" readonly>{{sale.summary}}</textarea>
         </div>
-
       </a>
     </li>
   </ul>
-  <div class="div-none" *ngIf="welfares && welfares.length === 0">
+  <div class="div-none" *ngIf="saleProducts && saleProducts.length === 0">
     <p>此处空空如也</p>
   </div>
 </div>

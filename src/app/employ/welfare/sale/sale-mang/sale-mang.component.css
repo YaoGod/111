@@ -46,34 +46,22 @@ ul,li{
   display: inline-block;
   color: #686868;
   height: 30px;
-  width: 70px;
   padding-right: 10px;
   line-height: 30px;
   font-size: 12px;
   text-align: right;
 }
-.search-bar>ul>li>input[type=text] {
-  height: 20px;
+.search-bar>ul>li>input[type=text],.search-bar>ul>li>select {
+  height: 26px;
   width: 160px;
-  padding: 3px 10px;
-  margin-right: 20px;
+  padding: 0 10px;
   font-size: 12px;
   line-height: 1.5;
   border-radius: 3px;
   background-color: #fff;
   border: 1px solid #e4e7ea;
+  box-sizing: border-box;
 }
-.search-bar>ul>li>select{
-  width: calc(100% - 158px);
-  height: 30px;
-  padding: 5px 10px;
-  font-size: 12px;
-  line-height: 1.5;
-  border-radius: 3px;
-  background-color: #fff;
-  border: 1px solid #e4e7ea;
-}
-
 .search-bar>ul>li>input[type=text]:focus {
   box-shadow: none;
   border-color: #2b2b2b;
@@ -168,6 +156,9 @@ td>img{
   word-wrap: break-word;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
+}
+.tb-text:hover{
+  overflow: auto;
 }
 .turn{
   padding-top: 15px;
@@ -355,7 +346,6 @@ i{
   background-color: #ffffff;
 }
 .mask {
-  display: none;
   position: fixed;
   left: 0;
   top: 0;
@@ -447,7 +437,7 @@ i{
 }
 .dropify-wrapper .dropify-message{
   position: relative;
-  z-index: 3;
+  z-index: 2;
   top: 50%;
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
@@ -537,8 +527,8 @@ i{
 }
 .form-control {
   float: none;
-  padding: 0 10px;
-  width: 165px;
+  padding: 0 5px;
+  width: 180px;
   max-width: 100%;
   line-height: 38px;
   background-color: rgba(0, 0, 0, 0);
@@ -551,6 +541,7 @@ i{
   border-radius: 0;
   box-shadow: none;
   color: #565656;
+  box-sizing: border-box;
 }
 .form-control:focus {
   background-size: 100% 1px, 100% 1px;
@@ -564,7 +555,7 @@ input[type=date]:disabled.form-control{
   color: #8d9ea7;
 }
 select{
-  width: calc(100% - 90px);
+  height: 38px;
   padding: 0 10px;
 }
 .dropify-message>img{
@@ -572,7 +563,7 @@ select{
 }
 .error{
   width: 276px;
-  /*  height: 18px;*/
+  line-height: 16px;
   padding-left: 75px;
   font-size: 10px;
   color: #d75452;
@@ -605,7 +596,7 @@ select{
   border-radius: 5px;
   background-color: #ffffff;
   box-shadow: 6px 0 6px rgba(0,0,0,.1), -6px 0 6px rgba(0,0,0,.1), 0 6px 6px rgba(0,0,0,.1);
-  z-index: 2;
+  z-index: 6;
 }
 .modal-more h5{
   line-height: 30px;
@@ -623,6 +614,7 @@ select{
   clear: both;
 }
 .choose-list{
+  padding-bottom: 10px;
   clear: both;
 }
 .choose-group{

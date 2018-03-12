@@ -33,9 +33,13 @@ export class StaffWelfareDetailComponent implements OnInit {
       }
     );
     this.welfare = new Welfare();
+    let tempid: number = 0;
     this.route.params.subscribe(data => {
-      this.welfare.id = data.id;
-      this.getWelfare(data.id);
+      if(tempid === 0){
+        this.welfare.id = data.id;
+        this.getWelfare(data.id);
+        tempid ++;
+      }
     });
   }
   getWelfare(id){

@@ -2,12 +2,7 @@
 <div class="nav-title">
   <a><h4>商品信息</h4></a>
   <div class="b-head-right">
-    <div class="content-box" tabindex="0"
-         *ngIf="rule&&rule.isInstall&&rule.isDelete&&rule.isUpdate"
-         (click)="linkDiscountStatistics()">
-      <i class="icon-doc"></i> 统计
-    </div>
-    <div class="content-box" tabindex="0" (click)="back()">
+    <div class="content-box" tabindex="0" onclick="history.go(-1)">
       <i class="icon-reload"></i> 返回
     </div>
 
@@ -17,78 +12,139 @@
 <div class="warp">
   <div class="warp-left">
     <div class="warp-fist">
-      <img *ngIf="welfare&&welfare.imgPath" [src]="welfare.imgPath | imgsafeurl" >
+      <img *ngIf="saleProduct&&saleProduct.imgPath" [src]="saleProduct.imgPath | imgsafeurl" >
     </div>
     <ul class="warp-list">
-      <li *ngFor="let image of welfare.imgPathList;let i = index" (mouseover)="chooseImg(i)">
+      <li *ngFor="let image of saleProduct.imgPathList;let i = index" (mouseover)="chooseImg(i)">
         <img [src]="image | imgsafeurl">
       </li>
     </ul>
   </div>
   <div class="warp-right">
-    <h4>{{welfare.title}}</h4>
-    <div class="form-back-end"
-         *ngIf="welfare.details&&!(welfare.feedBack === '是'&&welfare.details.length===0)">
-      <p>(您的福利商品发放中，请到相关人员处领取)</p>
-    </div>
-    <ul>
-      <li *ngFor="let other of welfare.others">
-        <span class="form-title">{{other.key}}：</span>
-        <span class="word">{{other.value}}</span>
+    <h4>{{saleProduct.name}}</h4>
+    <ul *ngIf="saleProduct.name">
+      <li class="marker-type">
+        <span>{{saleProduct.type}}</span>
       </li>
-      <li *ngIf="welfare.feedBackEtime">
-        <span class="form-title">反馈截止日期：</span>
-        <span class="word">{{welfare.feedBackEtime}}</span>
+      <li>
+        <span class="form-title">数量</span>
+        <span class="word">{{saleProduct.maxNumber}}</span>
+      </li>
+      <li>
+        <span class="form-title">抢购对象</span>
+        <span class="word">{{saleProduct.targetName}}</span>
+      </li>
+      <li>
+        <span class="form-title">抢购时间</span>
+        <span class="word">{{saleProduct.beginTime | date:'yyyy/MM/dd HH:mm:ss'}}&nbsp;&nbsp;
+          <span *ngIf="saleProduct.endTime">至&nbsp;&nbsp;{{saleProduct.endTime | date:'yyyy/MM/dd HH:mm:ss'}}</span></span>
+      </li>
+      <li>
+        <div class="btn-form-back">
+          <span>¥{{saleProduct.price| number:'1.2-2'}}</span>
+          <a class="btn_wait" *ngIf="status === 'waitTime'">抢购暂未开始</a>
+          <a class="btn_start" *ngIf="status === 'progress'"
+             (click)="getSaleProductKey(saleProduct.id)">立刻抢购</a>
+          <a class="btn_wait" *ngIf="status === 'end'">抢购结束</a>
+        </div>
+      </li>
+      <li class="process" *ngIf="status === 'progress'">
+        <div class="process-text">
+          <span class="percent">已抢购{{(saleProduct.maxNumber-saleProduct.realNumber)/saleProduct.maxNumber*100| number:'1.2-2'}}%</span>
+          <span class="num">已抢{{saleProduct.maxNumber-saleProduct.realNumber}}件</span>
+        </div>
+        <div class="process-bar"><span [ngStyle]="{'width':((saleProduct.maxNumber-saleProduct.realNumber)/saleProduct.maxNumber)*100+'%'}"></span></div>
       </li>
     </ul>
-    <div *ngIf="welfare.feedBack === '是'">
-      <div class="btn-form-back">
-        <a (click)="showFeedbackWin()">
-          <i class="icon-earphones"></i>填写反馈信息
-        </a>
-      </div>
-      <div class="form-back" id="forms" style="display: none;"
-           *ngIf="welfare.feedBackMsg&&welfare.feedBackMsg.length>0">
-        <h5>需反馈信息</h5>
-        <ul>
-          <li *ngFor="let feedbackMsg of welfare.feedBackMsg;let i = index">
-            <span class="form-title">{{feedbackMsg.key}}</span>
-            <span class="form-title">{{feedbackMsg.msg}}</span>
-            <span *ngIf="feedbackMsg.type==='下拉框'">
-              <select class="form-control" [name]="'listValue'+i"
-                      [(ngModel)] = "feedbackMsg.value">
-                <option value="">请选择</option>
-                <option *ngFor="let opt of feedbackMsg.list">{{opt}}</option>
-              </select>
-            </span>
-            <span *ngIf="feedbackMsg.type==='文本'">
-              <input class="form-control" type="text" [name]="'title'+i"
-                     [(ngModel)] = "feedbackMsg.value">
-            </span>
-          </li>
-        </ul>
-        <div class="form-back-footer">
-          <a class="footer-btn-submit" (click)="submitFeedbackMsg()">提交</a>
-          <a class="footer-btn-close" (click)="closeFeedbackMsg()">取消</a>
-        </div>
-      </div>
-    </div>
-    <div class="form-back-msg"
-         *ngIf="welfare.feedBack === '是'&&welfare.details&&welfare.details.length>0">
-      <h5>我的反馈信息</h5>
-      <ul>
-        <li *ngFor="let detail of welfare.details">
-          <span class="form-title">{{detail.key}}</span>
-          <span class="word">{{detail.value}}</span>
-        </li>
-      </ul>
-    </div>
   </div>
 </div>
-<div class="cont">
+<div class="cont" *ngIf="saleProduct.summary">
   <h5><span>详情介绍</span></h5>
   <div class="summary-text word">
-    <textarea id="content" [rows]="definedRows()" wrap="hard" readonly>{{welfare.content}}</textarea>
+    <textarea id="content" [rows]="definedRows()" wrap="hard" readonly>{{saleProduct.summary}}</textarea>
+  </div>
+</div>
 
+<!--提交订单-->
+<div class="mask" style="display: none;" id="order">
+  <div  class="modal-content" style="width: 900px;margin-left: -450px">
+    <div  class="modal-header">
+      <h4 class="modal-title"><i class="icon-home"></i>确认订单</h4>
+      <button class="modal-close" type="button" (click)="closeOrder()">×</button>
+    </div>
+    <form  class="form-building form-material ng-untouched ng-pristine ng-valid">
+      <div  class="modal-body clearfix">
+        <div class="b-con">
+          <div class="list-table">
+            <table>
+              <tr class="table-head">
+                <th width="25%">商品信息</th>
+                <th>商品名称</th>
+                <th>单价(元)</th>
+                <th>购买数量</th>
+                <th >合计（元）</th>
+              </tr>
+              <tr class="table-cont">
+                <td  width="25%"><img *ngIf="saleProduct.imgPathList" [src]="saleProduct.imgPathList[0]  | imgsafeurl"/></td>
+                <td >{{saleProduct.name}}</td>
+                <td>￥{{saleProduct.price| number:'1.2-2'}}</td>
+                <td>1</td>
+                <td><label id="unionPrice">￥{{saleProduct.price| number:'1.2-2'}}</label></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="b-address">
+          <span>配送信息</span>
+        </div>
+        <div  class="form-group">
+          <label  class="control-label"><span class="b-label">姓名</span>
+            <input class="form-control" id="userName" name="userName" type="text"
+              [(ngModel)]="userSale.userName" (blur)="verifyEmpty(userSale.userName,'userName')">
+          </label>
+          <div class="error"></div>
+        </div>
+        <div  class="form-group">
+          <label  class="control-label"><span class="b-label">电话</span>
+            <input class="form-control" id="telNumber" name="telNumber" type="number"
+              [(ngModel)]="userSale.telNumber" (blur)="verifyEmpty(userSale.telNumber,'telNumber')">
+          </label>
+          <div class="error"></div>
+        </div>
+        <div  class="form-group">
+          <label  class="control-label"><span class="b-label">地址</span>
+            <input class="form-control" id="address" name="address" type="text"
+              [(ngModel)]="userSale.address" (blur)="verifyEmpty(userSale.address,'address')">
+          </label>
+          <div class="error"></div>
+        </div>
+        <div  class="form-group">
+          <label  class="control-label"><span class="b-label">验证码</span>
+            <input class="form-control" id="yzm" name="yzm" type="text"
+              [(ngModel)]="yzm" (blur)="verifyEmpty(yzm,'yzm')">
+            <a class="btn-yzm" (click)="getYzm(saleProduct.id)">发送验证码</a>
+          </label>
+          <div class="error"></div>
+        </div>
+        <div class="b-foot">
+          <div class="total"><label>总计：</label> <span>￥{{saleProduct.price| number:'1.2-2'}}</span>
+            <button type="button" class="btn btn-info" (click)="submitOrder()">提交订单</button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="mask" style="display: none;" id="mask">
+  <div  class="modal-content" style="width: 60px;margin-left: -30px;top: 50%;">
+      <div id="preloader_1">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
   </div>
 </div>

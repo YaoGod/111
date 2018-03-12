@@ -61,9 +61,9 @@ export class IndexWelfareComponent implements OnInit {
     this.discounts = [];
     this.welfares = [];
     this.saleProducts = [];
+    this.getSaleProductList({},this.pageNoS,this.pageSize);
     this.getDiscount("",this.pageNoD,this.pageSize);
     this.getWelfare("",this.pageNoW,this.pageSize);
-    this.getSaleProductList("",this.pageNoS,this.pageSize);
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'group','employ/welfare')
@@ -97,17 +97,18 @@ export class IndexWelfareComponent implements OnInit {
     this.welfareEmployeeService.getWelfareList(search,pageNo,pageSize)
       .subscribe(data =>{
         if(this.errorResponseService.errorMsg(data)){
-          this.saleProducts = data.data.infos;
-          this.maxPageNoS = data.data.total;
+          this.welfares = data.data.infos;
+          this.maxPageNoW = data.data.total;
         }
       });
   }
+  /*获取抢购商品列表*/
   getSaleProductList(search,pageNo,pageSize) {
-    this.saleProductEmployee.getSaleList(search,pageNo,pageSize)
+    this.saleProductEmployee.getSaleProductList(search,pageNo,pageSize)
       .subscribe(data =>{
         if(this.errorResponseService.errorMsg(data)){
-          this.welfares = data.data.infos;
-          this.maxPageNoW = data.data.total;
+          this.saleProducts = data.data.infos;
+          this.maxPageNoS = data.data.total;
         }
       });
   }
