@@ -7,23 +7,24 @@
       <p>
         <span class="subtitle">限时限量提供</span>
       </p>
-      <span class="tb-fn" *ngIf="rule3&&(rule3.isUpdate||rule3.isInstall||rule3.isDelete)">
-        <a class="btn-mg"
-           (click)="linkSaleMag()">管&nbsp;&nbsp;理</a>
-        <a class="btn-mg active">我的订单</a>
+      <span class="tb-fn">
+        <a class="btn-mg" *ngIf="rule3&&(rule3.isUpdate||rule3.isInstall||rule3.isDelete)"
+           [routerLink]="['../sale/manage']">管&nbsp;&nbsp;理</a>
+        <a class="btn-mg active" [routerLink]="['../sale/myorder']">我的订单</a>
         <a class="btn-fn3" (click)="randGetSale()">换一换</a>
       </span>
     </h4>
     <ul class="goods-list" *ngIf="saleProducts && saleProducts.length > 0">
       <li *ngFor="let sale of saleProducts">
-        <a (click)="linkSale(sale.id)">
+        <a [routerLink]="['../sale/detail',sale.id]">
           <div class="img-wrap">
             <img *ngIf="sale.imgPathList&&sale.imgPathList.length>0"
                  [src]="sale.imgPathList[0] | imgsafeurl">
           </div>
           <div class="goods-msg">
             <h5>{{sale.name}}</h5>
-            <textarea  rows="6" readonly>{{sale.summary}}</textarea>
+            <p class="marker-type"><span>限量{{sale.maxNumber}}件</span></p>
+            <textarea  rows="5" readonly>{{sale.summary}}</textarea>
           </div>
         </a>
       </li>
@@ -32,7 +33,7 @@
       <p>此处空空如也</p>
     </div>
     <div class="div-more"  *ngIf="saleProducts && saleProducts.length > 0">
-      <a (click)="linkSaleList()">更多</a>
+      <a [routerLink]="['../sale/list']">更多</a>
     </div>
   </div>
 
@@ -45,7 +46,7 @@
       </p>
       <span class="tb-fn">
         <a class="btn-mg" *ngIf="rule1&&(rule1.isUpdate||rule1.isInstall||rule1.isDelete)"
-           (click)="linkDiscountMag()">
+           [routerLink]="['../discount/manage']">
           管&nbsp;&nbsp;理
         </a>
         <a class="btn-fn1" (click)="randGetDiscount()">换一换</a>
@@ -53,7 +54,7 @@
     </h4>
     <ul class="goods-list" *ngIf="discounts && discounts.length > 0">
       <li *ngFor="let discount of discounts">
-        <a (click)="linkDiscount(discount.id)">
+        <a [routerLink]="['../discount/detail',discount.id]">
           <div class="img-wrap">
             <img *ngIf="discount.imgPath" [src]="discount.imgPathList[0] | imgsafeurl">
           </div>
@@ -64,11 +65,11 @@
         </a>
       </li>
     </ul>
-    <div class="div-none" *ngIf="discounts && discounts.length === 0">
+    <div class="div-none" *ngIf="discounts  && discounts.length === 0">
       <p>此处空空如也</p>
     </div>
     <div class="div-more"  *ngIf="discounts && discounts.length > 0">
-      <a (click)="linkDiscountList()">更多</a>
+      <a [routerLink]="['../discount/list']">更多</a>
     </div>
   </div>
 
@@ -81,7 +82,7 @@
       </p>
       <span class="tb-fn">
         <a class="btn-mg" *ngIf="rule2&&(rule2.isUpdate||rule2.isInstall||rule2.isDelete)"
-           (click)="linkWelfareMag()">
+           [routerLink]="['../staffWelfare/manage']">
           管&nbsp;&nbsp;理
         </a>
         <a class="btn-fn2" (click)="randGetWelfare();">换一换</a>
@@ -89,7 +90,7 @@
     </h4>
     <ul class="goods-list" *ngIf="welfares && welfares.length >0">
       <li *ngFor="let welfare of welfares">
-        <a (click)="linkWelfare(welfare.id)">
+        <a [routerLink]="['../staffWelfare/detail',welfare.id]">
           <div class="img-wrap">
             <img *ngIf="welfare.imgPath" [src]="welfare.imgPathList[0] | imgsafeurl">
           </div>
@@ -117,7 +118,7 @@
       <p>此处空空如也</p>
     </div>
     <div class="div-more" *ngIf="welfares && welfares.length >0">
-      <a (click)="linkWelfareList()">更多</a>
+      <a [routerLink]="['../staffWelfare/list']">更多</a>
     </div>
   </div>
   <div class="clearBoth"></div>

@@ -163,6 +163,11 @@
 }
 .btn-form-back>a{
   display: inline-block;
+  -moz-user-select:none;
+  -webkit-user-select:none;
+  -ms-user-select:none;
+  -khtml-user-select:none;
+  user-select:none;
 }
 .btn-form-back>a>i{
   padding-right: 5px;
@@ -182,23 +187,6 @@
   text-align: left;
   word-wrap: break-word;
   vertical-align: top;
-}
-.form-control {
-  float: none;
-  padding: 0 10px;
-  width: 140px;
-  max-width: 100%;
-  height: 30px;
-  background-color: rgba(0, 0, 0, 0);
-  background-position: center bottom, center calc(99%);
-  background-repeat: no-repeat;
-  background-size: 0 1px, 100% 1px;
-  transition: background 0s ease-out 0s;
-  background-image: linear-gradient(#03a9f3, #03a9f3), linear-gradient(rgba(120, 130, 140, .13), rgba(120, 130, 140, .13));
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-  color: #565656;
 }
 .cont{
   padding: 15px;
@@ -289,7 +277,6 @@
   border-radius: 6px;
   float: right;
   margin: 7px 40px 0 0;
-  cursor: pointer;
 }
 .btn_yuding{
   text-decoration: none;
@@ -301,7 +288,6 @@
   border-radius: 6px;
   float: right;
   margin: 7px 40px 0 0;
-  cursor: pointer;
 }
 .btn_start{
   text-decoration: none;
@@ -702,14 +688,6 @@ select{
   padding-left: 30px;
   color: #333333;
 }
-.btn-yzm{
-  color: #333333;
-  transition-duration: 100ms;
-  cursor: pointer;
-}
-.btn-yzm:hover{
-  color: #2162B6;
-}
 #preloader_1{
 
   position:relative;
@@ -776,4 +754,12 @@ select{
 
   100% {height:5px;transform:translateY(0px);background:#9b59b6;}
 
+}
+.b-left{
+  float: left;
+  width: 50%;
+}
+.b-right{
+  float: right;
+  width: 50%;
 }

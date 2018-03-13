@@ -14,6 +14,7 @@ export class SaleListComponent implements OnInit {
   public pageNo = 1;
   public pageSize = 10;
   public total = 0;
+  public maxPageNo;
   public search :SaleProduct;
   public saleProducts:Array<SaleProduct>;
   constructor(
@@ -23,6 +24,7 @@ export class SaleListComponent implements OnInit {
     private errorResponseService:ErrorResponseService,
   ) { }
   ngOnInit() {
+    this.search = new SaleProduct();
     this.getSaleProductList(this.search,this.pageNo);
   }
   /*获取抢购商品列表*/
@@ -32,11 +34,15 @@ export class SaleListComponent implements OnInit {
         if(this.errorResponseService.errorMsg(data)){
           this.saleProducts = data.data.infos;
           this.total = data.data.total;
+          this.maxPageNo = Math.ceil(data.data.total / this.pageSize);
         }
       });
   }
   linkSale(id){
     this.router.navigate(['../detail',id],{relativeTo:this.route});
   }
-
+  scrollMore(){
+    this.pageNo++;
+    this.getSaleProductList(this.search,this.pageNo);
+  }
 }

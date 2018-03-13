@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import { IpSettingService } from '../../../service/ip-setting/ip-setting.service';
 import { Discount } from '../../../mode/discount/discount.service';
 import { Welfare } from '../../../mode/welfare/welfare.service';
 import { GlobalCatalogService } from '../../../service/global-catalog/global-catalog.service';
@@ -15,7 +13,7 @@ declare var $: any;
   selector: 'app-index-welfare',
   templateUrl: './index-welfare.component.html',
   styleUrls: ['./index-welfare.component.css'],
-  providers: [IpSettingService,DiscountEmployeeService,WelfareEmployeeService,SaleProductEmployeeService]
+  providers: [DiscountEmployeeService,WelfareEmployeeService,SaleProductEmployeeService]
 })
 export class IndexWelfareComponent implements OnInit {
   public catas;
@@ -34,9 +32,6 @@ export class IndexWelfareComponent implements OnInit {
   public pageNoS: number;
   public maxPageNoS: number;
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    public  IpSetting:IpSettingService,
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
     private discountEmployeeService:DiscountEmployeeService,
@@ -111,33 +106,6 @@ export class IndexWelfareComponent implements OnInit {
           this.maxPageNoS = data.data.total;
         }
       });
-  }
-  linkDiscount(id){
-    this.router.navigate(['../discount/detail',id],{relativeTo:this.route});
-  }
-  linkDiscountMag(){
-    this.router.navigate(['../discount/manage'],{relativeTo:this.route});
-  }
-  linkDiscountList(){
-    this.router.navigate(['../discount/list'],{relativeTo:this.route});
-  }
-  linkWelfare(id){
-    this.router.navigate(['../staffWelfare/detail',id],{relativeTo:this.route});
-  }
-  linkWelfareMag(){
-    this.router.navigate(['../staffWelfare/manage'],{relativeTo:this.route});
-  }
-  linkWelfareList(){
-    this.router.navigate(['../staffWelfare/list'],{relativeTo:this.route});
-  }
-  linkSaleMag(){
-    this.router.navigate(['../sale/manage'],{relativeTo:this.route});
-  }
-  linkSaleList(){
-    this.router.navigate(['../sale/list'],{relativeTo:this.route});
-  }
-  linkSale(id){
-    this.router.navigate(['../sale/detail',id],{relativeTo:this.route});
   }
   rand(pageNo,total):number{
     if(total === 0) {

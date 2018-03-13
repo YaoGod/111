@@ -4,6 +4,7 @@ import {SaleProductEmployeeService} from "../../../../service/sale-product-emplo
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {SaleProduct, UserSale} from "../../../../mode/saleProduct/sale-product.service";
 import {GlobalUserService} from "../../../../service/global-user/global-user.service";
+import {getResponseURL} from "@angular/http/src/http_utils";
 declare var $:any;
 declare var confirmFunc:any;
 @Component({
@@ -19,6 +20,7 @@ export class SaleDetailComponent implements OnInit {
   public status:string;
   public code:string;
   public yzm :string;
+  public clickTime: number;
   constructor(
     private router: Router,
     private route:ActivatedRoute,
@@ -33,6 +35,7 @@ export class SaleDetailComponent implements OnInit {
     this.user = this.gobalUserService.getVal();
     this.status = "";
     let tempid: number = 0;
+    this.clickTime = 0;
     this.route.params.subscribe(data => {
       if(tempid === 0){
         this.saleProduct.id = data.id;
@@ -54,17 +57,28 @@ export class SaleDetailComponent implements OnInit {
   }
   /*获取商品抢购资格*/
   getSaleProductKey(id){
+    this.clickTime ++;
     $('#mask').show();
-    console.log(this.user);
-    this.saleProductEmployeeService.getSaleProductKey(this.user.userid ,id)
-      .subscribe(data=>{
-        $('#mask').hide();
-        if(this.errorResponseService.errorMsg(data)){
-          $('#order').show();
-          this.code = data.data;
-          this.userSale.productId = this.saleProduct.id;
-        }
-      })
+    if(this.clickTime === 1){
+      this.saleProductEmployeeService.getSaleProductKey(this.user.userid ,id)
+        .subscribe(data=>{
+          this.clickTime = 0;
+            $('#mask').hide();
+            if(this.errorResponseService.errorMsg(data)){
+              $('#order').show();
+              this.code = data.data;
+              this.userSale.productId = this.saleProduct.id;
+              this.userSale.userName = this.user.userName;
+              this.userSale.telNumber = this.user.teleNum;
+              this.userSale.address = this.user.homeAddr;
+            }
+          },
+          response => {
+            this.clickTime = 0;
+            $('#mask').hide();
+            console.log("PUT call in error", response);
+          });
+    }
   }
   /*与系统时间对时*/
   getSystemTime(){
@@ -92,7 +106,7 @@ export class SaleDetailComponent implements OnInit {
   /*获取时间比对*/
   timeDjs(bDate,eDate,addTime,realNumber){
     let BeginTime = Date.parse(bDate);
-    let EndTime  = eDate?Date.parse(eDate):Date.parse(new Date().toString())+1000;
+    let EndTime  = eDate?Date.parse(eDate):Date.parse(new Date().toString());
     let nowTime = Date.parse(new Date().toString())+addTime;
     /*活动未开始*/
     if(BeginTime>nowTime){
@@ -103,7 +117,7 @@ export class SaleDetailComponent implements OnInit {
       }
     }
     /*活动已结束*/
-    else if(nowTime>EndTime && realNumber===0){
+    else if(nowTime>=EndTime  && realNumber === 0){
       this.status = "end";
     }
     else{
@@ -135,16 +149,33 @@ export class SaleDetailComponent implements OnInit {
   }
   /*确认订单*/
   submitOrder(){
+    this.userSale.amount = 1;
+    this.userSale.total = this.saleProduct.price;
     this.saleProductEmployeeService.addUserSaleOrder(this.code,this.userSale,this.yzm)
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
           $('#order').hide();
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data.msg,
+            'popType': 0,
+            'imgType': 1,
+          });
         }
       })
   }
   /*放弃订单*/
   closeOrder(){
-    $('#order').hide();
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '关闭将会放弃订单，是否确认此操作？',
+      'popType': 1,
+      'imgType': 3,
+      "callback": () => {
+        $('#order').hide();
+      }
+    });
+
   }
   /*非空验证*/
   verifyEmpty( value, id?){

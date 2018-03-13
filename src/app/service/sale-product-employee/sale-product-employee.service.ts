@@ -115,4 +115,10 @@ export class SaleProductEmployeeService {
     return this.http.post(url,postData,this.options)
       .map(res => res.json());
   }
+  /*获取我的订单*/
+  getMyOrders(pageNo,pageSize,postData){
+    const url = this.ipSetting.ip + "/employee/flashsale/getMyOrder/"+pageNo+"/"+pageSize;
+    return this.http.post(url,postData,this.options)
+      .map(res => res.json());
+  }
 }

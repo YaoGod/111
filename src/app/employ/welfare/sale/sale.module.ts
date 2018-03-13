@@ -12,6 +12,7 @@ import { SaleStatisticsComponent } from './sale-statistics/sale-statistics.compo
 import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
 import {SaleProductEmployeeService} from "../../../service/sale-product-employee/sale-product-employee.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
+import { SaleMyorderComponent } from './sale-myorder/sale-myorder.component';
 const routes: Routes = [
   {
     path: '',
@@ -36,6 +37,14 @@ const routes: Routes = [
         component: SaleListComponent
       },
       {
+        path: 'myorder',
+        component: SaleMyorderComponent
+      },
+      {
+        path: 'myorder/:id',
+        component: SaleMyorderComponent
+      },
+      {
         path: 'statistics',
         component: SaleStatisticsComponent
       }
@@ -52,6 +61,6 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers:[SaleProductEmployeeService,ErrorResponseService],
-  declarations: [SaleComponent, SaleListComponent, SaleDetailComponent, SaleMangComponent, SaleStatisticsComponent]
+  declarations: [SaleComponent, SaleListComponent, SaleDetailComponent, SaleMangComponent, SaleStatisticsComponent, SaleMyorderComponent]
 })
 export class SaleModule { }

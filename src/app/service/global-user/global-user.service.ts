@@ -10,12 +10,16 @@ export class GlobalUserService {
   setVal(val:User) {
     this.user = val;
     localStorage.setItem("showUserName",this.user.username);
+    localStorage.setItem("homeAddr",this.user.homeAddr);
+    localStorage.setItem("teleNum",this.user.teleNum);
     this.valueUpdated.next(this.user);
   }
   getVal():User {
     if(typeof (this.user.username) === "undefined" || this.user.username === null) {
       this.user.username =  localStorage.getItem("showUserName");
       this.user.userid    =  localStorage.getItem("username");
+      this.user.homeAddr =  localStorage.getItem("homeAddr");
+      this.user.teleNum =  localStorage.getItem("teleNum");
     }
     return this.user;
   }

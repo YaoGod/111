@@ -297,3 +297,18 @@
 .content-box:hover{
   border-color: #ff3c00;
 }
+.marker-type{
+  padding: 5px 0;
+}
+.marker-type>span{
+  display: inline-block;
+  margin-right: 10px;
+  padding: 0 10px;
+  background: #8f8a90;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 14px;
+}
+.marker-type>span:first-child{
+  background: #fc9778;
+}

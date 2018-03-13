@@ -64,12 +64,6 @@ export class SraffWelfareListComponent implements OnInit {
   linkWelfare(id){
     this.router.navigate(['/hzportal/employ/welfare/staffWelfare/detail',id]);
   }
-  linkWelfareMag(){
-    this.router.navigate(['/hzportal/employ/welfare/staffWelfare/manage']);
-  }
-  linkWelfareList(){
-    this.router.navigate(['/hzportal/employ/welfare/staffWelfare/list']);
-  }
   scrollMore(){
     this.pageNo++;
     this.getWelfare(this.search,this.pageNo,this.pageSize)
