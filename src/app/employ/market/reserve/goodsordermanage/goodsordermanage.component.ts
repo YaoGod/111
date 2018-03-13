@@ -25,6 +25,8 @@ export class GoodsordermanageComponent implements OnInit {
   public productName = '';
   public orderId = '';
   public statusDesc = '';
+  public beginTime = '';
+  public endTime = '';
   public vegetableId = '';
   public deptId:string;
   private delId: any;
@@ -77,7 +79,8 @@ export class GoodsordermanageComponent implements OnInit {
       orderNo:this.orderId,
       status:this.statusDesc
     };
-    let url = '/goodsOrder/list?userId=' + '' + '&pageNum='+ this.pageNo + '&pageSize=' +this.pageSize;
+    let url = '/goodsOrder/list?userId=' + '' + '&pageNum='+ this.pageNo + '&pageSize=' +this.pageSize+ '&beginTime='+this.beginTime+
+    '&endTime='+this.endTime;
     this.ipSetting.sendPost(url,dataSearch)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {

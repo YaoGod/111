@@ -19,8 +19,9 @@ export class GoodscartComponent implements OnInit {
   public serverCenters:Array<ServerCenter>;
   public serviceCenter: String;
   public payType: string;
-  public myAddress: string;
-
+  public myAddress = localStorage.getItem("address");
+  public receiver = localStorage.getItem("showUserName");
+  public telNumber = localStorage.getItem("teleNum");
   constructor(public ipSetting  : IpSettingService,
               private errorVoid: ErrorResponseService) { }
 
@@ -65,7 +66,6 @@ export class GoodscartComponent implements OnInit {
     $('.maskSubmitOrder').show();
     this.serviceCenter = '';
     this.payType = '1';
-    $('#address').val('');
     $('#message').val('');
   }
 
@@ -163,8 +163,8 @@ export class GoodscartComponent implements OnInit {
   }
   /*短信验证*/
   saveSubmitOrder(){
-    if(!this.verifyEmpty('serverCenter_add','服务中心不能为空') || !this.verifyEmpty('address','收货地址不能为空') ||
-      !this. verifyEmpty('message','短信验证码不能为空')){
+    if(!this.verifyEmpty('serverCenter_add','服务中心不能为空') || !this.verifyEmpty('receiver','收货人不能为空')||
+      !this.verifyEmpty('address','收货地址不能为空') || !this. verifyEmpty('message','短信验证码不能为空')){
       return false;
     }
     let url = '/goodsOrder/pay?'+'userId='+localStorage.getItem("username")

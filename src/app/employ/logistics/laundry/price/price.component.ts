@@ -250,11 +250,9 @@ export class PriceComponent implements OnInit {
     if(this.search==null){
       this.search = new FacPrice();
     }
-    if(this.search.applyid === ''){
-      this.getFacList(page);
-    }else{
-      this.getFacList(1);
-    }
+
+    this.getFacList(page);
+
 
   }
 }

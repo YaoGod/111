@@ -53,6 +53,15 @@
                 </table>
               </dd>
             </dl>
+            <!--<div class="buy-way">
+              <label>购买类型：</label>
+              <label>
+                <input name="buyWay" type="radio" [(ngModel)]="pstatus" value="1">自用
+              </label>
+              <label>
+                <input name="buyWay" type="radio" [(ngModel)]="pstatus" value="2">赠送他人
+              </label>
+            </div>-->
           </div>
         </div>
         <div class="b-foot">
@@ -92,6 +101,16 @@
                   <option value="1">一卡通支付</option>
                   <option value="2">线下支付</option>
                 </select>
+                <span class="errorMessage"></span>
+              </div>
+              <div style="margin-top: 10px;">
+                <label>收货人姓名：</label>
+                <input type="text" id="receiver" class="noticetext" [(ngModel)]="receiver" name="receiver" (blur)="verifyEmpty('receiver','收货人不能为空')">
+                <span class="errorMessage"></span>
+              </div>
+              <div style="margin-top: 10px;">
+                <label>收货人电话：</label>
+                <input type="text" id="telNumber" class="noticetext" [(ngModel)]="telNumber" name="telNumber" (blur)="verifyEmpty('telNumber','收货人不能为空')">
                 <span class="errorMessage"></span>
               </div>
               <div style="margin-top: 10px;">

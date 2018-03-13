@@ -119,7 +119,8 @@ export class GoodsOrder {
   serviceCenter:string;
   paymentTypeDesc:string; /*付款方式*/
   statusDesc:string;/*订单中文状态*/
-  userName:string;
+  userName:string;/*下单人*/
+  receiver:string;/*收货人*/
   telPhone:string;
   payTime:string;
   address:string;

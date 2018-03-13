@@ -16,10 +16,6 @@
         <div class="b-con tuanmenu">
           <div class="wrap" *ngIf="rule&&rule.isSelect">
             <ul>
-              <!--<li>
-                <label>商品名称</label>
-                <input class="search-ipt" type="text" name="productName1"  [(ngModel)]="productName" >
-              </li>-->
               <li>
                 <label>订单编号</label>
                 <input class="search-ipt" type="text" name="orderId1" [(ngModel)]="orderId" >
@@ -34,6 +30,14 @@
                   <option value="50">已完成</option>
                   <option value="0">已取消</option>
                 </select>
+              </li>
+              <li>
+                <label>开始时间</label>
+                <input class="search-ipt" type="date" name="beginTime"  [(ngModel)]="beginTime" >
+              </li>
+              <li>
+                <label>结束时间</label>
+                <input class="search-ipt" type="date" name="endTime"  [(ngModel)]="endTime" >
               </li>
             </ul>
             <div class="search-right">
@@ -60,8 +64,10 @@
             <tr>
               <td class="zero">下单人姓名：{{order.userName}}</td>
               <td class="zero">下单人电话：{{order.telPhone}}</td>
+              <td class="zero">收货人：{{order.receiver}}</td>
               <td class="zero">收货地址：{{order.address}}</td>
               <td class="zero">下单时间：{{order.createTime}}</td>
+
               <td class="zero"  *ngIf="order.status==20 || order.status==10"></td>
             </tr>
             </table>

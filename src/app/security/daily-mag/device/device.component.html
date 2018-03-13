@@ -9,7 +9,7 @@
         <ul class="company-search clearfix">
           <li >
             <label >大楼名称</label>
-            <select name="bbb" class="search-ipt" [(ngModel)]="searchCompany.buildingName">
+            <select name="bbb" class="search-ipt" [(ngModel)]="searchCompany.buildingName" ><!--(change)="getDeviceList2(searchCompany.buildingName)"-->
               <option value="">-全部-</option>
               <option *ngFor="let num of buildings"
                       [value]="num.NAME">
