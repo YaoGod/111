@@ -159,15 +159,6 @@ export class DiscountInfoMangComponent implements OnInit {
         }
       }
       let postdata = JSON.parse(JSON.stringify(this.copyDiscount));
-      if(postdata.imgPathList.length<3){
-        confirmFunc.init({
-          'title': '提示',
-          'mes': '请上传三张图片',
-          'popType': 0,
-          'imgType': 2,
-        });
-        return false;
-      }
       postdata.effectBtime = postdata.effectBtime.replace(/-/g, '/');
       postdata.effectEtime = postdata.effectEtime.replace(/-/g, '/');
       if(typeof (postdata.id) === "undefined" || postdata.id === null) {
@@ -192,17 +183,8 @@ export class DiscountInfoMangComponent implements OnInit {
             }
           });
       }else{
-        if(postdata.imgPathList.length<3){
-          confirmFunc.init({
-            'title': '提示',
-            'mes': '请上传三张图片',
-            'popType': 0,
-            'imgType': 2,
-          });
-          return false;
-        }
         for(let i=0;i<postdata.imgPathList.length;i++){
-          if(postdata.imgPathList[i].length>250){
+          if(typeof postdata.imgPathList[i] !== null || postdata.imgPathList[i].length>250){
             postdata.imgPathList[i] = this.imgUrl[i];
           }
         }
