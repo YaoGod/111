@@ -59,12 +59,9 @@
           <span>服务中心</span>
         </div>
             <div class="fuwu">
-              <input type="radio" name="fuwuname" value="环北服务中心"  [(ngModel)]="order.serviceCenter">环北服务中心
-              <input type="radio" name="fuwuname" value="江干服务中心"  [(ngModel)]="order.serviceCenter">江干服务中心
-              <input type="radio" name="fuwuname" value="下沙服务中心"  [(ngModel)]="order.serviceCenter">下沙服务中心
-              <input type="radio" name="fuwuname" value="上塘服务中心"  [(ngModel)]="order.serviceCenter">上塘服务中心
-              <input type="radio" name="fuwuname" value="滨江服务中心"  [(ngModel)]="order.serviceCenter">滨江服务中心
-              <input type="radio" name="fuwuname" value="上城服务中心"  [(ngModel)]="order.serviceCenter">上城服务中心
+              <input *ngFor="let center of serverCenters; let idx=index" type="radio" name="fuwuname" value="{{center.name}}"
+                     [(ngModel)]="order.serviceCenter">{{center.name}}
+
             </div>
             <div class="b-foot">
               <div class="leftmoney"><label>账户余额：</label><span>￥{{leftMoney}}</span></div>

@@ -27,6 +27,7 @@ export class ConfirmvegcartComponent implements OnInit {
     teleNum: '',
     homeAddr: ''
   };
+  public serverCenters:Array<ServerCenter>;
   public djs: number;
   public yzm: string;
   public order:VegetableOrder;
@@ -38,8 +39,18 @@ export class ConfirmvegcartComponent implements OnInit {
               public ipSetting  : IpSettingService) { }
 
   ngOnInit() {
+    this.initFac();
     this.getCartList();
     this.order = new VegetableOrder();
+  }
+  /*获取服务中心*/
+  initFac(){
+    let url = '/mmall/laundry/provider/initFac';
+    this.ipSetting.sendPost(url,null).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        this.serverCenters = data.data.centers;
+      }
+    });
   }
   getCartList(){
     this.vegetableInfoService.getCartList().subscribe(data => {
@@ -144,4 +155,8 @@ export class ConfirmvegcartComponent implements OnInit {
   closeMask() {
     $('.maskYzm').hide();
   }
+}
+export class ServerCenter{
+  name: string;
+  id:number;
 }

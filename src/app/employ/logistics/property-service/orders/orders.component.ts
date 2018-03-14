@@ -378,6 +378,7 @@ export class GuardName {
   userDept:string; // 员工部门
   userTel: string; // 电话
   porpertyId:number; // 服务类型
+  entry:string; // 具体服务项目
   porpertyContent:string; // 服务详情
   orderId:string;     // 订单号
   filePath: string[]; // 文件路径

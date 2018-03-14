@@ -42,7 +42,7 @@ export class ContentComponent implements OnInit {
     this.searchArch = new Arch();
     this.repairname = new GuardName();
     this.pages = [];
-    this.serverName = ['保洁服务','报修服务'];
+    this.serverName = ['保洁服务','报修服务','借用服务','节假日停车'];
     this.getBuildings();
     this.getCompany();
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
@@ -174,16 +174,23 @@ export class ContentComponent implements OnInit {
     }
     return true;
   }
+
+  public verifyleaseNum() {
+    if (!this.isEmpty('leaseNum', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+
   /*新增/编辑提交*/
   recordSubmit() {
     let SOFTWARES_URL;
     if(this.editBool === false) {
-      this.pageNo = 1;
       SOFTWARES_URL = "/employee/property/updateServer";
     }else {
       SOFTWARES_URL = "/employee/property/addServer";
     }
-    if (!this.verifyId() || !this.verifycompanyName() || !this.verifyservername() || !this.verifyserverstatus()||!this.verifydetail()) {
+    if (!this.verifyId() || !this.verifycompanyName() || !this.verifyservername() || !this.verifyserverstatus()) {
       return false;
     }
     this.ipSetting.sendPost(SOFTWARES_URL, this.repairname).subscribe(data => {
@@ -286,12 +293,17 @@ export class GuardName {
   companyId: string;
   companyName: string; // 公司名字
   detail:string; // 服务详情
+  number:string; // 数量
+  type:string; // 型号
+  mark:string; // 备用
+  price:string; // 价格
+  note:string; // 备注
   servername: string; // 服务内容
   serverstatus: string; // 服务状态
 }
 export class Arch {
   buildingId: string; // 大楼编号
   buildingName: string='';  // 大楼名称
-  servername: string='';           // 服务类型
+  servername: string='';   // 服务类型
   companyName: string=''; // 服务公司名称
 }

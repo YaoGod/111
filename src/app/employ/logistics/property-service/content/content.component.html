@@ -45,23 +45,23 @@
     <table class="table" width="100%">
       <thead>
       <tr>
-        <th>大楼编号</th>
         <th>大楼名称</th>
         <th>服务公司名称</th>
         <th>服务内容</th>
         <th>服务公司状态</th>
         <th>服务详情</th>
+        <th>数量</th>
         <th *ngIf="rule&&(rule.isUpdate||rule.isDelete)">操作</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let inner of record; let i=index">
-        <td>{{inner.buildingId}}</td>
         <td>{{inner.buildingName}}</td>
         <td>{{inner.companyName}}</td>
         <td>{{inner.servername}}</td>
         <td>{{inner.serverstatus==='execute'?'正常':'失效'}}</td>
-        <td width="40%">{{inner.detail}}</td>
+        <td>{{inner.detail}}</td>
+        <td>{{inner.number}}</td>
         <td *ngIf="rule&&(rule.isUpdate||rule.isDelete)">
           <a href="javascript:void(0)" class="text-inverse" *ngIf="rule&&rule.isUpdate" (click)="editAttach(i);" style="padding-right: 10px;">
             <i class="icon-pencil"></i>
@@ -112,16 +112,6 @@
         </div>
       </div>
       <div class="form-control  clearfix">
-        <span class="form-label">物业服务内容</span>
-        <div class="form-inp">
-          <select id="servername" name="servername" class="company-ipt company-sel" [(ngModel)]="repairname.servername" (blur)="verifyservername()">
-            <option value="保洁服务">保洁服务</option>
-            <option value="报修服务">报修服务</option>
-          </select>
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control  clearfix">
         <span class="form-label">服务公司状态</span>
         <div class="form-inp">
           <select id="serverstatus" name="serverstatus" class="company-ipt company-sel" [(ngModel)]="repairname.serverstatus" (blur)="verifyserverstatus()">
@@ -131,14 +121,42 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control clearfix">
-        <span class="form-label">服务描述</span>
+      <div class="form-control  clearfix">
+        <span class="form-label">物业服务内容</span>
         <div class="form-inp">
-          <textarea id="detail" name="detail" class="company-ipt company-text" [(ngModel)]="repairname.detail" maxlength="90" (blur)="verifydetail()">
-          </textarea>
+          <select id="servername" name="servername" class="company-ipt company-sel" [(ngModel)]="repairname.servername" (blur)="verifyservername()">
+            <option value="">请选择</option>
+            <option *ngFor="let abc of serverName" [value]="abc">{{abc}}</option>
+          </select>
           <span class="errorMessage"></span>
         </div>
       </div>
+      <!--<div *ngIf="repairname.servername==='报修服务'||repairname.servername==='保洁服务'||repairname.servername==='借用服务'" class="form-control  clearfix">
+        <span class="form-label">具体服务项目</span>
+        <div class="form-inp">
+          <input id="entry" name="entry" class="company-ipt" [(ngModel)]="repairname.entry" placeholder=""
+                 (blur)="verifyentry()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>-->
+      <div *ngIf="repairname.servername!=='节假日停车'" class="form-control clearfix">
+        <span class="form-label">具体服务项目</span>
+        <div class="form-inp">
+            <input type="text" id="detail" name="detail" class="company-ipt" [(ngModel)]="repairname.detail"
+                   (blur)="verifydetail()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div *ngIf="repairname.servername==='借用服务'||repairname.servername==='节假日停车'" class="form-control clearfix">
+        <span *ngIf="repairname.servername==='借用服务'" class="form-label">出借数量</span>
+        <span *ngIf="repairname.servername==='节假日停车'" class="form-label">停车位数量</span>
+        <div class="form-inp">
+          <input type="number" id="leaseNum" name="leaseNum" class="company-ipt" [(ngModel)]="repairname.number"
+                 (blur)="verifyleaseNum()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+
     </form>
 
     <div class="mask-footer">

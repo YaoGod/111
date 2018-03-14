@@ -70,7 +70,15 @@
         </li>
         <li class="form-bar">
           <span class="form-title text-right">物业服务内容</span>
-          <span class="form-word">{{inner.porpertyId === 0?"保洁服务": inner.porpertyId === 1?"报修服务": "住家服务"}}</span>
+          <span *ngIf="inner.porpertyId === 0" class="form-word">保洁服务</span>
+          <span *ngIf="inner.porpertyId === 1" class="form-word">报修服务</span>
+          <span *ngIf="inner.porpertyId === 2" class="form-word">住家服务</span>
+          <span *ngIf="inner.porpertyId === 3" class="form-word">租借服务</span>
+          <span *ngIf="inner.porpertyId === 4" class="form-word">停车位服务</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">具体服务项目</span>
+          <span class="form-word">{{inner.entry}}</span>
         </li>
         <li class="form-bar">
           <span class="form-title text-right">服务楼层</span>
@@ -152,11 +160,22 @@
             <option value=0>保洁服务</option>
             <option value=1>报修服务</option>
             <!--<option value=2>住家服务</option>-->
+            <option value="3">租借服务</option>
+            <option value="4">停车位服务</option>
           </select>
           <span class="errorMessage"></span>
         </div>
       </div>
-
+      <div class="form-control">
+        <span class="form-label">服务类型</span>
+        <div class="form-inp">
+          <select id="entry" name="entry" class="company-ipt company-sel" [(ngModel)]="repairname.entry" (blur)="verifyservername()">
+            <option value="">请选择</option>
+            <option *ngFor="let abc of repairname.fileName; let k=index" [value]="abc">{{abc}}</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
       <div class="form-control">
         <span class="form-label">员工部门</span>
         <div class="form-inp">

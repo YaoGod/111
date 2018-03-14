@@ -35,7 +35,9 @@ export class DeviceComponent implements OnInit {
   private contractBool = true;
   public leading:any;
   public deviceList:any;
+  public zong :any;
   public modelList:any;
+  public maintenList:any;
   public URL = this.ipSetting.ip + "/common/file/downLoadFile?path=";
   constructor(
     private http: Http,
@@ -62,6 +64,7 @@ export class DeviceComponent implements OnInit {
     this.pages = [];
     this.deviceList = [];
     this.modelList = [];
+    this.maintenList = [];
     if($('.device-header a:last-child').hasClass('active')) {
       $('.guard-arch,.box2').fadeIn();
       // this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
@@ -70,7 +73,6 @@ export class DeviceComponent implements OnInit {
       this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
     }
     this.getBuildings();
-    this.getDeviceList2('');
     this.getDeviceList('','');
     this.getPeople();
     this.repairSearch(1);
@@ -123,38 +125,23 @@ export class DeviceComponent implements OnInit {
         }
       });
   }
-  /**获取大型设备*/
-  public getDeviceList2(id) {
+  /**获取大型设备信息*/
+  public getDeviceList(id,name) {
     let url = "/building/equipment/getEquipmentSelect";
     let inner = {
-      buildingId:id
+      buildingId: id
     };
     this.ipSetting.sendPost(url,inner).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         let result1 = [];
         for(let i=0;i<data['data'].length;i++){
-            result1.push(data['data'][i].name);
+          result1.push(data['data'][i].name);
+          if(data['data'][i].name===name){
+            this.contractName.maintenance = data['data'][i].maintenance;
+            this.contractName.equipModel = data['data'][i].model;
+          }
         }
         this.deviceList = result1;
-      }
-    });
-  }
-  /**获取大型设备型号*/
-  public getDeviceList(id,name) {
-    let url = "/building/equipment/getEquipmentSelect";
-    let inner = {
-      buildingId: id,
-      name:name
-    };
-    this.ipSetting.sendPost(url,inner).subscribe(data => {
-      if(this.errorVoid.errorMsg(data)) {
-        let result2 = [];
-        for(let i=0;i<data['data'].length;i++){
-          // if(result2.indexOf(data['data'][i].model)===-1){}
-            result2.push(data['data'][i].model);
-            this.contractName.maintenance = data['data'][i].maintenance;
-        }
-        this.modelList = result2;
       }
     });
   }
@@ -182,13 +169,12 @@ export class DeviceComponent implements OnInit {
   }
   /*点击新增*/
   addCompany() {
+    this.getDeviceList('','');
     if($('.device-header a:last-child').hasClass('active')) {
       this.contractBool = true;
       this.contractName = new ArchName();
       $('.mask-contract').fadeIn();
-      $('.mask-contract .mask-head p').html('新增工单信息');
-      $('.form-entry').find('input,select').attr("disabled",false);
-      $('.form-disable').find('input,textarea').attr("disabled",true);
+      $('.mask-contract .mask-head p').html('新增工单');
     }else {
       this.editBool = true;
       this.repairname = new GuardName();
@@ -239,7 +225,6 @@ export class DeviceComponent implements OnInit {
     $('.errorMessage').html('');
     $('.mask-contract').hide();
     this.getDeviceList('','');
-    this.getDeviceList2('');
   }
   /*删除合同文件*/
   delFile(index) {
@@ -327,7 +312,7 @@ export class DeviceComponent implements OnInit {
     }
     return true;
   }
-  public verifymLastDate() {
+  /*public verifymLastDate() {
     if (!this.isEmpty('mLastDate', '不能为空')) {
       return false;
     }
@@ -338,7 +323,7 @@ export class DeviceComponent implements OnInit {
       return false;
     }
     return true;
-  }
+  }*/
   public verifyliablePerson() {
     if (!this.isEmpty('liablePerson', '不能为空')) {
       return false;
@@ -370,15 +355,14 @@ export class DeviceComponent implements OnInit {
       SOFTWARES_URL = "/building/equipment/addEquipment";
     }
     if (!this.verifybuildingId() || !this.verifyname() || !this.verifymodel() || !this.verifybuyDate() || !this.verifysupplier()
-      || !this.verifymaintenance() || !this.verifymLastDate() || !this.verifymNextDate() || !this.verifyliablePerson() ||
-      !this.verifylMail()) {
+      || !this.verifymaintenance() || !this.verifyliablePerson() || !this.verifylMail()) {
       return false;
     }
     const postdata = JSON.parse(JSON.stringify(this.repairname));
 
     postdata.buyDate = postdata.buyDate.replace(/-/g, "/");
-    postdata.mLastDate = postdata.mLastDate.replace(/-/g, "/");
-    postdata.mNextDate = postdata.mNextDate.replace(/-/g, "/");
+    /*postdata.mLastDate = postdata.mLastDate.replace(/-/g, "/");
+    postdata.mNextDate = postdata.mNextDate.replace(/-/g, "/");*/
     this.ipSetting.sendPost(SOFTWARES_URL,postdata).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           $('#prese').val('');
@@ -389,13 +373,12 @@ export class DeviceComponent implements OnInit {
             'imgType': 1 ,
           });
           this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
-          this.getDeviceList2('');
           this.getDeviceList('','');
           this.recordCancel();
         }else{
           this.repairname.buyDate = this.repairname.buyDate.replace(/\//g, "-");
-          this.repairname.mLastDate = this.repairname.mLastDate.replace(/\//g, "-");
-          this.repairname.mNextDate = this.repairname.mNextDate.replace(/\//g, "-");
+          /*this.repairname.mLastDate = this.repairname.mLastDate.replace(/\//g, "-");
+          this.repairname.mNextDate = this.repairname.mNextDate.replace(/\//g, "-");*/
         }
       });
   }
@@ -410,8 +393,8 @@ export class DeviceComponent implements OnInit {
       }
     }
     this.repairname.buyDate = this.repairname.buyDate.replace(/\//g, "-");
-    this.repairname.mLastDate = this.repairname.mLastDate.replace(/\//g, "-");
-    this.repairname.mNextDate = this.repairname.mNextDate.replace(/\//g, "-");
+    /*this.repairname.mLastDate = this.repairname.mLastDate.replace(/\//g, "-");
+    this.repairname.mNextDate = this.repairname.mNextDate.replace(/\//g, "-");*/
     $('.mask-repair').fadeIn();
     $('.mask-repair .mask-head p').html('编辑大型设备信息');
   }
@@ -466,7 +449,7 @@ export class DeviceComponent implements OnInit {
     });
   }
   /* 完善工单*/
-  editContract(index,event) {
+  /*editContract(index,event) {
     this.contractBool = false;
     this.contractName = JSON.parse(JSON.stringify(this.contract[index]));
     for(let i=0;i<this.leading.length;i++){
@@ -475,13 +458,12 @@ export class DeviceComponent implements OnInit {
         this.contractName.liablePerson = this.leading[i].userid;
       }
     }
-    // console.log(this.contractName);
     this.changePerson2(this.contractName.liablePerson);
     $('.form-disable').find('input,textarea').attr("disabled",false);
     $('.form-entry').find('input,select').attr("disabled",true);
     $('.mask-contract').fadeIn();
     $('.mask-contract .mask-head p').html('完善工单信息');
-  }
+  }*/
   /*工单信息校验*/
   public verifyID() {
     if (!this.isEmpty('ID', '不能为空')) {
@@ -519,7 +501,7 @@ export class DeviceComponent implements OnInit {
     }
     return true;
   }
-  public verifyliableBtime() {
+  /*public verifyliableBtime() {
     if (!this.isEmpty('liableBtime', '不能为空')) {
       return false;
     }
@@ -530,7 +512,7 @@ export class DeviceComponent implements OnInit {
       return false;
     }
     return true;
-  }
+  }*/
   public verifyliableNextTime() {
     if (!this.isEmpty('liableNextTime', '不能为空')) {
       return false;
@@ -551,25 +533,22 @@ export class DeviceComponent implements OnInit {
   }
   /*新增/编辑工单提交*/
   contractSubmit() {
-    var SOFTWARES_URL;
-    if(this.contractBool === false) {
-      SOFTWARES_URL = "/building/equipment/updateEquipmentWO";
-      if ( !this.verifyliableBtime() || !this.verifyliableEtime() || !this.verifyliableNextTime() || !this.verifyliableCost() ||
-        !this.verifyliableNote() ) {
-        return false;
-      }
+    let SOFTWARES_URL = "/building/equipment/addEquipmentWO";
+    /*if(this.contractBool === false) {
+       SOFTWARES_URL = "/building/equipment/updateEquipmentWO";
       this.contractName.liableBtime = this.contractName.liableBtime.replace(/-/g, "/");
-      this.contractName.liableEtime = this.contractName.liableEtime.replace(/-/g, "/");
-      this.contractName.liableNextTime = this.contractName.liableNextTime.replace(/-/g, "/");
-      $('.device-arch .order-btn').attr("disable",true);
-    }else {
-      SOFTWARES_URL = "/building/equipment/addEquipmentWO";
-      if (!this.verifyID() || !this.verifyequipmentName() || !this.verifyequipModel() || !this.verifymaintenance2() ||
-        !this.verifymType() || !this.verifyliablePerson2() ) {
-        return false;
-      }
+       this.contractName.liableEtime = this.contractName.liableEtime.replace(/-/g, "/");
+    }*/
+
+
+    if (!this.verifyID() || !this.verifyequipmentName() || !this.verifyequipModel() || !this.verifymaintenance2() ||
+      !this.verifymType() || !this.verifyliablePerson2() ||!this.verifyliableNextTime() || !this.verifyliableCost() ||
+      !this.verifyliableNote() ) {
+      return false;
     }
-    this.ipSetting.sendPost(SOFTWARES_URL,this.contractName).subscribe(data => {
+    let postData = JSON.parse(JSON.stringify(this.contractName));
+    postData.liableNextTime = this.contractName.liableNextTime.replace(/-/g, "/");
+    this.ipSetting.sendPost(SOFTWARES_URL,postData).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
             'title': '提示' ,
@@ -583,8 +562,8 @@ export class DeviceComponent implements OnInit {
           this.contractCancel();
         }else{
           if(this.contractBool === false) {
-            this.contractName.liableBtime = this.contractName.liableBtime.replace(/\//g, "-");
-            this.contractName.liableEtime = this.contractName.liableEtime.replace(/\//g, "-");
+            /*this.contractName.liableBtime = this.contractName.liableBtime.replace(/\//g, "-");
+            this.contractName.liableEtime = this.contractName.liableEtime.replace(/\//g, "-");*/
             this.contractName.liableNextTime = this.contractName.liableNextTime.replace(/\//g, "-");
           }
 
@@ -731,14 +710,14 @@ export class ArchName {
 }
 export class Company {
   buildingId: string; // 大楼编号
-  buildingName: String = '';  // 大楼名称
-  name: String = ''; // 设备名称
-  liablePerson:string; // 维保责任人
+  buildingName: string = '';  // 大楼名称
+  name: string = ''; // 设备名称
+  liablePerson:string=''; // 维保责任人
 }
 export class Arch {
   buildingId: string; // 大楼编号
-  buildingName: String = '';  // 大楼名称
-  equipmentName: String = ''; // 设备名称
-  liablePerson:string; // 维保责任人
+  buildingName: string = '';  // 大楼名称
+  equipmentName: string = ''; // 设备名称
+  liablePerson:string = ''; // 维保责任人
 }
 

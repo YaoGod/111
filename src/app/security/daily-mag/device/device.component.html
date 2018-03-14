@@ -9,16 +9,16 @@
         <ul class="company-search clearfix">
           <li >
             <label >大楼名称</label>
-            <select name="bbb" class="search-ipt" [(ngModel)]="searchCompany.buildingName" ><!--(change)="getDeviceList2(searchCompany.buildingName)"-->
+            <select name="bbb" class="search-ipt" [(ngModel)]="searchCompany.buildingName"
+                    (change)="getDeviceList(searchCompany.buildingName,'')">
               <option value="">-全部-</option>
               <option *ngFor="let num of buildings"
-                      [value]="num.NAME">
+                      [value]="num.ID">
                 {{num.NAME}}</option>
             </select>
           </li>
           <li >
             <label >设备名称</label>
-            <!--<input type="text" name="ccc" class="search-ipt" [(ngModel)]="searchCompany.equipmentName">-->
             <select name="ccc" class="search-ipt" [(ngModel)]="searchCompany.name">
               <option value="">-全部-</option>
               <option *ngFor="let num of deviceList"
@@ -33,10 +33,11 @@
         <ul class="company-search clearfix">
           <li >
             <label>大楼名称</label>
-            <select name="eee" class="search-ipt" [(ngModel)]="searchArch.buildingName">
+            <select name="eee" class="search-ipt" [(ngModel)]="searchArch.buildingName"
+                    (change)="getDeviceList(searchArch.buildingName,'')">
               <option value="">-全部-</option>
               <option *ngFor="let num of buildings"
-                      [value]="num.NAME">
+                      [value]="num.ID">
                 {{num.NAME}}</option>
             </select>
           </li>
@@ -98,14 +99,14 @@
           <span class="form-title text-right">维保单位</span>
           <span class="form-word">{{inner.maintenance}}</span>
         </li>
-        <li class="form-bar">
+        <!--<li class="form-bar">
           <span class="form-title text-right">最近维保日期</span>
           <span class="form-word">{{inner.mLastDate | date:'yyyy-MM-dd'}}</span>
-        </li>
-        <li class="form-bar">
+        </li>-->
+        <!--<li class="form-bar">
           <span class="form-title text-right">下次维保日期</span>
           <span class="form-word">{{inner.mNextDate | date:'yyyy-MM-dd'}}</span>
-        </li>
+        </li>-->
         <li class="form-bar">
           <span class="form-title text-right">维保责任人</span>
           <span class="form-word">{{inner.liablePerson}}</span>
@@ -136,10 +137,10 @@
           <span class="form-title text-right">大楼名称</span>
           <span class="form-word">{{inner.buildingName}}</span>
         </li>
-        <li class="form-bar">
+        <!--<li class="form-bar">
           <span class="form-title text-right">大楼编号</span>
           <span class="form-word">{{inner.buildingNum}}</span>
-        </li>
+        </li>-->
         <li class="form-bar">
           <span class="form-title text-right">设备名称</span>
           <span class="form-word">{{inner.equipmentName}}</span>
@@ -156,22 +157,22 @@
           <span class="form-title text-right">维保类型</span>
           <span class="form-word">{{inner.mType}}</span>
         </li>
-        <li class="form-bar form-alone">
-          <span class="form-title form-left text-right">维保责任人</span>
+        <li class="form-bar">
+          <span class="form-title text-right">维保责任人</span>
           <span class="form-word">{{inner.liablePerson}}</span>
         </li>
         <li class="form-bar">
-          <span class="form-title text-right">维保开始日期</span>
-          <span class="form-word form-visiable">{{inner.liableBtime}}</span>
+          <span class="form-title text-right">维保日期</span>
+          <span class="form-word form-visiable">{{inner.liableNextTime}}</span>
         </li>
-        <li class="form-bar">
+        <!--<li class="form-bar">
           <span class="form-title text-right">维保结束日期</span>
           <span class="form-word form-visiable">{{inner.liableEtime}}</span>
         </li>
         <li class="form-bar">
           <span class="form-title text-right">下次维保日期</span>
           <span class="form-word form-visiable">{{inner.liableNextTime}}</span>
-        </li>
+        </li>-->
         <li class="form-bar">
           <span class="form-title text-right">维保费用</span>
           <span class="form-word form-visiable">{{inner.liableCost}}</span>
@@ -181,7 +182,6 @@
           <span class="form-word form-text form-visiable">{{inner.liableNote}}</span>
         </li>
         <li class="form-btn form-del" *ngIf="rule&&jurisdiction&&jurisdiction.isDelete" (click)="delOrder(inner.id)"><i class="icon-trash"></i></li>
-        <li class="order-btn" *ngIf="!inner.liableBtime && (rule&&jurisdiction&&jurisdiction.isUpdate)" (click)="editContract(i)"><i class="icon-pencil"></i> 完善工单</li>
       </ul>
     </div>
     <app-turn-bar
@@ -264,7 +264,7 @@
             <span class="errorMessage"></span>
           </div>
         </div>
-        <div class="form-control clearfix">
+        <!--<div class="form-control clearfix">
           <span class="form-label">最近维保日期</span>
           <div class="form-inp">
             <input type="date" autocomplete="off" class="company-ipt" id="mLastDate" name="mLastDate" [(ngModel)]="repairname.mLastDate" (blur)="verifymLastDate()" required>
@@ -277,7 +277,7 @@
             <input type="date" autocomplete="off" class="company-ipt" id="mNextDate" name="mNextDate" [(ngModel)]="repairname.mNextDate" (blur)="verifymNextDate()" required>
             <span class="errorMessage"></span>
           </div>
-        </div>
+        </div>-->
       </div>
       <div class="form-right">
         <div class="form-control clearfix">
@@ -331,11 +331,11 @@
       <button class="close" (click)="contractCancel()">×</button>
     </div>
     <form method="post" name="topForm" class="order-form clearfix">
-      <div class="form-control form-entry clearfix">
+      <div class="form-control clearfix">
         <span class="form-label">大楼名称</span>
         <div class="form-inp">
           <select id="ID" name="ID" class="company-ipt company-sel" [(ngModel)]="contractName.buildingId" (blur)="verifyID()"
-          (change)="getDeviceList(contractName.buildingId,'');getDeviceList2(contractName.buildingId)">
+          (change)="getDeviceList(contractName.buildingId,'')">
             <option *ngFor="let num of buildings"
                     [value]="num.ID">
               {{num.NAME}}</option>
@@ -343,12 +343,11 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control form-entry clearfix">
+      <div class="form-control clearfix">
         <span class="form-label">设备名称</span>
         <div class="form-inp">
           <select  class="company-ipt" id="equipmentName" name="equipmentName" [(ngModel)]="contractName.equipmentName"
-                   (blur)="verifyequipmentName()" (change)="getDeviceList(contractName.buildingId,contractName.equipmentName);
-                   getDeviceList2(contractName.buildingId)">
+                   (blur)="verifyequipmentName()" (change)="getDeviceList(contractName.buildingId,contractName.equipmentName)">
             <option value="">-请选择-</option>
             <option *ngFor="let num of deviceList"
                     [value]="num">
@@ -357,33 +356,29 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control form-entry clearfix">
+      <div class="form-control clearfix">
         <span class="form-label">设备型号</span>
         <div class="form-inp">
-          <select class="company-ipt" id="equipModel" name="equipModel" [(ngModel)]="contractName.equipModel" (blur)="verifyequipModel()">
-          <option value="">-请选择-</option>
-            <option *ngFor="let num of modelList"
-                    [value]="num"><!--num.BUILDING_ID-->
-              {{num}}</option>
-          </select>
+          <input type="text" class="company-ipt" id="equipModel" name="equipModel" [(ngModel)]="contractName.equipModel"
+                 (blur)="verifyequipModel()">
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control form-entry clearfix">
+      <div class="form-control clearfix">
         <span class="form-label">维保单位</span>
         <div class="form-inp">
           <input type="text" autocomplete="off" class="company-ipt" id="maintenance2" name="maintenance" [(ngModel)]="contractName.maintenance" (blur)="verifymaintenance2()" required maxlength="25">
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control form-entry clearfix">
+      <div class="form-control clearfix">
         <span class="form-label">维保类型</span>
         <div class="form-inp">
           <input type="text" autocomplete="off" class="company-ipt" id="mType" name="mType" [(ngModel)]="contractName.mType" (blur)="verifymType()" required maxlength="25">
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control form-entry clearfix">
+      <div class="form-control clearfix">
         <span class="form-label">维保责任人</span>
         <div class="form-inp">
           <select class="company-ipt conpany-sel" id="liablePerson2" name="liablePerson2" [(ngModel)]="contractName.liablePerson"
@@ -400,42 +395,42 @@
           <input class="company-ipt conpany-sel" name="liabledeptId" [(ngModel)]="contractName.deptId" disabled="disabled">
         </div>
       </div>
-      <div class="form-control form-entry clearfix">
+      <div class="form-control clearfix">
         <span class="form-label">责任人邮箱</span>
         <div class="form-inp">
           <input class="company-ipt conpany-sel" name="liablelMail" [(ngModel)]="contractName.lMail">
           <!--<span class="errorMessage"></span>-->
         </div>
       </div>
-      <div class="form-control form-disable clearfix">
-        <span class="form-label">维保开始日期</span>
+      <!--<div class="form-control form-disable clearfix">
+        <span class="form-label">维保日期</span>
         <div class="form-inp">
           <input type="date" autocomplete="off" class="company-ipt" id="liableBtime" name="liableBtime" [(ngModel)]="contractName.liableBtime" (blur)="verifyliableBtime()" required>
           <span class="errorMessage"></span>
         </div>
-      </div>
-      <div class="form-control  form-disable clearfix">
+      </div>-->
+      <!--<div class="form-control  form-disable clearfix">
         <span class="form-label">维保结束日期</span>
         <div class="form-inp">
           <input type="date" autocomplete="off" class="company-ipt" id="liableEtime" name="liableEtime" [(ngModel)]="contractName.liableEtime" (blur)="verifyliableEtime()" required>
           <span class="errorMessage"></span>
         </div>
-      </div>
-      <div class="form-control  form-disable clearfix">
-        <span class="form-label">下次维保日期</span>
+      </div>-->
+      <div class="form-control clearfix">
+        <span class="form-label">维保日期</span>
         <div class="form-inp">
           <input type="date" autocomplete="off" class="company-ipt" id="liableNextTime" name="liableNextTime" [(ngModel)]="contractName.liableNextTime" (blur)="verifyliableNextTime()" required>
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control  form-disable clearfix">
+      <div class="form-control clearfix">
         <span class="form-label">维保费用</span>
         <div class="form-inp">
           <input type="text" autocomplete="off" class="company-ipt" id="liableCost" name="liableCost" [(ngModel)]="contractName.liableCost" (blur)="verifyliableCost()" required maxlength="9">
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control form-alone form-disable clearfix">
+      <div class="form-control form-alone clearfix">
         <span class="form-label">维保情况</span>
         <div class="form-inp form-text">
           <textarea type="text" id="liableNote" maxlength="1000" name="liableNote" [(ngModel)]="contractName.liableNote" (blur)="verifyliableNote()" required >

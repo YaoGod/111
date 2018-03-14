@@ -175,10 +175,8 @@ button{
 .mask-cotainer{
   position: absolute;
   left:50%;
-  top:50%;
+  top:8%;
   width:650px;
-  height:470px;
-  margin-top:-235px;
   margin-left:-325px;
   background-color: #fff;
   border-radius:5px;
@@ -218,6 +216,7 @@ button{
   background-repeat: no-repeat;
   background-size: 0 1px, 100% 1px;
   padding: 0;
+  border:none;
   transition: all .3s ease-out;
 }
 .company-sel{
