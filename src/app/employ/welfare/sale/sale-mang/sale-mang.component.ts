@@ -21,6 +21,7 @@ export class SaleMangComponent implements OnInit {
   public copySale:SaleProduct;
   public winTitle:string;
   public isAllDept:boolean;
+  public typeList: Array<string>;
   constructor(
     private router: Router,
     private route:ActivatedRoute,
@@ -35,6 +36,7 @@ export class SaleMangComponent implements OnInit {
     this.copySale.imgPathList = [];
     this.copySale.targetName = [];
     this.deptList = [];
+    this.typeList = [];
     this.getDeptList();
     this.getSale(1);
   }
@@ -158,6 +160,7 @@ export class SaleMangComponent implements OnInit {
     this.copySale.targetName = ['所有人员'];
     this.winTitle = "新增";
     this.isAllDept = true;
+    this.typeList[0] = "";
     $('#product').show();
   }
   /*编辑初始化*/

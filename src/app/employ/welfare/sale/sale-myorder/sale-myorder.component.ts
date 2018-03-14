@@ -16,6 +16,7 @@ export class SaleMyorderComponent implements OnInit {
   public pageSize : number = 5;
   public total    : number = 0;
   public orders   : Array<OrderSale>;
+  public formData : any;
   constructor(
     private route: ActivatedRoute,
     private saleProductEmployeeService:SaleProductEmployeeService,
@@ -51,6 +52,41 @@ export class SaleMyorderComponent implements OnInit {
           this.total =data.data.total;
         }
       })
+  }
+  loadFormData(data:any) {
+    if(data.createTime){
+      data.createTime = data.createTime.replace("T"," ");
+    }
+    if(data.payTime){
+      data.payTime = data.payTime.replace("T"," ");
+    }
+    this.formData = [
+      {
+        title: '',
+        type: 'bold',
+        hd: ['系统订单号', "订单创建时间"],
+        data: [data.id, data.createTime]
+      },
+      {
+        title: "",
+        type: "text",
+        hd: ["订单状态", "付款时间"],
+        data: [data.status, data.payTime]
+      },
+      {
+        title: "收货人信息",
+        type: "text",
+        hd: ["收货人姓名", "收货人电话", "收货地址"],
+        data: [data.userName, data.telNumber, data.address]
+      },
+      {
+        title: "商品明细",
+        type: "form",
+        hd: ["商品名称", "单价(元)", "商品类型", "数量", "合计（元）"],
+        data: [[data.productName,data.total.toFixed(2),data.type,"1",data.total.toFixed(2)]],
+        total: "总计：￥" + data.total.toFixed(2)
+      }
+    ];
   }
 
 }

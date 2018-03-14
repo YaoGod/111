@@ -5,6 +5,7 @@ export class SaleProduct {
   id          : string; /*主键*/
   name        : string; /*商品名称*/
   type        : string; /*商品类型*/
+  typeNumber  : string; /*商品不同类型的数量*/
   imgPath     : any;  /*多图实际地址分号隔开*/
   imgPathList : Array<string>; /*多图地址base64*/
   summary     : string; /*文字说明*/
@@ -21,6 +22,7 @@ export class SaleProduct {
 
 export class UserSale {
   productId  : string;  /*商品ID*/
+  type       : string;  /*选择的类型*/
   amount     : number;  /*数量*/
   total      : number;  /*总价*/
   note       : string;  /*备注*/
@@ -30,5 +32,21 @@ export class UserSale {
 }
 
 export class OrderSale {
-
+  id: string;
+  userName: string;
+  telNumber: string;
+  address: string;
+  note: string;
+  batch: string;
+  payTime : string;
+  sendTime: string;
+  createTime: string;
+  status:string;
+  productId: number;
+  productName: string;
+  productType: string;
+  imgPath: string;
+  imgPathList:string;
+  amount: number;
+  total:number;
 }

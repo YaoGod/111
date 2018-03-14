@@ -13,6 +13,7 @@ import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
 import {SaleProductEmployeeService} from "../../../service/sale-product-employee/sale-product-employee.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import { SaleMyorderComponent } from './sale-myorder/sale-myorder.component';
+import {PrintBarModule} from "../../../component/print-bar/print-bar.module";
 const routes: Routes = [
   {
     path: '',
@@ -57,6 +58,7 @@ const routes: Routes = [
     FormsModule,
     TurnBarModule,
     ImgurlModule,
+    PrintBarModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

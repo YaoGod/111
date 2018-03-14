@@ -21,6 +21,7 @@ export class SaleDetailComponent implements OnInit {
   public code:string;
   public yzm :string;
   public clickTime: number;
+  public types : Array<string>;
   constructor(
     private router: Router,
     private route:ActivatedRoute,
@@ -36,6 +37,7 @@ export class SaleDetailComponent implements OnInit {
     this.status = "";
     let tempid: number = 0;
     this.clickTime = 0;
+    this.types = [];
     this.route.params.subscribe(data => {
       if(tempid === 0){
         this.saleProduct.id = data.id;
@@ -51,12 +53,15 @@ export class SaleDetailComponent implements OnInit {
         if(this.errorResponseService.errorMsg(data)){
           this.saleProduct=data.data;
           this.saleProduct.imgPath = this.saleProduct.imgPathList[0];
+          this.types = this.saleProduct.type.split(",");
+          this.userSale.type = this.types[0];
           this.getSystemTime();
         }
       })
   }
   /*获取商品抢购资格*/
   getSaleProductKey(id){
+    console.log(this.userSale);
     this.clickTime ++;
     $('#mask').show();
     if(this.clickTime === 1){
@@ -68,7 +73,7 @@ export class SaleDetailComponent implements OnInit {
               $('#order').show();
               this.code = data.data;
               this.userSale.productId = this.saleProduct.id;
-              this.userSale.userName = this.user.userName;
+              this.userSale.userName = this.user.username;
               this.userSale.telNumber = this.user.teleNum;
               this.userSale.address = this.user.homeAddr;
             }

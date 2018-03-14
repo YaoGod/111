@@ -355,11 +355,11 @@ i{
   z-index: 999;
 }
 .modal-content{
-  width: 800px;
+  width: 860px;
   position: absolute;
   left: 50%;
   top: 100px;
-  margin-left: -400px;
+  margin-left: -430px;
 }
 .modal-header {
   display: -webkit-box;
@@ -392,7 +392,7 @@ i{
   float: left;
 }
 .modal-right {
-  width: 260px;
+  width: 285px;
   margin-left: 20px;
   float: left;
 }

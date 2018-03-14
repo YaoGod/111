@@ -178,8 +178,8 @@
 }
 .form-title{
   display: inline-block;
+  position: absolute;
   width: 90px;
-  line-height: 24px;
   margin-right: 10px;
   color: #5d5d5d;
   font-weight: 300;
@@ -187,6 +187,10 @@
   text-align: left;
   word-wrap: break-word;
   vertical-align: top;
+}
+.word{
+  display: inline-block;
+  padding-left: 100px;
 }
 .cont{
   padding: 15px;
@@ -762,4 +766,30 @@ select{
 .b-right{
   float: right;
   width: 50%;
+}
+.choose-group{
+  display: inline-block;
+  padding: 5px 5px 0 0;
+  text-align: center;
+  box-sizing: border-box;
+}
+.cb-blue>input[type=radio]{
+  position: absolute;
+  opacity: 0;
+}
+.cb-blue span{
+  display: inline-block;
+  padding: 0 10px;
+  border:2px solid #d6d5d7;
+  border-radius: 3px;
+  color: #8d9ea7;
+  background-color: #ffffff;
+  transition-duration: 300ms;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.cb-blue>input[type=radio]:checked+span{
+  border:2px solid #03a9f3;
+  color: #ffffff;
+  background-color: #03a9f3;
 }

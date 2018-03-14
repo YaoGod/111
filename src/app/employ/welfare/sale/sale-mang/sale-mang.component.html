@@ -155,18 +155,6 @@
             <div class="error"></div>
           </div>
           <div  class="form-group">
-            <label  class="control-label"><span>商品类型</span>
-              <select class="form-control" id="type" name="type"
-                     [(ngModel)]="copySale.type"
-                     (blur)="verifyEmpty(copySale.type,'type')">
-                <option>型号1</option>
-                <option>型号2</option>
-                <option>型号3</option>
-              </select>
-            </label>
-            <div class="error"></div>
-          </div>
-          <div  class="form-group">
             <label  class="control-label"><span>价格&nbsp;(元)</span>
               <input class="form-control" id="price"
                      name="price" placeholder="" type="number"
@@ -176,18 +164,6 @@
             <div class="error"></div>
           </div>
           <div  class="form-group">
-            <label  class="control-label"><span>内容介绍</span>
-              <textarea class="form-control" id="summary" name="summary" rows="5"
-                        style="line-height: 20px;"
-                        [(ngModel)]="copySale.summary"
-                        (blur)="verifyEmpty(copySale.summary,'summary')"
-              ></textarea>
-            </label>
-            <div class="error"></div>
-          </div>
-        </div>
-        <div  class="modal-right">
-          <div  class="form-group">
             <label  class="control-label"><span>数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量</span>
               <input class="form-control" id="maxNumber"
                      name="maxNumber" placeholder="" type="number"
@@ -196,6 +172,19 @@
             </label>
             <div class="error"></div>
           </div>
+          <div  class="form-group" *ngFor="let tempType of typeList;">
+            <label  class="control-label"><span>商品类型</span>
+              <input class="form-control" name="type" type="text" style="width: 100px"
+                      [(ngModel)]="copySale.type">
+              共
+              <input class="form-control" name="maxNumber" type="text" style="width: 50px"
+                     [(ngModel)]="copySale.maxNumber">
+              件
+            </label>
+            <div class="error"></div>
+          </div>
+        </div>
+        <div  class="modal-right">
           <div  class="form-group">
             <label  class="control-label"><span>开始时间</span>
               <input class="form-control" id="beginTime"
@@ -206,20 +195,31 @@
             <div class="error"></div>
           </div>
           <div  class="form-group">
-            <label  class="control-label"><span>结束时间</span>
-              <input class="form-control" id="endTime" title="可选"
+            <label  class="control-label" title="可选">
+              <span>结束时间</span>
+              <input class="form-control" id="endTime"
                      name="endTime" placeholder="" type="datetime-local"
                      [(ngModel)]="copySale.endTime">
             </label>
             <div class="error"></div>
           </div>
           <div  class="form-group">
-            <label  class="control-label"><span>抢购对象</span>
+            <label  class="control-label" onclick="$('#deptSltWin').show()">
+              <span>抢购对象</span>
               <textarea class="form-control" rows="4" style="line-height: 20px"
                         id="deptName" name="deptName" readonly
                      [(ngModel)]="copySale.targetName">
               </textarea>
-              <a class="btn-slt btn-info" onclick="$('#deptSltWin').show()">选取</a>
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label"><span>内容介绍</span>
+              <textarea class="form-control" id="summary" name="summary" rows="5"
+                        style="line-height: 20px;"
+                        [(ngModel)]="copySale.summary"
+                        (blur)="verifyEmpty(copySale.summary,'summary')"
+              ></textarea>
             </label>
             <div class="error"></div>
           </div>

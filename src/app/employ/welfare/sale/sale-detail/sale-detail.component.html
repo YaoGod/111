@@ -26,10 +26,7 @@
       <li class="marker-type">
         <span>{{saleProduct.type}}</span>
       </li>
-      <li>
-        <span class="form-title">库存量</span>
-        <span class="word">{{saleProduct.realNumber}}</span>
-      </li>
+
       <li>
         <span class="form-title">抢购对象</span>
         <span class="word">{{saleProduct.targetName}}</span>
@@ -38,6 +35,21 @@
         <span class="form-title">抢购时间</span>
         <span class="word">{{saleProduct.beginTime | date:'yyyy/MM/dd HH:mm:ss'}}&nbsp;&nbsp;
           <span *ngIf="saleProduct.endTime">至&nbsp;&nbsp;{{saleProduct.endTime | date:'yyyy/MM/dd HH:mm:ss'}}</span></span>
+      </li>
+      <li>
+        <span class="form-title">库存量</span>
+        <span class="word">{{saleProduct.realNumber}}</span>
+      </li>
+      <li>
+        <span class="form-title">商品类型</span>
+        <span class="word">
+          <div class="choose-group" *ngFor="let type of types;let i=index">
+          <label class="cb-blue">
+            <input type="radio" name="productType" [(ngModel)]="userSale.type" [value]="type">
+            <span>{{type}}</span>
+          </label>
+          </div>
+        </span>
       </li>
       <li>
         <div class="btn-form-back">
