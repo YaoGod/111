@@ -46,7 +46,7 @@ const routes: Routes = [
         component: SaleMyorderComponent
       },
       {
-        path: 'statistics',
+        path: 'statistics/:id',
         component: SaleStatisticsComponent
       }
     ]

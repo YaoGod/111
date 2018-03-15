@@ -121,4 +121,14 @@ export class SaleProductEmployeeService {
     return this.http.post(url,postData,this.options)
       .map(res => res.json());
   }
+  getSaleProductCount(pageNo,pageSize,type,id,search){
+    const url = this.ipSetting.ip + "/employee/flashsale/getOrderReport/"+pageNo+"/"+pageSize
+    +"?type="+type+"&productID="+id + "&hrmis=" + search.userId;
+    if(type === 'list'){
+      return this.http.get(url,this.options)
+        .map(res => res.json());
+    }else{
+      window.open(url);
+    }
+  }
 }

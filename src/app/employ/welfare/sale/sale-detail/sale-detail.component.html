@@ -45,7 +45,7 @@
         <span class="word">
           <div class="choose-group" *ngFor="let type of types;let i=index">
           <label class="cb-blue">
-            <input type="radio" name="productType" [(ngModel)]="userSale.type" [value]="type">
+            <input type="radio" name="productType" [(ngModel)]="userSale.productType" [value]="type">
             <span>{{type}}</span>
           </label>
           </div>
@@ -145,7 +145,7 @@
         <div  class="form-group">
           <label  class="control-label"><span class="b-label">验证码</span>
             <input class="form-control" id="yzm" name="yzm" type="text"
-              [(ngModel)]="yzm" (blur)="verifyEmpty(yzm,'yzm')">
+              [(ngModel)]="yzm">
             <a class="btn-danger" (click)="getYzm(saleProduct.id)">发送验证码</a>
           </label>
           <div class="error"></div>

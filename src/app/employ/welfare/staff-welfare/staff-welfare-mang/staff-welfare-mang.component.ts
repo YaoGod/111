@@ -370,12 +370,6 @@ export class StaffWelfareMangComponent implements OnInit {
       }
     });
   }
-  linkDetail(id){
-    this.router.navigate(['../detail',id],{relativeTo:this.route});
-  }
-  linkStatistics(id){
-    this.router.navigate(['../statistics',id],{relativeTo:this.route});
-  }
   verifyImgPath(){
     if(typeof (this.copyWelfare.imgPath) === "undefined" ||
       this.copyWelfare.imgPath === null ||

@@ -1,3 +1,87 @@
-<p>
-  sale-statistics works!
-</p>
+<!--页面标题-->
+<div class="nav-title">
+  <a><h4>限时抢购报表</h4></a>
+  <div class="b-head-right">
+    <div class="content-box" tabindex="0" onclick="history.go(-1)">
+      <i class="icon-reload"></i> 返回
+    </div>
+  </div>
+</div>
+<!--抢购商品信息简介-->
+<div class="goods-box">
+  <div class="goods-img">
+    <img [src]="saleProduct.imgPath | imgsafeurl" *ngIf="saleProduct.imgPath">
+  </div>
+  <p>商品名称：&nbsp;{{saleProduct.name}}</p>
+  <p>商品总量：&nbsp;{{saleProduct.maxNumber}}</p>
+  <p>抢购对象：&nbsp;{{saleProduct.targetName}}</p>
+  <p>抢购时间：&nbsp;{{saleProduct.beginTime | date:'yyyy/MM/dd HH:mm:ss'}}
+    <span *ngIf="saleProduct.endTime">&nbsp;至&nbsp;
+      {{saleProduct.endTime  | date:'yyyy/MM/dd HH:mm:ss'}}
+    </span>
+  </p>
+</div>
+<!--搜索栏-->
+<div class="search-bar">
+  <ul>
+    <li><label>HRMIS号</label>
+      <input type="text" name="search" [(ngModel)]="search.userId">
+      <a (click)="getSaleProductCount(1)">
+        <i class="icon-magnifier"></i>查询
+      </a>
+    </li>
+    <li>
+      <a class="btn-danger" (click)="exportExcel()">
+        <i class="icon-cloud-download"></i>
+        导出
+      </a>
+    </li>
+  </ul>
+</div>
+<!--表头-->
+<div class="table-head" style="margin-top: 10px">
+  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+    <tr class="row list-title" style="height:20px;">
+      <th>HRMIS号</th>
+      <th class="text-left">收货人</th>
+      <th>抢购人部门</th>
+      <th>联系方式</th>
+      <th>收货地址</th>
+      <th>商品类型</th>
+      <th>下单时间</th>
+    </tr>
+    <tr class="row" *ngFor="let userSale of userSales;let i = index">
+      <td>
+        <span>{{userSale.userId}}</span>
+      </td>
+      <td class="text-left">
+        <span>{{userSale.userName}}</span>
+      </td>
+      <td>
+        <span>{{userSale.deptName}}</span>
+      </td>
+      <td>
+        <span>{{userSale.telNumber}}</span>
+      </td>
+      <td>
+        <span>{{userSale.address}}</span>
+      </td>
+      <td>
+        <span>{{userSale.productType}}</span>
+      </td>
+      <td>
+        <span>{{userSale.createTime|date:'yyyy/MM/dd HH:mm:ss'}}</span>
+      </td>
+    </tr>
+  </table>
+  <div class="div-none" *ngIf="userSales && userSales.length < 1">
+    <p>暂无信息</p>
+  </div>
+</div>
+<!--翻页-->
+<app-turn-bar
+  [pageNo] = "pageNo"
+  [pageSize] = "pageSize"
+  [total] = "total"
+  (turnEvent) = "getSaleProductCount($event)">
+</app-turn-bar>

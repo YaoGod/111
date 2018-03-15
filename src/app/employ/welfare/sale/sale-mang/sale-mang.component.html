@@ -2,9 +2,6 @@
 <div class="nav-title">
   <a><h4>商品管理</h4></a>
   <div class="b-head-right">
-    <div class="content-box" tabindex="0" (click)="linkStatistics(1)">
-      <i class="icon-earphones"></i> 报表
-    </div>
     <div class="content-box" tabindex="0" onclick="history.go(-1)">
       <i class="icon-reload"></i> 返回
     </div>
@@ -15,13 +12,6 @@
   <ul>
     <li><label>商品名称</label>
       <input type="text" name="search" [(ngModel)]="search.name">
-    </li>
-    <li><label>类型</label>
-      <select name="search" [(ngModel)]="search.type">
-        <option>型号1</option>
-        <option>型号2</option>
-        <option>型号3</option>
-      </select>
     </li>
     <li>
       <a (click)="getSale(1);"><i class="icon-magnifier"></i>查询</a>
@@ -39,15 +29,16 @@
 <div class="table-head" style="margin-top: 10px">
   <table border="0" cellspacing="0" cellpadding="0" class="list-box">
     <tr class="row list-title" style="height:45px;">
-      <th width="15%" class="text-left">商品名称</th>
+      <th width="10%" class="text-left">商品名称</th>
       <th width="5%" class="text-left">类型</th>
       <th width="15%">图片</th>
-      <th width="7%">价格(元)</th>
+      <th width="5%">价格(元)</th>
       <th width="5%">数量</th>
+      <th width="5%">库存量</th>
       <th width="10%">开始时间</th>
       <th width="10%">结束时间</th>
-      <th width="15%" class="text-left">抢购对象</th>
-      <th width="8%">审核状态</th>
+      <th width="10%" class="text-left">抢购对象</th>
+      <th width="5%">审核状态</th>
       <th width="10%">操作</th>
     </tr>
   </table>
@@ -56,7 +47,7 @@
 <div class="table-content" style="min-height: 500px">
   <table border="0" cellspacing="0" cellpadding="0" class="list-box">
     <tr class="row"  style="height:100px;" *ngFor="let sale of saleList;let i = index">
-      <td width="15%" class="text-left">
+      <td width="10%" class="text-left">
         <span>
           {{sale.name}}
         </span>
@@ -70,11 +61,14 @@
         <img *ngIf="sale.imgPathList&&sale.imgPathList.length>0"
              [src]="sale.imgPathList[0] | imgsafeurl">
       </td>
-      <td width="7%">
+      <td width="5%">
         {{sale.price | number:'1.2-2'}}
       </td>
       <td width="5%">
         {{sale.maxNumber}}
+      </td>
+      <td width="5%">
+        {{sale.realNumber}}
       </td>
       <td width="10%">
         {{sale.beginTime| date:'yyyy/MM/dd HH:mm:ss'}}
@@ -82,25 +76,28 @@
       <td width="10%">
         {{sale.endTime| date:'yyyy/MM/dd HH:mm:ss'}}
       </td>
-      <td width="15%" class="text-left">
+      <td width="10%" class="text-left">
         <p class="tb-text">
         {{sale.targetName}}
         </p>
       </td>
-      <td width="8%">
+      <td width="5%">
         <span *ngIf="sale.isCheck==='pass'">通过</span>
         <span *ngIf="sale.isCheck==='fail'" [title]="sale.checkNote">不通过</span>
         <span *ngIf="sale.isCheck==='pending'">待审核</span>
       </td>
       <td width="10%" class="box-option">
-        <a (click)="linkDetail(sale.id)">
+        <a [routerLink]="['../detail',sale.id]">
           <i class="icon-screen-desktop"></i>详情
         </a>
-        <a (click)="edit(sale)">
-          <i class="icon-pencil"></i>编辑
+        <a [routerLink]="['../statistics',sale.id]"> <!--*ngIf="sale.realNumber&&sale.realNumber===0">-->
+          <i class="icon-chart"></i>报表
         </a>
         <a (click)="check(sale)">
           <i class="icon-settings"></i>审核
+        </a>
+        <a (click)="edit(sale)">
+          <i class="icon-pencil"></i>编辑
         </a>
         <a (click)="delete(sale.id)">
           <i class="icon-trash"></i>删除
@@ -172,10 +169,10 @@
             </label>
             <div class="error"></div>
           </div>
-          <div  class="form-group" *ngFor="let tempType of typeList;">
-            <label  class="control-label"><span>商品类型</span>
-              <input class="form-control" name="type" type="text" style="width: 100px"
-                      [(ngModel)]="copySale.type">
+          <div  class="form-group" *ngFor="let tempType of typeList;let i = index">
+            <label  class="control-label"><span><a *ngIf="i === 0">商品类型</a></span>
+              <input class="form-control" [name]="'type'+i" type="text" style="width: 100px"
+                      [(ngModel)]="tempType.name">
               共
               <input class="form-control" name="maxNumber" type="text" style="width: 50px"
                      [(ngModel)]="copySale.maxNumber">
@@ -183,6 +180,14 @@
             </label>
             <div class="error"></div>
           </div>
+          <span class="fitBox">
+                <a class="btn-close" (click)="delLine()">
+                <i class="icon-close"></i>
+              </a>
+              <a class="btn-add" (click)="addLine()">
+                <i class="icon-plus"></i>
+              </a>
+          </span>
         </div>
         <div  class="modal-right">
           <div  class="form-group">

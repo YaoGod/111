@@ -65,14 +65,13 @@
         {{discount.status}}
       </td>
       <td width="10%" class="box-option">
-        <a (click)="linkDetail(discount.id)">
+        <a [routerLink]="['../detail',discount.id]">
           <i class="icon-screen-desktop"></i>详情
         </a>
-        <a (click)="linkStatistics(discount.id)">
+        <a [routerLink]="['../statistics',discount.id]">
           <i class="icon-chart"></i>统计
         </a>
         <a (click)="edit(discount)">
-        <!--<a (click)="onEdit(discount.id)">-->
           <i class="icon-pencil"></i>编辑
         </a>
         <a (click)="delete(discount.id)">

@@ -22,13 +22,18 @@ export class SaleProduct {
 
 export class UserSale {
   productId  : string;  /*商品ID*/
-  type       : string;  /*选择的类型*/
+  productName: string;
+  productType: string;  /*选择的类型*/
   amount     : number;  /*数量*/
   total      : number;  /*总价*/
   note       : string;  /*备注*/
-  userName   : string;
-  telNumber  : string;
-  address    : string;
+  userId     : string;
+  userName   : string;  /*员工姓名*/
+  deptName   : string;  /*部门*/
+  telNumber  : string;   /*电话*/
+  address    : string;  /*地址*/
+  createTime : string;   /*下单时间*/
+  payTime    : string;
 }
 
 export class OrderSale {

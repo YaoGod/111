@@ -250,6 +250,7 @@ td>img{
   display: block;
   line-height: 26px;
   font-size: 10px;
+  color: #686868;
   transition-duration: 500ms;
   cursor: pointer;
 }
@@ -644,4 +645,21 @@ select{
   border:2px solid #03a9f3;
   color: #ffffff;
   background-color: #03a9f3;
+}
+.fitBox{
+  position: relative;
+  float: right;
+  top: -25px;
+  right: -15px;
+  padding: 0 5px;
+  cursor: pointer;
+}
+.fitBox a i{
+  padding: 0;
+}
+.btn-close{
+  color: #d75452;
+}
+.btn-add{
+  color: #03a9f3;
 }

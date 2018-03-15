@@ -53,15 +53,15 @@ export class SaleDetailComponent implements OnInit {
         if(this.errorResponseService.errorMsg(data)){
           this.saleProduct=data.data;
           this.saleProduct.imgPath = this.saleProduct.imgPathList[0];
+          this.userSale.productName = this.saleProduct.name;
           this.types = this.saleProduct.type.split(",");
-          this.userSale.type = this.types[0];
+          this.userSale.productType = this.types[0];
           this.getSystemTime();
         }
       })
   }
   /*获取商品抢购资格*/
   getSaleProductKey(id){
-    console.log(this.userSale);
     this.clickTime ++;
     $('#mask').show();
     if(this.clickTime === 1){
@@ -154,20 +154,24 @@ export class SaleDetailComponent implements OnInit {
   }
   /*确认订单*/
   submitOrder(){
-    this.userSale.amount = 1;
-    this.userSale.total = this.saleProduct.price;
-    this.saleProductEmployeeService.addUserSaleOrder(this.code,this.userSale,this.yzm)
-      .subscribe(data=>{
-        if(this.errorResponseService.errorMsg(data)){
-          $('#order').hide();
-          confirmFunc.init({
-            'title': '提示',
-            'mes': data.msg,
-            'popType': 0,
-            'imgType': 1,
-          });
-        }
-      })
+    let error = 0;
+    this.verifyEmpty(this.yzm,'yzm');
+    if($('.red').length === 0 && error === 0) {
+      this.userSale.amount = 1;
+      this.userSale.total = this.saleProduct.price;
+      this.saleProductEmployeeService.addUserSaleOrder(this.code, this.userSale, this.yzm)
+        .subscribe(data => {
+          if (this.errorResponseService.errorMsg(data)) {
+            $('#order').hide();
+            confirmFunc.init({
+              'title': '提示',
+              'mes': data.msg,
+              'popType': 0,
+              'imgType': 1,
+            });
+          }
+        })
+    }
   }
   /*放弃订单*/
   closeOrder(){

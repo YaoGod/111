@@ -21,7 +21,7 @@ export class SaleMangComponent implements OnInit {
   public copySale:SaleProduct;
   public winTitle:string;
   public isAllDept:boolean;
-  public typeList: Array<string>;
+  public typeList: Array<ChooseType>;
   constructor(
     private router: Router,
     private route:ActivatedRoute,
@@ -97,6 +97,11 @@ export class SaleMangComponent implements OnInit {
       delete postdata.imgPath;
       postdata.targetId = postdata.targetId.join(",");
       postdata.targetName = postdata.targetName.join(",");
+      let tempList = [];
+      for(let i = 0;i<this.typeList.length;i++){
+         tempList.push(this.typeList[i].name);
+      }
+      postdata.type = tempList.join(",");
       if(typeof (postdata.id) === "undefined" || postdata.id === null) {
         this.saleProductEmployeeService.addSaleProduct(postdata)
           .subscribe(data => {
@@ -160,7 +165,7 @@ export class SaleMangComponent implements OnInit {
     this.copySale.targetName = ['所有人员'];
     this.winTitle = "新增";
     this.isAllDept = true;
-    this.typeList[0] = "";
+    this.typeList[0] =  new ChooseType();
     $('#product').show();
   }
   /*编辑初始化*/
@@ -191,6 +196,12 @@ export class SaleMangComponent implements OnInit {
         }
       }
     }
+    /*自定义类型解析*/
+    let tempList = this.copySale.type.split(",");
+    for(let i = 0;i<tempList.length;i++){
+      this.typeList[i] = new ChooseType();
+      this.typeList[i].name = tempList[i];
+    }
     console.log(this.copySale);
   }
   /*关闭窗口*/
@@ -207,6 +218,7 @@ export class SaleMangComponent implements OnInit {
     for(let i = 0;i<this.deptList.length;i++){
       this.deptList[i].choose = false;
     }
+    this.typeList = [];
   }
   /*文件图片上传*/
   prese_upload(files){
@@ -271,12 +283,6 @@ export class SaleMangComponent implements OnInit {
     $('#' + id).removeClass('red');
     $('#' + id).parent().next('.error').fadeOut();
   }
-  linkDetail(id){
-    this.router.navigate(['../detail',id],{relativeTo:this.route});
-  }
-  linkStatistics(){
-    this.router.navigate(['../statistics'],{relativeTo:this.route});
-  }
   /*审核*/
   check(sale){
     this.copySale = JSON.parse(JSON.stringify(sale));
@@ -336,10 +342,22 @@ export class SaleMangComponent implements OnInit {
       }
     });
   }
+  addLine(){
+    this.typeList.push(new ChooseType());
+  }
+  delLine(){
+    if(this.typeList.length>1){
+      this.typeList.pop();
+    }
+  }
 }
 
 export class Department {
   DEPT_ID   : string;
   DEPT_NAME : string;
   choose    : boolean;
+}
+
+export class ChooseType{
+  name : string;
 }

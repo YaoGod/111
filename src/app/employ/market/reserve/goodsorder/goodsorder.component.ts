@@ -120,8 +120,9 @@ export class GoodsOrder {
   paymentTypeDesc:string; /*付款方式*/
   statusDesc:string;/*订单中文状态*/
   userName:string;/*下单人*/
+  telPhone:string; /*下单人电话*/
   receiver:string;/*收货人*/
-  telPhone:string;
+  telNumber:string; /*收货人电话*/
   payTime:string;
   address:string;
 }

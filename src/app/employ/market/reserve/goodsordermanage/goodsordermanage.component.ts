@@ -158,13 +158,19 @@ export class GoodsordermanageComponent implements OnInit {
         title:"",
         type:"text",
         hd:["订单状态","付款方式","付款时间","发货时间"],
-        data:[data.statusDesc,data.paymentTypeDesc,data.createTime,data.sendTime]
+        data:[data.statusDesc,data.paymentTypeDesc,data.payTime,data.sendTime]
+      },
+      {
+        title:"下单人信息",
+        type:"text",
+        hd:["下单人姓名","下单人电话","下单时间"],
+        data:[data.userName,data.telPhone,data.createTime]
       },
       {
         title:"收货人信息",
         type:"text",
-        hd:["收货人姓名","收货人电话"],
-        data:[data.userName,data.telPhone]
+        hd:["收货人姓名","收货人电话","收货地址"],
+        data:[data.receiver,data.telNumber,data.address]
       },
       {
         title:"商品明细",
@@ -183,7 +189,7 @@ export class GoodsordermanageComponent implements OnInit {
         this.formData[1].data[0] = "暂无订单状态信息";
     }*/
     for(let i = 0;i<data.orderItemVoList.length;i++){
-      this.formData[3].data[i]=[
+      this.formData[this.formData.length-1].data[i]=[
         data.orderItemVoList[i].productName,
         '￥'+data.orderItemVoList[i].currentUnitPrice.toFixed(2),
         data.orderItemVoList[i].quantity,
