@@ -24,6 +24,17 @@
             </li>
           </ol>
         </li>
+        <li>
+          <div class="menu-one" [routerLink]="['publicResource']" (click)="Listslider($event, 'publicResource')">
+            <i class="icon-energy"></i>&nbsp;&nbsp;
+            公共资源<span></span>
+          </div>
+          <ol class="menu-second">
+            <li>
+              <a routerLinkActive="active" class="item" [routerLink]="['publicResource/share']" >共享专区</a>
+            </li>
+          </ol>
+        </li>
       </ul>
   </div>
   <div class="nav-right">

@@ -21,7 +21,7 @@ const routes: Routes = [
     component: HeaderComponent,
     children: [
       {
-        /*大楼综合信息管理*/
+        /*后勤物业*/
         path: 'security',
         loadChildren: '../security/security.module#SecurityModule'
       },
@@ -29,6 +29,11 @@ const routes: Routes = [
         /*员工服务*/
         path: 'employ',
         loadChildren: '../employ/employ.module#EmployModule'
+      },
+      {
+        /*公共资源*/
+        path: 'publicResource',
+        loadChildren: '../public-resource/public-resource.module#PublicResourceModule'
       }
     ]
   },

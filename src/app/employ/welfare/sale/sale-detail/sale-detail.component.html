@@ -23,10 +23,6 @@
   <div class="warp-right">
     <h4>{{saleProduct.name}}</h4>
     <ul *ngIf="saleProduct.name">
-      <li class="marker-type">
-        <span>{{saleProduct.type}}</span>
-      </li>
-
       <li>
         <span class="form-title">抢购对象</span>
         <span class="word">{{saleProduct.targetName}}</span>
@@ -92,12 +88,14 @@
               <tr class="table-head">
                 <th width="25%">商品信息</th>
                 <th>商品名称</th>
+                <th>商品类型</th>
                 <th>单价(元)</th>
                 <th>购买数量</th>
                 <th >合计（元）</th>
               </tr>
               <tr class="table-cont">
                 <td  width="25%"><img *ngIf="saleProduct.imgPathList" [src]="saleProduct.imgPathList[0]  | imgsafeurl"/></td>
+                <td>{{userSale.productType}}</td>
                 <td >{{saleProduct.name}}</td>
                 <td>￥{{saleProduct.price| number:'1.2-2'}}</td>
                 <td>1</td>

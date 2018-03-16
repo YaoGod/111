@@ -64,6 +64,7 @@ export class SaleDetailComponent implements OnInit {
   getSaleProductKey(id){
     this.clickTime ++;
     $('#mask').show();
+    console.log(this.userSale.productType );
     if(this.clickTime === 1){
       this.saleProductEmployeeService.getSaleProductKey(this.user.userid ,id)
         .subscribe(data=>{
