@@ -29,6 +29,7 @@ export class ContentComponent implements OnInit {
   public pages: Array<number>;
   private editBool = true;
   public serverName:any;
+  public tempMsg: Array<any>;
 
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
@@ -42,6 +43,7 @@ export class ContentComponent implements OnInit {
     this.searchArch = new Arch();
     this.repairname = new GuardName();
     this.pages = [];
+    this.tempMsg = [];
     this.serverName = ['保洁服务','报修服务','借用服务','节假日停车'];
     this.getBuildings();
     this.getCompany();
@@ -99,6 +101,23 @@ export class ContentComponent implements OnInit {
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
     $('.mask').fadeIn();
     $('.mask-head p').html('编辑物业服务');
+  }
+  /*添加反馈字段*/
+  addFeedbackLine(){
+    let length = 0;
+    for(let i = 0;i<this.tempMsg.length;i++){
+      if(this.tempMsg[i].isShow){
+        length++;
+      }
+    }
+    if(length<5){
+      let object = {isShow: true,key:"",type:"下拉框",list:"",msg:"",value:""};
+      this.tempMsg.push(object);
+    }
+  }
+  /*删除临时反馈字段*/
+  delFeedbackLine(index){
+    this.tempMsg[index].isShow = false;
   }
   /*删除信息*/
   delAttach(index){

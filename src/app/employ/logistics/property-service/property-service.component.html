@@ -1,9 +1,10 @@
 <div class="nav-panel">
   <!--导航-->
   <ul class="nav-msg">
-    <li><h4 routerLink="content" routerLinkActive="active">物业服务内容</h4></li>
+    <li><h4 routerLink="content" routerLinkActive="active">物业服务管理</h4></li>
     <li><h4 routerLink="orders" routerLinkActive="active">物业订单</h4></li>
     <li *ngIf="rule&&rule.isSelect"><h4 routerLink="ordersReport" routerLinkActive="active">订单报表及审批</h4></li>
+    <li><h4 routerLink="master" routerLinkActive="active">自定义服务内容</h4></li>
   </ul>
   <!--内容-->
   <div class="route-panel">

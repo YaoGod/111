@@ -8,6 +8,7 @@ import { RouteGuardService } from '../../../service/route-guard/route-guard.serv
 import { Routes, RouterModule } from '@angular/router';
 import { PropertyServiceComponent } from './property-service.component';
 import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
+import { MasterComponent } from './master/master.component';
 const routes: Routes = [
   {
     path: '',
@@ -32,6 +33,10 @@ const routes: Routes = [
         component: OrdersReportComponent,
       },
       {
+        path: 'master',
+        component: MasterComponent,
+      },
+      {
         path: '**',
         redirectTo: 'content',
         pathMatch: 'full'
@@ -47,6 +52,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
-  declarations: [ContentComponent, OrdersComponent, OrdersReportComponent, PropertyServiceComponent]
+  declarations: [ContentComponent, OrdersComponent, OrdersReportComponent, PropertyServiceComponent, MasterComponent]
 })
 export class PropertyServiceModule { }

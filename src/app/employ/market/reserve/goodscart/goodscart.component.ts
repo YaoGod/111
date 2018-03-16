@@ -164,12 +164,13 @@ export class GoodscartComponent implements OnInit {
   /*短信验证*/
   saveSubmitOrder(){
     if(!this.verifyEmpty('serverCenter_add','服务中心不能为空') || !this.verifyEmpty('receiver','收货人不能为空')||
-      !this.verifyEmpty('address','收货地址不能为空') || !this. verifyEmpty('message','短信验证码不能为空')){
+      !this.verifyEmpty('telNumber','收货人电话不能为空') || !this.verifyEmpty('address','收货地址不能为空') ||
+      !this. verifyEmpty('message','短信验证码不能为空')){
       return false;
     }
-    let url = '/goodsOrder/pay?'+'userId='+localStorage.getItem("username")
-      +'&serviceCenter=' + this.serviceCenter+'&payType='+ this.payType +
-      '&address='+ $('#address').val() + '&payCode='+ $('#message').val();
+    let url = '/goodsOrder/pay?'+'userId='+localStorage.getItem("username") +'&serviceCenter=' + this.serviceCenter+
+      '&payType='+ this.payType + '&receiver='+this.receiver+'&telNumber='+this.telNumber+'&address='+ $('#address').val() +
+      '&payCode='+ $('#message').val();
     this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         confirmFunc.init({

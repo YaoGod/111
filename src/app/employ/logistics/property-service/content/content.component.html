@@ -1,11 +1,3 @@
-<!--<div class="cont">
-  <ul class="cont-nav clearfix">
-    <li>
-      <a class="active">物业服务管理列表<span></span></a>
-    </li>
-  </ul>
-</div>-->
-<!--搜索栏-->
 <div class="container clearfix">
   <div class="chandlery clearfix">
     <ul class="search clearfix">
@@ -131,29 +123,52 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <!--<div *ngIf="repairname.servername==='报修服务'||repairname.servername==='保洁服务'||repairname.servername==='借用服务'" class="form-control  clearfix">
-        <span class="form-label">具体服务项目</span>
-        <div class="form-inp">
-          <input id="entry" name="entry" class="company-ipt" [(ngModel)]="repairname.entry" placeholder=""
-                 (blur)="verifyentry()">
-          <span class="errorMessage"></span>
+      <div class="form-control">
+        <div class="table-head">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list-box">
+            <tr class="row list-title" style="height:40px; text-align: left">
+              <th width="25%" class="text-left">服务其他信息</th>
+              <th width="20%" class="text-left">输入类型</th>
+              <th width="30%" class="text-left">枚举值(用|隔开)</th>
+              <th width="20%" class="text-left">备注</th>
+              <th width="5%"></th>
+            </tr>
+          </table>
         </div>
-      </div>-->
-      <div *ngIf="repairname.servername!=='节假日停车'" class="form-control clearfix">
-        <span class="form-label">具体服务项目</span>
-        <div class="form-inp">
-            <input type="text" id="detail" name="detail" class="company-ipt" [(ngModel)]="repairname.detail"
-                   (blur)="verifydetail()">
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div *ngIf="repairname.servername==='借用服务'||repairname.servername==='节假日停车'" class="form-control clearfix">
-        <span *ngIf="repairname.servername==='借用服务'" class="form-label">出借数量</span>
-        <span *ngIf="repairname.servername==='节假日停车'" class="form-label">停车位数量</span>
-        <div class="form-inp">
-          <input type="number" id="leaseNum" name="leaseNum" class="company-ipt" [(ngModel)]="repairname.number"
-                 (blur)="verifyleaseNum()">
-          <span class="errorMessage"></span>
+        <table width="100%" *ngFor="let other of tempMsg;let i = index;">
+          <tr  class="control-label" *ngIf="other.isShow">
+            <td  width="25%">
+              <input class="form-add min-title" type="text"
+                     [name]="'otherfeedKey'+i" [(ngModel)]="other.key">
+            </td>
+            <td  width="20%">
+              <select  class="form-add min-title"
+                       [name]="'otherfeedType'+i"
+                       [(ngModel)]="other.type">
+                <option value="文本">文本</option>
+                <option value="下拉框">下拉框</option>
+              </select>
+            </td>
+            <td  width="30%">
+              <input class="form-add min-title" type="text" *ngIf="other.type==='下拉框'"
+                     [name]="'otherfeedList'+i" [(ngModel)]="other.list">
+            </td>
+            <td  width="20%">
+              <input class="form-add min-title" type="text"
+                     [name]="'otherfeedValue'+i" [(ngModel)]="other.msg">
+            </td>
+            <td  width="5%">
+              <a class="btn-close" (click)="delFeedbackLine(i)">
+                <i class="icon-close"></i>
+              </a>
+            </td>
+          </tr>
+        </table>
+        <div class="opt-other">
+          <a class="btn-add" style="color: #04b2ff;" (click)="addFeedbackLine()">
+            <i class="icon-plus"></i>
+            添加反馈字段
+          </a>
         </div>
       </div>
 
