@@ -2,34 +2,55 @@
 <div class="count-area">
   <div class="count-left">
     <div class="count-inner">
-    <h4 class="count-hd"></h4>
-    <ul>
+    <h4 class="goods-hd">
+      <em class="fn1">我的信息</em>
+      <p>
+        <span class="subtitle"></span>
+      </p>
+      <span class="tb-fn">
+      </span>
+    </h4>
+    <ul class="count-list">
       <li>
         <a [routerLink]="['../myPush']">
-          已发布<span>2</span>件
+          <span class="count-point">9</span>
+          <div class="count-icon"><i class="icon-call-in"></i></div>
+          已发布
         </a>
       </li>
       <li>
         <a [routerLink]="['../check']">
-          待审核<span>1</span>件
+          <span class="count-point">2</span>
+          <div class="count-icon"><i class="icon-hourglass"></i></div>
+          待审核
         </a>
       </li>
       <li>
         <a>
-          待反馈<span>0</span>件
+          <span class="count-point">9</span>
+          <div class="count-icon"><i class="icon-speech"></i></div>
+          已预定
         </a>
       </li>
       <li>
         <a>
-          预定中<span>3</span>件
+          <span class="count-point">9</span>
+          <div class="count-icon"><i class="icon-bubbles"></i></div>
+          待交易
         </a>
       </li>
     </ul>
+      <div style="clear: both"></div>
     </div>
   </div>
   <div class="count-right">
-    <div class="count-inner">
-    <a><i class=""></i>马上发布</a>
+    <div class="count-inner" [routerLink]="['../new']">
+      <div class="count-build">
+        <a >
+          <div class="count-icon"><i class="icon-cloud-upload"></i></div>
+          我要发布
+        </a>
+      </div>
     </div>
   </div>
 </div>
@@ -42,9 +63,14 @@
       <p>
         <span class="subtitle"></span>
       </p>
-      <span class="tb-fn">
-      </span>
+      <span class="tb-fn"></span>
     </h4>
+    <div class="goods-search">
+      <div class="goods-search-ipt">
+        <input placeholder="请输入商品名称" [(ngModel)]="search"/>
+      </div>
+      <a class="goods-search-btn" (click)="getProductList(1)" >查询</a>
+    </div>
     <ul class="goods-list" *ngIf="shareProducts && shareProducts.length > 0">
       <li *ngFor="let product of shareProducts">
         <a [routerLink]="['../share/detail',product.id]">

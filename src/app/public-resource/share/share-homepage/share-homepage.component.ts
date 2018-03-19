@@ -7,11 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShareHomepageComponent implements OnInit {
 
+  public search;
   public shareProducts;
   constructor() { }
 
   ngOnInit() {
     this.shareProducts = [];
   }
+  getProductList(pageNo){
 
+  }
 }

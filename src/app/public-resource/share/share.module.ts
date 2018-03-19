@@ -7,6 +7,11 @@ import { ShareHomepageComponent } from './share-homepage/share-homepage.componen
 import { ShareDetailComponent } from './share-detail/share-detail.component';
 import { ShareMypushComponent } from './share-mypush/share-mypush.component';
 import { ShareCheckComponent } from './share-check/share-check.component';
+import {FormsModule} from "@angular/forms";
+import { ShareNewProductComponent } from './share-new-product/share-new-product.component';
+import {ImgurlModule} from "../../pipe/imgurl/imgurl.module";
+import {ShareProductPublicService} from "../../service/share-product-public/share-product-public.service";
+import {TurnBarModule} from "../../component/turn-bar/turn-bar.module";
 const routes: Routes = [
   {
     path: '',
@@ -33,6 +38,14 @@ const routes: Routes = [
       {
         path: "check",
         component: ShareCheckComponent
+      },
+      {
+        path: "new",
+        component: ShareNewProductComponent
+      },
+      {
+        path: "edit/:id",
+        component: ShareNewProductComponent
       }
     ]
   }
@@ -40,9 +53,14 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
+    ImgurlModule,
+    TurnBarModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
-  declarations: [ShareComponent, ShareHomepageComponent, ShareDetailComponent, ShareMypushComponent, ShareCheckComponent]
+  providers: [ShareProductPublicService],
+  declarations: [ShareComponent, ShareHomepageComponent, ShareDetailComponent,
+    ShareMypushComponent, ShareCheckComponent, ShareNewProductComponent]
 })
 export class ShareModule { }
