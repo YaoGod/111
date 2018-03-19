@@ -2,11 +2,11 @@
   <div class="chandlery clearfix">
     <ul class="search clearfix">
       <li>
-        <label>服务内容</label>
+        <label>服务项目</label>
         <select name="searchArchType" class="search-ipt search-sel" [(ngModel)]="searchArch">
           <option value="">全部</option>
-          <!--<option *ngFor="let te of serverName;"
-                  [value]="te">{{te}}</option>-->
+          <option *ngFor="let te of useful;"
+                  [value]="te">{{te}}</option>
         </select>
       </li>
     </ul>
@@ -21,20 +21,20 @@
     <table class="table" width="100%">
       <thead>
       <tr>
-        <th>服务内容</th>
-        <th>服务详情</th>
+        <th>服务项目</th>
+        <th>具体服务内容</th>
         <th *ngIf="rule&&(rule.isUpdate||rule.isDelete)">操作</th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let inner of record; let i=index">
-        <td>{{inner.detail}}</td>
-        <td>{{inner.number}}</td>
+      <tr *ngFor="let inner of serverName; let i=index">
+        <td>{{inner.type}}</td>
+        <td>{{inner.name}}</td>
         <td><!-- *ngIf="rule&&(rule.isUpdate||rule.isDelete)"-->
           <a href="javascript:void(0)" class="text-inverse" *ngIf="rule&&rule.isUpdate" (click)="editAttach(i);" style="padding-right: 10px;">
             <i class="icon-pencil"></i>
           </a>
-          <a href="javascript:void(0)" class="text-inverse" *ngIf="rule&&rule.isDelete" (click)="delAttach(i);">
+          <a href="javascript:void(0)" class="text-inverse" *ngIf="rule&&rule.isDelete" (click)="delAttach(inner.id);">
             <i class="icon-trash"></i>
           </a>
         </td>
@@ -58,38 +58,67 @@
     </div>
     <form class="repair-form clearfix" method="post" name="topForm" >
       <div class="form-control  clearfix">
-        <span class="form-label">物业服务内容</span>
+        <span class="form-label">物业服务项目</span>
         <div class="form-inp">
-          <input id="servername" name="servername" type="text" maxlength="25" class="company-ipt" [(ngModel)]="repairname.name"
+          <input id="servername" name="servername" type="text" maxlength="25" class="company-ipt" [(ngModel)]="repairname.type"
                  (blur)="verifyservername()">
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control clearfix">
-        <span class="form-label">是否需要具体服务项目</span>
+        <span class="form-label">是否需要具体服务内容</span>
         <div class="form-inp">
-          <input type="radio" name="detail" [(ngModel)]="repairname.isChild" value="1">是
-          <input type="radio" name="detail" [(ngModel)]="repairname.isChild" value="2">否
+          <input type="radio" name="detail" [(ngModel)]="repairname.isDetails" value="1">是
+          <input type="radio" name="detail" [(ngModel)]="repairname.isDetails" value="2">否
           <span class="errorMessage"></span>
         </div>
       </div>
 
-      <div *ngIf="repairname.isChild === '1'" class="form-control clearfix">
+      <div *ngIf="repairname.isDetails === '1'" class="form-control clearfix">
         <span class="form-label">具体服务项目</span>
         <div class="form-inp">
-          <input type="text" name="detail" class="company-ipt" [(ngModel)]="repairname.detail" placeholder="枚举值请用|隔开">
+          <input type="text" name="detail" class="company-ipt" [(ngModel)]="repairname.name">
           <span class="errorMessage"></span>
         </div>
       </div>
-      <!--<div class="form-control clearfix">
-        <span class="form-label">是否需要限制数量</span>
+      <div class="form-control clearfix">
+        <span class="form-label">是否有库存需要</span>
         <div class="form-inp">
-          <input type="radio" name="leaseNum" [(ngModel)]="repairname.number" value="1">是
-          <input type="radio" name="leaseNum" [(ngModel)]="repairname.number" value="2">否
+          <input type="radio" name="leaseNum" [(ngModel)]="repairname.isAmount" value="1">是
+          <input type="radio" name="leaseNum" [(ngModel)]="repairname.isAmount" value="2">否
           <span class="errorMessage"></span>
         </div>
-      </div>-->
+      </div>
 
+    </form>
+
+    <div class="mask-footer">
+      <button type="submit" class="btn-mask btn-info" (click)="recordSubmit()">保 存</button>
+      <button type="button" class="btn-mask btn-danger" (click)="recordCancel()">取 消</button>
+    </div>
+  </div>
+</div>
+<!--编辑弹窗-->
+<div class="mask0">
+  <div class="mask-cotainer">
+    <div class="mask-head"><i class="icon-film"></i> <p>编辑物业服务内容</p>
+      <button class="close" (click)="recordCancel()">×</button>
+    </div>
+    <form class="repair-form clearfix" method="post" name="topForm" >
+      <div class="form-control  clearfix">
+        <span class="form-label">物业服务项目</span>
+        <div class="form-inp">
+          <input *ngIf="repairname" name="servername" type="text" maxlength="25" class="company-ipt" [(ngModel)]="repairname.type" disabled="disabled">
+        </div>
+      </div>
+
+      <div class="form-control clearfix">
+        <span class="form-label">具体服务项目</span>
+        <div class="form-inp">
+          <input *ngIf="repairname" type="text" name="detail" class="company-ipt" [(ngModel)]="repairname.name">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
     </form>
 
     <div class="mask-footer">

@@ -369,6 +369,7 @@ button{
   position: absolute;
   top: 1px;
   right: 7px;
+  cursor: pointer;
 }
 .b-con .iptgroup input{
   width: 165px;

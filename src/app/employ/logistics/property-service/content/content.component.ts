@@ -30,7 +30,9 @@ export class ContentComponent implements OnInit {
   private editBool = true;
   public serverName:any;
   public tempMsg: Array<any>;
-
+  public useful = [];
+  public usefulSecond = [];
+  public onNum:string;
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
               private utilBuildingService:UtilBuildingService,
@@ -44,9 +46,9 @@ export class ContentComponent implements OnInit {
     this.repairname = new GuardName();
     this.pages = [];
     this.tempMsg = [];
-    this.serverName = ['保洁服务','报修服务','借用服务','节假日停车'];
     this.getBuildings();
-    this.getCompany();
+    // this.getCompany();
+    this.getTypeSelect();
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
   }
   getRule(){
@@ -84,11 +86,74 @@ export class ContentComponent implements OnInit {
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.serviceCom = data.data;
-          /*for(let i=0;i<data['data'].length;i++){
-           this.serviceCom.push(data['data'][i].companyName);
-           }*/
         }
       });
+  }
+  private getCompanys(id) {
+    let url = "/building/company/getCompany?buildingId="+id;
+    this.ipSetting.sendGet(url)
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data)) {
+          this.serviceCom = data.data;
+        }
+      });
+  }
+  /*获取一级服务内容*/
+  getTypeSelect(){
+    let url = "/employee/property/getTypeSelect";
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        let res = [];
+        for(let i=0;i<data['data'].length;i++){
+          res.push(data['data'][i].type);
+        }
+        this.useful = this.unique(res);
+        // console.log(this.useful);
+      }
+    });
+  }
+  /*获取二级服务内容*/
+  getNameSelect(name,current){
+    let url = "/employee/property/getNameSelect?type="+name;
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        this.usefulSecond = data.data;
+        console.log(data.data);
+        if(data.data.length===1 &&data.data[0].isDetails==='2' ){
+          this.onNum = data.data[0].isAmount;
+        }else{
+          for(let i=0;i<data.data.length;i++){
+            if(data.data[i].name === current){
+              this.onNum = data.data[i].isAmount;
+            }
+          }
+        }
+      }
+    });
+  }
+  /*获取服务内容*/
+  /*getService(info){
+    let url = "/employee/property/getServerTypeList/1/999";
+    let postData = {
+      'type': info
+    };
+    this.ipSetting.sendPost(url, postData).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        this.serverName = data['data'].infos;
+        this.total =  data['data'].total;
+      }
+    });
+  }*/
+  public unique(arr){
+    var res =[];
+    var json = {};
+    for(let i=0;i<arr.length;i++){
+      if(!json[arr[i]]){
+        res.push(arr[i]);
+        json[arr[i]] = 1;
+      }
+    }
+    return res;
   }
   /*点击查询*/
   repairSearch(num) {
@@ -99,6 +164,9 @@ export class ContentComponent implements OnInit {
   editAttach(index){
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
+    // console.log(this.repairname);
+    this.getCompanys(this.repairname.buildingId);
+    this.getNameSelect(this.repairname.type,this.repairname.servername);
     $('.mask').fadeIn();
     $('.mask-head p').html('编辑物业服务');
   }
@@ -152,13 +220,14 @@ export class ContentComponent implements OnInit {
     this.repairname = new GuardName();
     this.editBool = true;
     this.getBuildings();
-    this.getCompany();
     $('.mask').fadeIn();
     $('.mask-head p').html('新增物业服务');
   }
   /*新增和编辑界面的取消按钮*/
   recordCancel() {
     this.repairname = new GuardName();
+    this.getNameSelect('','');
+    this.getCompany();
     $('.errorMessage').html('');
     $('.mask').hide();
   }
@@ -187,19 +256,8 @@ export class ContentComponent implements OnInit {
     }
     return true;
   }
-  public verifydetail() {
-    if (!this.isEmpty('detail', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
 
-  public verifyleaseNum() {
-    if (!this.isEmpty('leaseNum', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
+
 
   /*新增/编辑提交*/
   recordSubmit() {
@@ -312,7 +370,7 @@ export class GuardName {
   companyId: string;
   companyName: string; // 公司名字
   detail:string; // 服务详情
-  number:string; // 数量
+  amount:string; // 数量
   type:string; // 型号
   mark:string; // 备用
   price:string; // 价格
@@ -323,6 +381,6 @@ export class GuardName {
 export class Arch {
   buildingId: string; // 大楼编号
   buildingName: string='';  // 大楼名称
-  servername: string='';   // 服务类型
+  type: string='';   // 服务项目
   companyName: string=''; // 服务公司名称
 }

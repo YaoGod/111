@@ -641,7 +641,7 @@ button{
   border-color: #c9dae1;
 }
 .noticetext{
-  width:50%;
+  width: 37%;
   text-indent: 5px;
   height: 30px;
   border: 1px solid #ccc;
@@ -680,8 +680,8 @@ button{
   background-color:rgb(170, 170, 170);
 }
 .protop{
-  height: 190px;
-  display: inline-block;
+  width: 100%;
+  display: block;
 }
 .pimg{
   width: 250px;
@@ -690,8 +690,8 @@ button{
   border: 2px solid #E5E5E5;
 }
 .pdetail{
-  width: 507px;
-  margin-left: 10px;
+  width: 100%;
+  margin: 0 auto;
 }
 .for{
   margin-top: 6px;

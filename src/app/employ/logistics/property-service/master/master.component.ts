@@ -26,6 +26,9 @@ export class MasterComponent implements OnInit {
   public length = 5;
   public pages: Array<number>;
   public serverName:any;
+  public useful = [];
+  public usefulSecond = [];
+  public editSwitch = false;
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
               private utilBuildingService:UtilBuildingService,
@@ -36,7 +39,8 @@ export class MasterComponent implements OnInit {
     this.getRule();
     this.repairname = new GuardName();
     this.pages = [];
-    // this.serverName = ['保洁服务','报修服务','借用服务','节假日停车'];
+    this.getTypeSelect();
+    this.getNameSelect('');
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
   }
   /*权限*/
@@ -52,31 +56,72 @@ export class MasterComponent implements OnInit {
   repairSearch(num) {
     this.getRecord(this.searchArch, num, this.pageSize);
   }
-  /*获取服务内容*/
+
+  /*获取所有物业服务内容列表*/
   getRecord(info,pageNo,pageSize){
-    let url = "/employee/property/getAllServer/" + pageNo + "/" + pageSize;
+    let url = "/employee/property/getServerTypeList/" + pageNo + "/" + pageSize;
     let postData = {
-      'searchArch': info
+      'type': info
     };
     this.ipSetting.sendPost(url, postData).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
-        this.serverName = data['data']
+        this.serverName = data['data'].infos;
+        this.total =  data['data'].total;
+      }
+    });
+  }
+  /*获取一级服务内容*/
+  getTypeSelect(){
+    let url = "/employee/property/getTypeSelect";
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        let res = [];
+        for(let i=0;i<data['data'].length;i++){
+          res.push(data['data'][i].type);
+        }
+        this.useful = this.unique(res);
+        // console.log(this.useful);
+      }
+    });
+  }
+  /*获取二级服务内容*/
+  getNameSelect(name){
+    let url = "/employee/property/getNameSelect?type="+name;
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        this.usefulSecond = data.data;
       }
     });
   }
   /*点击新增*/
   addCompany() {
+    this.editSwitch = true;
     this.repairname = new GuardName();
     $('.mask').fadeIn();
-    $('.mask-head p').html('新增物业服务');
   }
   /*新增和编辑界面的取消按钮*/
   recordCancel() {
     this.repairname = new GuardName();
     $('.errorMessage').html('');
-    $('.mask').hide();
+    $('.mask,.mask0').hide();
   }
-
+  /*点击编辑服务内容*/
+  editAttach(index){
+    this.editSwitch = false;
+    this.repairname = JSON.parse(JSON.stringify(this.serverName[index]));
+    $('.mask0').fadeIn();
+  }
+  public unique(arr){
+    var res =[];
+    var json = {};
+    for(let i=0;i<arr.length;i++){
+      if(!json[arr[i]]){
+        res.push(arr[i]);
+        json[arr[i]] = 1;
+      }
+    }
+    return res;
+  }
   /*打开反馈信息*/
   /*openFeedback(){
     this.copyWelfare.feedBack = "是";
@@ -133,9 +178,13 @@ export class MasterComponent implements OnInit {
   }
   /*新增提交*/
   recordSubmit() {
-    let url = "/employee/property/addServer";
-    console.log(this.repairname.isChild);
-    if(this.repairname.isChild===undefined||this.repairname.number===undefined){
+    let url;
+    if(this.editSwitch){
+      url = "/employee/property/addServerType";
+    }else{
+      url = "/employee/property/updateServerType";
+    }
+    if(this.repairname.isDetails===undefined||this.repairname.isAmount===undefined){
       confirmFunc.init({
         'title': '提示' ,
         'mes': '请把信息填写完整！',
@@ -143,7 +192,7 @@ export class MasterComponent implements OnInit {
         'imgType': 2 ,
       });
     }
-    if (!this.verifyservername()||this.repairname.isChild===undefined) {
+    if (!this.verifyservername()) {
       return false;
     }
     let postData = JSON.parse(JSON.stringify(this.repairname));
@@ -151,12 +200,30 @@ export class MasterComponent implements OnInit {
       if(this.errorVoid.errorMsg(data)) {
         confirmFunc.init({
           'title': '提示' ,
-          'mes': '新增成功',
+          'mes': this.editSwitch?'新增成功':'更改成功',
           'popType': 0 ,
           'imgType': 1 ,
         });
+        if(this.editSwitch){
+          this.searchArch = '';
+        }
         this.getRecord(this.searchArch, this.pageNo, this.pageSize);
         this.recordCancel();
+      }
+    });
+  }
+  delAttach(index){
+    let url = '/employee/property/deleteServerType/'+index;
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '删除成功',
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
+        this.searchArch = '';
+        this.getRecord(this.searchArch, this.pageNo, this.pageSize);
       }
     });
   }
@@ -193,9 +260,10 @@ export class MasterComponent implements OnInit {
 }
 export class GuardName {
   id: number; // 本条信息ID
-  name: string;// 服务内容
-  isChild:string; // 是否有具体服务项目
-  detail:string; // 服务详情
+  name: string;// 服务项目
+  isDetails:string; // 是否有具体服务项目
+  isAmount:string; // 是否需要库存
+  type:string; // 具体服务内容
   number:string; // 数量
   note:string; // 备注
 

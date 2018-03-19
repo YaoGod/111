@@ -154,26 +154,41 @@
         </div>
       </div>
       <div class="form-control">
-        <span class="form-label">服务类型</span>
+        <span class="form-label">服务项目</span>
         <div class="form-inp">
-          <select id="servername" name="servername" class="company-ipt company-sel" [(ngModel)]="repairname.porpertyId" (blur)="verifyservername()">
-            <option value=0>保洁服务</option>
-            <option value=1>报修服务</option>
-            <!--<option value=2>住家服务</option>-->
-            <option value="3">租借服务</option>
-            <option value="4">停车位服务</option>
+          <select id="type" name="type" class="company-ipt company-sel" [(ngModel)]="repairname.type"
+                  (blur)="verifyservername()" (change)="getNameSelect(repairname.type)">
+            <option value="">请选择</option>
+            <option *ngFor="let abc of useful" [value]="abc">{{abc}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control">
-        <span class="form-label">服务类型</span>
+        <span class="form-label">服务内容</span>
         <div class="form-inp">
-          <select id="entry" name="entry" class="company-ipt company-sel" [(ngModel)]="repairname.entry" (blur)="verifyservername()">
+          <select id="servername" name="servername" class="company-ipt company-sel" [(ngModel)]="repairname.servername"
+                  (change)="getNameSelect(repairname.type,repairname.servername)">
             <option value="">请选择</option>
-            <option *ngFor="let abc of repairname.fileName; let k=index" [value]="abc">{{abc}}</option>
+            <option *ngFor="let abc of usefulSecond; let k=index" [value]="abc.name">{{abc.name}}</option>
           </select>
           <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control  clearfix" *ngIf="onNum==='1'">
+        <span class="form-label">库存数量</span>
+        <div class="form-inp">
+          <input id="number" name="number" type="number" class="company-ipt company-sel" [(ngModel)]="repairname.amount">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control" *ngIf="repairname.type==='节假日停车'">
+        <span class="form-label">车牌信息</span>
+        <div class="form-inp">
+          <select id="plateNum" name="plateNum" class="company-ipt company-sel" [(ngModel)]="repairname.plateNum">
+            <option value="">请选择</option>
+            <option *ngFor="let abc of repairname.plateNum; let k=index" [value]="abc">{{abc}}</option>
+          </select>
         </div>
       </div>
       <div class="form-control">
@@ -191,7 +206,7 @@
         </div>
       </div>
       <div class="form-control form-alone">
-        <span class="form-label">具体服务内容</span>
+        <span class="form-label">具体服务内容描述</span>
         <div class="form-inp form-text">
           <textarea id="liableNote" maxlength="500" name="liableNote" class="company-ipt" [(ngModel)]="repairname.porpertyContent" (blur)="verifydetail()">
           </textarea>

@@ -88,7 +88,7 @@
               <span class="errorMessage"></span>
             </div>
 
-            <div style="margin-top: 15px;margin-left: 16px;">
+            <div style="margin-top: 10px;margin-left: 16px;">
               <label>合 作 时 间：</label>
               <input type="date" class="producttext" name="supplierstarttime"  id="supplierstarttime" (blur)="verifyEmpty('supplierstarttime','不能为空')" style="width:115px !important;"   [(ngModel)]="applierAdd.copStarttime" >
               <span class="errorMessage"></span>
@@ -96,16 +96,19 @@
               <input type="date" class="producttext" name="supplierendtime" id="supplierendtime" (blur)="verifyEmpty('supplierendtime','不能为空')" style="width:115px !important;margin-left: 5px"  [(ngModel)]="applierAdd.copEndtime" >
               <span class="errorMessage"></span>
             </div>
-            <div style="margin-top: 15px;margin-left: 15px;">
+            <div style="margin-top: 10px;margin-left: 15px;">
               <label>供应商介绍：</label>
-              <textarea id="supplierdetail" name="supplierdetail" (blur)="verifyEmpty('supplierdetail','供应商介绍不能为空')" class="noticetext" placeholder="" [(ngModel)]="applierAdd.applyDesc" rows="10"></textarea>
-              <span class="errorMessage"></span>
+              <textarea id="supplierdetail" name="supplierdetail" (blur)="verifyEmpty('supplierdetail','供应商介绍不能为空')"
+                        class="noticetext" placeholder="" style="width: 80%;display: block;margin: -26px 0 0 83px;
+                        height: auto;line-height: 24px;overflow-y: auto;"
+                        [(ngModel)]="applierAdd.applyDesc" rows="5"></textarea>
+              <span class="errorMessage" style=" display: block;margin-left: 83px;"></span>
             </div>
-            <div  style="margin-top: 15px;margin-left: 16px;">
+            <div  style="margin-top: 10px;margin-left: 16px;">
               <label>合 同 附 件：</label>
 
               <span class="errorMessage"></span>
-              <ul style="height: 100px;min-width: 160px;line-height: 20px; overflow-y: auto;background: #f6f6f6;color: #666; border-radius: 4px;width: 80%; margin: -24px 0 10px 82px;">
+              <ul style="height: 100px;min-width: 160px;line-height: 20px; overflow-y: auto; border:1px solid #ddd;color: #666; border-radius: 4px;width: 80%; margin: -24px 0 10px 82px;">
                 <li *ngFor="let abc of applierAdd.file;let i = index">{{abc.name}}
                   <a style="margin-left:6px; color:#ff0000" href="javascript:;" (click)="delFile(i,abc.fileId,0)">×</a>
                 </li>
@@ -123,8 +126,6 @@
     </form>
   </div>
 </div>
-
-
 
 <div class="maskView">
   <div class="modal-content">
@@ -170,13 +171,11 @@
   </div>
 </div>
 
-
-
 <div class="maskUpdate">
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">修改供应商</h4>
-      <button type="button" class="close"(click)="closemaskUpdate()">×</button>
+      <button type="button" class="close" (click)="closemaskUpdate()">×</button>
     </div>
     <form class="form-material">
       <div class="modal-body clearfix">
@@ -199,14 +198,17 @@
 
             <div style="margin-top: 15px;margin-left: 15px;">
               <label>供应商介绍：</label>
-              <textarea id="supplierdetailup" name="supplierdetailup" (blur)="verifyEmpty('supplierdetailup','供应商介绍不能为空')" class="noticetext" placeholder="" [(ngModel)]="applierEdit.applyDesc" rows="10"></textarea>
-              <span class="errorMessage"></span>
+              <textarea id="supplierdetailup" name="supplierdetailup" (blur)="verifyEmpty('supplierdetailup','供应商介绍不能为空')" class="noticetext" placeholder="" [(ngModel)]="applierEdit.applyDesc" rows="5"
+                        style="width: 80%;display: block;margin: -26px 0 0 83px;
+                        height: auto;line-height: 24px;overflow-y: auto;"
+              ></textarea>
+              <span class="errorMessage" style=" display: block;margin-left: 83px;"></span>
             </div>
             <div  style="margin-top: 15px;margin-left: 16px;">
               <label>合 同 附 件：</label>
 
               <span class="errorMessage"></span>
-              <ul style="height: 100px;min-width: 160px;line-height: 20px; overflow-y: auto;background: #f6f6f6;color: #666; border-radius: 4px;width: 80%; margin: -24px 0 10px 82px;">
+              <ul style="height: 100px;min-width: 160px;line-height: 20px; overflow-y: auto;border:1px solid #ddd;color: #666; border-radius: 4px;width: 80%; margin: -24px 0 10px 82px;">
                 <li *ngFor="let abc of applierEdit.file; let k=index">{{abc.fileName?abc.fileName:abc.name}}
                   <a style="margin-left:6px; color:#ff0000" href="javascript:;" (click)="delFile(k,abc.id,1)">×</a></li>
               </ul>

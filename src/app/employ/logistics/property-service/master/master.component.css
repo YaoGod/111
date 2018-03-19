@@ -97,7 +97,7 @@
 .table>tbody>tr{
   border-bottom:1px solid #ccc;
 }
-.mask{
+.mask,.mask0{
   display: none;
   position: fixed;
   left:0;

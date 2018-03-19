@@ -380,7 +380,8 @@ export class GuardName {
   username:string; // 订单人
   userDept:string; // 订单部门
   userTel: string; // 电话
-  porpertyId:number; // 服务类型
+  type:number; // 服务项目
+
   porpertyContent:string; // 服务详情
   serverUserid:string;
   orderId:string;     // 订单号

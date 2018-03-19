@@ -18,10 +18,10 @@
         </select>
       </li>
       <li>
-        <label>服务内容</label>
-        <select name="searchArchType" class="search-ipt search-sel" [(ngModel)]="searchArch.servername">
+        <label>服务项目</label>
+        <select name="searchArchType" class="search-ipt search-sel" [(ngModel)]="searchArch.type">
           <option value="">全部</option>
-          <option *ngFor="let te of serverName;"
+          <option *ngFor="let te of useful;"
                   [value]="te">{{te}}</option>
         </select>
       </li>
@@ -39,9 +39,9 @@
       <tr>
         <th>大楼名称</th>
         <th>服务公司名称</th>
-        <th>服务内容</th>
+        <th>服务项目</th>
         <th>服务公司状态</th>
-        <th>服务详情</th>
+        <th>服务内容</th>
         <th>数量</th>
         <th *ngIf="rule&&(rule.isUpdate||rule.isDelete)">操作</th>
       </tr>
@@ -50,10 +50,10 @@
       <tr *ngFor="let inner of record; let i=index">
         <td>{{inner.buildingName}}</td>
         <td>{{inner.companyName}}</td>
-        <td>{{inner.servername}}</td>
+        <td>{{inner.type}}</td>
         <td>{{inner.serverstatus==='execute'?'正常':'失效'}}</td>
-        <td>{{inner.detail}}</td>
-        <td>{{inner.number}}</td>
+        <td>{{inner.servername==='null'?'':inner.servername}}</td>
+        <td>{{inner.amount==='null'?'':inner.amount}}</td>
         <td *ngIf="rule&&(rule.isUpdate||rule.isDelete)">
           <a href="javascript:void(0)" class="text-inverse" *ngIf="rule&&rule.isUpdate" (click)="editAttach(i);" style="padding-right: 10px;">
             <i class="icon-pencil"></i>
@@ -77,16 +77,17 @@
 <!--新增信息弹窗-->
 <div class="mask">
   <div class="mask-cotainer">
-    <div class="mask-head"><i class="icon-film"></i> <p>新增物业服务</p>
+    <div class="mask-head"><i class="icon-film"></i> <p>新增大楼物业服务内容</p>
       <button class="close" (click)="recordCancel()">×</button>
     </div>
     <form class="repair-form clearfix" method="post" name="topForm" >
       <div class="form-control clearfix">
         <span class="form-label">大楼名称</span>
         <div class="form-inp">
-          <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" (blur)="verifyId()">
+          <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId"
+                  (blur)="verifyId()" (change)="getCompanys(repairname.buildingId)" >
             <option *ngFor="let num of buildings"
-                    [value]="num.BUILDING_ID">
+                    [value]="num.ID">
               {{num.NAME}}</option>
           </select>
           <span class="errorMessage"></span>
@@ -114,16 +115,35 @@
         </div>
       </div>
       <div class="form-control  clearfix">
-        <span class="form-label">物业服务内容</span>
+        <span class="form-label">服务项目</span>
         <div class="form-inp">
-          <select id="servername" name="servername" class="company-ipt company-sel" [(ngModel)]="repairname.servername" (blur)="verifyservername()">
+          <select id="servername" name="servername" class="company-ipt company-sel" [(ngModel)]="repairname.type"
+                  (blur)="verifyservername()" (change)="getNameSelect(repairname.type)">
             <option value="">请选择</option>
-            <option *ngFor="let abc of serverName" [value]="abc">{{abc}}</option>
+            <option *ngFor="let abc of useful" [value]="abc">{{abc}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control">
+      <div class="form-control  clearfix">
+        <span class="form-label">服务内容</span>
+        <div class="form-inp">
+          <select id="secondname" name="secondname" class="company-ipt company-sel" [(ngModel)]="repairname.servername"
+                  (change)="getNameSelect(repairname.type,repairname.servername)">
+            <option value="">请选择</option>
+            <option *ngFor="let abc of usefulSecond" [value]="abc.name">{{abc.name}}</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control  clearfix" *ngIf="onNum==='1'">
+        <span class="form-label">库存数量</span>
+        <div class="form-inp">
+          <input id="number" name="number" type="number" class="company-ipt company-sel" [(ngModel)]="repairname.amount">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <!--<div class="form-control">
         <div class="table-head">
           <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list-box">
             <tr class="row list-title" style="height:40px; text-align: left">
@@ -170,8 +190,7 @@
             添加反馈字段
           </a>
         </div>
-      </div>
-
+      </div>-->
     </form>
 
     <div class="mask-footer">

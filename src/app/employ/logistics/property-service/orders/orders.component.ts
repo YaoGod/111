@@ -33,6 +33,9 @@ export class OrdersComponent implements OnInit {
   public URL: string;
   public repairDept :any;
   public rooms  : Array<Room>;
+  public useful = [];
+  public usefulSecond = [];
+  public onNum:string;
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
               private utilBuildingService:UtilBuildingService,
@@ -53,6 +56,7 @@ export class OrdersComponent implements OnInit {
     this.getBuildings();
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
     this.getDeptName();
+    this.getTypeSelect();
     this.getRepairDept();
     this.URL = this.ipSetting.ip;
   }
@@ -83,6 +87,38 @@ export class OrdersComponent implements OnInit {
       }
     });
   };
+  /*获取一级服务内容*/
+  getTypeSelect(){
+    let url = "/employee/property/getTypeSelect";
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        let res = [];
+        for(let i=0;i<data['data'].length;i++){
+          res.push(data['data'][i].type);
+        }
+        this.useful = this.unique(res);
+      }
+    });
+  }
+  /*获取二级服务内容*/
+  getNameSelect(name,current){
+    let url = "/employee/property/getNameSelect?type="+name;
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        this.usefulSecond = data.data;
+        // console.log(data.data);
+        if(data.data.length===1 && data.data[0].isDetails==='2' ){
+          this.onNum = data.data[0].isAmount;
+        }else{
+          for(let i=0;i<data.data.length;i++){
+            if(data.data[i].name === current){
+              this.onNum = data.data[i].isAmount;
+            }
+          }
+        }
+      }
+    });
+  }
   /*获取大楼列表*/
   private getBuildings() {
     this.utilBuildingService.getBuildingList('')
@@ -211,7 +247,7 @@ export class OrdersComponent implements OnInit {
     return true;
   }
   public verifyservername() {
-    if (!this.isEmpty('servername', '不能为空')) {
+    if (!this.isEmpty('type', '不能为空')) {
       return false;
     }
     return true;
@@ -342,17 +378,6 @@ export class OrdersComponent implements OnInit {
       return true;
     }
   }
-  /**校验字符长度小于8 */
-  public verifyLength8(id: string, error: string): boolean  {
-    const data =  $('#' + id).val();
-    if (data.length < 8)  {
-      this.addErrorClass(id, error);
-      return false;
-    }else {
-      this.removeErrorClass(id);
-      return true;
-    }
-  }
   /** 添加错误信息class   */
   public  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
@@ -367,9 +392,21 @@ export class OrdersComponent implements OnInit {
     $('#' + id).parents('.form-control').removeClass('form-error');
     $('#' + id).parents('.form-control').children('.form-inp').children('.errorMessage').html('');
   }
+  public unique(arr){
+    var res =[];
+    var json = {};
+    for(let i=0;i<arr.length;i++){
+      if(!json[arr[i]]){
+        res.push(arr[i]);
+        json[arr[i]] = 1;
+      }
+    }
+    return res;
+  }
 }
 export class GuardName {
   id: number; // 本条信息ID
+  amount:string; // 库存
   buildingId: string;
   buildingNum: string;
   buildingName: string;
@@ -377,10 +414,11 @@ export class GuardName {
   roomId:string; // 房间号
   userDept:string; // 员工部门
   userTel: string; // 电话
-  porpertyId:number; // 服务类型
-  entry:string; // 具体服务项目
+  type:string; // 服务项目
+  servername:string; // 具体服务项目
   porpertyContent:string; // 服务详情
   orderId:string;     // 订单号
+  plateNum:string[]; // 车牌信息
   filePath: string[]; // 文件路径
   fileName:string[]; // 文件名
   orderStatus:string; // 订单状态

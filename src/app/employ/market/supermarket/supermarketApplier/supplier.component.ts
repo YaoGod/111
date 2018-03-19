@@ -171,10 +171,15 @@ export class SupplierComponent implements OnInit {
       this.addErrorClass('supplierendtime', '结束时间不能早于开始时间');
       return false;
     }
-    if(typeof (this.applierAdd.file) === "undefined"|| this.applierAdd.file.length === 0){
-      this.addErrorClass('prese', '请上传文件');
+    /*if(typeof (this.applierAdd.file) === "undefined"|| this.applierAdd.file.length === 0){
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '请上传附件',
+        'popType': 0,
+        'imgType': 2,
+      });
       return false;
-    }
+    }*/
     this.marketManagerService.providerSave(this.applierAdd)
       .subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
