@@ -32,8 +32,8 @@ export class WorkspaceHomeComponent implements OnInit {
     this.globalCatalogService.setTitle("员工服务/我的工作台");
     this.getBalance();
     this.getHandlingOrder();
-    this.getUserConsume("costHistoryChart","cost");
-    this.getUserConsume("costDashHistoryChart","laundry");
+/*    this.getUserConsume("costHistoryChart","cost");
+    this.getUserConsume("costDashHistoryChart","laundry");*/
     this.getServiceCenter();
     this.getMyServiceCenter();
   }

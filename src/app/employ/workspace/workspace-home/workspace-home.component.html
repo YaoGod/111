@@ -4,14 +4,26 @@
       <div class="total-chart" id="priceChart">
       </div>
       <div class="total-price">
-        <p>总资产（元）</p>
+        <h3 class="goods-hd">
+          <em class="fn1">总资产（元）</em>
+          <span class="tb-fn1">
+          </span>
+        </h3>
         <span>{{count | number:'1.2-4'}}</span>
+        <div class="count-brash">
+          <a (click)="linkCost()">消费账户</a>
+          <a (click)="linkCostDash()">洗衣账户</a>
+        </div>
       </div>
     </div>
   </div>
   <div class="section" style="width: 35%;padding-left: 20px">
     <div class="section-panel pending-panel">
-      <h3>待办事项</h3>
+      <h3 class="goods-hd">
+        <em class="fn1">待办事项</em>
+        <span class="tb-fn1">
+          </span>
+      </h3>
       <ul class="pending">
         <li *ngFor="let pending of pendings" (click)="linkPendingCost(pending.key)">
           {{pending.key}}<sup>{{pending.value}}</sup>
@@ -21,7 +33,7 @@
     </div>
   </div>
 </div>
-<div class="part">
+<!--<div class="part">
   <div class="section" style="width: 50%">
     <div class="section-panel">
       <h3>消费账户-近期消费(元)<a (click)="linkCost()">明&nbsp;&nbsp;细</a></h3>
@@ -34,17 +46,20 @@
       <div class="history-chart" id="costDashHistoryChart"></div>
     </div>
   </div>
-</div>
+</div>-->
 <div class="part">
   <div class="section" style="width: 100%">
     <div class="section-panel">
-      <h3>服务中心
+      <h3 class="goods-hd">
+        <em class="fn1">服务中心</em>
+        <span class="tb-fn1">
         <a>
         <select name="myService" [(ngModel)]="myServiceCenter" (change)="changeMyService()">
           <option value="" *ngIf="myServiceCenter===''">请选择</option>
           <option *ngFor="let service of serviceCenters">{{service.name}}</option>
         </select>
         </a>
+      </span>
       </h3>
       <table class="service-list">
        <tr *ngFor="let service of serviceCenters">

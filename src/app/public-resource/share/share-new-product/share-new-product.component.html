@@ -13,7 +13,7 @@
     <div class="warp">
       <div class="warp-left">
         <div class="warp-fist">
-          <img *ngIf="shareProduct.imgPath" [src]="shareProduct.imgPath | imgsafeurl" >
+          <img *ngIf="showImg" [src]="showImg | imgsafeurl" >
         </div>
         <ul class="warp-list">
           <li class="dropify-wrapper" *ngFor="let img of shareProduct.imgPathList;let i = index">

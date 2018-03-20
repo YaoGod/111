@@ -48,5 +48,26 @@ export class ShareProductPublicService {
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
-
+  getShareProductDetail(id){
+    const url = this.ipSetting.ip +"/publicresource/share/getShareProductInfo/"+id;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  /*首页显示可预订的商品列表*/
+  getShowProductList(postData,pageNo,pageSize){
+    const url = this.ipSetting.ip + "/publicresource/share/getShowProduct/"+pageNo+"/"+pageSize;
+    return this.http.post(url,postData,this.options)
+      .map(res => res.json());
+  }
+  /*首页显示可预订的商品列表*/
+  getCheckProductList(postData,pageNo,pageSize){
+    const url = this.ipSetting.ip + "/publicresource/share/getProductManage/"+pageNo+"/"+pageSize;
+    return this.http.post(url,postData,this.options)
+      .map(res => res.json());
+  }
+  checkProduct(postData){
+    const url = this.ipSetting.ip + "/publicresource/share/checkProduct";
+    return this.http.post(url,postData,this.options)
+      .map(res => res.json());
+  }
 }

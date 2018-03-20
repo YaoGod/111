@@ -9,4 +9,6 @@ export class User {
   password : string;
   teleNum: string;
   homeAddr: string;
+  deptId  : string;
+  deptName: string;
 }

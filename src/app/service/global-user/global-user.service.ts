@@ -12,6 +12,7 @@ export class GlobalUserService {
     localStorage.setItem("showUserName",this.user.username);
     localStorage.setItem("homeAddr",this.user.homeAddr);
     localStorage.setItem("teleNum",this.user.teleNum);
+    localStorage.setItem("deptId",this.user.deptId);
     this.valueUpdated.next(this.user);
   }
   getVal():User {
@@ -20,6 +21,7 @@ export class GlobalUserService {
       this.user.userid    =  localStorage.getItem("username");
       this.user.homeAddr =  localStorage.getItem("homeAddr");
       this.user.teleNum =  localStorage.getItem("teleNum");
+      this.user.deptId = localStorage.getItem("deptId");
     }
     return this.user;
   }

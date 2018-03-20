@@ -23,6 +23,7 @@ export class ShareProduct {
   createUserId: string; /*创建人ID*/
   modifyTime  : string; /*修改时间*/
   modifyUserId: string; /*修改人ID*/
+  userName    : string;
   telNum      : string;  /*发起者电话*/
   userDeptId  : string;
   userDeptName: string;

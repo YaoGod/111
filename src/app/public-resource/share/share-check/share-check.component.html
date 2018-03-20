@@ -1,3 +1,154 @@
-<p>
-  share-check works!
-</p>
+<div class="content-area">
+  <div class="content-inner">
+    <!--页面标题-->
+    <div class="nav-title">
+      <a><h4>待审核物品</h4></a>
+      <div class="b-head-right">
+        <div class="content-box" tabindex="0" onclick="history.go(-1)">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>
+    </div>
+    <!--搜索栏-->
+    <div class="search-bar">
+      <ul>
+        <li><label>物品名称</label>
+          <input type="text" name="search" [(ngModel)]="search.name">
+        </li>
+        <li>
+          <a (click)="getCheckProductList(1);"><i class="icon-magnifier"></i>查询</a>
+        </li>
+      </ul>
+    </div>
+    <!--表头-->
+    <div class="table-head" style="margin-top: 10px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row list-title" style="height:45px;">
+          <th width="8%" class="text-left">商品名称</th>
+          <th width="11%">图片</th>
+          <th width="8%">开始时间</th>
+          <th width="8%">结束时间</th>
+          <th width="10%" class="text-left">抢购对象</th>
+          <th width="5%">发起人</th>
+          <th width="10%">发起人部门</th>
+          <th width="10%">发起人联系电话</th>
+          <th width="10%">发起时间</th>
+          <th width="10%">状态</th>
+          <th width="10%">操作</th>
+        </tr>
+      </table>
+    </div>
+    <!--表格内容-->
+    <div class="table-content" style="min-height: 500px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row"  style="height:100px;" *ngFor="let product of shareProducts;let i = index">
+          <td width="8%" class="text-left">
+            <span>
+              {{product.name}}
+            </span>
+          </td>
+          <td width="11%" class="box-demo">
+            <img *ngIf="product.imgPathList&&product.imgPathList.length>0"
+                 [src]="product.imgPathList[0] | imgsafeurl">
+          </td>
+          <td width="8%">
+            {{product.bTime| date:'yyyy/MM/dd HH:mm:ss'}}
+          </td>
+          <td width="8%">
+            {{product.eTime| date:'yyyy/MM/dd HH:mm:ss'}}
+          </td>
+          <td width="10%" class="text-left">
+            <p class="tb-text">
+              {{product.targetName}}
+            </p>
+          </td>
+          <td width="5%" class="text-left">
+              {{product.userName}}
+          </td>
+          <td width="10%" class="text-left">
+              {{product.userDeptName}}
+          </td>
+          <td width="10%" class="text-left">
+              {{product.telNum}}
+          </td>
+          <td width="10%" class="text-left">
+            {{product.createTime| date:'yyyy/MM/dd HH:mm:ss'}}
+          </td>
+          <td width="10%">
+            <span *ngIf="product.status==='release'">通过</span>
+            <span *ngIf="product.status==='fail_check'" [title]="product.checkNote">不通过</span>
+            <span *ngIf="product.status==='pending_check'">待审核</span>
+          </td>
+          <td width="10%" class="box-option">
+            <a [routerLink]="['../detail',product.id]">
+              <i class="icon-screen-desktop"></i>详情
+            </a>
+            <a (click)="check(product)">
+              <i class="icon-settings"></i>审核
+            </a>
+          </td>
+        </tr>
+      </table>
+      <div class="div-none" *ngIf="shareProducts.length === 0">
+        <p>暂无信息</p>
+      </div>
+    </div>
+    <!--翻页-->
+    <app-turn-bar
+      [pageNo] = "pageNo"
+      [pageSize] = "pageSize"
+      [total] = "total"
+      (turnEvent) = "getCheckProductList($event)">
+    </app-turn-bar>
+
+  </div>
+</div>
+
+
+<!--审核意见-->
+<div class="mask" style="display: none;" id="check">
+  <div  class="modal-content" style="width: 360px;margin-left: -180px">
+    <div  class="modal-header">
+      <h4 class="modal-title"><i class="icon-home"></i>商品审核</h4>
+      <button class="modal-close" type="button" (click)="closeCheck()">×</button>
+    </div>
+    <form  class="form-building form-material ng-untouched ng-pristine ng-valid" novalidate="">
+      <div  class="modal-body clearfix">
+        <div class="modal-right">
+          <div  class="form-group">
+            <label  class="control-label"><span>审核状态</span>
+              <label for="status1">
+                <input id="status1" name="status"
+                       type="radio" value="release"
+                       [(ngModel)]="copyProduct.status"
+                       (blur)="verifyEmpty(copyProduct.status,'status1')">
+                通过
+              </label>
+              <label for="status2">
+                <input id="status2" name="status"
+                       type="radio" value="fail"
+                       [(ngModel)]="copyProduct.isCheck"
+                       (blur)="verifyEmpty(copyProduct.status,'status2')">
+                不通过
+              </label>
+              <div class="error"></div>
+            </label>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label"><span>审核意见</span>
+              <textarea class="form-control" id="checkNote" name="checkNote" rows="5"
+                        style="line-height: 30px;"
+                        [(ngModel)]="copyProduct.checkNote"
+              ></textarea>
+            </label>
+            <div class="error"></div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div  class="modal-footer">
+      <button  class="btn btn-info" type="submit"
+               (click)="submitCheck()">确  定</button>
+    </div>
+  </div>
+</div>

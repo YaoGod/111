@@ -50,6 +50,7 @@
 .warp-fist{
   width: 300px;
   height: 225px;
+  margin-right: 5px;
   line-height: 225px;
   border: 1px solid #f7fafc;
   text-align: center;
@@ -60,16 +61,18 @@
   vertical-align: middle;
 }
 .warp-list{
-  width: 300px;
+  width: 315px;
 }
 .warp-list>li{
   float: left;
-  width: 80px;
-  height: 60px;
-  line-height: 60px;
+  width: 97px;
+  height: 75px;
+  margin: 5px 5px 0 0;
+  line-height: 75px;
   border: 1px solid #f7fafc;
   text-align: center;
   overflow: hidden;
+  box-sizing: border-box;
 }
 .warp-list>li.active{
   border-color: #2162B6;
@@ -287,7 +290,7 @@ select{
 .dropify-wrapper p {
   position: absolute;
   left: 0;
-  top: 38px;
+  top: 25px;
   width: 100%;
   line-height: 24px;
   z-index: 2;
@@ -398,4 +401,23 @@ select{
 }
 .foot-submit{
   text-align: right;
+}
+.top-trash{
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  line-height: 20px;
+  border-bottom-left-radius: 5px;
+  box-shadow: -1px 1px 2px #6f4144;
+  background-color: #d75452;
+  color: #ffffff;
+  cursor: pointer;
+  transition-duration: 300ms;
+  opacity: 0;
+  z-index: 4;
+}
+.dropify-wrapper:hover .top-trash{
+  opacity: 1;
 }

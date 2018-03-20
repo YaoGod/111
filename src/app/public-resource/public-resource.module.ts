@@ -23,6 +23,9 @@ const routes: Routes = [
       {
         path: 'share',
         loadChildren: './share/share.module#ShareModule'
+      },
+      {
+        path: 'library'
       }
     ]
   }

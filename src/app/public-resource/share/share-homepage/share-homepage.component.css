@@ -2,10 +2,14 @@
   padding: 20px 20px 0 20px;
 }
 .count-inner{
+  height: 160px;
   padding: 5px;
   background-color: #ffffff;
   box-sizing: border-box;
   transition-duration: 300ms;
+}
+.count-inner:focus{
+  outline: none;
 }
 .count-left{
   display: inline-block;
@@ -17,9 +21,6 @@
 .count-right{
   float: right;
   width: 20%;
-}
-.count-inner{
-  height: 160px;
 }
 .count-list>li{
   float: left;

@@ -1,37 +1,64 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {ShareProduct} from "../../../mode/shareProduct/share-product.service";
 import {ShareProductPublicService} from "../../../service/share-product-public/share-product-public.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {SaleProductEmployeeService} from "../../../service/sale-product-employee/sale-product-employee.service";
+import {GlobalUserService} from "../../../service/global-user/global-user.service";
+import {User} from "../../../mode/user/user.service";
 declare var $:any;
 declare var confirmFunc:any;
 @Component({
   selector: 'app-share-new-product',
   templateUrl: './share-new-product.component.html',
   styleUrls: ['./share-new-product.component.css'],
-  providers: [SaleProductEmployeeService]
+  providers: [SaleProductEmployeeService, GlobalUserService]
 })
 export class ShareNewProductComponent implements OnInit {
 
+  public user:User;
   public shareProduct: ShareProduct;
   public deptList: Array<Department>;
   public isAllDept:boolean;
+  public showImg: string;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
-     private shareProductPublicService: ShareProductPublicService,
-    private saleProductEmployeeService:SaleProductEmployeeService
+    private shareProductPublicService: ShareProductPublicService,
+    private saleProductEmployeeService:SaleProductEmployeeService,
+    private globalUserService: GlobalUserService
   ) { }
 
   ngOnInit() {
+    this.user =this.globalUserService.getVal();
     this.shareProduct = new ShareProduct();
+    this.shareProduct.imgPath = [];
+    this.shareProduct.imgPathList = [];
+    this.shareProduct.targetId = [this.user.deptId];
     this.getDeptList();
-    this.route.params.subscribe(data => {
-    });
+    if(typeof (this.route.params['_value']['id']) !== "undefined"){
+      let tempid = 0;
+      this.route.params
+        .switchMap((params: Params) => this.shareProduct.id  = params['id'])
+        .subscribe(() => {
+          if (tempid === 0) {
+            this.getShareProductDetail(this.shareProduct.id);
+            tempid++;
+          }
+        });
+    }
+  }
+  /*获取物品详情*/
+  getShareProductDetail(id){
+    this.shareProductPublicService.getShareProductDetail(id)
+      .subscribe(data=>{
+        if(this.errorResponseService.errorMsg(data)){
+          this.shareProduct = data.data;
+        }
+      })
   }
   /*获取所有部门列表*/
   getDeptList(){
@@ -41,6 +68,12 @@ export class ShareNewProductComponent implements OnInit {
           this.deptList = data.data;
           for(let i = 0;i<this.deptList.length;i++){
             this.deptList[i].choose = false;
+            if(this.deptList[i].DEPT_ID === this.shareProduct.targetId[0]){
+              this.deptList[i].choose = true;
+              this.shareProduct.targetName = [this.deptList[i].DEPT_NAME];
+              this.user.deptName = this.deptList[i].DEPT_NAME;
+              this.globalUserService.setVal(this.user);
+            }
           }
         }
       });
@@ -57,9 +90,9 @@ export class ShareNewProductComponent implements OnInit {
       }
     }
     if(this.shareProduct.targetId.length === 0){
-      this.shareProduct.targetId = ['all'];
-      this.shareProduct.targetName = ['所有人员'];
-      this.isAllDept = true;
+      this.shareProduct.targetId = [this.user.deptId];
+      this.shareProduct.targetName = [this.user.deptName];
+      this.isAllDept = false;
     }
   }
   /*全选*/
@@ -80,6 +113,7 @@ export class ShareNewProductComponent implements OnInit {
         if(this.errorResponseService.errorMsg(data)){
           this.shareProduct.imgPath.push(data.msg);
           this.shareProduct.imgPathList.push(window.URL.createObjectURL(files[0]));
+          this.showImg = this.shareProduct.imgPathList[this.shareProduct.imgPathList.length-1];
         }
         $('#press').val('');
       }else if(xhr.readyState === 4 && xhr.status === 413 ){
@@ -104,8 +138,6 @@ export class ShareNewProductComponent implements OnInit {
       let postdata = JSON.parse(JSON.stringify(this.shareProduct));
       postdata.imgPathList = postdata.imgPath;
       delete postdata.imgPath;
-      /*postdata.targetId = postdata.targetId.join(",");*/
-      postdata.targetName = postdata.targetName.join(",");
       if(typeof (postdata.id) === "undefined" || postdata.id === null) {
         this.shareProductPublicService.addShareProduct(postdata)
           .subscribe(data => {
@@ -116,10 +148,10 @@ export class ShareNewProductComponent implements OnInit {
                 'popType': 2,
                 'imgType': 1,
                 "callback": () => {
-
+                  this.router.navigate(['../check'],{relativeTo:this.route});
                 },
                 "cancel": () => {
-
+                  this.router.navigate(['../check'],{relativeTo:this.route});
                 }
               });
             }
@@ -140,10 +172,10 @@ export class ShareNewProductComponent implements OnInit {
                     'popType': 2,
                     'imgType': 1,
                     "callback": () => {
-
+                      this.router.navigate(['../check'],{relativeTo:this.route});
                     },
                     "cancel": () => {
-
+                      this.router.navigate(['../check'],{relativeTo:this.route});
                     }
                   });
                 }
