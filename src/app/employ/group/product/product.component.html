@@ -18,7 +18,7 @@
             <div class="iptgroup" *ngIf="rule&&rule.isSelect">
               <input placeholder="请输入商品名称" [(ngModel)]="search.name" />
             </div>
-            <a class="search" *ngIf="rule&&rule.isSelect" (click)="getProductList(1)" >查询</a>
+            <a class="search" *ngIf="rule&&rule.isSelect" (click)="getProductList(1)" href="javascript:;">查询</a>
             <div class="row" *ngIf="rule&&rule.isInstall">
               <a class="btn btn-danger" (click)="fadeBom()" style="padding: 6px 22px;">
                 <i class="icon-plus"></i> 新增</a>

@@ -102,7 +102,7 @@ export class LoginComponent implements OnInit {
   }
 
   public verifyUserName(id:string){
-      if (!this.isEmpty(id,'· 请输入你的用户名')) {
+      if (!this.isEmpty(id,'· 请输入用户名HRMIS号')) {
         return false;
       }
       if (!this.verifyLength(id, '· 户名编号过短'))  {

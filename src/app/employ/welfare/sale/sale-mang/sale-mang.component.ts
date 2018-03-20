@@ -202,7 +202,7 @@ export class SaleMangComponent implements OnInit {
       this.typeList[i] = new ChooseType();
       this.typeList[i].name = tempList[i];
     }
-    console.log(this.copySale);
+    // console.log(this.copySale);
   }
   /*关闭窗口*/
   closeMask(){

@@ -286,7 +286,7 @@
             <select class="company-ipt" id="liablePerson" name="liablePerson" [(ngModel)]="repairname.liablePerson"
                     (blur)="verifyliablePerson()" (change)="changePerson(repairname.liablePerson)">
               <option value="">-请选择-</option>
-              <option *ngFor="let lead of leading" [value]="lead.userid">{{lead.username}}</option>
+              <option *ngFor="let lead of leading" [value]="lead.userid">{{lead.username}}+{{lead.userid}}</option>
             </select>
             <span class="errorMessage"></span>
           </div>
@@ -384,7 +384,7 @@
           <select class="company-ipt conpany-sel" id="liablePerson2" name="liablePerson2" [(ngModel)]="contractName.liablePerson"
                   (blur)="verifyliablePerson2()" (change)="changePerson2(contractName.liablePerson)">
             <option value="">-请选择-</option>
-            <option *ngFor="let lead of leading" [value]="lead.userid">{{lead.username}}</option>
+            <option *ngFor="let lead of leading" [value]="lead.userid">{{lead.username}}+{{lead.userid}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>

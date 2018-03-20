@@ -314,9 +314,9 @@ a {
   text-decoration: none;
 }
 .product-title {
-  min-height: 44px;
+  height: 44px;
   overflow: hidden;
-  line-height: 24px;
+  line-height: 22px;
   word-break: break-all;
   padding-right: 40px;
   position: relative;

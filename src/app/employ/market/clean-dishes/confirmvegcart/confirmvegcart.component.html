@@ -48,7 +48,7 @@
               </div>
             </div>
             <div class="b-address">
-              <span>配送信息</span>
+              <span>订单人信息</span>
             </div>
             <div class="address">
               <div class="info"><label>姓名：</label> <span>{{userInfo.username}}</span></div>
@@ -59,9 +59,10 @@
           <span>服务中心</span>
         </div>
             <div class="fuwu">
-              <input *ngFor="let center of serverCenters; let idx=index" type="radio" name="fuwuname" value="{{center.name}}"
-                     [(ngModel)]="order.serviceCenter">{{center.name}}
-
+              <label *ngFor="let center of serverCenters; let idx=index">
+                <input  type="radio" name="fuwuname" value="center.name"
+                        [(ngModel)]="order.serviceCenter">{{center.name}}
+              </label>
             </div>
             <div class="b-foot">
               <div class="leftmoney"><label>账户余额：</label><span>￥{{leftMoney}}</span></div>

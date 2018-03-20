@@ -118,7 +118,6 @@ export class ContentComponent implements OnInit {
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         this.usefulSecond = data.data;
-        console.log(data.data);
         if(data.data.length===1 &&data.data[0].isDetails==='2' ){
           this.onNum = data.data[0].isAmount;
         }else{

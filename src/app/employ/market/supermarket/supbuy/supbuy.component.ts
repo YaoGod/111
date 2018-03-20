@@ -20,9 +20,10 @@ export class SupbuyComponent implements OnInit {
   public products:Array<SupermarketProduct>;
   public search: SupermarketProduct;
   public cart: SupermarketCart;
-  public pageNo: number = 1;
-  public pageSize: number = 10;
+  public pageNo = 1;
+  public pageSize = 10;
   public total = 0;
+  public length = 10;
   public cartsize:number = 0;
   public username = sessionStorage.getItem("username");
   public applierList: Array<any>;

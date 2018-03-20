@@ -29,7 +29,7 @@ export class GoodscartComponent implements OnInit {
     this.payType = '1';
     this.imgPrefix = this.ipSetting.ip;
     this.getCartList();
-
+    this.initFac();
   }
 
   /** 获取购物车信息 **/
@@ -124,12 +124,12 @@ export class GoodscartComponent implements OnInit {
 
   /*获取服务中心*/
   initFac(){
-    /*let url = '/mmall/laundry/provider/initFac';
-    this.ipSetting.sendPost(url,this.myOrder).subscribe(data => {
+    let url = '/employee/serviceCenter/getServiceCenter';
+    this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
-        this.serverCenters = data.data.centers;
+        this.serverCenters = data.data;
       }
-    });*/
+    });
   }
   /*提交订单*/
   submitOrder(){

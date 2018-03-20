@@ -30,6 +30,7 @@ export class GuardComponent implements OnInit {
   public pageNo = 1;
   public total = 0;
   public length = 5;
+  public useful = [];
   private editBool = true;
   private contractBool = true;
   public serviceCom:any;
@@ -62,6 +63,7 @@ export class GuardComponent implements OnInit {
     this.contractName.imgPath = '';
     this.getBuildings();
     this.getDeptId();
+    this.getTypeSelect();
     if($('.guard-header a:last-child').hasClass('active')) {
       $('.guard-arch,.box2').fadeIn();
       this.getRecordSecond(this.searchArch, this.pageNo, this.pageSize);
@@ -107,17 +109,18 @@ export class GuardComponent implements OnInit {
   }
   /*获取全部服务公司*/
   private getCompany() {
-    const SOFTWARES_URL = "/building/company/getCompany";
-    this.ipSetting.sendGet(SOFTWARES_URL).subscribe(data => {
+    let url = "/building/company/getCompany";
+    this.ipSetting.sendGet(url).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.serviceCom = data.data;
+          // console.log(this.serviceCom);
         }
       });
   }
   /*获取/查询保安人员档案*/
   private getRecordSecond(search, pageNo, pageSize) {
-    let SOFTWARES_URL = "/building/person/getPersonList/" + pageNo + "/" + pageSize;
-    this.ipSetting.sendPost(SOFTWARES_URL,search).subscribe(data => {
+    let url = "/building/person/getPersonList/" + pageNo + "/" + pageSize;
+    this.ipSetting.sendPost(url,search).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.contract = data['data']['infos'];
           this.total = data.data.total;
@@ -138,7 +141,6 @@ export class GuardComponent implements OnInit {
   /*点击新增*/
   addCompany() {
     if($('.guard-header a:last-child').hasClass('active')) {
-      this.getCompany();
       this.contractBool = true;
       this.contractName = new ArchName();
       $('.mask-contract').fadeIn();
@@ -152,7 +154,6 @@ export class GuardComponent implements OnInit {
       this.repairname.fileName = [];
     }
   }
-  // /building/person/getDeptList?name=
   /** 获取归属部门*/
   private getDeptId(){
     let url = "/building/person/getDeptList?name=";
@@ -253,6 +254,7 @@ export class GuardComponent implements OnInit {
           });
           this.getRecord(this.searchCompany, this.pageNo, this.pageSize);
           this.recordCancel();
+          this.getCompany();
         }
       });
   }
@@ -417,7 +419,7 @@ export class GuardComponent implements OnInit {
       return false;
     }
     const postdata = JSON.parse(JSON.stringify(this.contractName));
-    if(postdata.imgPath.indexOf("/")!==0){
+    if(postdata.imgPath&&postdata.imgPath.indexOf("/")!==0){
       delete postdata.imgPath;
     }
     if(postdata.entryTime){
@@ -449,6 +451,38 @@ export class GuardComponent implements OnInit {
       this.exist = false;
     }
   }
+  addId(info){
+    for(let i=0;i<this.serviceCom.length;i++) {
+      if (this.serviceCom[i].companyName === info) {
+        this.contractName.companyId = this.serviceCom[i].id;
+      }
+    }
+  }
+  /*获取一级服务内容*/
+  getTypeSelect(){
+    let url = "/employee/property/getTypeSelect";
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        let res = [];
+        for(let i=0;i<data['data'].length;i++){
+          res.push(data['data'][i].type);
+        }
+        this.useful = this.unique(res);
+        // console.log(this.useful);
+      }
+    });
+  }
+  public unique(arr){
+    var res =[];
+    var json = {};
+    for(let i=0;i<arr.length;i++){
+      if(!json[arr[i]]){
+        res.push(arr[i]);
+        json[arr[i]] = 1;
+      }
+    }
+    return res;
+  }
   /*新增编辑档案信息的取消按钮*/
   contractCancel() {
     this.contractName = new ArchName();
@@ -459,7 +493,6 @@ export class GuardComponent implements OnInit {
   }
   /* 编辑人员档案*/
   editContract(index) {
-    this.getCompany();
     this.contractBool = false;
     this.contractName = JSON.parse(JSON.stringify(this.contract[index]));
     for(let i=0;i<this.deptId.length;i++){
@@ -467,6 +500,11 @@ export class GuardComponent implements OnInit {
         this.contractName.deptId = this.deptId[i].DEPT_ID
       }
     }
+    /*for(let i=0;i<this.serviceCom.length;i++){
+      if(this.serviceCom[i].companyName === this.contractName.companyName){
+        this.contractName.companyId = this.serviceCom[i].companyId;
+      }
+    }*/
     if(this.contractName.entryTime){
       this.contractName.entryTime = this.contractName.entryTime.replace(/\//g, "-");
     }
@@ -738,6 +776,7 @@ export class GuardName {
 export class ArchName {
   id: number; // 本条信息ID
   companyName: string; // 公司名称
+  companyId:string; // 公司ID
   imgPath: string; // 头像地址
   personAge: 0; // 年龄
   entryTime:string; // 入职时间

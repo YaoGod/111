@@ -80,7 +80,7 @@ export class GoodsbuyComponent implements OnInit {
   getGoodsShowList(pageNo){
     this.pageNo = pageNo;
     let url = '/goodsProduct/search?name='+ this.search.name +'&code='+this.search.code+
-      '&pageNum='+ this.pageNo +'&pageSize='+ this.pageSize;
+      '&pageNum='+ this.pageNo +'&pageSize='+ this.pageSize+'&status=reserve';
     this.ipSetting.sendGet(url).subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           this.goods = data.data.list;
