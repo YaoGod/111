@@ -147,13 +147,13 @@ export class OrdersReportComponent implements OnInit {
   delAttach(){  }
   /*获取人员下拉*/
   public getPersonInfoList() {
-    if(this.repairname.porpertyId==0){
+    /*if(this.repairname.porpertyId==0){
       this.pin = 'clean';
     }else if(this.repairname.porpertyId==1){
       this.pin = 'repair';
     }else if(this.repairname.porpertyId==2){
       this.pin = 'clean';
-    }
+    }*/
     let url = "/building/person/getPersonInfoList/"+this.pin;
     this.ipSetting.sendGet(url)
       .subscribe(data => {

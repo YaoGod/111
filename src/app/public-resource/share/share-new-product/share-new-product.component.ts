@@ -23,7 +23,7 @@ export class ShareNewProductComponent implements OnInit {
     private route: ActivatedRoute,
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
-    private shareProductPublicService: ShareProductPublicService,
+     private shareProductPublicService: ShareProductPublicService,
     private saleProductEmployeeService:SaleProductEmployeeService
   ) { }
 
