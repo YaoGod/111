@@ -25,13 +25,38 @@
         <div class="warp-right" *ngIf="shareProduct.name">
           <h4>{{shareProduct.name}}</h4>
           <ul>
+
             <li>
-              <span class="form-title">预定时间</span>
-              <span class="word">{{shareProduct.bTime+"至"+shareProduct.eTime}}</span>
+              <span class="form-title">总量</span>
+              <span class="word">{{shareProduct.amount}}</span>
             </li>
             <li>
-              <span class="form-title">数量</span>
-              <span class="word">{{shareProduct.amount}}</span>
+              <span class="form-title">开放范围</span>
+              <span class="word">{{shareProduct.targetName}}</span>
+            </li>
+            <li>
+              <span class="form-title">可预定时间</span>
+              <span class="word">{{shareProduct.bTime| date:'yyyy/MM/dd HH:mm:ss'}}
+                至{{shareProduct.eTime| date:'yyyy/MM/dd HH:mm:ss'}}</span>
+            </li>
+            <li>
+              <span class="form-title">发起人</span>
+              <span class="word">{{shareProduct.userName}}</span>
+            </li>
+            <li>
+              <span class="form-title">发起人部门</span>
+              <span class="word">{{shareProduct.userDeptName}}</span>
+            </li>
+            <li>
+              <span class="form-title">发起人电话</span>
+              <span class="word">{{shareProduct.telNum}}</span>
+            </li>
+            <li>
+              <div class="btn-form-back">
+                <span>¥{{shareProduct.unitPrice| number:'1.2-2'}}</span>
+                <a class="btn_yuding"
+                   (click)="OrderProduct(shareProduct.id)">立即预定</a>
+              </div>
             </li>
           </ul>
         </div>

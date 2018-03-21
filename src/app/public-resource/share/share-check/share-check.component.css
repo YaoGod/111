@@ -159,6 +159,7 @@ select:focus{
   cursor: pointer;
 }
 td>img{
+  height: 90px;
   vertical-align: middle;
 }
 .tb-text{

@@ -16,7 +16,7 @@
     </h4>
     <ul class="goods-list" *ngIf="saleProducts && saleProducts.length > 0">
       <li *ngFor="let sale of saleProducts">
-        <a [routerLink]="['../sale/detail',sale.id]">
+        <a>
           <div class="img-wrap">
             <img *ngIf="sale.imgPathList&&sale.imgPathList.length>0"
                  [src]="sale.imgPathList[0] | imgsafeurl">
@@ -24,7 +24,11 @@
           <div class="goods-msg">
             <h5>{{sale.name}}</h5>
             <p class="marker-type"><span>限量{{sale.maxNumber}}件</span></p>
-            <textarea  rows="5" readonly>{{sale.summary}}</textarea>
+            <div class="btn-form-back">
+              <span>¥{{sale.price| number:'1.2-2'}}</span>
+              <a class="btn_yuding" [routerLink]="['../sale/detail',sale.id]">立即抢购</a>
+            </div>
+            <p>开始时间：{{sale.beginTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
           </div>
         </a>
       </li>

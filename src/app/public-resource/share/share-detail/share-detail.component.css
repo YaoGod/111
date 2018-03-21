@@ -187,3 +187,56 @@
 .summary-text textarea:hover{
   overflow: auto;
 }
+.btn-form-back{
+  position: relative;
+  padding: 0 20px;
+  margin:10px 0;
+  width: 300px;
+  height: 50px;
+  line-height: 50px;
+  color: #fb9678;
+  font-size: 16px;
+  background-color: #f5f5f5;
+  box-shadow: 1px 2px 5px #e4d8d8;
+  transition-duration: .2s;
+}
+.btn-form-back>span{
+  color: #ff5c39;
+  font-size: 33px;
+  text-indent: 25px;
+}
+.btn-form-back:after{
+  content: "";
+  position: absolute;
+  right: -3px;
+  width: 0;
+  height: 0;
+  line-height: 0;
+  border-width: 25px 25px;
+  border-style: solid;
+  border-left-width: 0;
+  border-color: #f5f5f5 #ffffff #f5f5f5 #ffffff;
+  transition-duration: .2s;
+}
+.btn-form-back>a{
+  display: inline-block;
+  -moz-user-select:none;
+  -webkit-user-select:none;
+  -ms-user-select:none;
+  -khtml-user-select:none;
+  user-select:none;
+}
+.btn-form-back>a>i{
+  padding-right: 5px;
+}
+.btn_yuding{
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  line-height: 16px;
+  padding: 8px 30px;
+  background: #ff3c00;
+  border-radius: 6px;
+  float: right;
+  margin: 7px 40px 0 0;
+}

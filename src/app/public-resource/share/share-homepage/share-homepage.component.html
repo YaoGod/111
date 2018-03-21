@@ -73,14 +73,20 @@
     </div>
     <ul class="goods-list" *ngIf="shareProducts && shareProducts.length > 0">
       <li *ngFor="let product of shareProducts">
-        <a [routerLink]="['../detail',product.id]">
+        <a>
           <div class="img-wrap">
-           <!-- <img *ngIf="sale.imgPathList&&sale.imgPathList.length>0"
-                 [src]="sale.imgPathList[0] | imgsafeurl">-->
+            <img *ngIf="product.imgPathList&&product.imgPathList.length>0"
+                 [src]="product.imgPathList[0] | imgsafeurl">
           </div>
           <div class="goods-msg">
             <h5>{{product.name}}</h5>
-            <textarea  rows="5" readonly>{{product.summary}}</textarea>
+            <p class="marker-type"><span>总量{{product.amount}}件</span></p>
+            <div class="btn-form-back">
+              <span>¥{{product.unitPrice| number:'1.2-2'}}</span>
+              <a class="btn_yuding"  [routerLink]="['../detail',product.id]">预订</a>
+            </div>
+            <p>开始时间：{{product.bTime|date:'yyyy/MM/dd HH:mm:ss'}}</p>
+            <p>结束时间：{{product.eTime|date:'yyyy/MM/dd HH:mm:ss'}}</p>
           </div>
         </a>
       </li>

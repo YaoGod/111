@@ -32,8 +32,8 @@ export class WorkspaceHomeComponent implements OnInit {
     this.globalCatalogService.setTitle("员工服务/我的工作台");
     this.getBalance();
     this.getHandlingOrder();
-/*    this.getUserConsume("costHistoryChart","cost");
-    this.getUserConsume("costDashHistoryChart","laundry");*/
+    this.getUserConsume("costHistoryChart","cost");
+    this.getUserConsume("costDashHistoryChart","laundry");
     this.getServiceCenter();
     this.getMyServiceCenter();
   }
@@ -149,7 +149,7 @@ export class WorkspaceHomeComponent implements OnInit {
     let legendData = [];
     let seriesData = [];
     for(let i = 0; i < data.length;i++){
-      legendData[i] = data[i].CONSUME_TIME;
+      legendData[i] = this.changeMonth(data[i].CONSUME_TIME);
       seriesData[i] = data[i].CONSUME_NUM;
     }
     let option = {
@@ -247,5 +247,12 @@ export class WorkspaceHomeComponent implements OnInit {
           }
         })
     }
+  }
+  changeMonth(string){
+    let len =5;
+    if(string.substr(5,1) === '0'){
+      len = 6;
+    }
+    return string.substr(len) + "月";
   }
 }

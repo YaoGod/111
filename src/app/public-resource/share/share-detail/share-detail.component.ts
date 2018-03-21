@@ -51,4 +51,7 @@ export class ShareDetailComponent implements OnInit {
   chooseImg(i){
     this.shareProduct.imgPath = this.shareProduct.imgPathList[i];
   }
+  OrderProduct(id){
+
+  }
 }

@@ -46,8 +46,8 @@ export class ShareCheckComponent implements OnInit {
   }
   /*提交审核意见*/
   submitCheck(){
-    if(this.verifyEmpty(this.copyProduct.isCheck,'status2')){
-      if(this.copyProduct.isCheck === "pending"){
+    if(this.verifyEmpty(this.copyProduct.status,'status2')){
+      if(this.copyProduct.status === "pending_check"){
         this.addErrorClass('status2','请填写审核意见');
       }else{
         this.shareProductPublicService.checkProduct(this.copyProduct)
