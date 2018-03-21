@@ -69,16 +69,12 @@
           <span class="form-word">{{inner.buildingName}}</span>
         </li>
         <li class="form-bar">
-          <span class="form-title text-right">物业服务内容</span>
-          <span *ngIf="inner.porpertyId === 0" class="form-word">保洁服务</span>
-          <span *ngIf="inner.porpertyId === 1" class="form-word">报修服务</span>
-          <span *ngIf="inner.porpertyId === 2" class="form-word">住家服务</span>
-          <span *ngIf="inner.porpertyId === 3" class="form-word">租借服务</span>
-          <span *ngIf="inner.porpertyId === 4" class="form-word">停车位服务</span>
+          <span class="form-title text-right">物业服务项目</span>
+          <span class="form-word">{{inner.type}}</span>
         </li>
         <li class="form-bar">
-          <span class="form-title text-right">具体服务项目</span>
-          <span class="form-word">{{inner.entry}}</span>
+          <span class="form-title text-right">服务内容</span>
+          <span class="form-word">{{inner.servername}}</span>
         </li>
         <li class="form-bar">
           <span class="form-title text-right">服务楼层</span>
@@ -90,7 +86,7 @@
         </li>
       </ul>
       <div class="form-detail">
-        <h4>服务具体内容</h4>
+        <h4>服务内容描述</h4>
         <p>{{inner.porpertyContent}}</p>
       </div>
       <div class="form-attach">
@@ -157,7 +153,7 @@
         <span class="form-label">服务项目</span>
         <div class="form-inp">
           <select id="type" name="type" class="company-ipt company-sel" [(ngModel)]="repairname.type"
-                  (blur)="verifyservername()" (change)="getNameSelect(repairname.type)">
+                  (blur)="verifyservername()" (change)="getNameSelect(repairname.type,'')">
             <option value="">请选择</option>
             <option *ngFor="let abc of useful" [value]="abc">{{abc}}</option>
           </select>
@@ -206,7 +202,7 @@
         </div>
       </div>
       <div class="form-control form-alone">
-        <span class="form-label">具体服务内容描述</span>
+        <span class="form-label">服务内容描述</span>
         <div class="form-inp form-text">
           <textarea id="liableNote" maxlength="500" name="liableNote" class="company-ipt" [(ngModel)]="repairname.porpertyContent" (blur)="verifydetail()">
           </textarea>

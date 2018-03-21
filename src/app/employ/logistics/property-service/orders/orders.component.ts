@@ -233,6 +233,7 @@ export class OrdersComponent implements OnInit {
     this.repairname.fileName = [];
     this.repairname.filePath = [];
     /*虚拟员工部门电话*/
+    this.onNum = '2';
     this.repairname.userTel = localStorage.getItem("teleNum");
     this.repairname.userDept = this.deptMent;
     this.editBool = true;
@@ -415,7 +416,7 @@ export class GuardName {
   userDept:string; // 员工部门
   userTel: string; // 电话
   type:string; // 服务项目
-  servername:string; // 具体服务项目
+  servername:string; // 具体服务内容
   porpertyContent:string; // 服务详情
   orderId:string;     // 订单号
   plateNum:string[]; // 车牌信息

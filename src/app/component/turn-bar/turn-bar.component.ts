@@ -14,6 +14,7 @@ export class TurnBarComponent implements OnChanges {
   @Output()  turnEvent : EventEmitter<any>  = new EventEmitter<any>();
 
   public pages: Array<number> = [];
+  public abc: number;
 
   constructor() { }
 
@@ -35,6 +36,7 @@ export class TurnBarComponent implements OnChanges {
   /*页码初始化*/
   initPage(){
     let pageLength = Math.ceil(this.total / this.pageSize);
+    this.abc = pageLength;
     this.pages = new Array(pageLength);
     for(let i = 0;i< pageLength ;i++){
       this.pages[i] = i+1;

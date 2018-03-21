@@ -96,7 +96,8 @@
       <div class="form-control  clearfix">
         <span class="form-label">服务公司名称</span>
         <div class="form-inp">
-          <select id="companyName" name="companyName" class="company-ipt company-sel" [(ngModel)]="repairname.companyId" (blur)="verifycompanyName()" ><!--(change)="queryId(repairname.companyId)"-->
+          <select id="companyName" name="companyName" class="company-ipt company-sel" [(ngModel)]="repairname.companyId"
+                  (blur)="verifycompanyName()" (change)="getPersonSelect(repairname.companyId)">
             <option *ngFor="let num of serviceCom"
                     [value]="num.id">
               {{num.companyName}}</option>
@@ -118,7 +119,7 @@
         <span class="form-label">服务项目</span>
         <div class="form-inp">
           <select id="servername" name="servername" class="company-ipt company-sel" [(ngModel)]="repairname.type"
-                  (blur)="verifyservername()" (change)="getNameSelect(repairname.type)">
+                  (blur)="verifyservername()" (change)="getNameSelect(repairname.type,'')">
             <option value="">请选择</option>
             <option *ngFor="let abc of useful" [value]="abc">{{abc}}</option>
           </select>
@@ -140,6 +141,32 @@
         <span class="form-label">库存数量</span>
         <div class="form-inp">
           <input id="number" name="number" type="number" class="company-ipt company-sel" [(ngModel)]="repairname.amount">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control  clearfix">
+        <span class="form-label">责任人姓名</span>
+        <div class="form-inp">
+          <select id="liableName" name="liableName" class="company-ipt company-sel" [(ngModel)]="repairname.serverPersonName"
+          (change)="queryName(repairname.serverPersonName)">
+            <option value="">请选择</option>
+            <option *ngFor="let abc of people" [value]="abc.personName">{{abc.personName}}</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control  clearfix">
+        <span class="form-label">责任人工号</span>
+        <div class="form-inp">
+          <input id="liable" name="liable" class="company-ipt company-sel" [(ngModel)]="repairname.serverPersonId">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control  clearfix">
+        <span class="form-label">责任人电话</span>
+        <div class="form-inp">
+          <input type="text" id="liableTel" name="liableTel" class="company-ipt company-sel" [(ngModel)]="repairname.serverPersonTel">
+
           <span class="errorMessage"></span>
         </div>
       </div>

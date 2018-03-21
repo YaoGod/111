@@ -29,6 +29,7 @@ export class ContentComponent implements OnInit {
   public pages: Array<number>;
   private editBool = true;
   public serverName:any;
+  public people:any;
   public tempMsg: Array<any>;
   public useful = [];
   public usefulSecond = [];
@@ -89,7 +90,7 @@ export class ContentComponent implements OnInit {
         }
       });
   }
-  private getCompanys(id) {
+  public getCompanys(id) {
     let url = "/building/company/getCompany?buildingId="+id;
     this.ipSetting.sendGet(url)
       .subscribe(data => {
@@ -168,6 +169,29 @@ export class ContentComponent implements OnInit {
     this.getNameSelect(this.repairname.type,this.repairname.servername);
     $('.mask').fadeIn();
     $('.mask-head p').html('编辑物业服务');
+  }
+  /*根据公司获取下拉人员*/
+  getPersonSelect(companyId){
+    let url = "/building/person/getPersonSelect?companyID="+companyId;
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        this.people = data['data'];
+      }
+    })
+  };
+  queryName(name){
+    if(name === ''){
+      this.repairname.serverPersonId = '';
+      this.repairname.serverPersonTel = '';
+    }else{
+      for(let i=0;i<this.people.length;i++){
+        if(this.people[i].personName === name){
+          this.repairname.serverPersonId = this.people[i].personId;
+          this.repairname.serverPersonTel = this.people[i].personPhone;
+        }
+      }
+    }
+
   }
   /*添加反馈字段*/
   addFeedbackLine(){
@@ -376,6 +400,9 @@ export class GuardName {
   note:string; // 备注
   servername: string; // 服务内容
   serverstatus: string; // 服务状态
+  serverPersonId: string; // 责任人工号
+  serverPersonName: string; // 责任人名字
+  serverPersonTel: string; // 责任人电话
 }
 export class Arch {
   buildingId: string; // 大楼编号

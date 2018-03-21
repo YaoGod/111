@@ -32,6 +32,9 @@ export class OrdersReportComponent implements OnInit {
   public aot:string[];
   public URL: string;
   public repairDept :any;
+  public useful = [];
+  public usefulSecond = [];
+  public onNum:string;
 
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
@@ -91,9 +94,52 @@ export class OrdersReportComponent implements OnInit {
         }
       });
   }
+  /*获取一级服务内容*/
+  getTypeSelect(){
+    let url = "/employee/property/getTypeSelect";
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        let res = [];
+        for(let i=0;i<data['data'].length;i++){
+          res.push(data['data'][i].type);
+        }
+        this.useful = this.unique(res);
+      }
+    });
+  }
+  /*获取二级服务内容*/
+  getNameSelect(name,current){
+    let url = "/employee/property/getNameSelect?type="+name;
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        this.usefulSecond = data.data;
+        // console.log(data.data);
+        if(data.data.length===1 && data.data[0].isDetails==='2' ){
+          this.onNum = data.data[0].isAmount;
+        }else{
+          for(let i=0;i<data.data.length;i++){
+            if(data.data[i].name === current){
+              this.onNum = data.data[i].isAmount;
+            }
+          }
+        }
+      }
+    });
+  }
+  public unique(arr){
+    var res =[];
+    var json = {};
+    for(let i=0;i<arr.length;i++){
+      if(!json[arr[i]]){
+        res.push(arr[i]);
+        json[arr[i]] = 1;
+      }
+    }
+    return res;
+  }
   /*获取维修部门列表*/
   getRepairDept(){
-    let url = '/building/repair/getRepairDept'
+    let url = '/building/repair/getRepairDept';
     this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.repairDept = data.data;
@@ -146,14 +192,14 @@ export class OrdersReportComponent implements OnInit {
   /*删除信息*/
   delAttach(){  }
   /*获取人员下拉*/
-  public getPersonInfoList() {
-    /*if(this.repairname.porpertyId==0){
+  /*public getPersonInfoList() {
+    /!*if(this.repairname.porpertyId==0){
       this.pin = 'clean';
     }else if(this.repairname.porpertyId==1){
       this.pin = 'repair';
     }else if(this.repairname.porpertyId==2){
       this.pin = 'clean';
-    }*/
+    }*!/
     let url = "/building/person/getPersonInfoList/"+this.pin;
     this.ipSetting.sendGet(url)
       .subscribe(data => {
@@ -162,12 +208,12 @@ export class OrdersReportComponent implements OnInit {
           // console.log(data)
         }
       });
-  }
+  }*/
   /*编辑信息*/
   editAttach(index){
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
-    this.getPersonInfoList();
+    // this.getPersonInfoList();
     this.getFloorNameListInfo(this.repairname.buildingId);
     if(this.repairname.orderStatus === '已执行'){
       this.repairname.orderStatus = '2';
@@ -344,17 +390,6 @@ export class OrdersReportComponent implements OnInit {
       return true;
     }
   }
-  /**校验字符长度小于8 */
-  public verifyLength8(id: string, error: string): boolean  {
-    const data =  $('#' + id).val();
-    if (data.length < 8)  {
-      this.addErrorClass(id, error);
-      return false;
-    }else {
-      this.removeErrorClass(id);
-      return true;
-    }
-  }
   /** 添加错误信息class   */
   public  addErrorClass(id: string, error?: string)  {
     $('#' + id).parents('.form-control').addClass('form-error');
@@ -372,6 +407,7 @@ export class OrdersReportComponent implements OnInit {
 }
 export class GuardName {
   id: number; // 本条信息ID
+  amount:string; // 库存
   buildingId: string;
   buildingNum: string;
   buildingName: string;
@@ -380,8 +416,8 @@ export class GuardName {
   username:string; // 订单人
   userDept:string; // 订单部门
   userTel: string; // 电话
-  type:number; // 服务项目
-
+  type:string; // 服务项目
+  servername:string; // 具体服务内容
   porpertyContent:string; // 服务详情
   serverUserid:string;
   orderId:string;     // 订单号
@@ -390,6 +426,7 @@ export class GuardName {
   orderStatus:string; // 订单状态
   startTime:string;        // 订单生成时间
   finshTime:string;        // 订单结束时间
+  plateNum:string[]; // 车牌信息
 }
 export class Arch {
   buildingId: string; // 大楼Id
