@@ -158,7 +158,7 @@ export class GoodsordermanageComponent implements OnInit {
         title:"",
         type:"text",
         hd:["订单状态","付款方式","付款时间","发货时间"],
-        data:[data.statusDesc,data.paymentTypeDesc,data.payTime,data.sendTime]
+        data:[data.statusDesc,data.paymentTypeDesc,data.paymentTime,data.sendTime]
       },
       {
         title:"下单人信息",

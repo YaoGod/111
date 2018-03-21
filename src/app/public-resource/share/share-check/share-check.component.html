@@ -17,7 +17,7 @@
             <option value="">全部</option>
             <option value="pending_check">待审核</option>
             <option value="release">通过</option>
-            <option value="fail">不通过</option>
+            <option value="fail">已退回</option>
           </select>
         </li>
         <li><label>物品名称</label>
@@ -84,7 +84,7 @@
           </td>
           <td width="10%">
             <span *ngIf="product.status==='release'">通过</span>
-            <span *ngIf="product.status==='fail'" [title]="product.checkNote">不通过</span>
+            <span *ngIf="product.status==='fail'" [title]="product.checkNote">已退回</span>
             <span *ngIf="product.status==='pending_check'">待审核</span>
           </td>
           <td width="10%" class="box-option">
@@ -137,7 +137,7 @@
                        type="radio" value="fail"
                        [(ngModel)]="copyProduct.status"
                        (blur)="verifyEmpty(copyProduct.status,'status2')">
-                不通过
+                退回
               </label>
               <div class="error"></div>
             </label>

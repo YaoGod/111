@@ -48,6 +48,7 @@ export class ShareProductPublicService {
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
+  /*获取商品详情*/
   getShareProductDetail(id){
     const url = this.ipSetting.ip +"/publicresource/share/getShareProductInfo/"+id;
     return this.http.get(url,this.options)
@@ -59,15 +60,40 @@ export class ShareProductPublicService {
     return this.http.post(url,postData,this.options)
       .map(res => res.json());
   }
-  /*首页显示可预订的商品列表*/
+  /*首页显示审核的商品列表*/
   getCheckProductList(postData,pageNo,pageSize){
+    const url = this.ipSetting.ip + "/publicresource/share/getCheckProduct/"+pageNo+"/"+pageSize;
+    return this.http.post(url,postData,this.options)
+      .map(res => res.json());
+  }
+  /*首页显示可预订的商品列表*/
+  getProductList(postData,pageNo,pageSize){
     const url = this.ipSetting.ip + "/publicresource/share/getProductManage/"+pageNo+"/"+pageSize;
     return this.http.post(url,postData,this.options)
       .map(res => res.json());
   }
+  /*审核商品*/
   checkProduct(postData){
     const url = this.ipSetting.ip + "/publicresource/share/checkProduct";
     return this.http.post(url,postData,this.options)
+      .map(res => res.json());
+  }
+  /*预定商品*/
+  OrderProduct(id){
+    const url = this.ipSetting.ip +"/publicresource/share/reserveProduct/"+id;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  /*获取当前用户已预定的商品*/
+  getReserveProductList(postData,pageNo,pageSize){
+    const url = this.ipSetting.ip + "/publicresource/share/getReserveProduct/"+pageNo+"/"+pageSize;
+    return this.http.post(url,postData,this.options)
+      .map(res => res.json());
+  }
+  /*取消预订*/
+  cancelOrderProduct(id){
+    const url = this.ipSetting.ip +"/publicresource/share/cancelProduct/"+id;
+    return this.http.get(url,this.options)
       .map(res => res.json());
   }
 }

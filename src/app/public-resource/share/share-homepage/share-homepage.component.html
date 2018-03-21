@@ -3,7 +3,7 @@
   <div class="count-left">
     <div class="count-inner">
     <h4 class="goods-hd">
-      <em class="fn1">我的信息</em>
+      <em class="fn1">信息管理</em>
       <p>
         <span class="subtitle"></span>
       </p>
@@ -15,28 +15,28 @@
         <a [routerLink]="['../myPush']">
           <span class="count-point">9</span>
           <div class="count-icon"><i class="icon-call-in"></i></div>
-          已发布
+          我的物品
         </a>
       </li>
       <li>
         <a [routerLink]="['../check']">
           <span class="count-point">2</span>
           <div class="count-icon"><i class="icon-hourglass"></i></div>
-          待审核
+          我的审核
         </a>
       </li>
       <li>
-        <a>
+        <a [routerLink]="['../reserve']">
           <span class="count-point">9</span>
           <div class="count-icon"><i class="icon-speech"></i></div>
-          已预定
+          我的预定
         </a>
       </li>
       <li>
         <a>
           <span class="count-point">9</span>
           <div class="count-icon"><i class="icon-bubbles"></i></div>
-          待交易
+          我的交易
         </a>
       </li>
     </ul>
@@ -56,10 +56,10 @@
 </div>
 
 <div class="goods-area">
-  <!--共享商品-->
+  <!--共享物品-->
   <div class="goods-inner">
     <h4 class="goods-hd">
-      <em class="fn3">共享商品</em>
+      <em class="fn3">共享物品</em>
       <p>
         <span class="subtitle"></span>
       </p>
@@ -80,7 +80,7 @@
           </div>
           <div class="goods-msg">
             <h5>{{product.name}}</h5>
-            <p class="marker-type"><span>总量{{product.amount}}件</span></p>
+            <p class="marker-type"><span>库存{{product.amount}}件</span></p>
             <div class="btn-form-back">
               <span>¥{{product.unitPrice| number:'1.2-2'}}</span>
               <a class="btn_yuding"  [routerLink]="['../detail',product.id]">预订</a>

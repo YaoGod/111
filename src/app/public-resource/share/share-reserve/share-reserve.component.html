@@ -1,0 +1,87 @@
+<div class="content-area">
+  <div class="content-inner">
+    <!--页面标题-->
+    <div class="nav-title">
+      <a><h4>我的预定</h4></a>
+      <div class="b-head-right">
+        <div class="content-box" tabindex="0" onclick="history.go(-1)">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>
+    </div>
+    <!--搜索栏-->
+    <div class="search-bar">
+      <ul>
+        <li><label>物品名称</label>
+          <input type="text" name="search" [(ngModel)]="search.name">
+        </li>
+        <li>
+          <a (click)="getReserveProductList(1);"><i class="icon-magnifier"></i>查询</a>
+        </li>
+      </ul>
+    </div>
+    <!--表头-->
+    <div class="table-head" style="margin-top: 10px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row list-title" style="height:45px;">
+          <th width="10%" class="text-left">商品名称</th>
+          <th width="20%">图片</th>
+          <th width="15%">单价</th>
+          <th width="15%">数量</th>
+          <th width="15%">预定时间</th>
+          <th width="15%">状态</th>
+          <th width="10%" class="text-left">操作</th>
+        </tr>
+      </table>
+    </div>
+    <!--表格内容-->
+    <div class="table-content" style="min-height: 500px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row"  style="height:100px;" *ngFor="let product of shareProducts;let i = index">
+          <td width="10%" class="text-left">
+            <span>
+              {{product.name}}
+            </span>
+          </td>
+          <td width="20%" class="box-demo">
+            <img *ngIf="product.imgPathList&&product.imgPathList.length>0"
+                 [src]="product.imgPathList[0] | imgsafeurl">
+          </td>
+          <td width="15%">
+            {{product.unitPrice| number:'1.2-2'}}
+          </td>
+          <td width="15%">
+            1
+          </td>
+          <td width="15%">
+            {{product.createTime| date:'yyyy/MM/dd HH:mm:ss'}}
+          </td>
+          <td width="15%">
+            <span *ngIf="product.status==='reserve'">已预订</span>
+            <span *ngIf="product.status==='cancel'">已取消</span>
+            <span *ngIf="product.status==='cancel'">交易成功</span>
+          </td>
+          <td width="10%" class="box-option">
+            <a class="text-left" [routerLink]="['../detail',product.id]">
+              <i class="icon-screen-desktop"></i>详情
+            </a>
+            <a class="text-left" (click)="cancelOrderProduct(product.id)">
+              <i class="icon-action-undo"></i>取消预订
+            </a>
+          </td>
+        </tr>
+      </table>
+      <div class="div-none" *ngIf="shareProducts.length === 0">
+        <p>暂无信息</p>
+      </div>
+    </div>
+    <!--翻页-->
+    <app-turn-bar
+      [pageNo] = "pageNo"
+      [pageSize] = "pageSize"
+      [total] = "total"
+      (turnEvent) = "getReserveProductList($event)">
+    </app-turn-bar>
+
+  </div>
+</div>

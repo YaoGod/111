@@ -4,6 +4,7 @@ import {ShareProductPublicService} from "../../../service/share-product-public/s
 import {ShareProduct} from "../../../mode/shareProduct/share-product.service";
 import {ActivatedRoute, Router} from "@angular/router";
 declare var $:any;
+declare var confirmFunc:any;
 @Component({
   selector: 'app-share-detail',
   templateUrl: './share-detail.component.html',
@@ -51,7 +52,18 @@ export class ShareDetailComponent implements OnInit {
   chooseImg(i){
     this.shareProduct.imgPath = this.shareProduct.imgPathList[i];
   }
+  /*预定商品*/
   OrderProduct(id){
-
+    this.shareProductPublicService.OrderProduct(id)
+      .subscribe(data=>{
+        if(this.errorResponseService.errorMsg(data)){
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data.msg,
+            'popType': 2,
+            'imgType': 1,
+          });
+        }
+      })
   }
 }
