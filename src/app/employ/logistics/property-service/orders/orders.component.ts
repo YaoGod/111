@@ -58,6 +58,7 @@ export class OrdersComponent implements OnInit {
     this.getDeptName();
     this.getTypeSelect();
     this.getRepairDept();
+
     this.URL = this.ipSetting.ip;
   }
   getRule(){
@@ -99,6 +100,31 @@ export class OrdersComponent implements OnInit {
         this.useful = this.unique(res);
       }
     });
+  }
+  getServerSelect(id,type){
+    let url = "/employee/property/getServerSelect?buildingID="+id+'&type='+type;
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        this.usefulSecond = data.data;
+        for(let i=0;i<this.usefulSecond.length;i++){
+          // console.log(this.usefulSecond.length);
+          if(this.usefulSecond.length===1 && (!this.usefulSecond[0].servername||this.usefulSecond[0].servername==='')){
+            this.repairname.amount = this.usefulSecond[0].amount;
+          }
+        }
+      }
+    });
+  }
+  queryName(servername){
+    if(servername){
+      this.repairname.amount = this.usefulSecond[0].amount;
+    }else{
+      for(let i=0;i<this.usefulSecond.length;i++){
+        if(this.usefulSecond[i].servername === servername){
+          this.repairname.amount = this.usefulSecond[i].amount;
+        }
+      }
+    }
   }
   /*获取二级服务内容*/
   getNameSelect(name,current){

@@ -141,7 +141,6 @@
       <div class="form-control">
         <span class="form-label">服务房间</span>
         <div class="form-inp">
-          <!--<input type="text" id="roomNum" class="company-ipt" name="roomNum" [(ngModel)]="repairname.roomId" required maxlength="9">-->
           <select type="text" id="roomNum" class="company-ipt company-sel" name="roomNum" [(ngModel)]="repairname.roomId">
             <option value="">-请选择-</option>
             <option *ngFor="let room of rooms" [value]="room.roomNum">{{room.roomNum}}</option>
@@ -153,7 +152,7 @@
         <span class="form-label">服务项目</span>
         <div class="form-inp">
           <select id="type" name="type" class="company-ipt company-sel" [(ngModel)]="repairname.type"
-                  (blur)="verifyservername()" (change)="getNameSelect(repairname.type,'')">
+                  (blur)="verifyservername()" (change)="getServerSelect(repairname.buildingId,repairname.type)">
             <option value="">请选择</option>
             <option *ngFor="let abc of useful" [value]="abc">{{abc}}</option>
           </select>
@@ -164,15 +163,16 @@
         <span class="form-label">服务内容</span>
         <div class="form-inp">
           <select id="servername" name="servername" class="company-ipt company-sel" [(ngModel)]="repairname.servername"
-                  (change)="getNameSelect(repairname.type,repairname.servername)">
+                  (change)="queryName(repairname.servername)">
             <option value="">请选择</option>
-            <option *ngFor="let abc of usefulSecond; let k=index" [value]="abc.name">{{abc.name}}</option>
+            <option *ngFor="let abc of usefulSecond; let k=index" [value]="abc.servername">{{abc.servername}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control  clearfix" *ngIf="onNum==='1'">
-        <span class="form-label">库存数量</span>
+      <div class="form-control  clearfix" *ngIf="repairname.amount">
+        <span class="form-label" *ngIf="repairname.type!=='节假日停车'">剩余库存数量</span>
+        <span class="form-label" *ngIf="repairname.type==='节假日停车'">剩余车位</span>
         <div class="form-inp">
           <input id="number" name="number" type="number" class="company-ipt company-sel" [(ngModel)]="repairname.amount">
           <span class="errorMessage"></span>
