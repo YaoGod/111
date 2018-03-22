@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import * as $ from 'jquery';
 import { VegetableOrder} from '../../../../mode/vegetableOrder/vegetable-order.service';
 import { VegetableOrderItem} from '../../../../mode/vegetableOrderItem/vegetable-order-item.service'
 import { VegetableInfoService } from '../../../../service/vegetable-info/vegetable-info.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
 import { IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 import {ActivatedRoute, Params} from "@angular/router";
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+import * as $ from 'jquery';
 declare var confirmFunc:any;
 @Component({
   selector: 'app-myorder',

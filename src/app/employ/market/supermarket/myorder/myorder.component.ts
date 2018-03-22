@@ -5,6 +5,8 @@ import {SupermarketOrder} from "../../../../mode/supermarketOrder/supermarket-or
 import * as $ from 'jquery';
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 import {ActivatedRoute,Params} from "@angular/router";
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
 declare var confirmFunc:any;
 @Component({
   selector: 'app-myorder',

@@ -5,8 +5,9 @@ import {UtilBuildingService} from "../../../service/util-building/util-building.
 import {InfoBuildingService} from "../../../service/info-building/info-building.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
-import {isUndefined} from "util";
-
+import {ActivatedRoute, Params} from "@angular/router";
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
 
 declare var $: any;
 declare var confirmFunc: any;
@@ -39,8 +40,10 @@ export class DeviceComponent implements OnInit {
   public modelList:any;
   public maintenList:any;
   public URL = this.ipSetting.ip + "/common/file/downLoadFile?path=";
+  public chooseId;
   constructor(
     private http: Http,
+    private route: ActivatedRoute,
     private errorVoid:ErrorResponseService,
     private utilBuildingService:UtilBuildingService,
     private globalCatalogService:GlobalCatalogService,
@@ -75,11 +78,24 @@ export class DeviceComponent implements OnInit {
     this.getBuildings();
     this.getDeviceList('','');
     this.getPeople();
-    this.repairSearch(1);
     $('.box1').hide();
     $('.box2').show();
     $('.device-arch').fadeIn();
     $('.guard-company').hide();
+    if(typeof (this.route.params['_value']['id']) === "undefined"){
+      this.chooseId = "";
+      this.repairSearch(1);
+    }else{
+      let tempid: number = 0;
+      this.route.params
+        .switchMap((params: Params) => this.chooseId = params['id'])
+        .subscribe(() => {
+          if (tempid === 0) {
+            this.repairSearch(1);
+            tempid++;
+          }
+        });
+    }
   }
   /**获取权限*/
   private getQuan(){
@@ -147,7 +163,7 @@ export class DeviceComponent implements OnInit {
   }
   /**获取工单*/
   private getRecordSecond(search, pageNo, pageSize) {
-    let url = "/building/equipment/getEquipmentWO/" + pageNo + "/" + pageSize;
+    let url = "/building/equipment/getEquipmentWO/" + pageNo + "/" + pageSize+"?id="+this.chooseId;
     this.ipSetting.sendPost(url,search)
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {

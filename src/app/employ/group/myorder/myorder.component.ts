@@ -7,6 +7,8 @@ import { ErrorResponseService } from '../../../service/error-response/error-resp
 import {GroupProductService} from "../../../service/group-product/group-product.service";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 import {ActivatedRoute,Params} from "@angular/router";
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
 declare var $:any;
 declare var confirmFunc: any;
 
