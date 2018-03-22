@@ -154,9 +154,9 @@ export class ContentComponent implements OnInit {
   editAttach(index){
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
-    // console.log(this.repairname);
     this.getCompanys(this.repairname.buildingId);
     this.getNameSelect(this.repairname.type,this.repairname.servername);
+    this.getPersonSelect(this.repairname.companyId);
     $('.mask').fadeIn();
     $('.mask-head p').html('编辑物业服务');
   }
@@ -166,11 +166,18 @@ export class ContentComponent implements OnInit {
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         this.people = data['data'];
+        for(let i=0;i<data.data.length;i++){
+          if(this.repairname.serverPersonName === data.data[i].personName){
+            this.repairname.serverPersonId = data.data[i].personId;
+            this.repairname.serverPersonTel = data.data[i].personPhone;
+          }
+        }
+
       }
     })
   };
   queryName(name){
-    if(name === ''){
+    if( name === ''){
       this.repairname.serverPersonId = '';
       this.repairname.serverPersonTel = '';
     }else{

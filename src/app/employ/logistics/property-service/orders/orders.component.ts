@@ -116,17 +116,18 @@ export class OrdersComponent implements OnInit {
     });
   }
   queryName(porpertyId){
-    if(porpertyId){
+    if(!porpertyId||porpertyId===''){
       this.repairname.amount = this.usefulSecond[0].amount;
       this.repairname.serverPersonName = this.usefulSecond[0].serverPersonName;
       this.repairname.serverPersonTel = this.usefulSecond[0].serverPersonTel;
     }else{
       for(let i=0;i<this.usefulSecond.length;i++){
-        if(this.usefulSecond[i].porpertyId === porpertyId){
-          this.repairname.serverPersonTel = this.usefulSecond[i].serverPersonTel;
+        if(this.usefulSecond[i].id == porpertyId){
+          this.repairname.amount = this.usefulSecond[i].amount;
         }
       }
     }
+
   }
   /*获取二级服务内容*/
   getNameSelect(name,current){
