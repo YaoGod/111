@@ -27,5 +27,8 @@ export class ShareProduct {
   telNum      : string;  /*发起者电话*/
   userDeptId  : string;
   userDeptName: string;
+  userDept    : string;
 
+  productId   : string;
+  productName : string;
 }

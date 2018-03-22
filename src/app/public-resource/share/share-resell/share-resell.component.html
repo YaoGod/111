@@ -1,0 +1,99 @@
+<div class="content-area">
+  <div class="content-inner">
+    <!--页面标题-->
+    <div class="nav-title">
+      <a><h4>我的转卖</h4></a>
+      <div class="b-head-right">
+        <div class="content-box" tabindex="0" onclick="history.go(-1)">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>
+    </div>
+    <!--搜索栏-->
+    <div class="search-bar">
+      <ul>
+        <li><label>物品名称</label>
+          <select type="text" name="search" [(ngModel)]="search.id">
+            <option value="">全部</option>
+            <option *ngFor="let name of nameList" [value]="name.id">{{name.name}}</option>
+          </select>
+        </li>
+        <li>
+          <a (click)="getResellProductList(1);"><i class="icon-magnifier"></i>查询</a>
+        </li>
+      </ul>
+    </div>
+    <!--表头-->
+    <div class="table-head" style="margin-top: 10px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row list-title" style="height:45px;">
+          <th width="10%">预定人姓名</th>
+          <th width="10%">预定人部门</th>
+          <th width="10%">预定人电话</th>
+          <th width="10%">预定/成交</th>
+          <th width="10%" class="text-left">物品名称</th>
+          <th width="10%">数量</th>
+          <th width="10%">金额</th>
+          <th width="10%">预定时间</th>
+          <th width="10%">成交时间</th>
+          <th width="10%">操作</th>
+        </tr>
+      </table>
+    </div>
+    <!--表格内容-->
+    <div class="table-content" style="min-height: 500px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row"  style="height:100px;" *ngFor="let product of shareProducts;let i = index">
+          <td width="10%">
+            {{product.userName}}
+          </td>
+          <td width="10%">
+            {{product.userDept}}
+          </td>
+          <td width="10%">
+            {{product.telNum}}
+          </td>
+          <td width="10%">
+            <span *ngIf="product.status==='reserve'">已预订</span>
+            <span *ngIf="product.status==='cancel'">已取消</span>
+            <span *ngIf="product.status==='cancel'">交易成功</span>
+          </td>
+          <td width="10%" class="text-left">
+            {{product.productName}}
+          </td>
+          <td width="10%">
+            {{product.amount}}
+          </td>
+          <td width="10%">
+            {{product.unitPrice}}
+          </td>
+          <td width="10%">
+            {{product.createTime}}
+          </td>
+          <td width="10%">
+            {{product.createTime}}
+          </td>
+          <td width="10%" class="box-option">
+            <a class="text-left">
+              <i class="icon-magic-wand"></i>交易
+            </a>
+            <a class="text-left">
+              <i class="icon-action-undo"></i>退单
+            </a>
+          </td>
+        </tr>
+      </table>
+      <div class="div-none" *ngIf="shareProducts.length === 0">
+        <p>暂无信息</p>
+      </div>
+    </div>
+    <!--翻页-->
+    <app-turn-bar
+      [pageNo] = "pageNo"
+      [pageSize] = "pageSize"
+      [total] = "total"
+      (turnEvent) = "getResellProductList($event)">
+    </app-turn-bar>
+
+  </div>
+</div>

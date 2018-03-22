@@ -36,6 +36,7 @@ export class ShareReserveComponent implements OnInit {
         }
       })
   }
+  /*取消预订*/
   cancelOrderProduct(id){
     this.shareProductPublicService.cancelOrderProduct(id)
       .subscribe(data=>{

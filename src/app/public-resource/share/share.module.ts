@@ -13,6 +13,7 @@ import {ImgurlModule} from "../../pipe/imgurl/imgurl.module";
 import {ShareProductPublicService} from "../../service/share-product-public/share-product-public.service";
 import {TurnBarModule} from "../../component/turn-bar/turn-bar.module";
 import { ShareReserveComponent } from './share-reserve/share-reserve.component';
+import { ShareResellComponent } from './share-resell/share-resell.component';
 const routes: Routes = [
   {
     path: '',
@@ -52,6 +53,14 @@ const routes: Routes = [
         path: "reserve",
         component: ShareReserveComponent
       },
+      {
+        path: "resell",
+        component: ShareResellComponent
+      },
+      {
+        path: "resell/:id",
+        component: ShareResellComponent
+      },
     ]
   }
 ];
@@ -65,8 +74,7 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [ShareProductPublicService],
-  declarations: [ShareComponent, ShareHomepageComponent, ShareDetailComponent,
-    ShareMypushComponent, ShareCheckComponent, ShareNewProductComponent,
-    ShareReserveComponent]
+  declarations: [ShareComponent, ShareHomepageComponent, ShareDetailComponent, ShareMypushComponent,
+    ShareCheckComponent, ShareNewProductComponent, ShareReserveComponent, ShareResellComponent]
 })
 export class ShareModule { }

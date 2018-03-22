@@ -96,4 +96,20 @@ export class ShareProductPublicService {
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
+  /*获取当前用户已预定的商品*/
+  getResellProductList(postData,pageNo,pageSize){
+    if(typeof (postData.id) === "undefined"){
+      postData.id = "";
+    }
+    const url = this.ipSetting.ip + "/publicresource/share/getProductReport/list/"
+      +pageNo+"/"+pageSize+"?id=" + postData.id;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  /*商品下拉列表*/
+  getProductSelect(){
+    const url = this.ipSetting.ip +"/publicresource/share/getProductSelect";
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
 }

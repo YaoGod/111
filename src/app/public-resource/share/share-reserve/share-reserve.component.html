@@ -65,7 +65,8 @@
             <a class="text-left" [routerLink]="['../detail',product.id]">
               <i class="icon-screen-desktop"></i>详情
             </a>
-            <a class="text-left" (click)="cancelOrderProduct(product.id)">
+            <a class="text-left" *ngIf="product.status==='reserve'"
+               (click)="cancelOrderProduct(product.id)">
               <i class="icon-action-undo"></i>取消预订
             </a>
           </td>
