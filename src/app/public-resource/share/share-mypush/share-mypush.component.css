@@ -151,6 +151,7 @@ select:focus{
 .row td>input[type=text]:focus,.row td>select:focus,.row td>textarea:focus{
   border-color: #333333;
 }
+
 .row-add td{
   background-color: #ebeff7;
 }
@@ -159,6 +160,7 @@ select:focus{
   cursor: pointer;
 }
 td>img{
+  height: 80px;
   vertical-align: middle;
 }
 .tb-text{
@@ -171,4 +173,18 @@ td>img{
 }
 .tb-text:hover{
   overflow: auto;
+}
+.box-option>a{
+  display: block;
+  line-height: 26px;
+  font-size: 10px;
+  color: #686868;
+  transition-duration: 500ms;
+  cursor: pointer;
+}
+.box-option>a:hover{
+  color: #fb9678;
+}
+.text-left, .row .text-left{
+  text-align: left;
 }

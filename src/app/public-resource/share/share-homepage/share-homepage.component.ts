@@ -15,6 +15,7 @@ export class ShareHomepageComponent implements OnInit {
   public total = 0;
   public search:ShareProduct;
   public shareProducts:Array<ShareProduct>;
+  public tips : Array<any>;
   constructor(
     private shareProductPublicService: ShareProductPublicService,
     private errorResponseService:ErrorResponseService,
@@ -22,9 +23,12 @@ export class ShareHomepageComponent implements OnInit {
 
   ngOnInit() {
     this.shareProducts = [];
+    this.tips = [{'NUM':0},{'NUM':0},{'NUM':0},{'NUM':0},{'isAdmin':false}];
     this.search = new ShareProduct();
+    this.getItemNum();
     this.getProductList(1);
   }
+  /*获取可预订商品列表*/
   getProductList(pageNo){
     this.pageNo = pageNo;
     this.shareProductPublicService.getShowProductList(this.search,this.pageNo,this.pageSize)
@@ -32,6 +36,15 @@ export class ShareHomepageComponent implements OnInit {
         if(this.errorResponseService.errorMsg(data)){
           this.shareProducts = data.data.infos;
           this.total = data.data.total;
+        }
+      })
+  }
+  /*获取提示数字*/
+  getItemNum(){
+    this.shareProductPublicService.getItemNum()
+      .subscribe(data=>{
+        if(this.errorResponseService.errorMsg(data)){
+          this.tips = data.data;
         }
       })
   }

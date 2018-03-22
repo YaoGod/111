@@ -66,7 +66,7 @@ export class ShareProductPublicService {
     return this.http.post(url,postData,this.options)
       .map(res => res.json());
   }
-  /*首页显示可预订的商品列表*/
+  /*我的物品列表*/
   getProductList(postData,pageNo,pageSize){
     const url = this.ipSetting.ip + "/publicresource/share/getProductManage/"+pageNo+"/"+pageSize;
     return this.http.post(url,postData,this.options)
@@ -109,6 +109,12 @@ export class ShareProductPublicService {
   /*商品下拉列表*/
   getProductSelect(){
     const url = this.ipSetting.ip +"/publicresource/share/getProductSelect";
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  /*获取首页提示数字*/
+  getItemNum(){
+    const url = this.ipSetting.ip +"/publicresource/share/getItemNum";
     return this.http.get(url,this.options)
       .map(res => res.json());
   }

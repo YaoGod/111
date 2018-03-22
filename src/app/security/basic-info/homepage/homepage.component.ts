@@ -26,6 +26,7 @@ export class HomepageComponent implements OnInit {
   public search    :Building ; /*搜索字段*/
   public newBuilding = new Building();
   public rule : sndCatalog = new sndCatalog();
+  public companyList: Array<string>;
   constructor(
     private infoBuildingService:InfoBuildingService,
     private errorVoid:ErrorResponseService,
@@ -43,6 +44,8 @@ export class HomepageComponent implements OnInit {
         this.rule = this.globalCatalogService.getRole("security/basic");
       }
     );
+    this.companyList = ['市公司','武林分公司','江干分公司','西湖分公司','拱墅分公司','滨江分公司','下沙分公司',
+    '萧山分公司','余杭分公司','富阳分公司','建德分公司','淳安分公司','桐庐分公司','临安分公司'];
     this.search = new Building();
     this.search.type = '';
     this.search.use = '';

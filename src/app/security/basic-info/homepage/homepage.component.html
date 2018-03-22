@@ -138,8 +138,7 @@
                             [(ngModel)]="newBuilding.belongTo"
                            (blur)="verifyEmpty(newBuilding.belongTo,'belongTo')">
                     <option value="">请选择</option>
-                    <option value="市公司">市公司</option>
-                    <option value="县区分公司">县区分公司</option>
+                    <option *ngFor="let company of companyList" [value]="company">{{company}}</option>
                   </select>
                 </label>
                 <div class="error"></div>

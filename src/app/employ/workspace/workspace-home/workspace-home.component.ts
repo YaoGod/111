@@ -5,6 +5,7 @@ import {WorkspaceMydeskService} from "../../../service/workspace-mydesk/workspac
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
+declare var confirmFunc:any;
 @Component({
   selector: 'app-workspace-home',
   templateUrl: './workspace-home.component.html',
@@ -241,9 +242,13 @@ export class WorkspaceHomeComponent implements OnInit {
       this.workspaceMydeskService.setMyService(this.myServiceCenter)
         .subscribe(data=>{
           if(this.errorResponseService.errorMsg(data)){
-            if(data.msg!=="操作成功"){
-              this.getMyServiceCenter();
-            }
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': '已将归属服务中心改至'+this.myServiceCenter,
+              'popType': 0 ,
+              'imgType': 1 ,
+            });
+            this.getMyServiceCenter();
           }
         })
     }

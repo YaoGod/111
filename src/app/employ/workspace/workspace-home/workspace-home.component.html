@@ -51,8 +51,8 @@
   <div class="section" style="width: 100%">
     <div class="section-panel">
       <h3 class="goods-hd">
-        <em class="fn1">服务中心</em>
-        <span class="tb-fn1">
+        <em class="fn3">服务中心</em>
+        <span class="tb-fn">当前归属:&nbsp;&nbsp;
         <a>
         <select name="myService" [(ngModel)]="myServiceCenter" (change)="changeMyService()">
           <option value="" *ngIf="myServiceCenter===''">请选择</option>
@@ -61,13 +61,29 @@
         </a>
       </span>
       </h3>
-      <table class="service-list">
-       <tr *ngFor="let service of serviceCenters">
-         <td>{{service.name}}</td>
-         <td>周一至周五 上午9：00-11：00 下午14:00-16:00</td>
-       </tr>
+      <table class="service-list" *ngIf="myServiceCenter">
+        <tr>
+         <td width="30%">服务时间</td>
+         <td>工作日 上午8：30-11：30 下午12:00-17:30</td>
+        </tr>
+        <tr>
+          <td width="30%">服务对象</td>
+          <td>本大楼公司员工</td>
+        </tr>
+        <tr>
+          <td width="30%">服务内容</td>
+          <td>
+            <p *ngIf="myServiceCenter!=='上塘服务中心'">
+              <span>报刊杂志：</span>集中代收分发、各自上门领取</p>
+            <p><span>衣服干洗：</span>定期安排专业洗衣机构人员驻点取送</p>
+            <p><span>失物招领：</span>凭有效证件领取</p>
+            <p><span>临时寄存：</span>凭有效证件寄存</p>
+            <p><span>雨伞等借用：</span>凭有效证件借用</p>
+            <p *ngIf="myServiceCenter!=='上塘服务中心'">
+              <span>自助熨烫：</span>提供熨烫设备供工作服资助熨烫</p>
+          </td>
+        </tr>
       </table>
-      <div class="div-none" *ngIf="!serviceCenters">暂无数据</div>
     </div>
   </div>
 </div>

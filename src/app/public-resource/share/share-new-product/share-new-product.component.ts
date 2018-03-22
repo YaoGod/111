@@ -57,6 +57,12 @@ export class ShareNewProductComponent implements OnInit {
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
           this.shareProduct = data.data;
+          if(this.shareProduct.imgPath!==null){
+            this.shareProduct.imgPath = this.shareProduct.imgPath.split(',');
+          }
+          if (this.shareProduct.imgPathList.length>0){
+            this.showImg = this.shareProduct.imgPathList[0];
+          }
         }
       })
   }
@@ -114,6 +120,7 @@ export class ShareNewProductComponent implements OnInit {
           this.shareProduct.imgPath.push(data.msg);
           this.shareProduct.imgPathList.push(window.URL.createObjectURL(files[0]));
           this.showImg = this.shareProduct.imgPathList[this.shareProduct.imgPathList.length-1];
+        console.log(this.shareProduct);
         }
         $('#press').val('');
       }else if(xhr.readyState === 4 && xhr.status === 413 ){
@@ -130,6 +137,13 @@ export class ShareNewProductComponent implements OnInit {
   delImgPath(index){
     this.shareProduct.imgPathList.splice(index,1);
     this.shareProduct.imgPath.splice(index,1);
+    if(index === this.shareProduct.imgPath.length&&index!==0){
+      console.log(index);
+      this.showImg = this.shareProduct.imgPathList[this.shareProduct.imgPathList.length-1];
+    }
+    if(this.shareProduct.imgPathList.length === 0){
+      delete this.showImg;
+    }
   }
   /*提交商品*/
   submit(){
@@ -148,10 +162,10 @@ export class ShareNewProductComponent implements OnInit {
                 'popType': 2,
                 'imgType': 1,
                 "callback": () => {
-                  this.router.navigate(['../check'],{relativeTo:this.route});
+                  this.router.navigate(['../mypush'],{relativeTo:this.route});
                 },
                 "cancel": () => {
-                  this.router.navigate(['../check'],{relativeTo:this.route});
+                  this.router.navigate(['../mypush'],{relativeTo:this.route});
                 }
               });
             }

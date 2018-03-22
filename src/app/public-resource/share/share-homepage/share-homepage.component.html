@@ -13,28 +13,28 @@
     <ul class="count-list">
       <li>
         <a [routerLink]="['../myPush']">
-          <span class="count-point">9</span>
+          <span class="count-point" *ngIf="tips[0].NUM!==0">{{tips[0].NUM}}</span>
           <div class="count-icon"><i class="icon-call-in"></i></div>
           我的物品
         </a>
       </li>
-      <li>
+      <li *ngIf="tips[4].isAdmin">
         <a [routerLink]="['../check']">
-          <span class="count-point">2</span>
+          <span class="count-point" *ngIf="tips[1].NUM!==0">{{tips[1].NUM}}</span>
           <div class="count-icon"><i class="icon-hourglass"></i></div>
           我的审核
         </a>
       </li>
       <li>
         <a [routerLink]="['../reserve']">
-          <span class="count-point">9</span>
+          <span class="count-point" *ngIf="tips[2].NUM!==0">{{tips[2].NUM}}</span>
           <div class="count-icon"><i class="icon-speech"></i></div>
           我的预定
         </a>
       </li>
       <li>
         <a [routerLink]="['../resell']">
-          <span class="count-point">9</span>
+          <span class="count-point" *ngIf="tips[3].NUM!==0">{{tips[3].NUM}}</span>
           <div class="count-icon"><i class="icon-bubbles"></i></div>
           我的转卖
         </a>
@@ -83,7 +83,7 @@
             <p class="marker-type"><span>库存{{product.amount}}件</span></p>
             <div class="btn-form-back">
               <span>¥{{product.unitPrice| number:'1.2-2'}}</span>
-              <a class="btn_yuding"  [routerLink]="['../detail',product.id]">预订</a>
+              <a class="btn_yuding"  [routerLink]="['../detail',product.id]">详情</a>
             </div>
             <p>开始时间：{{product.bTime|date:'yyyy/MM/dd HH:mm:ss'}}</p>
             <p>结束时间：{{product.eTime|date:'yyyy/MM/dd HH:mm:ss'}}</p>
