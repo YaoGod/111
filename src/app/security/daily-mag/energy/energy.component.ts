@@ -460,7 +460,7 @@ export class GuardName {
   nomNum: string;// 本期度数
   useNum: string;// 使用度数
   unitprice: string;// 单价
-  cost: string;// 费用
+  cost:string;
   energyCost: string; // 能耗费
   payMethod:string; // 缴费方式
   mark: string; // 备注

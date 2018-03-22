@@ -48,7 +48,7 @@ export class ContentComponent implements OnInit {
     this.pages = [];
     this.tempMsg = [];
     this.getBuildings();
-    // this.getCompany();
+    this.getCompany();
     this.getTypeSelect();
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
   }
@@ -60,7 +60,10 @@ export class ContentComponent implements OnInit {
         }
       })
   }
-
+  public innnerPost(){
+    // this.searchArch.buildingId = this.searchArch.buildingName;
+    this.repairSearch(1);
+  }
   /*获取大楼列表*/
   private getBuildings() {
     this.utilBuildingService.getBuildingList('')
@@ -131,19 +134,6 @@ export class ContentComponent implements OnInit {
       }
     });
   }
-  /*获取服务内容*/
-  /*getService(info){
-    let url = "/employee/property/getServerTypeList/1/999";
-    let postData = {
-      'type': info
-    };
-    this.ipSetting.sendPost(url, postData).subscribe(data => {
-      if(this.errorVoid.errorMsg(data)) {
-        this.serverName = data['data'].infos;
-        this.total =  data['data'].total;
-      }
-    });
-  }*/
   public unique(arr){
     var res =[];
     var json = {};
@@ -242,6 +232,7 @@ export class ContentComponent implements OnInit {
   addCompany() {
     this.repairname = new GuardName();
     this.editBool = true;
+    this.getCompany();
     this.getBuildings();
     $('.mask').fadeIn();
     $('.mask-head p').html('新增物业服务');
@@ -405,8 +396,7 @@ export class GuardName {
   serverPersonTel: string; // 责任人电话
 }
 export class Arch {
-  buildingId: string; // 大楼编号
-  buildingName: string='';  // 大楼名称
+  buildingId: string=''; // 大楼编号
   type: string='';   // 服务项目
   companyName: string=''; // 服务公司名称
 }

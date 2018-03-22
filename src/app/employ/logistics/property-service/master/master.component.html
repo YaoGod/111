@@ -30,11 +30,11 @@
       <tr *ngFor="let inner of serverName; let i=index">
         <td>{{inner.type}}</td>
         <td>{{inner.name}}</td>
-        <td><!-- *ngIf="rule&&(rule.isUpdate||rule.isDelete)"-->
-          <a href="javascript:void(0)" class="text-inverse" *ngIf="rule&&rule.isUpdate" (click)="editAttach(i);" style="padding-right: 10px;">
+        <td  *ngIf="rule&&(rule.isUpdate||rule.isDelete)">
+          <a href="javascript:void(0)" class="text-inverse" (click)="editAttach(i);" style="padding-right: 10px;">
             <i class="icon-pencil"></i>
           </a>
-          <a href="javascript:void(0)" class="text-inverse" *ngIf="rule&&rule.isDelete" (click)="delAttach(inner.id);">
+          <a href="javascript:void(0)" class="text-inverse" (click)="delAttach(inner.id);">
             <i class="icon-trash"></i>
           </a>
         </td>

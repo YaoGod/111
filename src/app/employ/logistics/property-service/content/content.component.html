@@ -3,9 +3,10 @@
     <ul class="search clearfix">
       <li>
         <label>大楼名称</label>
-        <select  name="searchArchBuildingName" class="search-sel" [(ngModel)]="searchArch.buildingName">
+        <select  name="searchArchBuildingName" class="search-sel" [(ngModel)]="searchArch.buildingId"
+                 (change)="getCompanys(searchArch.buildingId)">
           <option value="">-全部-</option>
-          <option *ngFor="let num of buildings" [value]="num.NAME">{{num.NAME}}</option>
+          <option *ngFor="let num of buildings" [value]="num.ID">{{num.NAME}}</option>
         </select>
       </li>
       <li>
@@ -26,7 +27,7 @@
         </select>
       </li>
     </ul>
-    <div class="search-right"><a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a></div>
+    <div class="search-right"><a href="javascript:;" class="search-btn" (click)="repairSearch(1);"><i class="icon-magnifier"></i> 查 询</a></div>
   </div>
   <div class="row text-right" *ngIf="rule&&rule.isInstall">
     <a class="btn btn-new" href="javascript:;" (click)="addCompany()"><i class="icon-plus"></i> 新 增</a>

@@ -347,26 +347,25 @@ input{
   flex: 0 0 65%;
   max-width: 65%;
 }
-.form-btn{
+.form-examine{
   position: absolute;
-  right:10px;
-  top:50px;
+  right:1%;
+  top:20px;
   cursor: pointer;
-  width:25px;
-  height:25px;
-  line-height:25px;
-  border-radius: 50%;
-  background-color: #fb9678;
+  width:40px;
+}
+.form-btn{
+  line-height:20px;
+  margin-bottom:5px;
+  font-size: 12px;
+  border-radius:4px;
+  background-color: #66CCFF;
   color:#fff;
   text-align: center;
-  border:1px solid #fff;
   opacity:0;
   transition: all .5s;
 }
-.form-del{
-  top:10px;
-  background-color: #ccc;
-}
+.form-del{}
 .form-msg:hover{
   border-color:#ccc;
 }
@@ -384,7 +383,7 @@ input{
   right:25%;
   top:10px;
   width:18%;
-  height:100%;
+  height:90%;
 }
 .form-detail h4,.form-attach h4{
   text-indent: 2em;

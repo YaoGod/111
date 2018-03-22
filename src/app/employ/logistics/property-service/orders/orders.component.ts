@@ -108,20 +108,22 @@ export class OrdersComponent implements OnInit {
         this.usefulSecond = data.data;
         for(let i=0;i<this.usefulSecond.length;i++){
           // console.log(this.usefulSecond.length);
-          if(this.usefulSecond.length===1 && (!this.usefulSecond[0].servername||this.usefulSecond[0].servername==='')){
+          if(this.usefulSecond.length===1 && (!this.usefulSecond[0].porpertyId||this.usefulSecond[0].porpertyId==='')){
             this.repairname.amount = this.usefulSecond[0].amount;
           }
         }
       }
     });
   }
-  queryName(servername){
-    if(servername){
+  queryName(porpertyId){
+    if(porpertyId){
       this.repairname.amount = this.usefulSecond[0].amount;
+      this.repairname.serverPersonName = this.usefulSecond[0].serverPersonName;
+      this.repairname.serverPersonTel = this.usefulSecond[0].serverPersonTel;
     }else{
       for(let i=0;i<this.usefulSecond.length;i++){
-        if(this.usefulSecond[i].servername === servername){
-          this.repairname.amount = this.usefulSecond[i].amount;
+        if(this.usefulSecond[i].porpertyId === porpertyId){
+          this.repairname.serverPersonTel = this.usefulSecond[i].serverPersonTel;
         }
       }
     }
@@ -232,12 +234,63 @@ export class OrdersComponent implements OnInit {
     });
   }
   /*编辑信息*/
-  editAttach(index){
-    this.editBool = false;
+  editAttach(index,status){
+    /*this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
     this.getFloorNameListInfo(this.repairname.buildingId);
     $('.mask').fadeIn();
-    $('.mask-head p').html('编辑物业订单');
+    $('.mask-head p').html('编辑物业订单');*/
+
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '确认订单已完成？',
+      'popType': 1,
+      'imgType': 3,
+      'callback': () => {
+        let url = "/employee/property/updateOrder";
+        let post = {
+          id:index,
+          orderStatus:status
+        };
+        this.ipSetting.sendPost(url, post).subscribe(data => {
+          if (this.errorVoid.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示',
+              'mes': data['msg'],
+              'popType': 0,
+              'imgType': 1,
+            });
+            this.getRecord(this.searchArch, this.pageNo, this.pageSize);
+          }
+        });
+      }
+    });
+  }
+  backAttach(index,status){
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '确认退单？',
+      'popType': 1,
+      'imgType': 3,
+      'callback': () => {
+        let url = "/employee/property/updateOrder";
+        let post = {
+          id:index,
+          orderStatus:status
+        };
+        this.ipSetting.sendPost(url, post).subscribe(data => {
+          if (this.errorVoid.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示',
+              'mes': data['msg'],
+              'popType': 0,
+              'imgType': 1,
+            });
+            this.getRecord(this.searchArch, this.pageNo, this.pageSize);
+          }
+        });
+      }
+    });
   }
   /*获取楼层房间信息*/
   changeSel(id){
@@ -327,15 +380,6 @@ export class OrdersComponent implements OnInit {
       url = "/employee/property/addOrder";
     }
     if (!this.verifybuildingId() || !this.verifyservername() || !this.verifydetail()) {
-      return false;
-    }
-    if( this.repairname.filePath.length<1 ) {
-      confirmFunc.init({
-        'title': '提示' ,
-        'mes': '请上传文件信息',
-        'popType': 0 ,
-        'imgType': 2 ,
-      });
       return false;
     }
     this.repairname.orderStatus = '1';
@@ -442,6 +486,9 @@ export class GuardName {
   userDept:string; // 员工部门
   userTel: string; // 电话
   type:string; // 服务项目
+  propertyType:string; // 服务项目
+  propertyName:string; // 服务内容
+  porpertyId:string; // 服务内容id
   servername:string; // 具体服务内容
   porpertyContent:string; // 服务详情
   orderId:string;     // 订单号
@@ -449,6 +496,9 @@ export class GuardName {
   filePath: string[]; // 文件路径
   fileName:string[]; // 文件名
   orderStatus:string; // 订单状态
+  username:string; // 订单人
+  serverPersonName:string; // 服务人员姓名
+  serverPersonTel:string; // 服务人员电话
 }
 export class Arch {
   buildingId: string; // 大楼Id

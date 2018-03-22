@@ -139,11 +139,11 @@
       <div class="form-control  clearfix">
         <span class="form-label">单价</span>
         <div class="form-inp">
-          <input autocomplete="off" class="company-ipt" id="unitprice" name="unitprice" required type="number" [(ngModel)]="repairname.unitprice" (blur)="verifyunitprice()" maxlength="5">
+          <input autocomplete="off" class="company-ipt" id="unitprice" name="unitprice" required type="text" [(ngModel)]="repairname.unitprice" (blur)="verifyunitprice()" maxlength="5">
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control  clearfix" *ngIf="!editBool">
+      <div class="form-control  clearfix">
         <span class="form-label" id="doubleT">水费</span>
         <div class="form-inp">
           <input autocomplete="off" class="company-ipt" name="cost" required type="number"
