@@ -38,7 +38,7 @@ export class ShareProductPublicService {
   }
   /*更新商品*/
   updateShareProduct(postData){
-    const url = this.ipSetting.ip + "/publicresource/share/uploadShareProduct";
+    const url = this.ipSetting.ip + "/publicresource/share/updateShareProduct";
     return this.http.post(url,postData,this.options)
       .map(res => res.json());
   }

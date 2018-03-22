@@ -43,7 +43,7 @@
     <!--表格内容-->
     <div class="table-content" style="min-height: 500px">
       <table border="0" cellspacing="0" cellpadding="0" class="list-box">
-        <tr class="row"  style="height:100px;" *ngFor="let product of shareProducts;let i = index">
+        <tr class="row"  style="height:40px;" *ngFor="let product of shareProducts;let i = index">
           <td width="10%">
             {{product.userName}}
           </td>
@@ -54,9 +54,7 @@
             {{product.telNum}}
           </td>
           <td width="10%">
-            <span *ngIf="product.status==='reserve'">已预订</span>
-            <span *ngIf="product.status==='cancel'">已取消</span>
-            <span *ngIf="product.status==='cancel'">交易成功</span>
+            {{product.status}}
           </td>
           <td width="10%" class="text-left">
             {{product.productName}}
@@ -65,7 +63,7 @@
             {{product.amount}}
           </td>
           <td width="10%">
-            {{product.unitPrice}}
+            {{product.price| number:'1.2-2'}}
           </td>
           <td width="10%">
             {{product.createTime}}
@@ -74,10 +72,10 @@
             {{product.createTime}}
           </td>
           <td width="10%" class="box-option">
-            <a class="text-left">
+            <a>
               <i class="icon-magic-wand"></i>交易
             </a>
-            <a class="text-left">
+            <a>
               <i class="icon-action-undo"></i>退单
             </a>
           </td>

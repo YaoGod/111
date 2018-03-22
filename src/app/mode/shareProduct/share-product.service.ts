@@ -31,4 +31,5 @@ export class ShareProduct {
 
   productId   : string;
   productName : string;
+  price       : string;
 }

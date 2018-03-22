@@ -63,6 +63,8 @@ export class ShareNewProductComponent implements OnInit {
           if (this.shareProduct.imgPathList.length>0){
             this.showImg = this.shareProduct.imgPathList[0];
           }
+          this.shareProduct.targetName = this.shareProduct.targetName.split('|').slice(1,-1);
+          this.shareProduct.targetId = this.shareProduct.targetId.split('|').slice(1,-1);
         }
       })
   }
@@ -83,6 +85,23 @@ export class ShareNewProductComponent implements OnInit {
           }
         }
       });
+  }
+  /*打开部门选择框*/
+  openChooseWin(){
+    $('#deptSltWin').show();
+    for(let i = 0;i<this.deptList.length;i++){
+      this.deptList[i].choose = false;
+    }
+    for(let i = 0;i<this.deptList.length;i++){
+      for(let j = 0 ;j<this.shareProduct.targetId.length;j++){
+        if(this.deptList[i].DEPT_ID === this.shareProduct.targetId[j]){
+          this.deptList[i].choose = true;
+        }
+        if(this.shareProduct.targetId[j] === 'all'){
+          this.isAllDept = true;
+        }
+      }
+    }
   }
   /*选取部门*/
   chooseDept(){
@@ -186,10 +205,10 @@ export class ShareNewProductComponent implements OnInit {
                     'popType': 2,
                     'imgType': 1,
                     "callback": () => {
-                      this.router.navigate(['../check'],{relativeTo:this.route});
+                      this.router.navigate(['../mypush'],{relativeTo:this.route});
                     },
                     "cancel": () => {
-                      this.router.navigate(['../check'],{relativeTo:this.route});
+                      this.router.navigate(['../mypush'],{relativeTo:this.route});
                     }
                   });
                 }

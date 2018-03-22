@@ -34,11 +34,10 @@
           <th width="15%">图片</th>
           <th width="5%">单价</th>
           <th width="5%">数量</th>
-          <th width="10%">开放时间</th>
+          <th width="15%">开放时间</th>
           <th width="15%" class="text-left">开放范围</th>
-          <th width="10%">发布时间</th>
+          <th width="15%">发布时间</th>
           <th width="10%">状态</th>
-          <th width="10%">预约人数</th>
           <th width="10%">操作</th>
         </tr>
       </table>
@@ -62,7 +61,7 @@
           <td width="5%">
             {{product.amount}}
           </td>
-          <td width="10%">
+          <td width="15%">
             <p>{{product.bTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
             <p>至</p>
             <p>{{product.eTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
@@ -72,16 +71,13 @@
               {{product.targetName}}
             </p>
           </td>
-          <td width="10%">
+          <td width="15%">
             {{product.createTime| date:'yyyy/MM/dd HH:mm:ss'}}
           </td>
           <td width="10%">
             <span *ngIf="product.status==='release'">通过</span>
             <span *ngIf="product.status==='fail'" [title]="product.checkNote">已退回</span>
             <span *ngIf="product.status==='pending_check'">待审核</span>
-          </td>
-          <td width="10%">
-
           </td>
           <td width="10%" class="box-option">
             <a [routerLink]="['../detail',product.id]">
