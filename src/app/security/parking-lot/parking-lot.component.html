@@ -1,0 +1,33 @@
+
+  <app-title></app-title>
+  <!--大楼列表展示-->
+  <div class="cont">
+    <div class="cont-nav-box">
+      <ul class="cont-nav clearfix">
+        <!--<li *ngFor="let cata of catas">
+          <a [routerLink]="cata.routeUrl" routerLinkActive="active">
+            {{cata.name}}<span></span>
+          </a>
+        </li>-->
+        <li>
+          <a [routerLink]="['./vehicle']" routerLinkActive="active">
+            车辆管理<span></span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['./permit']" routerLinkActive="active">
+            停车证管理<span></span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['./luckDraw']" routerLinkActive="active">
+            停车摇号管理<span></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="cont-inner">
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer></app-footer>
+  </div>

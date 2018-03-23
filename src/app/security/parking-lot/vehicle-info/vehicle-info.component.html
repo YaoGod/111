@@ -1,0 +1,128 @@
+<div class="wrap">
+  <div class="cont">
+    <div class="row">
+      <a href="javascript:;" class="btn search-btn" (click)="addVehicle()"><i class="icon-plus"></i>&nbsp;&nbsp;新 增</a>
+    </div>
+    <div class="cont-inner">
+      <table width="100%">
+        <thead>
+        <tr style="height: 40px; background-color: #00bce1;">
+          <th>员工姓名</th>
+          <th>员工编号</th>
+          <th>员工部门</th>
+          <th>驾驶员姓名</th>
+          <th>驾驶证号</th>
+          <th>驾驶证档案编号</th>
+          <th>车辆所有人姓名</th>
+          <th>车牌号码</th>
+          <th>车辆识别代号</th>
+          <th>发动机号码</th>
+          <th>车辆品牌型号</th>
+          <th>驾驶证照片</th>
+          <th>行驶证照片</th>
+          <th>是否停车摇号</th>
+          <th>交通费额度（元/月）</th>
+        </tr>
+        </thead>
+        <tr></tr>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="mask">
+  <div class="mask-cotainer">
+    <div class="mask-head"><i class="icon-film"></i> <p>新增车辆信息</p>
+      <button class="close" (click)="addCancel()">×</button>
+    </div>
+    <form method="post" name="topForm" class="repair-form">
+      <div class="form-control">
+        <span class="form-label">驾驶证姓名</span>
+        <div class="form-inp">
+          <input type="text" class="company-ipt company-sel" />
+          <span class="errorMessage"></span><!--[(ngModel)]="jurisdiction"  (blur)="verifyId()" -->
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">驾驶证号</span>
+        <div class="form-inp">
+          <input type="text" id="recordId" class="company-ipt" name="recordId" >
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">驾驶证档案编号</span>
+        <div class="form-inp">
+          <input class="company-ipt" name="cmccContacts"  type="text">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">车辆所有人姓名</span>
+        <div class="form-inp">
+          <input id="cmccPhone" class="company-ipt" name="cmccPhone">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">车牌号码</span>
+        <div class="form-inp">
+          <input id="repairDepartment" class="company-ipt" name="repairDepartment" type="text">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">车辆识别代号</span>
+        <div class="form-inp">
+          <input id="repairContacts" class="company-ipt" name="repairContacts" type="text" maxlength="25">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">发动机号码</span>
+        <div class="form-inp">
+          <input id="repairPhone" class="company-ipt" name="repairPhone" type="text">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">车辆品牌型号</span>
+        <div class="form-inp">
+          <input id="repairBtime" class="company-ipt" name="repairBtime" type="text">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">驾驶证照片</span>
+        <div class="form-inp">
+          <input id="repairEtime" class="company-ipt" name="repairEtime" type="text">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">行驶证照片</span>
+        <div class="form-inp">
+          <input class="company-ipt" name="repairEtime" type="text">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">是否停车摇号</span>
+        <div class="form-inp">
+          <input class="company-ipt" name="repairEtime" type="text">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">交通费额度(元/月)</span>
+        <div class="form-inp">
+          <input class="company-ipt" name="repairEtime" type="text">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+    </form>
+    <div class="mask-footer">
+      <button type="submit" class="btn-mask btn-info" (click)="submit()">保 存</button>
+      <button type="button" class="btn-mask btn-danger" (click)="addCancel()">取 消</button>
+    </div>
+  </div>
+</div>

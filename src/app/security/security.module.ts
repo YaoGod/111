@@ -26,6 +26,9 @@ const routes: Routes = [
       {
         path: 'property',
         loadChildren: './property/property.module#PropertyModule'
+      },{
+        path:'parking',
+        loadChildren: './parking-lot/parking-lot.module#ParkingLotModule'
       }
     ]
   }

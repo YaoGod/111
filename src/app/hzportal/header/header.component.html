@@ -22,6 +22,9 @@
             <li *ngFor="let child of catalog.childs">
             <a [routerLink]="[child.routeUrl]" routerLinkActive="active" class="item">{{child.name}}</a>
             </li>
+            <li>
+              <a [routerLink]="['security/parking']" routerLinkActive="active" class="item">车位管理</a>
+            </li>
           </ol>
         </li>
       </ul>

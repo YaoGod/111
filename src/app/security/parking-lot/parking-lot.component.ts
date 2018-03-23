@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {GlobalCatalogService} from "../../service/global-catalog/global-catalog.service";
-import {ActivatedRoute, Router} from "@angular/router";
 import {ErrorResponseService} from "../../service/error-response/error-response.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
-  selector: 'app-daily-mag',
-  templateUrl: './daily-mag.component.html',
-  styleUrls: ['./daily-mag.component.css']
+  selector: 'app-parking-lot',
+  templateUrl: './parking-lot.component.html',
+  styleUrls: ['./parking-lot.component.css']
 })
-export class DailyMagComponent implements OnInit {
+export class ParkingLotComponent implements OnInit {
   public rule;
   public catas;
   constructor(
@@ -16,13 +16,10 @@ export class DailyMagComponent implements OnInit {
     private errorVoid: ErrorResponseService,
     private router: Router,
     private route: ActivatedRoute
-
-  ) {
-    this.rule = this.globalCatalogService.getRole("security/daily");
-  }
+  ) { }
 
   ngOnInit() {
-    this.globalCatalogService.setTitle("后勤物业/大楼日常管理");
+    this.globalCatalogService.setTitle("后勤物业/车位管理");
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("security/daily");

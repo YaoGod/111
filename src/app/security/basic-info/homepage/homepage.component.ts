@@ -38,7 +38,7 @@ export class HomepageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.globalCatalogService.setTitle("大楼管理/大楼基础信息");
+    this.globalCatalogService.setTitle("后勤物业/大楼基础信息");
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("security/basic");

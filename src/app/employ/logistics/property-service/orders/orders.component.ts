@@ -106,10 +106,13 @@ export class OrdersComponent implements OnInit {
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         this.usefulSecond = data.data;
+        // this.repairname.serverPersonName =
         for(let i=0;i<this.usefulSecond.length;i++){
           // console.log(this.usefulSecond.length);
           if(this.usefulSecond.length===1 && (!this.usefulSecond[0].porpertyId||this.usefulSecond[0].porpertyId==='')){
             this.repairname.amount = this.usefulSecond[0].amount;
+            this.repairname.serverPersonName = this.usefulSecond[0].serverPersonName;
+            this.repairname.serverPersonTel = this.usefulSecond[0].serverPersonTel;
           }
         }
       }

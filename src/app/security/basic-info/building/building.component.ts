@@ -72,7 +72,7 @@ export class BuildingComponent implements OnInit {
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)){
           this.building = data.data.buildingInfo;
-          this.globalCatalogService.setTitle("大楼管理/大楼基础信息/"+this.building.name);
+          this.globalCatalogService.setTitle("后勤物业/大楼基础信息/"+this.building.name);
           if(typeof (data.data.attachInfo) !== 'undefined' && data.data.attachInfo !== null){
             this.building.buildDept = data.data.attachInfo.buildDept;
             this.building.buildTime = data.data.attachInfo.buildTime;
