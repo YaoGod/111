@@ -46,7 +46,10 @@ export class ShareDetailComponent implements OnInit {
   /*判断textarea的行数自适应*/
   definedRows(){
     let length = $("#summary").val().split(/\r?\n/).length;
-    return length+1;
+    if(length>5){
+      return length+1;
+    }
+    return 5;
   }
   /*查看图片*/
   chooseImg(i){

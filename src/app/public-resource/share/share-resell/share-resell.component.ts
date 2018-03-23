@@ -31,6 +31,7 @@ export class ShareResellComponent implements OnInit {
     this.getProductSelect();
     if(typeof (this.route.params['_value']['id']) === "undefined"){
       delete this.search.id;
+      this.search.status = "reserve";
       this.getResellProductList(1);
     }else{
       let tempid: number = 0;
@@ -38,6 +39,7 @@ export class ShareResellComponent implements OnInit {
         .switchMap((params: Params) => this.search.id = params['id'])
         .subscribe(() => {
           if (tempid === 0) {
+            this.search.status = "";
             this.getResellProductList(1);
             tempid++;
           }
@@ -55,11 +57,59 @@ export class ShareResellComponent implements OnInit {
         }
       })
   }
+  /*获取商品下拉列表*/
   getProductSelect(){
     this.shareProductPublicService.getProductSelect()
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
           this.nameList = data.data;
+        }
+      })
+  }
+  /*交易*/
+  sellSucess(product){
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否和'+product.userName+'交易？',
+      'popType': 1,
+      'imgType': 1,
+      "callback": () => {
+        let postData = new ShareProduct();
+        postData.userId= product.userId;
+        postData.productId = product.productId;
+        postData.status = "success";
+        this.changeStatus(postData);
+      }
+    });
+  }
+  /*交易失败*/
+  sellFail(product){
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否和'+product.userName+'停止交易？',
+      'popType': 1,
+      'imgType': 1,
+      "callback": () => {
+        let postData = new ShareProduct();
+        postData.userId= product.userId;
+        postData.productId = product.productId;
+        postData.status = "fail";
+        this.changeStatus(postData);
+      }
+    });
+  }
+  /*改变订单状态*/
+  changeStatus(product){
+    this.shareProductPublicService.changeOrder(product)
+      .subscribe(data => {
+        if (this.errorResponseService.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data.msg,
+            'popType': 2,
+            'imgType': 1
+          });
+          this.getResellProductList(1);
         }
       })
   }

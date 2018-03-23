@@ -23,6 +23,7 @@ export class ShareProduct {
   createUserId: string; /*创建人ID*/
   modifyTime  : string; /*修改时间*/
   modifyUserId: string; /*修改人ID*/
+  userId      : string;
   userName    : string;
   telNum      : string;  /*发起者电话*/
   userDeptId  : string;
@@ -32,4 +33,5 @@ export class ShareProduct {
   productId   : string;
   productName : string;
   price       : string;
+  expireTime     : string;  /*成交时间*/
 }

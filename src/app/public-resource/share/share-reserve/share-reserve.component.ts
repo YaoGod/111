@@ -23,6 +23,7 @@ export class ShareReserveComponent implements OnInit {
   ngOnInit() {
     this.shareProducts = [];
     this.search = new ShareProduct();
+    this.search.status = "";
     this.getReserveProductList(1);
   }
   /*获取当前用户已预定的商品*/

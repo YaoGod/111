@@ -12,6 +12,14 @@
     <!--搜索栏-->
     <div class="search-bar">
       <ul>
+        <li><label>出售状态</label>
+          <select type="text" name="search" [(ngModel)]="search.status">
+            <option value="">全部</option>
+            <option value="reserve">预定中</option>
+            <option value="success">成交</option>
+            <option value="fail">退单</option>
+          </select>
+        </li>
         <li><label>物品名称</label>
           <select type="text" name="search" [(ngModel)]="search.id">
             <option value="">全部</option>
@@ -28,14 +36,14 @@
       <table border="0" cellspacing="0" cellpadding="0" class="list-box">
         <tr class="row list-title" style="height:45px;">
           <th width="10%">预定人姓名</th>
-          <th width="10%">预定人部门</th>
-          <th width="10%">预定人电话</th>
-          <th width="10%">预定/成交</th>
+          <th width="15%">预定人部门</th>
+          <th width="15%">预定人电话</th>
           <th width="10%" class="text-left">物品名称</th>
-          <th width="10%">数量</th>
-          <th width="10%">金额</th>
+          <th width="5%">数量</th>
+          <th width="5%">金额</th>
           <th width="10%">预定时间</th>
-          <th width="10%">成交时间</th>
+          <th width="10%">状态</th>
+          <th width="10%" *ngIf="search.status !== 'reserve'">成交/退单时间</th>
           <th width="10%">操作</th>
         </tr>
       </table>
@@ -47,36 +55,36 @@
           <td width="10%">
             {{product.userName}}
           </td>
-          <td width="10%">
+          <td width="15%">
             {{product.userDept}}
           </td>
-          <td width="10%">
+          <td width="15%">
             {{product.telNum}}
-          </td>
-          <td width="10%">
-            {{product.status}}
           </td>
           <td width="10%" class="text-left">
             {{product.productName}}
           </td>
-          <td width="10%">
+          <td width="5%">
             {{product.amount}}
           </td>
-          <td width="10%">
+          <td width="5%">
             {{product.price| number:'1.2-2'}}
           </td>
           <td width="10%">
-            {{product.createTime}}
+            {{product.createTime| date:'yyyy/MM/dd HH:mm:ss'}}
           </td>
           <td width="10%">
-            {{product.createTime}}
+            {{product.status}}
+          </td>
+          <td width="10%" *ngIf="search.status !== 'reserve'">
+            {{product.expireTime| date:'yyyy/MM/dd HH:mm:ss'}}
           </td>
           <td width="10%" class="box-option">
-            <a>
-              <i class="icon-magic-wand"></i>交易
+            <a (click)="sellSucess(product)" *ngIf="product.status === '预定中'">
+              <i class="icon-call-out"></i>&nbsp;交易
             </a>
-            <a>
-              <i class="icon-action-undo"></i>退单
+            <a (click)="sellFail(product)" *ngIf="product.status === '预定中'">
+              <i class="icon-action-undo"></i>&nbsp;退单
             </a>
           </td>
         </tr>

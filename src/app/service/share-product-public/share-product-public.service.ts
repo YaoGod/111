@@ -102,7 +102,7 @@ export class ShareProductPublicService {
       postData.id = "";
     }
     const url = this.ipSetting.ip + "/publicresource/share/getProductReport/list/"
-      +pageNo+"/"+pageSize+"?id=" + postData.id;
+      +pageNo+"/"+pageSize+"?id=" + postData.id+"&status="+postData.status;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -116,6 +116,12 @@ export class ShareProductPublicService {
   getItemNum(){
     const url = this.ipSetting.ip +"/publicresource/share/getItemNum";
     return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  /*修改订单状态*/
+  changeOrder(postData){
+    const url = this.ipSetting.ip + "/publicresource/share/checkOrder";
+    return this.http.post(url,postData,this.options)
       .map(res => res.json());
   }
 }

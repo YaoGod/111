@@ -12,6 +12,15 @@
     <!--搜索栏-->
     <div class="search-bar">
       <ul>
+        <li><label>预定状态</label>
+          <select name="status" [(ngModel)]="search.status">
+            <option value="">全部</option>
+            <option value="reserve">已预订</option>
+            <option value="cancel">已取消</option>
+            <option value="success">成交</option>
+            <option value="fail">退单</option>
+          </select>
+        </li>
         <li><label>物品名称</label>
           <input type="text" name="search" [(ngModel)]="search.name">
         </li>
@@ -59,7 +68,8 @@
           <td width="15%">
             <span *ngIf="product.status==='reserve'">已预订</span>
             <span *ngIf="product.status==='cancel'">已取消</span>
-            <span *ngIf="product.status==='cancel'">交易成功</span>
+            <span *ngIf="product.status==='success'">成交</span>
+            <span *ngIf="product.status==='fail'">退单</span>
           </td>
           <td width="10%" class="box-option">
             <a class="text-left" [routerLink]="['../detail',product.id]">

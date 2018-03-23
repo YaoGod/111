@@ -139,7 +139,6 @@ export class ShareNewProductComponent implements OnInit {
           this.shareProduct.imgPath.push(data.msg);
           this.shareProduct.imgPathList.push(window.URL.createObjectURL(files[0]));
           this.showImg = this.shareProduct.imgPathList[this.shareProduct.imgPathList.length-1];
-        console.log(this.shareProduct);
         }
         $('#press').val('');
       }else if(xhr.readyState === 4 && xhr.status === 413 ){
@@ -157,7 +156,6 @@ export class ShareNewProductComponent implements OnInit {
     this.shareProduct.imgPathList.splice(index,1);
     this.shareProduct.imgPath.splice(index,1);
     if(index === this.shareProduct.imgPath.length&&index!==0){
-      console.log(index);
       this.showImg = this.shareProduct.imgPathList[this.shareProduct.imgPathList.length-1];
     }
     if(this.shareProduct.imgPathList.length === 0){
@@ -177,14 +175,14 @@ export class ShareNewProductComponent implements OnInit {
             if (this.errorResponseService.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示',
-                'mes': data.msg,
+                'mes': '您的物品已提交，将在管理员审核后才能正式发布，请耐心等待。',
                 'popType': 2,
                 'imgType': 1,
                 "callback": () => {
-                  this.router.navigate(['../mypush'],{relativeTo:this.route});
+                  history.go(-1);
                 },
                 "cancel": () => {
-                  this.router.navigate(['../mypush'],{relativeTo:this.route});
+                  history.go(-1);
                 }
               });
             }
@@ -205,10 +203,10 @@ export class ShareNewProductComponent implements OnInit {
                     'popType': 2,
                     'imgType': 1,
                     "callback": () => {
-                      this.router.navigate(['../mypush'],{relativeTo:this.route});
+                      history.go(-1);
                     },
                     "cancel": () => {
-                      this.router.navigate(['../mypush'],{relativeTo:this.route});
+                      history.go(-1);
                     }
                   });
                 }

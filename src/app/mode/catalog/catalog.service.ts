@@ -11,6 +11,7 @@ export class Catalog {
   isDelete : boolean;
   isSelect : boolean;
   isUpdate : boolean;
+  icon     : string;
 }
 
 export class sndCatalog {

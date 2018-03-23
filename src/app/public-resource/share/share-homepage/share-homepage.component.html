@@ -94,6 +94,15 @@
     <div class="div-none" *ngIf="shareProducts.length === 0">
       <p>此处空空如也</p>
     </div>
+    <div style="padding-left: 21px">
+    <!--翻页-->
+    <app-turn-bar
+      [pageNo] = "pageNo"
+      [pageSize] = "pageSize"
+      [total] = "total"
+      (turnEvent) = "getProductList($event)">
+    </app-turn-bar>
+  </div>
   </div>
   <div class="clearBoth"></div>
 </div>

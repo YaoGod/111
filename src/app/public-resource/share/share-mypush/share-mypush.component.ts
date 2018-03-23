@@ -36,6 +36,7 @@ export class ShareMypushComponent implements OnInit {
         }
       })
   }
+  /*删除商品*/
   delete(id){
     confirmFunc.init({
       'title': '提示',
@@ -58,5 +59,30 @@ export class ShareMypushComponent implements OnInit {
       }
     })
   }
-
+  /*重新审核*/
+  reCheck(id){
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否确认提交管理员重新审核?',
+      'popType': 1,
+      'imgType': 1,
+      "callback": () => {
+        let postdata = new ShareProduct();
+        postdata.id = id;
+        postdata.status = 'pending_check';
+        this.shareProductPublicService.updateShareProduct(postdata)
+          .subscribe(data => {
+            if (this.errorResponseService.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data.msg,
+                'popType': 2,
+                'imgType': 1
+              });
+              this.getShareProductsPersonl(1);
+            }
+          });
+      }
+    });
+  }
 }

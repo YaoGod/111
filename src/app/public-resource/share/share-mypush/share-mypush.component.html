@@ -80,6 +80,9 @@
             <span *ngIf="product.status==='pending_check'">待审核</span>
           </td>
           <td width="10%" class="box-option">
+            <a [routerLink]="['../resell',product.id]" *ngIf="product.status==='release'">
+              <i class="icon-graph"></i>记录
+            </a>
             <a [routerLink]="['../detail',product.id]">
               <i class="icon-screen-desktop"></i>详情
             </a>
@@ -88,6 +91,9 @@
             </a>
             <a (click)="delete(product.id)">
               <i class="icon-trash"></i>删除
+            </a>
+            <a (click)="reCheck(product.id)" *ngIf="product.status==='fail'">
+              <i class="icon-action-undo"></i>重审
             </a>
           </td>
         </tr>
