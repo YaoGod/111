@@ -44,6 +44,11 @@ const routes: Routes = [
         loadChildren: './welfare/welfare.module#WelfareModule'
       },
       {
+        /*共享专区*/
+        path: 'share',
+        loadChildren: './share/share.module#ShareModule'
+      },
+      {
         /*我的工作台*/
         path: "workspace",
         canActivate: [RouteGuardService],

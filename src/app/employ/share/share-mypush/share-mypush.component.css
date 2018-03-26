@@ -175,7 +175,8 @@ td>img{
   overflow: auto;
 }
 .box-option>a{
-  display: block;
+  display: inline-block;
+  padding-right: 10px;
   line-height: 26px;
   font-size: 10px;
   color: #686868;

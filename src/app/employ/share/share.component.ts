@@ -13,6 +13,6 @@ export class ShareComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.globalCatalogService.setTitle("公共资源/共享专区");
+    this.globalCatalogService.setTitle("员工服务/共享专区");
   }
 }

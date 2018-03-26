@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ShareProduct} from "../../../mode/shareProduct/share-product.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {ShareProductPublicService} from "../../../service/share-product-public/share-product-public.service";
+import {stat} from "fs";
 declare var confirmFunc:any;
 @Component({
   selector: 'app-share-mypush',
@@ -84,5 +85,22 @@ export class ShareMypushComponent implements OnInit {
           });
       }
     });
+  }
+  changeProductStatus(id,status){
+    let postdata = new ShareProduct();
+    postdata.id = id;
+    postdata.status = status;
+    this.shareProductPublicService.updateShareProduct(postdata)
+      .subscribe(data => {
+        if (this.errorResponseService.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data.msg,
+            'popType': 2,
+            'imgType': 1
+          });
+          this.getShareProductsPersonl(1);
+        }
+      });
   }
 }

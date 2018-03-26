@@ -26,7 +26,7 @@
             <p class="marker-type"><span>限量{{sale.maxNumber}}件</span></p>
             <div class="btn-form-back">
               <span>¥{{sale.price| number:'1.2-2'}}</span>
-              <a class="btn_yuding" [routerLink]="['../sale/detail',sale.id]">立即抢购</a>
+              <a class="btn_yuding" [routerLink]="['../sale/detail',sale.id]">详情</a>
             </div>
             <p>开始时间：{{sale.beginTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
           </div>

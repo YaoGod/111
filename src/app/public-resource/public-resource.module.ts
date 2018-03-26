@@ -21,10 +21,6 @@ const routes: Routes = [
         pathMatch: 'full'
       },*/
       {
-        path: 'share',
-        loadChildren: './share/share.module#ShareModule'
-      },
-      {
         path: 'library'
       }
     ]

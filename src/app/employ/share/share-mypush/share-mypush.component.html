@@ -75,12 +75,14 @@
             {{product.createTime| date:'yyyy/MM/dd HH:mm:ss'}}
           </td>
           <td width="10%">
-            <span *ngIf="product.status==='release'">通过</span>
+            <span *ngIf="product.status==='release'">发布中</span>
             <span *ngIf="product.status==='fail'" [title]="product.checkNote">已退回</span>
             <span *ngIf="product.status==='pending_check'">待审核</span>
+            <span *ngIf="product.status==='off'">已下架</span>
           </td>
-          <td width="10%" class="box-option">
-            <a [routerLink]="['../resell',product.id]" *ngIf="product.status==='release'">
+          <td width="10%" class="box-option text-left">
+            <a [routerLink]="['../resell',product.id]"
+               *ngIf="product.status==='release' || product.status==='off'">
               <i class="icon-graph"></i>记录
             </a>
             <a [routerLink]="['../detail',product.id]">
@@ -94,6 +96,12 @@
             </a>
             <a (click)="reCheck(product.id)" *ngIf="product.status==='fail'">
               <i class="icon-action-undo"></i>重审
+            </a>
+            <a (click)="changeProductStatus(product.id,'release')" *ngIf="product.status==='off'">
+              <i class="icon-badge"></i>上架
+            </a>
+            <a (click)="changeProductStatus(product.id,'off')" *ngIf="product.status==='release'">
+              <i class="icon-bag"></i>下架
             </a>
           </td>
         </tr>

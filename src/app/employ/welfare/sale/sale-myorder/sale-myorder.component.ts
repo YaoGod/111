@@ -76,14 +76,14 @@ export class SaleMyorderComponent implements OnInit {
       {
         title: "收货人信息",
         type: "text",
-        hd: ["收货人姓名", "收货人电话", "收货地址"],
-        data: [data.userName, data.telNumber, data.address]
+        hd: ["收货人姓名", "收货人电话", "收货地址","备注"],
+        data: [data.userName, data.telNumber, data.address,data.note]
       },
       {
         title: "商品明细",
         type: "form",
         hd: ["商品名称", "单价(元)", "商品类型", "数量", "合计（元）"],
-        data: [[data.productName,data.total.toFixed(2),data.type,"1",data.total.toFixed(2)]],
+        data: [[data.productName,data.total.toFixed(2),data.productType,"1",data.total.toFixed(2)]],
         total: "总计：￥" + data.total.toFixed(2)
       }
     ];
