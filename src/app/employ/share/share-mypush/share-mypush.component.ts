@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {ShareProduct} from "../../../mode/shareProduct/share-product.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {ShareProductPublicService} from "../../../service/share-product-public/share-product-public.service";
-import {stat} from "fs";
 declare var confirmFunc:any;
 @Component({
   selector: 'app-share-mypush',

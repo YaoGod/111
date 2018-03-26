@@ -34,6 +34,11 @@ const routes: Routes = [
         /*公共资源*/
         path: 'publicResource',
         loadChildren: '../public-resource/public-resource.module#PublicResourceModule'
+      },
+      {
+        /*系统管理*/
+        path: 'system',
+        loadChildren: '../system-setting/system-setting.module#SystemSettingModule'
       }
     ]
   },
