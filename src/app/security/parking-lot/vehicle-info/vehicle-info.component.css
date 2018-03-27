@@ -1,3 +1,6 @@
+input{
+  border:none;
+}
 .btn{
   padding: 8px 22px;
   border-radius: 5px;
@@ -7,6 +10,7 @@
 }
 .row{
   height:40px;
+  border-bottom:1px solid #ff5b3a;
 }
 .search-btn{
   float: right;
@@ -63,7 +67,7 @@ button{
   border-radius:5px;
 }
 .repair-form{
-  padding: 20px;
+  padding:10px 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -86,7 +90,7 @@ button{
   width: 100%;
   min-height: 1px;
   background-color: #f8f8f8;
-  padding: 10px;
+  padding: 6px 10px;
   float: left;
   font-weight: 300;
   -webkit-box-flex: 0;
@@ -108,7 +112,7 @@ button{
 }
 .company-ipt{
   width:150px;
-  line-height:36px;
+  line-height:30px;
   background-image: linear-gradient(#03a9f3, #03a9f3), linear-gradient(rgba(120, 130, 140, .13), rgba(120, 130, 140, .13));
   background-color: rgba(0, 0, 0, 0);
   background-position: center bottom, center calc(99%);
@@ -118,7 +122,7 @@ button{
   transition: all .3s ease-out;
 }
 .company-sel{
-  height:36px;
+  height:30px;
 }
 .company-ipt:focus{
   background-size: 100% 1px, 100% 1px;
@@ -161,4 +165,175 @@ button{
 .btn-danger {
   background-color: #fb9678;
   margin-left: 20px;
+}
+.row-title{
+  float: left;
+  padding:0 15px;
+  border-radius: 4px 4px 0 0 ;
+  line-height:40px;
+  color:#ff5b3a;
+  font-size:18px;
+  border:1px solid #ff5b3a;
+  border-bottom:none;
+}
+.card-list{
+  width:100%; height:auto;
+
+}
+.card-list>li:nth-of-type(2n){
+  margin-right:0;
+}
+.room-card{
+  float: left;
+  position: relative;
+  width: 48%;
+  min-width: 450px;
+  height: auto;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 3px dashed #000;
+  margin-right:4%;
+}
+@media screen and (max-width: 1440px) {
+  .room-card {
+    margin:0 auto 8px!important;
+    width:75%;
+    float: none;
+  }
+}
+.room-card>.room-title{
+  position: absolute;
+  top: 12px;
+  float: left;
+  padding: 0 10px;
+  min-width: 100px;
+  max-width:80%;
+  height: 30px;
+  line-height: 30px;
+  clear: left;
+  text-align: center;
+  color: #fff;
+  background: #ab8ce4;
+}
+.room-title h5{
+  float:left;
+  margin-left:10px;
+}
+.card-border{
+  padding: 15px;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.card-border>h6{
+  height: 40px;
+  line-height: 40px;
+  text-align: right;
+  color: #03a9f3;
+  font-size: 20px;
+}
+.card-border>h6>i{
+  padding-left: 10px;
+  font-size: 16px;
+  color: #8d9ea7;
+  cursor: pointer;
+}
+.form-title{
+  width: 120px;
+  padding:0 5px;
+  height: 36px;
+  line-height: 36px;
+  margin-right: 5px;
+  background-color: #f8f8f8;
+  color: #8d9ea7;
+  font-weight: 300;
+  font-size: 12px;
+  text-align: justify;
+  display: inline-block;
+  vertical-align: top;
+}
+.long-text{
+  line-height: 24px;
+}
+.card-left>div{
+  display: block;
+  vertical-align: top;
+  margin-bottom:5px;
+}
+.card-left>div>p{
+  display: inline-block;
+  width: calc(100% - 148px);
+  line-height: 30px;
+  font-size: 12px;
+  color: #797979;
+  vertical-align: top;
+}
+.card-left>div i{
+  display:inline-block;width:100%;height:0;
+}
+.card-left{
+  display: inline-block;
+  width: 55%;
+}
+.card-right{
+  width: 45%;
+  height: auto;
+  float: right;
+}
+.card-info{
+  text-align: center;
+}
+.card-info span{
+  padding:0;
+  margin:0;
+}
+.driving-license img{
+  width:100%;
+  max-width: 300px;
+  max-height:178px;
+}
+.dropify-wrapper{
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  box-sizing: content-box;
+  border:2px solid #878787;
+  border-radius:5px;
+  width: 90%;
+  max-width: 100%;
+  height: 200px;
+  font-size: 14px;
+  line-height: 22px;
+  color: #777;
+  background-color: #FFF;
+  background-image: none;
+  text-align: center;
+}
+.dropify-wrapper .dropify-message{
+  position: relative;
+  z-index: 3;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.dropify-wrapper p {
+  position: absolute;
+  left: 0;
+  top: 88px;
+  width: 100%;
+  line-height: 24px;
+  z-index: 2;
+}
+.dropify-wrapper input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 5;
 }

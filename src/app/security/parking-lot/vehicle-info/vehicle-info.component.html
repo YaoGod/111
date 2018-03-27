@@ -1,10 +1,11 @@
 <div class="wrap">
   <div class="cont">
     <div class="row">
+      <div class="row-title">车辆信息</div>
       <a href="javascript:;" class="btn search-btn" (click)="addVehicle()"><i class="icon-plus"></i>&nbsp;&nbsp;新 增</a>
     </div>
     <div class="cont-inner">
-      <table width="100%">
+      <!--<table width="100%">
         <thead>
         <tr style="height: 40px; background-color: #00bce1;">
           <th>员工姓名</th>
@@ -25,7 +26,208 @@
         </tr>
         </thead>
         <tr></tr>
-      </table>
+      </table>-->
+      <ul class="card-list clearfix">
+        <li  class="room-card">
+          <div class="room-title clearfix">
+            <h5>员工姓名 :XXX</h5><h5>员工编号 :XXX</h5><h5>员工部门 :XXX</h5>
+          </div>
+          <div class="card-border">
+            <h6> <i class="icon-pencil"></i> <i class="icon-trash"> </i> </h6>
+            <div class="card-left">
+              <div>
+                <span class="form-title">驾驶员姓名<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">驾驶证号<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">驾驶证档案编号<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">车辆所有人姓名<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">车牌号码<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">车辆识别代号<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">发动机号码<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">车辆品牌型号<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">是否停车摇号<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">交通费额度(元/月)<i></i></span>
+                <p>XXX</p>
+              </div>
+
+            </div>
+            <div class="card-right">
+              <div class="card-info">
+                <span class="form-title" style="height: 20px;line-height: 20px;">驾驶证照片<i></i></span>
+
+                <div class="driving-license">
+                  <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522061745908&di=661eef0613ed0bd3bc022f6e99b4423f&imgtype=0&src=http%3A%2F%2Fs3.sinaimg.cn%2Fmw690%2F002ybqQqgy6Loq1Idz4a2%26690" alt="驾驶证照片">
+                </div>
+              </div>
+              <div class="card-info">
+                <span class="form-title" style="height: 20px;line-height: 20px;">行驶证照片<i></i></span>
+                <div class="driving-license">
+                  <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522061862735&di=c35d4a8c070ca76e2e98b6cd704546df&imgtype=0&src=http%3A%2F%2Fclub2.autoimg.cn%2Falbum%2Fg15%2FM13%2FEE%2FC8%2Fuserphotos%2F2015%2F11%2F23%2F14%2FwKgH1lZSs8eALLkHABZL3uRxsTY522.jpg" alt="行驶证照片">
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li  class="room-card">
+          <div class="room-title clearfix">
+            <h5>员工姓名 :XXX</h5><h5>员工编号 :XXX</h5><h5>员工部门 :XXX</h5>
+          </div>
+          <div class="card-border">
+            <h6> <i class="icon-pencil"></i> <i class="icon-trash"> </i> </h6>
+            <div class="card-left">
+              <div>
+                <span class="form-title">驾驶员姓名<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">驾驶证号<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">驾驶证档案编号<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">车辆所有人姓名<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">车牌号码<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">车辆识别代号<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">发动机号码<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">车辆品牌型号<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">是否停车摇号<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">交通费额度(元/月)<i></i></span>
+                <p>XXX</p>
+              </div>
+
+            </div>
+            <div class="card-right">
+              <div class="card-info">
+                <span class="form-title" style="height: 20px;line-height: 20px;">驾驶证照片<i></i></span>
+
+                <div class="driving-license">
+                  <img src="assets/image/demo_building.png" alt="驾驶证照片">
+                </div>
+              </div>
+              <div class="card-info">
+                <span class="form-title" style="height: 20px;line-height: 20px;">行驶证照片<i></i></span>
+                <div class="driving-license">
+                  <img src="assets/image/demo_building.png" alt="行驶证照片">
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li  class="room-card">
+          <div class="room-title clearfix">
+            <h5>员工姓名 :XXX</h5><h5>员工编号 :XXX</h5><h5>员工部门 :XXX</h5>
+          </div>
+          <div class="card-border">
+            <h6> <i class="icon-pencil"></i> <i class="icon-trash"> </i> </h6>
+            <div class="card-left">
+              <div>
+                <span class="form-title">驾驶员姓名<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">驾驶证号<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">驾驶证档案编号<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">车辆所有人姓名<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">车牌号码<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">车辆识别代号<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">发动机号码<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">车辆品牌型号<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">是否停车摇号<i></i></span>
+                <p>XXX</p>
+              </div>
+              <div>
+                <span class="form-title">交通费额度(元/月)<i></i></span>
+                <p>XXX</p>
+              </div>
+
+            </div>
+            <div class="card-right">
+              <div class="card-info">
+                <span class="form-title" style="height: 20px;line-height: 20px;">驾驶证照片<i></i></span>
+
+                <div class="driving-license">
+                  <img src="assets/image/demo_building.png" alt="驾驶证照片">
+                </div>
+              </div>
+              <div class="card-info">
+                <span class="form-title" style="height: 20px;line-height: 20px;">行驶证照片<i></i></span>
+                <div class="driving-license">
+                  <img src="assets/image/demo_building.png" alt="行驶证照片">
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+
     </div>
   </div>
 </div>
@@ -92,20 +294,6 @@
         </div>
       </div>
       <div class="form-control">
-        <span class="form-label">驾驶证照片</span>
-        <div class="form-inp">
-          <input id="repairEtime" class="company-ipt" name="repairEtime" type="text">
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">行驶证照片</span>
-        <div class="form-inp">
-          <input class="company-ipt" name="repairEtime" type="text">
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
         <span class="form-label">是否停车摇号</span>
         <div class="form-inp">
           <input class="company-ipt" name="repairEtime" type="text">
@@ -117,6 +305,26 @@
         <div class="form-inp">
           <input class="company-ipt" name="repairEtime" type="text">
           <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <div  class="dropify-wrapper" id = "newImgPath">
+          <div  class="dropify-message">
+            <img src="" *ngIf="newRoom.imgPath"><!--[src]="newRoom.imgPath | imgsafeurl:pres.files"-->
+          </div>
+          <p>点击上传驾驶证照片</p>
+          <input  class="dropify" type="file" #prese1  id="prese1"
+                  (change)="presepic_upload(prese1.files)">
+        </div>
+      </div>
+      <div class="form-control">
+        <div  class="dropify-wrapper">
+          <div  class="dropify-message">
+            <img src="" *ngIf="newRoom.imgPath"><!--[src]="newRoom.imgPath | imgsafeurl:pres.files"-->
+          </div>
+          <p>点击上传行驶证照片</p>
+          <input  class="dropify" type="file" #prese2  id="prese2"
+                  (change)="presepic_upload(prese2.files)">
         </div>
       </div>
     </form>

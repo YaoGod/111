@@ -4,6 +4,8 @@ import {ErrorResponseService} from "../../../service/error-response/error-respon
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
+import {Room} from "../../../mode/room/room.service";
+import {sndCatalog} from "../../../mode/catalog/catalog.service";
 
 declare var $: any;
 declare var confirmFunc: any;
@@ -11,7 +13,8 @@ declare var confirmFunc: any;
 @Component({
   selector: 'app-vehicle-info',
   templateUrl: './vehicle-info.component.html',
-  styleUrls: ['./vehicle-info.component.css']
+  styleUrls: ['./vehicle-info.component.css'],
+  providers:[UtilBuildingService,Room]
 })
 export class VehicleInfoComponent implements OnInit {
   public pageSize = 5;
@@ -20,10 +23,12 @@ export class VehicleInfoComponent implements OnInit {
   public length = 5;
   public rule : any;
   public jurisdiction:any;
+  public newRoom     : Room = new Room();
   constructor(
     private http: Http,
     private errorVoid:ErrorResponseService,
     private globalCatalogService:GlobalCatalogService,
+    private utilBuildingService:UtilBuildingService,
     public ipSetting  : IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("security/daily");
@@ -54,9 +59,8 @@ export class VehicleInfoComponent implements OnInit {
     }
   }
   addVehicle(){
-
-        $('.mask').fadeIn();
-        $('.mask .mask-head p').html('新增车辆信息');
+    $('.mask').fadeIn();
+    $('.mask .mask-head p').html('新增车辆信息');
     /*let url = "/building/repair/addRepairRecord";
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
@@ -72,6 +76,25 @@ export class VehicleInfoComponent implements OnInit {
 
       }
     });*/
+  }
+  /*新建房间平面图上传*/
+  presepic_upload(files){
+    var xhr = this.utilBuildingService.uploadImg(files[0], 'room', -1);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304)) {
+        var data:any = JSON.parse(xhr.responseText);
+        if(this.errorVoid.errorMsg(data)){
+          this.newRoom.imgPath = data.msg;
+        }
+      }else if(xhr.readyState === 4 && xhr.status === 413 ){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '图片大小超出限制',
+          'popType': 1 ,
+          'imgType': 2 ,
+        });
+      }
+    };
   }
   public verifyId() {
     if (!this.isEmpty('Id', '不能为空')) {
@@ -114,4 +137,21 @@ export class VehicleInfoComponent implements OnInit {
     $('#' + id).parents('.form-inp').removeClass('form-error');
     $('#' + id).parents('.form-inp').children('.errorMessage').html('');
   }
+}
+export class CardInfo {
+  id: number; // 本条信息ID
+  userId: string;// 员工编号
+  userName:string; // 员工姓名
+  userDept: string; // 员工部门
+  driverName: string; // 驾驶员姓名
+  driverNum: string; // 驾驶证号
+  driverCode: string; // 驾驶证档案编号
+  carOwner: string; // 车辆所有人姓名
+  carNumber: string; // 车牌号码
+  carCode: string; // 车辆识别代码
+  motorNum: string; // 发动机号
+  carBrand:string; // 车辆品牌型号
+  isPark: string; // 是否停车摇号
+  carFare: string; // 交通费额度
+  
 }
