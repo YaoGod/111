@@ -20,8 +20,7 @@
           <option value="">全部</option>
           <option value="1">订购中</option>
           <option value="3">退单</option>
-          <option value="2">已执行</option>
-          <option value="4">结单</option>
+          <option value="4">已完成</option>
         </select>
       </li>
       <li>
@@ -58,37 +57,37 @@
           <span class="form-title text-right">订单号</span>
           <span class="form-word">{{inner.orderId}}</span>
         </li>
-        <li class="form-bar">
-          <span class="form-title text-right">大楼名称</span>
-          <span class="form-word">{{inner.buildingName}}</span>
-        </li>
         <!--<li class="form-bar">
           <span class="form-title text-right">大楼编号</span>
           <span class="form-word">{{inner.buildingNum}}</span>
         </li>-->
         <li class="form-bar">
-          <span class="form-title text-right">订单状态</span>
-          <span class="form-word">{{inner.orderStatus}}</span>
-        </li>
-        <li class="form-bar">
-          <span class="form-title text-right">服务项目</span>
-          <span class="form-word">{{inner.type}}</span>
-        </li>
-        <li class="form-bar">
           <span class="form-title text-right">订单人</span>
           <span class="form-word">{{inner.username}}</span>
         </li>
         <li class="form-bar">
-          <span class="form-title text-right">订单部门</span>
-          <span class="form-word">{{inner.userDept}}</span>
+          <span class="form-title text-right">订单状态</span>
+          <span class="form-word">{{inner.orderStatus}}</span>
         </li>
         <li class="form-bar">
-          <span class="form-title text-right">开始时间</span>
-          <span class="form-word">{{inner.startTime}}</span>
+          <span class="form-title text-right">大楼名称</span>
+          <span class="form-word">{{inner.buildingName}}</span>
         </li>
         <li class="form-bar">
-          <span class="form-title text-right">结束时间</span>
-          <span class="form-word">{{inner.finshTime}}</span>
+          <span class="form-title text-right">物业服务项目</span>
+          <span class="form-word">{{inner.propertyType}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">服务内容</span>
+          <span class="form-word">{{inner.propertyName}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">服务楼层</span>
+          <span class="form-word">{{inner.floorId}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title text-right">服务房间</span>
+          <span class="form-word">{{inner.roomId}}</span>
         </li>
       </ul>
       <div class="form-detail">
@@ -103,7 +102,7 @@
           </li>
         </ol>
       </div>
-      <div class="form-btn" *ngIf="inner.orderStatus!=='结单'" (click)="editAttach(i)"><i class="icon-pencil"></i></div>
+      <div class="form-btn" (click)="editAttach(i)" title="查看"><i class="icon-doc"></i></div>
       <!--<div class="form-btn form-del" (click)="delAttach(i)"><i class="icon-trash"></i></div>-->
     </div>
   </div>
@@ -115,7 +114,7 @@
     (turnEvent)="goPage($event)">
   </app-turn-bar>
 </div>
-<!--审批订单弹窗-->
+<!--查看订单弹窗-->
 <div class="mask">
   <div class="new-order">
     <div class="mask-head"><i class="icon-film"></i> <p>新增物业订单</p>
@@ -125,125 +124,101 @@
       <div class="form-control">
         <span class="form-label">大楼名称</span>
         <div class="form-inp">
-          <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" (blur)="verifybuildingId()" (change)="getFloorNameListInfo(repairname.buildingId)">
-            <option *ngFor="let num of buildings"
-                    [value]="num.ID">
-              {{num.NAME}}</option>
-          </select>
-          <span class="errorMessage"></span>
+          <input id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingName"
+                 (blur)="verifybuildingId()" disabled="disabled">
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">服务楼层</span>
         <div class="form-inp">
-          <!--<input type="text" id="buildingFloor" class="company-ipt" name="buildingFloor" [(ngModel)]="repairname.floorId" (blur)="verifybuildingFloor()" required maxlength="5">-->
-          <select type="text" id="buildingFloor" class="company-ipt company-sel" name="buildingFloor" [(ngModel)]="repairname.floorId">
-            <option value="">-请选择-</option>
-            <option *ngFor="let floor of floorNames" [value]="floor.FLOOR_NUM">{{floor.FLOOR_NUM}}</option>
-          </select>
-          <span class="errorMessage"></span>
+          <input type="text" id="buildingFloor" class="company-ipt company-sel" name="buildingFloor"
+                 disabled="disabled" [(ngModel)]="repairname.floorId">
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">服务房间</span>
         <div class="form-inp">
-          <input type="text" id="roomNum" class="company-ipt" name="roomNum" [(ngModel)]="repairname.roomId" required maxlength="5">
-          <span class="errorMessage"></span>
+          <input type="text" id="roomNum" class="company-ipt" name="roomNum" [(ngModel)]="repairname.roomId"
+                 disabled="disabled" required maxlength="5"/>
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">服务项目</span>
         <div class="form-inp">
-          <select id="type" name="type" class="company-ipt company-sel" [(ngModel)]="repairname.type"
-                  (blur)="verifyservername()" (change)="getNameSelect(repairname.type,'')">
-            <option value="">请选择</option>
-            <option *ngFor="let abc of useful" [value]="abc">{{abc}}</option>
-          </select>
-          <span class="errorMessage"></span>
+          <input id="type" name="type" class="company-ipt company-sel" [(ngModel)]="repairname.propertyType"  disabled="disabled"/>
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">服务内容</span>
         <div class="form-inp">
-          <select id="servername" name="servername" class="company-ipt company-sel" [(ngModel)]="repairname.servername"
-                  (change)="getNameSelect(repairname.type,repairname.servername)">
-            <option value="">请选择</option>
-            <option *ngFor="let abc of usefulSecond; let k=index" [value]="abc.name">{{abc.name}}</option>
-          </select>
-          <span class="errorMessage"></span>
+          <input id="servername" name="servername" class="company-ipt company-sel" [(ngModel)]="repairname.propertyName"
+                 disabled="disabled">
         </div>
       </div>
       <div class="form-control  clearfix" *ngIf="onNum==='1'">
-        <span class="form-label">库存数量</span>
+        <span class="form-label" *ngIf="repairname.type!=='节假日停车'">剩余库存</span>
+        <span class="form-label" *ngIf="repairname.type==='节假日停车'">剩余车位</span>
         <div class="form-inp">
-          <input id="number" name="number" type="number" class="company-ipt company-sel" [(ngModel)]="repairname.amount">
-          <span class="errorMessage"></span>
+          <input id="number" name="number" type="number" class="company-ipt company-sel" [(ngModel)]="repairname.amount"
+                 disabled="disabled">
         </div>
       </div>
       <div class="form-control" *ngIf="repairname.type==='节假日停车'">
         <span class="form-label">车牌信息</span>
         <div class="form-inp">
-          <select id="plateNum" name="plateNum" class="company-ipt company-sel" [(ngModel)]="repairname.plateNum">
-            <option value="">请选择</option>
-            <option *ngFor="let abc of repairname.plateNum; let k=index" [value]="abc">{{abc}}</option>
-          </select>
+          <input id="plateNum" name="plateNum" class="company-ipt company-sel" [(ngModel)]="repairname.plateNum"
+                 disabled="disabled">
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">订单人</span>
         <div class="form-inp">
-          <input type="text" class="company-ipt" name="username" [(ngModel)]="repairname.username" required maxlength="25" disabled="disabled">
-          <span class="errorMessage"></span>
+          <input type="text" class="company-ipt" name="username" [(ngModel)]="repairname.username" required maxlength="25"
+                 disabled="disabled">
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">订单部门</span>
         <div class="form-inp">
-          <input type="text" id="employeeDepart" class="company-ipt" name="employeeDepart" [(ngModel)]="repairname.userDept" maxlength="25"
-                 disabled="disabled">
-          <span class="errorMessage"></span>
+          <input type="text" id="employeeDepart" class="company-ipt" name="employeeDepart" [(ngModel)]="repairname.userDept"
+                 maxlength="25" disabled="disabled">
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">订单人电话</span>
         <div class="form-inp">
           <input id="employeePhone" name="employeePhone" class="company-ipt" [(ngModel)]="repairname.userTel" disabled="disabled">
-          <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control">
-        <span class="form-label">审核情况</span>
+        <span class="form-label">服务人员姓名</span>
         <div class="form-inp">
-          <select id="exam" name="exam" class="company-ipt company-sel" [(ngModel)]="repairname.orderStatus" (blur)="verifyexam()">
-            <option value='3'>退单</option>
-            <option value='2'>通过</option>
-            <option value='4'>结单</option>
-          </select>
-          <span class="errorMessage"></span>
+          <input id="serverPersonName" name="serverPersonName" class="company-ipt" [(ngModel)]="repairname.serverPersonName"
+                 type="text" disabled="disabled">
         </div>
       </div>
-      <div class="form-control" *ngIf="repairname.orderStatus === '2'">
-        <span class="form-label">指定人员</span>
+      <div class="form-control">
+        <span class="form-label">服务人员电话</span>
         <div class="form-inp">
-          <!--<select name="PersonInfo" class="company-ipt company-sel" [(ngModel)]="repairname.serverUserid">
-            <option *ngFor="let wer of aot" [value]="wer.id">{{wer.personName}}</option>
-          </select>-->
-          <span class="errorMessage"></span>
+          <input id="serverPersonTel" name="serverPersonTel" class="company-ipt" [(ngModel)]="repairname.serverPersonTel"
+                 type="text" disabled="disabled">
         </div>
       </div>
+
       <div class="form-control form-alone">
-        <span class="form-label">具体服务内容</span>
+        <span class="form-label">服务内容描述</span>
         <div class="form-inp form-text">
-          <textarea id="liableNote" maxlength="500" name="liableNote" class="company-ipt" [(ngModel)]="repairname.porpertyContent" (blur)="verifydetail()">
+          <textarea id="liableNote" maxlength="500" name="liableNote" class="company-ipt" [(ngModel)]="repairname.porpertyContent"
+                    disabled="disabled" (blur)="verifydetail()">
           </textarea>
           <span class="errorMessage"></span>
         </div>
       </div>
+
       <div class="form-control form-alone">
         <span class="form-label">附件</span>
-        <ul class="contract-list" style=" height:120px; overflow-y: auto">
+        <ul class="contract-list">
           <li *ngFor="let abc of repairname.fileName; let k=index" style="word-wrap:break-word; margin-bottom:4px;">{{abc}}
-            <a  href="javascript:;" (click)="delFile(k)">×</a>
           </li>
         </ul>
         <div class="form-inp" style=" margin-top:5px;">
@@ -255,8 +230,8 @@
       </div>
     </form>
     <div class="mask-footer">
-      <button type="submit" class="btn-mask btn-info" (click)="contractSubmit()">保 存</button>
-      <button type="button" class="btn-mask btn-danger" (click)="contractCancel()">取 消</button>
+      <button type="submit" class="btn-mask btn-info" (click)="contractSubmit()">确 定</button>
+      <!--<button type="button" class="btn-mask btn-danger" (click)="contractCancel()">取 消</button>-->
     </div>
   </div>
 </div>

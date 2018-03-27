@@ -20,6 +20,7 @@ input{
 }
 .mask{
   display: none;
+  z-index: 999999;
   position: fixed;
   left:0;
   top:0;
@@ -178,7 +179,7 @@ button{
 }
 .card-list{
   width:100%; height:auto;
-
+  min-height:550px; margin-top:10px;
 }
 .card-list>li:nth-of-type(2n){
   margin-right:0;
@@ -264,7 +265,7 @@ button{
 .card-left>div>p{
   display: inline-block;
   width: calc(100% - 148px);
-  line-height: 30px;
+  line-height: 36px;
   font-size: 12px;
   color: #797979;
   vertical-align: top;
@@ -300,10 +301,11 @@ button{
   box-sizing: content-box;
   border:2px solid #878787;
   border-radius:5px;
-  width: 90%;
+  width: 80%;
   max-width: 100%;
-  height: 200px;
+  height: 180px;
   font-size: 14px;
+  margin:0 auto;
   line-height: 22px;
   color: #777;
   background-color: #FFF;
@@ -320,7 +322,7 @@ button{
 .dropify-wrapper p {
   position: absolute;
   left: 0;
-  top: 88px;
+  top: 78px;
   width: 100%;
   line-height: 24px;
   z-index: 2;
@@ -336,4 +338,87 @@ button{
   opacity: 0;
   cursor: pointer;
   z-index: 5;
+}
+.errorMessage{
+  color:#CE0004;
+}
+.repair-chandlery{
+  position: relative;
+  padding: 15px 115px 15px 0;
+  background-color: #f8f8f8;
+  margin-top: 10px;
+}
+.repair-chandlery ul{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+.repair-chandlery ul li label{
+  float: left;
+  color: #686868;
+  height: 30px;
+  width: 70px;
+  padding-right: 10px;
+  line-height: 30px;
+  font-size: 12px;
+  text-align: right;
+}
+.repair-chandlery ul li input,.repair-chandlery ul li select{
+  height: 20px;
+  box-sizing: content-box;
+  width: calc(100% - 115px);
+  min-width: 70px;
+  padding: 3px 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  background-color: #fff;
+  border: 1px solid #e4e7ea;
+}
+.search-right{
+  position: absolute;
+  right:0; top:15px;
+}
+.repair-chandlery .search-btn{
+  float: left;
+  margin-left:10px;
+  display: inline-block;
+  padding:0 10px;
+  line-height:32px;
+  height:32px;
+  border:none;
+  background-color:#66CCFF;
+  color:#fff;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all .5s;
+}
+.repair-chandlery .search-btn:hover{
+  opacity:.8;
+}
+.btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  background-color: #fb9678;
+  border: 1px solid #fff;
+  transition: all .6s;
+}
+.btn:hover {
+  opacity: .8;
+  border-color: #fb9678;
+}
+.search-ipt {
+  height: 20px;
+  width: calc(100% - 110px);
+  min-width: 70px;
+  box-sizing: content-box;
+  padding: 3px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  background-color: #fff;
+  border: 1px solid #e4e7ea;
+  max-width:250px;
 }

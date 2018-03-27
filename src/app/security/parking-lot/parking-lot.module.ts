@@ -8,6 +8,7 @@ import {NavTitleModule} from "../../component/nav-title/nav-title.module";
 import {TurnBarModule} from "../../component/turn-bar/turn-bar.module";
 import {ImgurlModule} from "../../pipe/imgurl/imgurl.module";
 import {GlobalFooterModule} from "../../component/global-footer/global-footer.module";
+import {FormsModule} from "@angular/forms";
 const routes: Routes = [
   {
     path: '',
@@ -42,6 +43,7 @@ const routes: Routes = [
     HttpModule,
     NavTitleModule,
     TurnBarModule,
+    FormsModule,
     ImgurlModule,
     GlobalFooterModule,
     RouterModule.forChild(routes)

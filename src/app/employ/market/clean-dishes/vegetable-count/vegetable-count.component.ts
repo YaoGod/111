@@ -52,7 +52,7 @@ export class VegetableCountComponent implements OnInit {
       }
     });
   }
-  /*查询净菜名称*/ // GET /mmall/vegetableInfo/getVegetableByName/{name}
+  /*查询净菜名称*/
   getVegetables(){
     let nnt = $('#productName').val().trim();
     let url = '/mmall/vegetableInfo/getVegetableByName?name='+nnt;

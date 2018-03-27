@@ -64,7 +64,6 @@ export class OrdersReportComponent implements OnInit {
     this.getRecord(this.searchArch, this.pageNo, this.pageSize);
 
   }
-
   /*获取权限*/
   private getQuan(){
     if(this.rule!=null){
@@ -191,39 +190,12 @@ export class OrdersReportComponent implements OnInit {
   }
   /*删除信息*/
   delAttach(){  }
-  /*获取人员下拉*/
-  /*public getPersonInfoList() {
-    /!*if(this.repairname.porpertyId==0){
-      this.pin = 'clean';
-    }else if(this.repairname.porpertyId==1){
-      this.pin = 'repair';
-    }else if(this.repairname.porpertyId==2){
-      this.pin = 'clean';
-    }*!/
-    let url = "/building/person/getPersonInfoList/"+this.pin;
-    this.ipSetting.sendGet(url)
-      .subscribe(data => {
-        if(this.errorVoid.errorMsg(data)) {
-          this.aot = data['data'];
-          // console.log(data)
-        }
-      });
-  }*/
   /*编辑信息*/
   editAttach(index){
     this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
-    // this.getPersonInfoList();
-    this.getFloorNameListInfo(this.repairname.buildingId);
-    if(this.repairname.orderStatus === '已执行'){
-      this.repairname.orderStatus = '2';
-    }else if(this.repairname.orderStatus === '结单'){
-      this.repairname.orderStatus = '4';
-    }if(this.repairname.orderStatus === '退单'){
-      this.repairname.orderStatus = '3';
-    }
     $('.mask').fadeIn();
-    $('.mask-head p').html('物业订单审批');
+    $('.mask-head p').html('查看物业订单');
   }
 
   /*合同信息校验*/
@@ -286,7 +258,8 @@ export class OrdersReportComponent implements OnInit {
   }
   /*新增/编辑信息提交*/
   contractSubmit() {
-    let url;
+    this.contractCancel();
+    /*let url;
     if(this.editBool === false){
       url = "/employee/property/updateOrder";
     }else{
@@ -306,14 +279,14 @@ export class OrdersReportComponent implements OnInit {
           this.getRecord(this.searchArch, this.pageNo, this.pageSize);
           this.contractCancel();
         }
-      });
+      });*/
   }
   contractCancel(){
-    this.repairname = new GuardName();
+    /*this.repairname = new GuardName();
     $('.form-control').removeClass('form-error');
     $('.errorMessage').html('');
     this.repairname.fileName = [];
-    this.repairname.filePath = [];
+    this.repairname.filePath = [];*/
     $('.mask').hide();
   }
 
@@ -413,20 +386,22 @@ export class GuardName {
   buildingName: string;
   floorId: string; // 楼层
   roomId:string; // 房间号
-  username:string; // 订单人
-  userDept:string; // 订单部门
+  userDept:string; // 员工部门
   userTel: string; // 电话
   type:string; // 服务项目
+  propertyType:string; // 服务项目
+  propertyName:string; // 服务内容
+  porpertyId:string; // 服务内容id
   servername:string; // 具体服务内容
   porpertyContent:string; // 服务详情
-  serverUserid:string;
   orderId:string;     // 订单号
+  plateNum: string; // 车牌信息
   filePath: string[]; // 文件路径
   fileName:string[]; // 文件名
   orderStatus:string; // 订单状态
-  startTime:string;        // 订单生成时间
-  finshTime:string;        // 订单结束时间
-  plateNum:string[]; // 车牌信息
+  username:string; // 订单人
+  serverPersonName:string; // 服务人员姓名
+  serverPersonTel:string; // 服务人员电话
 }
 export class Arch {
   buildingId: string; // 大楼Id

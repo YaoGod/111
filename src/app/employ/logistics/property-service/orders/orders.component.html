@@ -193,7 +193,7 @@
         <div class="form-inp">
           <select id="plateNum" name="plateNum" class="company-ipt company-sel" [(ngModel)]="repairname.plateNum">
             <option value="">请选择</option>
-            <option *ngFor="let abc of repairname.plateNum; let k=index" [value]="abc">{{abc}}</option>
+            <option *ngFor="let abc of plateNum; let k=index" [value]="abc">{{abc}}</option>
           </select>
         </div>
       </div>
@@ -221,16 +221,18 @@
       <div class="form-control">
         <span class="form-label">服务人员电话</span>
         <div class="form-inp">
-          <input id="serverPersonTel" name="serverPersonTel" class="company-ipt" [(ngModel)]="repairname.serverPersonTel" type="text" disabled="disabled">
+          <input id="serverPersonTel" name="serverPersonTel" class="company-ipt" [(ngModel)]="repairname.serverPersonTel"
+                 type="text" disabled="disabled">
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control form-alone">
         <span class="form-label">服务内容描述</span>
         <div class="form-inp form-text">
-          <textarea id="liableNote" maxlength="500" name="liableNote" class="company-ipt" [(ngModel)]="repairname.porpertyContent" (blur)="verifydetail()">
+          <textarea id="liableNote" maxlength="500" name="liableNote" class="company-ipt"
+                    [(ngModel)]="repairname.porpertyContent" (blur)="verifydetail()">
           </textarea>
-          <span class="errorMessage"></span>
+          <span class="errorMessage" style="line-height: 16px;"></span>
         </div>
       </div>
       <div class="form-control form-alone">

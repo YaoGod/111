@@ -1,16 +1,22 @@
-.cont{
-  width:100%;
-  min-height:95%;
+
+.cont {
+  height: calc(100% - 60px);
+  overflow-y: auto;
   background-color: #edf1f5;
 }
-.cont-inner{
-  height:85%;
+@media screen and (max-width: 1400px){
+  .cont {
+    height: calc(100% - 40px);
+  }
 }
+
 .cont-nav-box{
   padding: 0 30px;
 }
 .cont-nav{
   padding: 0 15px;
+  background :url("../../../assets/image/bannerC.jpg") no-repeat center;
+  background-size: cover;
   border-bottom:2px solid #f7fafc;
   display: flex;
 }

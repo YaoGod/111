@@ -101,7 +101,7 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding: 15px;
+  padding: 12px;
   background-color: #f1f5f8;
   font-size:18px;
 }
@@ -134,7 +134,7 @@ button{
   border-radius:5px;
 }
 .repair-form{
-  padding: 20px;
+  padding:10px 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -224,15 +224,13 @@ input{
   font-size: 12px;
 }
 #liableNote {
-  width: 99%;
-  height: 79%;
+  width: 88%;
+  height: 88px;
   line-height: 22px;
   font-size: 12px;
   border:1px solid #f1f1f1;
 }
 .form-text {
-  height: 140px;
-  line-height: 20px;
   max-width: 82.5%;
   overflow: hidden;
 }
@@ -249,7 +247,7 @@ input{
   -webkit-justify-content: flex-end;
   -ms-flex-pack: end;
   justify-content: flex-end;
-  padding: 15px;
+  padding: 10px;
   background-color: #f1f5f8;
 }
 .btn-mask {
@@ -282,12 +280,13 @@ input{
   padding: 0;
   float: left;
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 80%;
-  flex: 0 0 80%;
-  max-width: 80%;
+  -ms-flex: 0 0 71%;
+  flex: 0 0 71%;
+  max-width: 71%;
   margin-left: 1%;
-  height:100px;
+  height:80px;
   border:1px solid #f1f1f1;
+  overflow-y: auto;
 }
 .contract-list li{
   line-height:20px;

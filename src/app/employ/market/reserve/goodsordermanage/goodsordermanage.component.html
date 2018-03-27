@@ -52,8 +52,7 @@
                 <td class="zero">订单编号：{{order.orderNo}}</td>
                 <td class="zero">服务中心：{{order.serviceCenter}}</td>
                 <td class="zero">订单价格：{{order.payment}}元</td>
-                <td class="zero">交易方式：{{order.paymentTypeDesc}}</td>
-                <td class="zero status">订单状态：{{order.statusDesc}}</td>
+                <td class="zero status">交易方式：{{order.paymentTypeDesc}}</td>
                 <td class="zero"  *ngIf="order.status==20 || order.status==10" >
                   <button type="button" class="btn btn-info" style="padding: 2px 2px"
                           *ngIf="rule&&rule.isInstall" (click)="update(order.orderNo,40)">已配货</button>
@@ -61,15 +60,18 @@
                           *ngIf="rule&&rule.isInstall" (click)="update(order.orderNo,0)">退单</button>
                 </td>
               </tr>
-            <tr>
-              <td class="zero">下单人姓名：{{order.userName}}</td>
-              <td class="zero">下单人电话：{{order.telPhone}}</td>
-              <td class="zero">收货人：{{order.receiver}}</td>
-              <td class="zero">收货地址：{{order.address}}</td>
-              <td class="zero">下单时间：{{order.createTime}}</td>
-
-              <td class="zero"  *ngIf="order.status==20 || order.status==10"></td>
-            </tr>
+              <tr>
+                <td class="zero">下单人姓名：{{order.userName}}</td>
+                <td class="zero">下单人电话：{{order.telPhone}}</td>
+                <td class="zero">收货人：{{order.receiver}}</td>
+                <td class="zero status">订单状态：{{order.statusDesc}}</td>
+                <td class="zero"  *ngIf="order.status==20 || order.status==10"></td>
+              </tr>
+              <tr>
+                <td colspan="2" class="zero">收货地址：{{order.address | minLength: [18,'…']}}</td>
+                <td colspan="2" class="zero">下单时间：{{order.createTime}}</td>
+                <td class="zero"  *ngIf="order.status==20 || order.status==10"></td>
+              </tr>
             </table>
             </dt>
             <dl>

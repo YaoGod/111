@@ -36,6 +36,7 @@ export class OrdersComponent implements OnInit {
   public useful = [];
   public usefulSecond = [];
   public onNum:string;
+  public plateNum=[];
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
               private utilBuildingService:UtilBuildingService,
@@ -148,6 +149,20 @@ export class OrdersComponent implements OnInit {
             }
           }
         }
+      }
+    });
+  }
+  /*获取自己拥有车辆*/
+  getUserCar(){
+    let inner = [];
+    let url = "/building/carInfo/getUserCar/"+localStorage.getItem("username");
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        for(let i =0;i<data.data.length;i++){
+          inner.push(data.data[i].carNumber);
+        }
+        this.plateNum = inner;
+        console.log(inner);
       }
     });
   }
@@ -312,6 +327,7 @@ export class OrdersComponent implements OnInit {
   }
   /*点击新增*/
   addOrder(){
+    this.getUserCar();
     this.repairname = new GuardName();
     this.repairname.fileName = [];
     this.repairname.filePath = [];
@@ -496,7 +512,7 @@ export class GuardName {
   servername:string; // 具体服务内容
   porpertyContent:string; // 服务详情
   orderId:string;     // 订单号
-  plateNum:string[]; // 车牌信息
+  plateNum: string; // 车牌信息
   filePath: string[]; // 文件路径
   fileName:string[]; // 文件名
   orderStatus:string; // 订单状态
