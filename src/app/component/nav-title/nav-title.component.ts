@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GlobalCatalogService } from '../../service/global-catalog/global-catalog.service';
+declare var $:any;
 @Component({
   selector: 'app-title',
   templateUrl: './nav-title.component.html',

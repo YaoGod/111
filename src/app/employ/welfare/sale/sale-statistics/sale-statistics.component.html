@@ -44,11 +44,12 @@
     <tr class="row list-title" style="height:20px;">
       <th>HRMIS号</th>
       <th class="text-left">收货人</th>
-      <th>抢购人部门</th>
+      <th class="text-left">抢购人部门</th>
       <th>联系方式</th>
       <th>收货地址</th>
       <th>商品类型</th>
       <th>下单时间</th>
+      <th class="text-left">备注</th>
     </tr>
     <tr class="row" *ngFor="let userSale of userSales;let i = index">
       <td>
@@ -57,7 +58,7 @@
       <td class="text-left">
         <span>{{userSale.userName}}</span>
       </td>
-      <td>
+      <td class="text-left">
         <span>{{userSale.deptName}}</span>
       </td>
       <td>
@@ -71,6 +72,9 @@
       </td>
       <td>
         <span>{{userSale.createTime|date:'yyyy/MM/dd HH:mm:ss'}}</span>
+      </td>
+      <td class="text-left">
+        <span>{{userSale.note}}</span>
       </td>
     </tr>
   </table>

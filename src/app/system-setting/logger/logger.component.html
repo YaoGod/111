@@ -1,3 +1,80 @@
-<p>
-  logger works!
-</p>
+<div class="content-area">
+  <div class="content-inner">
+    <!--页面标题-->
+    <div class="nav-title">
+      <a><h4>系统日志</h4></a>
+      <!--<div class="b-head-right">
+        <div class="content-box" tabindex="0" onclick="history.go(-1)">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>-->
+    </div>
+    <!--搜索栏-->
+    <div class="search-bar">
+      <ul>
+        <li><label>类型</label>
+          <select name="module" [(ngModel)]="search.module">
+            <option value="">全部</option>
+            <option *ngFor="let module of moduleList">{{module}}</option>
+          </select>
+        </li>
+        <li><label>时间</label>
+          <input type="date" name="bTime" [(ngModel)]="search.bTime">至
+          <input type="date" name="eTime" [(ngModel)]="search.eTime">
+        </li>
+        <li>
+          <a (click)="getSystemLogger(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
+        </li>
+        <li>
+          <a class="btn-danger" [href]="exportSysLog()">
+            <i class="icon-share-alt"></i>&nbsp;导出</a>
+        </li>
+      </ul>
+    </div>
+    <!--表头-->
+    <div class="table-head" style="margin-top: 10px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row list-title" style="height:45px;">
+          <th width="15%" class="text-left">操作账号</th>
+          <th width="10%" class="text-left">操作类型</th>
+          <th width="10%">客户端地址</th>
+          <th width="15%">操作时间</th>
+          <th width="50%" class="text-left">操作内容</th>
+        </tr>
+      </table>
+    </div>
+    <!--表格内容-->
+    <div class="table-content" style="min-height: 360px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row" *ngFor="let log of loggers;let i = index">
+          <td width="15%" class="text-left">
+              {{log.userId}}
+          </td>
+          <td width="10%" class="text-left">
+            {{log.operationModule}}
+          </td>
+          <td width="10%">
+            {{log.clientIp}}
+          </td>
+          <td width="15%">
+            <p>{{log.operationTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
+          </td>
+          <td width="50%" class="text-left">
+            <p>{{log.operationContent}}</p>
+          </td>
+        </tr>
+      </table>
+      <div class="div-none" *ngIf="loggers.length === 0">
+        <p>暂无信息</p>
+      </div>
+    </div>
+    <!--翻页-->
+    <app-turn-bar
+      [pageNo] = "pageNo"
+      [pageSize] = "pageSize"
+      [total] = "total"
+      (turnEvent) = "getSystemLogger($event)">
+    </app-turn-bar>
+
+  </div>
+</div>

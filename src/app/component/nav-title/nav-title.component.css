@@ -53,3 +53,39 @@
     width: 14px;
   }
 }
+.help:hover .user-onner .user-menu{
+  display: block;
+}
+.user-onner{
+  width: 180px;
+  position: absolute;
+  margin-top: -10px;
+  right: 80px;
+  font-size: 10px;
+}
+.user-menu{
+  display:none;
+  width:100%;
+  border-radius:4px;
+  z-index: 1;
+  background-color:#fff;
+  transition: all 2s;
+  border:1px solid #CCCCCC;
+  box-shadow: 1px 1px 1px #cbcecd;
+}
+.user-menu>li{
+  padding:6px 0;
+}
+.J_menuItem{
+  cursor: pointer;
+  display: block;
+  padding: 9px 20px;
+  clear: both;
+  font-weight: 400;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+}
+.J_menuItem:hover{
+  background-color: #f7fafc;
+}

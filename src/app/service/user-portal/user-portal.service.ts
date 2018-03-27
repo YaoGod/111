@@ -34,7 +34,7 @@ export class UserPortalService {
   }
   /*发送验证码*/
   sendMessage(type,target) {
-    const url = this.ipSetting.ip + "/portal/user/sendMessage/"+ type + "/" + target;
+    const url = this.ipSetting.ip + "/portal/util/sendMessage/"+ type + "/" + target;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -49,5 +49,23 @@ export class UserPortalService {
     const url = this.ipSetting.ip + '/portal/user/ttmm/'+data;
     return this.http.get(url,this.options)
       .map(res => res.json());
+  }
+  /*系统日志模块名下拉列表*/
+  getModuleList(){
+    const url = this.ipSetting.ip + '/portal/sysLog/getModuleList';
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  /*系统日志列表*/
+  getSysLog(pageNo,pageSize,search){
+    const url = this.ipSetting.ip + '/portal/sysLog/getSysLog/'+pageNo+'/'+pageSize+
+    '?bTime='+search.bTime + '&eTime=' + search.eTime + '&module='+ search.module +'&dataType=list';
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  exportSysLog(pageNo,pageSize,search){
+    const url = this.ipSetting.ip + '/portal/sysLog/getSysLog/'+pageNo+'/'+pageSize+
+      '?bTime='+search.bTime + '&eTime=' + search.eTime + '&module='+ search.module +'&dataType=excel';
+    return url;
   }
 }

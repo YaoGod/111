@@ -1,3 +1,54 @@
-<p>
-  user works!
-</p>
+<div class="content-area">
+  <div class="content-inner">
+    <!--页面标题-->
+    <div class="nav-title">
+      <a><h4>用户管理</h4></a>
+      <!--<div class="b-head-right">
+        <div class="content-box" tabindex="0" onclick="history.go(-1)">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>-->
+    </div>
+    <!--搜索栏-->
+    <div class="search-bar">
+      <ul>
+        <li><label>账号</label>
+          <input type="text" name="module" [(ngModel)]="search.userid">
+
+        </li>
+        <li>
+          <a (click)="getUserList(1);"><i class="icon-magnifier"></i>查询</a>
+        </li>
+      </ul>
+    </div>
+    <!--表头-->
+    <div class="table-head" style="margin-top: 10px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row list-title" style="height:45px;">
+          <th width="15%" class="text-left">账号</th>
+        </tr>
+      </table>
+    </div>
+    <!--表格内容-->
+    <div class="table-content" style="min-height: 360px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row" *ngFor="let user of users;let i = index">
+          <td width="15%" class="text-left">
+
+          </td>
+        </tr>
+      </table>
+      <div class="div-none" *ngIf="users.length === 0">
+        <p>暂无信息</p>
+      </div>
+    </div>
+    <!--翻页-->
+    <app-turn-bar
+      [pageNo] = "pageNo"
+      [pageSize] = "pageSize"
+      [total] = "total"
+      (turnEvent) = "getUserList($event)">
+    </app-turn-bar>
+
+  </div>
+</div>

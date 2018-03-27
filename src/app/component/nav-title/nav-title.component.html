@@ -1,8 +1,8 @@
 <div class="header">
   <img src="assets/image/icon_3line.png">
   <h2>{{title}}</h2>
-  <div class="header-right">
-    <a class="waves-effect waves-light" (click)="loginOut()">
+  <div class="header-right" (click)="loginOut()">
+    <a class="waves-effect waves-light">
       <span class="hidden-xs">登出&nbsp;&nbsp;<i class="icon-logout"></i></span> </a>
   </div>
   <div class="header-right">
@@ -10,5 +10,14 @@
   </div>
   <div class="header-right">
     <i class="icon-envelope-letter"></i>
+  </div>
+  <div class="header-right help">
+    <i class="icon-question"></i>
+    <div class="user-onner">
+      <ul class="user-menu animated">
+        <li style="border-bottom:1px solid #CCCCCC"><a class="J_menuItem" >帮助文档下载</a></li>
+        <li><a class="J_menuItem">服务热线：13429132938</a></li>
+      </ul>
+    </div>
   </div>
 </div>

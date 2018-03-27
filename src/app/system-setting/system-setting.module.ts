@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {FormsModule} from "@angular/forms";
 import { Routes, RouterModule } from '@angular/router';
 import { RouteGuardService } from '../service/route-guard/route-guard.service';
 import {GlobalFooterModule} from "../component/global-footer/global-footer.module";
@@ -38,6 +39,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     HttpModule,
     NavTitleModule,
     GlobalFooterModule,
