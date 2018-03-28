@@ -107,7 +107,7 @@ export class OrdersComponent implements OnInit {
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         this.usefulSecond = data.data;
-        // this.repairname.serverPersonName =
+
         for(let i=0;i<this.usefulSecond.length;i++){
           // console.log(this.usefulSecond.length);
           if(this.usefulSecond.length===1 && (!this.usefulSecond[0].porpertyId||this.usefulSecond[0].porpertyId==='')){
@@ -120,6 +120,7 @@ export class OrdersComponent implements OnInit {
     });
   }
   queryName(porpertyId){
+    // console.log(this.usefulSecond);
     if(!porpertyId||porpertyId===''){
       this.repairname.amount = this.usefulSecond[0].amount;
       this.repairname.serverPersonName = this.usefulSecond[0].serverPersonName;
@@ -128,6 +129,8 @@ export class OrdersComponent implements OnInit {
       for(let i=0;i<this.usefulSecond.length;i++){
         if(this.usefulSecond[i].id == porpertyId){
           this.repairname.amount = this.usefulSecond[i].amount;
+          this.repairname.serverPersonName = this.usefulSecond[i].serverPersonName;
+          this.repairname.serverPersonTel = this.usefulSecond[i].serverPersonTel;
         }
       }
     }
@@ -162,7 +165,7 @@ export class OrdersComponent implements OnInit {
           inner.push(data.data[i].carNumber);
         }
         this.plateNum = inner;
-        console.log(inner);
+        // console.log(inner);
       }
     });
   }
@@ -253,7 +256,7 @@ export class OrdersComponent implements OnInit {
     });
   }
   /*编辑信息*/
-  editAttach(index,status){
+  editAttach(index,status,prompt){
     /*this.editBool = false;
     this.repairname = JSON.parse(JSON.stringify(this.record[index]));
     this.getFloorNameListInfo(this.repairname.buildingId);
@@ -262,33 +265,7 @@ export class OrdersComponent implements OnInit {
 
     confirmFunc.init({
       'title': '提示',
-      'mes': '确认订单已完成？',
-      'popType': 1,
-      'imgType': 3,
-      'callback': () => {
-        let url = "/employee/property/updateOrder";
-        let post = {
-          id:index,
-          orderStatus:status
-        };
-        this.ipSetting.sendPost(url, post).subscribe(data => {
-          if (this.errorVoid.errorMsg(data)) {
-            confirmFunc.init({
-              'title': '提示',
-              'mes': data['msg'],
-              'popType': 0,
-              'imgType': 1,
-            });
-            this.getRecord(this.searchArch, this.pageNo, this.pageSize);
-          }
-        });
-      }
-    });
-  }
-  backAttach(index,status){
-    confirmFunc.init({
-      'title': '提示',
-      'mes': '确认退单？',
+      'mes': prompt,
       'popType': 1,
       'imgType': 3,
       'callback': () => {
@@ -352,12 +329,20 @@ export class OrdersComponent implements OnInit {
     }
     return true;
   }
+  public verifyserverPersonName() {
+    if (!this.isEmpty('serverPersonName', '未发现人员')) {
+      return false;
+    }
+    return true;
+  }
+
   public verifydetail() {
     if (!this.isEmpty('liableNote', '不能为空')) {
       return false;
     }
     return true;
   }
+
   /*附件上传*/
   prese_upload(files){
     var xhr = this.utilBuildingService.importEmployee(files[0],'property',-1);
@@ -386,7 +371,7 @@ export class OrdersComponent implements OnInit {
       }
     };
   }
-  /*删除合同文件*/
+  /*删除文件*/
   delFile(index){
     this.repairname.filePath.splice(index,1);
     this.repairname.fileName.splice(index,1);
@@ -399,7 +384,7 @@ export class OrdersComponent implements OnInit {
     }else{
       url = "/employee/property/addOrder";
     }
-    if (!this.verifybuildingId() || !this.verifyservername() || !this.verifydetail()) {
+    if (!this.verifybuildingId() || !this.verifyservername() || !this.verifydetail() || !this.verifyserverPersonName()) {
       return false;
     }
     this.repairname.orderStatus = '1';
@@ -497,7 +482,7 @@ export class OrdersComponent implements OnInit {
 }
 export class GuardName {
   id: number; // 本条信息ID
-  amount:string; // 库存
+  amount:number; // 库存
   buildingId: string;
   buildingNum: string;
   buildingName: string;

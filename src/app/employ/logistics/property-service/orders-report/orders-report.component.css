@@ -282,9 +282,9 @@ input{
   padding: 0;
   float: left;
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 80%;
-  flex: 0 0 80%;
-  max-width: 80%;
+  -ms-flex: 0 0 71.5%;
+  flex: 0 0 71.5%;
+  max-width: 71.5%;
   margin-left: 1%;
   height:80px;
   border:1px solid #f1f1f1;

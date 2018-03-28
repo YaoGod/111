@@ -37,13 +37,13 @@ export class VehicleInfoComponent implements OnInit {
     private saleProductEmployeeService:SaleProductEmployeeService,
     public ipSetting  : IpSettingService
   ) {
-    this.rule = this.globalCatalogService.getRole("security/daily");
+    this.rule = this.globalCatalogService.getRole("security/parking");
   }
 
   ngOnInit() {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
-        this.rule = this.globalCatalogService.getRole("security/daily");
+        this.rule = this.globalCatalogService.getRole("security/parking");
         this.getQuan();
       }
     );
@@ -55,11 +55,11 @@ export class VehicleInfoComponent implements OnInit {
   /*获取权限*/
   private getQuan(){
     if(this.rule!=null){
-      let url = "/portal/user/getCata/"+this.rule.ID+"/repair?url=";
+      let url = "/portal/user/getCata/"+this.rule.ID+"/parking?url=";
       this.ipSetting.sendGet(url).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           for(let i = 0;i<data.data.length;i++){
-            if(data.data[i].routeUrl === "repair"){
+            if(data.data[i].routeUrl === "parking"){
               this.jurisdiction = data.data[i];
             }
           }

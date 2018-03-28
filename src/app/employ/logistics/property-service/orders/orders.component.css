@@ -394,11 +394,12 @@ input{
   font-size: 12px;
 }
 .form-detail p{
-  padding:0px 5%;
+  padding:0 5%;
   width:90%;
   max-height:120px;
   overflow: hidden;
   color:#8d9ea7;
+  word-wrap: break-word;
   font-size: 12px;
   line-height:20px;
 }

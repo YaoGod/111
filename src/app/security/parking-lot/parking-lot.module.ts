@@ -15,11 +15,11 @@ const routes: Routes = [
     canActivate: [RouteGuardService],
     component: ParkingLotComponent,
     children: [
-      {
-        path: '',
-        redirectTo: "vehicle",
-        pathMatch: 'full'
-      },
+      /*{
+       path: '',
+       redirectTo: "vehicle",
+       pathMatch: 'full'
+       },*/
       {
         path: 'vehicle',
         loadChildren: './vehicle-info/vehicle-info.module#VehicleInfoModule'

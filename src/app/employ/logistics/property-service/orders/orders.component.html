@@ -102,11 +102,10 @@
         </ol>
       </div>
       <div class="form-examine">
-        <div class="form-btn" *ngIf="inner.orderStatus==='订购中'" (click)="editAttach(inner.id,'4')">已完成</div>
-        <div class="form-btn form-del" *ngIf="inner.orderStatus==='订购中'" (click)="backAttach(inner.id,'3')">退单</div>
+        <div class="form-btn" *ngIf="inner.orderStatus==='订购中'" (click)="editAttach(inner.id,'4','确认订单已完成？')">已完成</div>
+        <div class="form-btn form-del" *ngIf="inner.orderStatus==='订购中'" (click)="editAttach(inner.id,'3','确认退单？')">退单</div>
         <!--<div class="form-btn" *ngIf="inner.orderStatus==='订购中'" (click)="editAttach(i)"><i class="icon-pencil"></i></div>-->
-        <div class="form-btn form-del" (click)="delAttach(inner.id)" *ngIf="rule&&rule.isInstall">删除
-          <!--<i class="icon-trash"></i>--></div>
+        <div class="form-btn form-del" (click)="delAttach(inner.id)" *ngIf="rule&&rule.isInstall">删 除</div>
       </div>
 
     </div>
@@ -184,8 +183,10 @@
         <span class="form-label" *ngIf="repairname.type!=='节假日停车'">剩余库存</span>
         <span class="form-label" *ngIf="repairname.type==='节假日停车'">剩余车位</span>
         <div class="form-inp">
-          <input id="number" name="number" type="number" class="company-ipt company-sel" [(ngModel)]="repairname.amount">
+          <input id="number" name="number" type="number" class="company-ipt company-sel" [(ngModel)]="repairname.amount"
+                 disabled="disabled">
           <span class="errorMessage"></span>
+          <span style="color: red;" *ngIf="repairname.amount<1">库存不足</span>
         </div>
       </div>
       <div class="form-control" *ngIf="repairname.type==='节假日停车'">
@@ -200,7 +201,8 @@
       <div class="form-control">
         <span class="form-label">员工部门</span>
         <div class="form-inp">
-          <input type="text" id="employeeDepart" class="company-ipt" name="employeeDepart" [(ngModel)]="repairname.userDept" required disabled="disabled">
+          <input type="text" id="employeeDepart" class="company-ipt" name="employeeDepart" [(ngModel)]="repairname.userDept"
+                 required disabled="disabled">
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -214,7 +216,8 @@
       <div class="form-control">
         <span class="form-label">服务人员姓名</span>
         <div class="form-inp">
-          <input id="serverPersonName" name="serverPersonName" class="company-ipt" [(ngModel)]="repairname.serverPersonName" type="text" disabled="disabled">
+          <input id="serverPersonName" name="serverPersonName" class="company-ipt" [(ngModel)]="repairname.serverPersonName"
+                 type="text" disabled="disabled" (blur)="verifyserverPersonName()">
           <span class="errorMessage"></span>
         </div>
       </div>

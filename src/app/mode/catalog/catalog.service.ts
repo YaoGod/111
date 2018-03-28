@@ -15,6 +15,7 @@ export class Catalog {
 }
 
 export class sndCatalog {
+  ID:string;
   /* 门户页二级目录 */
   name    : string;  /* 门户页二级目录名称 */
   routeUrl: string;  /* 门户页二级目录路由指向 */
