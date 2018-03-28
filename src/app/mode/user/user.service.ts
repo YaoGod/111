@@ -4,11 +4,15 @@ import { Injectable } from '@angular/core';
 export class User {
   /*登陆用户*/
   id       : number;
-  userid     : string;
+  userid   : string;
   username : string;
   password : string;
-  teleNum: string;
-  homeAddr: string;
-  deptId  : string;
-  deptName: string;
+  teleNum  : string;
+  homeAddr : string;
+  deptId   : string;
+  deptName : string;
+  sex      : string;
+  oaEmail  : string;
+  status   : string;
+  flag     : string; /*标志位无意义*/
 }

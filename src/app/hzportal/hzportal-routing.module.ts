@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { HeaderComponent } from './header/header.component';
 import { RouteGuardService } from '../service/route-guard/route-guard.service';
+import {HelpDocComponent} from "./help-doc/help-doc.component";
 
 const routes: Routes = [
   {
@@ -39,7 +40,13 @@ const routes: Routes = [
         /*系统管理*/
         path: 'system',
         loadChildren: '../system-setting/system-setting.module#SystemSettingModule'
+      },
+      {
+        /*系统管理*/
+        path: 'help',
+        component: HelpDocComponent
       }
+
     ]
   },
   {

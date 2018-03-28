@@ -50,6 +50,30 @@ export class UserPortalService {
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
+  /*获取所有部门*/
+  getDeptList(){
+    const url = this.ipSetting.ip + "/portal/user/getDeptList";
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  /*新增用户*/
+  addUserInfo(postData){
+    const url = this.ipSetting.ip + '/portal/user/addUserInfo';
+    return this.http.post(url,postData,this.options)
+      .map(res => res.json());
+  }
+  /*删除用户*/
+  deleteUserInfo(id){
+    const url = this.ipSetting.ip + "/portal/user/deleteUserInfo/"+id;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  /*获取所有用户信息列表*/
+  getUserList(pageNo,pageSize,search){
+    const url = this.ipSetting.ip + '/portal/user/getUserInfoList/'+pageNo+'/'+pageSize;
+    return this.http.post(url,search,this.options)
+      .map(res => res.json());
+  }
   /*系统日志模块名下拉列表*/
   getModuleList(){
     const url = this.ipSetting.ip + '/portal/sysLog/getModuleList';
@@ -63,6 +87,7 @@ export class UserPortalService {
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
+  /*导出系统日志*/
   exportSysLog(pageNo,pageSize,search){
     const url = this.ipSetting.ip + '/portal/sysLog/getSysLog/'+pageNo+'/'+pageSize+
       '?bTime='+search.bTime + '&eTime=' + search.eTime + '&module='+ search.module +'&dataType=excel';

@@ -13,19 +13,25 @@ import { GlobalCatalogService } from "../service/global-catalog/global-catalog.s
 import { IpSettingService } from "../service/ip-setting/ip-setting.service";
 import { TurnBarModule } from "../component/turn-bar/turn-bar.module";
 import {UserPortalService} from "../service/user-portal/user-portal.service";
+import { HelpDocComponent } from './help-doc/help-doc.component';
+import {NavTitleModule} from "../component/nav-title/nav-title.module";
+import {GlobalFooterModule} from "../component/global-footer/global-footer.module";
 @NgModule({
   declarations: [
     HzportalComponent,
     LoginComponent,
     HomepageComponent,
-    HeaderComponent
+    HeaderComponent,
+    HelpDocComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
     HzportalRoutingModule,
     FormsModule,
-    TurnBarModule
+    TurnBarModule,
+    NavTitleModule,
+    GlobalFooterModule,
   ],
   providers: [ GlobalUserService,GlobalCatalogService,ErrorResponseService,IpSettingService,UserPortalService],
   bootstrap: [HzportalComponent]

@@ -42,7 +42,7 @@ export class ShareMypushComponent implements OnInit {
       'title': '提示',
       'mes': '是否删除该商品?',
       'popType': 1,
-      'imgType': 1,
+      'imgType': 3,
       "callback": () => {
         this.shareProductPublicService.deleteShareProduct(id)
           .subscribe(data=>{
@@ -65,7 +65,7 @@ export class ShareMypushComponent implements OnInit {
       'title': '提示',
       'mes': '是否确认提交管理员重新审核?',
       'popType': 1,
-      'imgType': 1,
+      'imgType': 3,
       "callback": () => {
         let postdata = new ShareProduct();
         postdata.id = id;

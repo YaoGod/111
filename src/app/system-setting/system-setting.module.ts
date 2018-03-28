@@ -11,6 +11,7 @@ import {NavTitleModule} from "../component/nav-title/nav-title.module";
 import { SystemSettingComponent } from './system-setting.component';
 import { LoggerComponent } from './logger/logger.component';
 import { UserComponent } from './user/user.component';
+import {UserPortalService} from "../service/user-portal/user-portal.service";
 
 const routes: Routes = [
   {
@@ -48,7 +49,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
-  providers: [RouteGuardService],
+  providers: [RouteGuardService, UserPortalService],
   declarations: [SystemSettingComponent, LoggerComponent, UserComponent]
 })
 export class SystemSettingModule { }

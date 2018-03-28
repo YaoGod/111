@@ -10,14 +10,16 @@ import {Catalog, sndCatalog} from "../../mode/catalog/catalog.service";
   styleUrls: ['./parking-lot.component.css']
 })
 export class ParkingLotComponent implements OnInit {
-  public rule: sndCatalog = new sndCatalog();
+  public rule: any;
   public catas;
   constructor(
     private globalCatalogService: GlobalCatalogService,
     private errorVoid: ErrorResponseService,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) {
+    this.rule = this.globalCatalogService.getRole("security/parking");
+  }
 
   ngOnInit() {
     this.globalCatalogService.setTitle("后勤物业/车位管理");
@@ -27,7 +29,7 @@ export class ParkingLotComponent implements OnInit {
         this.getRule(this.rule.ID);
       }
     );
-    if(!this.rule){this.getRule(this.rule.ID);}
+    if(this.rule){this.getRule(this.rule.ID);}
   }
   getRule(id){
     this.globalCatalogService.getCata(id,'parking','')
