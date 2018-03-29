@@ -166,7 +166,8 @@ export class VehicleInfoComponent implements OnInit {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)){
           inner = data.msg;
-          this.newCard.imgPathList.driverA.push(inner);
+          this.newCard.imgPathList.driverA[0] = inner;
+          // this.newCard.imgPathList.driverA.push(inner);
           // console.log(this.newCard.imgPathList.driverA);
         }
       }else if(xhr.readyState === 4 && xhr.status === 413 ){
@@ -188,7 +189,8 @@ export class VehicleInfoComponent implements OnInit {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)){
           inner = data.msg;
-          this.newCard.imgPathList.driverB.push(inner);
+          this.newCard.imgPathList.driverB[0] = inner;
+          // this.newCard.imgPathList.driverB.push(inner);
           // console.log(this.newCard.imgPathList.driverB);
         }
       }else if(xhr.readyState === 4 && xhr.status === 413 ){
