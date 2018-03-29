@@ -18,7 +18,7 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forChild(routes)
   ],
-  exports: [RouterModule],
+  exports: [RouterModule,MinLengthPipe],
   declarations: [GroupListComponent, MinLengthPipe]
 })
 export class GroupListModule { }

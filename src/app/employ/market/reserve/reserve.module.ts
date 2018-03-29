@@ -15,7 +15,7 @@ import { GoodsnoticeComponent } from './goodsnotice/goodsnotice.component';
 import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
 import {PrintBarModule} from "../../../component/print-bar/print-bar.module";
 import {ImgurlModule} from "../../../pipe/imgurl/imgurl.module";
-import {MinLengthPipe} from "../../../security/property/group-list/min-length.pipe";
+import {GroupListModule} from "../../../security/property/group-list/group-list.module";
 const routes: Routes = [
   {
     path: '',
@@ -73,9 +73,10 @@ const routes: Routes = [
     TurnBarModule,
     PrintBarModule,
     ImgurlModule,
+    GroupListModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [ReserveComponent,SupplierComponent, GoodsComponent, GoodscartComponent,MinLengthPipe,
+  declarations: [ReserveComponent,SupplierComponent, GoodsComponent, GoodscartComponent,
     GoodsordermanageComponent, GoodsbuyComponent, GoodsorderconfirmComponent, GoodsorderComponent, GoodsnoticeComponent]
 })
 export class ReserveModule { }
