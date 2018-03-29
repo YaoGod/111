@@ -12,6 +12,8 @@ import { SystemSettingComponent } from './system-setting.component';
 import { LoggerComponent } from './logger/logger.component';
 import { UserComponent } from './user/user.component';
 import {UserPortalService} from "../service/user-portal/user-portal.service";
+import { RoleComponent } from './role/role.component';
+import { AbilityComponent } from './ability/ability.component';
 
 const routes: Routes = [
   {
@@ -28,6 +30,16 @@ const routes: Routes = [
         /*用户管理*/
         path: 'user',
         component: UserComponent
+      },
+      {
+        /*角色管理*/
+        path: 'role',
+        component: RoleComponent
+      },
+      {
+        /*权限管理*/
+        path: 'ability',
+        component: AbilityComponent
       },
       {
         /*系统日志管理*/
@@ -50,6 +62,6 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [RouteGuardService, UserPortalService],
-  declarations: [SystemSettingComponent, LoggerComponent, UserComponent]
+  declarations: [SystemSettingComponent, LoggerComponent, UserComponent, RoleComponent, AbilityComponent]
 })
 export class SystemSettingModule { }

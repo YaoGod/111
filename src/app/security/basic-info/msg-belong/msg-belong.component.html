@@ -54,7 +54,7 @@
         <span class="form-title">大楼归属</span>
         <select class="ipt" [(ngModel)]="copyBuilding.belongTo">
           <option>市公司</option>
-          <option>县区分公司</option>
+          <option *ngFor="let company of companyList" [value]="company">{{company}}</option>
         </select>
         <!--<input type="text" name="belongTo" class="ipt"
                [(ngModel)]="copyBuilding.belongTo">-->

@@ -93,4 +93,30 @@ export class UserPortalService {
       '?bTime='+search.bTime + '&eTime=' + search.eTime + '&module='+ search.module +'&dataType=excel';
     return url;
   }
+  /*获取操作文档下载地址*/
+  getOptDoc(){
+    const url = this.ipSetting.ip + '/portal/sysLog/getOptDoc/optDoc/1';
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  /*操作文档上传*/
+  uploadFile(postData,type,id){
+    const url = this.ipSetting.ip + "/portal/util/uploadFile/"+type+ "/" +id;
+    var form = new FormData();
+    if (typeof(postData) === 'object') {
+      form.append('file', postData);
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.withCredentials = true;
+    xhr.send(form);
+    return xhr;
+  }
+  /*获取操作文档上传权限*/
+  getOptDocManage(){
+    const url = this.ipSetting.ip + '/portal/sysLog/getOptDocManage';
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+
 }

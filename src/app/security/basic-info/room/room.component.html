@@ -8,7 +8,7 @@
       新增
     </a>
     <div class="b-head-right">
-      <div class="content-box" tabindex="0" (click)="back()">
+      <div class="content-box" tabindex="0" onclick="history.go(-1)">
         <i class="icon-reload"></i> 返回
       </div>
     </div>
@@ -34,6 +34,10 @@
             <label *ngIf="room.seatingNum">
               <span class="form-title">设计座位数</span>
               <p>{{room.seatingNum}}</p>
+            </label>
+            <label *ngIf="room.isOrder">
+              <span class="form-title">是否可预订</span>
+              <p>{{room.isOrder}}</p>
             </label>
             <label>
               <span class="form-title">实际用途</span>
@@ -103,7 +107,7 @@
                        name="roomUse"
                        [(ngModel)]="newRoom.roomUse"
                        (blur)="verifyEmpty(newRoom.roomUse,'newRoomUse');"
-                       >
+                (change)="changeUserForm(newRoom.roomUse);">
                 <option value="">请选择</option>
                 <option>总经理办公室</option>
                 <option>副总经理办公室</option>
@@ -148,6 +152,22 @@
             </label>
             <div class="error"></div>
           </div>
+          <div  class="form-group" *ngIf="newRoom.roomUse == '会议室'||newRoom.roomUse == '电视电话会议室'
+          ||newRoom.roomUse == '多功能厅'||newRoom.roomUse == '食堂'">
+            <label  class="control-label"><span>是否可预订</span>
+              <span id="isOrder">
+                <label for="yes">
+                <input id="yes" name="isOrder" type="radio" value="是" [(ngModel)]="newRoom.isOrder">
+                是
+              </label>
+              <label for="no">
+                <input id="no" name="isOrder" type="radio" value="否" [(ngModel)]="newRoom.isOrder">
+                否
+              </label>
+              </span>
+            </label>
+            <div class="error"></div>
+          </div>
           <div  class="form-group">
             <label  class="control-label" title="最大输入50个字">
               <span style="vertical-align: top;">实际用途</span>
@@ -158,6 +178,12 @@
                      verifyMaxLength(newRoom.roomUseReal,'newRoomUserReal',50)"
                     (keyup)="newRoom.roomUseReal = limitText(newRoom.roomUseReal,50)"
               ></textarea>
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group" *ngIf="newRoom.roomUse === '员工办公室'">
+            <label  class="control-label">
+              <p>*必须注明是哪个部门哪个科室在使用这个办公室，有多少员工实际使用</p>
             </label>
             <div class="error"></div>
           </div>

@@ -1,7 +1,31 @@
 <app-title></app-title>
 <div class="auto-height">
   <div class="main">
-
+    <div class="content-area">
+      <div class="content-inner">
+        <h3 class="help-title">杭州移动·智慧+综合管理门户</h3>
+        <p class="help-dic">本系统模块实现大楼的基础信息管理、日常管理、会务、宿舍、出入安全、车位管理、员工服务中团购功能、餐饮超市功能、洗衣功能、后勤服务等等。
+          建设完后的系统模块为一体化、多功能、高效的信息系统，可提高工作效率与管理水平。</p>
+        <h4 class="help-title" style="font-size: 18px">操作手册下载</h4>
+        <div class="download-area">
+          <div class="download-left">
+            <div class="doc-blank" *ngIf="!doc.url"></div>
+            <div *ngIf="doc.url">
+              <i class="icon-folder"></i>
+              <p>{{doc.name}}</p>
+            </div>
+          </div>
+          <div class="download-mid">
+            <a class="btn-info" [href]="ipSetting.ip+'/common/file/downLoadFile?path='+doc.url" download>
+              <i class="icon-cloud-download"></i>&nbsp;下载</a>
+            <a class="btn-edit" *ngIf="this.rule">
+              <i class="icon-cloud-upload"></i>&nbsp;上传
+              <input type="file" #press (change)="prese_upload(press.files)">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <app-footer></app-footer>
 </div>

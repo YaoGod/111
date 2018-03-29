@@ -23,6 +23,7 @@ export class MsgBelongComponent implements OnInit {
   private mapEditStatus :boolean = false;
   public rule : sndCatalog = new sndCatalog();
   public map;
+  public companyList:Array<string>;
   constructor(
     private globalCatalogService:GlobalCatalogService,
     private infoBuildingService:InfoBuildingService,
@@ -48,6 +49,8 @@ export class MsgBelongComponent implements OnInit {
     );
     let id = this.router.url.split('/')[5];
     this.getBuildingInfo(Number(id));
+    this.companyList = ['市公司','武林分公司','江干分公司','西湖分公司','拱墅分公司','滨江分公司','下沙分公司',
+      '萧山分公司','余杭分公司','富阳分公司','建德分公司','淳安分公司','桐庐分公司','临安分公司'];
   }
   /*获取大楼信息*/
   getBuildingInfo(id: number) {

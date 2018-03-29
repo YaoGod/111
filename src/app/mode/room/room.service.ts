@@ -11,4 +11,5 @@ export class Room {
   roomArea: string;      /*房间用途*/
   seatingNum: string;    /*设计作为数*/
   roomUseReal: string;  /*房间实际用途*/
+  isOrder   : string;
 }

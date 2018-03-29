@@ -211,7 +211,8 @@ export class RoomComponent implements OnInit {
     this.verifyEmpty(this.newRoom.roomNum, 'newRoomNum');
     this.verifyEmpty(this.newRoom.roomUse, 'newRoomUse') ;
     this.verifyEmpty(this.newRoom.roomArea, 'newRoomArea') ;
-    this.verifySeatNumber(this.newRoom.seatingNum, 'newSeatingNum') ;
+    this.verifySeatNumber(this.newRoom.seatingNum, 'newSeatingNum');
+    this.verifyIsOrder(this.newRoom.isOrder,'isOrder');
     this.verifyEmpty(this.newRoom.roomUseReal, 'newRoomUserReal');
     this.verifyMaxLength(this.newRoom.roomUseReal, 'newRoomUserReal', 50);
 
@@ -268,14 +269,23 @@ export class RoomComponent implements OnInit {
     }else{
       confirmFunc.init({
         'title': '提示' ,
-        'mes': '表单数据填写不完全哦',
+        'mes': '表单数据填写不完全',
         'popType': 0 ,
         'imgType': 2 ,
       });
     }
   }
   verifySeatNumber(value, id) {
-    if(this.newRoom.roomUse == '员工办公室' && !this.verifyEmpty( value, id)){
+    if(this.newRoom.roomUse === '员工办公室' && !this.verifyEmpty( value, id)){
+      return false;
+    }else{
+      return true;
+    }
+  }
+  verifyIsOrder(value, id) {
+    if((this.newRoom.roomUse ===  '会议室'||this.newRoom.roomUse === '电视电话会议室'
+    ||this.newRoom.roomUse === '多功能厅'||this.newRoom.roomUse === '食堂')
+      && !this.verifyEmpty( value, id)){
       return false;
     }else{
       return true;
@@ -337,7 +347,13 @@ export class RoomComponent implements OnInit {
     }
     return value;
   }
-  back(){
-    history.go(-1);
+  changeUserForm(name){
+    if(name === '员工办公室'){
+      this.newRoom.seatingNum = '';
+    }
+    if(name === '会议室'||name === '电视电话会议室'
+    ||name === '多功能厅'||name === '食堂'){
+      this.newRoom.isOrder = '';
+    }
   }
 }
