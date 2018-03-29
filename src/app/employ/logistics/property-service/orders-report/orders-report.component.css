@@ -29,7 +29,7 @@
 }
 .chandlery .search-ipt,.chandlery .search-sel {
   height: 20px;
-  width: calc(100% - 100px);
+  width: calc(100% - 110px);
   min-width: 70px;
   box-sizing: content-box;
   padding: 3px 5px;

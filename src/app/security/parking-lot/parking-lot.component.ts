@@ -39,7 +39,7 @@ export class ParkingLotComponent implements OnInit {
           if(this.catas&&this.catas.length>0){
             let url = this.router.url.split('/');
             if(url[url.length-1] === 'parking'){
-              this.router.navigate([this.catas[0].routeUrl],{relativeTo:this.route});
+              this.router.navigate(["/hzportal/"+this.catas[0].routeUrl]);
             }else{
               this.router.navigate([url[url.length-1]],{relativeTo:this.route});
             }

@@ -1,3 +1,269 @@
-<p>
-  permit works!
-</p>
+<div class="wrap">
+  <div class="cont">
+    <div class="row">
+      <div class="row-title">停车证信息</div>
+      <a href="javascript:;" class="btn search-btn" (click)="addVehicle()"><i class="icon-plus"></i>&nbsp;&nbsp;新 增</a>
+    </div>
+    <div class="cont-inner">
+      <div class="repair-chandlery clearfix">
+        <ul class="record-search clearfix">
+          <li >
+            <label >员工部门</label>
+            <select name="buildingName" class="search-ipt search-sel" [(ngModel)]="searchInfo.useUserDept">
+              <option value="">-全部-</option>
+              <option *ngFor="let num of deptList"
+                      [value]="num.DEPT_NAME">
+                {{num.DEPT_NAME}}</option>
+            </select>
+          </li>
+          <li>
+            <label >员工编号</label>
+            <input type="text" name="searchuserId" class="search-ipt" [(ngModel)]="searchInfo.useUserId">
+          </li>
+        </ul>
+        <div class="search-right">
+          <a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
+        </div>
+      </div>
+      <ul class="card-list clearfix">
+        <li *ngFor="let inner of record;let i=index" class="room-card">
+          <div class="room-title clearfix">
+            <h5>员工姓名 :{{inner.useUserName}}</h5>
+            <h5>员工编号 :{{inner.useUserId}}</h5>
+            <h5>员工部门 :{{inner.useUserDept}}</h5>
+            <h5>车牌号码 :{{inner.useCarCode}}</h5>
+            <h5>员工电话 :{{inner.useUserTel}}</h5>
+          </div>
+          <table width="100%">
+            <tr style="height: 40px; background-color: #00bce1;">
+              <th>大楼名称</th>
+              <th>大楼编号</th>
+              <th>停车证名称</th>
+              <th>停车证类型</th>
+              <th>停车证编号</th>
+              <th>停车证有效期</th>
+              <th>状态</th>
+              <th>发放日期</th>
+              <th>备注</th>
+            </tr>
+            <tr>
+              <td>{{inner.buildingName}}</td>
+              <td>{{inner.buildingName}}</td>
+              <td>{{inner.buildingName}}</td>
+              <td>{{inner.buildingName}}</td>
+              <td>{{inner.buildingName}}</td>
+              <td>{{inner.buildingName}}</td>
+              <td>{{inner.buildingName}}</td>
+              <td>{{inner.buildingName}}</td>
+              <td>{{inner.buildingName}}</td>
+            </tr>
+          </table>
+          <div class="card-border">
+            <h6>
+              <i class="icon-pencil" (click)="editCardInfo(inner.id)"></i>
+              <i (click)="delCardInfo(inner.id)" class="icon-trash"></i>
+            </h6>
+           <!-- <div class="card-left">
+              <div>
+                <span class="form-title">大楼名称<i></i></span>
+                <p>{{inner.driverName}}</p>
+              </div>
+              <div>
+                <span class="form-title">大楼编号<i></i></span>
+                <p>{{inner.driverNum}}</p>
+              </div>
+              <div>
+                <span class="form-title">停车证名称<i></i></span>
+                <p>{{inner.driverCode}}</p>
+              </div>
+              <div>
+                <span class="form-title">车辆所有人姓名<i></i></span>
+                <p>{{inner.carOwner}}</p>
+              </div>
+              <div>
+                <span class="form-title">车牌号码<i></i></span>
+                <p>{{inner.carNumber}}</p>
+              </div>
+              <div>
+                <span class="form-title">车辆识别代号<i></i></span>
+                <p>{{inner.carCode}}</p>
+              </div>
+              <div>
+                <span class="form-title">发动机号码<i></i></span>
+                <p>{{inner.motorNum}}</p>
+              </div>
+              <div>
+                <span class="form-title">车辆品牌型号<i></i></span>
+                <p>{{inner.carBrand}}</p>
+              </div>
+              <div>
+                <span class="form-title">是否停车摇号<i></i></span>
+                <p>{{inner.isPark}}</p>
+              </div>
+              <div>
+                <span class="form-title">交通费额度(元/月)<i></i></span>
+                <p>{{inner.carFare}}</p>
+              </div>
+
+            </div>-->
+            <div class="card-right">
+
+            </div>
+          </div>
+        </li>
+      </ul>
+      <app-turn-bar
+        [pageNo]="pageNo"
+        [pageSize]="pageSize"
+        [total]="total"
+        [length] = 'length'
+        (turnEvent)="repairSearch($event)">
+      </app-turn-bar>
+    </div>
+  </div>
+</div>
+<!--<div class="mask">
+  <div class="mask-cotainer">
+    <div class="mask-head"><i class="icon-film"></i> <p>新增停车证信息</p>
+      <button class="close" (click)="addCancel()">×</button>
+    </div>
+    <form method="post" name="topForm" class="repair-form">
+      <div class="form-control">
+        <span class="form-label">员工编号</span>
+        <div class="form-inp">
+          <input type="text" class="company-ipt" id="userId" name="userId" [(ngModel)]="newCard.userId"
+                 (keyup)="getUserName(newCard.userId)" (blur)="verifyId()" maxlength="8"/>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">员工姓名</span>
+        <div class="form-inp">
+          <input type="text" class="company-ipt" id="userName" name="userName" [(ngModel)]="newCard.userName" disabled="disabled"/>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+
+      <div class="form-control">
+        <span class="form-label">员工部门</span>
+        <div class="form-inp">
+          <input type="text" class="company-ipt" name="userDept" [(ngModel)]="newCard.userDept" disabled="disabled"/>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">驾驶员姓名</span>
+        <div class="form-inp">
+          <input type="text" class="company-ipt" id="driverName" name="driverName" [(ngModel)]="newCard.driverName"
+                 (blur)="verifydriverName()" maxlength="25"/>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">驾驶证号</span>
+        <div class="form-inp">
+          <input type="text" id="driverNum" class="company-ipt" name="driverNum" [(ngModel)]="newCard.driverNum"
+                 (blur)="verifydriverNum()" maxlength="25"/>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">驾驶证档案编号</span>
+        <div class="form-inp">
+          <input class="company-ipt" name="driverCode" id="driverCode" type="number" [(ngModel)]="newCard.driverCode"
+                 (blur)="verifydriverCode()" maxlength="25"/>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">车辆所有人姓名</span>
+        <div class="form-inp">
+          <input id="carOwner" class="company-ipt" name="carOwner" type="text" [(ngModel)]="newCard.carOwner"
+                 (blur)="verifycarOwner()" maxlength="25"/>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">车牌号码</span>
+        <div class="form-inp">
+          <input id="carNumber" class="company-ipt" name="carNumber" type="text" [(ngModel)]="newCard.carNumber"
+                 (blur)="verifycarNumber()" maxlength="25"/>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">车辆识别代号</span>
+        <div class="form-inp">
+          <input id="carCode" class="company-ipt" name="carCode" type="text" [(ngModel)]="newCard.carCode"
+                 (blur)="verifycarCode()" maxlength="25">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">发动机号码</span>
+        <div class="form-inp">
+          <input id="motorNum" class="company-ipt" name="motorNum" type="text" [(ngModel)]="newCard.motorNum"
+                 (blur)="verifymotorNum()" maxlength="25">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">车辆品牌型号</span>
+        <div class="form-inp">
+          <input id="carBrand" class="company-ipt" name="carBrand" type="text" [(ngModel)]="newCard.carBrand"
+                 (blur)="verifycarBrand()"  maxlength="25">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">是否停车摇号</span>
+        <div class="form-inp">
+          <select class="company-ipt company-sel" name="isPark" id="isPark" [(ngModel)]="newCard.isPark"
+                  (blur)="verifyisPark()" >
+            <option value="">请选择</option>
+            <option value="是">是</option>
+            <option value="否">否</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">交通费额度(元/月)</span>
+        <div class="form-inp">
+          <input class="company-ipt" name="carFare" type="number" id="carFare" [(ngModel)]="newCard.carFare"
+                 (blur)="verifycarFare()" maxlength="8"/>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+
+      </div>
+      &lt;!&ndash;<div class="form-control">
+        <div  class="dropify-wrapper" id = "newImgPath">
+          <div  class="dropify-message">
+            <img style="width:100%" *ngIf="newCard.imgPathList.driverA[0]"
+                 [src]="newCard.imgContentList.driverA[0] | imgsafeurl:prese1.files">
+          </div>
+          <p>点击上传驾驶证照片</p>
+          <input  class="dropify" type="file" #prese1  id="prese1"
+                  (change)="prese_upload1(prese1.files)">
+        </div>
+      </div>
+      <div class="form-control">
+        <div  class="dropify-wrapper">
+          <div  class="dropify-message">
+            <img style="width:100%" *ngIf="newCard.imgPathList.driverB[0]"
+                 [src]="newCard.imgContentList.driverB[0] | imgsafeurl:prese2.files">
+          </div>
+          <p>点击上传行驶证照片</p>
+          <input  class="dropify" type="file" #prese2  id="prese2"
+                  (change)="prese_upload2(prese2.files)">
+        </div>
+      </div>&ndash;&gt;
+    </form>
+    <div class="mask-footer">
+      <button type="submit" class="btn-mask btn-info" (click)="submit()">保 存</button>
+      <button type="button" class="btn-mask btn-danger" (click)="addCancel()">取 消</button>
+    </div>
+  </div>
+</div>-->

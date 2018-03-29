@@ -10,7 +10,7 @@ input{
 }
 .row{
   height:40px;
-  border-bottom:1px solid #ff5b3a;
+  border-bottom:3px solid #ff5b3a;
 }
 .search-btn{
   float: right;
@@ -20,7 +20,7 @@ input{
 }
 .mask{
   display: none;
-  z-index: 999999;
+  z-index: 1000;
   position: fixed;
   left:0;
   top:0;
@@ -174,7 +174,7 @@ button{
   line-height:40px;
   color:#ff5b3a;
   font-size:18px;
-  border:1px solid #ff5b3a;
+  border:3px solid #ff5b3a;
   border-bottom:none;
 }
 .card-list{
@@ -288,6 +288,9 @@ button{
 .card-info span{
   padding:0;
   margin:0;
+}
+.driving-license{
+  min-height:150px;
 }
 .driving-license img{
   width:100%;

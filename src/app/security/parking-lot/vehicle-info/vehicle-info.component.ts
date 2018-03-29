@@ -76,6 +76,10 @@ export class VehicleInfoComponent implements OnInit {
           this.newCard.userDept = data.data.deptId;
           this.newCard.userName = data.data.username;
         }
+        if (data.status === 1) {
+          this.newCard.userDept = '';
+          this.newCard.userName = '';
+        }
       });
     }
   }
@@ -201,9 +205,9 @@ export class VehicleInfoComponent implements OnInit {
     if (!this.isEmpty('userId', '不能为空')) {
       return false;
     }
-    if (!this.isEmpty('userName', '编号有误')) {
+    /*if (!this.isEmpty('userName', '编号有误')) {
       return false;
-    }
+    }*/
     return true;
   }
   public verifydriverName() {

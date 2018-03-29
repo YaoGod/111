@@ -5,7 +5,7 @@
     <div class="cont-nav-box">
       <ul class="cont-nav clearfix">
         <li *ngFor="let cata of catas">
-          <a [routerLink]="cata.routeUrl" routerLinkActive="active">
+          <a [routerLink]="['/hzportal/'+cata.routeUrl]" routerLinkActive="active">
             {{cata.name}}<span></span>
           </a>
         </li>
