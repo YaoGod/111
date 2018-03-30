@@ -127,6 +127,7 @@ textarea:disabled{
 }
 .goods-msg{
   height: 180px;
+  min-width: 270px;
   overflow: hidden;
   padding: 0 4px 0 6px;
 }

@@ -26,9 +26,14 @@ const routes: Routes = [
       {
         path: 'property',
         loadChildren: './property/property.module#PropertyModule'
-      },{
+      }
+      ,{
         path:'parking',
         loadChildren: './parking-lot/parking-lot.module#ParkingLotModule'
+      },
+      {
+        path:'entrySecurity',
+        loadChildren: './entry-security/entry-security.module#EntrySecurityModule'
       }
     ]
   }

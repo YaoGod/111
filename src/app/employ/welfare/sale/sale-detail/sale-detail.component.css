@@ -212,7 +212,7 @@
   box-shadow: 1px 2px 5px #999;
 }
 .summary-text{
-  width: auto;
+  width: 100%;
   padding: 10px 7.5px;
   word-break: break-all;
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
