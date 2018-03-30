@@ -212,6 +212,12 @@ export class VehicleInfoComponent implements OnInit {
     }*/
     return true;
   }
+  public verifyuserName() {
+    if (!this.isEmpty('userName', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
   public verifydriverName() {
     if (!this.isEmpty('driverName', '不能为空')) {
       return false;
@@ -286,8 +292,8 @@ export class VehicleInfoComponent implements OnInit {
     }else{
       url = "/building/carInfo/addCarInfo";
     }
-    if (!this.verifyId() ||!this.verifydriverName() || !this.verifydriverNum() || !this.verifydriverCode() ||
-      !this.verifycarOwner() || !this.verifycarNumber() || !this.verifycarCode() || !this.verifymotorNum() ||
+    if (!this.verifyId() ||!this.verifyuserName() ||!this.verifydriverName() || !this.verifydriverNum() || !this.verifydriverCode()
+      || !this.verifycarOwner() || !this.verifycarNumber() || !this.verifycarCode() || !this.verifymotorNum() ||
       !this.verifycarBrand() || !this.verifyisPark() || !this.verifycarFare()) {
       return false;
     }

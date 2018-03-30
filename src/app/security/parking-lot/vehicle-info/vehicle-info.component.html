@@ -2,7 +2,6 @@
   <div class="cont">
     <div class="row">
       <div class="row-title">车辆信息</div>
-      <a href="javascript:;" class="btn search-btn" (click)="addVehicle()"><i class="icon-plus"></i>&nbsp;&nbsp;新 增</a>
     </div>
     <div class="cont-inner">
       <!--<table width="100%">
@@ -24,10 +23,10 @@
           <th>交通费额度（元/月）</th>
         </tr>
       </table>-->
-      <div class="repair-chandlery clearfix">
+      <div class="repair-chandlery clearfix" *ngIf="rule&&rule.isSelect">
         <ul class="record-search clearfix">
           <li>
-            <label >员工部门</label>
+            <label>员工部门</label>
             <select name="buildingName" class="search-ipt search-sel" [(ngModel)]="searchInfo.userDept">
               <option value="">-全部-</option>
               <option *ngFor="let num of deptList"
@@ -36,13 +35,16 @@
             </select>
           </li>
           <li>
-            <label >员工编号</label>
+            <label>员工编号</label>
             <input type="text" name="searchuserId" class="search-ipt" [(ngModel)]="searchInfo.userId">
           </li>
         </ul>
         <div class="search-right">
           <a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
         </div>
+      </div>
+      <div class="row-no">
+        <a href="javascript:;" class="btn search-btn" (click)="addVehicle()" *ngIf="rule&&rule.isInstall"><i class="icon-plus"></i>&nbsp;&nbsp;新 增</a>
       </div>
       <ul class="card-list clearfix">
         <!--<li  class="room-card">
@@ -117,8 +119,8 @@
           </div>
           <div class="card-border">
             <h6>
-              <i class="icon-pencil" (click)="editCardInfo(inner.id)"></i>
-              <i (click)="delCardInfo(inner.id)" class="icon-trash"></i>
+              <i class="icon-pencil" (click)="editCardInfo(inner.id)" *ngIf="rule&&rule.isUpdate"></i>
+              <i (click)="delCardInfo(inner.id)" class="icon-trash" *ngIf="rule&&rule.isDelete"></i>
             </h6>
             <div class="card-left">
               <div>
@@ -216,7 +218,7 @@
       <div class="form-control">
         <span class="form-label">员工部门</span>
         <div class="form-inp">
-          <input type="text" class="company-ipt" name="userDept" [(ngModel)]="newCard.userDept" disabled="disabled"/>
+          <input type="text" class="company-ipt" name="userDept" id="userDept" [(ngModel)]="newCard.userDept" disabled="disabled"/>
           <span class="errorMessage"></span>
         </div>
       </div>

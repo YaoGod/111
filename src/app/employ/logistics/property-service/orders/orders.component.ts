@@ -131,6 +131,11 @@ export class OrdersComponent implements OnInit {
           this.repairname.amount = this.usefulSecond[i].amount;
           this.repairname.serverPersonName = this.usefulSecond[i].serverPersonName;
           this.repairname.serverPersonTel = this.usefulSecond[i].serverPersonTel;
+          if(this.repairname.amount === null){
+            $('#stock').html('');
+          }else if(this.repairname.amount<1){
+            $('#stock').html('库存不足');
+          }
         }
       }
     }

@@ -180,13 +180,11 @@
         </div>
       </div>
       <div class="form-control  clearfix">
-        <span class="form-label" *ngIf="repairname.type!=='节假日停车'">剩余库存</span>
-        <span class="form-label" *ngIf="repairname.type==='节假日停车'">剩余车位</span>
+        <span class="form-label">剩余库存</span>
         <div class="form-inp">
           <input id="number" name="number" type="number" class="company-ipt company-sel" [(ngModel)]="repairname.amount"
                  disabled="disabled">
-          <span class="errorMessage"></span>
-          <span style="color: red;" *ngIf="repairname.amount<1">库存不足</span>
+          <span class="errorMessage" id="stock"></span>
         </div>
       </div>
       <div class="form-control" *ngIf="repairname.type==='节假日停车'">
