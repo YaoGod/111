@@ -188,3 +188,7 @@ td>img{
 .text-left, .row .text-left{
   text-align: left;
 }
+.big-text{
+  max-height: 50px;
+  overflow: auto;
+}

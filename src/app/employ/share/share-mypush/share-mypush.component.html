@@ -88,10 +88,10 @@
             <a [routerLink]="['../detail',product.id]">
               <i class="icon-screen-desktop"></i>详情
             </a>
-            <a [routerLink]="['../edit',product.id]">
+            <a [routerLink]="['../edit',product.id]" *ngIf="product.status !== 'release'">
               <i class="icon-pencil"></i>编辑
             </a>
-            <a (click)="delete(product.id)">
+            <a (click)="delete(product.id)" *ngIf="product.status !== 'release'">
               <i class="icon-trash"></i>删除
             </a>
             <a (click)="reCheck(product.id)" *ngIf="product.status==='fail'">

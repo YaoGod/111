@@ -18,6 +18,7 @@ export class SaleProduct {
   isCheck     : string; /*审核状态*/
   checkNote   : string; /*审核意见*/
   realNumber  : number; /*实际库存量*/
+  productName : string;
 }
 
 export class UserSale {
