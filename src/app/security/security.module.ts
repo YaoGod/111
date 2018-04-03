@@ -32,6 +32,7 @@ const routes: Routes = [
         loadChildren: './parking-lot/parking-lot.module#ParkingLotModule'
       },
       {
+        /*出入安全管理模块*/
         path:'entrySecurity',
         loadChildren: './entry-security/entry-security.module#EntrySecurityModule'
       }
