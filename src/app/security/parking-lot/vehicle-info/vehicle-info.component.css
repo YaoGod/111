@@ -10,7 +10,7 @@ input{
 }
 .row{
   height:40px;
-  border-bottom:3px solid #ff5b3a;
+  _border-bottom:3px solid #ff5b3a;
 }
 .row-no{
   height:30px;
@@ -20,7 +20,7 @@ input{
   float: right;
 }
 .cont-inner{
-  margin-top:10px;
+  padding-top:0;
 }
 .mask{
   display: none;
@@ -178,7 +178,7 @@ button{
   line-height:40px;
   color:#ff5b3a;
   font-size:18px;
-  border:3px solid #ff5b3a;
+  _border:3px solid #ff5b3a;
   border-bottom:none;
 }
 .card-list{

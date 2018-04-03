@@ -6,12 +6,34 @@ import {RouteGuardService} from "../../../service/route-guard/route-guard.servic
 import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
 import {ImgurlModule} from "../../../pipe/imgurl/imgurl.module";
 import {FormsModule} from "@angular/forms";
+import { PaperComponent } from './paper/paper.component';
+import { OverdueComponent } from './overdue/overdue.component';
+import { PaperinfoComponent } from './paperinfo/paperinfo.component';
 
 const routes: Routes = [
   {
     path: '',
     canActivate: [RouteGuardService],
     component: PermitComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: "paper",
+        pathMatch: 'full'
+      },
+      {
+        path: 'paper',
+        component: PaperComponent,
+      },
+      {
+        path: 'overdue',
+        component: OverdueComponent
+      },
+      {
+        path: 'paperinfo/:id',
+        component: PaperinfoComponent
+      }
+    ]
   }
 ];
 @NgModule({
@@ -22,7 +44,7 @@ const routes: Routes = [
     ImgurlModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [PermitComponent]
+  declarations: [PermitComponent, PaperComponent, OverdueComponent, PaperinfoComponent]
 })
 
 export class PermitModule { }

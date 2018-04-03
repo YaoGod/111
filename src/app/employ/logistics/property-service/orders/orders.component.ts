@@ -107,11 +107,10 @@ export class OrdersComponent implements OnInit {
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         this.usefulSecond = data.data;
-
         for(let i=0;i<this.usefulSecond.length;i++){
           // console.log(this.usefulSecond.length);
           if(this.usefulSecond.length===1 && (!this.usefulSecond[0].porpertyId||this.usefulSecond[0].porpertyId==='')){
-            this.repairname.amount = this.usefulSecond[0].amount;
+            this.repairname.amount = this.usefulSecond[0].realAmount;
             this.repairname.serverPersonName = this.usefulSecond[0].serverPersonName;
             this.repairname.serverPersonTel = this.usefulSecond[0].serverPersonTel;
           }
@@ -122,13 +121,13 @@ export class OrdersComponent implements OnInit {
   queryName(porpertyId){
     // console.log(this.usefulSecond);
     if(!porpertyId||porpertyId===''){
-      this.repairname.amount = this.usefulSecond[0].amount;
+      this.repairname.amount = this.usefulSecond[0].realAmount;
       this.repairname.serverPersonName = this.usefulSecond[0].serverPersonName;
       this.repairname.serverPersonTel = this.usefulSecond[0].serverPersonTel;
     }else{
       for(let i=0;i<this.usefulSecond.length;i++){
         if(this.usefulSecond[i].id == porpertyId){
-          this.repairname.amount = this.usefulSecond[i].amount;
+          this.repairname.amount = this.usefulSecond[i].realAmount;
           this.repairname.serverPersonName = this.usefulSecond[i].serverPersonName;
           this.repairname.serverPersonTel = this.usefulSecond[i].serverPersonTel;
           if(this.repairname.amount === null){
@@ -488,6 +487,7 @@ export class OrdersComponent implements OnInit {
 export class GuardName {
   id: number; // 本条信息ID
   amount:number; // 库存
+  realAmount:number; // 实时库存
   buildingId: string;
   buildingNum: string;
   buildingName: string;
@@ -495,7 +495,7 @@ export class GuardName {
   roomId:string; // 房间号
   userDept:string; // 员工部门
   userTel: string; // 电话
-  type:string; // 服务项目
+  // type:string; // 服务项目
   propertyType:string; // 服务项目
   propertyName:string; // 服务内容
   porpertyId:string; // 服务内容id

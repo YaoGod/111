@@ -1,0 +1,77 @@
+<!--
+<div class="wrap">
+  <div class="cont">
+    <div class="row">
+      <div class="row-title">停车证信息</div>
+    </div>
+    <div class="cont-inner">
+      <ul class="card-list clearfix">
+        <li *ngFor="let inner of newCard;let i=index" class="room-card">
+          <table width="100%">
+            <tr style="height: 40px; background-color: #EEEEE0; text-align: center">s
+              <th>大楼名称</th>
+              <th>停车证名称</th>
+              <th>停车证类型</th>
+              <th>停车证编号</th>
+              <th>停车证开始有效期</th>
+              <th>停车证截止有效期</th>
+              <th>状态</th>
+              <th>备注</th>
+            </tr>
+            <tr style="height: 36px; text-align: center" >
+              <td>{{inner.buildingName}}</td>
+              <td>{{inner.name}}</td>
+              <td>{{inner.type}}</td>
+              <td>{{inner.code}}</td>
+              <td>{{inner.bTime}}</td>
+              <td>{{inner.eTime}}</td>
+              <td *ngIf="inner.status ==='valid'">未发放</td>
+              <td *ngIf="inner.status ==='use'">已发放</td>
+              <td *ngIf="inner.status ==='invalid'">失效</td>
+
+              <td>{{inner.note}}</td>
+
+          </table>
+        </li>
+        &lt;!&ndash;<li class="room-card">
+          <div class="room-title clearfix">
+            <h5>员工姓名 :XXX</h5>
+            <h5>员工编号 :XXX</h5>
+            <h5>员工部门 :XXX</h5>
+            <h5>车牌号码 :XXX</h5>
+            <h5>员工电话 :XXX</h5>
+            <h6>
+              <i class="icon-pencil" (click)="editCardInfo(1)"></i>
+              <i (click)="delCardInfo(2)" class="icon-trash"></i>
+            </h6>
+          </div>
+          <table width="100%">
+            <tr style="height: 36px; background-color: #c8c6c6;">
+              <th>大楼名称</th>
+              &lt;!&ndash;<th>大楼编号</th>&ndash;&gt;
+              <th>停车证名称</th>
+              <th>停车证类型</th>
+              <th>停车证编号</th>
+              <th>停车证有效期</th>
+              <th>状态</th>
+              <th>发放日期</th>
+              <th>备注</th>
+            </tr>
+            <tr style="height: 36px;">
+              <td>XXX</td>
+              &lt;!&ndash;<td>XXX</td>&ndash;&gt;
+              <td>XXX</td>
+              <td>XXX</td>
+              <td>XXX</td>
+              <td>XXX</td>
+              <td>XXX</td>
+              <td>XXX</td>
+              <td>XXX</td>
+            </tr>
+          </table>
+        </li>&ndash;&gt;
+      </ul>
+    </div>
+  </div>
+</div>
+-->

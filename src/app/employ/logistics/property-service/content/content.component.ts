@@ -94,6 +94,11 @@ export class ContentComponent implements OnInit {
       });
   }
   public getCompanys(id) {
+    for(let i=0;i<this.buildings.length;i++){
+      if(this.buildings[i].ID==id){
+        this.repairname.use = this.buildings[i].USE;
+      }
+    }
     let url = "/building/company/getCompany?buildingId="+id;
     this.ipSetting.sendGet(url)
       .subscribe(data => {
@@ -288,9 +293,10 @@ export class ContentComponent implements OnInit {
     }else {
       SOFTWARES_URL = "/employee/property/addServer";
     }
-    if (!this.verifyId() || !this.verifycompanyName() || !this.verifyservername() || !this.verifyserverstatus()) {
+    if (!this.verifyId() || !this.verifycompanyName() || !this.verifyservername()) {
       return false;
     }
+    // console.log( this.repairname);
     this.ipSetting.sendPost(SOFTWARES_URL, this.repairname).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
@@ -388,6 +394,7 @@ export class GuardName {
   id: number; // 本条信息ID
   buildingId: string;
   buildingName: string;
+  use:string; // 大楼用途
   companyId: string;
   companyName: string; // 公司名字
   detail:string; // 服务详情

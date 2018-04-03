@@ -15,10 +15,12 @@
 }
 .cont-nav{
   padding: 0 15px;
-  background :url("../../../assets/image/bannerC.jpg") no-repeat center;
+  _background :url("../../../assets/image/bannerC.jpg") no-repeat center;
+  background-color: #fff;
   background-size: cover;
   border-bottom:2px solid #f7fafc;
   display: flex;
+  margin-top: 10px;
 }
 .cont-nav>li{
   flex: 1;
@@ -42,7 +44,6 @@
 }
 .cont-inner{
   margin:10px 30px;
-  padding: 10px;
   background-color: #fff;
 }
 

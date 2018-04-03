@@ -433,7 +433,7 @@ button{
 /* excel-out */
 .excel-out{
   padding-top: 60px;
-  background: url(../../../../assets/image/excel.png) center 10px no-repeat;
+  background: url(../../../../../assets/image/excel.png) center 10px no-repeat;
 }
 .excel-out p{
   line-height: 24px;

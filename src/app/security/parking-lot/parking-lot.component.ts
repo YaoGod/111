@@ -38,8 +38,15 @@ export class ParkingLotComponent implements OnInit {
           this.catas = data.data;
           if(this.catas&&this.catas.length>0){
             let url = this.router.url.split('/');
+            console.log(url)
             if(url[url.length-1] === 'parking'){
               this.router.navigate(["/hzportal/"+this.catas[0].routeUrl]);
+            }else if(url[url.length-1] === 'paperinfo'){
+              this.router.navigate(["/hzportal/security/parking/permit/paperinfo"]);
+            }else if(url[url.length-2] === 'paperinfo'){
+              this.router.navigate(["/hzportal/security/parking/permit/paperinfo/"+url[url.length-1]]);
+            }else if(url[url.length-1] === 'paper'){
+              this.router.navigate(["/hzportal/security/parking/permit/paper"]);
             }else{
               this.router.navigate([url[url.length-1]],{relativeTo:this.route});
             }
