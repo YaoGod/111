@@ -37,7 +37,13 @@ const routes: Routes = [
         /*工号牌申请模块*/
         path:'workCard',
         loadChildren: './entry-security-work-card/entry-security-work-card.module#EntrySecurityWorkCardModule'
+      },
+      {
+        /*门禁申请模块*/
+        path:'door',
+        loadChildren: './entry-security-door/entry-security-door.module#EntrySecurityDoorModule'
       }
+
     ]
   }
 ];

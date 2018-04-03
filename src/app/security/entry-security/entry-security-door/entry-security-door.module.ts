@@ -10,13 +10,30 @@ import {NavTitleModule} from "../../../component/nav-title/nav-title.module";
 import {HttpModule} from "@angular/http";
 import {FormsModule} from "@angular/forms";
 import {EntrySecurityDoorComponent} from "./entry-security-door.component";
+import { DoorApplyComponent } from './door-apply/door-apply.component';
+import { DoorMangComponent } from './door-mang/door-mang.component';
+import { DoorMangLoggerComponent } from './door-mang-logger/door-mang-logger.component';
 const routes: Routes = [
   {
     path: '',
     canActivate: [RouteGuardService],
     component: EntrySecurityDoorComponent,
     children: [
-      /*这里其实结构和工号牌的差不多的结构，你可以参照的搭你需要的部分*/
+      {
+        /*门禁权限变更申请单*/
+        path: 'apply',
+        component:DoorApplyComponent
+      },
+      {
+        /*门禁系统权限*/
+        path: 'manage',
+        component:DoorMangComponent
+      },
+      {
+        /*权限变更日志*/
+        path: 'logger',
+        component:DoorMangLoggerComponent
+      }
     ]
   }
 ];
@@ -33,6 +50,6 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [RouteGuardService],
-  declarations: [EntrySecurityDoorComponent]
+  declarations: [EntrySecurityDoorComponent, DoorApplyComponent, DoorMangComponent, DoorMangLoggerComponent]
 })
 export class EntrySecurityDoorModule { }
