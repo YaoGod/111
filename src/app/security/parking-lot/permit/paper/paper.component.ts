@@ -56,7 +56,6 @@ export class PaperComponent implements OnInit {
           for(let i = 0;i<data.data.length;i++){
             if(data.data[i].routeUrl === "security/parking/permit"){
               this.jurisdiction = data.data[i];
-              // console.log(this.jurisdiction)
             }
           }
         }
@@ -260,7 +259,6 @@ export class PaperComponent implements OnInit {
   }
   /*文件上传*/
   prese_upload(files) {
-    // POST /building/parking/importTemplate
     var xhr = this.utilBuildingService.importTempPermit(files[0]);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
@@ -314,7 +312,6 @@ export class PaperComponent implements OnInit {
     // .map(res => res.json())
       .subscribe(data => {
         window.location.href = this.ipSetting.ip + "/building/parking/getParkingPermitList/excel/1/5";
-        // this.search = new Search();
         $('#deriving').fadeOut();
       });
   }
@@ -328,11 +325,12 @@ export class PaperComponent implements OnInit {
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         // console.log(data.data);
-        this.newCard = data.data;
+        $('.mask').fadeIn();
+        $('.mask .mask-head p').html('编辑停车证');
+        this.newCard = data.data.object;
       }
     });
-    $('.mask').fadeIn();
-    $('.mask .mask-head p').html('编辑停车证');
+
   }
   /*点击删除*/
   delCardInfo(id){

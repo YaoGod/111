@@ -16,7 +16,7 @@ declare var confirmFunc: any;
   providers:[UtilBuildingService,SaleProductEmployeeService,]
 })
 export class PaperinfoComponent implements OnInit {
-
+  public ID:string;
   public newCard = new CardInfo();
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
@@ -29,6 +29,7 @@ export class PaperinfoComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(data => {
        this.editCardInfo(data.id);
+       this.ID = data.id;
     });
     // this.editCardInfo();
   }
@@ -38,12 +39,54 @@ export class PaperinfoComponent implements OnInit {
     let url = '/building/parking/getParkingPermitInfo/'+id;
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
-        console.log(data.data);
-        this.newCard = data.data;
+        // console.log(data.data);
+        this.newCard = data.data.object;
       }
     });
+  }
+  /*点击延期*/
+  addDate(){
     $('.mask').fadeIn();
-    $('.mask .mask-head p').html('编辑停车证');
+  }
+  /*延期取消*/
+  addCancel(){
+
+  }
+  public verifyeTime() {
+    if (!this.isEmpty('eTime', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  /**非空校验*/
+  public isEmpty(id: string, error: string): boolean  {
+    const data =  $('#' + id).val();
+    if(data === null){
+      this.addErrorClass(id, error);
+      return false;
+    }else{
+      if (data.toString().trim() === '')  {
+        this.addErrorClass(id, error);
+        return false;
+      }else {
+        this.removeErrorClass(id);
+        return true;
+      }
+    }
+  }
+  /** 添加错误信息class */
+  public  addErrorClass(id: string, error?: string)  {
+    $('#' + id).parents('.form-inp').addClass('form-error');
+    if (error === undefined || error.trim().length === 0 ) {
+      $('#' + id).next('span').html('输入错误');
+    }else {
+      $('#' + id).next('span').html(error);
+    }
+  }
+  /**去除错误信息class */
+  public  removeErrorClass(id: string) {
+    $('#' + id).parents('.form-inp').removeClass('form-error');
+    $('#' + id).parents('.form-inp').children('.errorMessage').html('');
   }
 }
 export class CardInfo {

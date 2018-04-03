@@ -67,6 +67,7 @@ export class OrdersComponent implements OnInit {
       .subscribe(data=>{
         if(this.errorVoid.errorMsg(data)){
           this.rule = data.data[1];
+          console.log(this.rule);
         }
       })
   }
