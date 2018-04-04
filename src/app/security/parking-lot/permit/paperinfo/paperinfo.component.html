@@ -12,9 +12,10 @@
         <li>停车证名称</li>
         <li>停车证类型</li>
         <li>停车证编号</li>
-        <li>停车证开始有效期</li>
-        <li>停车证截止有效期</li>
-        <li>状态</li>
+        <li>开始有效期</li>
+        <li>截止有效期</li>
+        <li>发放状态</li>
+        <li>使用状态</li>
       </ul>
       <ul class="card-right">
         <li>{{newCard.buildingName}}</li>
@@ -23,27 +24,52 @@
         <li>{{newCard.code}}</li>
         <li>{{newCard.bTime}}</li>
         <li>{{newCard.eTime}}</li>
-        <li *ngIf="newCard.status ==='valid'">未发放</li>
-        <li *ngIf="newCard.status ==='use'">已发放</li>
-        <li *ngIf="newCard.status ==='invalid'">失效</li>
+        <li *ngIf="newCard.useStatus ==='valid'">未发放</li>
+        <li *ngIf="newCard.useStatus ==='use'">已发放</li>
+        <li style="color:#ff1103;"  *ngIf="newCard.permitStatus ==='invalid'">失效</li>
+        <li style="color:#00a379;"  *ngIf="newCard.permitStatus ==='valid'">正常</li>
+        <li style="color:#ff1103;" *ngIf="newCard.permitStatus ==='expired'">已过期</li>
       </ul>
       <div class="note">
         <div class="title"><span>备注</span></div>
         <p>{{newCard.note}}</p>
       </div>
 
-      <div class="mark">
+      <div class="mark" *ngIf="newCard.permitStatus ==='expired'">
         <div class="mark-info">已到期</div>
-        <div class="mark-btn delay" (click)="addDate()">点击延期</div>
-        <div class="mark-btn invalid">点击失效</div>
+        <div class="mark-btn delay" (click)="addDate()">延期</div>
+        <div class="mark-btn invalid" (click)="invalid()">确认失效</div>
 
       </div>
     </div>
-    <div class="hsitory">
-      <div class="hsitory-title">历史发放记录</div>
-      <table width="100%">
+    <div class="history"  style="height: 60px; min-height: 90px;">
+      <div class="history-title">当前使用员工</div>
+      <table width="100%" class="record">
         <tr style="height: 40px; background-color: #EEEEE0; text-align: center">
-          <th>发放员工姓名</th>
+          <th>员工姓名</th>
+          <th>员工部门</th>
+          <th>员工编号</th>
+          <th>员工电话</th>
+          <th>发放日期</th>
+          <th>发放截止日期</th>
+          <th>备注</th>
+        </tr>
+        <tr style="height: 36px; text-align: center" >
+          <td>{{newCard.useUserName}}</td>
+          <td>{{newCard.useUserDept}}</td>
+          <td>{{newCard.useUserId}}</td>
+          <td>{{newCard.useUserTel}}</td>
+          <td>{{newCard.modifyTime}}</td>
+          <td>{{newCard.useETime}}</td>
+          <td>{{newCard.note}}</td>
+
+      </table>
+    </div>
+    <div class="history" *ngIf="history!==null">
+      <div class="history-title">历史发放记录</div>
+      <table width="100%" class="record">
+        <tr style="height: 40px; background-color: #EEEEE0; text-align: center">
+          <th>员工姓名</th>
           <th>员工部门</th>
           <th>员工编号</th>
           <th>员工电话</th>
@@ -72,7 +98,7 @@
       <div class="form-control">
         <span class="form-label">延迟有效期至</span>
         <div class="form-inp">
-          <input type="date" class="company-ipt" name="eTime" id="eTime" [(ngModel)]="newCard.eTime"
+          <input type="date" class="company-ipt" name="eTime" id="eTime" [(ngModel)]="eTime"
                  (blur)="verifyeTime()"/>
           <span class="errorMessage"></span>
         </div>
@@ -80,7 +106,7 @@
 
     </form>
     <div class="mask-footer">
-      <button type="submit" class="btn-mask btn-info" (click)="submit()">保 存</button>
+        <button type="submit" class="btn-mask btn-info" (click)="submit()">保 存</button>
       <button type="button" class="btn-mask btn-danger" (click)="addCancel()">取 消</button>
     </div>
   </div>

@@ -67,7 +67,7 @@ export class OrdersComponent implements OnInit {
       .subscribe(data=>{
         if(this.errorVoid.errorMsg(data)){
           this.rule = data.data[1];
-          console.log(this.rule);
+          // console.log(this.rule);
         }
       })
   }
@@ -104,6 +104,11 @@ export class OrdersComponent implements OnInit {
     });
   }
   getServerSelect(id,type){
+    if(type==='节假日停车'){
+      this.getUserCar();
+    }else {
+      this.repairname.carCode = null;
+    }
     let url = "/employee/property/getServerSelect?buildingID="+id+'&type='+type;
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
@@ -170,6 +175,9 @@ export class OrdersComponent implements OnInit {
           inner.push(data.data[i].carNumber);
         }
         this.plateNum = inner;
+        if(this.plateNum){
+          this.repairname.carCode = this.plateNum[0];
+        }
         // console.log(inner);
       }
     });
@@ -185,6 +193,11 @@ export class OrdersComponent implements OnInit {
   }
   /*获取楼层名称*/
   getFloorNameListInfo(id:string) {
+    for(let i=0;i<this.buildings.length;i++){
+      if(this.buildings[i].ID==id){
+        this.repairname.buildingName = this.buildings[i].NAME;
+      }
+    }
     this.infoBuildingService.getFloorNameListMsg(Number(id))
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
@@ -309,7 +322,6 @@ export class OrdersComponent implements OnInit {
   }
   /*点击新增*/
   addOrder(){
-    this.getUserCar();
     this.repairname = new GuardName();
     this.repairname.fileName = [];
     this.repairname.filePath = [];
@@ -503,7 +515,7 @@ export class GuardName {
   servername:string; // 具体服务内容
   porpertyContent:string; // 服务详情
   orderId:string;     // 订单号
-  plateNum: string; // 车牌信息
+  carCode: string; // 车牌信息
   filePath: string[]; // 文件路径
   fileName:string[]; // 文件名
   orderStatus:string; // 订单状态

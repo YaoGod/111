@@ -15,7 +15,7 @@ declare var confirmFunc: any;
   providers:[UtilBuildingService,SaleProductEmployeeService,]
 })
 export class PaperComponent implements OnInit {
-  public pageSize = 10;
+  public pageSize = 15;
   public pageNo = 1;
   public total = 0;
   public length = 10;
@@ -27,6 +27,7 @@ export class PaperComponent implements OnInit {
   public searchInfo = new CardInfo();
   public newCard = new CardInfo();
   public record : Array<CardInfo> = new Array<CardInfo>();
+  public eTime:string;
   constructor( private http: Http,
                private errorVoid:ErrorResponseService,
                private globalCatalogService:GlobalCatalogService,
@@ -84,7 +85,6 @@ export class PaperComponent implements OnInit {
   /*获取停车证信息*/
   getPermitInfo(){
     let url = "/building/parking/getParkingPermitList/list/"+this.pageNo+"/"+this.pageSize;
-
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         // console.log(data.data.infos);
@@ -120,12 +120,13 @@ export class PaperComponent implements OnInit {
         if (this.errorVoid.errorMsg(data)) {
           if (data.data.length < 2) {
             inner += data.data[0].carNumber;
+            this.newCard.useCarCode = inner;
           } else {
             for (let i = 0; i < data.data.length; i++) {
               inner += data.data[i].carNumber + ',';
             }
+            this.newCard.useCarCode = inner.substring(0, inner.length - 1);
           }
-          this.newCard.useCarCode = inner.substring(0, inner.length - 1);
         }
       });
     }
@@ -134,6 +135,68 @@ export class PaperComponent implements OnInit {
   repairSearch(num){
     this.pageNo = num;
     this.getPermitInfo();
+  }
+  /*点击延期*/
+  addDate(){
+    this.eTime = '';
+    // console.log(this.newCard.eTime);
+    $('.mask1').fadeIn();
+  }
+  public verifyeTime1(){
+    if (!this.isEmpty('eTime1', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  submit2(){
+    let url = "/building/parking/updateParkingPermitInfo";
+    if (!this.verifyeTime1()) {
+      return false;
+    }
+    let postData = {
+      eTime:this.eTime
+    };
+    /*this.ipSetting.sendPost(url, postData).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '延期成功',
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
+        this.repairSearch(1);
+        this.addCancel();
+      }
+    });*/
+  }
+  /*点击失效*/
+  invalid(){
+    confirmFunc.init({
+      'title': '提示' ,
+      'mes': '是否确认所有过期停车证全体失效？',
+      'popType': 1 ,
+      'imgType': 3 ,
+      'callback': () => {
+        let url = "/building/parking/updateParkingPermitInfo";
+        if (!this.verifyeTime()) {
+          return false;
+        }
+        let postData = JSON.parse(JSON.stringify(this.newCard));
+        postData.permitStatus = 'invalid';
+        this.ipSetting.sendPost(url, postData).subscribe(data => {
+          if(this.errorVoid.errorMsg(data)){
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': '该停车证已失效！',
+              'popType': 0 ,
+              'imgType': 1 ,
+            });
+            this.repairSearch(1);
+            this.addCancel();
+          }
+        });
+      }
+    });
   }
   /*点击新增*/
   addVehicle(){
@@ -153,9 +216,10 @@ export class PaperComponent implements OnInit {
   }
   /*取消*/
   addCancel(){
-    $('.mask').fadeOut();
+    $('.mask,.mask1,.mask2').fadeOut();
     $('.errorMessage').html('');
   }
+  /**新增停车证校验并提交*/
   public verifybuildingName() {
     if (!this.isEmpty('buildingName', '不能为空')) {
       return false;
@@ -198,6 +262,33 @@ export class PaperComponent implements OnInit {
     }
     return true;
   }
+  submit(){
+    var url;
+    if(this.contractBool === false){
+      url = "/building/parking/updateParkingPermitInfo";
+    }else{
+      url = "/building/parking/addParkingPermitInfo";
+    }
+    if (!this.verifybuildingName()||!this.verifyname() ||!this.verifytype() || !this.verifycode() || !this.verifystatus()||
+      !this.verifyeTime() || !this.verifyeTime()) {
+      return false;
+    }
+
+    this.ipSetting.sendPost(url, this.newCard).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': this.contractBool === false?'更新成功':'新增成功',
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
+        this.repairSearch(1);
+        this.addCancel();
+      }
+    });
+
+  }
+  /**新增发放人员校验并提交*/
   public verifyuseUserId() {
     if (!this.isEmpty('useUserId', '不能为空')) {
       return false;
@@ -222,23 +313,16 @@ export class PaperComponent implements OnInit {
     }
     return true;
   }
-  submit(){
-    var url;
-    if(this.contractBool === false){
-      url = "/building/parking/updateParkingPermitInfo";
-    }else{
-      url = "/building/parking/addParkingPermitInfo";
-    }
-    if (!this.verifybuildingName()||!this.verifyname() ||!this.verifytype() || !this.verifycode() || !this.verifystatus()||
-      !this.verifyeTime()) {
+  submit3(){
+    let url = '/building/parking/addPermitUse';
+    if (!this.verifyuseUserId()||!this.verifyuseUserName()) {
       return false;
     }
-
     this.ipSetting.sendPost(url, this.newCard).subscribe(data => {
       if(this.errorVoid.errorMsg(data)){
         confirmFunc.init({
           'title': '提示' ,
-          'mes': this.contractBool === false?'更新成功':'新增成功',
+          'mes': '新增成功',
           'popType': 0 ,
           'imgType': 1 ,
         });
@@ -246,7 +330,6 @@ export class PaperComponent implements OnInit {
         this.addCancel();
       }
     });
-
   }
   /*点击导入*/
   leadIn(){
@@ -318,9 +401,8 @@ export class PaperComponent implements OnInit {
   /*点击编辑*/
   editCardInfo(id,useId){
     this.contractBool = false;
+    $('.form-add').attr('disabled',false);
     $('.form-disable').attr('disabled',true).css('backgroundColor','#f8f8f8');
-    this.getUserName(useId);
-    this.getUserCar(useId);
     let url = '/building/parking/getParkingPermitInfo/'+id;
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
@@ -328,9 +410,22 @@ export class PaperComponent implements OnInit {
         $('.mask').fadeIn();
         $('.mask .mask-head p').html('编辑停车证');
         this.newCard = data.data.object;
+        this.getUserName(useId);
+        this.getUserCar(useId);
       }
     });
-
+  }
+  /*增加发放停车证*/
+  grant(id){
+    $('.form-add').attr('disabled',true).css('backgroundColor','#f8f8f8');
+    let url = '/building/parking/getParkingPermitInfo/'+id;
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        // console.log(data.data);
+        $('.mask2').fadeIn();
+        this.newCard = data.data.object;
+      }
+    });
   }
   /*点击删除*/
   delCardInfo(id){
@@ -412,7 +507,7 @@ export class PaperComponent implements OnInit {
 }
 export class CardInfo {
   id: number; // 本条信息ID
-  buildingName:string; // 大楼名称
+  buildingName:string=''; // 大楼名称
   buildingId:string; // 大楼ID
   useUserId: string;// 员工编号
   useUserName:string; // 员工姓名
@@ -421,11 +516,13 @@ export class CardInfo {
   eTime:string; // 有效期开始日期
   bTime: string; // 有效期截止日期
   modifyTime:string; // 发放日期
+  useETime:string;// 发放截止日期
   useCarCode: string; // 车牌号
-  status: string; // 状态
+  permitStatus: string=''; // 使用状态
+  useStatus:string=''; // 发放状态
   name:string;// 停车证名称x
   code: string; // 停车证编码
-  type: string; // 停车证类型
+  type: string=''; // 停车证类型
   note:string; // 备注
 
 }

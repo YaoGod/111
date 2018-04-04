@@ -51,56 +51,7 @@
         <a href="javascript:;" class="btn search-btn" (click)="addVehicle()" *ngIf="rule&&rule.isInstall"><i class="icon-plus"></i>&nbsp;&nbsp;新 增</a>
       </div>
       <ul class="card-list clearfix">
-        <!--<li  class="room-card">
-          <div class="room-title clearfix">
-            <h5>员工姓名 :XXX</h5><h5>员工编号 :XXX</h5><h5>员工部门 :XXX</h5>
-          </div>
-          <div class="card-border">
-            <h6> <i class="icon-pencil"></i> <i class="icon-trash"> </i> </h6>
-            <div class="card-left">
-              <div>
-                <span class="form-title">驾驶员姓名<i></i></span>
-                <p>XXX</p>
-              </div>
-              <div>
-                <span class="form-title">驾驶证号<i></i></span>
-                <p>XXX</p>
-              </div>
-              <div>
-                <span class="form-title">驾驶证档案编号<i></i></span>
-                <p>XXX</p>
-              </div>
-              <div>
-                <span class="form-title">车辆所有人姓名<i></i></span>
-                <p>XXX</p>
-              </div>
-              <div>
-                <span class="form-title">车牌号码<i></i></span>
-                <p>XXX</p>
-              </div>
-              <div>
-                <span class="form-title">车辆识别代号<i></i></span>
-                <p>XXX</p>
-              </div>
-              <div>
-                <span class="form-title">发动机号码<i></i></span>
-                <p>XXX</p>
-              </div>
-              <div>
-                <span class="form-title">车辆品牌型号<i></i></span>
-                <p>XXX</p>
-              </div>
-              <div>
-                <span class="form-title">是否停车摇号<i></i></span>
-                <p>XXX</p>
-              </div>
-              <div>
-                <span class="form-title">交通费额度(元/月)<i></i></span>
-                <p>XXX</p>
-              </div>
-
-            </div>
-            <div class="card-right">
+        <!--<div class="card-right">
               <div class="card-info">
                 <span class="form-title" style="height: 20px;line-height: 20px;">驾驶证照片<i></i></span>
 
@@ -114,9 +65,7 @@
                   <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522061862735&di=c35d4a8c070ca76e2e98b6cd704546df&imgtype=0&src=http%3A%2F%2Fclub2.autoimg.cn%2Falbum%2Fg15%2FM13%2FEE%2FC8%2Fuserphotos%2F2015%2F11%2F23%2F14%2FwKgH1lZSs8eALLkHABZL3uRxsTY522.jpg" alt="行驶证照片">
                 </div>
               </div>
-            </div>
-          </div>
-        </li>-->
+            </div>-->
         <li *ngFor="let inner of record;let i=index" class="room-card">
           <div class="room-title clearfix">
             <h5>员工姓名 :{{inner.userName}}</h5><h5>员工编号 :{{inner.userId}}</h5><h5>员工部门 :{{inner.userDept}}</h5>

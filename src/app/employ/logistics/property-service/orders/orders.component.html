@@ -128,7 +128,8 @@
       <div class="form-control">
         <span class="form-label">大楼名称</span>
         <div class="form-inp">
-          <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId" (blur)="verifybuildingId()" (change)="getFloorNameListInfo(repairname.buildingId)">
+          <select id="buildingId" name="buildingId" class="company-ipt company-sel" [(ngModel)]="repairname.buildingId"
+                  (blur)="verifybuildingId()" (change)="getFloorNameListInfo(repairname.buildingId)">
             <option *ngFor="let num of buildings"
                     [value]="num.ID">
               {{num.NAME}}</option>
@@ -161,7 +162,7 @@
         <span class="form-label">服务项目</span>
         <div class="form-inp">
           <select id="type" name="type" class="company-ipt company-sel" [(ngModel)]="repairname.propertyType"
-                  (blur)="verifyservername()" ><!--(change)="getServerSelect(repairname.buildingId,repairname.propertyType)"-->
+                  (blur)="verifyservername()" (change)="getServerSelect(repairname.buildingId,repairname.propertyType)">
             <option value="">请选择</option>
             <option *ngFor="let abc of useful" [value]="abc">{{abc}}</option>
           </select>
@@ -190,8 +191,7 @@
       <div class="form-control" *ngIf="repairname.propertyType==='节假日停车'">
         <span class="form-label">车牌信息</span>
         <div class="form-inp">
-          <select id="plateNum" name="plateNum" class="company-ipt company-sel" [(ngModel)]="repairname.plateNum">
-            <option value="">请选择</option>
+          <select id="plateNum" name="plateNum" class="company-ipt company-sel" [(ngModel)]="repairname.carCode">
             <option *ngFor="let abc of plateNum; let k=index" [value]="abc">{{abc}}</option>
           </select>
         </div>
