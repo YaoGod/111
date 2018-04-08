@@ -1,22 +1,21 @@
 <!--统计信息盘-->
 <div class="count-area">
   <div class="count-left">
-    <div class="count-inner">
-      <!--放三个临近期间的投票活动-->
-      <app-wrapper-picture></app-wrapper-picture>
-    </div>
+    <!--放三个临近期间的投票活动-->
+    <app-wrapper-picture [list]="votes" [width]="800"></app-wrapper-picture>
   </div>
   <div class="count-right">
-    <div class="count-inner">
-
+    <div class="btn-inner">
+      <a class="btn" [routerLink]="['./manage']">进入管理</a>
     </div>
     <div class="count-inner">
-      <h4>投票人气Top5</h4>
+      <h4>投票活动-人气排行榜 TOP5</h4>
       <ul class="count-list">
         <li *ngFor="let top of votesTop;let i = index">
           <h3><strong>{{i+1}}.</strong>{{top.title}}</h3>
         </li>
       </ul>
+      <div style="clear: both"></div>
     </div>
   </div>
   <div style="clear: both"></div>

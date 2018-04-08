@@ -19,7 +19,8 @@ export class VoteListComponent implements OnInit {
     this.votesTop = [];
     this.votes = [
       {
-        title: '碰到这样的司机，你会怎么做？'
+        title: '碰到这样的司机，你会怎么做？',
+        content: ''
       },
       {
         title: '你最想娶(嫁)的金庸小说人物？'

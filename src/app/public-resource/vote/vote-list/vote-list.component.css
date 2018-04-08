@@ -12,14 +12,13 @@
   outline: none;
 }
 .count-left{
-  display: inline-block;
-  width: 70%;
-  padding-right: 20px;
+  float: left;
+  width: 800px;
   box-sizing: border-box;
 }
 .count-right{
-  float: right;
-  width: 30%;
+  padding-left: 820px;
+  height: 400px;
 }
 .count-list>li{
   padding: 5px;
@@ -110,4 +109,27 @@
   text-align: center;
   vertical-align: middle;
   color: #b6b6b6;
+}
+.btn-inner{
+  height: 80px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.btn-inner a{
+  float: right;
+  display: inline-block;
+  width: 240px;
+  line-height: 80px;
+  font-size: 26px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #04a9f3;
+  text-align: center;
+  transition-duration: 300ms;
+}
+.btn-inner a:hover{
+  background-color: #0492d1;
+}
+.vote-inner:hover h5{
+  color: #F05;
 }

@@ -26,6 +26,14 @@ const routes: Routes = [
       {
         path: 'detail/:id',
         component: VoteDetailComponent
+      },
+      {
+        path: 'manage',
+        component: VoteMangComponent
+      },
+      {
+        path: 'push',
+        component: VotePushComponent
       }
     ]
   }

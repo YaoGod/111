@@ -1,60 +1,27 @@
 <div id="wrapper">
-  <h1>Title</h1>
   <div id="slider-wrap">
     <ul id="slider">
-      <li data-color="#1abc9c">
+      <li *ngFor="let panel of list;let i = index;"
+          (click)="linkAddress(panel.url)"
+          [ngStyle]="{'background':colorList[i]}">
         <div>
-          <h3>Slide #1</h3>
-          <span>Sub-title #1</span>
+          <h3>#{{i+1}} {{panel.title}}</h3>
+          <span *ngIf="panel.content">Sub-title #1</span>
         </div>
         <i class="fa fa-image"></i>
       </li>
-
-      <li data-color="#3498db">
-        <div>
-          <h3>Slide #2</h3>
-          <span>Sub-title #2</span>
-        </div>
-        <i class="fa fa-gears"></i>
-      </li>
-
-      <li data-color="#9b59b6">
-        <div>
-          <h3>Slide #3</h3>
-          <span>Sub-title #3</span>
-        </div>
-        <i class="fa fa-sliders"></i>
-      </li>
-
-      <li data-color="#34495e">
-        <div>
-          <h3>Slide #4</h3>
-          <span>Sub-title #4</span>
-        </div>
-        <i class="fa fa-code"></i>
-      </li>
-
-      <li data-color="#e74c3c">
-        <div>
-          <h3>Slide #5</h3>
-          <span>Sub-title #5</span>
-        </div>
-        <i class="fa fa-microphone-slash"></i>
-      </li>
-
-
     </ul>
 
     <!--controls-->
-    <div class="btns" id="next"><i class="fa fa-arrow-right"></i></div>
-    <div class="btns" id="previous"><i class="fa fa-arrow-left"></i></div>
-    <div id="counter"></div>
+    <div class="btns" id="next" (click)="slideRight()"><i class="fa fa-arrow-right"></i></div>
+    <div class="btns" id="previous" (click)="slideLeft()"><i class="fa fa-arrow-left"></i></div>
+    <div id="counter">{{pos+1}}/{{totalSlides}}</div>
 
     <div id="pagination-wrap">
       <ul>
+        <li *ngFor="let li of list;let i = index" [ngClass]="i === pos?'active':''"></li>
       </ul>
     </div>
     <!--controls-->
-
   </div>
 </div>

@@ -1,3 +1,68 @@
-<p>
-  vote-mang works!
-</p>
+<div class="content-area">
+  <div class="content-inner">
+    <!--页面标题-->
+    <div class="nav-title">
+      <a><h4>投票管理</h4></a>
+      <div class="b-head-right">
+        <div class="content-box" tabindex="0" onclick="history.go(-1)">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>
+    </div>
+    <!--搜索栏-->
+    <div class="search-bar">
+      <ul>
+        <li><label>主题</label>
+          <input type="text" name="search" [(ngModel)]="search.title">
+        </li>
+        <li>
+          <a (click)="getVotes(1);"><i class="icon-magnifier"></i>查询</a>
+        </li>
+        <li>
+          <a class="btn-danger" [routerLink]="['../push']">
+            <i class="icon-plus"></i>
+            添加
+          </a>
+        </li>
+      </ul>
+    </div>
+    <!--表头-->
+    <div class="table-head" style="margin-top: 10px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row list-title" style="height:45px;">
+          <th width="70%" class="text-left">主题</th>
+          <th width="10%" class="text-left">操作</th>
+        </tr>
+      </table>
+    </div>
+    <!--表格内容-->
+    <div class="table-content" style="min-height: 500px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row"  style="height:100px;" *ngFor="let vote of votes;let i = index">
+          <td width="10%" class="box-option text-left">
+            <a [routerLink]="['../detail',vote.id]">
+              <i class="icon-screen-desktop"></i>详情
+            </a>
+            <a [routerLink]="['../edit',vote.id]">
+              <i class="icon-pencil"></i>编辑
+            </a>
+            <a (click)="delete(vote.id)">
+              <i class="icon-trash"></i>删除
+            </a>
+          </td>
+        </tr>
+      </table>
+      <div class="div-none" *ngIf="votes.length === 0">
+        <p>暂无信息</p>
+      </div>
+    </div>
+    <!--翻页-->
+    <app-turn-bar
+      [pageNo] = "pageNo"
+      [pageSize] = "pageSize"
+      [total] = "total"
+      (turnEvent) = "getVotes($event)">
+    </app-turn-bar>
+
+  </div>
+</div>

@@ -6,8 +6,8 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
 
 
 #wrapper{
-  width:600px;
-  margin:50px auto;
+  width:800px;
+  margin:0 auto;
   height:400px;
   position:relative;
   color:#fff;
@@ -15,7 +15,7 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
 }
 
 #slider-wrap{
-  width:600px;
+  width:800px;
   height:400px;
   position:relative;
   overflow:hidden;
@@ -33,7 +33,7 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
 #slider-wrap ul#slider li{
   float:left;
   position:relative;
-  width:600px;
+  width:800px;
   height:400px;
 }
 
@@ -44,6 +44,11 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
 }
 
 #slider-wrap ul#slider li > div h3{
+  padding-right: 80px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
   font-size:36px;
   text-transform:uppercase;
 }
@@ -149,9 +154,6 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
 h1, h2{text-shadow:none; text-align:center;}
 h1{	color: #666; text-transform:uppercase;	font-size:36px;}
 h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; margin-bottom:30px;}
-
-
-
 
 /*ANIMATION*/
 #slider-wrap ul, #pagination-wrap ul li{
