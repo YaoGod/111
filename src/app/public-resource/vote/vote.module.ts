@@ -13,6 +13,7 @@ import { VoteDetailComponent } from './vote-detail/vote-detail.component';
 import { VoteStatisticsComponent } from './vote-statistics/vote-statistics.component';
 import {FormsModule} from "@angular/forms";
 import {WrapperPictureModule} from "../../component/wrapper-picture/wrapper-picture.module";
+import {PublicresourceVoteService} from "../../service/publicresource-vote/publicresource-vote.service";
 const routes: Routes = [
   {
     path: '',
@@ -49,7 +50,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
-  providers: [RouteGuardService],
+  providers: [RouteGuardService,PublicresourceVoteService],
   declarations: [VoteComponent, VoteListComponent, VoteMangComponent, VotePushComponent, VoteDetailComponent, VoteStatisticsComponent]
 })
 export class VoteModule { }

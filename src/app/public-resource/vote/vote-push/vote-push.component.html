@@ -17,7 +17,7 @@
             <textarea class="form-control" id="title" rows="2"
                       name="summary" placeholder=""
                       [(ngModel)]="copyVote.title"
-                      (blur)="verifyEmpty(copyVote.title,'copyVote')">
+                      (blur)="verifyEmpty(copyVote.title,'title')">
               </textarea>
           </label>
           <div class="error"></div>
@@ -27,65 +27,143 @@
             <textarea class="form-control" id="content" rows="8"
                       name="content" placeholder=""
                       [(ngModel)]="copyVote.content"
-                      (blur)="verifyEmpty(shareProduct.content,'content')">
+                      (blur)="verifyEmpty(copyVote.content,'content')">
               </textarea>
           </label>
           <div class="error"></div>
         </div>
         <div  class="form-group">
-          <label  class="control-label"><span>数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量</span>
-            <input class="form-control" id="amount"
-                   name="amount" placeholder="" type="number"
-                   [(ngModel)]="shareProduct.amount"
-                   (blur)="verifyEmpty(shareProduct.amount,'amount')">
+          <label  class="control-label"><span>截至日期</span>
+            <input class="form-control" id="eTime"
+                   name="eTime" placeholder="" type="date"
+                   [(ngModel)]="copyVote.eTime"
+                   (blur)="verifyEmpty(copyVote.eTime,'eTime')">
           </label>
           <div class="error"></div>
         </div>
-        <div  class="modal-right">
-          <div  class="form-group">
-            <label  class="control-label"><span>截至时间</span>
-              <input class="form-control" id="bTime"
-                     name="bTime" placeholder="" type="datetime-local"
-                     [(ngModel)]="shareProduct.bTime"
-                     (blur)="verifyEmpty(shareProduct.bTime,'bTime')">
+        <div  class="form-group">
+          <label  class="control-label" (click)="openChooseWin()">
+            <span>开放范围</span>
+            <textarea class="form-control" rows="4" style="line-height: 20px"
+                      id="deptName" name="deptName" readonly
+                      [(ngModel)]="copyVote.targetName"
+                      (blur)="verifyEmpty(copyVote.targetName,'deptName')"
+            >
+            </textarea>
+          </label>
+          <div class="error"></div>
+        </div>
+        <div class="modal-more" id="deptSltWin" style="display: none">
+          <h5>杭州移动各部门</h5>
+          <h5>已选：&nbsp;&nbsp;<span>{{copyVote.targetName}}</span></h5>
+          <div class="choose-group">
+            <label class="cb-blue">
+              <input type="checkbox" name="all" id="all" [(ngModel)]="isAllDept" (change)="chooseAll()">
+              <span>所有人员</span>
             </label>
-            <div class="error"></div>
           </div>
-          <div  class="form-group">
-            <label  class="control-label" (click)="openChooseWin()">
-              <span>开放范围</span>
-              <textarea class="form-control" rows="4" style="line-height: 20px"
-                        id="deptName" name="deptName" readonly
-                        [(ngModel)]="shareProduct.targetName">
-              </textarea>
-            </label>
-            <div class="error"></div>
-          </div>
-          <div class="modal-more" id="deptSltWin" style="display: none">
-            <h5>杭州移动各部门</h5>
-            <h5>已选：&nbsp;&nbsp;
-              <span>{{shareProduct.targetName}}</span></h5>
-            <div class="choose-group">
+          <div class="choose-list">
+            <div class="choose-group" *ngFor="let dept of deptList;let i=index">
               <label class="cb-blue">
-                <input type="checkbox" name="all" id="all" [(ngModel)]="isAllDept" (change)="chooseAll()">
-                <span>所有人员</span>
+                <input type="checkbox" [name]="dept.DEPT_ID" [(ngModel)]="dept.choose"
+                       [value]="dept.DEPT_ID"
+                       (change)="chooseDept()">
+                <span>{{dept.DEPT_NAME}}</span>
               </label>
             </div>
-            <div class="choose-list">
-              <div class="choose-group" *ngFor="let dept of deptList;let i=index">
-                <label class="cb-blue">
-                  <input type="checkbox" [name]="dept.DEPT_ID" [(ngModel)]="dept.choose"
-                         [value]="dept.DEPT_ID"
-                         (change)="chooseDept()">
-                  <span>{{dept.DEPT_NAME}}</span>
-                </label>
-              </div>
-            </div>
-            <div  class="modal-more-footer">
-              <button  class="btn btn-info" type="submit"
-                       onclick="$('#deptSltWin').fadeOut()">确定</button>
-            </div>
           </div>
+          <div  class="modal-more-footer">
+            <button  class="btn btn-info" type="submit"
+                     onclick="$('#deptSltWin').fadeOut()">确定</button>
+          </div>
+        </div>
+        <div  class="form-group">
+          <label  class="control-label"><span>投票方式</span>
+            <label for="single">
+              <input id="single" name="type" type="radio" value="single"
+                     [(ngModel)]="copyVote.type" (change)="clearResult()">
+              单选
+            </label>
+            <label for="double">
+              <input id="double" name="type" type="radio" value="double"
+                     [(ngModel)]="copyVote.type" (change)="clearResult()">
+              多选
+            </label>
+          </label>
+          <div class="error"></div>
+        </div>
+        <div  class="form-group" *ngIf="copyVote.type ==='double'">
+          <label  class="control-label"><span>投票配置</span>
+            <label for="number">
+              <input id="number" name="resultType" type="radio" value="number"
+                     [(ngModel)]="copyVote.resultType" (change)="clearResult()">
+              指定个数
+              <span *ngIf="copyVote.resultType === 'number'">&nbsp;&nbsp;
+                <input type="number" class="form-control" style="width: 80px"
+                       name="maxResult" [(ngModel)]="copyVote.maxResult">项
+              </span>
+            </label>
+          </label>
+          <div class="error"></div>
+        </div>
+        <div  class="form-group" *ngIf="copyVote.type ==='double'">
+          <label  class="control-label"><span></span>
+            <label for="range">
+              <input id="range" name="resultType" type="radio" value="range"
+                     [(ngModel)]="copyVote.resultType" (change)="clearResult()">
+              指定范围
+              <span *ngIf="copyVote.resultType === 'range'">&nbsp;&nbsp;最多选
+                <input type="number" class="form-control" style="width: 80px" name="maxResult"
+                       [(ngModel)]="copyVote.maxResult">项
+              &nbsp;&nbsp;最少选
+                <input type="number" class="form-control" style="width: 80px" name="minResult"
+                       [(ngModel)]="copyVote.minResult">项
+              </span>
+            </label>
+          </label>
+          <div class="error"></div>
+        </div>
+        <div  class="form-group">
+          <div  class="control-label"><span>选项</span>
+            <ul class="control-list">
+              <li *ngFor="let option of copyVote.options;let i = index">
+                <h5>选项（{{i+1}}）<span *ngIf="i!=0" (click)="delOption(i)">删除</span></h5>
+                <div class="warp-left">
+                  <div  class="dropify-wrapper bpt">
+                    <div  class="dropify-message">
+                      <img [src]="option.imgContent | imgsafeurl" *ngIf="option.imgContent">
+                    </div>
+                    <p>上传图片</p>
+                    <input  class="dropify" type="file" name="imgPath"
+                            (change)="prese_upload($event.target.files,i)">
+                  </div>
+                </div>
+                <div class="warp-left" style="padding-left: 20px">
+                  <div  class="form-group">
+                    <label  class="control-label">
+                      <span>选项名称</span>
+                      <input class="form-control" type="text" style="width: 260px"
+                                [(ngModel)]="option.title">
+                    </label>
+                    <div class="error"></div>
+                  </div>
+                  <div  class="form-group">
+                    <label  class="control-label">
+                      <span>选项内容</span>
+                      <textarea class="form-control" rows="3" style="line-height: 24px;width: 560px"
+                                [(ngModel)]="option.content">
+                      </textarea>
+                    </label>
+                    <div class="error"></div>
+                  </div>
+                </div>
+              </li>
+              <li class="box-add">
+                <a (click)="addNewOption()"><i class="icon-plus"></i>&nbsp;添加选项</a>
+              </li>
+            </ul>
+          </div>
+          <div class="error"></div>
         </div>
       </div>
       <div style="clear: both;"></div>
