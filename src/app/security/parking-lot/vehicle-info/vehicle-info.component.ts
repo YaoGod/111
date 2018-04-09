@@ -25,7 +25,7 @@ export class VehicleInfoComponent implements OnInit {
   public rule : any;
   public deptList: any;
   public jurisdiction:any;
-  private contractBool = true;
+  public contractBool = true;
   public searchInfo : CardInfo = new CardInfo();
   public newCard = new CardInfo();
   public record : Array<CardInfo> = new Array<CardInfo>();
@@ -279,12 +279,7 @@ export class VehicleInfoComponent implements OnInit {
     }
     return true;
   }
-  public verifycarFare() {
-    if (!this.isEmpty('carFare', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
+
   submit(){
     var url;
     if(this.contractBool === false){
@@ -294,7 +289,7 @@ export class VehicleInfoComponent implements OnInit {
     }
     if (!this.verifyId() ||!this.verifyuserName() ||!this.verifydriverName() || !this.verifydriverNum() || !this.verifydriverCode()
       || !this.verifycarOwner() || !this.verifycarNumber() || !this.verifycarCode() || !this.verifymotorNum() ||
-      !this.verifycarBrand() || !this.verifyisPark() || !this.verifycarFare()) {
+      !this.verifycarBrand() || !this.verifyisPark()) {
       return false;
     }
     this.ipSetting.sendPost(url, this.newCard).subscribe(data => {
@@ -381,6 +376,7 @@ export class CardInfo {
   carBrand:string; // 车辆品牌型号
   isPark: string = ''; // 是否停车摇号
   carFare: string; // 交通费额度
+  status:string; // 状态
   imgPath:string;
   imgContentList={
     driverA: [], // 驾驶证

@@ -1,3 +1,51 @@
-<p>
-  luck-draw works!
-</p>
+<div class="count-area">
+  <div class="count-left">
+    <div class="count-inner goods-inner">
+      <h4 class="goods-hd">
+        <em class="fn1">摇号设置</em>
+        <p>
+          <span class="subtitle"></span>
+        </p>
+        <span class="tb-fn">
+      </span>
+      </h4>
+      <ul class="count-list">
+        <li>
+          <label>大楼名称</label>
+          <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="setInfo.buildingName">
+            <option value="">-请选择-</option>
+            <option *ngFor="let num of buildings"
+                    [value]="num.NAME">
+              {{num.NAME}}</option>
+          </select>
+        </li>
+        <li>
+          <label >停车证类型</label>
+          <select class="search-ipt search-sel" name="searchtype" [(ngModel)]="setInfo.type">
+            <option value="">全部</option>
+            <option value="地面">地面</option>
+            <option value="立体车库">立体车库</option>
+            <option value="地下车库">地下车库</option>
+          </select>
+        </li>
+        <li>
+          未发放的停车证数量{{setInfo.parkNumber}}
+        </li>
+        <li>
+          摇号的数量<input type="number" name="plateNum" [(ngModel)]="setInfo.lotNumber" (blur)="verfyNumber(setInfo.lotNumber)"/>
+        </li>
+      </ul>
+      <div style="clear: both"></div>
+    </div>
+  </div>
+  <div class="count-right">
+    <div class="count-inner" [routerLink]="['../new']">
+      <div class="count-build">
+        <a >
+          <div class="count-icon"><i class="icon-cloud-upload"></i></div>
+          我要发布
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

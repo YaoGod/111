@@ -13,7 +13,7 @@ export class SaleComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.globalCatalogService.setTitle("员工服务/惊喜专区/限时抢购");
+    this.globalCatalogService.setTitle("员工服务/惊喜专区/限时抢");
   }
 
 }

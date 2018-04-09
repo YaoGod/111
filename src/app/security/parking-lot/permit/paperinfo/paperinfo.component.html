@@ -24,15 +24,15 @@
         <li>{{newCard.code}}</li>
         <li>{{newCard.bTime}}</li>
         <li>{{newCard.eTime}}</li>
-        <li *ngIf="newCard.useStatus ==='valid'">未发放</li>
+        <li *ngIf="newCard.useStatus ==='unissued'">未发放</li>
         <li *ngIf="newCard.useStatus ==='use'">已发放</li>
         <li style="color:#ff1103;"  *ngIf="newCard.permitStatus ==='invalid'">失效</li>
         <li style="color:#00a379;"  *ngIf="newCard.permitStatus ==='valid'">正常</li>
         <li style="color:#ff1103;" *ngIf="newCard.permitStatus ==='expired'">已过期</li>
       </ul>
       <div class="note">
-        <div class="title"><span>备注</span></div>
-        <p>{{newCard.note}}</p>
+        <div class="title"><span>备注</span><p>{{newCard.note}}</p></div>
+
       </div>
 
       <div class="mark" *ngIf="newCard.permitStatus ==='expired'">
@@ -50,40 +50,37 @@
           <th>员工部门</th>
           <th>员工编号</th>
           <th>员工电话</th>
-          <th>发放日期</th>
+          <!--<th>发放日期</th>-->
           <th>发放截止日期</th>
-          <th>备注</th>
         </tr>
-        <tr style="height: 36px; text-align: center" >
+        <tr style="height: 36px; text-align: center;background:#F4F4F4">
           <td>{{newCard.useUserName}}</td>
           <td>{{newCard.useUserDept}}</td>
           <td>{{newCard.useUserId}}</td>
           <td>{{newCard.useUserTel}}</td>
-          <td>{{newCard.modifyTime}}</td>
+          <!--<td>{{newCard.modifyTime}}</td>-->
           <td>{{newCard.useETime}}</td>
-          <td>{{newCard.note}}</td>
 
       </table>
     </div>
     <div class="history" *ngIf="history!==null">
-      <div class="history-title">历史发放记录</div>
+      <div class="history-title">发放记录</div>
       <table width="100%" class="record">
         <tr style="height: 40px; background-color: #EEEEE0; text-align: center">
           <th>员工姓名</th>
           <th>员工部门</th>
           <th>员工编号</th>
           <th>员工电话</th>
-          <th>发放日期</th>
-          <th>备注</th>
+          <!--<th>发放日期</th>-->
+          <th>发放截止日期</th>
         </tr>
-        <tr style="height: 36px; text-align: center" >
-          <td>{{newCard.useUserName}}</td>
-          <td>{{newCard.useUserDept}}</td>
-          <td>{{newCard.useUserId}}</td>
-          <td>{{newCard.useUserTel}}</td>
-          <td>{{newCard.modifyTime}}</td>
-          <td>{{newCard.note}}</td>
-
+        <tr style="height: 36px; text-align: center" *ngFor="let inner of history;let i=index" >
+          <td>{{inner.USERNAME}}</td>
+          <td>{{inner.DEPT_NAME}}</td>
+          <td>{{inner.USERID}}</td>
+          <td>{{inner.TELE_NUM}}</td>
+          <!--<td>{{inner.modifyTime}}</td>-->
+          <th>{{inner.USE_E_TIME}}</th>
       </table>
     </div>
   </div>

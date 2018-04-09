@@ -33,7 +33,7 @@ export class SaleStatisticsComponent implements OnInit {
     this.saleProduct = new SaleProduct();
     this.userSales = [];
     this.search.userId = "";
-    this.globalCatalogService.setTitle("员工服务/惊喜专区/限时抢购信息报表");
+    this.globalCatalogService.setTitle("员工服务/惊喜专区/限时抢信息报表");
     this.route.params.subscribe(data => {
       this.saleProduct.id = data.id;
       this.getSaleProduct(data.id);

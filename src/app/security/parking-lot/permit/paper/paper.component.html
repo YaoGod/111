@@ -18,7 +18,7 @@
           <li>
             <label >停车证类型</label>
             <select class="search-ipt search-sel" name="searchtype" [(ngModel)]="searchInfo.type">
-              <option value="">请选择</option>
+              <option value="">全部</option>
               <option value="地面">地面</option>
               <option value="立体车库">立体车库</option>
               <option value="地下车库">地下车库</option>
@@ -27,7 +27,7 @@
           <li>
             <label >发放状态</label>
             <select class="search-ipt search-sel" name="searchstatus" [(ngModel)]="searchInfo.useStatus">
-              <option value="">请选择</option>
+              <option value="">全部</option>
               <option value="use">已发放</option>
               <option value="unissued">未发放</option>
             </select>
@@ -35,7 +35,7 @@
           <li>
             <label >使用状态</label>
             <select class="search-ipt search-sel" name="searchstatus" [(ngModel)]="searchInfo.permitStatus">
-              <option value="">请选择</option>
+              <option value="">全部</option>
               <option value="valid">正常</option>
               <option value="invalid">失效</option>
               <option value="expired">已过期</option>
@@ -47,8 +47,8 @@
         </div>
       </div>
       <div class="row-no clearfix">
-        <div class="warn">
-          <img src="../../../../../assets/image/warn.png"><span class="sino">有过期停车证{{23}}张，请选择</span>
+        <div class="warn" *ngIf="expire>0">
+          <img src="../../../../../assets/image/warn.png"><span class="sino">有过期停车证{{expire}}张，请选择</span>
           <a href="javascript:;" class="btn " (click)="invalid()">批量失效</a>
           <a href="javascript:;" class="btn" (click)="addDate()">批量延期</a>
         </div>
@@ -73,7 +73,7 @@
             </tr>
             <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
               <td><a [routerLink]="['../paperinfo/'+inner.id]" href="javascript:;">{{inner.buildingName}}</a> </td>
-              <td>{{inner.name}}</td>
+              <td><a [routerLink]="['../paperinfo/'+inner.id]" href="javascript:;">{{inner.name}}</a> </td>
               <td>{{inner.type}}</td>
               <td>{{inner.code}}</td>
               <td>{{inner.bTime}}</td>
@@ -85,8 +85,10 @@
               <td *ngIf="inner.permitStatus ==='valid'">正常</td>
               <td>{{inner.note}}</td>
               <td> <!--*ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
-                <i class="icon-plus" *ngIf="inner.useStatus ==='unissued'" (click)="grant(inner.id)"
-                   title="增加发放"></i>
+                <i class="icon-plus" *ngIf="inner.useStatus ==='unissued'" (click)="grant(inner.id)" title="发放"></i>
+                <i class="recover" *ngIf="inner.useStatus !=='unissued'" (click)="recover(inner.id)" title="回收">
+                  <img src="../../../../../assets/image/recover.png">
+                </i>
                 <i class="icon-pencil" (click)="editCardInfo(inner.id,inner.useUserId)" style="margin-left: 5px;" title="编辑"></i>
                 <i class="icon-trash" (click)="delCardInfo(inner.id)" style="margin-left: 5px;" title="删除"></i></td>
             </tr>
@@ -182,7 +184,6 @@
             <option value="">请选择</option>
             <option value="use">已发放</option>
             <option value="unissued">未发放</option>
-            <!--<option value="invalid">失效</option>-->
           </select>
           <span class="errorMessage"></span>
         </div>
@@ -253,7 +254,7 @@
       <div class="form-control">
         <span class="form-label">发放截止日期</span>
         <div class="form-inp">
-          <input type="date" class="company-ipt" name="userDept3" [(ngModel)]="newCard.useETime"/>
+          <input type="date" class="company-ipt" name="useETime" id="useETime" [(ngModel)]="newCard.useETime" (blur)="verifyuseETime()"/>
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -305,7 +306,7 @@
       <div class="form-control">
         <span class="form-label">延期有效期至</span>
         <div class="form-inp">
-          <input type="date" class="company-ipt" name="eTime2" id="eTime2" [(ngModel)]="eTime"
+          <input type="date" class="company-ipt" name="eTime2" id="eTime1" [(ngModel)]="eTime"
                  (blur)="verifyeTime1()"/>
           <span class="errorMessage"></span>
         </div>

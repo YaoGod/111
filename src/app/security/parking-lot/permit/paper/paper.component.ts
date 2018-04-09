@@ -24,6 +24,7 @@ export class PaperComponent implements OnInit {
   public deptList: any;
   public rule : any;
   public jurisdiction:any;
+  public expire:number;
   public searchInfo = new CardInfo();
   public newCard = new CardInfo();
   public record : Array<CardInfo> = new Array<CardInfo>();
@@ -84,12 +85,15 @@ export class PaperComponent implements OnInit {
   }
   /*获取停车证信息*/
   getPermitInfo(){
-    let url = "/building/parking/getParkingPermitList/list/"+this.pageNo+"/"+this.pageSize;
+    let url = "/building/parking/getParkingPermitList/list/"+this.pageNo+"/"+this.pageSize+'?buildingName='+
+      this.searchInfo.buildingName+'&&type='+this.searchInfo.type+'&&useStatus='+this.searchInfo.useStatus+
+      '&&permitStatus='+this.searchInfo.permitStatus;
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         // console.log(data.data.infos);
         this.record = data.data.infos;
         this.total = data.data.total;
+        this.expire = data.data.invalid;
       }
     });
   }
@@ -149,27 +153,24 @@ export class PaperComponent implements OnInit {
     return true;
   }
   submit2(){
-    let url = "/building/parking/updateParkingPermitInfo";
+    let url = "/building/parking/updateInvalid?status=&&endTime="+this.eTime;
     if (!this.verifyeTime1()) {
       return false;
     }
-    let postData = {
-      eTime:this.eTime
-    };
-    /*this.ipSetting.sendPost(url, postData).subscribe(data => {
+    this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)){
         confirmFunc.init({
           'title': '提示' ,
-          'mes': '延期成功',
+          'mes': '批量延期成功',
           'popType': 0 ,
           'imgType': 1 ,
         });
         this.repairSearch(1);
         this.addCancel();
       }
-    });*/
+    });
   }
-  /*点击失效*/
+  /*批量失效*/
   invalid(){
     confirmFunc.init({
       'title': '提示' ,
@@ -177,17 +178,13 @@ export class PaperComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let url = "/building/parking/updateParkingPermitInfo";
-        if (!this.verifyeTime()) {
-          return false;
-        }
-        let postData = JSON.parse(JSON.stringify(this.newCard));
-        postData.permitStatus = 'invalid';
-        this.ipSetting.sendPost(url, postData).subscribe(data => {
+        let url = "/building/parking/updateInvalid?status=invalid&&endTime=";
+        this.ipSetting.sendGet(url).subscribe(data => {
           if(this.errorVoid.errorMsg(data)){
+            console.log(data);
             confirmFunc.init({
               'title': '提示' ,
-              'mes': '该停车证已失效！',
+              'mes': '过期停车证已设置为失效！',
               'popType': 0 ,
               'imgType': 1 ,
             });
@@ -301,6 +298,12 @@ export class PaperComponent implements OnInit {
     }
     return true;
   }
+  public verifyuseETime() {
+    if (!this.isEmpty('useETime', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
   public verifyuseUserDept() {
     if (!this.isEmpty('useUserDept', '不能为空')) {
       return false;
@@ -314,10 +317,11 @@ export class PaperComponent implements OnInit {
     return true;
   }
   submit3(){
-    let url = '/building/parking/addPermitUse';
-    if (!this.verifyuseUserId()||!this.verifyuseUserName()) {
+    if(!this.verifyuseETime()||!this.verifyuseUserId()||!this.verifyuseUserName()||!this.verifyuseCarCode()||!this.verifyuseUserDept()){
       return false;
     }
+    let url = '/building/parking/addPermitUse';
+
     this.ipSetting.sendPost(url, this.newCard).subscribe(data => {
       if(this.errorVoid.errorMsg(data)){
         confirmFunc.init({
@@ -390,11 +394,13 @@ export class PaperComponent implements OnInit {
      }
      this.search.bTime = this.search.bTime.replace(/-/g, "/");
      this.search.eTime = this.search.eTime.replace(/-/g, "/");*/
-    let url = this.ipSetting.ip + "/building/parking/getParkingPermitList/excel/1/5";
+    let url = this.ipSetting.ip + "/building/parking/getParkingPermitList/excel/1/5?buildingName="+
+      "&&type=&&useStatus=&&permitStatus=";
     this.http.get(url)
     // .map(res => res.json())
       .subscribe(data => {
-        window.location.href = this.ipSetting.ip + "/building/parking/getParkingPermitList/excel/1/5";
+        window.location.href = this.ipSetting.ip + "/building/parking/getParkingPermitList/excel/1/5?buildingName="+
+        "&&type=&&useStatus=&&permitStatus=";
         $('#deriving').fadeOut();
       });
   }
@@ -426,6 +432,31 @@ export class PaperComponent implements OnInit {
         this.newCard = data.data.object;
       }
     });
+  }
+  /*回收*/
+  recover(id){
+    confirmFunc.init({
+      'title': '提示' ,
+      'mes': '是否确认对此停车证进行回收？',
+      'popType': 1 ,
+      'imgType': 3 ,
+      'callback': () => {
+        let url = '/building/parking/addLosePermit?id='+id;
+        this.ipSetting.sendGet(url).subscribe(data => {
+          if(this.errorVoid.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': data['msg'],
+              'popType': 0 ,
+              'imgType': 1 ,
+            });
+            this.pageNo = 1;
+            this.getPermitInfo();
+          }
+        });
+      }
+    });
+
   }
   /*点击删除*/
   delCardInfo(id){

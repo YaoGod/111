@@ -72,7 +72,7 @@
           </div>
           <div class="card-border">
             <h6>
-              <i class="icon-pencil" (click)="editCardInfo(inner.id)" *ngIf="rule&&rule.isUpdate"></i>
+              <i class="icon-pencil" (click)="editCardInfo(inner.id)" *ngIf="rule&&rule.isUpdate&&inner.status!=='pass'"></i>
               <i (click)="delCardInfo(inner.id)" class="icon-trash" *ngIf="rule&&rule.isDelete"></i>
             </h6>
             <div class="card-left">
@@ -112,11 +112,16 @@
                 <span class="form-title">是否停车摇号<i></i></span>
                 <p>{{inner.isPark}}</p>
               </div>
-              <div>
+              <!--<div>
                 <span class="form-title">交通费额度(元/月)<i></i></span>
                 <p>{{inner.carFare}}</p>
+              </div>-->
+              <div>
+                <span class="form-title">审核状态<i></i></span>
+                <p style="color:#6f0;font-size: 18px" *ngIf="inner.status==='pass'">通过</p>
+                <p style="color:#f00;font-size: 18px" *ngIf="inner.status==='fail'">不通过</p>
+                <p style="color:#ee0;font-size: 18px" *ngIf="inner.status==='pending'">待审核</p>
               </div>
-
             </div>
             <div class="card-right">
               <div class="card-info">
@@ -251,15 +256,18 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control">
-        <span class="form-label">交通费额度(元/月)</span>
+      <div class="form-control" *ngIf="contractBool===false">
+        <span class="form-label">审核结果</span>
         <div class="form-inp">
-          <input class="company-ipt" name="carFare" type="number" id="carFare" [(ngModel)]="newCard.carFare"
-                 (blur)="verifycarFare()" maxlength="8"/>
+          <select class="company-ipt" name="carFare" type="number" id="status" [(ngModel)]="newCard.status">
+            <option value="">请选择</option>
+            <option value="pass">通过</option>
+            <option value="fail">不通过</option>
+          </select>
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control">
+      <div class="form-control" *ngIf="contractBool===false">
 
       </div>
       <div class="form-control">

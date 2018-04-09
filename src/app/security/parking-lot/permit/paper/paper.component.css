@@ -120,6 +120,9 @@ input{
 .card-info{
   text-align: center;
 }
+.card-info tr:nth-child(odd){
+  background:#F4F4F4;
+}
 .card-info span{
   padding:0;
   margin:0;
@@ -522,4 +525,8 @@ button{
 }
 .card-info td i{
   cursor: pointer;
+}
+.recover,.recover img{
+  width:14px;
+  height:14px;
 }
