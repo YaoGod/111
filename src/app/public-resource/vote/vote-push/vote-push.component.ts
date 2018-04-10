@@ -1,23 +1,67 @@
 import { Component, OnInit } from '@angular/core';
+import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 import {Vote,Option} from "../../../mode/vote/vote.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {Department} from "../../../employ/share/share-new-product/share-new-product.component";
 import {PublicresourceVoteService} from "../../../service/publicresource-vote/publicresource-vote.service";
+import {GlobalUserService} from "../../../service/global-user/global-user.service";
+import {Params, Router, ActivatedRoute} from "@angular/router";
 declare var $:any;
 declare var confirmFunc:any;
 @Component({
   selector: 'app-vote-push',
   templateUrl: './vote-push.component.html',
   styleUrls: ['./vote-push.component.css'],
+  animations: [
+    trigger('diamond', [
+      state('upper', style({
+        height: 0,
+        opacity: 0
+      })),
+      state('lower', style({
+        height: 76,
+        opacity: 1
+      })),
+      state('none', style({
+        transform: 'translate3d(300%,0,0)',
+        opacity: 0
+      })),
+      state('show',style({
+        transform:'translate3d(0,0,0)',
+        opacity: 1
+      })),
+      state('active',style({
+        opacity: 1
+      })),
+      transition('lower => upper', animate('500ms ease-in', keyframes([
+        style({ transform: 'translate3d(300%,0,0)' })
+      ]))),
+      transition('upper => lower', animate('500ms ease-in')),
+      transition('none <=> show', animate('500ms')),
+      transition('* => active', animate('500ms', keyframes([
+        style({opacity: 0, transform: 'translateY(-20%)', offset: 0}),
+        style({opacity: 1, transform: 'translateY(15px)',  offset: 0.3}),
+        style({opacity: 1, transform: 'translateY(0)',     offset: 1.0})
+      ]))),
+      transition('active => *', animate('500ms', keyframes([
+        style({ transform: 'translate3d(300%,0,0)' })
+      ])))
+    ])
+  ]
 })
 export class VotePushComponent implements OnInit {
 
-  public copyVote : Vote;
-  public deptList: Array<Department>;
-  public isAllDept:boolean;
+  public copyVote  : Vote;
+  public deptList  : Array<Department>;
+  public isMyDept  : boolean;
+  public isAllDept : boolean;
+  public user;
   constructor(
     private publicresourceVoteService:PublicresourceVoteService,
-    private errorResponseService:ErrorResponseService
+    private errorResponseService:ErrorResponseService,
+    private globalUserService: GlobalUserService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -26,9 +70,40 @@ export class VotePushComponent implements OnInit {
     this.copyVote.targetName = [];
     this.copyVote.options = [];
     this.copyVote.options[0] = new Option();
+    this.copyVote.options[0].imgPath = "";
+    this.copyVote.options[0].imgContent = "";
     this.getDeptList();
+    this.user =this.globalUserService.getVal();
+    if(typeof (this.route.params['_value']['id']) !== "undefined"){
+      let tempid = 0;
+      this.route.params
+        .switchMap((params: Params) => this.copyVote.id  = params['id'])
+        .subscribe(() => {
+          if (tempid === 0) {
+            this.getVoteInfo(this.copyVote.id);
+            tempid++;
+          }
+        });
+    }
   }
-
+  /*获取投票信息*/
+  getVoteInfo(id){
+    this.publicresourceVoteService.getVoteInfo(id)
+      .subscribe(data=>{
+        if(this.errorResponseService.errorMsg(data)){
+          this.copyVote = data.data;
+          if(this.copyVote.type === "double"){
+            if(this.copyVote.maxResult>this.copyVote.minResult){
+              this.copyVote.resultType = "range";
+            }else{
+              this.copyVote.resultType = "number";
+            }
+          }
+          this.copyVote.targetId = data.data.targetId.split('|').slice(1,-1);
+          this.copyVote.targetName = data.data.targetName.split('|').slice(1,-1);
+        }
+      })
+  }
   /*获取所有部门列表*/
   getDeptList(){
     this.publicresourceVoteService.getDeptList()
@@ -55,12 +130,16 @@ export class VotePushComponent implements OnInit {
         if(this.copyVote.targetId[j] === 'all'){
           this.isAllDept = true;
         }
+        if(this.copyVote.targetId[j] === this.user.deptId){
+          this.isMyDept = true;
+        }
       }
     }
   }
   /*选取部门*/
   chooseDept(){
     this.isAllDept = false;
+    this.isMyDept = false;
     this.copyVote.targetId = [];
     this.copyVote.targetName = [];
     for(let i = 0;i<this.deptList.length;i++){
@@ -74,18 +153,31 @@ export class VotePushComponent implements OnInit {
       this.isAllDept = false;
     }
   }
+  /*选择本部门*/
+  setMyDept(id){
+    for (let i = 0; i < this.deptList.length; i++) {
+      this.deptList[i].choose = false;
+    }
+    this.isAllDept = false;
+    this.isMyDept = true;
+    this.copyVote.targetId = [id];
+    this.copyVote.targetName = ['本部门'];
+  }
   /*全选*/
   chooseAll() {
     this.isAllDept = true;
     this.copyVote.targetId = ['all'];
-    this.copyVote.targetName = ['所有人员'];
+    this.copyVote.targetName = ['全公司'];
     for (let i = 0; i < this.deptList.length; i++) {
       this.deptList[i].choose = false;
     }
+    this.isMyDept = false;
   }
   clearResult(){
     this.copyVote.minResult = null;
     this.copyVote.maxResult = null;
+    this.removeErrorClass("number");
+    this.removeErrorClass("range");
   }
   /*文件图片上传*/
   prese_upload(files,index){
@@ -111,6 +203,8 @@ export class VotePushComponent implements OnInit {
   /*添加选项*/
   addNewOption(){
     this.copyVote.options.push(new Option());
+    this.copyVote.options[this.copyVote.options.length-1].imgContent = "";
+    this.copyVote.options[this.copyVote.options.length-1].imgPath = "";
   }
   /*删除选项*/
   delOption(index){
@@ -139,8 +233,10 @@ export class VotePushComponent implements OnInit {
     }
     if($('.red').length === 0) {
       let postdata = JSON.parse(JSON.stringify(this.copyVote));
+      for(let i = 0;i<postdata.options.length;i++){
+        delete postdata.options[i].imgContent;
+      }
       if(typeof (postdata.id) === "undefined" || postdata.id === null) {
-        console.log(postdata);
         this.publicresourceVoteService.addVoteInfo(postdata)
           .subscribe(data => {
             if (this.errorResponseService.errorMsg(data)) {
@@ -177,6 +273,27 @@ export class VotePushComponent implements OnInit {
             }
           });
       }
+    }
+  }
+  /*数字范围判断*/
+  verifyNumberRange(value, id?,min?,max?){
+    if(typeof (value) === "undefined" ||
+      value === null ||
+      value === ''){
+      this.addErrorClass(id,'该值不能为空');
+      return false;
+    }
+    if(value<min){
+      this.addErrorClass(id,'该值不能小于'+min);
+      return false;
+    }
+    if(value>max){
+      this.addErrorClass(id,'该值不能大于'+max);
+      return false;
+    }
+    else{
+      this.removeErrorClass(id);
+      return true;
     }
   }
   /*非空验证*/

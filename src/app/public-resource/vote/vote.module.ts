@@ -29,11 +29,19 @@ const routes: Routes = [
         component: VoteDetailComponent
       },
       {
+        path: 'statistics/:id',
+        component: VoteStatisticsComponent
+      },
+      {
         path: 'manage',
         component: VoteMangComponent
       },
       {
         path: 'push',
+        component: VotePushComponent
+      },
+      {
+        path: 'edit/:id',
         component: VotePushComponent
       }
     ]
@@ -51,6 +59,7 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [RouteGuardService,PublicresourceVoteService],
-  declarations: [VoteComponent, VoteListComponent, VoteMangComponent, VotePushComponent, VoteDetailComponent, VoteStatisticsComponent]
+  declarations: [VoteComponent, VoteListComponent, VoteMangComponent,
+    VotePushComponent, VoteDetailComponent, VoteStatisticsComponent]
 })
 export class VoteModule { }

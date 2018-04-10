@@ -1,5 +1,5 @@
 <div id="wrapper">
-  <div id="slider-wrap">
+  <div id="slider-wrap" (mouseleave)="setImgInterval()">
     <ul id="slider">
       <li *ngFor="let panel of list;let i = index;"
           (click)="linkAddress(panel.url)"

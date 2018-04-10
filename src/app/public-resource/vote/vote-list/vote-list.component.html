@@ -6,10 +6,13 @@
   </div>
   <div class="count-right">
     <div class="btn-inner">
+      <div class="extra-area">
+        信息总数<span>{{total}}</span>
+      </div>
       <a class="btn" [routerLink]="['./manage']">进入管理</a>
     </div>
     <div class="count-inner">
-      <h4>投票活动-人气排行榜 TOP5</h4>
+      <h4 class="list-title"><strong>人气排行榜</strong><em>TOP5</em></h4>
       <ul class="count-list">
         <li *ngFor="let top of votesTop;let i = index">
           <h3><strong>{{i+1}}.</strong>{{top.title}}</h3>
@@ -31,10 +34,17 @@
       </p>
       <span class="tb-fn"></span>
     </h4>
+    <div class="goods-search">
+      <div class="goods-search-ipt">
+        <input placeholder="请输入投票主题" [(ngModel)]="search.title"/>
+      </div>
+      <a class="goods-search-btn" (click)="getVoteList(1)" >查询</a>
+    </div>
     <ul class="goods-list">
       <li class="vote-inner" *ngFor="let vote of votes">
         <h5>{{vote.title}}</h5>
-        <a>参与投票</a>
+        <!--<span><i class="icon-chart">999</i></span>-->
+        <a class="btn-join" [routerLink]="['../detail',vote.id]">参与投票</a>
       </li>
     </ul>
     <div class="div-none" *ngIf="votes.length === 0">

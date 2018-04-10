@@ -189,3 +189,11 @@ td>img{
 .text-left, .row .text-left{
   text-align: left;
 }
+.btn-push{
+  display: inline-block;
+  margin-left: 5px;
+  padding: 2px 5px;
+  background-color: #fb9678;
+  color: #ffffff;
+  cursor: pointer;
+}

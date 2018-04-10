@@ -27,21 +27,29 @@
       </ul>
     </div>
     <!--表头-->
-    <div class="table-head" style="margin-top: 10px">
+    <div class="table-head" style="margin-top: 10px;min-height: 600px">
       <table border="0" cellspacing="0" cellpadding="0" class="list-box">
         <tr class="row list-title" style="height:45px;">
-          <th width="70%" class="text-left">主题</th>
+          <th width="40%" class="text-left">主题</th>
+          <th width="15%">截止日期</th>
+          <th width="20%" class="text-left">开放范围</th>
+          <th width="15%" class="text-left">状态</th>
           <th width="10%" class="text-left">操作</th>
         </tr>
-      </table>
-    </div>
-    <!--表格内容-->
-    <div class="table-content" style="min-height: 500px">
-      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
-        <tr class="row"  style="height:100px;" *ngFor="let vote of votes;let i = index">
-          <td width="10%" class="box-option text-left">
+        <tr class="row" *ngFor="let vote of votes;let i = index">
+          <td class="text-left">{{vote.title}}</td>
+          <td>{{vote.eTime | date:'yyyy/MM/dd'}}</td>
+          <td class="text-left">{{vote.targetName}}</td>
+          <td class="text-left">{{vote.status}}
+            <span class="btn-push" *ngIf="vote.status!=='发布'"
+                  (click)="changePush(vote.id,'release')">发布</span>
+          </td>
+          <td class="box-option text-left">
             <a [routerLink]="['../detail',vote.id]">
               <i class="icon-screen-desktop"></i>详情
+            </a>
+            <a [routerLink]="['../statistics',vote.id]">
+              <i class="icon-chart"></i>统计
             </a>
             <a [routerLink]="['../edit',vote.id]">
               <i class="icon-pencil"></i>编辑

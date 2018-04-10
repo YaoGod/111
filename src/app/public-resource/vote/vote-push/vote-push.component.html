@@ -34,8 +34,8 @@
         </div>
         <div  class="form-group">
           <label  class="control-label"><span>截至日期</span>
-            <input class="form-control" id="eTime"
-                   name="eTime" placeholder="" type="date"
+            <input class="form-control" id="eTime" name="eTime" placeholder="" type="date"
+                   style="width: 200px"
                    [(ngModel)]="copyVote.eTime"
                    (blur)="verifyEmpty(copyVote.eTime,'eTime')">
           </label>
@@ -58,8 +58,15 @@
           <h5>已选：&nbsp;&nbsp;<span>{{copyVote.targetName}}</span></h5>
           <div class="choose-group">
             <label class="cb-blue">
+              <input type="checkbox" name="userDept" [(ngModel)]="isMyDept" [value]="user.deptId"
+                     (change)="setMyDept(user.deptId)">
+              <span>本部门</span>
+            </label>
+          </div>
+          <div class="choose-group">
+            <label class="cb-blue">
               <input type="checkbox" name="all" id="all" [(ngModel)]="isAllDept" (change)="chooseAll()">
-              <span>所有人员</span>
+              <span>全公司</span>
             </label>
           </div>
           <div class="choose-list">
@@ -92,41 +99,44 @@
           </label>
           <div class="error"></div>
         </div>
-        <div  class="form-group" *ngIf="copyVote.type ==='double'">
+        <div  class="form-group" [@diamond]="copyVote.type ==='double'?'lower':'upper'">
           <label  class="control-label"><span>投票配置</span>
             <label for="number">
               <input id="number" name="resultType" type="radio" value="number"
                      [(ngModel)]="copyVote.resultType" (change)="clearResult()">
               指定个数
-              <span *ngIf="copyVote.resultType === 'number'">&nbsp;&nbsp;
+              <span [@diamond]="copyVote.resultType === 'number'?'show':'none'">&nbsp;&nbsp;
                 <input type="number" class="form-control" style="width: 80px"
-                       name="maxResult" [(ngModel)]="copyVote.maxResult">项
+                       name="maxResult" [(ngModel)]="copyVote.maxResult"
+                      (blur)="verifyNumberRange(copyVote.maxResult,'number',2)">项
               </span>
             </label>
+            <div class="error"></div>
           </label>
-          <div class="error"></div>
-        </div>
-        <div  class="form-group" *ngIf="copyVote.type ==='double'">
-          <label  class="control-label"><span></span>
-            <label for="range">
-              <input id="range" name="resultType" type="radio" value="range"
-                     [(ngModel)]="copyVote.resultType" (change)="clearResult()">
-              指定范围
-              <span *ngIf="copyVote.resultType === 'range'">&nbsp;&nbsp;最多选
-                <input type="number" class="form-control" style="width: 80px" name="maxResult"
-                       [(ngModel)]="copyVote.maxResult">项
-              &nbsp;&nbsp;最少选
-                <input type="number" class="form-control" style="width: 80px" name="minResult"
-                       [(ngModel)]="copyVote.minResult">项
-              </span>
+          <div>
+            <label  class="control-label"><span></span>
+              <label for="range">
+                <input id="range" name="resultType" type="radio" value="range"
+                       [(ngModel)]="copyVote.resultType" (change)="clearResult()">
+                指定范围
+                <span [@diamond]="copyVote.resultType === 'range'?'show':'none'">&nbsp;&nbsp;最多选
+                  <input type="number" class="form-control" style="width: 80px" name="maxResult"
+                         [(ngModel)]="copyVote.maxResult"
+                         (blur)="verifyNumberRange(copyVote.maxResult,'range',copyVote.minResult+1)">项
+                &nbsp;&nbsp;最少选
+                  <input type="number" class="form-control" style="width: 80px" name="minResult"
+                         [(ngModel)]="copyVote.minResult"
+                         (blur)="verifyNumberRange(copyVote.minResult,'range',1,copyVote.maxResult-1)">项
+                </span>
+              </label>
+              <div class="error"></div>
             </label>
-          </label>
-          <div class="error"></div>
+          </div>
         </div>
         <div  class="form-group">
           <div  class="control-label"><span>选项</span>
             <ul class="control-list">
-              <li *ngFor="let option of copyVote.options;let i = index">
+              <li *ngFor="let option of copyVote.options;let i = index" [@diamond]="option?'active':''">
                 <h5>选项（{{i+1}}）<span *ngIf="i!=0" (click)="delOption(i)">删除</span></h5>
                 <div class="warp-left">
                   <div  class="dropify-wrapper bpt">

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 declare var $:any;
 @Component({
@@ -6,7 +6,7 @@ declare var $:any;
   templateUrl: './wrapper-picture.component.html',
   styleUrls: ['./wrapper-picture.component.css']
 })
-export class WrapperPictureComponent implements OnInit {
+export class WrapperPictureComponent implements OnChanges {
 
   @Input ()  list : Array<any>;   /*展示信息*/
   @Input ()  width : number;   /*展示信息*/
@@ -14,12 +14,13 @@ export class WrapperPictureComponent implements OnInit {
   public totalSlides = 0;
   public sliderWidth;
   public colorList = ['#1abc9c','#3498db','#9b59b6','#34495e','#e74c3c'];
+  private autoSlider = setInterval(()=>{this.slideRight();}, 3000);
   constructor(
     private route: ActivatedRoute,
     private router: Router
   ) { }
 
-  ngOnInit() {
+  ngOnChanges() {
     this.sliderWidth = this.width?this.width:600;
     if(this.list&&this.list.length>0){
       this.totalSlides = this.list.length;
@@ -30,9 +31,7 @@ export class WrapperPictureComponent implements OnInit {
         title: '暂无信息'
       }]
     }
-    let autoSlider = setInterval(()=>{this.slideRight();}, 3000);
     this.pagination();
-
     /* //set width to be 'x' times the number of slides*/
     $('#slider-wrap ul#slider').width(this.sliderWidth*this.totalSlides);
 
@@ -41,13 +40,17 @@ export class WrapperPictureComponent implements OnInit {
     $('#slider-wrap').hover(
       ()=> {
         $('#slider-wrap').addClass('active');
-        clearInterval(autoSlider);
+        clearInterval(this.autoSlider);
       },
       ()=> {
         $('#slider-wrap').removeClass('active');
-        autoSlider = setInterval(()=>{this.slideRight();}, 3000);
+       // this.autoSlider = setInterval(()=>{this.slideRight();}, 3000);
       }
     );
+  }
+
+  setImgInterval(){
+    this.autoSlider = setInterval(()=>{this.slideRight();}, 3000);
   }
   /***********
    SLIDE LEFT
