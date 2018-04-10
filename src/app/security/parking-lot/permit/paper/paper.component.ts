@@ -153,7 +153,7 @@ export class PaperComponent implements OnInit {
     return true;
   }
   submit2(){
-    let url = "/building/parking/updateInvalid?status=&&endTime="+this.eTime;
+    let url = "/building/parking/updateInvalid?status=valid&&endTime="+this.eTime;
     if (!this.verifyeTime1()) {
       return false;
     }
@@ -181,7 +181,6 @@ export class PaperComponent implements OnInit {
         let url = "/building/parking/updateInvalid?status=invalid&&endTime=";
         this.ipSetting.sendGet(url).subscribe(data => {
           if(this.errorVoid.errorMsg(data)){
-            console.log(data);
             confirmFunc.init({
               'title': '提示' ,
               'mes': '过期停车证已设置为失效！',

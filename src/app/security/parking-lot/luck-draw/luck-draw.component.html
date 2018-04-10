@@ -1,15 +1,9 @@
 <div class="count-area">
   <div class="count-left">
+    <h4 class="goods-hd">摇号设置</h4>
     <div class="count-inner goods-inner">
-      <h4 class="goods-hd">
-        <em class="fn1">摇号设置</em>
-        <p>
-          <span class="subtitle"></span>
-        </p>
-        <span class="tb-fn">
-      </span>
-      </h4>
-      <ul class="count-list">
+      <h4 class="goods-hd">查询余量</h4>
+      <ul class="count-list clearfix">
         <li>
           <label>大楼名称</label>
           <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="setInfo.buildingName">
@@ -28,24 +22,95 @@
             <option value="地下车库">地下车库</option>
           </select>
         </li>
+      </ul>
+      <h5 class="goods-hd h5">点击<span (click)="getParkNumber()">查看</span>未发放停车证数量
+        <input class="search-ipt" style="width:80px;" type="number" name="parkNumber" [(ngModel)]="setInfo.parkNumber"
+               disabled="disabled"/>
+      </h5>
+      <h4 class="goods-hd">规则设置</h4>
+      <ul class="count-list clearfix">
         <li>
-          未发放的停车证数量{{setInfo.parkNumber}}
-        </li>
-        <li>
-          摇号的数量<input type="number" name="plateNum" [(ngModel)]="setInfo.lotNumber" (blur)="verfyNumber(setInfo.lotNumber)"/>
+          <label>分配方式</label>
+          <label>
+            <input name="new_pstatus" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="setInfo.pstatus" value="1">人员占比
+          </label>
+          <label>
+            <input name="new_pstatus" type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="setInfo.pstatus" value="2">全体随机
+          </label>
         </li>
       </ul>
-      <div style="clear: both"></div>
+      <h4 class="goods-hd">部门数量</h4>
+      <ul class="count-list clearfix">
+        <li>
+          <label>选择部门</label>
+          <textarea name="deptId" class="search-ipt search-sel" id="deptId"  readonly
+          (focus)="openChooseWin()" rows="4">
+          </textarea><!--[(ngModel)]="targetName"-->
+          <ol *ngIf="targetName" class="deptList">
+            <li *ngFor="let num of targetName;let i=index;">{{num}}<span *ngIf="perNum.length>0">({{perNum[i]}})</span></li>
+          </ol>
+          <div class="modal-more" id="deptSltWin" style="display: none">
+            <h5>杭州移动各部门</h5>
+            <h5>已选：&nbsp;&nbsp;
+              <span>{{targetName}}</span></h5>
+            <!--<div class="choose-group">
+              <label class="cb-blue">
+                <input type="checkbox" name="all" id="all" [(ngModel)]="isAllDept" (change)="chooseAll()">
+                <span>所有人员</span>
+              </label>
+            </div>-->
+            <div class="choose-list">
+              <div class="choose-group" *ngFor="let dept of deptList;let i=index">
+                <label class="cb-blue">
+                  <input type="checkbox" [name]="dept.DEPT_ID" [(ngModel)]="dept.choose"
+                         [value]="dept.DEPT_ID"
+                         (change)="chooseDept()">
+                  <span>{{dept.DEPT_NAME}}</span>
+                </label>
+              </div>
+            </div>
+            <div  class="modal-more-footer">
+              <button  class="btn btn-info" type="submit" (click)="getPersonNum()">确定</button>
+            </div>
+          </div>
+        </li>
+        <li>
+          <label>摇号数量</label>
+          <input id="lotNumber" type="number" name="lotNumber" class="search-ipt search-sel" [(ngModel)]="setInfo.num">
+          <span class="errorMessage"></span>
+        </li>
+      </ul>
     </div>
   </div>
   <div class="count-right">
-    <div class="count-inner" [routerLink]="['../new']">
+    <div class="count-inner">
       <div class="count-build">
-        <a >
-          <div class="count-icon"><i class="icon-cloud-upload"></i></div>
-          我要发布
+        <a href="javascript:;" (click)="beiginDraw()">
+          <div class="count-icon"><img src="../../../../assets/image/luck.png"> </div>
+          开始摇号
         </a>
       </div>
     </div>
   </div>
+  <div class="count-result">
+    <h4>摇奖结果</h4>
+
+  </div>
 </div>
+<div class="mask">
+  <div class="box">
+    <div class="loader">
+      <div class="loading-3">
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+      </div>
+    </div>
+  </div>
+</div>
+
