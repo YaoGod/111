@@ -19,7 +19,7 @@ export class LuckDrawComponent implements OnInit {
   public pageNo = 1;
   public total = 0;
   public length = 10;
-  private contractBool = true;
+  public status = [];
   public buildings: any;
   public setInfo = new CardInfo();
   public deptList: Array<Department>;
@@ -27,6 +27,8 @@ export class LuckDrawComponent implements OnInit {
   public targetId = [];
   public perNum = [];
   public isAllDept:boolean;
+  public batch = '';
+  public result:any;
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
               private utilBuildingService:UtilBuildingService,
@@ -37,6 +39,22 @@ export class LuckDrawComponent implements OnInit {
     // this.getParkNumber();
     this.getBuildings();
     this.getDeptList();
+    /*this.result = [{CAR_NUMBER:"浙A52110",
+    SERVICE_CENTER:"环北服务中心",
+    TELE_NUM:"13666651107",
+    USERID:"22B00130",
+    USERNAME:"徐佳华"},
+      {CAR_NUMBER:"浙A52110",
+        SERVICE_CENTER:"环北服务中心",
+        TELE_NUM:"13666651107",
+        USERID:"22B00131",
+        USERNAME:"徐佳华2"}
+        ];*/
+
+    /*this.status.length = this.result.length;
+    for(let i=0;i<this.result.length;i++){
+      this.status[i]='1';
+    }*/
   }
 
   /*获取大楼列表*/
@@ -156,14 +174,29 @@ export class LuckDrawComponent implements OnInit {
       });
       return false;
     }
-    $('.mask').fadeIn();
+
     this.setInfo.deptId = this.targetId.join(',');
     if(this.setInfo.num<=this.setInfo.parkNumber){
       let url = '/building/parking/getShakeResult?num='+this.setInfo.num+'&&deptId='+this.setInfo.deptId;
       let postData = JSON.parse(JSON.stringify(this.setInfo));
       this.ipSetting.sendPost(url,postData).subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
-          console.log(data.data);
+          // console.log(data.data);
+          $('.mask').show();
+          this.result = data.data.result;
+          this.status.length = this.result.length;
+          for(let i=0;i<this.result.length;i++){
+            this.status[i]='1';
+          }
+          this.targetName = [];
+          this.targetId = [];
+          this.setInfo.num = null;
+          this.batch = data.data.batch;
+          setTimeout(function(){
+            $('.mask').fadeOut(75,function () {
+              $('.count-result').show();
+            });
+          },2000);
         }
       });
     }else{
@@ -178,6 +211,34 @@ export class LuckDrawComponent implements OnInit {
 
   }
 
+  /*提交摇号最终结果*/
+  submit(){
+    let url = '/building/parking/addShakeResult?name=&&type='+this.setInfo.type+'&&buildingId='+this.setInfo.buildingId+
+      '&&batch='+this.batch;
+    // let postData = this.status.join(',');
+    let postData = [];
+    let Data = '';
+    if(this.result&&this.status.length>0){
+      for(let i=0;i<this.status.length;i++){
+        if(this.status[i]==='2'){
+          postData.push(this.result[i].USERID);
+        }
+      }
+    }
+    Data = postData.join(',');
+    this.ipSetting.sendPost(url,postData).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        // console.log(data.data);
+        $('.count-result').hide();
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': data['msg'],
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
+      }
+    });
+  }
   /**非空校验*/
   public isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();

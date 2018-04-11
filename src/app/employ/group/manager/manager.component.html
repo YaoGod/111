@@ -40,7 +40,7 @@
               <td class="six">发起人信息</td>
             </table>
             <dl *ngFor="let product of groupProducts;let idx=index">
-              <dt><span>商品名称：{{product.name}}</span>
+              <dt><span>商品名称：{{product.name}}</span><span style="margin-left:15px;">收款账号：{{product.payaccount}}</span>
               <div class="ope-list">
                 <a class="two"   title="修改" *ngIf="rule&&rule.isUpdate" (click)="update(product.code)"></a>
                 <a class="tre"   title="删除" *ngIf="rule&&rule.isDelete" (click)="delete(product.code)"></a>

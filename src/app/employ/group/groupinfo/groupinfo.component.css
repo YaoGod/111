@@ -80,10 +80,8 @@
   color: #8d9ea7;
 }
 .warp-right>h4{
-  height: 40px;
-  line-height: 40px;
-  font-size: 20px;
-  color: #3c3a3a;
+  font:bold 24px/40px 'Adobe 楷体 Std R';
+  color: #000;
 }
 .time-bar{
   padding: 0 20px;
@@ -113,6 +111,10 @@
 }
 .warp-right li{
   margin-bottom: 7px;
+}
+.warp-right p,.time{
+  font-size:14px;
+  margin-top:10px;
 }
 .form-title{
   display: inline-block;
@@ -166,7 +168,7 @@
   width: 100%;
   border: none;
   color: #5d5d5d;
-  font-size: 12px;
+  font-size: 16px;
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
   letter-spacing: 2.5px;
   line-height: 2;

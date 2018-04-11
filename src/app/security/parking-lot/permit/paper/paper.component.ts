@@ -122,7 +122,15 @@ export class PaperComponent implements OnInit {
       let url = "/building/carInfo/getUserCar/" + id;
       this.ipSetting.sendGet(url).subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
-          if (data.data.length < 2) {
+          if(data.data.length===0){
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': '请先录入该人员车辆信息！',
+              'popType': 0 ,
+              'imgType': 2 ,
+            });
+            return false;
+          }else if (data.data.length === 1) {
             inner += data.data[0].carNumber;
             this.newCard.useCarCode = inner;
           } else {

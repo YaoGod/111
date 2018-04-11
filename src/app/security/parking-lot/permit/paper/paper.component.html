@@ -85,7 +85,7 @@
               <td *ngIf="inner.permitStatus ==='valid'">正常</td>
               <td>{{inner.note}}</td>
               <td> <!--*ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
-                <i class="icon-plus" *ngIf="inner.useStatus ==='unissued'" (click)="grant(inner.id)" title="发放"></i>
+                <i class="icon-plus" *ngIf="inner.useUserTel===null" (click)="grant(inner.id)" title="发放"></i>
                 <i class="recover" *ngIf="inner.useStatus !=='unissued'" (click)="recover(inner.id)" title="回收">
                   <img src="../../../../../assets/image/recover.png">
                 </i>
@@ -240,7 +240,7 @@
       <div class="form-control">
         <span class="form-label">开始有效期</span>
         <div class="form-inp">
-          <input type="date" class="company-ipt form-disable" name="eTime3" [(ngModel)]="newCard.bTime" disabled="disabled"/>
+          <input type="date" class="company-ipt form-disable" name="bTime3" [(ngModel)]="newCard.bTime" disabled="disabled"/>
           <span class="errorMessage"></span>
         </div>
       </div>

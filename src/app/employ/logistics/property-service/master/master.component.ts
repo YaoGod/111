@@ -213,17 +213,25 @@ export class MasterComponent implements OnInit {
     });
   }
   delAttach(index){
-    let url = '/employee/property/deleteServerType/'+index;
-    this.ipSetting.sendGet(url).subscribe(data => {
-      if(this.errorVoid.errorMsg(data)) {
-        confirmFunc.init({
-          'title': '提示' ,
-          'mes': '删除成功',
-          'popType': 0 ,
-          'imgType': 1 ,
+    confirmFunc.init({
+      'title': '提示' ,
+      'mes': '是否删除？',
+      'popType': 1 ,
+      'imgType': 3 ,
+      'callback': () => {
+        let url = '/employee/property/deleteServerType/'+index;
+        this.ipSetting.sendGet(url).subscribe(data => {
+          if(this.errorVoid.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': '删除成功',
+              'popType': 0 ,
+              'imgType': 1 ,
+            });
+            this.searchArch = '';
+            this.getRecord(this.searchArch, this.pageNo, this.pageSize);
+          }
         });
-        this.searchArch = '';
-        this.getRecord(this.searchArch, this.pageNo, this.pageSize);
       }
     });
   }

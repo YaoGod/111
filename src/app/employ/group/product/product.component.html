@@ -30,6 +30,7 @@
                 <td class="fir">商品信息</td>
                 <td class="sec">单价(元)</td>
                 <td class="sec">状态</td>
+                <td class="six">审核人意见</td>
                 <td class="three">配送方式</td>
                 <td class="four">标签</td>
                 <td class="five">团购时间</td>
@@ -41,8 +42,8 @@
               <div class="ope-list">
                 <a title="重新提交" *ngIf="rule&&rule.isUpdate&&product.checkStatus === '2'" (click)="reCheck(product.code)">
                   <i class="icon-cloud-upload"></i></a>
-                <a class="two" *ngIf="rule&&rule.isUpdate&&product.status=='0'"  title="修改" (click)="update(product.code)"></a>
-                <a class="tre" *ngIf="rule&&rule.isDelete&&product.status=='0'"  title="删除" (click)="delete(product.code)"></a>
+                <a class="two" *ngIf="rule&&rule.isUpdate&&product.status=='0'" title="修改" (click)="update(product.code)"></a>
+                <a class="tre" *ngIf="rule&&rule.isDelete&&product.status=='0'" title="删除" (click)="delete(product.code)"></a>
               </div>
               </dt>
               <dd>
@@ -55,11 +56,12 @@
                     <td class="sec">
                       <label *ngIf="product.status=='0'">录入</label>
                       <label *ngIf="product.status=='1'">上架</label>
-                      <label *ngIf="product.status=='2'">下架</label>
+                      <label *ngIf="product.status=='2'">下架</label><br>
                       <label *ngIf="product.checkStatus=='0'">（待审核）</label>
                       <label *ngIf="product.checkStatus=='1'" style="color: green;">（审核通过）</label>
                       <label *ngIf="product.checkStatus=='2'" style="color: red;">（不通过）</label>
                     </td>
+                    <td class="six">{{product.checkResult}}</td>
                     <td class="three" >配送至{{product.shipping}}</td>
                     <td class="four">{{product.label}}</td>
                     <td class="five">

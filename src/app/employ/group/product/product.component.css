@@ -374,7 +374,7 @@ button{
   float: left;
 }
 .pimg{
-  width: 150px;
+  width: 120px;
   height:120px;
   margin-bottom:5px;
   border: 2px solid #E5E5E5;
@@ -725,19 +725,19 @@ select{
   font-size: 12px;
 }
 .list-table .sec{
-  width: 12%;
+  width: 8%;
 }
 .list-table .three{
-  width: 15%;
+  width: 12%;
 }
 .list-table .four{
-  width: 12%;
+  width: 9%;
 }
 .list-table .five{
   width: 12%;
 }
 .list-table .six{
-  width: 15%;
+  width: 12%;
 }
 .list-table .fir img{
   width:auto;
@@ -816,7 +816,7 @@ select{
   width: 100%;
 }
 .list-table dd td{
-  display: inline-block;
+  _display: inline-block;
   text-align: center;
   vertical-align: middle;
   color: #666;
@@ -829,196 +829,7 @@ select{
   height: 22px;
   line-height: 22px;
 }
-.pagegroup{
-  float: right;
-  margin: 15px 0 0 0;
-  display: inline-block;
-}
-.pagegroup span{
-  font-size: 14px;
-  display: inline-block;
-  padding: 7px 13px;
-  border: 1px solid #eee;
-}
-.pagegroup span.opt:hover,.pagegroup .active{
-  background: #ff4401;
-  color: #fff;
-  border: 1px solid #ff4401;
-  cursor: pointer;
-}
-.pagegroup .txt{
-  border: none;
-  cursor: text;
-  padding: 5px;
-}
-.pagegroup .pre,.pagegroup .next{
-  color: #ccc;
-}
-.pagegroup .next{
-  margin-right: 35px;
-}
-.pagegroup .txt:hover{
-  background: #fff;
-  border: none;
-  color: #333;
-}
-.pagegroup input{
-  border: 1px solid #eee;
-  width: 50px;
-  height: 25px;
-  line-height: 25px;
-  text-align: center;
-}
-.pagegroup a{
-  color: #333;
-  padding: 7px 13px;
-  border: 1px solid #eee;
-  text-decoration: none;
-  font-size: 12px;
-}
-.pagegroup a:hover{
-  background: #ff4401;
-  color: #fff;
-  border: 1px solid #ff4401;
-}
 
-/*物业服务管理列表*/
-.wuyelist .list-table .fir{
-  width: 20%;
-  font-size: 12px;
-
-}
-.wuyelist .list-table .fir p{
-  padding: 10px 30px;
-  color: #999;
-}
-.wuyelist .list-table .sec{
-  width: 20%;
-}
-.wuyelist .list-table .three{
-  width: 20%;
-}
-.wuyelist .list-table .four{
-  width: 20%;
-}
-.wuyelist .four .ope-list2 li{
-  display: block;
-  margin: 6px 0;
-}
-.wuyelist .four .ope-list2 li a{
-  text-decoration: none;
-  color: #999;
-  font-size: 12px;
-}
-.wuyelist .four .ope-list2 li .one{
-  display: inline-block;
-  width: 55px;
-  height: 22px;
-  line-height: 22px;
-  text-indent: 20px;
-  background: url('../../../../assets/image/icon-add.png') no-repeat;
-}
-.wuyelist .four .ope-list2 li .two{
-  display: inline-block;
-  height: 22px;
-  line-height: 22px;
-  text-indent: 20px;
-  width: 55px;
-  background: url('../../../../assets/image/icon-edit.png') no-repeat;
-}
-.wuyelist .four .ope-list2 li .tre{
-  display: inline-block;
-  width: 55px;
-  height: 22px;
-  line-height: 22px;
-  text-indent: 25px;
-  background: url('../../../../assets/image/icon-del.png') no-repeat;
-}
-.wuyelist .four .ope-list2 li.active .one{
-  color: #66cdff;
-  background: url('../../../../assets/image/icon-add-a.png') no-repeat;
-}
-.wuyelist .four .ope-list2 li.active .two{
-  color: #66cdff;
-  background: url('../../../../assets/image/icon-edit-a.png') no-repeat;
-}
-.wuyelist .four .ope-list2 li.active .tre{
-  color: #66cdff;
-  background: url('../../../../assets/image/icon-del-a.png') no-repeat;
-}
-
-/*物业服务预订列表*/
-.yuding .four a{
-  text-decoration: none;
-  color: #fff;
-  padding: 10px 25px;
-  border-radius: 5px;
-  letter-spacing: 2px;
-  font-size: 14px;
-  background: #ff5400;
-}
-.yuding .table-head{
-  width: 100%;
-}
-.yuding .four a:hover{
-  background: #ff3c00;
-}
-.yuding .fir{
-  width: 35%;
-  font-size: 12px;
-}
-.yuding .sec{
-  width: 15%;
-  font-size: 16px;
-  color: #ff5400;
-}
-.yuding  .three{
-  width: 10%;
-}
-.yuding .four{
-  width: 10%;
-}
-.yuding .five{
-  width: 10%;
-}
-.yuding .six{
-  width: 10%;
-}
-.yuding .seven{
-  width: 10%;
-}
-.yuding .list-table .table-head li{
-  text-indent: 0;
-}
-.yuding dd {
-  border-top: none;
-}
-.yuding .table-head{
-  text-align: center;
-  text-indent: 0;
-}
-.yuding dd td{
-  text-align: center;
-}
-.yuding .txt-left{
-  float: left;
-  color: #999;
-  font-size: 12px;
-}
-.yuding .txt-left span{
-  margin: 0 20px;
-}
-.yuding .txt-right{
-  float: right;
-}
-.yuding .value{
-  font-weight: bold;
-  font-size: 18px;
-  color: #ff5400;
-}
-.yuding .txt{
-  color: #666;
-}
 .wrap-b .path{
   width: 85%;
   height: 200px;

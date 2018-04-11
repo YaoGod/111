@@ -90,6 +90,7 @@ export class GroupProductService {
    */
   uploadImg(postData,type,id){
     let url = this.ipSetting.ip+'/mmall/util/uploadImg/'+type+ '/' +id;
+    // let url = 'http://106.14.207.75:8686/mmall/util/uploadImg/'+type+ '/' +id;
     var form = new FormData();
     if (typeof(postData) === 'object') {
       form.append('img', postData);

@@ -5,6 +5,7 @@ import {UtilBuildingService} from "../../../../service/util-building/util-buildi
 import {Http, RequestOptions, Headers} from "@angular/http";
 import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
+import {SaleProductEmployeeService} from "../../../../service/sale-product-employee/sale-product-employee.service";
 
 declare var $: any;
 declare var confirmFunc: any;
@@ -12,7 +13,7 @@ declare var confirmFunc: any;
   selector: 'app-orders-report',
   templateUrl: './orders-report.component.html',
   styleUrls: ['./orders-report.component.css'],
-  providers: [InfoBuildingService,ErrorResponseService,UtilBuildingService]
+  providers: [InfoBuildingService,ErrorResponseService,UtilBuildingService,SaleProductEmployeeService]
 })
 export class OrdersReportComponent implements OnInit {
   public searchArch : Arch;
@@ -40,6 +41,7 @@ export class OrdersReportComponent implements OnInit {
               private errorVoid:ErrorResponseService,
               private utilBuildingService:UtilBuildingService,
               private infoBuildingService:InfoBuildingService,
+              private saleProductEmployeeService:SaleProductEmployeeService,
               private globalCatalogService:GlobalCatalogService,
               public ipSetting  : IpSettingService
   ) {
@@ -138,8 +140,7 @@ export class OrdersReportComponent implements OnInit {
   }
   /*获取维修部门列表*/
   getRepairDept(){
-    let url = '/building/repair/getRepairDept';
-    this.ipSetting.sendGet(url).subscribe(data => {
+    this.saleProductEmployeeService.getDeptList().subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.repairDept = data.data;
       }

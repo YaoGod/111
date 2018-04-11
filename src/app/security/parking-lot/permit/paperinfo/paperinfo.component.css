@@ -127,16 +127,29 @@
   padding:20px;
   min-height:250px;
 }
+
 .history-title{
   text-align: center;
-  line-height: 40px;
   padding: 0 10px;
-  font-size: 16px;
-  color: #ffffff;
-  background: repeating-linear-gradient(45deg, #ff0, #3c0 30px);
+  font: bold 20px/40px 'Adobe 楷体 Std R';
+  color: #2a85e9;
   -webkit-box-shadow: 1px 2px 5px #999;
   box-shadow: 1px 2px 5px #999;
+  background: repeating-linear-gradient(45deg, #ff0, #3c0 30px);
+  z-index:1;
+  /*-webkit-animation: flymove 20s  linear infinite;
+  -moz-animation: flymove 20s linear infinite;
+  animation: flymove 20s linear infinite;*/
 }
+@-webkit-keyframes flymove{
+  0%{background-position:0 0;}
+  100%{background-position:2400px 0;}
+}
+@-moz-keyframes flymove{
+  0%{background-position:0 0;}
+  100%{background-position:2400px 0;}
+}
+
 .record tr:nth-child(odd){background:#F4F4F4;}
 .record td:nth-child(even){color:#C00;}
 .record tr:nth-child(5){background:#73B1E0;color:#FFF;}

@@ -2,14 +2,13 @@
 <div class="container clearfix">
   <div class="chandlery clearfix">
     <ul class="search clearfix">
-      <li *ngIf="rule&&rule.isInstall">
+      <!--<li *ngIf="rule&&rule.isInstall">
         <label>大楼名称</label>
-        <!--<input type="text" name="searchbuildingName" class="search-ipt" [(ngModel)]="searchArch.buildingName">-->
         <select  name="searchbuildingName" class="search-sel" [(ngModel)]="searchArch.buildingName">
           <option value="">-全部-</option>
           <option *ngFor="let num of buildings" [value]="num.NAME">{{num.NAME}}</option>
         </select>
-      </li>
+      </li>-->
       <li>
         <label>订单号</label>
         <input type="text" name="searchorderNum" class="search-ipt" [(ngModel)]="searchArch.orderId">
@@ -31,17 +30,17 @@
         <label>结束时间</label>
         <input type="date" name="searcheTime" class="search-ipt" [(ngModel)]="searchArch.finshTime">
       </li>
-      <li *ngIf="rule&&rule.isInstall">
+      <!--<li *ngIf="rule&&rule.isInstall">
         <label>订单人</label>
         <input type="text" name="searchorderPerson" class="search-ipt" [(ngModel)]="searchArch.serverUserid">
-      </li>
-      <li *ngIf="rule&&rule.isInstall">
+      </li>-->
+      <!--<li *ngIf="rule&&rule.isInstall">
         <label>订单部门</label>
         <select class="search-ipt" name="searchorderDepart" [(ngModel)]="searchArch.userDept">
           <option value="">-请选择-</option>
-          <option *ngFor="let dept of repairDept" [value]="dept">{{dept}}</option>
+          <option *ngFor="let dept of repairDept" [value]="dept.DEPT_NAME">{{dept.DEPT_NAME}}</option>
         </select>
-      </li>
+      </li>-->
     </ul>
     <div class="search-right"><a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a></div>
   </div>

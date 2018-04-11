@@ -83,15 +83,23 @@ export class SlideImgComponent implements OnInit {
 }
 */
 import {Component,OnInit} from "@angular/core";
+import {ErrorResponseService} from "../../../service/error-response/error-response.service";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 
 @Component({
   selector: 'app-slide-img',
   templateUrl: './slide-img.component.html',
   styleUrls: ['./slide-img.component.css'],
+  providers: [ErrorResponseService]
 })
 export class SlideImgComponent implements OnInit {
   currentPic = 0;
-  constructor() {
+  public imgPath = [];
+
+  constructor(
+    private errorVoid: ErrorResponseService,
+    public  ipSetting:IpSettingService
+  ) {
     setInterval(() => {
       let id = (this.currentPic + 1) % 3;
       this.currentPic = id;
@@ -101,5 +109,18 @@ export class SlideImgComponent implements OnInit {
   changebanner(id) {
     this.currentPic = id;
   }
-  ngOnInit() { }
+  ngOnInit() {
+    this.getProductShowList();
+  }
+  /*获取商品列表*/
+  getProductShowList(){
+     let url = '/mmall/group/getGroupProduct/15';
+     this.ipSetting.sendGet(url).subscribe(data => {
+       if (this.errorVoid.errorMsg(data)) {
+         // console.log(data.data);
+         this.imgPath = data.data.imgPathList; // .split(';');
+       }
+       });
+   }
+
 }

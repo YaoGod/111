@@ -6,10 +6,10 @@
       <ul class="count-list clearfix">
         <li>
           <label>大楼名称</label>
-          <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="setInfo.buildingName">
+          <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="setInfo.buildingId">
             <option value="">-请选择-</option>
             <option *ngFor="let num of buildings"
-                    [value]="num.NAME">
+                    [value]="num.ID">
               {{num.NAME}}</option>
           </select>
         </li>
@@ -77,24 +77,50 @@
         <li>
           <label>摇号数量</label>
           <input id="lotNumber" type="number" name="lotNumber" class="search-ipt search-sel" [(ngModel)]="setInfo.num">
-          <span class="errorMessage"></span>
         </li>
       </ul>
     </div>
   </div>
   <div class="count-right">
     <div class="count-inner">
-      <div class="count-build">
-        <a href="javascript:;" (click)="beiginDraw()">
+      <div class="count-build" (click)="beiginDraw()">
           <div class="count-icon"><img src="../../../../assets/image/luck.png"> </div>
           开始摇号
-        </a>
       </div>
     </div>
   </div>
-  <div class="count-result">
-    <h4>摇奖结果</h4>
-
+  <div class="count-result" *ngIf="result">
+    <h4>摇奖结果公布区</h4>
+    <div class="bigBg">
+      <table width="100%">
+        <tr class="topBg">
+          <th>序号</th>
+          <th>员工姓名</th>
+          <th>员工编号</th>
+          <th>车牌号码</th>
+          <th>联系电话</th>
+          <th>服务中心</th>
+          <th style="color:#FF0055">审核意见</th>
+        </tr>
+        <tr *ngFor="let dept of result;let i=index">
+          <td>{{i+1}}</td>
+          <td>{{dept.USERNAME}}</td>
+          <td>{{dept.USERID}}</td>
+          <td>{{dept.CAR_NUMBER}}</td>
+          <td>{{dept.TELE_NUM}}</td>
+          <td>{{dept.SERVICE_CENTER}}</td>
+          <td>
+            <label>
+              <input [name]="'deptstatus'+i" type="radio" [(ngModel)]="status[i]" value="1">同意
+            </label>
+            <label>
+              <input [name]="'deptstatus'+i" type="radio" [(ngModel)]="status[i]" value="2">不同意
+            </label>
+          </td>
+        </tr>
+      </table>
+      <div class="count-foot"><button (click)="submit()">提交最终结果</button></div>
+    </div>
   </div>
 </div>
 <div class="mask">
@@ -110,7 +136,9 @@
         <i></i>
         <i></i>
       </div>
+
     </div>
+    <h3 style="width:50%;line-height: 60px; font-size: 40px; text-align: center;margin:100px auto;">正在摇号，请等待...</h3>
   </div>
 </div>
 

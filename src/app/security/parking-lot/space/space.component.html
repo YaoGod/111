@@ -1,117 +1,62 @@
 <div class="wrap">
   <div class="cont">
-    <div class="row">
+    <!--<div class="row">
       <div class="row-title">停车证信息</div>
       <a href="javascript:;" class="btn search-btn" (click)="addVehicle()"><i class="icon-plus"></i>&nbsp;&nbsp;新 增</a>
-    </div>
+    </div>-->
     <div class="cont-inner">
-      <div class="repair-chandlery clearfix">
-        <!--<ul class="record-search clearfix">
-          <li >
-            <label >员工部门</label>
-            <select name="buildingName" class="search-ipt search-sel" [(ngModel)]="searchInfo.userDept">
+      <div class="repair-chandlery clearfix" *ngIf="rule&&rule.isSelect">
+        <ul class="record-search clearfix">
+          <li>
+            <label>大楼名称</label>
+            <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.buildingName">
               <option value="">-全部-</option>
-              <option *ngFor="let num of deptList"
-                      [value]="num.DEPT_NAME">
-                {{num.DEPT_NAME}}</option>
+              <option *ngFor="let num of buildings"
+                      [value]="num.NAME">
+                {{num.NAME}}</option>
             </select>
           </li>
           <li>
-            <label >员工编号</label>
-            <input type="text" name="searchuserId" class="search-ipt" [(ngModel)]="searchInfo.userId">
+            <label >停车位类型</label>
+            <select class="search-ipt search-sel" name="searchtype" [(ngModel)]="searchInfo.parkingType">
+              <option value="">全部</option>
+              <option value="地面">地面</option>
+              <option value="立体车库">立体车库</option>
+              <option value="地下车库">地下车库</option>
+            </select>
           </li>
-        </ul>-->
+
+        </ul>
         <div class="search-right">
           <a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
         </div>
       </div>
-      <ul class="card-list clearfix">
-        <li *ngFor="let inner of record;let i=index" class="room-card">
-          <div class="room-title clearfix">
-            <h5>员工姓名 :{{inner.userName}}</h5>
-            <h5>员工编号 :{{inner.userId}}</h5>
-            <h5>员工部门 :{{inner.userDept}}</h5>
-            <h5>车牌号码 :{{inner.userDept}}</h5>
-            <h5>员工电话 :{{inner.userDept}}</h5>
-          </div>
-          <table width="100%">
+      <div class="row-no">
+        <a href="javascript:;" class="btn search-btn" (click)="addVehicle()" *ngIf="rule&&rule.isInstall"><i class="icon-plus"></i>&nbsp;&nbsp;新 增</a>
+      </div>
+      <div class="card-list">
+          <table width="100%" class="table-content">
             <tr style="height: 40px; background-color: #00bce1;">
               <th>大楼名称</th>
               <th>大楼编号</th>
-              <th>停车证名称</th>
-              <th>停车证类型</th>
-              <th>停车证编号</th>
-              <th>停车证有效期</th>
-              <th>状态</th>
-              <th>发放日期</th>
-              <th>备注</th>
+              <th>停车位类型</th>
+              <th>停车位数量</th>
+              <th>已使用数量</th>
+              <th>操作</th>
             </tr>
-            <tr>
+            <tr *ngFor="let inner of record;let i=index">
               <td>{{inner.buildingName}}</td>
-              <td>{{inner.buildingName}}</td>
-              <td>{{inner.buildingName}}</td>
-              <td>{{inner.buildingName}}</td>
-              <td>{{inner.buildingName}}</td>
-              <td>{{inner.buildingName}}</td>
-              <td>{{inner.buildingName}}</td>
-              <td>{{inner.buildingName}}</td>
-              <td>{{inner.buildingName}}</td>
+              <td>{{inner.buildingNum}}</td>
+              <td>{{inner.parkingType}}</td>
+              <td>{{inner.maxNum}}</td>
+              <td>{{inner.realNum}}</td>
+              <td>
+                <i class="icon-pencil" (click)="editCardInfo(inner.id)"></i>
+                <i (click)="delCardInfo(inner.id)" class="icon-trash" style="margin-left: 8px;"></i>
+              </td>
             </tr>
           </table>
-          <div class="card-border">
-            <h6>
-              <i class="icon-pencil" (click)="editCardInfo(inner.id)"></i>
-              <i (click)="delCardInfo(inner.id)" class="icon-trash"></i>
-            </h6>
-            <div class="card-left">
-              <div>
-                <span class="form-title">大楼名称<i></i></span>
-                <p>{{inner.driverName}}</p>
-              </div>
-              <div>
-                <span class="form-title">大楼编号<i></i></span>
-                <p>{{inner.driverNum}}</p>
-              </div>
-              <div>
-                <span class="form-title">停车证名称<i></i></span>
-                <p>{{inner.driverCode}}</p>
-              </div>
-              <div>
-                <span class="form-title">车辆所有人姓名<i></i></span>
-                <p>{{inner.carOwner}}</p>
-              </div>
-              <div>
-                <span class="form-title">车牌号码<i></i></span>
-                <p>{{inner.carNumber}}</p>
-              </div>
-              <div>
-                <span class="form-title">车辆识别代号<i></i></span>
-                <p>{{inner.carCode}}</p>
-              </div>
-              <div>
-                <span class="form-title">发动机号码<i></i></span>
-                <p>{{inner.motorNum}}</p>
-              </div>
-              <div>
-                <span class="form-title">车辆品牌型号<i></i></span>
-                <p>{{inner.carBrand}}</p>
-              </div>
-              <div>
-                <span class="form-title">是否停车摇号<i></i></span>
-                <p>{{inner.isPark}}</p>
-              </div>
-              <div>
-                <span class="form-title">交通费额度(元/月)<i></i></span>
-                <p>{{inner.carFare}}</p>
-              </div>
-
-            </div>
-            <div class="card-right">
-
-            </div>
-          </div>
-        </li>
-      </ul>
+      </div>
       <app-turn-bar
         [pageNo]="pageNo"
         [pageSize]="pageSize"
@@ -119,6 +64,60 @@
         [length] = 'length'
         (turnEvent)="repairSearch($event)">
       </app-turn-bar>
+    </div>
+  </div>
+</div>
+<div class="mask">
+  <div class="mask-cotainer">
+    <div class="mask-head"><i class="icon-film"></i> <p>新增停车位数量</p>
+      <button class="close" (click)="addCancel()">×</button>
+    </div>
+    <form method="post" name="topForm" class="repair-form">
+      <div class="form-control">
+        <span class="form-label">大楼名称</span>
+        <div class="form-inp">
+          <select class="company-ipt company-sel disable" name="buildingName" id="buildingName"
+                  [(ngModel)]="newCard.buildingName"
+                  (blur)="verifybuildingName()"  (change)="queryBuilding(newCard.buildingName)">
+            <option value="">请选择</option>
+            <option *ngFor="let name of buildings" [value]="name.NAME">{{name.NAME}}</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <!--<div class="form-control">
+        <span class="form-label">大楼编号</span>
+        <div class="form-inp">
+          <input class="company-ipt company-sel" type="text" name="buildingId" id="buildingId"
+                 [(ngModel)]="newCard.buildingId" disabled="disabled">
+          <span class="errorMessage"></span>
+        </div>
+      </div>-->
+      <div class="form-control">
+        <span class="form-label">停车位类型</span>
+        <div class="form-inp">
+          <select class="company-ipt company-sel disable" name="parkingType" id="parkingType" [(ngModel)]="newCard.parkingType"
+                  (blur)="verifyparkingType()" >
+            <option value="">请选择</option>
+            <option value="地面">地面</option>
+            <option value="立体车库">立体车库</option>
+            <option value="地下车库">地下车库</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">停车位总数</span>
+        <div class="form-inp">
+          <input type="number" class="company-ipt" id="maxNum" name="maxNum" [(ngModel)]="newCard.maxNum"
+                 (blur)="verifymaxNum()" maxlength="4"/>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+    </form>
+    <div class="mask-footer">
+      <button type="submit" class="btn-mask btn-info" (click)="submit()">保 存</button>
+      <button type="button" class="btn-mask btn-danger" (click)="addCancel()">取 消</button>
     </div>
   </div>
 </div>

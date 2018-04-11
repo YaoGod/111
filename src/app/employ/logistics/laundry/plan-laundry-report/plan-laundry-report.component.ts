@@ -5,11 +5,12 @@ declare var confirmFunc: any;
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {IpSettingService} from "app/service/ip-setting/ip-setting.service";
 import {Http} from "@angular/http";
+import {SaleProductEmployeeService} from "../../../../service/sale-product-employee/sale-product-employee.service";
 @Component({
   selector: 'app-plan-laundry-report',
   templateUrl: './plan-laundry-report.component.html',
   styleUrls: ['./plan-laundry-report.component.css'],
-  providers: [ErrorResponseService]
+  providers: [ErrorResponseService,SaleProductEmployeeService]
 })
 export class PlanLaundryReportComponent implements OnInit {
   public orders:Array<LaundryOrder>;
@@ -25,7 +26,11 @@ export class PlanLaundryReportComponent implements OnInit {
   public pages: Array<number>;
   public all :boolean;
   public checks : Array<any>;
-  constructor(private http: Http,public ipSetting: IpSettingService,private errorVoid: ErrorResponseService) { }
+  public repairDept :any;
+  constructor(private http: Http,
+              public ipSetting: IpSettingService,
+              private errorVoid: ErrorResponseService,
+              private saleProductEmployeeService:SaleProductEmployeeService,) { }
 
 
   ngOnInit() {
@@ -35,6 +40,7 @@ export class PlanLaundryReportComponent implements OnInit {
     this.pages = [];
     this.initFac();
     this.getOrderAllList(1);
+    this.getRepairDept();
   }
   /*获取订单*/
   getOrderAllList(num){
@@ -47,7 +53,15 @@ export class PlanLaundryReportComponent implements OnInit {
         this.total = data.data.total;
       }
     });
-
+  }
+  /*获取所有部门列表*/
+  getRepairDept(){
+    this.saleProductEmployeeService.getDeptList()
+      .subscribe(data =>{
+        if(this.errorVoid.errorMsg(data)){
+          this.repairDept = data.data;
+        }
+      });
   }
   /*获取服务中心*/
   initFac(){

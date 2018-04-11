@@ -6,6 +6,7 @@ import {Http, RequestOptions, Headers} from "@angular/http";
 import {GlobalCatalogService} from "../../../../service/global-catalog/global-catalog.service";
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 import {Room} from "../../../../mode/room/room.service";
+import {SaleProductEmployeeService} from "../../../../service/sale-product-employee/sale-product-employee.service";
 
 declare var $: any;
 declare var confirmFunc: any;
@@ -14,7 +15,7 @@ declare var confirmFunc: any;
   selector: 'app-orders',
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.css'],
-  providers: [InfoBuildingService,ErrorResponseService,UtilBuildingService,Room]
+  providers: [InfoBuildingService,ErrorResponseService,UtilBuildingService,Room,SaleProductEmployeeService]
 })
 export class OrdersComponent implements OnInit {
   public searchArch : Arch;
@@ -42,6 +43,7 @@ export class OrdersComponent implements OnInit {
               private utilBuildingService:UtilBuildingService,
               private infoBuildingService:InfoBuildingService,
               private globalCatalogService:GlobalCatalogService,
+              private saleProductEmployeeService:SaleProductEmployeeService,
               public ipSetting  : IpSettingService
   ) {
   }
@@ -82,14 +84,23 @@ export class OrdersComponent implements OnInit {
       });
   }
   /*获取维修部门列表*/
-  getRepairDept(){
+  /*getRepairDept(){
     let url = '/building/repair/getRepairDept';
     this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.repairDept = data.data;
       }
     });
-  };
+  };*/
+  /*获取所有部门列表*/
+  getRepairDept(){
+    this.saleProductEmployeeService.getDeptList()
+      .subscribe(data =>{
+        if(this.errorVoid.errorMsg(data)){
+          this.repairDept = data.data;
+        }
+      });
+  }
   /*获取一级服务内容*/
   getTypeSelect(){
     let url = "/employee/property/getTypeSelect";
@@ -329,6 +340,7 @@ export class OrdersComponent implements OnInit {
     this.onNum = '2';
     this.repairname.userTel = localStorage.getItem("teleNum");
     this.repairname.userDept = this.deptMent;
+    console.log(this.deptMent);
     this.editBool = true;
     $('.mask').fadeIn();
     $('.mask-head p').html('新增物业订单');
