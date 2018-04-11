@@ -1,3 +1,54 @@
-<p>
-  vote-detail works!
-</p>
+<div class="content-area">
+  <div class="content-inner">
+    <div class="nav-title">
+      <div class="b-head-right">
+        <div class="content-box" tabindex="0" onclick="history.go(-1);">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>
+    </div>
+    <div class="vote-inner">
+      <h3 class="vote-title">{{vote.title}}</h3>
+      <div class="summary-text">
+        <i class="fa fa-quote-left" style="font-size: 18px; color:#e8e8e8;"></i>&nbsp;&nbsp;
+        <span [innerHTML]="vote.content |formatSpace"></span>
+        <i class="fa fa-quote-right" style="font-size: 18px; color:#e8e8e8;"></i>
+      </div>
+      <ul class="summary-inner">
+        <li class="summary-bar">
+          <span class="summary-title">投票截止时间</span>
+          <span class="summary-word">{{vote.eTime | date:'yyyy/MM/dd'}}</span>
+        </li>
+        <li class="summary-bar" style="clear: both">
+          <span class="summary-title">备注</span>
+          <span class="summary-word">
+            {{vote.type==="double"?"多选":"只能选一项"}}
+            <span *ngIf="vote.type==='double'">{{vote.maxResult === vote.minResult?"（规定选择"+vote.maxResult+"项）":
+              "（最少选择"+vote.minResult+"项，最多选择"+vote.maxResult+"项）"}}。</span>
+          </span>
+        </li>
+        <li style="clear: both"></li>
+      </ul>
+      <div class="vote-list">
+        <ul>
+          <li class="vote-card" *ngFor="let option of vote.options;let i = index">
+            <h5>{{option.title}}</h5>
+            <!--<div class="card-vote-btn">
+              <a>投票</a>
+            </div>-->
+            <div class="card-left">
+              <img  [src]="option.imgContent | imgsafeurl" *ngIf="option.imgContent">
+            </div>
+            <div class="card-right">
+              <span class="card-text" [innerHTML]="option.content |formatSpace"></span>
+            </div>
+            <div class="card-bottom" style="clear: both"></div>
+          </li>
+        </ul>
+      </div>
+      <div class="foot-submit">
+        <a class="btn btn-info" (click)="submit()">投票</a>
+      </div>
+    </div>
+  </div>
+</div>

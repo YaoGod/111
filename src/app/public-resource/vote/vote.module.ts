@@ -14,6 +14,7 @@ import { VoteStatisticsComponent } from './vote-statistics/vote-statistics.compo
 import {FormsModule} from "@angular/forms";
 import {WrapperPictureModule} from "../../component/wrapper-picture/wrapper-picture.module";
 import {PublicresourceVoteService} from "../../service/publicresource-vote/publicresource-vote.service";
+import {TextareaModule} from "../../pipe/textarea/textarea.module";
 const routes: Routes = [
   {
     path: '',
@@ -55,6 +56,7 @@ const routes: Routes = [
     TurnBarModule,
     ImgurlModule,
     WrapperPictureModule,
+    TextareaModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

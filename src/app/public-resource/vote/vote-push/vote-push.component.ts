@@ -66,12 +66,15 @@ export class VotePushComponent implements OnInit {
 
   ngOnInit() {
     this.copyVote = new Vote();
+    this.copyVote.title = "";
+    this.copyVote.content = "";
     this.copyVote.targetId = [];
     this.copyVote.targetName = [];
     this.copyVote.options = [];
     this.copyVote.options[0] = new Option();
     this.copyVote.options[0].imgPath = "";
     this.copyVote.options[0].imgContent = "";
+    this.copyVote.options[0].content = "";
     this.getDeptList();
     this.user =this.globalUserService.getVal();
     if(typeof (this.route.params['_value']['id']) !== "undefined"){
@@ -205,6 +208,7 @@ export class VotePushComponent implements OnInit {
     this.copyVote.options.push(new Option());
     this.copyVote.options[this.copyVote.options.length-1].imgContent = "";
     this.copyVote.options[this.copyVote.options.length-1].imgPath = "";
+    this.copyVote.options[this.copyVote.options.length-1].content = "";
   }
   /*删除选项*/
   delOption(index){
@@ -219,16 +223,29 @@ export class VotePushComponent implements OnInit {
   /*提交*/
   submit(){
     this.verifyEmpty(this.copyVote.title,'title');
+    if(this.copyVote.title.length>100){
+      this.addErrorClass('title','最大输入100个字符');
+    }
     this.verifyEmpty(this.copyVote.content,'content');
+    if(this.copyVote.title.length>500){
+      this.addErrorClass('content','最大输入500个字符');
+    }
     this.verifyEmpty(this.copyVote.eTime,'eTime');
-    this.verifyEmpty(this.copyVote.targetName,'deptName');
+    this.verifyEmptyArray(this.copyVote.targetName,'deptName');
+    this.verifyEmpty(this.copyVote.type,'double');
     if(this.copyVote.type === 'single'){
       this.copyVote.maxResult = 1;
       this.copyVote.minResult = 1;
     }
     if(this.copyVote.type === 'double'){
+      this.verifyEmpty(this.copyVote.resultType,'number');
+      this.verifyEmpty(this.copyVote.resultType,'range');
       if(this.copyVote.resultType === 'number'){
+        this.verifyEmpty(this.copyVote.maxResult,'number','请填写指定的个数');
         this.copyVote.minResult = this.copyVote.maxResult;
+      }else{
+        this.verifyEmpty(this.copyVote.maxResult,'range','请填写最大选择数');
+        this.verifyEmpty(this.copyVote.minResult,'range','请填写最小选择数');
       }
     }
     if($('.red').length === 0) {
@@ -296,12 +313,29 @@ export class VotePushComponent implements OnInit {
       return true;
     }
   }
-  /*非空验证*/
-  verifyEmpty( value, id?){
+  /*数组非空验证*/
+  verifyEmptyArray( value, id,msg?){
     if(typeof (value) === "undefined" ||
       value === null ||
       value === ''){
       this.addErrorClass(id,'该值不能为空');
+      return false;
+    }if(value.length === 0){
+      let error = msg?msg:"请选择";
+      this.addErrorClass(id,error);
+      return false;
+    }else{
+      this.removeErrorClass(id);
+      return true;
+    }
+  }
+  /*非空验证*/
+  verifyEmpty( value, id?,msg?){
+    let error = msg?msg:'该值不能为空';
+    if(typeof (value) === "undefined" ||
+      value === null ||
+      value === ''){
+      this.addErrorClass(id,error);
       return false;
     }else{
       this.removeErrorClass(id);

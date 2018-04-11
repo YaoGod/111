@@ -232,6 +232,7 @@ input[type=date]:disabled.form-control{
 }
 textarea.form-control{
   line-height: 24px;
+  padding-bottom: 20px;
 }
 select{
   height: 38px;
@@ -401,7 +402,8 @@ select{
   cursor: pointer;
 }
 .foot-submit{
-  text-align: right;
+  padding-top: 20px;
+  text-align: center;
 }
 .top-trash{
   display: block;
@@ -442,15 +444,31 @@ select{
 }
 .warp-left{
   display: inline-block;
+  vertical-align: text-top;
 }
 .box-add{
+  width: 812px;
   text-align: center;
   color: #4b87d4;
   background-color: #f0f7fc;
 }
 .box-add a{
+  -moz-user-select: none;
   cursor: pointer;
 }
 .box-add a:hover{
   color: #5ca0ff;
+}
+.control-label{
+  position: relative;
+}
+.control-label .font-count{
+  position: absolute;
+  right: 7px;
+  bottom: 5px;
+  height: 20px;
+  padding: 0 10px;
+  line-height: 20px;
+  background: #ffffff;
+  vertical-align: bottom;
 }

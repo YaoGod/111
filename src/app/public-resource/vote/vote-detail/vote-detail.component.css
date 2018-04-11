@@ -1,0 +1,164 @@
+.content-area{
+  padding: 20px;
+}
+.content-inner{
+  padding: 15px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  transition-duration: 300ms;
+}
+.content-inner:hover{
+  box-shadow: 2px 4px 15px rgba(158, 178, 178, 0.33);
+}
+.nav-title{
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.nav-title>a>h4{
+  display: inline-block;
+  line-height: 35px;
+  color: #fb9678;
+  border-bottom: 2px solid #fb9678;
+}
+.b-head-right{
+  float: right;
+}
+.content-box{
+  float: left;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid #eee;
+  margin-right: 10px;
+  line-height: 28px;
+  border-radius: 3px;
+  font-size: 15px;
+  color: #ff3c00;
+  outline: none;
+  cursor: pointer;
+}
+.content-box:hover{
+  border-color: #ff3c00;
+}
+.vote-inner{
+
+}
+.vote-title{
+  padding: 0 100px;
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+  color: #1a242f;
+  text-shadow: rgba(0,0,0,0.1) 2px 2px 0;
+}
+.summary-text{
+  width: auto;
+  padding: 10px 7.5px;
+  font-weight: 500;
+  word-break: break-all;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
+  margin: 0;
+  overflow-x: hidden;
+  color: #686868;
+  font-size: 12px;
+  letter-spacing: 2.5px;
+  line-height: 2;
+}
+.summary-text textarea{
+  width: 100%;
+}
+.summary-inner{
+  padding: 20px;
+}
+.summary-bar{
+  height: 35px;
+  min-width: 300px;
+  float: left;
+  line-height: 30px;
+  color: #686868;
+  font-size: 12px;
+}
+.summary-title{
+  display: inline-block;
+  width: 110px;
+  padding-right: 10px;
+  margin-right: 10px;
+  background-color: #f8f8f8;
+  font-weight: 300;
+  font-size: 12px;
+  text-align: right;
+}
+.summary-word{
+  display: inline-block;
+  max-width: calc(100% - 120px);
+  padding-left: 20px
+}
+.vote-card{
+  margin: 0 auto;
+  width: 800px;
+  border: 2px solid #e1eaf2;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+}
+.vote-card>h5{
+  position: relative;
+  display: inline-block;
+  top: -2px;
+  left: 41px;
+  padding: 0 20px;
+  margin-bottom: 10px;
+  height: 30px;
+  line-height: 30px;
+  font-weight: 600;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  color: #ffffff;
+  text-shadow: rgba(0,0,0,0.1) 2px 2px 0;
+  background-color: #b3cee6;
+}
+.card-left{
+  float: left;
+  width: 260px;
+  padding: 10px 15px 5px 10px;
+  box-sizing: border-box;
+}
+.card-left>img{
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .1);
+}
+.card-right{
+  width: 800px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+.card-text{
+  font-weight: 500;
+  word-break: break-all;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
+  margin: 0;
+  overflow-x: hidden;
+  color: #686868;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  line-height: 1.5;
+}
+
+
+.foot-submit{
+  padding-top: 20px;
+  text-align: center;
+}
+.btn-info {
+  margin-left: 15px;
+  padding: .3rem 1.2rem;
+  border-radius: 4px;
+  background: #03a9f3;
+  border: 1px solid #03a9f3;
+  color: #fff;
+}
+.btn-info:hover {
+  background: #03a9f3;
+  opacity: .8;
+  border: 1px solid #03a9f3;
+  cursor: pointer;
+}

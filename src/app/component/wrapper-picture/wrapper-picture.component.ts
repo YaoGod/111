@@ -26,7 +26,7 @@ export class WrapperPictureComponent implements OnChanges {
       this.totalSlides = this.list.length;
     }
     else{
-      this.totalSlides = 0;
+      this.totalSlides = 1;
       this.list = [{
         title: '暂无信息'
       }]
