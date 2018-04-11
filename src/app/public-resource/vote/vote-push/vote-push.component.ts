@@ -74,6 +74,7 @@ export class VotePushComponent implements OnInit {
     this.copyVote.options[0] = new Option();
     this.copyVote.options[0].imgPath = "";
     this.copyVote.options[0].imgContent = "";
+    this.copyVote.options[0].title = "";
     this.copyVote.options[0].content = "";
     this.getDeptList();
     this.user =this.globalUserService.getVal();
@@ -208,6 +209,7 @@ export class VotePushComponent implements OnInit {
     this.copyVote.options.push(new Option());
     this.copyVote.options[this.copyVote.options.length-1].imgContent = "";
     this.copyVote.options[this.copyVote.options.length-1].imgPath = "";
+    this.copyVote.options[this.copyVote.options.length-1].title = "";
     this.copyVote.options[this.copyVote.options.length-1].content = "";
   }
   /*删除选项*/
