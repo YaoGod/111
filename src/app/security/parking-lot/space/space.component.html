@@ -56,14 +56,15 @@
               </td>
             </tr>
           </table>
+        <app-turn-bar
+          [pageNo]="pageNo"
+          [pageSize]="pageSize"
+          [total]="total"
+          [length] = 'length'
+          (turnEvent)="repairSearch($event)">
+        </app-turn-bar>
       </div>
-      <app-turn-bar
-        [pageNo]="pageNo"
-        [pageSize]="pageSize"
-        [total]="total"
-        [length] = 'length'
-        (turnEvent)="repairSearch($event)">
-      </app-turn-bar>
+
     </div>
   </div>
 </div>

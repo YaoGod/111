@@ -350,6 +350,14 @@ export class LaundryOrder {
   orderNo:string;
   status:string;
   note:string;
+  payment:string;
+  payTime:string;
+  balanceReason:string;
+  facilitator:string;
+  username:string;
+  telPhone:string;
+  deptName:string;
+
   serviceCenter:           string;
   orderItems: Array<LaundryOrderItem>;
 }
@@ -362,6 +370,8 @@ export class  LaundryOrderItem{
   totalPrice:  number;
   applyid: string;
   unit: number;
+
+
 }
 export class ServerCenter{
   name: string;

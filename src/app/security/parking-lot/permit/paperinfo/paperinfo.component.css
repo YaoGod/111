@@ -135,7 +135,7 @@
   color: #2a85e9;
   -webkit-box-shadow: 1px 2px 5px #999;
   box-shadow: 1px 2px 5px #999;
-  background: repeating-linear-gradient(45deg, #ff0, #3c0 30px);
+  background: repeating-linear-gradient(90deg, #ff0, #3c0 100%);
   z-index:1;
   /*-webkit-animation: flymove 20s  linear infinite;
   -moz-animation: flymove 20s linear infinite;
@@ -150,9 +150,9 @@
   100%{background-position:2400px 0;}
 }
 
-.record tr:nth-child(odd){background:#F4F4F4;}
-.record td:nth-child(even){color:#C00;}
-.record tr:nth-child(5){background:#73B1E0;color:#FFF;}
+.record tr:nth-child(odd){background:#F4F4F4; }
+.record tr:nth-child(even){color:#73B1E0;}
+
 .mask{
   display: none;
   z-index: 1000;

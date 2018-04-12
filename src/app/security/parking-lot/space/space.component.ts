@@ -67,7 +67,7 @@ export class SpaceComponent implements OnInit {
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.buildings = data['data'];
-          console.log(this.buildings);
+          // console.log(this.buildings);
         }
       })
   }

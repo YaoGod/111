@@ -42,6 +42,10 @@ export class LaundryOrderComponent implements OnInit {
 }
 export class LaundryOrder {
   id:number;
+  serviceCenter:string;
+  payTime:string;
+  payment:string;
   orderNo:string;
   status:string;
+  orderItems:any;
 }

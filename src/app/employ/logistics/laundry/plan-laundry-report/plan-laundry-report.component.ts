@@ -27,6 +27,7 @@ export class PlanLaundryReportComponent implements OnInit {
   public all :boolean;
   public checks : Array<any>;
   public repairDept :any;
+  public applierList:Array<Facilitator>;
   constructor(private http: Http,
               public ipSetting: IpSettingService,
               private errorVoid: ErrorResponseService,
@@ -41,6 +42,7 @@ export class PlanLaundryReportComponent implements OnInit {
     this.initFac();
     this.getOrderAllList(1);
     this.getRepairDept();
+    this.getFacList();
   }
   /*获取订单*/
   getOrderAllList(num){
@@ -60,6 +62,17 @@ export class PlanLaundryReportComponent implements OnInit {
       .subscribe(data =>{
         if(this.errorVoid.errorMsg(data)){
           this.repairDept = data.data;
+        }
+      });
+  }
+  getFacList(){
+    let url = '/mmall/laundry/getFacList/1/999';
+    let postData = {};
+    this.ipSetting.sendPost(url,postData)
+      .subscribe(data => {
+        if (this.errorVoid.errorMsg(data)) {
+          this.applierList = data.data.applierList;
+          // console.log(this.applierList);
         }
       });
   }
@@ -154,6 +167,7 @@ export class ServerCenter{
 }
 export class OrderExcel {
   id:number;
+  facilitator:string;
   orderNo:string;
   serviceCenter:string;
   status: string;
@@ -161,4 +175,11 @@ export class OrderExcel {
   deptName:string;
   startTime:string;
   finshTime:string;
+}
+export class Facilitator {
+  applyId:          string;/*经销商id*/
+  applyName:        string;/*经销商名称*/
+  copStarttime:     string;/*合作开始时间*/
+  copEndtime:       string;/*合作结束时间*/
+  applyDesc:        string;/*描述*/
 }

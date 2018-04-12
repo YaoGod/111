@@ -110,7 +110,7 @@ export class SlideImgComponent implements OnInit {
     this.currentPic = id;
   }
   ngOnInit() {
-    this.getProductShowList();
+    // this.getProductShowList();
   }
   /*获取商品列表*/
   getProductShowList(){

@@ -22,7 +22,7 @@ input{
 .cont-inner{
   padding-top:0;
 }
-.mask{
+.mask,.mask0{
   display: none;
   z-index: 1000;
   position: fixed;
@@ -197,7 +197,7 @@ button{
   margin-bottom: 15px;
   box-sizing: border-box;
   overflow: hidden;
-  border: 3px dashed #000;
+  border: 3px solid #e4e4e4;
   margin-right:4%;
 }
 @media screen and (max-width: 1440px) {
@@ -257,6 +257,9 @@ button{
   text-align: justify;
   display: inline-block;
   vertical-align: top;
+}
+.form-title p{
+  font-size: 18px
 }
 .long-text{
   line-height: 24px;
@@ -428,4 +431,92 @@ button{
   background-color: #fff;
   border: 1px solid #e4e7ea;
   max-width:250px;
+}
+.pdetail{
+  width: 333px;
+  float: right;
+  margin-left: 2px;
+}
+.modal-content{
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: .3rem;
+  outline: 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, .1);
+  width:350px;
+  margin:40px auto 0;
+}
+.close{
+  cursor: pointer;
+}
+.modal-header{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #f1f5f8;
+}
+
+.modal-title{
+  font-size:18px;
+  color:#2b2b2b;
+}
+.modal-body{
+  position: relative;
+  padding: 15px;
+}
+.modal-left{
+  width:180px;
+  height:200px;
+  border: 2px solid #E5E5E5;
+  float:left;
+}
+.modal-right{
+  width:260px;
+  margin-left:20px;
+  float: left;
+}
+.for{
+  margin-top: 6px;
+  display: -webkit-box;
+}
+.for label{
+  display: inline-block;
+  width: 77px;
+  padding-right: 7px;
+  margin-right: 7px;
+  background-color: #f8f8f8;
+  font-weight: 300;
+  font-size: 12px;
+  text-align: right;
+}
+.for select{
+  outline:medium;
+  width: 74px;
+  height: 31px;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 3px #ddd inset;
+  -webkit-box-shadow: 0 0 3px #ddd inset;
+  border-radius: 4px;
 }

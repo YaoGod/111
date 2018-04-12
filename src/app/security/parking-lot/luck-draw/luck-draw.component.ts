@@ -282,10 +282,9 @@ export class CardInfo {
   bTime: string; // 有效期截止日期
   parkNumber:number; // 剩余停车证数量
   useCarCode: string; // 车牌号
-  pstatus:string; // 分配方式
+  pstatus = '1'; // 分配方式
   type: string=''; // 停车证类型
   note:string; // 备注
-
 }
 export class Department {
   DEPT_ID   : string;

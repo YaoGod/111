@@ -41,7 +41,6 @@ export class PaperinfoComponent implements OnInit {
     let url = '/building/parking/getParkingPermitInfo/'+id;
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
-        console.log(data.data);
         this.newCard = data.data.object;
         this.history = data.data.useList;
         this.eTime = this.newCard.eTime;

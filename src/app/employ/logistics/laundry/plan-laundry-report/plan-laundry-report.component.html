@@ -48,7 +48,17 @@
               </li>
               <li>
                 <label>订单部门</label>
-                <input  type="text" name="searchorderDepart" class="search-ipt" [(ngModel)]="search.deptName">
+                <select class="search-ipt search-sel" name="searchorderDepart" [(ngModel)]="search.deptName">
+                  <option value="">-请选择-</option>
+                  <option *ngFor="let dept of repairDept" [value]="dept.DEPT_NAME">{{dept.DEPT_NAME}}</option>
+                </select>
+              </li>
+              <li>
+                <label>服务商</label>
+                <select class="search-ipt search-sel" name="searchorderDepart" [(ngModel)]="search.facilitator">
+                  <option value="">-请选择-</option>
+                  <option *ngFor="let dept of applierList" [value]="dept.applyName">{{dept.applyName}}</option>
+                </select>
               </li>
             </ul>
             <div class="search-right">

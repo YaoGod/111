@@ -28,6 +28,7 @@ export class VehicleInfoComponent implements OnInit {
   public contractBool = true;
   public searchInfo : CardInfo = new CardInfo();
   public newCard = new CardInfo();
+  public cardId:string;
   public record : Array<CardInfo> = new Array<CardInfo>();
   constructor(
     private http: Http,
@@ -59,7 +60,7 @@ export class VehicleInfoComponent implements OnInit {
       this.ipSetting.sendGet(url).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           for(let i = 0;i<data.data.length;i++){
-            if(data.data[i].routeUrl === "parking"){
+            if(data.data[i].routeUrl === "security/parking/vehicle"){
               this.jurisdiction = data.data[i];
             }
           }
@@ -116,8 +117,9 @@ export class VehicleInfoComponent implements OnInit {
   }
   /*取消*/
   addCancel(){
-    $('.mask').fadeOut();
+    $('.mask,.mask0').fadeOut();
     $('.errorMessage').html('');
+    $('#prese1,#prese2').val('');
   }
   /*点击编辑*/
   editCardInfo(id){
@@ -155,7 +157,34 @@ export class VehicleInfoComponent implements OnInit {
         });
       }
     });
-
+  }
+  /*审核*/
+  check(id) {
+    this.cardId = id;
+    this.newCard = new CardInfo();
+    $('.mask0').fadeIn();
+  }
+  checkCardInfo() {
+    if (!this.isEmpty('checknewstatus','意见不能为空')||!this.isEmpty('checknewesetail','说明不能为空')){
+      return false;
+    }
+    let url  = '/building/carInfo/updateCarInfoStatus';
+    let postData = JSON.parse(JSON.stringify(this.newCard));
+    // console.log(postData);
+    postData.id = this.cardId;
+    this.ipSetting.sendPost(url,postData)
+      .subscribe(data => {
+        if (this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': data['msg'],
+            'popType': 0 ,
+            'imgType': 1 ,
+          });
+          this.addCancel();
+          this.repairSearch(this.pageNo);
+        }
+      })
   }
   /*驾驶证上传*/
   prese_upload1(files){
@@ -168,7 +197,7 @@ export class VehicleInfoComponent implements OnInit {
           inner = data.msg;
           this.newCard.imgPathList.driverA[0] = inner;
           // this.newCard.imgPathList.driverA.push(inner);
-          console.log(this.newCard.imgPathList.driverA);
+          // console.log(this.newCard.imgPathList.driverA);
         }
       }else if(xhr.readyState === 4 && xhr.status === 413 ){
         confirmFunc.init({
@@ -191,7 +220,7 @@ export class VehicleInfoComponent implements OnInit {
           inner = data.msg;
           this.newCard.imgPathList.driverB[0] = inner;
           // this.newCard.imgPathList.driverB.push(inner);
-          console.log(this.newCard.imgPathList.driverB);
+          // console.log(this.newCard.imgPathList.driverB);
         }
       }else if(xhr.readyState === 4 && xhr.status === 413 ){
         confirmFunc.init({
@@ -203,6 +232,7 @@ export class VehicleInfoComponent implements OnInit {
       }
     };
   }
+  /*校验车辆信息*/
   public verifyId() {
     if (!this.isEmpty('userId', '不能为空')) {
       return false;
@@ -377,6 +407,7 @@ export class CardInfo {
   isPark: string = ''; // 是否停车摇号
   carFare: string; // 交通费额度
   status:string; // 状态
+  explain:string; // 审核说明
   imgPath:string;
   imgContentList={
     driverA: [], // 驾驶证

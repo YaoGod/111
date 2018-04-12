@@ -16,6 +16,43 @@
 </div>-->
 
 <div class="goods-area">
+
+
+  <!--优惠信息-->
+  <div class="goods-inner" *ngIf="rule1&&rule1.isSelect">
+    <h4 class="goods-hd">
+      <em class="fn1">找优惠</em>
+      <p>
+        <span class="subtitle">极致优惠不容错过</span>
+      </p>
+      <span class="tb-fn">
+        <a class="btn-mg" *ngIf="rule1&&(rule1.isUpdate||rule1.isInstall||rule1.isDelete)"
+           [routerLink]="['../discount/manage']">
+          管&nbsp;&nbsp;理
+        </a>
+        <a class="btn-fn1" (click)="randGetDiscount()">换一换</a>
+      </span>
+    </h4>
+    <ul class="goods-list" *ngIf="discounts && discounts.length > 0">
+      <li *ngFor="let discount of discounts">
+        <a [routerLink]="['../discount/detail',discount.id]">
+          <div class="img-wrap">
+            <img *ngIf="discount.imgPath" [src]="discount.imgPathList[0] | imgsafeurl">
+          </div>
+          <div class="goods-msg">
+            <h5>{{discount.title}}</h5>
+            <textarea  rows="6" readonly>{{discount.summary}}</textarea>
+          </div>
+        </a>
+      </li>
+    </ul>
+    <div class="div-none" *ngIf="discounts  && discounts.length === 0">
+      <p>此处空空如也</p>
+    </div>
+    <div class="div-more"  *ngIf="discounts && discounts.length > 0">
+      <a [routerLink]="['../discount/list']">更多</a>
+    </div>
+  </div>
   <!--限时抢购-->
   <div class="goods-inner" *ngIf="rule3&&rule3.isSelect">
     <h4 class="goods-hd">
@@ -56,43 +93,6 @@
       <a [routerLink]="['../sale/list']">更多</a>
     </div>
   </div>
-
-  <!--优惠信息-->
-  <div class="goods-inner" *ngIf="rule1&&rule1.isSelect">
-    <h4 class="goods-hd">
-      <em class="fn1">找优惠</em>
-      <p>
-        <span class="subtitle">极致优惠不容错过</span>
-      </p>
-      <span class="tb-fn">
-        <a class="btn-mg" *ngIf="rule1&&(rule1.isUpdate||rule1.isInstall||rule1.isDelete)"
-           [routerLink]="['../discount/manage']">
-          管&nbsp;&nbsp;理
-        </a>
-        <a class="btn-fn1" (click)="randGetDiscount()">换一换</a>
-      </span>
-    </h4>
-    <ul class="goods-list" *ngIf="discounts && discounts.length > 0">
-      <li *ngFor="let discount of discounts">
-        <a [routerLink]="['../discount/detail',discount.id]">
-          <div class="img-wrap">
-            <img *ngIf="discount.imgPath" [src]="discount.imgPathList[0] | imgsafeurl">
-          </div>
-          <div class="goods-msg">
-            <h5>{{discount.title}}</h5>
-            <textarea  rows="6" readonly>{{discount.summary}}</textarea>
-          </div>
-        </a>
-      </li>
-    </ul>
-    <div class="div-none" *ngIf="discounts  && discounts.length === 0">
-      <p>此处空空如也</p>
-    </div>
-    <div class="div-more"  *ngIf="discounts && discounts.length > 0">
-      <a [routerLink]="['../discount/list']">更多</a>
-    </div>
-  </div>
-
   <!--爱统计信息-->
   <div class="goods-inner" *ngIf="rule2&&rule2.isSelect">
     <h4 class="goods-hd">
