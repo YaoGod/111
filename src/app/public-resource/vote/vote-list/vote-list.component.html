@@ -7,7 +7,7 @@
   <div class="count-right">
     <div class="btn-inner">
       <div class="extra-area">
-        信息总数<span>{{total}}</span>
+        投票活动<span>{{total}}条</span>
       </div>
       <a class="btn" [routerLink]="['./manage']">进入管理</a>
     </div>
@@ -16,6 +16,9 @@
       <ul class="count-list">
         <li *ngFor="let top of votesTop;let i = index">
           <h3><strong>{{i+1}}.</strong>{{top.title}}</h3>
+        </li>
+        <li class="div-none" *ngIf="votesTop.length===0">
+          <p>暂无排行榜数据</p>
         </li>
       </ul>
       <div style="clear: both"></div>

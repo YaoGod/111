@@ -34,12 +34,14 @@
           <th width="15%">截止日期</th>
           <th width="20%" class="text-left">开放范围</th>
           <th width="15%" class="text-left">状态</th>
-          <th width="10%" class="text-left">操作</th>
+          <th style="min-width: 120px;" class="text-left">操作</th>
         </tr>
         <tr class="row" *ngFor="let vote of votes;let i = index">
           <td class="text-left">{{vote.title}}</td>
           <td>{{vote.eTime | date:'yyyy/MM/dd'}}</td>
-          <td class="text-left">{{vote.targetName}}</td>
+          <td class="text-left">
+            <p class="tb-text">{{vote.targetName}}</p>
+          </td>
           <td class="text-left">{{vote.status}}
             <span class="btn-push" *ngIf="vote.status!=='发布'"
                   (click)="changePush(vote.id,'release')">发布</span>

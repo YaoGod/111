@@ -7,10 +7,10 @@
         </div>
       </div>
     </div>
-    <div class="vote-inner">
+    <div class="vote-inner" *ngIf="vote.title">
       <h3 class="vote-title">{{vote.title}}</h3>
       <div class="summary-text">
-        <i class="fa fa-quote-left" style="font-size: 18px; color:#e8e8e8;"></i>&nbsp;&nbsp;
+        <i class="fa fa-quote-left" style="font-size: 18px; color:#e8e8e8;"></i>
         <span [innerHTML]="vote.content |formatSpace"></span>
         <i class="fa fa-quote-right" style="font-size: 18px; color:#e8e8e8;"></i>
       </div>
@@ -31,18 +31,22 @@
       </ul>
       <div class="vote-list">
         <ul>
-          <li class="vote-card" *ngFor="let option of vote.options;let i = index">
-            <h5>{{option.title}}</h5>
-            <!--<div class="card-vote-btn">
-              <a>投票</a>
-            </div>-->
-            <div class="card-left">
-              <img  [src]="option.imgContent | imgsafeurl" *ngIf="option.imgContent">
-            </div>
-            <div class="card-right">
-              <span class="card-text" [innerHTML]="option.content |formatSpace"></span>
-            </div>
-            <div class="card-bottom" style="clear: both"></div>
+          <li class="vote-card" *ngFor="let option of vote.options;let i = index"
+            [ngClass]="{'active':option.choose}">
+            <label>
+              <div class="card-vote-btn">
+                <input type="checkbox" [(ngModel)]="option.choose">
+                <span>√</span>
+              </div>
+              <h5>{{option.title}}</h5>
+              <div class="card-left" *ngIf="option.imgContent">
+                <img  [src]="option.imgContent | imgsafeurl" *ngIf="option.imgContent">
+              </div>
+              <div class="card-right">
+                <span class="card-text" [innerHTML]="option.content |formatSpace"></span>
+              </div>
+              <div class="card-bottom" style="clear: both"></div>
+            </label>
           </li>
         </ul>
       </div>

@@ -14,7 +14,7 @@
       <li>
         <a [routerLink]="['../myPush']">
           <span class="count-point" *ngIf="tips[0].NUM!==0">{{tips[0].NUM}}</span>
-          <div class="count-icon"><i class="icon-call-in"></i></div>
+          <div class="count-icon"><i class="icon-present"></i></div>
           我的物品
         </a>
       </li>
@@ -28,14 +28,14 @@
       <li>
         <a [routerLink]="['../reserve']">
           <span class="count-point" *ngIf="tips[2].NUM!==0">{{tips[2].NUM}}</span>
-          <div class="count-icon"><i class="icon-speech"></i></div>
+          <div class="count-icon"><i class="icon-notebook"></i></div>
           我的预定
         </a>
       </li>
       <li>
         <a [routerLink]="['../resell']">
           <span class="count-point" *ngIf="tips[3].NUM!==0">{{tips[3].NUM}}</span>
-          <div class="count-icon"><i class="icon-bubbles"></i></div>
+          <div class="count-icon"><i class="icon-loop"></i></div>
           我的转卖
         </a>
       </li>
@@ -66,11 +66,11 @@
       <span class="tb-fn"></span>
     </h4>
     <div class="goods-search">
-      <div class="goods-search-ipt">
-        <input placeholder="请输入商品名称" [(ngModel)]="search.name"/>
-      </div>
-      <a class="goods-search-btn" (click)="getProductList(1)" >查询</a>
+    <div class="goods-search-ipt">
+      <input placeholder="请输入物品名称" [(ngModel)]="search.name"/>
     </div>
+    <a class="goods-search-btn" (click)="getProductList(1)">查询</a>
+  </div>
     <ul class="goods-list" *ngIf="shareProducts && shareProducts.length > 0">
       <li *ngFor="let product of shareProducts">
         <a>

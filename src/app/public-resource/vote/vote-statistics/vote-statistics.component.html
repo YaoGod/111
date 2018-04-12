@@ -1,3 +1,77 @@
-<p>
-  vote-statistics works!
-</p>
+<div class="content-area">
+  <div class="content-inner">
+    <!--页面标题-->
+    <div class="nav-title">
+      <a><h4>投票信息统计</h4></a>
+      <div class="b-head-right">
+        <div class="content-box" tabindex="0" onclick="history.go(-1)">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>
+    </div>
+    <!--福利信息简介-->
+    <div class="goods-box">
+      <div class="goods-img">
+        <!--<img [src]="vote.imgPath | imgsafeurl">-->
+      </div>
+      <p>投票主题：&nbsp;{{vote.title}}</p>
+      <p>截止日期：{{vote.eTime|date:'yyyy/MM/dd'}}</p>
+      <p>参与人数：{{total}}人</p>
+    </div>
+    <!--搜索栏-->
+    <div class="search-bar">
+      <ul>
+        <li><span>员工编号</span>
+          <input type="text" name="search" [(ngModel)]="search.userId">
+          <a (click)="getVoteCount(1)">
+            <i class="icon-magnifier"></i>查询
+          </a>
+        </li>
+        <li>
+          <a class="btn-danger" (click)="exportExcel()">
+            <i class="icon-cloud-download"></i>
+            导出
+          </a>
+        </li>
+      </ul>
+    </div>
+    <!--表头-->
+    <div class="table-head">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row list-title" style="height:20px;">
+          <th style="width: 50px;" rowspan="2">序号</th>
+          <th style="min-width: 80px;" class="text-left" rowspan="2">员工编号</th>
+          <th style="min-width: 80px;" class="text-left" rowspan="2">员工姓名</th>
+          <th style="min-width: 120px;" class="text-left" rowspan="2">部门</th>
+          <th [attr.colspan]="vote.options.length">选项信息</th>
+          <th style="min-width: 120px;" rowspan="2">投票时间</th>
+        </tr>
+        <tr class="row list-title" style="height:20px;">
+          <th *ngFor="let option of vote.options" [title]="option.content">
+            <p class="head-text">
+              {{option.title}}
+            </p>
+          </th>
+        </tr>
+        <tr class="row" *ngFor="let user of users;let i = index">
+          <td>{{(pageNo-1)*pageSize+i+1}}</td>
+          <td class="text-left">{{user.userId}}</td>
+          <td class="text-left">{{user.userName}}</td>
+          <td class="text-left">{{user.userDept}}</td>
+          <td *ngFor="let ans of user.resultList">{{ans}}</td>
+          <td>{{user.createTime|date:'yyyy/MM/dd HH:mm:ss'}}</td>
+        </tr>
+      </table>
+      <div class="div-none" *ngIf="users && users.length < 1">
+        <p>暂无信息</p>
+      </div>
+    </div>
+    <!--翻页-->
+    <app-turn-bar
+      [pageNo] = "pageNo"
+      [pageSize] = "pageSize"
+      [total] = "total"
+      (turnEvent) = "getVoteCount($event)">
+    </app-turn-bar>
+  </div>
+</div>

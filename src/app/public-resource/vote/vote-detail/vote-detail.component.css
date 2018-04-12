@@ -3,6 +3,7 @@
 }
 .content-inner{
   padding: 15px;
+  min-height: 84vh;
   background-color: #ffffff;
   box-sizing: border-box;
   transition-duration: 300ms;
@@ -93,13 +94,42 @@
   padding-left: 20px
 }
 .vote-card{
+  position: relative;
   margin: 0 auto;
   width: 800px;
   border: 2px solid #e1eaf2;
   border-radius: 20px;
   margin-bottom: 1rem;
 }
-.vote-card>h5{
+.card-vote-btn{
+  position: absolute;
+  top:50%;
+  left: -40px;
+  margin-top: -16px;
+}
+.card-vote-btn input[type=checkbox]{
+  position: absolute;
+  opacity: 0;
+}
+.card-vote-btn span{
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 50%;
+  border: 1px solid #b3cee6;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
+  text-align: center;
+  cursor: pointer;
+}
+.card-vote-btn input[type=checkbox]:checked +span{
+  background-color: #2162B6;
+  border-color: #2162B6;
+}
+.vote-card h5{
   position: relative;
   display: inline-block;
   top: -2px;
@@ -115,6 +145,12 @@
   text-shadow: rgba(0,0,0,0.1) 2px 2px 0;
   background-color: #b3cee6;
 }
+.vote-card.active{
+  border-color: #2162B6;
+}
+.vote-card.active h5{
+  background-color: #2162B6;
+}
 .card-left{
   float: left;
   width: 260px;
@@ -129,7 +165,9 @@
 .card-right{
   width: 800px;
   padding: 0 20px;
+  margin-bottom: 20px;
   box-sizing: border-box;
+  text-indent: 2em;
 }
 .card-text{
   font-weight: 500;
@@ -142,8 +180,6 @@
   letter-spacing: 2.5px;
   line-height: 1.5;
 }
-
-
 .foot-submit{
   padding-top: 20px;
   text-align: center;

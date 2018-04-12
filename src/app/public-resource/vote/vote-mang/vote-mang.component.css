@@ -197,3 +197,11 @@ td>img{
   color: #ffffff;
   cursor: pointer;
 }
+.tb-text{
+  max-height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}

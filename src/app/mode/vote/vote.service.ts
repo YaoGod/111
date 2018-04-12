@@ -23,4 +23,5 @@ export class Option{
   content    : string;
   imgPath    : string;
   imgContent : string;
+  choose     : boolean;
 }

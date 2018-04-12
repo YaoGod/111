@@ -3,11 +3,12 @@ import {PublicresourceVoteService} from "../../../service/publicresource-vote/pu
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Vote} from "../../../mode/vote/vote.service";
-
+declare var $:any;
+declare var confirmFunc:any;
 @Component({
   selector: 'app-vote-detail',
   templateUrl: './vote-detail.component.html',
-  styleUrls: ['./vote-detail.component.css']
+  styleUrls: ['./vote-detail.component.css'],
 })
 export class VoteDetailComponent implements OnInit {
 
@@ -44,6 +45,28 @@ export class VoteDetailComponent implements OnInit {
   }
 
   submit(){
-
+    let result = [];
+    for(let i = 0;i<this.vote.options.length;i++){
+      if(this.vote.options[i].choose){
+        result.push(this.vote.options[i].title);
+      }
+    }
+    this.publicresourceVoteService.addVoteResult(this.vote.id,result)
+      .subscribe(data=>{
+        if(this.errorResponseService.errorMsg(data)){
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data.msg,
+            'popType': 2,
+            'imgType': 1,
+            "callback": () => {
+              history.go(-1);
+            },
+            "cancel": () => {
+              history.go(-1);
+            }
+          });
+        }
+      })
   }
 }

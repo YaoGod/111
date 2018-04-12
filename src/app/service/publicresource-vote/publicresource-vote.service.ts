@@ -91,4 +91,17 @@ export class PublicresourceVoteService {
     return this.http.post(url, postdata, this.options)
       .map(res => res.json());
   }
+  /*提交投票结果*/
+  addVoteResult(id,postdata) {
+    const url = this.ipSetting.ip + "/publicresource/vote/addVoteResult/" + id;
+    return this.http.post(url, postdata, this.options)
+      .map(res => res.json());
+  }
+  /*获取投票结果统计*/
+  getVoteResultList(id,search,pageNo,pageSize) {
+    const url = this.ipSetting.ip + "/publicresource/vote/getVoteResultList/"+id
+    + "/list/" + pageNo + "/"+pageSize + "?userId=" + search.userId;
+    return this.http.get(url, this.options)
+      .map(res => res.json());
+  }
 }
