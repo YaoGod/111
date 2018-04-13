@@ -6,6 +6,7 @@ import {Department} from "../../../employ/share/share-new-product/share-new-prod
 import {PublicresourceVoteService} from "../../../service/publicresource-vote/publicresource-vote.service";
 import {GlobalUserService} from "../../../service/global-user/global-user.service";
 import {Params, Router, ActivatedRoute} from "@angular/router";
+import 'rxjs/add/operator/switchMap';
 declare var $:any;
 declare var confirmFunc:any;
 @Component({

@@ -100,7 +100,18 @@ export class PublicresourceVoteService {
   /*获取投票结果统计*/
   getVoteResultList(id,search,pageNo,pageSize) {
     const url = this.ipSetting.ip + "/publicresource/vote/getVoteResultList/"+id
-    + "/list/" + pageNo + "/"+pageSize + "?userId=" + search.userId;
+      + "/list/" + pageNo + "/"+pageSize + "?userId=" + search.userId;
+    return this.http.get(url, this.options)
+      .map(res => res.json());
+  }
+  /*导出投票结果统计*/
+  exportVoteResultList(id,search,pageNo,pageSize) {
+    const url = this.ipSetting.ip + "/publicresource/vote/getVoteResultList/"+id
+      + "/excel/" + pageNo + "/"+pageSize + "?userId=" + search.userId;
+    window.location.href = url;
+  }
+  getVoteResultCount(id){
+    const url = this.ipSetting.ip + "/publicresource/vote/getVoteResultCount/"+id;
     return this.http.get(url, this.options)
       .map(res => res.json());
   }

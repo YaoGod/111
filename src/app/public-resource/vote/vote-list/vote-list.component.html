@@ -2,12 +2,12 @@
 <div class="count-area">
   <div class="count-left">
     <!--放三个临近期间的投票活动-->
-    <app-wrapper-picture [list]="votes" [width]="800"></app-wrapper-picture>
+    <app-wrapper-picture [list]="wrapVotes" [width]="800"></app-wrapper-picture>
   </div>
   <div class="count-right">
     <div class="btn-inner">
       <div class="extra-area">
-        投票活动<span>{{total}}条</span>
+        投票活动<span>{{total}}</span>条
       </div>
       <a class="btn" [routerLink]="['./manage']">进入管理</a>
     </div>
@@ -48,6 +48,7 @@
         <h5>{{vote.title}}</h5>
         <!--<span><i class="icon-chart">999</i></span>-->
         <a class="btn-join" [routerLink]="['../detail',vote.id]">参与投票</a>
+        <span class="vote-extra">{{vote.eTime |date:'MM月dd日'}}截止</span>
       </li>
     </ul>
     <div class="div-none" *ngIf="votes.length === 0">

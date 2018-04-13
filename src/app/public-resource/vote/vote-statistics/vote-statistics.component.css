@@ -282,3 +282,8 @@ i{
   color: #ffffff;
   border: 1px solid #fb9678;
 }
+.chart-inner{
+  width: 60%;
+  min-width: 800px;
+  height: 400px;
+}

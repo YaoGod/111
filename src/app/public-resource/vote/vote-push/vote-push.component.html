@@ -48,9 +48,7 @@
             <span>开放范围</span>
             <textarea class="form-control" rows="4" style="line-height: 20px"
                       id="deptName" name="deptName" readonly
-                      [(ngModel)]="copyVote.targetName"
-                      (blur)="verifyEmptyArray(copyVote.targetName,'deptName')"
-            >
+                      [(ngModel)]="copyVote.targetName">
             </textarea>
           </label>
           <div class="error"></div>
@@ -156,7 +154,7 @@
                       <span>选项名称</span>
                       <input class="form-control" type="text" style="width: 560px"
                                 [(ngModel)]="option.title">
-                      <span class="font-count">{{option.title.length}}/20</span>
+                      <!--<span class="font-count">{{option.title.length}}/30</span>-->
                     </label>
                     <div class="error"></div>
                   </div>

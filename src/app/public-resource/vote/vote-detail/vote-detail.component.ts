@@ -3,6 +3,7 @@ import {PublicresourceVoteService} from "../../../service/publicresource-vote/pu
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Vote} from "../../../mode/vote/vote.service";
+import 'rxjs/add/operator/switchMap';
 declare var $:any;
 declare var confirmFunc:any;
 @Component({

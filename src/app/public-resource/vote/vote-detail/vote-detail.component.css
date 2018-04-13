@@ -134,10 +134,10 @@
   display: inline-block;
   top: -2px;
   left: 41px;
-  padding: 0 20px;
+  padding: 5px 20px;
   margin-bottom: 10px;
-  height: 30px;
-  line-height: 30px;
+  max-width: 180px;
+  line-height: 20px;
   font-weight: 600;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
@@ -159,15 +159,12 @@
 }
 .card-left>img{
   width: 100%;
-  border-radius: 10px;
-  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .1);
 }
 .card-right{
   width: 800px;
   padding: 0 20px;
   margin-bottom: 20px;
   box-sizing: border-box;
-  text-indent: 2em;
 }
 .card-text{
   font-weight: 500;

@@ -49,6 +49,7 @@ export class VoteStatisticsComponent implements OnInit {
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
           this.vote = data.data;
+          this.getVoteChartData();
         }
       })
   }
@@ -62,6 +63,110 @@ export class VoteStatisticsComponent implements OnInit {
           this.total = data.data.total
         }
       })
+  }
+  /*导出*/
+  exportExcel(){
+    this.publicresourceVoteService.exportVoteResultList(this.vote.id,this.search,this.pageNo,this.pageSize)
+  }
+  getVoteChartData(){
+    this.publicresourceVoteService.getVoteResultCount(this.vote.id)
+      .subscribe(data=>{
+        if(this.errorResponseService.errorMsg(data)){
+          this.countChartInit('voteChart',data.data);
+        }
+      })
+  }
+  countChartInit(id,data){
+    let legendData = [];
+    let seriesData = [];
+    for(let i = 0;i<data.length;i++){
+      legendData.push(data[i].RESULT);
+      seriesData.push(data[i].NUM);
+    }
+    let nowTime = new Date().toLocaleString();
+    let option = {
+      title : {
+        text: '投票结果统计图',
+        subtext: '统计截止于'+nowTime,
+        padding: [5,5,20,5],
+        itemGap: 15,
+        x: 'center',
+        y: 'top',
+        textStyle: {
+          fontSize: 18,
+          fontWeight: 'bolder',
+          color: '#4b87d4'
+        },
+        subtextStyle: {
+          color: '#aaa'
+        }
+      },
+      tooltip : {
+        trigger: 'axis'
+      },
+      toolbox: {
+        show : true,
+        feature : {
+          mark : {show: true},
+          dataView : {show: true, readOnly: true},
+          magicType : {show: true, type: ['line', 'bar']},
+          restore : {show: true},
+          saveAsImage : {show: true}
+        }
+      },
+      calculable : true,
+      xAxis : [
+        {
+          type : 'category',
+          data : legendData
+        }
+      ],
+      yAxis : [
+        {
+          type : 'value'
+        }
+      ],
+      series : [
+        {
+          name:'票数',
+          type:'bar',
+          data:seriesData,
+          itemStyle: {
+            normal: {
+              borderRadius: 5,
+              color : '#fb9678',
+              label : {
+                show : true,
+                textStyle : {
+                  fontSize : '20',
+                  fontFamily : '微软雅黑',
+                  fontWeight : 'bold'
+                },
+                position: 'insideBottom'
+              }
+            }
+          },
+          barMaxWidth: 60,
+          markPoint : {
+            effect: {
+              show: true,
+              type: 'bounce'
+            },
+            data : [
+              {type : 'max', name: '最大值'},
+              {type : 'min', name: '最小值'}
+            ]
+          },
+          markLine : {
+            data : [
+              {type : 'average', name: '平均值'}
+            ]
+          }
+        }
+      ]
+    };
+    let includePriceChart = echarts.init(document.getElementById(id));
+    includePriceChart.setOption(option);
   }
 }
 

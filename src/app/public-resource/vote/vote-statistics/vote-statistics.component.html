@@ -18,8 +18,10 @@
       <p>截止日期：{{vote.eTime|date:'yyyy/MM/dd'}}</p>
       <p>参与人数：{{total}}人</p>
     </div>
+    <!--图表数据-->
+    <div id="voteChart" class="chart-inner" *ngIf="vote.title"></div>
     <!--搜索栏-->
-    <div class="search-bar">
+    <div class="search-bar" *ngIf="vote.title">
       <ul>
         <li><span>员工编号</span>
           <input type="text" name="search" [(ngModel)]="search.userId">
@@ -36,7 +38,7 @@
       </ul>
     </div>
     <!--表头-->
-    <div class="table-head">
+    <div class="table-head" *ngIf="vote.title">
       <table border="0" cellspacing="0" cellpadding="0" class="list-box">
         <tr class="row list-title" style="height:20px;">
           <th style="width: 50px;" rowspan="2">序号</th>
@@ -47,7 +49,7 @@
           <th style="min-width: 120px;" rowspan="2">投票时间</th>
         </tr>
         <tr class="row list-title" style="height:20px;">
-          <th *ngFor="let option of vote.options" [title]="option.content">
+          <th class="text-left" *ngFor="let option of vote.options" [title]="option.content">
             <p class="head-text">
               {{option.title}}
             </p>

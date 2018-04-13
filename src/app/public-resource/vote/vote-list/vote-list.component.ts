@@ -37,7 +37,6 @@ export class VoteListComponent implements OnInit {
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
           this.votes = data.data.infos;
-          this.wrapVotes = data.data.infos;
           this.total = data.data.total;
         }
       })
@@ -48,6 +47,7 @@ export class VoteListComponent implements OnInit {
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
           this.votesTop = data.data;
+          this.wrapVotes = data.data;
         }
       })
   }

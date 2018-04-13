@@ -273,7 +273,7 @@ select{
   overflow: hidden;
   width: 150px;
   max-width: 100%;
-  height: 100px;
+  height: 200px;
   font-size: 14px;
   line-height: 22px;
   color: #777;
@@ -292,7 +292,8 @@ select{
 .dropify-wrapper p {
   position: absolute;
   left: 0;
-  top: 35px;
+  top: 50%;
+  margin-top: -12px;
   width: 100%;
   line-height: 24px;
   z-index: 2;
@@ -465,10 +466,9 @@ select{
 .control-label .font-count{
   position: absolute;
   right: 7px;
-  bottom: 5px;
-  height: 20px;
+  bottom: 8px;
   padding: 0 10px;
-  line-height: 20px;
+  line-height: 14px;
   background: #ffffff;
   vertical-align: bottom;
 }

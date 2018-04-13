@@ -190,7 +190,8 @@ export class WorkspaceHomeComponent implements OnInit {
           y: 'center',
           label: {
             normal: {
-              show: true
+              show: true,
+              position: 'right'
             }
           },
           itemStyle:{
