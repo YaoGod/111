@@ -5,10 +5,24 @@ import {ErrorResponseService} from "../../../service/error-response/error-respon
 import {Vote} from "../../../mode/vote/vote.service";
 import {PublicresourceVoteService} from "../../../service/publicresource-vote/publicresource-vote.service";
 import * as echarts from 'echarts';
+import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 @Component({
   selector: 'app-vote-statistics',
   templateUrl: './vote-statistics.component.html',
-  styleUrls: ['./vote-statistics.component.css']
+  styleUrls: ['./vote-statistics.component.css'],
+  animations: [
+    trigger('boxAuto', [
+      state('open', style({
+        height: 420,
+        opacity: 1
+      })),
+      state('close', style({
+        height: 0,
+        opacity: 0
+      })),
+      transition('open <=> close', animate('500ms ease-in')),
+    ])
+  ]
 })
 export class VoteStatisticsComponent implements OnInit {
 
@@ -18,6 +32,7 @@ export class VoteStatisticsComponent implements OnInit {
   public pageNo: number = 1;
   public pageSize: number = 10;
   public total = 0;
+  public openStatus: boolean;
   constructor(
     private router   : Router,
     private route    : ActivatedRoute,
@@ -33,6 +48,7 @@ export class VoteStatisticsComponent implements OnInit {
     this.search.userId = "";
     this.users = [];
     this.globalCatalogService.setTitle("公共资源/投票信息统计");
+    this.openStatus = true;
     let tempid = 0;
     this.route.params.subscribe(data => {
       if(tempid === 0){
@@ -87,7 +103,7 @@ export class VoteStatisticsComponent implements OnInit {
     let option = {
       title : {
         text: '投票结果统计图',
-        subtext: '统计截止于'+nowTime,
+        subtext: '截止'+nowTime,
         padding: [5,5,20,5],
         itemGap: 15,
         x: 'center',
@@ -118,12 +134,30 @@ export class VoteStatisticsComponent implements OnInit {
       xAxis : [
         {
           type : 'category',
-          data : legendData
+          data : legendData,
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#8e9ea8'
+            }
+          },
+          axisLabel: {
+            interval: 0,
+            rotate: -10
+          }
         }
       ],
       yAxis : [
         {
-          type : 'value'
+          type : 'value',
+          name : '票数',
+          boundaryGap: [0,0.1],
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#8e9ea8'
+            }
+          }
         }
       ],
       series : [
@@ -167,6 +201,9 @@ export class VoteStatisticsComponent implements OnInit {
     };
     let includePriceChart = echarts.init(document.getElementById(id));
     includePriceChart.setOption(option);
+  }
+  changeOpenStatus(){
+    this.openStatus = !this.openStatus;
   }
 }
 

@@ -44,13 +44,18 @@
           <div class="error"></div>
         </div>
         <div  class="form-group">
-          <label  class="control-label" (click)="openChooseWin()">
+          <span  class="control-label">
             <span>开放范围</span>
-            <textarea class="form-control" rows="4" style="line-height: 20px"
+            <textarea class="form-control" rows="4" style="line-height: 20px;width: 600px"
                       id="deptName" name="deptName" readonly
-                      [(ngModel)]="copyVote.targetName">
+                      [(ngModel)]="copyVote.targetName" (click)="openChooseWin()">
             </textarea>
-          </label>
+            <a class="btn-danger" (click)="exportModeOut()">模板下载</a>
+            <a class="btn-info">模板导入
+              <input name="mode" type="file" class="file-mode"
+                     (change)="importDataIn($event.target.files)">
+            </a>
+          </span>
           <div class="error"></div>
         </div>
         <div class="modal-more" id="deptSltWin" style="display: none">
@@ -85,7 +90,8 @@
           </div>
         </div>
         <div  class="form-group">
-          <label  class="control-label"><span>投票方式</span>
+          <label  class="control-label" style="display: inherit;">
+            <span>投票方式</span>
             <label for="single">
               <input id="single" name="type" type="radio" value="single"
                      [(ngModel)]="copyVote.type" (change)="clearResult()">

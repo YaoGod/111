@@ -355,4 +355,33 @@ export class VotePushComponent implements OnInit {
     $('#' + id).removeClass('red');
     $('#' + id).parent().next('.error').fadeOut();
   }
+  /*模板导出*/
+  exportModeOut(){
+    this.publicresourceVoteService.exportTemplate();
+  }
+  importDataIn(files){
+    let xhr = this.publicresourceVoteService.importData(files[0]);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
+        let data:any = JSON.parse(xhr.responseText);
+        if(this.errorResponseService.errorMsg(data)){
+          this.copyVote.targetName = [files[0].name];
+          this.copyVote.hrmis = data.msg;
+          this.isAllDept = false;
+          this.isMyDept = false;
+          for (let i = 0; i < this.deptList.length; i++) {
+            this.deptList[i].choose = false;
+          }
+        }
+        $('.file-mode').val('');
+      }else if(xhr.readyState === 4 && xhr.status === 413 ){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '文件大小超出限制',
+          'popType': 1 ,
+          'imgType': 2 ,
+        });
+      }
+    };
+  }
 }

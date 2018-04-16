@@ -115,4 +115,26 @@ export class PublicresourceVoteService {
     return this.http.get(url, this.options)
       .map(res => res.json());
   }
+  /*模板导出*/
+  exportTemplate(){
+    const url = this.ipSetting.ip + "/publicresource/vote/exportTemplate";
+   window.location.href = url;
+  }
+  /*
+   数据导入
+   param: postData:file,
+   return:
+   */
+  importData(postData) {
+    const url = this.ipSetting.ip + "/publicresource/vote/importTemplate";
+    let form = new FormData();
+    if (typeof(postData) === 'object') {
+      form.append('file', postData);
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.withCredentials = true;
+    xhr.send(form);
+    return xhr;
+  }
 }

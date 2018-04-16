@@ -15,7 +15,8 @@ export class Vote {
   resultType : string;
   maxResult  : number;
   minResult  : number;
-  options     : Array<Option>;
+  options    : Array<Option>;
+  hrmis      : string;
 }
 
 export class Option{

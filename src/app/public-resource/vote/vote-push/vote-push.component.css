@@ -225,6 +225,7 @@
 }
 input[type=date].form-control{
   padding-right: 0;
+  margin-bottom: 15px;
   font-size: 10px;
 }
 input[type=date]:disabled.form-control{
@@ -248,6 +249,7 @@ select{
   line-height: 16px;
   font-size: 10px;
   color: #d75452;
+  white-space: nowrap;
 }
 .red,.table-content .row .red{
   border: 0.5px solid #d75452;
@@ -388,12 +390,36 @@ select{
 .btn-add{
   color: #03a9f3;
 }
-.btn-info {
-  margin-left: 15px;
+.btn-danger{
+  margin-left: 10px;
   padding: .3rem 1.2rem;
-  border-radius: 4px;
+  font-size: 12px;
+  border-radius:5px;
+  color: #fff;
+  background: #fb9678;
+  border: 1px solid #fff;
+  transition: all .6s;
+  cursor: pointer;
+}
+.btn-danger.disabled.focus,
+.btn-danger.disabled:focus,
+.btn-danger.disabled:hover,
+.btn-danger.focus,
+.btn-danger:focus,
+.btn-danger:hover {
+  background: #fb9678;
+  opacity: .8;
+  color: #ffffff;
+  border: 1px solid #fb9678;
+}
+.btn-info {
+  position: relative;
+  margin-left: 10px;
+  padding: .3rem 1.2rem;
+  border-radius: 5px;
   background: #03a9f3;
   border: 1px solid #03a9f3;
+  font-size: 12px;
   color: #fff;
 }
 .btn-info:hover {
@@ -404,6 +430,8 @@ select{
 }
 .foot-submit{
   padding-top: 20px;
+  padding-left: 110px;
+  width: 800px;
   text-align: center;
 }
 .top-trash{
@@ -471,4 +499,15 @@ select{
   line-height: 14px;
   background: #ffffff;
   vertical-align: bottom;
+}
+.file-mode{
+  position: absolute;
+  top: 0;
+  /* right: 0; */
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  width: 88px;
+  font-size: 0;
+  cursor: pointer;
 }

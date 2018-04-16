@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Vote} from "../../../mode/vote/vote.service";
 import {PublicresourceVoteService} from "../../../service/publicresource-vote/publicresource-vote.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
+import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 
 @Component({
   selector: 'app-vote-list',
@@ -17,12 +18,20 @@ export class VoteListComponent implements OnInit {
   public votes: Array<any>;
   public wrapVotes: Array<any>;
   public search: Vote;
+  public rule;
   constructor(
+    private globalCatalogService: GlobalCatalogService,
     private publicresourceVoteService:PublicresourceVoteService,
     private errorResponseService:ErrorResponseService
-  ) { }
+  ) {
+    this.rule = this.globalCatalogService.getRole("publicResource/vote");
+  }
 
   ngOnInit() {
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+      this.rule = this.globalCatalogService.getRole("publicResource/vote");
+    });
     this.search = new Vote();
     this.votes = [];
     this.votesTop = [];
@@ -30,7 +39,6 @@ export class VoteListComponent implements OnInit {
     this.getVoteList(1);
     this.getVoteCharts();
   }
-
   getVoteList(pageNo){
     this.pageNo = pageNo;
     this.publicresourceVoteService.getVoteList(this.pageNo,this.pageSize,this.search)

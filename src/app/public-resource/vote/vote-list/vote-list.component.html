@@ -9,7 +9,7 @@
       <div class="extra-area">
         投票活动<span>{{total}}</span>条
       </div>
-      <a class="btn" [routerLink]="['./manage']">进入管理</a>
+      <a class="btn" [routerLink]="['./manage']" *ngIf="rule&&(rule.isUpdate||rule.isInstall||rule.isDelete)">进入管理</a>
     </div>
     <div class="count-inner">
       <h4 class="list-title"><strong>人气排行榜</strong><em>TOP5</em></h4>
