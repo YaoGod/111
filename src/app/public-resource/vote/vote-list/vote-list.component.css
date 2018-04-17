@@ -201,6 +201,7 @@
   font-size: 14px;
   border-radius: 3px;
   letter-spacing: 2px;
+  cursor: pointer;
 }
 .vote-inner{
   height: 80px;

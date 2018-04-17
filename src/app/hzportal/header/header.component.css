@@ -24,6 +24,7 @@
 }
 .nav-list a{
   color:#8895a3;
+  white-space: nowrap;
 }
 .nav-list>li{
   width:100%;

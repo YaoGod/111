@@ -33,6 +33,8 @@ export class WorkspaceHomeComponent implements OnInit {
     this.globalCatalogService.setTitle("员工服务/我的工作台");
     this.getBalance();
     this.getHandlingOrder();
+    this.costChart("costHistoryChart",[]);
+    this.costChart("costDashHistoryChart",[]);
     this.getUserConsume("costHistoryChart","cost");
     this.getUserConsume("costDashHistoryChart","laundry");
     this.getServiceCenter();
@@ -153,6 +155,11 @@ export class WorkspaceHomeComponent implements OnInit {
       legendData[i] = this.changeMonth(data[i].CONSUME_TIME);
       seriesData[i] = data[i].CONSUME_NUM;
     }
+    if(data.length === 0){
+      let nowDate = new Date().getMonth();
+      legendData[0] =  nowDate + '月';
+      seriesData[0] = 0;
+    }
     let option = {
       tooltip : {
         trigger: 'axis',
@@ -163,7 +170,13 @@ export class WorkspaceHomeComponent implements OnInit {
       xAxis : [
         {
           show : false,
-          type : 'value'
+          type : 'value',
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#8e9ea8'
+            }
+          },
         }
       ],
       yAxis : [
@@ -176,7 +189,10 @@ export class WorkspaceHomeComponent implements OnInit {
             color: '#999'
           },
           axisLine :{
-            show: 'false'
+            show: true,
+            lineStyle: {
+              color: '#8e9ea8'
+            }
           },
           data : legendData /*['7月','8月','9月','10月','11月','12月']*/
         }
