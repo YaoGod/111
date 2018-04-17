@@ -41,6 +41,15 @@
               <option value="expired">已过期</option>
             </select>
           </li>
+          <li>
+            <label >使用人</label>
+            <input class="search-ipt search-sel" type="text" name="useUserName222" [(ngModel)]="searchInfo.useUserName">
+          </li>
+          <li>
+            <label >车牌号</label>
+            <input class="search-ipt search-sel" type="text" name="useCarCode222" [(ngModel)]="searchInfo.useCarCode">
+
+          </li>
         </ul>
         <div class="search-right">
           <a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
@@ -67,8 +76,9 @@
               <th>开始有效期</th>
               <th>截止有效期</th>
               <th>发放状态</th>
+              <th>使用人</th>
+              <th>车牌号</th>
               <th>使用状态</th>
-              <th style="max-width: 180px;">备注</th>
               <th>操作</th><!-- *ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
             </tr>
             <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
@@ -80,10 +90,12 @@
               <td>{{inner.eTime}}</td>
               <td *ngIf="inner.useStatus ==='unissued'">未发放</td>
               <td *ngIf="inner.useStatus ==='use'">已发放</td>
+              <td>{{inner.useUserName}}</td>
+              <td>{{inner.useCarCode}}</td>
               <td *ngIf="inner.permitStatus ==='invalid'" style="color:#ff1103;">失效</td>
               <td *ngIf="inner.permitStatus ==='expired'" style="color:orange">已过期</td>
               <td *ngIf="inner.permitStatus ==='valid'" style="color:#00dba3">正常</td>
-              <td>{{inner.note}}</td>
+
               <td> <!--*ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
                 <i class="icon-plus" *ngIf="inner.useUserTel===null" (click)="grant(inner.id)" title="发放"></i>
                 <i class="recover" *ngIf="inner.useStatus !=='unissued'" (click)="recover(inner.id)" title="回收">

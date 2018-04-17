@@ -51,6 +51,7 @@
           <th>员工部门</th>
           <th>员工编号</th>
           <th>员工电话</th>
+          <th>车牌号</th>
           <!--<th>发放日期</th>-->
           <th>发放截止日期</th>
         </tr>
@@ -59,6 +60,7 @@
           <td>{{newCard.useUserDept}}</td>
           <td>{{newCard.useUserId}}</td>
           <td>{{newCard.useUserTel}}</td>
+          <td>{{newCard.useCarCode}}</td>
           <!--<td>{{newCard.modifyTime}}</td>-->
           <td>{{newCard.useETime}}</td>
 
@@ -73,16 +75,16 @@
           <th>员工部门</th>
           <th>员工编号</th>
           <th>员工电话</th>
-          <!--<th>发放日期</th>-->
-          <!--<th>发放截止日期</th>-->
+          <th>车牌号</th>
+          <th>发放截止日期</th>
         </tr>
         <tr style="height: 36px; text-align: center" *ngFor="let inner of history;let i=index" >
           <td>{{inner.USERNAME}}</td>
           <td>{{inner.DEPT_NAME}}</td>
           <td>{{inner.USERID}}</td>
           <td>{{inner.TELE_NUM}}</td>
-          <!--<td>{{inner.modifyTime}}</td>-->
-          <!--<th>{{inner.USE_E_TIME}}</th>-->
+          <td>{{inner.CAR_NUMBER}}</td>
+          <th>{{inner.USE_E_TIME}}</th>
       </table>
     </div>
   </div>

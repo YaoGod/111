@@ -44,10 +44,13 @@ export class PaperComponent implements OnInit {
       }
     );
     this.getQuan();
+    this.searchInfo.useUserDept = '';
+    this.searchInfo.useUserName = '';
+    this.searchInfo.useCarCode = '';
     this.repairSearch(1);
     this.getBuildings();
     this.getDeptList();
-    this.searchInfo.useUserDept = '';
+
   }
   /*获取权限*/
   private getQuan(){
@@ -85,9 +88,13 @@ export class PaperComponent implements OnInit {
   }
   /*获取停车证信息*/
   getPermitInfo(){
+    console.log(this.searchInfo)
+
     let url = "/building/parking/getParkingPermitList/list/"+this.pageNo+"/"+this.pageSize+'?buildingName='+
       this.searchInfo.buildingName+'&&type='+this.searchInfo.type+'&&useStatus='+this.searchInfo.useStatus+
-      '&&permitStatus='+this.searchInfo.permitStatus;
+      '&&permitStatus='+this.searchInfo.permitStatus+'&&useUserName='+this.searchInfo.useUserName+
+      '&&useCarCode='+this.searchInfo.useCarCode;
+    console.log()
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         // console.log(data.data.infos);
@@ -401,13 +408,14 @@ export class PaperComponent implements OnInit {
      }
      this.search.bTime = this.search.bTime.replace(/-/g, "/");
      this.search.eTime = this.search.eTime.replace(/-/g, "/");*/
-    let url = this.ipSetting.ip + "/building/parking/getParkingPermitList/excel/1/5?buildingName="+
-      "&&type=&&useStatus=&&permitStatus=";
+    let url = this.ipSetting.ip + "/building/parking/getParkingPermitList/list/"+this.pageNo+"/"+this.pageSize+'?buildingName='+
+      this.searchInfo.buildingName+'&&type='+this.searchInfo.type+'&&useStatus='+this.searchInfo.useStatus+
+      '&&permitStatus='+this.searchInfo.permitStatus+'&&useUserName='+this.searchInfo.useUserName+
+      '&&useCarCode='+this.searchInfo.useCarCode;
     this.http.get(url)
     // .map(res => res.json())
       .subscribe(data => {
-        window.location.href = this.ipSetting.ip + "/building/parking/getParkingPermitList/excel/1/5?buildingName="+
-        "&&type=&&useStatus=&&permitStatus=";
+        window.location.href = url;
         $('#deriving').fadeOut();
       });
   }

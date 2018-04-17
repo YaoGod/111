@@ -29,6 +29,9 @@ export class LuckDrawComponent implements OnInit {
   public isAllDept:boolean;
   public batch = '';
   public result:any;
+  public record:any;
+  public names= [];
+  public eTime:string;
   constructor(private http: Http,
               private errorVoid:ErrorResponseService,
               private utilBuildingService:UtilBuildingService,
@@ -36,9 +39,9 @@ export class LuckDrawComponent implements OnInit {
               public ipSetting  : IpSettingService,) { }
 
   ngOnInit() {
-    // this.getParkNumber();
     this.getBuildings();
     this.getDeptList();
+    // this.getPermitInfo();
     /*this.result = [{CAR_NUMBER:"浙A52110",
     SERVICE_CENTER:"环北服务中心",
     TELE_NUM:"13666651107",
@@ -67,13 +70,70 @@ export class LuckDrawComponent implements OnInit {
         }
       })
   }
+  /*获取停车证信息*/
+  getPermitInfo(){
+    let url = "/building/parking/getParkingPermitList/list/"+this.pageNo+"/"+this.pageSize+'?buildingName='+
+      this.setInfo.buildingName+'&&type='+this.setInfo.type+'&&useStatus=&&permitStatus=&&useUserName=&&useCarCode=';
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        // console.log(data.data.infos);
+        this.record = data.data.infos;
+        let res = [];
+        for(let i=0;i<data['data']['infos'].length;i++){
+          res.push(data['data']['infos'][i].name);
+        }
+        this.names = this.unique(res);
+      }
+    });
+  }
+  public unique(arr){
+    var res =[];
+    var json = {};
+    for(let i=0;i<arr.length;i++){
+      if(!json[arr[i]]){
+        res.push(arr[i]);
+        json[arr[i]] = 1;
+      }
+    }
+    return res;
+  }
+  getBuildingName(id){
+    for(let i=0;i<this.buildings.length;i++){
+      if(this.buildings[i].ID==id){
+        this.setInfo.buildingName = this.buildings[i].NAME;
+      }
+    }
+  }
   /*获取剩余停车证数量*/
+  public verfybuildingsName(){
+    if (!this.isEmpty('buildingNameS', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verfysearchtype(){
+    if (!this.isEmpty('searchtype', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verfysearchname(){
+    if (!this.isEmpty('searchname', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
   getParkNumber() {
+    if(!this.verfybuildingsName()||!this.verfysearchtype()||!this.verfysearchname()){
+      return false;
+    }
       let url = "/building/parking/getPermitCount";
       let postData = JSON.parse(JSON.stringify(this.setInfo));
       this.ipSetting.sendPost(url,postData).subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
-          this.setInfo.parkNumber = data.data;
+          // console.log(data.data);
+          this.setInfo.parkNumber = data.data.size;
+          this.eTime = data.data.eTime;
         }
       });
   }
@@ -174,7 +234,28 @@ export class LuckDrawComponent implements OnInit {
       });
       return false;
     }
-
+    let date1 = this.eTime;
+    let date2 = this.setInfo.useETime;
+    /*console.log(this.eTime);
+    console.log(this.setInfo.useETime);*/
+    if(date1<date2){
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '有效期大于所选停车证的有效期！',
+        'popType': 0 ,
+        'imgType': 2 ,
+      });
+      return false;
+    }
+    if (this.eTime<this.setInfo.useETime){
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '请选择大于该类停车证的有效截止日期',
+        'popType': 0 ,
+        'imgType': 2 ,
+      });
+      return false;
+    }
     this.setInfo.deptId = this.targetId.join(',');
     if(this.setInfo.num<=this.setInfo.parkNumber){
       let url = '/building/parking/getShakeResult?num='+this.setInfo.num+'&&deptId='+this.setInfo.deptId;
@@ -213,7 +294,8 @@ export class LuckDrawComponent implements OnInit {
 
   /*提交摇号最终结果*/
   submit(){
-    let url = '/building/parking/addShakeResult?name=&&type='+this.setInfo.type+'&&buildingId='+this.setInfo.buildingId+
+    let url = '/building/parking/addShakeResult?name=&&useETime='+ this.setInfo.useETime +'&&type='
+      +this.setInfo.type+'&&buildingId='+this.setInfo.buildingId+
       '&&batch='+this.batch;
     // let postData = this.status.join(',');
     let postData = [];
@@ -225,7 +307,10 @@ export class LuckDrawComponent implements OnInit {
         }
       }
     }
-    Data = postData.join(',');
+    if(postData.length>0){
+      Data = postData.join(',');
+    }
+
     this.ipSetting.sendPost(url,postData).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         // console.log(data.data);
@@ -272,8 +357,8 @@ export class LuckDrawComponent implements OnInit {
 }
 export class CardInfo {
   id: number; // 本条信息ID
-  buildingName:string=''; // 大楼名称
-  buildingId:string; // 大楼ID
+  buildingName: string; // 大楼名称
+  buildingId: string; // 大楼ID
   useUserId: string;// 员工编号
   useUserName:string; // 员工姓名
   deptId: string; // 参与摇号部门
@@ -283,7 +368,9 @@ export class CardInfo {
   parkNumber:number; // 剩余停车证数量
   useCarCode: string; // 车牌号
   pstatus = '1'; // 分配方式
-  type: string=''; // 停车证类型
+  type: string; // 停车证类型
+  name: string;
+  useETime: string; // 使用有效期
   note:string; // 备注
 }
 export class Department {

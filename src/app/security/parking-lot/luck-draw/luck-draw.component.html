@@ -6,7 +6,8 @@
       <ul class="count-list clearfix">
         <li>
           <label>大楼名称</label>
-          <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="setInfo.buildingId">
+          <select name="buildingNameS" id="buildingNameS" class="search-ipt search-sel" [(ngModel)]="setInfo.buildingId"
+                  (change)="getBuildingName(setInfo.buildingId)">
             <option value="">-请选择-</option>
             <option *ngFor="let num of buildings"
                     [value]="num.ID">
@@ -15,11 +16,21 @@
         </li>
         <li>
           <label >停车证类型</label>
-          <select class="search-ipt search-sel" name="searchtype" [(ngModel)]="setInfo.type">
-            <option value="">全部</option>
+          <select class="search-ipt search-sel" id="searchtype" name="searchtype" [(ngModel)]="setInfo.type"
+                  (change)="getPermitInfo()">
+            <option value="">-请选择-</option>
             <option value="地面">地面</option>
             <option value="立体车库">立体车库</option>
             <option value="地下车库">地下车库</option>
+          </select>
+        </li>
+        <li>
+          <label >停车证名称</label>
+          <select class="search-ipt search-sel" id="searchname" name="searchname" [(ngModel)]="setInfo.name">
+            <option value="">全部</option>
+            <option *ngFor="let num of names"
+                    [value]="num">
+              {{num}}</option>
           </select>
         </li>
       </ul>
@@ -39,7 +50,7 @@
           </label>
         </li>
       </ul>
-      <h4 class="goods-hd">部门数量</h4>
+      <h4 class="goods-hd">部门日期数量</h4>
       <ul class="count-list clearfix">
         <li>
           <label>选择部门</label>
@@ -75,17 +86,19 @@
           </div>
         </li>
         <li>
+          <label>有效期至</label>
+          <input id="dateTime" type="date" name="dateTime" class="search-ipt" [(ngModel)]="setInfo.useETime">
+        </li>
+        <li>
           <label>摇号数量</label>
           <input id="lotNumber" type="number" name="lotNumber" class="search-ipt search-sel" [(ngModel)]="setInfo.num">
         </li>
       </ul>
     </div>
-  </div>
-  <div class="count-right">
     <div class="count-inner">
-      <div class="count-build" (click)="beiginDraw()">
-          <div class="count-icon"><img src="../../../../assets/image/luck.png"> </div>
-          开始摇号
+      <div class="count-build" (click)="beiginDraw()" style="font-size: 24px;">
+        <div class="count-icon"><img src="../../../../../assets/image/luck.png"> </div>
+        开始摇号
       </div>
     </div>
   </div>
@@ -99,7 +112,6 @@
           <th>员工编号</th>
           <th>车牌号码</th>
           <th>联系电话</th>
-          <th>服务中心</th>
           <th style="color:#FF0055">审核意见</th>
         </tr>
         <tr *ngFor="let dept of result;let i=index">
@@ -108,7 +120,6 @@
           <td>{{dept.USERID}}</td>
           <td>{{dept.CAR_NUMBER}}</td>
           <td>{{dept.TELE_NUM}}</td>
-          <td>{{dept.SERVICE_CENTER}}</td>
           <td>
             <label>
               <input [name]="'deptstatus'+i" type="radio" [(ngModel)]="status[i]" value="1">同意

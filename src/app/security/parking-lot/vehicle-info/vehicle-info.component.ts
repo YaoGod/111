@@ -76,10 +76,12 @@ export class VehicleInfoComponent implements OnInit {
         if(this.errorVoid.errorMsg(data)) {
           this.newCard.userDept = data.data.deptId;
           this.newCard.userName = data.data.username;
+          this.newCard.driverName = data.data.username;
         }
         if (data.status === 1) {
           this.newCard.userDept = '';
           this.newCard.userName = '';
+          this.newCard.driverName = '';
         }
       });
     }

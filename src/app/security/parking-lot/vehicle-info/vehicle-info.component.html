@@ -42,6 +42,10 @@
             <label>员工姓名</label>
             <input type="text" name="searchuserName" class="search-ipt" [(ngModel)]="searchInfo.userName">
           </li>
+          <li>
+            <label>车牌号</label>
+            <input type="text" name="searchuserName" class="search-ipt" [(ngModel)]="searchInfo.carNumber">
+          </li>
         </ul>
         <div class="search-right">
           <a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
@@ -203,7 +207,7 @@
         <span class="form-label">驾驶员姓名</span>
         <div class="form-inp">
           <input type="text" class="company-ipt" id="driverName" name="driverName" [(ngModel)]="newCard.driverName"
-                 (blur)="verifydriverName()" maxlength="25"/>
+                 (blur)="verifydriverName()" maxlength="25" disabled="disabled"/>
           <span class="errorMessage"></span>
         </div>
       </div>

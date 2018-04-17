@@ -13,23 +13,18 @@
   outline: none;
 }
 .count-left{
-  display: inline-block;
-  width: 80%;
+  width: 100%;
   padding-right: 20px;
   box-sizing: border-box;
 }
-.count-right{
-  float: right;
-  width: 20%;
-  margin-top:26px;
-}
+
 .count-list{
   padding-left: 20px;
 }
 .count-list>li{
   float: left;
   text-align: left;
-  width:50%;
+  width:33%;
 }
 .count-list>li>a,.count-build a{
   position: relative;
@@ -76,7 +71,7 @@
   margin-bottom: 20px;
   box-sizing: border-box;
   box-shadow: 2px 4px 15px rgba(158, 178, 178, 0.33);
-  background-image: linear-gradient(45deg, #F4F4F4 25%, transparent 25%, transparent), linear-gradient(-45deg, #F4F4F4 25%, transparent 25%, transparent), linear-gradient(45deg, transparent 75%, #F4F4F4 75%), linear-gradient(-45deg, transparent 75%, #F4F4F4 75%);
+  background-image: linear-gradient(45deg, #7FFFD4 25%, transparent 25%, transparent), linear-gradient(-45deg, #7FFFD4 25%, transparent 25%, transparent), linear-gradient(45deg, transparent 75%, #7FFFD4 75%), linear-gradient(-45deg, transparent 75%, #7FFFD4 75%);
 }
 .goods-hd{
   position: relative;
@@ -126,12 +121,13 @@ textarea:disabled{
   width: 70px;
   padding-right: 10px;
   line-height: 30px;
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: bold;;
   text-align: right;
 }
 .search-ipt {
   height: 20px;
-  width: calc(100% - 200px);
+  width: calc(100% - 140px);
   min-width: 70px;
   box-sizing: content-box;
   padding: 3px 5px;
@@ -236,6 +232,9 @@ textarea:disabled{
 }
 .deptList{
   padding:5px 25px;
+  max-height:80px;
+  line-height:20px;
+  overflow-y: auto;
 }
 .mask{
   display: none;
@@ -245,7 +244,7 @@ textarea:disabled{
   z-index: 99999;
   width:100%;
   height:100%;
-  background-color: rgba(0,0,0,.4);
+  background-color: rgba(128,128,128,.6);
 }
 /*.box{
   box-sizing: border-box;
