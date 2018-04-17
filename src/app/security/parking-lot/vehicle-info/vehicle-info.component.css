@@ -200,7 +200,7 @@ button{
   border: 3px solid #e4e4e4;
   margin-right:4%;
 }
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1400px) {
   .room-card {
     margin:0 auto 8px!important;
     width:75%;
@@ -240,8 +240,9 @@ button{
 }
 .card-border>h6>i{
   padding-left: 10px;
-  font-size: 16px;
-  color: #8d9ea7;
+  font-size: 18px;
+  color: #f00;
+  font-weight:bold;
   cursor: pointer;
 }
 .form-title{

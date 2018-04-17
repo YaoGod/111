@@ -34,10 +34,10 @@ export class GroupinfoComponent implements OnInit {
       this.proId = data.id;
       this.update(data.id);
     });
-    // this.getProductShowList();
+    this.getProductShowList();
   }
   /*获取商品列表*/
-  /*getProductShowList(){
+  getProductShowList(){
     let url = '/mmall/group/getProductShowList/1/5';
     this.ipSetting.sendPost(url,{})
       .subscribe(data => {
@@ -45,7 +45,7 @@ export class GroupinfoComponent implements OnInit {
           this.cartsize = data.data.cartsize;
         }
       });
-  }*/
+  }
   update(code: string) {
     this.groupProductService.getGroupProduct(code)
       .subscribe(data => {
@@ -53,7 +53,6 @@ export class GroupinfoComponent implements OnInit {
           this.discount = data.data;
           this.discount.imgPath = this.discount.imgPathList[0];
         }
-
       })
   }
   addToCart(id){

@@ -80,9 +80,9 @@
               <td>{{inner.eTime}}</td>
               <td *ngIf="inner.useStatus ==='unissued'">未发放</td>
               <td *ngIf="inner.useStatus ==='use'">已发放</td>
-              <td *ngIf="inner.permitStatus ==='invalid'">失效</td>
-              <td *ngIf="inner.permitStatus ==='expired'">已过期</td>
-              <td *ngIf="inner.permitStatus ==='valid'">正常</td>
+              <td *ngIf="inner.permitStatus ==='invalid'" style="color:#ff1103;">失效</td>
+              <td *ngIf="inner.permitStatus ==='expired'" style="color:orange">已过期</td>
+              <td *ngIf="inner.permitStatus ==='valid'" style="color:#00dba3">正常</td>
               <td>{{inner.note}}</td>
               <td> <!--*ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
                 <i class="icon-plus" *ngIf="inner.useUserTel===null" (click)="grant(inner.id)" title="发放"></i>

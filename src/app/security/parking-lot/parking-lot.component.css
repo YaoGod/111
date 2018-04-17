@@ -1,12 +1,20 @@
 
-.cont {
+.main {
   height: calc(100% - 60px);
   overflow-y: auto;
   background-color: #edf1f5;
 }
+.cont{
+  width: 100%;
+  height: auto;
+  min-height: calc(100% - 70px);
+  background-color: #edf1f5;
+}
+
 @media screen and (max-width: 1400px){
+  .main {height: calc(100% - 40px);  }
   .cont {
-    height: calc(100% - 40px);
+    min-height: calc(100% - 60px);
   }
 }
 
