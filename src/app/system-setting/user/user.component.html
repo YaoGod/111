@@ -73,11 +73,11 @@
            <!-- <a (click)="edit(user)">
               <i class="icon-pencil"></i>编辑
             </a>-->
-            <a (click)="delete(user.userid)">
-              <i class="icon-trash"></i>删除
-            </a>
             <a (click)="editPassword(user)">
               <i class="icon-question"></i>修改密码
+            </a>
+            <a (click)="delete(user.userid)" *ngIf="user.isDelete === 'Y'">
+              <i class="icon-trash"></i>删除
             </a>
           </td>
         </tr>

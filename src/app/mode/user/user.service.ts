@@ -15,4 +15,5 @@ export class User {
   oaEmail  : string;
   status   : string;
   flag     : string; /*标志位无意义*/
+  isDelete : string;
 }
