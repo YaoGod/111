@@ -8,8 +8,9 @@ declare var $:any;
 })
 export class WrapperPictureComponent implements OnChanges {
 
-  @Input ()  list : Array<any>;   /*展示信息*/
+  @Input ()  list : Array<any>; /*展示信息*/
   @Input ()  width : number;   /*展示信息*/
+  @Input ()  baseUrl: string;
   public pos = 0;
   public totalSlides = 0;
   public sliderWidth;
@@ -84,9 +85,9 @@ export class WrapperPictureComponent implements OnChanges {
     $('#pagination-wrap ul li').removeClass('active');
     $('#pagination-wrap ul li:eq('+this.pos+')').addClass('active');
   }
-  linkAddress(url){
-    if(url){
-      this.router.navigate([url],{relativeTo: this.route});
+  linkAddress(id){
+    if(this.baseUrl&&id){
+      this.router.navigate([this.baseUrl,id],{relativeTo: this.route});
     }
   }
 }

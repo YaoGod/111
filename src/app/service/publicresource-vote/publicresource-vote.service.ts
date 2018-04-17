@@ -55,7 +55,7 @@ export class PublicresourceVoteService {
   }
   /*用户界面获取投票信息*/
   getVoteList(pageNo, pageSize, search) {
-    const url = this.ipSetting.ip + "/publicresource/vote/getVoteList/" + pageNo + "/" + pageSize+'?search=';
+    const url = this.ipSetting.ip + "/publicresource/vote/getVoteList/" + pageNo + "/" + pageSize+'?search='+search.title;
     return this.http.get(url, this.options)
       .map(res => res.json());
   }

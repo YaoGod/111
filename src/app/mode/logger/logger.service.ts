@@ -6,6 +6,7 @@ export class Logger {
   id     : number;
   userId : number;
   userName:string;
+  userDept: string;
   operationModule:string;
   operationContent: string;
   operationTime : string;

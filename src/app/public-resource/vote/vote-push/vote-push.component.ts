@@ -77,6 +77,7 @@ export class VotePushComponent implements OnInit {
     this.copyVote.options[0].imgContent = "";
     this.copyVote.options[0].title = "";
     this.copyVote.options[0].content = "";
+    this.copyVote.status = "";
     this.getDeptList();
     this.user =this.globalUserService.getVal();
     if(typeof (this.route.params['_value']['id']) !== "undefined"){
@@ -123,20 +124,22 @@ export class VotePushComponent implements OnInit {
   }
   /*打开部门选择框*/
   openChooseWin(){
-    $('#deptSltWin').show();
-    for(let i = 0;i<this.deptList.length;i++){
-      this.deptList[i].choose = false;
-    }
-    for(let i = 0;i<this.deptList.length;i++){
-      for(let j = 0 ;j<this.copyVote.targetId.length;j++){
-        if(this.deptList[i].DEPT_ID === this.copyVote.targetId[j]){
-          this.deptList[i].choose = true;
-        }
-        if(this.copyVote.targetId[j] === 'all'){
-          this.isAllDept = true;
-        }
-        if(this.copyVote.targetId[j] === this.user.deptId){
-          this.isMyDept = true;
+    if(this.copyVote.status!=="release"){
+      $('#deptSltWin').show();
+      for(let i = 0;i<this.deptList.length;i++){
+        this.deptList[i].choose = false;
+      }
+      for(let i = 0;i<this.deptList.length;i++){
+        for(let j = 0 ;j<this.copyVote.targetId.length;j++){
+          if(this.deptList[i].DEPT_ID === this.copyVote.targetId[j]){
+            this.deptList[i].choose = true;
+          }
+          if(this.copyVote.targetId[j] === 'all'){
+            this.isAllDept = true;
+          }
+          if(this.copyVote.targetId[j] === this.user.deptId){
+            this.isMyDept = true;
+          }
         }
       }
     }
@@ -181,8 +184,9 @@ export class VotePushComponent implements OnInit {
   clearResult(){
     this.copyVote.minResult = null;
     this.copyVote.maxResult = null;
-    this.removeErrorClass("number");
-    this.removeErrorClass("range");
+    this.removeErrorClass("numberLabel");
+    this.removeErrorClass("minRange");
+    this.removeErrorClass("maxRange");
   }
   /*文件图片上传*/
   prese_upload(files,index){
@@ -244,11 +248,13 @@ export class VotePushComponent implements OnInit {
       this.verifyEmpty(this.copyVote.resultType,'number');
       this.verifyEmpty(this.copyVote.resultType,'range');
       if(this.copyVote.resultType === 'number'){
-        this.verifyEmpty(this.copyVote.maxResult,'number','请填写指定的个数');
+        this.verifyEmpty(this.copyVote.maxResult,'numberLabel','请填写指定的个数');
         this.copyVote.minResult = this.copyVote.maxResult;
       }else{
-        this.verifyEmpty(this.copyVote.maxResult,'range','请填写最大选择数');
-        this.verifyEmpty(this.copyVote.minResult,'range','请填写最小选择数');
+        this.verifyEmpty(this.copyVote.minResult,'minRange','请填写最小选择数');
+        this.verifyNumberRange(this.copyVote.minResult,'minRange',1,this.copyVote.maxResult?this.copyVote.maxResult-1:null)
+        this.verifyEmpty(this.copyVote.maxResult,'maxRange','请填写最大选择数');
+        this.verifyNumberRange(this.copyVote.maxResult,'maxRange',this.copyVote.minResult?this.copyVote.minResult+1:null)
       }
     }
     if($('.red').length === 0) {
@@ -297,19 +303,20 @@ export class VotePushComponent implements OnInit {
   }
   /*数字范围判断*/
   verifyNumberRange(value, id?,min?,max?){
+    console.log(max);
     if(typeof (value) === "undefined" ||
       value === null ||
       value === ''){
       this.addErrorClass(id,'该值不能为空');
       return false;
     }
-    if(value<min){
-      this.addErrorClass(id,'该值不能小于'+min);
-      return false;
+    else if(typeof (min) !== "undefined" && min !== null && min !== ''&&value < min) {
+        this.addErrorClass(id, '该值不能小于' + min);
+        return false;
     }
-    if(value>max){
-      this.addErrorClass(id,'该值不能大于'+max);
-      return false;
+    else if(typeof (max) !== "undefined" && max !== null && max !== ''&&value > max) {
+        this.addErrorClass(id, '该值不能大于' + max);
+        return false;
     }
     else{
       this.removeErrorClass(id);

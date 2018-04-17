@@ -16,7 +16,7 @@
           <label  class="control-label"><span>标题</span>
             <textarea class="form-control" id="title" rows="2"
                       name="summary" placeholder=""
-                      [(ngModel)]="copyVote.title"
+                      [(ngModel)]="copyVote.title" [disabled]="copyVote.status === 'release'"
                       (blur)="verifyEmpty(copyVote.title,'title')">
             </textarea>
             <span class="font-count">{{copyVote.title.length}}/100</span>
@@ -27,7 +27,7 @@
           <label  class="control-label"><span>简介</span>
             <textarea class="form-control" id="content" rows="10"
                       name="content" placeholder=""
-                      [(ngModel)]="copyVote.content"
+                      [(ngModel)]="copyVote.content" [disabled]="copyVote.status === 'release'"
                       (blur)="verifyEmpty(copyVote.content,'content')">
             </textarea>
             <span class="font-count">{{copyVote.content.length}}/500</span>
@@ -36,8 +36,8 @@
         </div>
         <div  class="form-group">
           <label  class="control-label"><span>截至日期</span>
-            <input class="form-control" id="eTime" name="eTime" placeholder="" type="date"
-                   style="width: 200px"
+            <input class="form-control" id="eTime" name="eTime"
+                   placeholder="" type="date" style="width: 200px"
                    [(ngModel)]="copyVote.eTime"
                    (blur)="verifyEmpty(copyVote.eTime,'eTime')">
           </label>
@@ -47,11 +47,11 @@
           <span  class="control-label">
             <span>开放范围</span>
             <textarea class="form-control" rows="4" style="line-height: 20px;width: 600px"
-                      id="deptName" name="deptName" readonly
+                      id="deptName" name="deptName" readonly [disabled]="copyVote.status === 'release'"
                       [(ngModel)]="copyVote.targetName" (click)="openChooseWin()">
             </textarea>
-            <a class="btn-danger" (click)="exportModeOut()">模板下载</a>
-            <a class="btn-info">模板导入
+            <a class="btn-danger" (click)="exportModeOut()" *ngIf="copyVote.status !== 'release'">模板下载</a>
+            <a class="btn-info" *ngIf="copyVote.status !== 'release'">模板导入
               <input name="mode" type="file" class="file-mode"
                      (change)="importDataIn($event.target.files)">
             </a>
@@ -90,50 +90,56 @@
           </div>
         </div>
         <div  class="form-group">
-          <label  class="control-label" style="display: inherit;">
+          <span  class="control-label" style="display: inherit;">
             <span>投票方式</span>
             <label for="single">
-              <input id="single" name="type" type="radio" value="single"
+              <input id="single" name="type" type="radio" value="single" [disabled]="copyVote.status === 'release'"
                      [(ngModel)]="copyVote.type" (change)="clearResult()">
               单选
             </label>
             <label for="double">
-              <input id="double" name="type" type="radio" value="double"
+              <input id="double" name="type" type="radio" value="double" [disabled]="copyVote.status === 'release'"
                      [(ngModel)]="copyVote.type" (change)="clearResult()">
               多选
             </label>
             <div class="error"></div>
-          </label>
+          </span>
         </div>
         <div  class="form-group" [@diamond]="copyVote.type ==='double'?'lower':'upper'">
-          <label  class="control-label"><span>投票配置</span>
+          <span  class="control-label"><span>投票配置</span>
             <label for="number">
               <input id="number" name="resultType" type="radio" value="number"
+                     [disabled]="copyVote.status === 'release'"
                      [(ngModel)]="copyVote.resultType" (change)="clearResult()">
               指定个数
-              <span [@diamond]="copyVote.resultType === 'number'?'show':'none'">&nbsp;&nbsp;
+              <span [@diamond]="copyVote.resultType === 'number'?'show':'none'" id="numberLabel">&nbsp;&nbsp;
                 <input type="number" class="form-control" style="width: 80px"
                        name="maxResult" [(ngModel)]="copyVote.maxResult"
-                      (blur)="verifyNumberRange(copyVote.maxResult,'number',2)">项
+                       [disabled]="copyVote.status === 'release'"
+                      (blur)="verifyNumberRange(copyVote.maxResult,'numberLabel',2)">项
               </span>
             </label>
             <div class="error"></div>
-          </label>
+          </span>
           <div>
             <label  class="control-label"><span></span>
               <label for="range">
-                <input id="range" name="resultType" type="radio" value="range"
+                <input id="range" name="resultType" type="radio" value="range" [disabled]="copyVote.status === 'release'"
                        [(ngModel)]="copyVote.resultType" (change)="clearResult()">
                 指定范围
-                <span [@diamond]="copyVote.resultType === 'range'?'show':'none'">&nbsp;&nbsp;最多选
-                  <input type="number" class="form-control" style="width: 80px" name="maxResult"
-                         [(ngModel)]="copyVote.maxResult"
-                         (blur)="verifyNumberRange(copyVote.maxResult,'range',copyVote.minResult+1)">项
-                &nbsp;&nbsp;最少选
+                <span [@diamond]="copyVote.resultType === 'range'?'show':'none'">&nbsp;&nbsp;
+                  <label id="minRange">最少选
                   <input type="number" class="form-control" style="width: 80px" name="minResult"
-                         [(ngModel)]="copyVote.minResult"
-                         (blur)="verifyNumberRange(copyVote.minResult,'range',1,copyVote.maxResult-1)">项
+                         [(ngModel)]="copyVote.minResult" [disabled]="copyVote.status === 'release'"
+                     (blur)="verifyNumberRange(copyVote.minResult,'minRange',1,copyVote.maxResult?copyVote.maxResult-1:null)">项
+                  </label>&nbsp;&nbsp;
+                  <label id="maxRange">最多选
+                  <input type="number" class="form-control" style="width: 80px" name="maxResult"
+                         [(ngModel)]="copyVote.maxResult" [disabled]="copyVote.status === 'release'"
+                         (blur)="verifyNumberRange(copyVote.maxResult,'maxRange',copyVote.minResult?copyVote.minResult+1:null)">项
+                  </label>
                 </span>
+                <div class="error"></div>
               </label>
               <div class="error"></div>
             </label>
@@ -143,14 +149,14 @@
           <div  class="control-label"><span>选项</span>
             <ul class="control-list">
               <li *ngFor="let option of copyVote.options;let i = index" [@diamond]="option?'active':''">
-                <h5>选项（{{i+1}}）<span *ngIf="i!=0" (click)="delOption(i)">删除</span></h5>
+                <h5>选项（{{i+1}}）<span *ngIf="i!=0&&copyVote.status !== 'release'" (click)="delOption(i)">删除</span></h5>
                 <div class="warp-left">
                   <div  class="dropify-wrapper bpt">
                     <div  class="dropify-message">
                       <img [src]="option.imgContent | imgsafeurl" *ngIf="option.imgContent">
                     </div>
                     <p>上传图片</p>
-                    <input  class="dropify" type="file" name="imgPath"
+                    <input  class="dropify" type="file" name="imgPath" *ngIf="copyVote.status !== 'release'"
                             (change)="prese_upload($event.target.files,i)">
                   </div>
                 </div>
@@ -159,7 +165,7 @@
                     <label  class="control-label">
                       <span>选项名称</span>
                       <input class="form-control" type="text" style="width: 560px"
-                                [(ngModel)]="option.title">
+                                [(ngModel)]="option.title" [disabled]="copyVote.status === 'release'">
                       <!--<span class="font-count">{{option.title.length}}/30</span>-->
                     </label>
                     <div class="error"></div>
@@ -168,7 +174,7 @@
                     <label  class="control-label">
                       <span>选项内容</span>
                       <textarea class="form-control" rows="5" style="line-height: 24px;width: 560px"
-                                [(ngModel)]="option.content">
+                                [(ngModel)]="option.content" [disabled]="copyVote.status === 'release'">
                       </textarea>
                       <span class="font-count">{{option.content.length}}/3000</span>
                     </label>
@@ -176,7 +182,7 @@
                   </div>
                 </div>
               </li>
-              <li class="box-add">
+              <li class="box-add" *ngIf="copyVote.status !== 'release'">
                 <a (click)="addNewOption()"><i class="icon-plus"></i>&nbsp;添加选项</a>
               </li>
             </ul>

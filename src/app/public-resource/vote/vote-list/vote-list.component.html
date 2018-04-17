@@ -2,7 +2,7 @@
 <div class="count-area">
   <div class="count-left">
     <!--放三个临近期间的投票活动-->
-    <app-wrapper-picture [list]="wrapVotes" [width]="800"></app-wrapper-picture>
+    <app-wrapper-picture [list]="wrapVotes" [width]="800" [baseUrl]="'./detail'"></app-wrapper-picture>
   </div>
   <div class="count-right">
     <div class="btn-inner">
@@ -16,6 +16,7 @@
       <ul class="count-list">
         <li *ngFor="let top of votesTop;let i = index">
           <h3><strong>{{i+1}}.</strong>{{top.title}}</h3>
+          <span><i class="icon-bell"></i>{{top.num}}</span>
         </li>
         <li class="div-none" *ngIf="votesTop.length===0">
           <p>暂无排行榜数据</p>

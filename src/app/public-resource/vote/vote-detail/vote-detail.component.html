@@ -35,7 +35,7 @@
             [ngClass]="{'active':option.choose}">
             <label>
               <div class="card-vote-btn">
-                <input type="checkbox" [(ngModel)]="option.choose">
+                <input type="checkbox" [(ngModel)]="option.choose" (change)="watchOptType(i)">
                 <span>√</span>
               </div>
               <h5>{{option.title}}</h5>

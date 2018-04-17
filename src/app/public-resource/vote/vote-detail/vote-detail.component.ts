@@ -70,4 +70,13 @@ export class VoteDetailComponent implements OnInit {
         }
       })
   }
+  watchOptType(index){
+    if(this.vote.type==="single"){
+      for(let i = 0;i<this.vote.options.length;i++){
+        if(i!== index){
+          this.vote.options[i].choose = false;
+        }
+      }
+    }
+  }
 }

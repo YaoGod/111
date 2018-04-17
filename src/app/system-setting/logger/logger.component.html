@@ -35,31 +35,34 @@
     <div class="table-head" style="margin-top: 10px">
       <table border="0" cellspacing="0" cellpadding="0" class="list-box">
         <tr class="row list-title" style="height:45px;">
-          <th width="15%" class="text-left">操作账号</th>
+          <th width="10%" class="text-left">操作账号</th>
+          <th width="10%" class="text-left">操作人姓名</th>
+          <th width="10%" class="text-left">操作人部门</th>
           <th width="10%" class="text-left">操作类型</th>
           <th width="10%">客户端地址</th>
           <th width="15%">操作时间</th>
-          <th width="50%" class="text-left">操作内容</th>
+          <th width="35%" class="text-left">操作内容</th>
         </tr>
-      </table>
-    </div>
-    <!--表格内容-->
-    <div class="table-content" style="min-height: 360px">
-      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
         <tr class="row" *ngFor="let log of loggers;let i = index">
-          <td width="15%" class="text-left">
+          <td class="text-left">
               {{log.userId}}
           </td>
-          <td width="10%" class="text-left">
+          <td class="text-left">
+            {{log.userName}}
+          </td>
+          <td class="text-left">
+            {{log.userDept}}
+          </td>
+          <td class="text-left">
             {{log.operationModule}}
           </td>
-          <td width="10%">
+          <td>
             {{log.clientIp}}
           </td>
-          <td width="15%">
+          <td>
             <p>{{log.operationTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
           </td>
-          <td width="50%" class="text-left">
+          <td class="text-left">
             <p class="big-text">{{log.operationContent}}</p>
           </td>
         </tr>

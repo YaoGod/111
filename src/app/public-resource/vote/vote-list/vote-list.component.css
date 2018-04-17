@@ -24,6 +24,7 @@
   padding: 0 20px;
 }
 .count-list>li{
+  position: relative;
   text-align: left;
   padding: 5px 10px;
   border-bottom: 1px solid #e1eaf2;
@@ -31,6 +32,7 @@
 }
 .count-list>li h3{
   line-height: 30px;
+  padding-right: 40px;
   color: #686868;
   font-weight: 300;
   height: 30px;
@@ -45,6 +47,13 @@
 }
 .count-list>li:nth-child(3){
   font-size: 12px;
+}
+.count-list>li>span{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: rgb(231, 76, 60);
+  font-weight: 800;
 }
 .count-list .div-none{
   position: relative;
@@ -200,7 +209,7 @@
   display: -webkit-box;
   padding-top: 5px;
   padding-right: 20px;
-  line-height: 1.8em;
+  line-height: 1.4em;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;

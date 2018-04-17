@@ -33,6 +33,7 @@ export class VoteListComponent implements OnInit {
       this.rule = this.globalCatalogService.getRole("publicResource/vote");
     });
     this.search = new Vote();
+    this.search.title = "";
     this.votes = [];
     this.votesTop = [];
     this.wrapVotes = [];
