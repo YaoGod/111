@@ -3,7 +3,7 @@ import {GlobalCatalogService} from "../../service/global-catalog/global-catalog.
 import {Logger} from "../../mode/logger/logger.service";
 import {UserPortalService} from "../../service/user-portal/user-portal.service";
 import {ErrorResponseService} from "../../service/error-response/error-response.service";
-
+import * as echarts from 'echarts';
 @Component({
   selector: 'app-logger',
   templateUrl: './logger.component.html',
@@ -17,6 +17,7 @@ export class LoggerComponent implements OnInit {
   public loggers : Array<Logger>;
   public search: Logger;
   public moduleList;
+  public moduleCounts;
   constructor(
     private globalCatalogService: GlobalCatalogService,
     private userPortalService:UserPortalService,
@@ -31,8 +32,10 @@ export class LoggerComponent implements OnInit {
     let today = new Date().toJSON().substr(0,10);
     this.search.bTime = today;
     this.search.eTime = '';
+    this.moduleCounts = [];
     this.getModuleList();
     this.getSystemLogger(1);
+    this.getAccessNum();
   }
   /*获取类型下拉列表*/
   getModuleList(){
@@ -57,5 +60,89 @@ export class LoggerComponent implements OnInit {
   /*导出*/
   exportSysLog(){
     return this.userPortalService.exportSysLog(this.pageNo,this.pageSize,this.search);
+  }
+  getAccessNum(){
+    this.userPortalService.getAccessNum()
+      .subscribe(data=>{
+        if(this.errorResponseService.errorMsg(data)){
+          this.moduleCounts = data.data;
+          this.countChartInit('moduleCountChart',this.moduleCounts)
+        }
+      })
+  }
+  countChartInit(id,data){
+    let legendData = [];
+    let seriesData = [];
+    for(let i = 0;i<data.length;i++){
+      legendData.push(data[i].OPERATION_MODULE);
+      seriesData.push(data[i].NUM);
+    }
+    let option = {
+      title : {
+        text: '各模块访问量统计',
+        padding: [5,5,20,5],
+        itemGap: 15,
+        x: 'center',
+        textStyle: {
+          fontSize: 18,
+          fontWeight: 'bolder',
+          color: '#4b87d4'
+        }
+      },
+      tooltip : {
+        trigger: 'item'
+      },
+      calculable: true,
+      grid: {
+        borderWidth: 0,
+        y: 80,
+        y2: 60
+      },
+      xAxis : [
+        {
+          show : true,
+          type : 'category',
+          data : legendData,
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#FFFFFF'
+            }
+          },
+          axisLabel: {
+            interval: 0,
+            rotate: -15,
+            textStyle:{
+              color: '#fe90bd'
+            }
+          }
+        }
+      ],
+      yAxis : [
+        {
+          show : false,
+          type : 'value',
+        }
+      ],
+      series : [
+        {
+          name:'访问量',
+          type:'bar',
+          data:seriesData,
+          itemStyle: {
+            normal: {
+              borderRadius: 5,
+              color : '#fe90bd',
+              label : {
+                show : true,
+                position: 'top',
+              }
+            }
+          },
+        }
+      ]
+    };
+    let includePriceChart = echarts.init(document.getElementById(id));
+    includePriceChart.setOption(option);
   }
 }

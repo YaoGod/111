@@ -88,6 +88,7 @@ export class UserComponent implements OnInit {
   /*新建用户*/
   newUser(){
     this.copyUser = new User();
+    this.copyUser.userid = "66";
     $('#newUser').show();
   }
   closeNewUser(){
@@ -99,7 +100,7 @@ export class UserComponent implements OnInit {
   /*新增用户表单提交*/
   submit(){
     let error = 0;
-    this.verifyEmpty(this.copyUser.userid,'userid');
+    this.verifyUserId(this.copyUser.userid,'userid');
     this.verifyEmpty(this.copyUser.username,'username');
     this.verifyEmpty(this.copyUser.deptId,'deptId');
     if($('.red').length === 0 && error === 0) {
@@ -167,6 +168,21 @@ export class UserComponent implements OnInit {
             this.closePassword();
           }
         })
+    }
+  }
+  verifyUserId(value,id){
+    if(this.verifyEmpty(value,id)){
+     if(value.indexOf('66')!==0){
+       this.addErrorClass(id,'第三方人员的HRMIS需以66开头');
+       return false;
+     }else{
+       if(value.length<3){
+         this.addErrorClass(id,'长度过短');
+         return false;
+       }
+       this.removeErrorClass(id);
+       return true;
+     }
     }
   }
 }

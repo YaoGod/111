@@ -192,3 +192,7 @@ td>img{
   max-height: 50px;
   overflow: auto;
 }
+.chart-inner{
+  height: 400px;
+  width: 100%;
+}

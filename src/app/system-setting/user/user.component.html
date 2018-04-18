@@ -15,6 +15,9 @@
         <li><label>HRMIS</label>
           <input type="text" name="searchUserId" [(ngModel)]="search.userid">
         </li>
+        <li><label>姓名</label>
+          <input type="text" name="searchUserId" [(ngModel)]="search.username">
+        </li>
         <li><label>部门</label>
           <select name="searchDeptId" [(ngModel)]="search.deptId">
             <option value="">全部</option>
@@ -39,37 +42,28 @@
           <th width="5%">性别</th>
           <th width="15%">电话号码</th>
           <th width="15%">邮箱</th>
-          <th width="15%">住址</th>
           <th width="20%">操作</th>
         </tr>
-      </table>
-    </div>
-    <!--表格内容-->
-    <div class="table-content" style="min-height: 360px">
-      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
         <tr class="row" *ngFor="let user of users;let i = index">
-          <td width="5%" class="text-left">
+          <td class="text-left">
             {{user.userid}}
           </td>
-          <td width="10%" class="text-left">
+          <td class="text-left">
             {{user.username}}
           </td>
-          <td width="10%" class="text-left">
+          <td class="text-left">
             {{user.deptId}}
           </td>
-          <td width="5%">
+          <td>
             {{user.sex}}
           </td>
-          <td width="15%">
+          <td>
             {{user.teleNum}}
           </td>
-          <td width="15%">
+          <td>
             {{user.oaEmail}}
           </td>
-          <td width="15%">
-            {{user.homeAddr}}
-          </td>
-          <td width="20%" class="box-option">
+          <td class="box-option">
            <!-- <a (click)="edit(user)">
               <i class="icon-pencil"></i>编辑
             </a>-->
@@ -110,7 +104,7 @@
           <div  class="form-group">
             <label  class="control-label"><span>HRMIS</span>
               <input type="text" class="form-control" id="userid" name="userid"
-                     [(ngModel)]="copyUser.userid" (blur)="verifyEmpty(copyUser.userid,'userid')">
+                     [(ngModel)]="copyUser.userid" (blur)="verifyUserId(copyUser.userid,'userid')">
             </label>
             <div class="error"></div>
           </div>

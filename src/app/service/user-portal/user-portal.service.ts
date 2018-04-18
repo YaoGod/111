@@ -74,6 +74,12 @@ export class UserPortalService {
     return this.http.post(url,search,this.options)
       .map(res => res.json());
   }
+  /*获取所有模块访问量数据*/
+  getAccessNum(){
+    const url = this.ipSetting.ip + '/portal/sysLog/getAccessNum';
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
   /*系统日志模块名下拉列表*/
   getModuleList(){
     const url = this.ipSetting.ip + '/portal/sysLog/getModuleList';
