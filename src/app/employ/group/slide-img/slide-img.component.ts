@@ -94,7 +94,7 @@ import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 })
 export class SlideImgComponent implements OnInit {
   currentPic = 0;
-  public imgPath = [];
+  public imgData = [];
 
   constructor(
     private errorVoid: ErrorResponseService,
@@ -110,17 +110,17 @@ export class SlideImgComponent implements OnInit {
     this.currentPic = id;
   }
   ngOnInit() {
-    // this.getProductShowList();
+    this.getProductShowList();
   }
   /*获取商品列表*/
   getProductShowList(){
-     let url = '/mmall/group/getGroupProduct/15';
-     this.ipSetting.sendGet(url).subscribe(data => {
-       if (this.errorVoid.errorMsg(data)) {
-         // console.log(data.data);
-         this.imgPath = data.data.imgPathList; // .split(';');
-       }
-       });
+    let url = '/mmall/group/getAdvertImg';
+    this.ipSetting.sendGet(url)
+      .subscribe(data => {
+        if (this.errorVoid.errorMsg(data)) {
+          this.imgData = data.data;
+        }
+      })
    }
 
 }

@@ -24,19 +24,20 @@
       </div>
       <div class="error"></div>
     </div>
-    <div class="other" style="text-align:right;">
-      <a href="javascript:;" (click)="findPassword()">忘记密码
+    <div class="other">
+      <div class="other_l">
+        <input id="in_save_passwd" type="checkbox" [(ngModel)]="save_passwd"/>
+        <label for="in_save_passwd" style="color:#787878"> 记忆帐号和密码</label>
+      </div>
+      <a href="javascript:;" (click)="findPassword()" style="position: absolute;right: 0;top:0;">忘记密码
         <i class="fa fa-question-circle" style="font-size:14px;"></i>
       </a>
     </div>
     <input class="login" type="button" (click)="loginIn()" value="开始登录" />
-    <div class="other">
-      <input id="in_save_passwd" type="checkbox" [(ngModel)]="save_passwd"/>
-      <label for="in_save_passwd" style="color:#787878"> 记忆帐号和密码, 下次免输入</label>
-    </div>
+
   </div>
-  <div style="padding: 40px;">
-    <img style="width:100%;" src="../../../assets/image/download.png">
+  <div class="code">
+    <img style="width:100%;" src="assets/image/download.png">
   </div>
 
 </div>

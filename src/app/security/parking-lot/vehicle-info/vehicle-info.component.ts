@@ -52,6 +52,7 @@ export class VehicleInfoComponent implements OnInit {
     this.getCardInfo(this.searchInfo);
     this.getDeptList();
     this.searchInfo.userDept= '';
+
   }
   /*获取权限*/
   private getQuan(){
@@ -114,6 +115,15 @@ export class VehicleInfoComponent implements OnInit {
   addVehicle(){
     this.contractBool = true;
     this.newCard = new CardInfo();
+    this.newCard.userId = localStorage.getItem('username');
+    this.newCard.userName = localStorage.getItem('showUserName');
+    this.newCard.driverName = localStorage.getItem('showUserName');
+    let url = '/portal/user/getDeptName';
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        this.newCard.userDept = data.data;
+      }
+    });
     $('.mask').fadeIn();
     $('.mask .mask-head p').html('新增车辆信息');
   }
@@ -260,7 +270,7 @@ export class VehicleInfoComponent implements OnInit {
     if (!this.isEmpty('driverNum', '不能为空')) {
       return false;
     }
-    if(!this.verifyIsCard('driverNum','号码有误')){
+    if(!this.verifyIsCard('driverNum','格式有误')){
       return false;
     }
     return true;
@@ -359,7 +369,8 @@ export class VehicleInfoComponent implements OnInit {
   /** 验证身份证号码  */
   public verifyIsCard(id: string, error?: string): boolean {
     const data =  $('#' + id).val();
-    if (!String(data).match( /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/ )){
+    /*/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/*/
+    if (!String(data).match( /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/ )){
       this.addErrorClass(id, error);
       return false;
     }else {

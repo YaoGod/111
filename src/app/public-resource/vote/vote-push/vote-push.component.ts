@@ -303,7 +303,6 @@ export class VotePushComponent implements OnInit {
   }
   /*数字范围判断*/
   verifyNumberRange(value, id?,min?,max?){
-    console.log(max);
     if(typeof (value) === "undefined" ||
       value === null ||
       value === ''){

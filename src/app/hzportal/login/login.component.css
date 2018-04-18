@@ -48,7 +48,6 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .area .form .input .info { position: absolute; display: inline-block; top: 7px; right: 10px; font-size: 16px; color: #d75452; }
 .area .form .error { margin: 0 0 6px 4px; width: 276px; height: 18px; color: #d75452; display: none; }
 .area .form .other { margin: 15px 0 10px; width: 280px; height: 18px; }
-.area .form .other { margin: 15px 0 10px; width: 280px; height: 18px; }
 .area .form .other a:hover { text-decoration:none; }
 .area .form .input .flag img{
   width:14px; vertical-align: top;
@@ -109,7 +108,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
   width: 340px;
   font-size: 17px;
   line-height: 20px;
-  color: #343434; 
+  color: #343434;
   text-align: center;
   -webkit-animation: bounceInDown 1s; }
 .area .head .load { margin: 10px 0 0; width: 340px; font-size: 14px; color: #1eaaf0; text-align: center; display: none; }
@@ -142,8 +141,8 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .area .form .input .text { margin: 5px 5px 7px; width: 180px; height: 20px; }
 .area .form .input .info { position: absolute; display: inline-block; top: 7px; right: 10px; font-size: 16px; color: #d75452; }
 .area .form .error { margin: 0 0 6px 4px; width: 276px; height: 18px; color: #d75452; display: none; }
-.area .form .other { margin: 15px 0 10px; width: 280px; height: 18px; }
-.area .form .other { margin: 15px 0 10px; width: 280px; height: 18px; }
+.area .form .other { margin: 15px 0 10px; width: 280px; height: 18px;
+  position: relative;}
 .area .form .other a:hover { text-decoration:none; }
 .area .form .input .flag img{
   width:14px; vertical-align: top;
@@ -167,4 +166,11 @@ input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
   color: #999999;
 }
-
+.code{
+  padding:40px;
+}
+@media screen and (max-width: 1400px) {
+  .code{
+    padding:0 100px;
+  }
+}

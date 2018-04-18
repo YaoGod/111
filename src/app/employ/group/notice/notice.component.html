@@ -29,8 +29,8 @@
             <div class="row">
               <a class="btn btn-danger" (click)="fadeBom()"  *ngIf="rule&&rule.isInstall" style="padding: 6px 22px;">
                 <i class="icon-plus"></i> 新增</a>
-              <!--<a class="btn btn-danger" (click)="fadeBom()"  *ngIf="rule&&rule.isInstall" style="padding: 6px 22px;">
-                <i class="icon-plus"></i> 查看广告图信息</a>-->
+              <a class="btn btn-danger" (click)="fadeBanner()"  *ngIf="rule&&rule.isInstall" style="padding: 6px 22px;">
+                <i class="icon-plus"></i> 查看广告图信息</a>
             </div>
           </div>
 
@@ -77,43 +77,72 @@
             (turnEvent)="goPage($event)">
           </app-turn-bar>-->
         </div>
-
+        <div class="mask1">
+          <div class="modal-content modal-content2">
+            <div class="modal-header">
+              <h4 class="modal-title">广告位图片</h4>
+              <button type="button" class="close" (click)="closeMask()">×</button>
+            </div>
+            <form class="form-building form-material">
+              <div class="modal-body" style="max-height: 280px; overflow-y: auto;">
+                <p style="text-align: center; color:#ff0000; font-size:16px;">请上传宽高比例4:1的图片</p>
+                  <div class="dropify-wrapper" style="margin: 0 auto;" *ngFor="let img of imgData;let i = index">
+                    <a class="top-trash" title="删除图片" (click)="delImgPath(i)">x</a>
+                    <div  class="dropify-message">
+                      <img [src]="img.imageContent | imgsafeurl" *ngIf="img">
+                    </div>
+                  </div>
+                  <div  class="dropify-wrapper bpt" style="margin: 0 auto;">
+                    <div  class="dropify-message"></div>
+                    <p>点击上传图片</p>
+                    <input  class="dropify" type="file"  id="press" #press
+                            (change)="prese_upload(press.files)">
+                  </div>
+                  <span class="error"></span>
+                </div>
+              <div class="modal-footer">
+                <button type="button" class="btn-mask btn-info" (click)="closeMask()">取 消</button>
+                <button type="submit" class="btn-mask" (click)="subGroupPic()" >保 存</button>
+              </div>
+            </form>
+          </div>
+        </div>
 
 <div class="mask">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">新增公告</h4>
-          <button type="button" class="close"(click)="closeMask()">×</button>
-        </div>
-        <form class="form-building form-material">
-          <div class="modal-body clearfix">
-            <div>
-              <label>公告标题：</label>
-              <input type="text" class="noticetext" [ngModelOptions]="{standalone: true}"  name="newGroup" [(ngModel)]="newGroupNotice.title">
-              <label>状态：</label>
-              <select class="bor" [ngModelOptions]="{standalone: true}"  [(ngModel)]="newGroupNotice.status">
-                <option value="01">显示</option>
-                <option value="02">不显示</option>
-              </select>
-            </div>
-
-            <div class="modal-right">
-              <label style="float: left">公告内容：</label>
-               <textarea
-                 id="post_editor"
-                 name="notice" ui-tinymce
-                 class="form-control" rows="10"
-              style="width: 85%;!important;" [ngModelOptions]="{standalone: true}"  [(ngModel)]="newGroupNotice.notice" >
-               </textarea>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn-mask btn-info" (click)="closeMask()">取 消</button>
-            <button type="submit" class="btn-mask" (click)="subGroupNotice()" >保 存</button>
-          </div>
-        </form>
-      </div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">新增公告</h4>
+      <button type="button" class="close"(click)="closeMask()">×</button>
     </div>
+    <form class="form-building form-material">
+      <div class="modal-body clearfix">
+        <div>
+          <label>公告标题：</label>
+          <input type="text" class="noticetext" [ngModelOptions]="{standalone: true}"  name="newGroup" [(ngModel)]="newGroupNotice.title">
+          <label>状态：</label>
+          <select class="bor" [ngModelOptions]="{standalone: true}"  [(ngModel)]="newGroupNotice.status">
+            <option value="01">显示</option>
+            <option value="02">不显示</option>
+          </select>
+        </div>
+
+        <div class="modal-right">
+          <label style="float: left">公告内容：</label>
+           <textarea
+             id="post_editor"
+             name="notice" ui-tinymce
+             class="form-control" rows="10"
+          style="width: 85%;!important;" [ngModelOptions]="{standalone: true}"  [(ngModel)]="newGroupNotice.notice" >
+           </textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-mask btn-info" (click)="closeMask()">取 消</button>
+        <button type="submit" class="btn-mask" (click)="subGroupNotice()" >保 存</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 
 <div class="mask2">

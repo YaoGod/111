@@ -57,7 +57,7 @@
       </div>
       <div class="row-no clearfix">
         <div class="warn" *ngIf="expire>0">
-          <img src="../../../../../assets/image/warn.png"><span class="sino">有过期停车证{{expire}}张，请选择</span>
+          <img src="assets/image/warn.png"><span class="sino">有过期停车证{{expire}}张，请选择</span>
           <a href="javascript:;" class="btn " (click)="invalid()">批量失效</a>
           <a href="javascript:;" class="btn" (click)="addDate()">批量延期</a>
         </div>
@@ -99,7 +99,7 @@
               <td> <!--*ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
                 <i class="icon-plus" *ngIf="inner.useUserTel===null" (click)="grant(inner.id)" title="发放"></i>
                 <i class="recover" *ngIf="inner.useStatus !=='unissued'" (click)="recover(inner.id)" title="回收">
-                  <img src="../../../../../assets/image/recover.png">
+                  <img src="assets/image/recover.png">
                 </i>
                 <i class="icon-pencil" (click)="editCardInfo(inner.id,inner.useUserId)" style="margin-left: 5px;" title="编辑"></i>
                 <i class="icon-trash" (click)="delCardInfo(inner.id)" style="margin-left: 5px;" title="删除"></i></td>
@@ -175,7 +175,7 @@
       <div class="form-control">
         <span class="form-label">开始有效期</span>
         <div class="form-inp">
-          <input type="date" class="company-ipt" name="eTime" id="bTime" [(ngModel)]="newCard.bTime"
+          <input type="date" class="company-ipt" name="bTime" id="bTime" [(ngModel)]="newCard.bTime"
                  (blur)="verifybTime()"/>
           <span class="errorMessage"></span>
         </div>

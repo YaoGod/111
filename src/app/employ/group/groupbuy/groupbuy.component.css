@@ -61,7 +61,7 @@ input[type=text]{
   height:200px;
 }
 .banner-img{
-  width:62%;
+  width:800px;
   height:200px;
   float: left;
 }
@@ -70,7 +70,7 @@ input[type=text]{
   height:100%;
 }
 .banner-list{
-  width:33%;
+  width:calc(100% - 820px);
   padding:5px 10px;
   box-sizing: border-box;
   height:200px;
@@ -85,7 +85,6 @@ input[type=text]{
 .banner-list ul{
   height:140px;
   margin-top:15px;
-  overflow: hidden;
 }
 .banner-list li{
   line-height: 20px;

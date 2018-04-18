@@ -64,7 +64,7 @@ export class SaleDetailComponent implements OnInit {
   getSaleProductKey(id){
     this.clickTime ++;
     $('#mask').show();
-    console.log(this.userSale.productType );
+    // console.log(this.userSale.productType );
     if(this.clickTime === 1){
       this.saleProductEmployeeService.getSaleProductKey(this.user.userid ,id)
         .subscribe(data=>{
@@ -119,7 +119,7 @@ export class SaleDetailComponent implements OnInit {
       this.status = "waitTime";
       let leftTime = BeginTime-nowTime;
       if( leftTime<=60000){
-        console.log(leftTime / 1000);
+        // console.log(leftTime / 1000);
       }
     }
     /*活动已结束*/

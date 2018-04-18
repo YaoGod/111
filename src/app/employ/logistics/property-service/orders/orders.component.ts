@@ -340,7 +340,6 @@ export class OrdersComponent implements OnInit {
     this.onNum = '2';
     this.repairname.userTel = localStorage.getItem("teleNum");
     this.repairname.userDept = this.deptMent;
-    console.log(this.deptMent);
     this.editBool = true;
     $('.mask').fadeIn();
     $('.mask-head p').html('新增物业订单');

@@ -5,15 +5,16 @@ import { ErrorResponseService } from '../../../service/error-response/error-resp
 import * as $ from 'jquery';
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {GroupProductService} from "../../../service/group-product/group-product.service";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 declare var $:any;
 declare var confirmFunc: any;
 declare var tinymce: any;
 @Component({
   selector: 'app-notice',
   templateUrl: './notice.component.html',
-  styleUrls: ['./notice.component.css'
-  ],
-  providers: [GroupNoticeService,UtilBuildingService,ErrorResponseService]
+  styleUrls: ['./notice.component.css'],
+  providers: [GroupNoticeService,UtilBuildingService,ErrorResponseService,GroupProductService]
 })
 export class NoticeComponent implements OnInit {
 
@@ -31,6 +32,9 @@ export class NoticeComponent implements OnInit {
   public pageNo = 1;
   public total = 0;
   public length = 5;
+  public imgData    : any;
+  public imgPathList:Array<string>;
+  public imgPath:Array<string>;
   /*显示页数*/
   public newGroupNotice = {
     title: '',
@@ -45,8 +49,10 @@ export class NoticeComponent implements OnInit {
   };
 
   constructor(private groupNoticeService: GroupNoticeService,
+              private groupProductService: GroupProductService,
               private globalCatalogService: GlobalCatalogService,
-              private errorVoid: ErrorResponseService,) {
+              private errorVoid: ErrorResponseService,
+              public ipSetting: IpSettingService,) {
   }
 
   ngOnInit() {this.getRule();
@@ -54,6 +60,9 @@ export class NoticeComponent implements OnInit {
     this.search = new GroupNotice();
     this.pages = [];
     this.getNoticeList(1);
+    this.imgData = [];
+    this.imgPath = [];
+    this.imgPathList = [];
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'group','employ/group')
@@ -86,10 +95,20 @@ export class NoticeComponent implements OnInit {
   fadeBom() {
     $('.mask').show();
   }
+  fadeBanner() {
 
+    let url = '/mmall/group/getAdvertImg';
+    this.ipSetting.sendGet(url)
+      .subscribe(data => {
+        if (this.errorVoid.errorMsg(data)) {
+          $('.mask1').show();
+          this.imgData = data.data;
+        }
+      })
+  }
   closeMask() {
     $('.errorMessage').html('');
-    $('.mask').hide();
+    $('.mask,.mask1,.mask2').hide();
     $('#prese').val('');
     this.newGroupNotice = {
       'title': '',
@@ -97,7 +116,61 @@ export class NoticeComponent implements OnInit {
       'status': ''
     }
   }
+  /*删除图片*/
+  delImgPath(index){
+    this.imgData.splice(index,1);
+  }
+  /*banner图片上传*/
+  prese_upload(files){
+    let xhr = this.groupProductService.uploadImg(files[0],"groupAdvert",-1);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
+        let data:any = JSON.parse(xhr.responseText);
+        if(this.errorVoid.errorMsg(data)){
+          this.imgData.push({'imagePath':data.msg,'imageContent':window.URL.createObjectURL(files[0])});
+        }
+        $('#press').val('');
+      }else if(xhr.readyState === 4 && xhr.status === 413 ){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '图片大小超出限制',
+          'popType': 1 ,
+          'imgType': 2 ,
+        });
+      }
+    };
+  }
+  /*保存图片信息*/
+  subGroupPic(){
+    let url = '/mmall/group/addAdvertImg';
+    let arr = [];
+    for(let i=0;i<this.imgData.length;i++){
+      arr.push(this.imgData[i].imagePath);
+    }
+    if(arr.length<3){
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '请至少上传3张广告图！',
+        'popType': 0,
+        'imgType': 2,
+      });
+      return false;
+    }
+    this.ipSetting.sendPost(url,arr)
+      .subscribe(data => {
+        if (this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data['msg'],
+            'popType': 0,
+            'imgType': 1,
+          });
+          this.closeMask();
+        }
+      })
+  }
 
+  /*提交公告信息*/
   subGroupNotice() {
     if (this.newGroupNotice.title === '' || this.newGroupNotice.notice === '' || this.newGroupNotice.status === '') {
       confirmFunc.init({

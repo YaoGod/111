@@ -40,6 +40,7 @@ export class GroupbuyComponent implements OnInit {
   public total = 0;
   public length = 5;
   public pages: Array<number>;
+  public imgData:any;
   public groupNotice = {
     title: '',
     notice: ''
@@ -67,7 +68,7 @@ export class GroupbuyComponent implements OnInit {
     this.globalCatalogService.setTitle("员工服务/员工团购网");
     this.getProductShowList(1);
     this.getNoticeList();
-
+    this.imgData = [];
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'group','employ/group')

@@ -408,7 +408,7 @@ export class PaperComponent implements OnInit {
      }
      this.search.bTime = this.search.bTime.replace(/-/g, "/");
      this.search.eTime = this.search.eTime.replace(/-/g, "/");*/
-    let url = this.ipSetting.ip + "/building/parking/getParkingPermitList/list/"+this.pageNo+"/"+this.pageSize+'?buildingName='+
+    let url = this.ipSetting.ip + "/building/parking/getParkingPermitList/excel/"+this.pageNo+"/"+this.pageSize+'?buildingName='+
       this.searchInfo.buildingName+'&&type='+this.searchInfo.type+'&&useStatus='+this.searchInfo.useStatus+
       '&&permitStatus='+this.searchInfo.permitStatus+'&&useUserName='+this.searchInfo.useUserName+
       '&&useCarCode='+this.searchInfo.useCarCode;

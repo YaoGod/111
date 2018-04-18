@@ -183,8 +183,8 @@
       <div class="form-control">
         <span class="form-label">员工编号</span>
         <div class="form-inp">
-          <input type="text" class="company-ipt" id="userId" name="userId" [(ngModel)]="newCard.userId"
-                 (keyup)="getUserName(newCard.userId)" (blur)="verifyId()" maxlength="8"/>
+          <input type="text" class="company-ipt" id="userId" name="userId" [(ngModel)]="newCard.userId" disabled="disabled"
+                  (blur)="verifyId()" maxlength="8"/><!--(keyup)="getUserName(newCard.userId)"-->
           <span class="errorMessage"></span>
         </div>
       </div>
