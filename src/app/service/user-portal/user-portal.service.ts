@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, RequestOptions, Headers} from '@angular/http';
 import { IpSettingService } from '../ip-setting/ip-setting.service';
 import 'rxjs/add/operator/toPromise';
+import 'assets/js/md5.js';
+declare var hex_md5:any;
 @Injectable()
 export class UserPortalService {
 
@@ -16,8 +18,10 @@ export class UserPortalService {
   ) { }
   /*用户登陆*/
   portalLogin (data) {
+    let md5Data = JSON.parse(JSON.stringify(data));
+    md5Data.password = hex_md5(md5Data.password).toUpperCase();
     const url = this.ipSetting.ip + '/portal/user/userLogin';
-    return this.http.post(url,data,this.options)
+    return this.http.post(url,md5Data,this.options)
       .map(res => res.json());
   }
   /*忘记密码发送短信重置密码*/
