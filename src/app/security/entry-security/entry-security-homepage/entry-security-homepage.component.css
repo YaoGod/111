@@ -1,0 +1,46 @@
+.cont{
+  height:300px;
+  margin:20px auto;
+  max-width: 1200px;
+  box-sizing: content-box;
+  border:3px solid #1ab2ff;
+  border-radius: 8px;
+}
+.card{
+  width:100%;
+  height:100%;
+}
+.card-left{
+  width:50%;
+  float: left;
+  text-align: center;
+  background:#e4e4e4;
+  height:100%;
+  line-height:300px;
+  position: relative;
+  vertical-align: middle;
+  display: table-cell;
+}
+.card-left img{
+  vertical-align: middle;
+}
+.card-left h2{
+  position: absolute;left:10px; top:0;
+  vertical-align: middle;
+  height:100%;
+  width:200px;
+}
+.card-right{
+  width:50%;
+  float: left;
+}
+.card-right p{
+  height:150px;
+  border-left:1px solid #6a3484;
+  text-align: center;
+  background: #fff;
+  font:20px/150px "Adobe 楷体 Std R";
+}
+.card-right p:first-child{
+  border-bottom:1px solid #1ab2ff;
+}

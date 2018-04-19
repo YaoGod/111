@@ -40,7 +40,7 @@ export class EntrySecurityService {
   delCardInfo(postData){
     const url = this.ipSetting.ip + '/building/employCard/del';
     return this.http.post(url,postData,this.options)
-      .map(res => res.json());
+       .map(res => res.json());
   }
 
   /*获取所有部门*/

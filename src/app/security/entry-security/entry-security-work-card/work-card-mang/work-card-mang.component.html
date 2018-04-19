@@ -55,8 +55,11 @@
           <td width="12%" class="text-left">
             {{user.cardNo}}
           </td>
-          <td width="12%" class="text-left">
-            {{user.cardStatus==='1'?'正常':'失效'}}
+          <td width="12%" class="text-left" style="color:mediumseagreen" *ngIf="user.cardStatus==='1'">
+            正常
+          </td>
+          <td width="12%" class="text-left" style="color:#ff1103" *ngIf="user.cardStatus==='2'">
+            失效
           </td>
           <td width="12%" class="text-left">
             {{user.cardType==='1'?'自有员工':'第三方员工'}}
@@ -77,8 +80,8 @@
             {{user.startTime}}
           </td>
           <td width="12%" class="box-option">
-            <a (click)="delete(user.userid)">
-              <i class="icon-trash"></i>删除
+            <a (click)="delete(i)">
+              <i class="icon-trash"></i>失效
             </a>
             <a (click)="editRecord(i)">
               <i class="icon-pencil"></i>修改
@@ -165,17 +168,13 @@
           <!--<div class="error"></div>-->
           <!--</div>-->
           <div class="form-group">
-            <label class="control-label" ><span >员工编号</span><!--*ngIf="entrySecurity.cardType === '1'"-->
+            <label class="control-label" *ngIf="entrySecurity.cardType === '1'"><span >员工编号</span>
               <input type="text" class="form-control" name="teleNum"
                      [(ngModel)]="entrySecurity.employNo">
             </label>
-
-            <div class="error"></div>
-          </div>
-          <div class="form-group">
-            <label class="control-label"*ngIf="entrySecurity.cardType === '0'"><span >服务公司</span>
+            <label class="control-label" *ngIf="entrySecurity.cardType === '0'"><span >服务公司</span>
               <select class="form-control" id="companyName" name="companyName"
-                      [(ngModel)]="entrySecurity.companyName" ><!--(blur)="verifyEmpty(entrySecurity.companyName,'companyName')"-->
+                      [(ngModel)]="entrySecurity.employNo" >
                 <option *ngFor="let comp of serviceCom" [value]="comp.companyName">{{comp.companyName}}</option>
               </select>
             </label>
@@ -184,7 +183,7 @@
           <div class="form-group">
             <label class="control-label">
               <span *ngIf="entrySecurity.cardType === '1'">员工部门</span>
-              <span *ngIf="entrySecurity.cardType === '0'">局方部门</span>
+              <span *ngIf="entrySecurity.cardType === '0'">归属局方部门</span>
               <select class="form-control" id="deptId" name="deptId"
                       [(ngModel)]="entrySecurity.deptId" (blur)="verifyEmpty(entrySecurity.deptId,'deptId')">
                 <option *ngFor="let dept of deptList" [value]="dept.DEPT_ID">{{dept.DEPT_NAME}}</option>

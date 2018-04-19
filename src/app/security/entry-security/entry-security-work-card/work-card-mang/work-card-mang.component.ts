@@ -131,7 +131,7 @@ export class WorkCardMangComponent implements OnInit {
             if (this.errorResponseService.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示',
-                'mes': data.msg+'1',
+                'mes': data.msg,
                 'popType': 2,
                 'imgType': 1,
               });
@@ -145,7 +145,7 @@ export class WorkCardMangComponent implements OnInit {
             if (this.errorResponseService.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示',
-                'mes': data.msg+'2',
+                'mes': data.msg,
                 'popType': 2,
                 'imgType': 1,
               });
@@ -186,14 +186,16 @@ export class WorkCardMangComponent implements OnInit {
   // }
 
   /*删除*/
-  delete(id){
+  delete(index){
     confirmFunc.init({
       'title': '提示',
-      'mes': '是否删除该记录？',
+      'mes': '是否使该员工号失效？',
       'popType': 1,
       'imgType': 3,
       "callback": () => {
-        this.entrySecurityService.delCardInfo(id)
+        let postData = JSON.parse(JSON.stringify(this.cardManage[index]));
+        postData.cardStatus = '2';
+        this.entrySecurityService.modifyCardInfo(postData)
           .subscribe(data => {
             if (this.errorResponseService.errorMsg(data)) {
               confirmFunc.init({
