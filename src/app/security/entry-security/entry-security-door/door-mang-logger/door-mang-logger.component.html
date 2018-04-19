@@ -1,3 +1,111 @@
-<p>
-  door-mang-logger works!
-</p>
+
+<div class="content-area">
+  <div class="content-inner">
+    <!--页面标题-->
+    <div class="nav-title">
+      <a><h4>权限变更日志</h4></a>
+      <div class="b-head-right">
+        <div class="content-box" tabindex="0" onclick="history.go(-1)">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>
+    </div>
+    <!--搜索栏-->
+    <div class="search-bar">
+      <ul>
+        <li><label>HRMIS</label>
+          <input type="text" name="searchUserId" [(ngModel)]="search.userid">
+        </li>
+        <li><label>部门</label>
+          <select name="searchDeptId" [(ngModel)]="search.deptId">
+            <option value="">全部</option>
+            <option *ngFor="let dept of deptList" [value]="dept.DEPT_ID">{{dept.DEPT_NAME}}</option>
+          </select>
+        </li>
+        <li><label>大楼名称</label>
+          <select name="searchBuildID" [(ngModel)]="search.building">
+            <option value="">全部</option>
+            <option *ngFor="let building of buildings" [value]="building.ID">{{building.NAME}}</option>
+          </select>
+          <!--<select [(ngModel)]="search.buildingId" (change)="linkType()">-->
+          <!--<option value="0">全部</option>-->
+          <!--<option *ngFor="let building of buildings"-->
+          <!--[value] = "building.ID">{{building.NAME}}</option>-->
+          <!--</select>-->
+        </li>
+        <li>
+          <a (click)="getUserList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
+        </li>
+      </ul>
+    </div>
+    <!--表头-->
+    <div class="table-head" style="margin-top: 10px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row list-title" style="height:45px;">
+          <th width="8%">员工编号</th>
+          <th width="8%">员工姓名</th>
+          <th width="8%">员工部门</th>
+          <th width="8%" class="text-left">工号牌编号</th>
+          <th width="8%" class="text-left">工号牌类型</th>
+          <th width="8%" class="text-left">大楼名称</th>
+          <th width="8%" class="text-left">楼层</th>
+          <th width="8%" class="text-left">授权时间</th>
+          <th width="8%" class="text-left">变动类型</th>
+          <th width="8%" class="text-left">变动时间</th>
+          <th width="8%" class="text-left">变动方式</th>
+        </tr>
+      </table>
+    </div>
+    <!--表格内容-->
+    <div class="table-content" style="min-height: 360px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row" *ngFor="let user of cardManage;let i = index">
+          <td width="10%" class="text-left">
+            {{user.userid}}
+          </td>
+          <td width="10%" class="text-left">
+            {{user.username}}
+          </td>
+          <td width="10%" class="text-left">
+            {{user.deptId}}
+          </td>
+          <td width="10%">
+            {{user.homeAddr}}
+          </td>
+          <td width="10%">
+            {{user.userid}}
+          </td>
+          <td width="10%">
+            {{user.username}}
+          </td>
+          <td width="10%">
+            {{user.teleNum}}
+          </td>
+          <td width="10%">
+            {{user.teleNum}}
+          </td>
+          <td width="10%">
+            {{user.teleNum}}
+          </td>
+          <td width="10%">
+            {{user.teleNum}}
+          </td>
+          <td width="10%">
+            {{user.teleNum}}
+          </td>
+        </tr>
+      </table>
+      <div class="div-none" *ngIf="cardManage.length === 0">
+        <p>暂无信息</p>
+      </div>
+    </div>
+    <!--翻页-->
+    <app-turn-bar
+      [pageNo]="pageNo"
+      [pageSize]="pageSize"
+      [total]="total"
+      (turnEvent)="getUserList($event)">
+    </app-turn-bar>
+
+  </div>
+</div>

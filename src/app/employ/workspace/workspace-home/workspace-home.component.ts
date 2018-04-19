@@ -182,7 +182,7 @@ export class WorkspaceHomeComponent implements OnInit {
       yAxis : [
         {
           type : 'category',
-          position : 'right',
+          position : 'left',
           axisTick : {show: false},
           textStyle: {
             fontSize: 20,

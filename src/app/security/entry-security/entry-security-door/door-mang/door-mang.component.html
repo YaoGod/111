@@ -1,5 +1,222 @@
-<p>
-  door-mang works!
-</p>
 
-<p>权限变更日志<a [routerLink]="['../logger']">链接</a></p>
+<div class="content-area">
+  <div class="content-inner">
+    <!--页面标题-->
+    <div class="nav-title">
+      <a><h4>门禁系统权限</h4></a>
+      <div class="b-head-right">
+        <div class="content-box" tabindex="0" [routerLink]="['../logger']">
+          <i class="icon-reload"></i> 权限变更日志
+        </div>
+      </div>
+      <div class="b-head-right">
+        <div class="content-box" tabindex="0" onclick="history.go(-1)">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>
+    </div>
+    <!--搜索栏-->
+    <div class="search-bar">
+      <ul>
+        <li><label>HRMIS</label>
+          <input type="text" name="searchUserId" [(ngModel)]="search.userid">
+        </li>
+        <li><label>部门</label>
+          <select name="searchDeptId" [(ngModel)]="search.deptId">
+            <option value="">全部</option>
+            <option *ngFor="let dept of deptList" [value]="dept.DEPT_ID">{{dept.DEPT_NAME}}</option>
+          </select>
+        </li>
+        <li><label>大楼名称</label>
+          <select name="searchBuildID" [(ngModel)]="search.building">
+            <option value="">全部</option>
+            <option *ngFor="let building of buildings" [value]="building.ID">{{building.NAME}}</option>
+          </select>
+        </li>
+        <li>
+          <a (click)="getUserList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
+        </li>
+      </ul>
+    </div>
+    <!--表头-->
+    <div class="table-head" style="margin-top: 10px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row list-title" style="height:45px;">
+          <th width="10%" class="text-left">工号牌编号</th>
+          <th width="10%" class="text-left">工号牌状态</th>
+          <th width="15%" class="text-left">工号牌类型</th>
+          <th width="10%" class="text-left">使用部门</th>
+          <th width="10%">员工编号</th>
+          <th width="10%">员工姓名</th>
+          <th width="10%">员工部门</th>
+          <th width="15%">最近申请日期</th>
+          <th width="20%">操作</th>
+        </tr>
+      </table>
+    </div>
+    <!--表格内容-->
+    <div class="table-content" style="min-height: 360px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row" *ngFor="let user of cardManage;let i = index">
+          <td width="10%" class="text-left">
+            {{user.userid}}
+          </td>
+          <td width="10%" class="text-left">
+            {{user.username}}
+          </td>
+          <td width="10%" class="text-left">
+            {{user.deptId}}
+          </td>
+          <td width="15%">
+            {{user.homeAddr}}
+          </td>
+          <td width="10%">
+            {{user.userid}}
+          </td>
+          <td width="10%">
+            {{user.username}}
+          </td>
+          <td width="10%">
+            {{user.teleNum}}
+          </td>
+          <td width="15%">
+            {{user.teleNum}}
+          </td>
+          <td width="20%" class="box-option">
+            <a (click)="cancelOrAuthority(user.userid)">
+              <a *ngIf="cardManage.length !== 0">
+                <i class="icon-trash"></i>授权
+              </a>
+            </a>
+          </td>
+        </tr>
+      </table>
+      <div class="div-none" *ngIf="cardManage.length === 0">
+        <p>暂无信息</p>
+      </div>
+    </div>
+    <!--翻页-->
+    <app-turn-bar
+      [pageNo]="pageNo"
+      [pageSize]="pageSize"
+      [total]="total"
+      (turnEvent)="getUserList($event)">
+    </app-turn-bar>
+
+  </div>
+</div>
+
+
+<div class="mask" style="display: none;" id="newUser">
+  <div class="modal-content" style="width: 360px;margin-left: -180px">
+    <div class="modal-header">
+      <h4 class="modal-title"><i class="icon-home"></i>工号牌新增</h4>
+      <button class="modal-close" type="button" (click)="closeNewUser()">×</button>
+    </div>
+    <form class="form-building form-material ng-untouched ng-pristine ng-valid" novalidate="">
+      <div class="modal-body clearfix">
+        <div class="modal-right">
+          <div class="form-group">
+            <label class="control-label"><span>工号牌编号</span>
+              <input type="text" class="form-control" id="userid" name="userid"
+                     [(ngModel)]="entrySecurity.userid" (blur)="verifyEmpty(entrySecurity.userid,'userid')">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div class="form-group">
+            <label class="control-label"><span>工号牌状态</span>
+              <label for="normal">
+                <input id="normal" name="normal" type="radio" value="正常"
+                       [(ngModel)]="entrySecurity.status">
+                正常
+              </label>
+              <label for="effect">
+                <input id="effect" name="effect" type="radio" value="失效"
+                       [(ngModel)]="entrySecurity.status">
+                失效
+              </label>
+              <div class="error"></div>
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="control-label"><span>工号牌类型</span>
+              <label for="self">
+                <input id="self" name="self" type="radio" value="自有员工"
+                       [(ngModel)]="entrySecurity.employee">
+                自有员工
+              </label>
+              <label for="other">
+                <input id="other" name="other" type="radio" value="第三方员工"
+                       [(ngModel)]="entrySecurity.employee">
+                第三方员工
+              </label>
+              <div class="error"></div>
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="control-label"><span>员工姓名</span>
+              <input type="text" class="form-control" name="oaEmail"
+                     [(ngModel)]="entrySecurity.username">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div class="form-group">
+            <label class="control-label">
+              <span *ngIf="entrySecurity.employee === '自有员工'">员工编号</span>
+              <span *ngIf="entrySecurity.employee === '第三方员工'">服务公司</span>
+              <input type="text" class="form-control" name="teleNum"
+                     [(ngModel)]="entrySecurity.deptId">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div class="form-group">
+            <label class="control-label">
+              <span *ngIf="entrySecurity.employee === '自有员工'">员工部门</span>
+              <span *ngIf="entrySecurity.employee === '第三方员工'">局方部门</span>
+              <select class="form-control" id="deptId" name="deptId"
+                      [(ngModel)]="entrySecurity.deptId" (blur)="verifyEmpty(entrySecurity.deptId,'deptId')">
+                <option *ngFor="let dept of deptList" [value]="dept.DEPT_ID">{{dept.DEPT_NAME}}</option>
+              </select>
+            </label>
+            <div class="error"></div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <button class="btn btn-info" type="submit"
+              (click)="submit()">确 定
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Induction 批量导入  -->
+<div class="mask" style="display: none;" id="selecteFile">
+  <div class="modal-content" style="width: 400px;margin-left: -180px">
+    <div class="modal-header">
+      <h4 style="margin-left: 175px">导入</h4>
+      <button class="modal-close" type="button" (click)="closeFile()">×</button>
+    </div>
+    <form class="form-building form-material ng-untouched ng-pristine ng-valid" novalidate="">
+      <div class="modal-body clearfix">
+        <div class="modal-right">
+          <div class="form-group">
+            <div style="margin-top: 20px;margin-left: 55px; height: 60px">
+              <button class="btn btn-info" type="submit"
+                      (click)="downloadTemplates()">下载模板
+              </button>
+              <div class="form-inp" style=" margin-top:-39px;">
+                <a href="javascript:" style="color:#FFFFFF; border-radius:4px; padding:6px 20px; background: #03a9f3;; font-size: 10px" onclick="$('#prese').trigger('click')">选取文件</a>
+                <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;"
+                       (change)="prese_upload(prese.files)">
+              </div>
+            </div>
+            <div class="error"></div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="modal-footer"></div>
+  </div>
+</div>
