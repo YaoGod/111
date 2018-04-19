@@ -68,10 +68,13 @@
               <i class="icon-pencil"></i>编辑
             </a>-->
             <a (click)="editPassword(user)">
-              <i class="icon-question"></i>修改密码
+              <i class="icon-question"></i>&nbsp;修改密码
+            </a>
+            <a [routerLink]="['../joinRole',user.userid]">
+              <i class="icon-settings"></i>&nbsp;配置角色
             </a>
             <a (click)="delete(user.userid)" *ngIf="user.isDelete === 'Y'">
-              <i class="icon-trash"></i>删除
+              <i class="icon-trash"></i>&nbsp;删除用户
             </a>
           </td>
         </tr>

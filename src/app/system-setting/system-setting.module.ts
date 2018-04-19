@@ -14,6 +14,7 @@ import { UserComponent } from './user/user.component';
 import {UserPortalService} from "../service/user-portal/user-portal.service";
 import { RoleComponent } from './role/role.component';
 import { AbilityComponent } from './ability/ability.component';
+import { JoinRoleComponent } from './join-role/join-role.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,11 @@ const routes: Routes = [
         /*用户管理*/
         path: 'user',
         component: UserComponent
+      },
+      {
+        /*用户配角色*/
+        path: 'joinRole/:id',
+        component: JoinRoleComponent
       },
       {
         /*角色管理*/
@@ -62,6 +68,6 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [RouteGuardService, UserPortalService],
-  declarations: [SystemSettingComponent, LoggerComponent, UserComponent, RoleComponent, AbilityComponent]
+  declarations: [SystemSettingComponent, LoggerComponent, UserComponent, RoleComponent, AbilityComponent, JoinRoleComponent]
 })
 export class SystemSettingModule { }

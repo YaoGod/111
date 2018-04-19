@@ -3,25 +3,24 @@
     <!--页面标题-->
     <div class="nav-title">
       <a><h4>系统日志</h4></a>
-      <!--<div class="b-head-right">
-        <div class="content-box" tabindex="0" onclick="history.go(-1)">
-          <i class="icon-reload"></i> 返回
-        </div>
-      </div>-->
+    </div>
+    <div class="search-bar">
+      <ul>
+        <li><label>统计</label>
+          <select name="module" [(ngModel)]="selectPageNo">
+            <option *ngFor="let page of selectPages" [value]="page">{{page}}-{{page*10}}名</option>
+          </select>
+        </li>
+        <li><label>时间</label>
+          <input type="date" name="bTime" [(ngModel)]="select.bTime">至
+          <input type="date" name="eTime" [(ngModel)]="select.eTime">
+        </li>
+        <li>
+          <a (click)="getAccessNum();"><i class="icon-magnifier"></i>&nbsp;生成统计图表</a>
+        </li>
+      </ul>
     </div>
     <div id="moduleCountChart" class="chart-inner"></div>
-    <!--<div class="table-head" style="margin-top: 10px">
-      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
-        <tr class="row" *ngFor="let count of moduleCounts;let i = index">
-          <td class="text-left">
-            {{count.OPERATION_MODULE}}
-          </td>
-          <td class="text-left">
-            {{count.NUM}}
-          </td>
-        </tr>
-      </table>
-    </div>-->
     <!--搜索栏-->
     <div class="search-bar">
       <ul>

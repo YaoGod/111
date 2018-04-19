@@ -18,6 +18,9 @@ export class LoggerComponent implements OnInit {
   public search: Logger;
   public moduleList;
   public moduleCounts;
+  public select :Logger;
+  public selectPageNo = 1;
+  public selectPages = [];
   constructor(
     private globalCatalogService: GlobalCatalogService,
     private userPortalService:UserPortalService,
@@ -32,6 +35,9 @@ export class LoggerComponent implements OnInit {
     let today = new Date().toJSON().substr(0,10);
     this.search.bTime = today;
     this.search.eTime = '';
+    this.select = new Logger();
+    this.select.bTime = "";
+    this.select.eTime = today;
     this.moduleCounts = [];
     this.getModuleList();
     this.getSystemLogger(1);
@@ -62,10 +68,15 @@ export class LoggerComponent implements OnInit {
     return this.userPortalService.exportSysLog(this.pageNo,this.pageSize,this.search);
   }
   getAccessNum(){
-    this.userPortalService.getAccessNum()
+    this.userPortalService.getAccessNum(this.select,this.selectPageNo,10)
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
-          this.moduleCounts = data.data;
+          this.moduleCounts = data.data.infos;
+          let length = data.data.total/10;
+          this.selectPages = [];
+          for(let i = 0;i<length;i++){
+              this.selectPages[i] = i+1;
+          }
           this.countChartInit('moduleCountChart',this.moduleCounts)
         }
       })
@@ -139,6 +150,7 @@ export class LoggerComponent implements OnInit {
               }
             }
           },
+          barMaxWidth: 60
         }
       ]
     };

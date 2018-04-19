@@ -72,6 +72,12 @@ export class UserPortalService {
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
+  /*获取指定用户信息*/
+  getUserInfo(id){
+    const url = this.ipSetting.ip + "/portal/user/getUserInfo/"+id;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
   /*获取所有用户信息列表*/
   getUserList(pageNo,pageSize,search){
     const url = this.ipSetting.ip + '/portal/user/getUserInfoList/'+pageNo+'/'+pageSize;
@@ -79,8 +85,9 @@ export class UserPortalService {
       .map(res => res.json());
   }
   /*获取所有模块访问量数据*/
-  getAccessNum(){
-    const url = this.ipSetting.ip + '/portal/sysLog/getAccessNum';
+  getAccessNum(data,pageNo,pageSize){
+    const url = this.ipSetting.ip + '/portal/sysLog/getAccessNum?bTime='+data.bTime+'&eTime='+data.eTime
+    +'&pageNo='+pageNo+'&pageSize='+pageSize;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
@@ -128,5 +135,10 @@ export class UserPortalService {
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
-
+  /*获取用户角色列表*/
+  getUserRole(id,pageNo,pageSize){
+    const url = this.ipSetting.ip + '/portal/user/getUserRole/'+id+'/'+pageNo+'/'+pageSize;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
 }
