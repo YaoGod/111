@@ -20,26 +20,24 @@
       <p>联系电话：{{user.teleNum}}</p>
       <p>联系邮箱：{{user.oaEmail}}</p>
     </div>
+    <div class="split-title">
+      <h4>角色信息</h4>
+    </div>
     <div>
       <ul class="card-list">
-        <li class="card-area">
-          <div class="card-inner">
+        <li class="card-area" *ngFor="let role of roles">
+          <label class="card-inner">
             <div class="card-vote-btn">
-              <input type="checkbox">
+              <input type="checkbox" [(ngModel)]="role.choose">
               <span>√</span>
             </div>
-            <h5>系统管理员</h5>
-            <p>他有什么什么权限呢</p>
-          </div>
+            <h5>{{role.roleName}}</h5>
+          </label>
         </li>
       </ul>
     </div>
-    <!--翻页-->
-    <app-turn-bar
-      [pageNo] = "pageNo"
-      [pageSize] = "pageSize"
-      [total] = "total"
-      (turnEvent) = "getRoleList($event)">
-    </app-turn-bar>
+    <div class="foot-submit">
+      <a class="btn btn-info" (click)="submit()">提交</a>
+    </div>
   </div>
 </div>

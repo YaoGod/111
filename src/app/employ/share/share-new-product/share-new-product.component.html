@@ -12,7 +12,7 @@
     <!--信息内容-->
     <div class="warp">
       <div class="warp-left">
-        <div class="warp-fist">
+        <div class="warp-first">
           <img *ngIf="showImg" [src]="showImg | imgsafeurl" >
         </div>
         <ul class="warp-list">
@@ -118,15 +118,15 @@
       <div class="cont">
         <h5><span>详情介绍</span></h5>
         <div class="summary-text">
-          <div  class="form-group">
+          <div  class="form-group" style="background: #f8f8f8;">
             <label  class="control-label">
               <textarea class="form-control" id="summary" rows="12"
-                     name="summary" placeholder=""
+                     name="summary" placeholder="请输入描述文字"
                      [(ngModel)]="shareProduct.summary"
                      (blur)="verifyEmpty(shareProduct.summary,'summary')">
               </textarea>
             </label>
-            <div class="error"></div>
+            <div class="error" style="position: absolute"></div>
           </div>
         </div>
       </div>

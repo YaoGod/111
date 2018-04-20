@@ -3,9 +3,9 @@ import {GlobalCatalogService} from "../../service/global-catalog/global-catalog.
 import {UserPortalService} from "../../service/user-portal/user-portal.service";
 import {ErrorResponseService} from "../../service/error-response/error-response.service";
 import {GlobalUserService} from "../../service/global-user/global-user.service";
-import {User} from "../../mode/user/user.service";
+import {Role, User} from "../../mode/user/user.service";
 import {ActivatedRoute, Params} from "@angular/router";
-
+declare var confirmFunc:any;
 @Component({
   selector: 'app-join-role',
   templateUrl: './join-role.component.html',
@@ -13,11 +13,8 @@ import {ActivatedRoute, Params} from "@angular/router";
 })
 export class JoinRoleComponent implements OnInit {
 
-  public pageNo;
-  public pageSize = 10;
-  public total = 0;
   public user:User;
-  public roles: Array<any>;
+  public roles: Array<Role>;
   constructor(
     private route: ActivatedRoute,
     private globalCatalogService: GlobalCatalogService,
@@ -47,18 +44,43 @@ export class JoinRoleComponent implements OnInit {
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
           this.user = data.data;
-          this.getRoleList(1);
+          this.getRoleList();
         }
       })
   }
-  getRoleList(pageNo){
-    this.pageNo = pageNo;
-    this.userPortalService.getUserRole(this.user.userid,this.pageNo,this.pageSize)
+  getRoleList(){
+    this.userPortalService.getUserRole(this.user.userid)
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
-          this.roles = data.data.infos;
-          this.total = data.data.total;
+          this.roles = data.data;
+          for(let i = 0;i<this.roles.length;i++){
+            if(this.roles[i].flag === 'Y'){
+              this.roles[i].choose = true;
+            }else {
+              this.roles[i].choose = false;
+            }
+          }
+        }
+      })
+  }
+  submit(){
+    let roleIDLIst = [];
+    for(let i = 0;i<this.roles.length;i++){
+      if(this.roles[i].choose){
+        roleIDLIst.push(this.roles[i].roleId);
+      }
+    }
+    this.userPortalService.updateUserRoles(this.user.userid,roleIDLIst)
+      .subscribe(data=>{
+        if(this.errorResponseService.errorMsg(data)){
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': data.msg,
+            'popType': 2 ,
+            'imgType': 1 ,
+          });
         }
       })
   }
 }
+

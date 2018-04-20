@@ -17,3 +17,12 @@ export class User {
   flag     : string; /*标志位无意义*/
   isDelete : string;
 }
+
+export class Role{
+  roleId: number;
+  roleName: string;
+  note: string;
+  flag: string;
+  choose: boolean;
+  createTime: string;
+}

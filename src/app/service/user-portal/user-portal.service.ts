@@ -136,8 +136,38 @@ export class UserPortalService {
       .map(res => res.json());
   }
   /*获取用户角色列表*/
-  getUserRole(id,pageNo,pageSize){
-    const url = this.ipSetting.ip + '/portal/user/getUserRole/'+id+'/'+pageNo+'/'+pageSize;
+  getUserRole(id){
+    const url = this.ipSetting.ip + '/portal/role/getUserRole/'+id;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  /*更新指定员工角色信息*/
+  updateUserRoles(id,ids){
+    const url = this.ipSetting.ip + '/portal/role/updateUserRole/'+id;
+    return this.http.post(url,ids,this.options)
+      .map(res => res.json());
+  }
+  /*获取所有角色列表*/
+  getRoleList(pageNo,pageSize,search){
+    const url = this.ipSetting.ip + '/portal/role/getRoleList/'+pageNo+'/'+pageSize+'?roleName='+search.roleName;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  /*新增角色*/
+  addRoleInfo(postData){
+    const url = this.ipSetting.ip + '/portal/role/addRoleInfo';
+    return this.http.post(url,postData,this.options)
+      .map(res => res.json());
+  }
+  /*编辑角色*/
+  updateRoleInfo(postData){
+    const url = this.ipSetting.ip + '/portal/role/updateRoleInfo';
+    return this.http.post(url,postData,this.options)
+      .map(res => res.json());
+  }
+  /*删除用户角色*/
+  deleteRoleInfo(id){
+    const url = this.ipSetting.ip + '/portal/role/deleteRoleInfo/'+id;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
