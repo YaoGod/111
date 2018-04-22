@@ -118,6 +118,23 @@ export class UtilBuildingService {
     xhr.send(form);
     return xhr;
   }
+  /*
+   导入工号牌
+   param: postData:file,
+   return:
+   */
+  importCard(postData) {
+    const url = this.ipSetting.ip + "/building/employCard/importData";
+    var form = new FormData();
+    if (typeof(postData) === 'object') {
+      form.append('file', postData);
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.withCredentials = true;
+    xhr.send(form);
+    return xhr;
+  }
   /*获取大楼列表*/
   getBuildingList(search) {
     const url = this.ipSetting.ip + "/building/util/getBuildingList?search="+search;

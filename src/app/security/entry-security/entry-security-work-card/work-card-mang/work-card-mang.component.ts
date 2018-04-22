@@ -4,6 +4,9 @@ import {UserPortalService} from "../../../../service/user-portal/user-portal.ser
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {GlobalUserService} from "../../../../service/global-user/global-user.service";
 import {EntrySecurityService, EntryService} from "../../../../service/entry-security/entry-security.service";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
+import {UtilBuildingService} from "../../../../service/util-building/util-building.service";
+import {Http} from "@angular/http";
 
 declare var $:any;
 declare var confirmFunc:any;
@@ -12,7 +15,7 @@ declare var confirmFunc:any;
   selector: 'app-work-card-mang',
   templateUrl: './work-card-mang.component.html',
   styleUrls: ['./work-card-mang.component.css'],
-  providers: [EntrySecurityService,ErrorResponseService]
+  providers: [EntrySecurityService,ErrorResponseService,UtilBuildingService]
 })
 export class WorkCardMangComponent implements OnInit {
 
@@ -27,11 +30,14 @@ export class WorkCardMangComponent implements OnInit {
   public changeWay;
 
   constructor(
+    private http: Http,
     private globalCatalogService: GlobalCatalogService,
     private userPortalService:UserPortalService,
     private errorResponseService:ErrorResponseService,
     private globalUserService:GlobalUserService,
-    private entrySecurityService:EntrySecurityService
+    private utilBuildingService:UtilBuildingService,
+    private entrySecurityService:EntrySecurityService,
+    public ipSetting  : IpSettingService,
 
   ) { }
 
@@ -43,6 +49,9 @@ export class WorkCardMangComponent implements OnInit {
     this.getCompanyList();
     this.getDeptList();
     this.cardManage = [];
+    this.search.userid = '';
+    this.search.deptId = '';
+    this.search.cardType = '';
   }
 
   /*获取信息列表*/
@@ -110,7 +119,17 @@ export class WorkCardMangComponent implements OnInit {
     this.entrySecurity = new EntryService();
     $('#selecteFile').hide();
   }
-
+  /*导出数据下载*/
+  public downDeriving(){
+    let url = this.ipSetting.ip + "/building/employCard/export?userId="+ this.search.userid+
+      '&&userDept='+this.search.deptId+'&&type='+this.search.cardType;
+    this.http.get(url)
+    // .map(res => res.json())
+      .subscribe(data => {
+        window.location.href = url;
+        $('#deriving').fadeOut();
+      });
+  }
   /*新增/修改 提交*/
   submitNew(){
     let error = 0;
@@ -210,11 +229,41 @@ export class WorkCardMangComponent implements OnInit {
       }
     });
   }
-
-  downloadTemplates() {
-    console.log('下载模板');
+/*导入*/
+  prese_upload(files) {
+    var xhr = this.utilBuildingService.importCard(files[0]);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
+        var data:any = JSON.parse(xhr.responseText);
+        if(this.errorResponseService.errorMsg(data)) {
+          if(data.status === 0 && data.data.result==='success'){
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': '导入成功',
+              'popType': 0 ,
+              'imgType': 1,
+            });
+          }else if(data.data.result==='fail'){
+            confirmFunc.init({
+              'title': '提示',
+              'mes': '导入失败，是否下载错误信息？',
+              'popType': 1,
+              'imgType': 3,
+              "callback": () => {
+                window.location.href = this.ipSetting.ip+'/building/employCard/downExcel/'+data.data.fileName;
+              }
+            })
+          }
+          $('#prese').val('');
+          $('#induction').hide();
+          this.pageNo = 1;
+          this.getCardManageList(1);
+        }else{
+          $('#prese').val('');
+        }
+      }
+    };
   }
-
 
 
 
