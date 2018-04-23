@@ -5,6 +5,7 @@ import {UserPortalService} from "../../../../service/user-portal/user-portal.ser
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {GlobalUserService} from "../../../../service/global-user/global-user.service";
 import {UtilBuildingService} from "../../../../service/util-building/util-building.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-door-mang-logger',
@@ -21,17 +22,22 @@ export class DoorMangLoggerComponent implements OnInit {
   public deptList: Array<any>;
   public buildings: Array<any>;
   public cardManage: Array<EntryService>;
-
+  public ID:string;
   constructor(
     private globalCatalogService: GlobalCatalogService,
     private userPortalService:UserPortalService,
     private errorResponseService:ErrorResponseService,
     private globalUserService:GlobalUserService,
-    private utilBuildingService:UtilBuildingService
+    private utilBuildingService:UtilBuildingService,
+    private route:ActivatedRoute,
 
   ) { }
 
   ngOnInit() {
+    this.route.params.subscribe(data => {
+      // this.editCardInfo(data.id);
+      this.ID = data.id;
+    });
     this.globalCatalogService.setTitle("后勤物业/出入安全管理");
     this.cardManage = [];
     this.search = new EntryService();

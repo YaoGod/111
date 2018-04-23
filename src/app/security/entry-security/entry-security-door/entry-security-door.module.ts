@@ -31,7 +31,7 @@ const routes: Routes = [
       },
       {
         /*权限变更日志*/
-        path: 'logger',
+        path: 'logger/:id',
         component:DoorMangLoggerComponent
       }
     ]

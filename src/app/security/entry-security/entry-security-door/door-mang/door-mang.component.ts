@@ -40,8 +40,8 @@ export class DoorMangComponent implements OnInit {
     this.cardManage = [];
     this.search = new EntryService();
     this.entrySecurity = new EntryService();
-    this.search.deptId = this.globalUserService.getVal().deptId;
-    this.search.building = '';
+    this.search.deptId = '';// this.globalUserService.getVal().deptId;
+    this.search.cardType = '';
     this.getUserList(1);
     this.getDeptList();
     this.getBuildingList();
@@ -50,10 +50,11 @@ export class DoorMangComponent implements OnInit {
   /*获取用户信息列表*/
   getUserList(pageNo){
     this.pageNo = pageNo;
-    this.userPortalService.getUserList(this.pageNo,this.pageSize,this.search)
+    this.entrySecurityService.getCardManageList(this.pageNo,this.pageSize,this.search)
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
-          this.cardManage = data.data.infos;
+          // console.log(data.data);
+          this.cardManage = data.data.list;
           this.total = data.data.total;
         }
       })
@@ -68,7 +69,7 @@ export class DoorMangComponent implements OnInit {
       })
   }
 
-  /*获取大楼名称列表*/
+  /*获取大楼列表*/
   getBuildingList() {
     this.entrySecurityService.getBuildingList('')
       .subscribe(data => {
@@ -78,17 +79,10 @@ export class DoorMangComponent implements OnInit {
       })
   }
 
-  /*新建用户*/
-  newUser(){
-    this.entrySecurity = new EntryService();
-    this.entrySecurity.status = '正常';
-    this.entrySecurity.employee = '自有员工';
-    $('#newUser').show();
-  }
   closeNewUser(){
     this.entrySecurity = new EntryService();
     $('.red').removeClass('red');
-    $('.error').fadeOut();
+    $('.error').html('');
     $('#newUser').hide();
   }
 
@@ -105,10 +99,9 @@ export class DoorMangComponent implements OnInit {
   /*新增提交*/
   submitNew(){
     let error = 0;
-    this.verifyEmpty(this.entrySecurity.userid,'userid');
+    /*this.verifyEmpty(this.entrySecurity.userid,'userid');
     this.verifyEmpty(this.entrySecurity.username,'username');
-    this.verifyEmpty(this.entrySecurity.deptId,'deptId');
-    this.verifyEmpty(this.entrySecurity.deptId,'deptId');
+    this.verifyEmpty(this.entrySecurity.deptId,'deptId');*/
     if($('.red').length === 0 && error === 0) {
       this.userPortalService.addUserInfo(this.entrySecurity)
         .subscribe(data => {
@@ -152,14 +145,13 @@ export class DoorMangComponent implements OnInit {
   editRecord(index) {
     this.entrySecurity = JSON.parse(JSON.stringify(this.cardManage[index]));
     this.entrySecurity.status = '正常';
-    this.entrySecurity.employee = '自有员工';
+    this.entrySecurity.cardType = '自有员工';
     $('#newUser').show();
   }
 
   /*提交修改*/
   submitPassword(){
     let error = 0;
-    this.verifyEmpty(this.entrySecurity.password,'password');
     if($('.red').length === 0 && error === 0) {
       this.userPortalService.updatePassword(this.entrySecurity, '0')
         .subscribe(data => {
@@ -199,9 +191,28 @@ export class DoorMangComponent implements OnInit {
       }
     });
   }
-
+/*导出*/
   downloadTemplates() {
     console.log('下载模板');
   }
 
+}
+export class DoorMang {
+
+  buildingId: string;
+  buildingName: string;
+  cardCode: string;
+  cardType: string;
+  floorNum: string;
+  id: number;
+  modifyTime: string;
+  modifyUserId:string;
+  note: string;
+  roomNum: string;
+  status: string;
+  type: string;
+  userDept: string;
+  userId: string;
+  userName: string;
+  deptId: string;
 }
