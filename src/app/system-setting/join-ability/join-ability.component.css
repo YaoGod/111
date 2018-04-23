@@ -1,0 +1,153 @@
+.content-area{
+  padding: 20px;
+}
+.content-inner{
+  padding: 15px;
+  min-height: 84vh;
+  min-width: 1000px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  transition-duration: 300ms;
+}
+.nav-title{
+  position: relative;
+  margin-bottom: 10px;
+  font-size: 14px;
+  border-bottom: 2px solid #f7fafc;
+}
+.nav-title>a>h4{
+  display: inline-block;
+  line-height: 35px;
+  color: #fb9678;
+  border-bottom: 2px solid #fb9678;
+}
+.b-head-right{
+  float: right;
+}
+.goods-box{
+  min-height: 100px;
+  padding-bottom: 20px;
+}
+.goods-box p{
+  padding: 3px 0;
+  padding-right: 20px;
+  font-size: 12px;
+  color: #8e9ea8;
+}
+.goods-img{
+  float: left;
+  width: auto;
+  height: 100px;
+  padding-right: 60px;
+  border-radius: 5px;
+  box-shadow: 0 0 2px rgba(223, 223, 223, 0.32) inset;
+  overflow: hidden;
+}
+.goods-img>img{
+  height: 100%;
+}
+.content-box{
+  float: left;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid #eee;
+  margin-right: 10px;
+  line-height: 28px;
+  border-radius: 3px;
+  font-size: 15px;
+  color: #ff3c00;
+  outline: none;
+  cursor: pointer;
+}
+.content-box:hover{
+  border-color: #ff3c00;
+}
+.split-title{
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+.split-title>h4{
+  position: relative;
+  top: 1px;
+  margin-left: 36px;
+  margin-top: 1px;
+  line-height: 40px;
+  font-size: 14px;
+  text-align: center;
+  width: 80px;
+  background-color: #fff;
+  padding: 0 15px;
+  border: 1px solid #fff;
+  border-top:1px solid #ddd;
+  border-right:1px solid #ddd;
+  border-left:1px solid #ddd;
+  border-radius: 5px 5px 0 0;
+  color: #686868;
+}
+.card-vote-btn{
+  position: absolute;
+  top:50%;
+  left: -40px;
+  margin-top: -16px;
+}
+.card-vote-btn input[type=checkbox]{
+  position: absolute;
+  opacity: 0;
+}
+.card-vote-btn span{
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 50%;
+  border: 1px solid #b3cee6;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
+  text-align: center;
+  cursor: pointer;
+}
+.card-vote-btn input[type=checkbox]:checked +span{
+  background-color: #2162B6;
+  border-color: #2162B6;
+}
+.card-area{
+  display: inline-block;
+  width: 50%;
+  padding: 10px 20px 10px 40px;
+  box-sizing: border-box;
+}
+.card-inner{
+  display: block;
+  position: relative;
+  padding: 10px;
+  border: 1px solid #b3cee6;
+  border-radius: 5px;
+}
+.card-inner>h5{
+  display: inline-block;
+  width: 40%;
+  max-width: 300px;
+  color: #333333;
+}
+.foot-submit{
+  padding-top: 20px;
+  text-align: center;
+}
+.btn-info {
+  position: relative;
+  margin-left: 10px;
+  padding: .3rem 1.2rem;
+  border-radius: 5px;
+  background: #03a9f3;
+  border: 1px solid #03a9f3;
+  font-size: 12px;
+  color: #fff;
+}
+.btn-info:hover {
+  background: #03a9f3;
+  opacity: .8;
+  border: 1px solid #03a9f3;
+  cursor: pointer;
+}

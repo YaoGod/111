@@ -171,4 +171,28 @@ export class UserPortalService {
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
+  /*新增目录权限*/
+  addCataInfo(postData){
+    const url = this.ipSetting.ip + '/portal/role/addCataInfo';
+    return this.http.post(url,postData,this.options)
+      .map(res => res.json());
+  }
+  /*更新目录权限*/
+  updateCataInfo(postData){
+    const url = this.ipSetting.ip + '/portal/role/updateCataInfo';
+    return this.http.post(url,postData,this.options)
+      .map(res => res.json());
+  }
+  /*删除目录权限*/
+  deleteCataInfo(id){
+    const url = this.ipSetting.ip + '/portal/role/deleteCataInfo/'+id;
+    return this.http.delete(url,this.options)
+      .map(res => res.json());
+  }
+  /*获取所有目录权限列表*/
+  getAbilityList(pageNo,pageSize,search){
+    const url = this.ipSetting.ip + '/portal/role/getCataList/'+pageNo+'/'+pageSize+'?cataName='+search.roleName;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
 }

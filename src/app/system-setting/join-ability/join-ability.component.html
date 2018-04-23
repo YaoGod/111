@@ -1,0 +1,29 @@
+<div class="content-area">
+  <div class="content-inner">
+    <!--页面标题-->
+    <div class="nav-title">
+      <a><h4>角色配权限</h4></a>
+      <div class="b-head-right">
+        <div class="content-box" tabindex="0" onclick="history.go(-1)">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>
+    </div>
+    <!--人员信息简介-->
+    <div class="goods-box">
+      <div class="goods-img">
+        <img alt="image" src="assets/image/admin.png">
+      </div>
+      <p>角色名称：{{role.roleName}}</p>
+    </div>
+    <div class="split-title">
+      <h4>权限信息</h4>
+    </div>
+    <div id="AbilityChart">
+
+    </div>
+    <div class="foot-submit">
+      <a class="btn btn-info" (click)="submit()">提交</a>
+    </div>
+  </div>
+</div>

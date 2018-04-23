@@ -20,6 +20,7 @@ export class RoleComponent implements OnInit {
   public roles: Array<Role>;
   public deptList: Array<any>;
   public copyRole: Role;
+  public winTitle: string;
   constructor(
     private globalCatalogService: GlobalCatalogService,
     private userPortalService:UserPortalService,
@@ -33,11 +34,11 @@ export class RoleComponent implements OnInit {
     this.search = new Role();
     this.search.roleName = "";
     this.copyRole = new Role();
-    this.getUserList(1);
+    this.getRoleList(1);
     this.getDeptList();
   }
-  /*获取角色信息列表*/
-  getUserList(pageNo){
+  /*获取权限信息列表*/
+  getRoleList(pageNo){
     this.pageNo = pageNo;
     this.userPortalService.getRoleList(this.pageNo,this.pageSize,this.search)
       .subscribe(data=>{
@@ -56,7 +57,7 @@ export class RoleComponent implements OnInit {
         }
       })
   }
-  /*删除用户*/
+  /*删除角色*/
   delete(id){
     confirmFunc.init({
       'title': '提示',
@@ -73,20 +74,22 @@ export class RoleComponent implements OnInit {
                 'popType': 2,
                 'imgType': 1
               });
-              this.getUserList(1);
+              this.getRoleList(1);
             }
           });
       }
     });
   }
-  /*编辑用户*/
+  /*编辑角色*/
   edit(role:Role){
     this.newUser();
+    this.winTitle = "编辑";
     this.copyRole = JSON.parse(JSON.stringify(role));
   }
-  /*新建用户*/
+  /*新建角色*/
   newUser(){
     this.copyRole = new Role();
+    this.winTitle = "新增";
     $('#newUser').show();
   }
   closeNewUser(){
@@ -98,20 +101,40 @@ export class RoleComponent implements OnInit {
   /*新增角色表单提交*/
   submit(){
     let error = 0;
+    this.verifyEmpty(this.copyRole.roleId,'roleId');
+    this.verifyEmpty(this.copyRole.roleName,'roleName');
     if($('.red').length === 0 && error === 0) {
-      this.userPortalService.addRoleInfo(this.copyRole)
-        .subscribe(data => {
-          if (this.errorResponseService.errorMsg(data)) {
-            confirmFunc.init({
-              'title': '提示',
-              'mes': data.data,
-              'popType': 2,
-              'imgType': 1,
-            });
-            this.closeNewUser();
-            this.getUserList(1);
-          }
-        })
+      if(this.winTitle === "新增"){
+        this.userPortalService.addRoleInfo(this.copyRole)
+          .subscribe(data => {
+            if (this.errorResponseService.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data.data,
+                'popType': 2,
+                'imgType': 1,
+              });
+              this.closeNewUser();
+              this.getRoleList(1);
+            }
+          })
+      }
+      else {
+        this.userPortalService.updateRoleInfo(this.copyRole)
+          .subscribe(data => {
+            if (this.errorResponseService.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data.data,
+                'popType': 2,
+                'imgType': 1,
+              });
+              this.closeNewUser();
+              this.getRoleList(1);
+            }
+          })
+      }
+
     }
   }
   /*非空验证*/

@@ -11,7 +11,7 @@
           <input type="text" name="searchUserId" [(ngModel)]="search.roleName">
         </li>
         <li>
-          <a (click)="getUserList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
+          <a (click)="getRoleList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
         </li>
         <li>
           <a (click)="newUser();"><i class="icon-plus"></i>&nbsp;新增</a>
@@ -64,7 +64,7 @@
       [pageNo] = "pageNo"
       [pageSize] = "pageSize"
       [total] = "total"
-      (turnEvent) = "getUserList($event)">
+      (turnEvent) = "getRoleList($event)">
     </app-turn-bar>
 
   </div>
@@ -74,7 +74,7 @@
 <div class="mask" style="display: none;" id="newUser">
   <div  class="modal-content" style="width: 400px;margin-left: -200px">
     <div  class="modal-header">
-      <h4 class="modal-title"><i class="icon-home"></i>角色新增</h4>
+      <h4 class="modal-title"><i class="icon-home"></i>角色{{winTitle}}</h4>
       <button class="modal-close" type="button" (click)="closeNewUser()">×</button>
     </div>
     <form  class="form-building form-material ng-untouched ng-pristine ng-valid" novalidate="">

@@ -26,3 +26,13 @@ export class Role{
   choose: boolean;
   createTime: string;
 }
+
+export class Ability{
+  id: number;
+  cataName: string;
+  icon: string;
+  cataUrl: string;
+  fatherId: number;
+  choose: boolean;
+  createTime: string;
+}
