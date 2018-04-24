@@ -159,6 +159,12 @@ export class UserPortalService {
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
+  /*获取指定角色信息*/
+  getRoleInfo(id){
+    const url = this.ipSetting.ip + "/portal/role/getRoleInfo/"+id;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
   /*新增角色*/
   addRoleInfo(postData){
     const url = this.ipSetting.ip + '/portal/role/addRoleInfo';
@@ -197,7 +203,12 @@ export class UserPortalService {
   }
   /*获取所有目录权限列表*/
   getAbilityList(pageNo,pageSize,search){
-    const url = this.ipSetting.ip + '/portal/role/getCataList/'+pageNo+'/'+pageSize+'?cataName='+search.roleName;
+    const url = this.ipSetting.ip + '/portal/cata/getCataList/'+pageNo+'/'+pageSize+'?cataName='+search.cataName;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  getCataTree(){
+    const url = this.ipSetting.ip + '/portal/cata/getCataTree';
     return this.http.get(url,this.options)
       .map(res => res.json());
   }

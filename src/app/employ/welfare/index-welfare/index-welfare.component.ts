@@ -111,7 +111,7 @@ export class IndexWelfareComponent implements OnInit {
     if(total === 0) {
       return 1;
     }
-    let pages = Math.ceil(total/6);
+    let pages = Math.ceil(total/this.pageSize);
     if(pages === 1){
       return 1;
     }
@@ -123,6 +123,7 @@ export class IndexWelfareComponent implements OnInit {
   }
   randGetDiscount(){
     this.pageNoD = this.rand(this.pageNoD,this.maxPageNoD);
+    console.log(this.pageNoD);
     this.getDiscount("",this.pageNoD,this.pageSize);
   }
   randGetWelfare(){

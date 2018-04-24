@@ -130,7 +130,7 @@ export class RoleComponent implements OnInit {
                 'imgType': 1,
               });
               this.closeNewUser();
-              this.getRoleList(1);
+              this.getRoleList(this.pageNo);
             }
           })
       }

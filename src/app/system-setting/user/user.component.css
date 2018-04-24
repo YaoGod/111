@@ -3,6 +3,7 @@
 }
 .content-inner{
   padding: 15px;
+  min-height: 84vh;
   background-color: #ffffff;
   box-sizing: border-box;
   transition-duration: 300ms;

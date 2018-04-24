@@ -345,12 +345,6 @@ ul,li{
 .user-info{
   text-align: center;
 }
-.user-img{
-  width: 70px;
-  height: 70px;
-  display: inline-block;
-  background: url('../../../../../assets/image/user.jpg') no-repeat;
-}
 .user-txt{
   display: block;
   margin: 8px 0;

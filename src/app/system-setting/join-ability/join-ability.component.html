@@ -12,15 +12,32 @@
     <!--人员信息简介-->
     <div class="goods-box">
       <div class="goods-img">
-        <img alt="image" src="assets/image/admin.png">
+        <img alt="image" src="assets/image/icon-admin.png">
       </div>
+      <p>角色 ID ：{{role.roleId}}</p>
       <p>角色名称：{{role.roleName}}</p>
+      <p *ngIf="role.note">角色介绍：{{role.note}}</p>
     </div>
     <div class="split-title">
       <h4>权限信息</h4>
     </div>
-    <div id="AbilityChart">
-
+    <div>
+      <ul class="card-list">
+        <li class="card-area">
+          <div class="card-inner">
+            <div class="card-head">
+              <i class="icon-settings"></i>
+            </div>
+            <h5 class="card-title">系统管理</h5>
+            <div class="card-option">
+              <label title="查看"><input type="checkbox"><i class="icon-screen-desktop"></i></label>
+              <label title="新增"><input type="checkbox"><i class="icon-plus"></i></label>
+              <label title="修改"><input type="checkbox"><i class="icon-pencil"></i></label>
+              <label title="删除"><input type="checkbox"><i class="icon-trash"></i></label>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
     <div class="foot-submit">
       <a class="btn btn-info" (click)="submit()">提交</a>

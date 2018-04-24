@@ -5,7 +5,6 @@ import {UserPortalService} from "../../service/user-portal/user-portal.service";
 import {ErrorResponseService} from "../../service/error-response/error-response.service";
 import {GlobalUserService} from "../../service/global-user/global-user.service";
 import {Role} from "../../mode/user/user.service";
-
 @Component({
   selector: 'app-join-ability',
   templateUrl: './join-ability.component.html',
@@ -39,53 +38,12 @@ export class JoinAbilityComponent implements OnInit {
   }
   /*获取角色信息*/
   getRoleMsg(id){
-
-  }
-  /*获取权限树杈图*/
-  getAbilityEcharts(data){
-    let option = {
-      tooltip: {
-        trigger: 'item',
-        triggerOn: 'mousemove'
-      },
-      series: [
-        {
-          type: 'tree',
-
-          data: [data],
-
-          top: '1%',
-          left: '7%',
-          bottom: '1%',
-          right: '20%',
-
-          symbolSize: 7,
-
-          label: {
-            normal: {
-              position: 'left',
-              verticalAlign: 'middle',
-              align: 'right',
-              fontSize: 9
-            }
-          },
-
-          leaves: {
-            label: {
-              normal: {
-                position: 'right',
-                verticalAlign: 'middle',
-                align: 'left'
-              }
-            }
-          },
-
-          expandAndCollapse: true,
-          animationDuration: 550,
-          animationDurationUpdate: 750
+    this.userPortalService.getRoleInfo(id)
+      .subscribe(data=>{
+        if(this.errorResponseService.errorMsg(data)){
+          this.role = data.data;
         }
-      ]
-    }
+      })
   }
   submit(){
 

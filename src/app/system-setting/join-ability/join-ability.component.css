@@ -121,9 +121,14 @@
 .card-inner{
   display: block;
   position: relative;
-  padding: 10px;
-  border: 1px solid #b3cee6;
+  border: 1px solid #E2E2E2;
   border-radius: 5px;
+}
+.card-head{
+  height: 80px;
+  line-height: 80px;
+  background-color: #f8f8f8;
+  text-align: center;
 }
 .card-inner>h5{
   display: inline-block;

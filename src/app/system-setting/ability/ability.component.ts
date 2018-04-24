@@ -5,6 +5,7 @@ import {ErrorResponseService} from "../../service/error-response/error-response.
 import {Ability} from "../../mode/user/user.service";
 declare var $:any;
 declare var confirmFunc:any;
+import * as echarts from 'echarts';
 @Component({
   selector: 'app-ability',
   templateUrl: './ability.component.html',
@@ -35,6 +36,7 @@ export class AbilityComponent implements OnInit {
     this.copyAbility = new Ability();
     this.getAbilityList(1);
     this.getDeptList();
+    this.getAbilityEcharts('AbilityChart');
   }
   /*获取角色信息列表*/
   getAbilityList(pageNo){
@@ -69,7 +71,7 @@ export class AbilityComponent implements OnInit {
             if (this.errorResponseService.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示',
-                'mes': data.data,
+                'mes': data.msg,
                 'popType': 2,
                 'imgType': 1
               });
@@ -109,7 +111,7 @@ export class AbilityComponent implements OnInit {
             if (this.errorResponseService.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示',
-                'mes': data.data,
+                'mes': data.msg,
                 'popType': 2,
                 'imgType': 1,
               });
@@ -124,12 +126,12 @@ export class AbilityComponent implements OnInit {
             if (this.errorResponseService.errorMsg(data)) {
               confirmFunc.init({
                 'title': '提示',
-                'mes': data.data,
+                'mes': data.msg,
                 'popType': 2,
                 'imgType': 1,
               });
               this.closeNewUser();
-              this.getAbilityList(1);
+              this.getAbilityList(this.pageNo);
             }
           })
       }
@@ -157,5 +159,57 @@ export class AbilityComponent implements OnInit {
   private  removeErrorClass(id: string) {
     $('#' + id).removeClass('red');
     $('#' + id).parent().next('.error').fadeOut();
+  }
+  /*获取权限树杈图*/
+  getAbilityEcharts(id){
+    this.userPortalService.getCataTree()
+      .subscribe(data => {
+        if (this.errorResponseService.errorMsg(data)) {
+        let option = {
+          tooltip: {
+            trigger: 'item',
+            triggerOn: 'mousemove'
+          },
+          series: [
+            {
+              type: 'tree',
+
+              data: [data.data],
+
+              top: '1%',
+              left: '1%',
+              bottom: '1%',
+              right: '20%',
+              symbolSize: 10,
+              initialTreeDepth: 2,
+              label: {
+                normal: {
+                  position: 'left',
+                  verticalAlign: 'middle',
+                  align: 'right',
+                  fontSize: 9
+                }
+              },
+
+              leaves: {
+                label: {
+                  normal: {
+                    position: 'right',
+                    verticalAlign: 'middle',
+                    align: 'left'
+                  }
+                }
+              },
+
+              expandAndCollapse: true,
+              animationDuration: 550,
+              animationDurationUpdate: 750
+            }
+          ]
+        };
+        let chart = echarts.init(document.getElementById(id));
+        chart.setOption(option);
+        }
+      })
   }
 }

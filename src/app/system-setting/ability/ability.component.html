@@ -8,7 +8,7 @@
     <div class="search-bar">
       <ul>
         <li><label>模块名称</label>
-          <input type="text" name="searchUserId" [(ngModel)]="search.roleName">
+          <input type="text" name="searchUserId" [(ngModel)]="search.cataName">
         </li>
         <li>
           <a (click)="getAbilityList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
@@ -18,16 +18,17 @@
         </li>
       </ul>
     </div>
+    <div id="AbilityChart" class="chart-inner"></div>
     <!--表头-->
-    <div class="table-head" style="margin-top: 10px">
+    <div class="table-head" style="margin-top: 10px; min-height: 400px;">
       <table border="0" cellspacing="0" cellpadding="0" class="list-box">
         <tr class="row list-title" style="height:45px;">
           <th width="10%" class="text-left">模块ID</th>
           <th width="25%" class="text-left">模块名称</th>
-          <th width="10%" class="text-left">模块图标</th>
+          <th width="10%">模块图标</th>
           <th width="20%" class="text-left">模块地址</th>
           <th width="10%" class="text-left">Father ID</th>
-          <th width="15%" class="text-left">创建时间</th>
+          <th width="15%" class="text-left">创建/修改时间</th>
           <th style="min-width: 200px">操作</th>
         </tr>
         <tr class="row" *ngFor="let ability of abilities;let i = index">
@@ -37,8 +38,8 @@
           <td class="text-left">
             {{ability.cataName}}
           </td>
-          <td class="text-left">
-            {{ability.icon}}
+          <td>
+            <i [ngClass]="ability.icon"></i>
           </td>
           <td class="text-left">
             {{ability.cataUrl}}
@@ -47,7 +48,7 @@
             {{ability.fatherId}}
           </td>
           <td class="text-left">
-            {{ability.createTime | date:'yyyy/MM/dd HH:mm:ss'}}
+            {{ability.createTime?ability.createTime:'' | date:'yyyy/MM/dd HH:mm:ss'}}
           </td>
           <td class="box-option">
             <a (click)="edit(ability)">
@@ -108,7 +109,7 @@
           <div  class="form-group">
             <label  class="control-label"><span>模块地址</span>
               <input type="text" class="form-control" id="cataUrl" name="cataUrl"
-                     [(ngModel)]="copyAbility.cataUrl" (blur)="verifyEmpty(copyAbility.cataUrl,'cataUrl')">
+                     [(ngModel)]="copyAbility.cataUrl">
             </label>
             <div class="error"></div>
           </div>

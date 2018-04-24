@@ -442,7 +442,6 @@ input[type=text]{
   justify-content: space-between;
   padding: 15px;
   background-color: #f1f5f8;
-  /* border-bottom: 1px solid #eceeef; */
 }
 button{
   border:none;
@@ -708,17 +707,6 @@ button{
   font-size: 12px;
   text-align: right;
 }
-
-
-
-
-html,body,div,span,img,button,ul,li,dl,dt,dd,input,select,option,table,tr,th,td,h1,h2,h3,h4,h5,h6{
-  margin: 0;
-  padding: 0;
-}
-body{
-  font-family: "微软雅黑";
-}
 ul,li{
   list-style: none;
 }
@@ -738,28 +726,6 @@ ul,li{
   height: auto;
   float: right;
   background: #edf1f5;
-}
-.logo{
-  width: 184px;
-  height: 54px;
-  margin: 12px auto 19px auto;
-  background: url('../../../../../assets/image/logo.jpg') no-repeat;
-}
-.user-info{
-  text-align: center;
-}
-.user-img{
-  width: 70px;
-  height: 70px;
-  display: inline-block;
-  background: url('../../../../../assets/image/user.jpg') no-repeat;
-}
-.user-txt{
-  display: block;
-  margin: 8px 0;
-  background-image: url('../../../../../assets/image/icon-down.jpg');
-  background-repeat: no-repeat;
-  background-position-x: 130px;
 }
 .user-list{
   border: none;
