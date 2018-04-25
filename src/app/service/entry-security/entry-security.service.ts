@@ -96,6 +96,8 @@ export class EntryService {
   oaEmail  : string;
   status   : string;
   building : string;
+  buildingId: number;
+  buildingName:string;
   productType: string;  /*选择的类型*/
 
   userId : number;

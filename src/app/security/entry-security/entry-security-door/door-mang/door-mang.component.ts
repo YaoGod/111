@@ -4,6 +4,8 @@ import {UserPortalService} from "../../../../service/user-portal/user-portal.ser
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {EntrySecurityService, EntryService} from "../../../../service/entry-security/entry-security.service";
 import {GlobalUserService} from "../../../../service/global-user/global-user.service";
+import {InfoBuildingService} from "../../../../service/info-building/info-building.service";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 
 declare var $:any;
 declare var confirmFunc:any;
@@ -12,7 +14,7 @@ declare var confirmFunc:any;
   selector: 'app-door-mang',
   templateUrl: './door-mang.component.html',
   styleUrls: ['./door-mang.component.css'],
-  providers: [EntrySecurityService,ErrorResponseService]
+  providers: [EntrySecurityService,ErrorResponseService,InfoBuildingService]
 })
 export class DoorMangComponent implements OnInit {
 
@@ -21,30 +23,39 @@ export class DoorMangComponent implements OnInit {
   public total = 0;
   public search: EntryService;
   public deptList: Array<any>;
-  public entrySecurity:EntryService;
-  public cardManage: Array<EntryService>;
+  public entry:DoorMang;
+  public record : Array<DoorMang>;
   public buildings: Array<any>;
+  public building   : Array<any>;
+  public floors   : Array<any>;
 
+  public floorNames   : Array<any>; /*大楼楼层信息列表*/
+  public rooms        : Array<any>;/*大楼指定楼层房间信息列表*/
+  public cardManage : Array<EntryService>;
   constructor(
     private globalCatalogService: GlobalCatalogService,
     private userPortalService:UserPortalService,
     private errorResponseService:ErrorResponseService,
     private globalUserService:GlobalUserService,
+    private infoBuildingService:InfoBuildingService,
     private entrySecurityService:EntrySecurityService,
-    private entryService:EntrySecurityService
+    private entryService:EntrySecurityService,
+    public ipSetting  : IpSettingService
 
   ) { }
 
   ngOnInit() {
     this.globalCatalogService.setTitle("后勤物业/出入安全管理");
     this.cardManage = [];
+    this.record = [];
     this.search = new EntryService();
-    this.entrySecurity = new EntryService();
+    this.entry = new DoorMang();
+    this.record.push(this.entry);
     this.search.deptId = '';// this.globalUserService.getVal().deptId;
     this.search.cardType = '';
     this.getUserList(1);
     this.getDeptList();
-    this.getBuildingList();
+    this.getBuildingList(0);
   }
 
   /*获取用户信息列表*/
@@ -70,40 +81,89 @@ export class DoorMangComponent implements OnInit {
   }
 
   /*获取大楼列表*/
-  getBuildingList() {
+  getBuildingList(index) {
     this.entrySecurityService.getBuildingList('')
       .subscribe(data => {
         if(this.errorResponseService.errorMsg(data)) {
-          this.buildings = data.data;
+          this.record[index].buildings = data.data;
         }
       })
   }
-
+  /*增加栏目*/
+  addPro(){
+    this.record.push(new DoorMang());
+    this.getBuildingList(this.record.length-1);
+    console.log(this.record);
+    // this.floors.length = this.record.length;
+  }
+  removePro(index){
+    this.record.splice(index,1);
+  }
+  /*获取楼层名称*/
+  getFloorNameListMsg(id,index) {
+    for(let i=0;i<this.record[index].buildings.length;i++){
+       if(this.record[index].buildings[i].ID==id){
+         this.record[index].buildingName = this.record[index].buildings[i].NAME;
+       }
+    }
+    this.infoBuildingService.getFloorNameListMsg(id)
+      .subscribe(data => {
+        if(this.errorResponseService.errorMsg(data)) {
+          this.record[index].floorNums = data.data;
+        }
+      });
+  }
+  /*获取楼层房间信息*/
+  getRoomListMsg(id,index){
+    // console.log(this.record[index].floorNums);
+    for (let i=0;i<this.record[index].floorNums.length;i++) {
+      if (this.record[index].floorNums[i].FLOOR_NUM == id) {
+        this.infoBuildingService.getRoomListMsg( this.record[index].floorNums[i].ID, 1,99)
+          .subscribe(data =>{
+            if(this.errorResponseService.errorMsg(data)) {
+              this.record[index].rooms = data.data.infos;
+            }
+          });
+      }
+    }
+  }
   closeNewUser(){
-    this.entrySecurity = new EntryService();
+    this.entry = new DoorMang();
     $('.red').removeClass('red');
     $('.error').html('');
     $('#newUser').hide();
   }
 
   /*批量导入*/
-  selecteFile(){
-    this.entrySecurity = new EntryService();
+  /*selecteFile(){
+    this.entry = new EntryService();
     $('#selecteFile').show();
-  }
+  }*/
   closeFile(){
-    this.entrySecurity = new EntryService();
+    this.entry = new DoorMang();
     $('#selecteFile').hide();
   }
 
   /*新增提交*/
-  submitNew(){
+  submit(){
     let error = 0;
-    /*this.verifyEmpty(this.entrySecurity.userid,'userid');
-    this.verifyEmpty(this.entrySecurity.username,'username');
-    this.verifyEmpty(this.entrySecurity.deptId,'deptId');*/
-    if($('.red').length === 0 && error === 0) {
-      this.userPortalService.addUserInfo(this.entrySecurity)
+    let url = '/building/guard/addGuard';
+    let postData = JSON.parse(JSON.stringify(this.record));
+    for(let i=0;i<this.cardManage.length;i++){
+      if(postData[0].userId === this.cardManage[i].employNo){
+        for(let j=0;j<postData.length;j++){
+          postData[j].userId = this.cardManage[i].employNo;
+          postData[j].cardCode = this.cardManage[i].cardNo;
+          postData[j].cardType = this.cardManage[i].cardType;
+          // postData[j].type = this.cardManage[i].employNo;
+          postData[j].userDept = this.cardManage[i].deptName;
+          postData[j].userName = this.cardManage[i].employee;
+          postData[j].deptId = this.cardManage[i].deptId;
+        }
+      }
+    }
+    if(error === 0) {
+      this.ipSetting.sendPost(url,postData)
         .subscribe(data => {
           if (this.errorResponseService.errorMsg(data)) {
             confirmFunc.init({
@@ -113,7 +173,7 @@ export class DoorMangComponent implements OnInit {
               'imgType': 1,
             });
             this.closeNewUser();
-            this.getUserList(1);
+            // this.getUserList(1);
           }
         })
     }
@@ -142,31 +202,19 @@ export class DoorMangComponent implements OnInit {
   }
 
   /*修改*/
-  editRecord(index) {
-    this.entrySecurity = JSON.parse(JSON.stringify(this.cardManage[index]));
-    this.entrySecurity.status = '正常';
-    this.entrySecurity.cardType = '自有员工';
+  /*/building/guard/getGuardInfo/*/
+  editRecord(id) {
+    /*let url = '/building/guard/getGuardInfo/'+id;
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorResponseService.errorMsg(data)) {
+        console.log(data.data);
+        this.record = data.data;
+      }
+    });*/
+    this.record[0].userId = id;
     $('#newUser').show();
   }
 
-  /*提交修改*/
-  submitPassword(){
-    let error = 0;
-    if($('.red').length === 0 && error === 0) {
-      this.userPortalService.updatePassword(this.entrySecurity, '0')
-        .subscribe(data => {
-          if (this.errorResponseService.errorMsg(data)) {
-            confirmFunc.init({
-              'title': '提示',
-              'mes': data.msg,
-              'popType': 2,
-              'imgType': 1,
-            });
-            this.closeNewUser();
-          }
-        })
-    }
-  }
 
   /*授权或取消授权*/
   cancelOrAuthority(id){
@@ -215,4 +263,7 @@ export class DoorMang {
   userId: string;
   userName: string;
   deptId: string;
+  buildings: Array<any>;
+  floorNums: Array<any>;
+  rooms: Array<any>;
 }
