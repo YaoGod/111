@@ -11,9 +11,9 @@
     </div>
     <!--搜索栏-->
     <div class="search-bar">
-      <ul>
+      <ul class="clearfix">
         <li><label>HRMIS</label>
-          <input type="text" name="searchUserId" [(ngModel)]="search.userid">
+          <input type="text" name="searchUserId" [(ngModel)]="search.employNo">
         </li>
         <li><label>员工部门</label>
           <select name="searchDeptId" [(ngModel)]="search.deptId">
@@ -28,16 +28,13 @@
             <option [value]="0">第三方员工</option>
           </select>
         </li>
-        <li>
+        <li style="float: right;">
           <a (click)="getCardManageList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
-        </li>
-        <li>
+
           <a (click)="newUser();"><i class="icon-plus"></i>&nbsp;新增</a>
-        </li>
-        <li>
+
           <a (click)="selecteFile();"><i class="icon-cloud-upload"></i>&nbsp;导入</a>
-        </li>
-        <li>
+
           <a class="btn-danger" href="javascript:;" (click)="downDeriving()" ><!--[href]="exportSysLog()"-->
             <i class="icon-share-alt"></i>&nbsp;导出</a>
         </li>
@@ -92,12 +89,16 @@
             {{user.startTime}}
           </td>
           <td width="12%" class="box-option">
+            <a *ngIf="user.cardStatus==='1'" (click)="editRecord(i)">
+              <i class="icon-pencil"></i>修改
+            </a>
+            <a *ngIf="user.cardStatus==='2'" (click)="alertRecord()">
+              <i class="icon-pencil"></i>修改
+            </a>
             <a (click)="delete(i)">
               <i class="icon-trash"></i>失效
             </a>
-            <a (click)="editRecord(i)">
-              <i class="icon-pencil"></i>修改
-            </a>
+
           </td>
         </tr>
       </table>

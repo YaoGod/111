@@ -258,7 +258,13 @@ h1, h2, h3, h4, h5, h6 {
   white-space: normal;
   overflow: hidden;
   width: 100%;
+  max-width:1380px;
   min-height: 520px;
+}
+@media (max-width: 1440px) {
+  .product-list {
+    max-width:900px;
+  }
 }
 ol, ul {
   list-style: none;

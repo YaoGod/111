@@ -123,7 +123,7 @@ export class IndexWelfareComponent implements OnInit {
   }
   randGetDiscount(){
     this.pageNoD = this.rand(this.pageNoD,this.maxPageNoD);
-    console.log(this.pageNoD);
+    // console.log(this.pageNoD);
     this.getDiscount("",this.pageNoD,this.pageSize);
   }
   randGetWelfare(){

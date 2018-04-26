@@ -369,3 +369,11 @@ sup{
   font-weight: 700;
   color: #9d9d9d;
 }
+.noticeInfo{
+  float: right;
+  font-size: 12px;
+  line-height:15px;
+  height:45px;
+  color:#ff0000;
+  width:400px;
+}

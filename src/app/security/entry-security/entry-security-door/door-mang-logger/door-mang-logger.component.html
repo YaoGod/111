@@ -3,7 +3,7 @@
   <div class="content-inner">
     <!--页面标题-->
     <div class="nav-title">
-      <a><h4>权限变更日志</h4></a>
+      <a><h4>门禁权限信息及变更日志</h4></a>
       <div class="b-head-right">
         <div class="content-box" tabindex="0" onclick="history.go(-1)">
           <i class="icon-reload"></i> 返回
@@ -11,7 +11,7 @@
       </div>
     </div>
     <!--搜索栏-->
-    <div class="search-bar">
+    <!--<div class="search-bar">
       <ul>
         <li><label>HRMIS</label>
           <input type="text" name="searchUserId" [(ngModel)]="search.userid">
@@ -27,85 +27,96 @@
             <option value="">全部</option>
             <option *ngFor="let building of buildings" [value]="building.ID">{{building.NAME}}</option>
           </select>
-          <!--<select [(ngModel)]="search.buildingId" (change)="linkType()">-->
-          <!--<option value="0">全部</option>-->
-          <!--<option *ngFor="let building of buildings"-->
-          <!--[value] = "building.ID">{{building.NAME}}</option>-->
-          <!--</select>-->
         </li>
         <li>
           <a (click)="getUserList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
         </li>
       </ul>
-    </div>
+    </div>-->
+    <div class="cont-inner clearfix">
+      <ul class="card-left">
+        <li>员工姓名</li>
+        <li>归属部门</li>
+        <li>员工编号</li>
+        <li>工号牌编号</li>
+        <li>工号牌类型</li>
+      </ul>
+      <ul class="card-right">
+        <li>{{recordUser.employee}}</li>
+        <li>{{recordUser.deptId}}</li>
+        <li>{{recordUser.employNo}}</li>
+        <li>{{recordUser.cardNo}}</li>
+        <li>{{recordUser.cardType}}</li>
+      </ul>
+      <!--<div class="note">
+        <div class="title"><span>备注</span><p>{{newCard.note}}</p></div>
+
+      </div>-->
     <!--表头-->
+    </div>
     <div class="table-head" style="margin-top: 10px">
-      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+      <h2>门禁权限信息</h2>
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box" *ngIf="record.length>0">
         <tr class="row list-title" style="height:45px;">
-          <th width="8%">员工编号</th>
-          <th width="8%">员工姓名</th>
-          <th width="8%">员工部门</th>
-          <th width="8%" class="text-left">工号牌编号</th>
+          <th width="6%">序号</th>
+          <th width="20%">大楼名称</th>
+          <th width="10%">楼层</th>
+          <th width="10%">房间</th>
+          <th width="20%">授权时间</th>
+        </tr>
+        <tr class="row" *ngFor="let inner of record;let i=index">
+          <td width="6%">{{i+1}}</td>
+          <td width="20%">{{inner.buildingName}}</td>
+          <td width="10%">{{inner.floorNum}}</td>
+          <td width="10%">{{inner.roomNum}}</td>
+          <td width="20%">{{inner.handleTime}}</td>
+        </tr>
+      </table>
+
+      <div class="div-none" *ngIf="record.length === 0">
+        <p>暂无门禁权限信息</p>
+      </div>
+    </div>
+    <div class="table-head" style="margin-top: 10px">
+      <h2>历史变更记录</h2>
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box" *ngIf="history.length>0">
+        <tr class="row list-title" style="height:45px;">
+          <th width="10%">员工编号</th>
+          <th width="10%">员工姓名</th>
+          <th width="15%">员工部门</th>
+          <!--<th width="8%" class="text-left">工号牌编号</th>
           <th width="8%" class="text-left">工号牌类型</th>
           <th width="8%" class="text-left">大楼名称</th>
           <th width="8%" class="text-left">楼层</th>
-          <th width="8%" class="text-left">授权时间</th>
-          <th width="8%" class="text-left">变动类型</th>
-          <th width="8%" class="text-left">变动时间</th>
-          <th width="8%" class="text-left">变动方式</th>
+          <th width="8%" class="text-left">房间</th>-->
+          <th width="10%">变动类型</th>
+          <th width="15%">变动时间</th>
+        </tr>
+        <tr class="row" *ngFor="let abc of history;let i=index">
+          <td width="10%">{{abc.userId}}</td>
+          <td width="10%">{{abc.userName}}</td>
+          <td width="15%">{{abc.userDept}}</td>
+          <!--<td>{{abc}}</td>
+          <td>{{abc}}</td>
+          <td>{{abc}}</td>
+          <td>{{abc}}</td>
+          <td>{{abc}}</td>-->
+          <td width="10%">{{abc.handleType}}</td>
+          <td width="15%">{{abc.handleTime}}</td>
         </tr>
       </table>
-    </div>
-    <!--表格内容-->
-    <div class="table-content" style="min-height: 360px">
-      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
-        <tr class="row" *ngFor="let user of cardManage;let i = index">
-          <td width="10%" class="text-left">
-            {{user.userid}}
-          </td>
-          <td width="10%" class="text-left">
-            {{user.username}}
-          </td>
-          <td width="10%" class="text-left">
-            {{user.deptId}}
-          </td>
-          <td width="10%">
-            {{user.homeAddr}}
-          </td>
-          <td width="10%">
-            {{user.userid}}
-          </td>
-          <td width="10%">
-            {{user.username}}
-          </td>
-          <td width="10%">
-            {{user.teleNum}}
-          </td>
-          <td width="10%">
-            {{user.teleNum}}
-          </td>
-          <td width="10%">
-            {{user.teleNum}}
-          </td>
-          <td width="10%">
-            {{user.teleNum}}
-          </td>
-          <td width="10%">
-            {{user.teleNum}}
-          </td>
-        </tr>
-      </table>
-      <div class="div-none" *ngIf="cardManage.length === 0">
-        <p>暂无信息</p>
+      <div class="div-none" *ngIf="history.length === 0">
+        <p>暂无历史操作记录</p>
       </div>
+      <!--翻页-->
+      <app-turn-bar
+        [pageNo]="pageNo"
+        [pageSize]="pageSize"
+        [total]="total"
+        (turnEvent)="getGuardRecord($event)">
+      </app-turn-bar>
     </div>
-    <!--翻页-->
-    <app-turn-bar
-      [pageNo]="pageNo"
-      [pageSize]="pageSize"
-      [total]="total"
-      (turnEvent)="getUserList($event)">
-    </app-turn-bar>
+
 
   </div>
 </div>

@@ -430,3 +430,66 @@ select{
   content: "";
   clear: both;
 }
+.cont-inner{
+  padding:20px;
+  margin:20px;
+  position: relative;
+  -webkit-background-size: 110px 110px;
+  -moz-background-size: 110px 110px;
+  background-size: 110px 110px; /* 控制条纹的大小 */
+
+  -moz-box-shadow: 1px 1px 8px gray;
+  -webkit-box-shadow: 1px 1px 8px gray;
+  box-shadow: 1px 1px 8px gray;
+
+  background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #F4F4F4), color-stop(.25, transparent), to(transparent)),
+  -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.25, #F4F4F4), color-stop(.25, transparent), to(transparent)),
+  -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.75, transparent), color-stop(.75, #F4F4F4)),
+  -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.75, transparent), color-stop(.75, #F4F4F4));
+   background-image: -moz-linear-gradient(45deg, #F4F4F4 25%, transparent 25%, transparent),
+   -moz-linear-gradient(-45deg, #F4F4F4 25%, transparent 25%, transparent),
+   -moz-linear-gradient(45deg, transparent 75%, #F4F4F4 75%),
+   -moz-linear-gradient(-45deg, transparent 75%, #F4F4F4 75%);
+
+  background-image: linear-gradient(45deg, #F4F4F4 25%, transparent 25%, transparent),
+  linear-gradient(-45deg, #F4F4F4 25%, transparent 25%, transparent),
+  linear-gradient(45deg, transparent 75%, #F4F4F4 75%),
+  linear-gradient(-45deg, transparent 75%, #F4F4F4 75%);
+}
+.card-left{
+  float: left;
+  width:220px;
+}
+.card-right{
+  float: left;
+  width: 450px;
+}
+.card-left>li{
+  text-align: justify;
+}
+.card-left>li,.card-right>li{
+  line-height:40px;
+}
+.note{
+  float: left;
+  width:100%;
+}
+.title{
+  height: 40px;
+  color: #8d9ea7;
+}
+.title span{
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 10px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #2a85e9;
+  -webkit-box-shadow: 1px 2px 5px #999;
+  box-shadow: 1px 2px 5px #999;
+}
+.title p{
+  display: inline-block;
+  margin-left:168px;
+}

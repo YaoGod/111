@@ -78,7 +78,9 @@ export class WorkCardApplyComponent implements OnInit {
         }
       })
   }
+  submitPassword(){
 
+  }
   /*非空验证*/
   verifyEmpty( value, id?){
     if(typeof (value) === "undefined" ||

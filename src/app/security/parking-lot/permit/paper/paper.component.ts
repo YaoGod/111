@@ -88,13 +88,12 @@ export class PaperComponent implements OnInit {
   }
   /*获取停车证信息*/
   getPermitInfo(){
-    console.log(this.searchInfo)
+    // console.log(this.searchInfo)
 
     let url = "/building/parking/getParkingPermitList/list/"+this.pageNo+"/"+this.pageSize+'?buildingName='+
       this.searchInfo.buildingName+'&&type='+this.searchInfo.type+'&&useStatus='+this.searchInfo.useStatus+
       '&&permitStatus='+this.searchInfo.permitStatus+'&&useUserName='+this.searchInfo.useUserName+
       '&&useCarCode='+this.searchInfo.useCarCode;
-    console.log()
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         // console.log(data.data.infos);
@@ -158,7 +157,6 @@ export class PaperComponent implements OnInit {
   /*点击延期*/
   addDate(){
     this.eTime = '';
-    // console.log(this.newCard.eTime);
     $('.mask1').fadeIn();
   }
   public verifyeTime1(){
@@ -427,7 +425,6 @@ export class PaperComponent implements OnInit {
     let url = '/building/parking/getParkingPermitInfo/'+id;
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
-        // console.log(data.data);
         $('.mask').fadeIn();
         $('.mask .mask-head p').html('编辑停车证');
         this.newCard = data.data.object;

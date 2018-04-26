@@ -57,7 +57,7 @@ export class WorkCardMangComponent implements OnInit {
   /*获取信息列表*/
   getCardManageList(pageNo){
     this.pageNo = pageNo;
-    this.entrySecurityService.getCardManageList(this.pageNo,this.pageSize,this.search)
+    this.entrySecurityService.getCardManageUrl(this.pageNo,this.pageSize,this.search)
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
           let arr = [];
@@ -102,6 +102,7 @@ export class WorkCardMangComponent implements OnInit {
     this.entrySecurity.cardStatus = '1';  /*正常1, 失效2*/
     this.entrySecurity.cardType = '1';  /*自有员工1, 第三方员工0*/
     $('#newUser').show();
+    $('.modal-title').html('工号牌新增');
   }
   closeNewUser(){
     this.entrySecurity = new EntryService();
@@ -182,8 +183,16 @@ export class WorkCardMangComponent implements OnInit {
     this.changeWay = 'modify';
     this.entrySecurity = JSON.parse(JSON.stringify(this.cardManage[index]));
     $('#newUser').show();
+    $('.modal-title').html('工号牌编辑');
   }
-
+  alertRecord(){
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '该员工号牌已失效',
+      'popType': 2,
+      'imgType': 2
+    });
+  }
   // /*提交修改*/
   // submitEditRecord(){
   //   let error = 0;
@@ -236,7 +245,7 @@ export class WorkCardMangComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorResponseService.errorMsg(data)) {
-          if(data.status === 0 && data.data.result==='success'){
+          if(data.status === 0 ){/*&& data.data.result==='success'*/
             confirmFunc.init({
               'title': '提示' ,
               'mes': '导入成功',
@@ -255,7 +264,7 @@ export class WorkCardMangComponent implements OnInit {
             })
           }
           $('#prese').val('');
-          $('#induction').hide();
+          $('#selecteFile').hide();
           this.pageNo = 1;
           this.getCardManageList(1);
         }else{

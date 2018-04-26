@@ -1,0 +1,33 @@
+.main{
+  position: fixed;
+  width:100%;
+  height:100%;
+  background-color:orchid;
+  z-index: 999999999;
+}
+.wrap{
+  width:900px;
+  margin:0 auto;
+
+}
+.nav-ul{
+  min-height:500px;
+  background: #ccc;
+}
+.nav-ul li{
+  float: left;
+  width:25%;
+  padding-bottom: 25%;/* padding百分比相对父元素宽度计算 */
+  height: 0;/*//避免被内容撑开多余的高度*/
+
+  max-width: 250px;
+}
+.nav-ul li img{
+  padding:10%;
+  width:80%;
+}
+.nav-ul h3{
+  text-align: center;
+  line-height:30px;
+  font-size: 18px;
+}

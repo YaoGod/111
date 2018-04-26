@@ -47,12 +47,12 @@ ul,li{
   list-style: none;
 }
 .search-bar>ul{
-  display: flex;
 }
 .search-bar>ul>li{
   height: 36px;
   line-height: 36px;
   padding-right: 20px;
+  float:left;
 }
 .search-bar>ul>li>label{
   display: inline-block;
@@ -65,8 +65,8 @@ ul,li{
 }
 .search-bar>ul>li>input,.search-bar>ul>li>select{
   height: 26px;
-  width: 160px;
-  padding: 0 10px;
+  width: 120px;
+  padding: 0 0 0 10px;
   font-size: 12px;
   line-height: 1.5;
   border-radius: 3px;
@@ -189,7 +189,7 @@ td>img{
   text-align: left;
 }
 
-.mask {
+.mask,.mask1{
   position: fixed;
   left: 0;
   top: 0;
@@ -199,11 +199,11 @@ td>img{
   z-index: 999;
 }
 .modal-content{
-  width: 740px;
+  width: 780px;
   position: absolute;
   left: 50%;
   top: 100px;
-  margin-left: -370px;
+  margin-left: -390px;
 }
 .modal-header {
   display: -webkit-box;
@@ -352,13 +352,16 @@ td>img{
   font-size: 12px;
 }
 .form-group-big{
-  max-width: 40%;
+  max-width: 35%;
 }
 .form-group-little{
-  max-width: 25%;
+  max-width: 16%;
+}
+.form-group-middle{
+  max-width:30%;
 }
 .form-group-cancel{
-  max-width:10%;
+  max-width:6%;
   cursor: pointer;
 }
 .addPro{
@@ -387,7 +390,7 @@ td>img{
 .form-control {
   float: none;
   padding: 0 5px;
-  width: 180px;
+  width: 160px;
   max-width: 100%;
   line-height: 38px;
   background-color: rgba(0, 0, 0, 0);
@@ -403,7 +406,7 @@ td>img{
   box-sizing: border-box;
 }
 .form-control.duan{
-  width:100px;
+  width:68px;
 }
 .form-control:focus {
   background-size: 100% 1px, 100% 1px;
@@ -451,4 +454,19 @@ select{
 .form-building{
   max-height: 450px;
   overflow-y: auto;
+  min-height: 100px;
+  background-color: #fff;
+}
+.batch{
+  text-align: right;
+}
+.batch-row{
+  display: inline-block;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 5px;
+  background: #04a9f3;
+  color: #ffffff;
+  font-size: 12px;
+  cursor: pointer;
 }

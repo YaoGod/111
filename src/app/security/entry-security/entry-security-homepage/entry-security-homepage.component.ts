@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 
 @Component({
   selector: 'app-entry-security-homepage',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EntrySecurityHomepageComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private globalCatalogService: GlobalCatalogService,) { }
 
   ngOnInit() {
+    this.globalCatalogService.setTitle("后勤物业/出入安全管理");
   }
 
 }

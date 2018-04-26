@@ -19,24 +19,26 @@ declare var confirmFunc:any;
 export class DoorMangComponent implements OnInit {
 
   public pageNo;
-  public pageSize = 10;
+  public pageSize = 15;
   public total = 0;
+  public length = 10;
   public search: EntryService;
-  public deptList: Array<any>;
-  public entry:DoorMang;
-  public record : Array<DoorMang>;
-  public buildings: Array<any>;
-  public building   : Array<any>;
-  public floors   : Array<any>;
 
-  public floorNames   : Array<any>; /*大楼楼层信息列表*/
-  public rooms        : Array<any>;/*大楼指定楼层房间信息列表*/
+  public entry:DoorMang;
+  public deptList: Array<any>;
+
+  public recordChild : Power;
+  public record : Array<Power>;
+  public editrecord : Array<DoorMang>;
+  public buildings: Array<any>;
+  public all :boolean;
+  public beginCheck :boolean;
   public cardManage : Array<EntryService>;
+  public arr = [];
+  public userList = [];
   constructor(
     private globalCatalogService: GlobalCatalogService,
-    private userPortalService:UserPortalService,
     private errorResponseService:ErrorResponseService,
-    private globalUserService:GlobalUserService,
     private infoBuildingService:InfoBuildingService,
     private entrySecurityService:EntrySecurityService,
     private entryService:EntrySecurityService,
@@ -45,12 +47,15 @@ export class DoorMangComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.globalCatalogService.setTitle("后勤物业/出入安全管理");
+    this.globalCatalogService.setTitle("后勤物业/出入安全管理/门禁权限管理");
     this.cardManage = [];
     this.record = [];
+    this.recordChild = new Power();
+    this.editrecord = [];
     this.search = new EntryService();
     this.entry = new DoorMang();
-    this.record.push(this.entry);
+
+    this.record.push(this.recordChild);
     this.search.deptId = '';// this.globalUserService.getVal().deptId;
     this.search.cardType = '';
     this.getUserList(1);
@@ -60,6 +65,7 @@ export class DoorMangComponent implements OnInit {
 
   /*获取用户信息列表*/
   getUserList(pageNo){
+    this.all = false;
     this.pageNo = pageNo;
     this.entrySecurityService.getCardManageList(this.pageNo,this.pageSize,this.search)
       .subscribe(data=>{
@@ -91,10 +97,9 @@ export class DoorMangComponent implements OnInit {
   }
   /*增加栏目*/
   addPro(){
-    this.record.push(new DoorMang());
+    this.record.push(new Power());
     this.getBuildingList(this.record.length-1);
-    console.log(this.record);
-    // this.floors.length = this.record.length;
+    // console.log(this.record);
   }
   removePro(index){
     this.record.splice(index,1);
@@ -128,55 +133,275 @@ export class DoorMangComponent implements OnInit {
     }
   }
   closeNewUser(){
-    this.entry = new DoorMang();
+    // this.record = [];
+    this.editrecord = [];
     $('.red').removeClass('red');
     $('.error').html('');
-    $('#newUser').hide();
+    $('#newUser,#delUser').hide();
   }
 
   /*批量导入*/
   /*selecteFile(){
     this.entry = new EntryService();
     $('#selecteFile').show();
-  }*/
+  }
   closeFile(){
     this.entry = new DoorMang();
     $('#selecteFile').hide();
-  }
+  }*/
 
   /*新增提交*/
   submit(){
     let error = 0;
+
     let url = '/building/guard/addGuard';
-    let postData = JSON.parse(JSON.stringify(this.record));
-    for(let i=0;i<this.cardManage.length;i++){
+    let temporary = JSON.parse(JSON.stringify(this.record));
+    if(temporary.length<1){
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '请增加授权信息！',
+        'popType': 2,
+        'imgType': 2,
+      });
+      return false;
+    }
+    for(let i=0;i<temporary.length;i++){
+      delete temporary[i].buildings;
+      delete temporary[i].floorNums;
+      delete temporary[i].rooms;
+    }
+
+    let postData = {
+      guard: temporary,
+      listUser: this.userList
+    };
+    // console.log(postData);
+    /*for(let i=0;i<this.cardManage.length;i++){
       if(postData[0].userId === this.cardManage[i].employNo){
         for(let j=0;j<postData.length;j++){
           postData[j].userId = this.cardManage[i].employNo;
           postData[j].cardCode = this.cardManage[i].cardNo;
           postData[j].cardType = this.cardManage[i].cardType;
-          // postData[j].type = this.cardManage[i].employNo;
-          postData[j].userDept = this.cardManage[i].deptName;
+          postData[j].userDept = this.cardManage[i].deptId;
           postData[j].userName = this.cardManage[i].employee;
-          postData[j].deptId = this.cardManage[i].deptId;
         }
       }
+    }*/
+
+    this.ipSetting.sendPost(url,postData)
+      .subscribe(data => {
+        if (this.errorResponseService.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data.msg,
+            'popType': 2,
+            'imgType': 1,
+          });
+          this.closeNewUser();
+          this.getUserList(1);
+        }
+      })
+
+  }
+
+  /*新增授权*/
+  addRecord(id) {
+    this.userList = [];
+    this.record = [];
+    this.record.push(new Power());
+    this.getBuildingList(0);
+    this.userList[0] = id;
+    $('#newUser').show();
+  }
+  /*取消授权操作*/
+  editRecord(id){
+    let url = '/building/guard/getGuardList/1/999';
+    let postData = JSON.parse(JSON.stringify(this.search));
+    postData.userId = id;
+     this.ipSetting.sendPost(url,postData).subscribe(data => {
+     if(this.errorResponseService.errorMsg(data)) {
+      // console.log(data.data.infos);
+      this.editrecord = data.data.infos;
+      if(this.editrecord.length===0){
+        confirmFunc.init({
+          'title': '提示',
+          'mes': '暂无授权',
+          'popType': 2,
+          'imgType': 1
+        });
+      }else{
+        $('#delUser').fadeIn();
+      }
+     }
+     });
+  }
+  /*删除单项授权*/
+  delPro(index,id){
+    let url = '/building/guard/updateGuardStatus';
+    let postData = {
+      id:id,
+      status:'delete'
+    };
+    this.ipSetting.sendPost(url,postData).subscribe(data => {
+      if (this.errorResponseService.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示',
+          'mes': data.msg,
+          'popType': 2,
+          'imgType': 1
+        });
+        this.editrecord.splice(index,1);
+      }
+    });
+  }
+  /*全选*/
+  public checkedAll(){
+    let list = document.getElementsByName("orderCheck");
+    for(let i = 0;i<list.length;i++){
+      list[i]['checked'] = this.all;
     }
-    if(error === 0) {
-      this.ipSetting.sendPost(url,postData)
-        .subscribe(data => {
-          if (this.errorResponseService.errorMsg(data)) {
-            confirmFunc.init({
-              'title': '提示',
-              'mes': data.msg,
-              'popType': 2,
-              'imgType': 1,
+  }
+
+  /*判断是否全选*/
+  public checkIsAll(){
+    let list = document.getElementsByName("orderCheck");
+    for(let i = 0;i<list.length;i++){
+      if(!list[i]['checked']){
+        this.all = false;
+      }
+    }
+  }
+  /*批量授权*/
+  batchAccredit(){
+    this.beginCheck = false;
+    this.userList = [];
+    let list = document.getElementsByName("orderCheck");
+    let str = [];
+    let people = [];
+    for(let i = 0;i<list.length;i++){
+      if(list[i]['checked']){
+        str.push(list[i]['checked']);
+        people.push(list[i]['value']);
+      }
+    }
+    for(let i = 0;i<str.length;i++){
+      if(str[i]===true){
+        this.beginCheck = true;
+      }
+    }
+    if(this.beginCheck){
+      this.userList = people;
+      this.record = [];
+      this.record.push(new Power());
+      this.getBuildingList(0);
+      $('#newUser').show();
+    }else{
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '请先选择员工！',
+        'popType': 2,
+        'imgType': 2
+      });
+    }
+
+  }
+  /*批量取消授权*/
+  cancel(){
+    this.beginCheck = false;
+    let url = '/building/guard/deleteGuardStatusBatch';
+    let list = document.getElementsByName("orderCheck");
+    let postData = [];
+    let str = [];
+    for(let i = 0;i<list.length;i++){
+      if(list[i]['checked']){
+        str.push(list[i]['checked']);
+        postData.push(list[i]['value']);
+      }
+    }
+    for(let i = 0;i<str.length;i++){
+      if(str[i]===true){
+        this.beginCheck = true;
+      }
+    }
+    if(this.beginCheck){
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '是否取消所选用户的门禁权限？',
+        'popType': 1,
+        'imgType': 3,
+        "callback": () => {
+          this.ipSetting.sendPost(url,postData)
+            .subscribe(data => {
+              if (this.errorResponseService.errorMsg(data)) {
+                confirmFunc.init({
+                  'title': '提示',
+                  'mes': data.msg,
+                  'popType': 2,
+                  'imgType': 1
+                });
+                this.getUserList(1);
+              }
             });
-            this.closeNewUser();
-            // this.getUserList(1);
-          }
-        })
+        }
+      });
+    }else{
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '请先选择员工！',
+        'popType': 2,
+        'imgType': 2
+      });
     }
+
+  }
+  /*一键取消授权*/
+  emptyRecord(id){
+    let url = '/building/guard/getGuardList/1/999';
+    let postData = JSON.parse(JSON.stringify(this.search));
+    postData.userId = id;
+    this.ipSetting.sendPost(url,postData).subscribe(data => {
+      if(this.errorResponseService.errorMsg(data)) {
+        // console.log(data.data.infos);
+        this.editrecord = data.data.infos;
+        if(this.editrecord.length===0){
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '暂无授权',
+            'popType': 2,
+            'imgType': 1
+          });
+        }else{
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '是否取消当前用户的门禁权限？',
+            'popType': 1,
+            'imgType': 3,
+            "callback": () => {
+              let url22 = '/building/guard/deleteGuardStatusBatch';
+              let postData22 = [id];
+
+              this.ipSetting.sendPost(url22,postData22)
+                .subscribe(data2 => {
+                  if (this.errorResponseService.errorMsg(data2)) {
+                    confirmFunc.init({
+                      'title': '提示',
+                      'mes': data2.msg,
+                      'popType': 2,
+                      'imgType': 1
+                    });
+                    this.getUserList(1);
+                  }
+                });
+            }
+          });
+        }
+      }
+    });
+
+  }
+  /*导出*/
+  downloadTemplates() {
+    console.log('下载模板');
   }
   /*非空验证*/
   verifyEmpty( value, id?){
@@ -200,50 +425,16 @@ export class DoorMangComponent implements OnInit {
     $('#' + id).removeClass('red');
     $('#' + id).parent().next('.error').fadeOut();
   }
-
-  /*修改*/
-  /*/building/guard/getGuardInfo/*/
-  editRecord(id) {
-    /*let url = '/building/guard/getGuardInfo/'+id;
-    this.ipSetting.sendGet(url).subscribe(data => {
-      if(this.errorResponseService.errorMsg(data)) {
-        console.log(data.data);
-        this.record = data.data;
-      }
-    });*/
-    this.record[0].userId = id;
-    $('#newUser').show();
-  }
-
-
-  /*授权或取消授权*/
-  cancelOrAuthority(id){
-    confirmFunc.init({
-      'title': '提示',
-      'mes': '是否取消授权？',
-      'popType': 1,
-      'imgType': 3,
-      "callback": () => {
-        this.userPortalService.deleteUserInfo(id)
-          .subscribe(data => {
-            if (this.errorResponseService.errorMsg(data)) {
-              confirmFunc.init({
-                'title': '提示',
-                'mes': data.msg,
-                'popType': 2,
-                'imgType': 1
-              });
-              this.getUserList(1);
-            }
-          });
-      }
-    });
-  }
-/*导出*/
-  downloadTemplates() {
-    console.log('下载模板');
-  }
-
+}
+export class Power{
+  id: number;
+  buildingId: string;
+  buildingName: string;
+  floorNum: string;
+  roomNum: string;
+  buildings: Array<any>;
+  floorNums: Array<any>;
+  rooms: Array<any>;
 }
 export class DoorMang {
 
@@ -253,14 +444,13 @@ export class DoorMang {
   cardType: string;
   floorNum: string;
   id: number;
-  modifyTime: string;
-  modifyUserId:string;
+  handleTime: string;
   note: string;
   roomNum: string;
   status: string;
   type: string;
   userDept: string;
-  userId: string;
+  userId:string;
   userName: string;
   deptId: string;
   buildings: Array<any>;

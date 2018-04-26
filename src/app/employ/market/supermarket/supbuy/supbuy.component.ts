@@ -21,7 +21,7 @@ export class SupbuyComponent implements OnInit {
   public search: SupermarketProduct;
   public cart: SupermarketCart;
   public pageNo = 1;
-  public pageSize = 10;
+  public pageSize = 12;
   public total = 0;
   public length = 10;
   public cartsize:number = 0;

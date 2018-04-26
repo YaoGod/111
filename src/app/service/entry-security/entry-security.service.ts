@@ -17,11 +17,16 @@ export class EntrySecurityService {
 
   /*获取所有用户信息列表*/
   getCardManageList(pageNo,pageSize,search){
+    const url = this.ipSetting.ip + '/building/employCard/getUserCardList/'+pageNo+'/'+pageSize;
+    return this.http.post(url,search,this.options)
+      .map(res => res.json());
+  }
+  /*获取工号牌用户信息列表*/
+  getCardManageUrl(pageNo,pageSize,search){
     const url = this.ipSetting.ip + '/building/employCard/getList/'+pageNo+'/'+pageSize;
     return this.http.post(url,search,this.options)
       .map(res => res.json());
   }
-
   /*新增*/
   addCardInfo(postData){
     const url = this.ipSetting.ip + '/building/employCard/add';
@@ -87,6 +92,7 @@ export class EntryService {
   employNo: string; /*员工编号*/
   companyName: string;  /*服务公司名称*/
 
+  startTime: string; // 申请时间
   username : string;
   password : string;
   teleNum  : string;

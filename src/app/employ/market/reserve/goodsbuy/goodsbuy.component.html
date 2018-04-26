@@ -26,6 +26,8 @@
             <input placeholder="请输入商品名称" name="name"  [(ngModel)]="search.name"  />
           </div>
           <a class="search" href="javascript: void(0);" (click)="getGoodsShowList(1)">查询</a>
+          <div class="noticeInfo">A类、B类产品只限送浙江省内，C类只限杭州八大城区(上城、下城、江干、拱墅、西湖、滨江、萧山、余杭)。A类、B类、C类各满100元起送。
+          </div>
         </div>
         <div class="tuan"  *ngFor="let good of goods;let idx=index">
           <div class="row mt20">

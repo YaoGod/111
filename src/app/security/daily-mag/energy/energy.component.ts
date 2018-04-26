@@ -160,7 +160,7 @@ export class EnergyComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)) {
-          if(data.status === 0 && data.data.result==='success'){
+          if(data.status === 0){/* && data.data.result==='success'*/
             confirmFunc.init({
               'title': '提示' ,
               'mes': '导入成功',
