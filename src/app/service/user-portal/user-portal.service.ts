@@ -212,4 +212,15 @@ export class UserPortalService {
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
+  getAbilityCata(roleId,fatherId){
+    const url = this.ipSetting.ip + '/portal/cata/getRoleCata?roleId='+roleId+'&fatherId='+fatherId;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+  updateRoleCata(postData){
+    const url = this.ipSetting.ip + '/portal/cata/updateRoleCata';
+    return this.http.post(url,postData,this.options)
+      .map(res => res.json());
+  }
+
 }

@@ -114,8 +114,9 @@
 }
 .card-area{
   display: inline-block;
-  width: 50%;
-  padding: 10px 20px 10px 40px;
+  width: 49.5%;
+  padding: 10px 10px 10px 10px;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 .card-inner{
@@ -127,14 +128,27 @@
 .card-head{
   height: 80px;
   line-height: 80px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
   background-color: #f8f8f8;
-  text-align: center;
 }
-.card-inner>h5{
+.card-title{
+  color: #666;
+  font-size: 20px;
+  padding-left: 22px;
+  text-align: left;
+}
+.card-option{
+  line-height: 50px;
+}
+.card-option>span{
   display: inline-block;
-  width: 40%;
-  max-width: 300px;
-  color: #333333;
+  width: 24%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+.card-option>span>label{
+  cursor: pointer;
 }
 .foot-submit{
   padding-top: 20px;
@@ -155,4 +169,21 @@
   opacity: .8;
   border: 1px solid #03a9f3;
   cursor: pointer;
+}
+.index-adr{
+  padding-left: 15px;
+  color: #2162B6;
+  font-size: 10px;
+}
+.index-adr>span{
+  cursor: pointer;
+}
+.index-adr>span:hover{
+  color: #03a9f3;
+}
+.index-adr>span:after{
+  content: ">";
+}
+.index-adr>span:last-child:after{
+  content: "";
 }
