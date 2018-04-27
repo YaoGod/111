@@ -1,3 +1,4 @@
+///<reference path="../../mode/catalog/catalog.service.ts"/>
 import { Component, OnInit } from '@angular/core';
 import {GlobalCatalogService} from "../../service/global-catalog/global-catalog.service";
 import {UserPortalService} from "../../service/user-portal/user-portal.service";
@@ -6,6 +7,7 @@ import {Ability} from "../../mode/user/user.service";
 declare var $:any;
 declare var confirmFunc:any;
 import * as echarts from 'echarts';
+import {sndCatalog} from "../../mode/catalog/catalog.service";
 @Component({
   selector: 'app-ability',
   templateUrl: './ability.component.html',
@@ -21,15 +23,22 @@ export class AbilityComponent implements OnInit {
   public deptList: Array<any>;
   public copyAbility: Ability;
   public winTitle: string;
+  public rule: sndCatalog = new sndCatalog();
   constructor(
     private globalCatalogService: GlobalCatalogService,
     private userPortalService:UserPortalService,
     private errorResponseService:ErrorResponseService,
-
-  ) { }
+  ) {
+    this.rule = this.globalCatalogService.getRole("system/ability");
+  }
 
   ngOnInit() {
     this.globalCatalogService.setTitle("系统管理/权限管理");
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("system/ability");
+      }
+    );
     this.abilities = [];
     this.search = new Ability();
     this.search.cataName = "";

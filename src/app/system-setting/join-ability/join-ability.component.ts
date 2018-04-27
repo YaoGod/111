@@ -64,6 +64,7 @@ export class JoinAbilityComponent implements OnInit {
   /*获取角色的权限*/
   getAbilityList(ability,flag) {
     if(this.clickStatus){
+      this.clickStatus = false;
       this.userPortalService.getAbilityCata(this.role.roleId,ability.id)
         .subscribe(data => {
           if (this.errorResponseService.errorMsg(data)) {

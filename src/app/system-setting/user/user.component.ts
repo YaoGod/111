@@ -29,7 +29,7 @@ export class UserComponent implements OnInit {
     private globalUserService:GlobalUserService
 
   ) {
-    this.rule = this.globalCatalogService.getRole("security/basic");
+    this.rule = this.globalCatalogService.getRole("system/user");
   }
 
   ngOnInit() {
@@ -39,6 +39,7 @@ export class UserComponent implements OnInit {
         this.rule = this.globalCatalogService.getRole("system/user");
       }
     );
+    console.log(this.rule);
     this.users = [];
     this.search = new User();
     this.copyUser = new User();

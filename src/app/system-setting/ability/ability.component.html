@@ -14,7 +14,7 @@
           <a (click)="getAbilityList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
         </li>
         <li>
-          <a (click)="newUser();"><i class="icon-plus"></i>&nbsp;新增</a>
+          <a (click)="newUser();" *ngIf="rule&&rule.isInstall"><i class="icon-plus"></i>&nbsp;新增</a>
         </li>
       </ul>
     </div>
@@ -51,10 +51,10 @@
             {{ability.createTime?ability.createTime:'' | date:'yyyy/MM/dd HH:mm:ss'}}
           </td>
           <td class="box-option">
-            <a (click)="edit(ability)">
+            <a (click)="edit(ability)" *ngIf="rule&&rule.isUpdate">
               <i class="icon-pencil"></i>编辑
             </a>
-            <a (click)="delete(ability.id)">
+            <a (click)="delete(ability.id)" *ngIf="rule&&rule.isDelete">
               <i class="icon-trash"></i>&nbsp;删除
             </a>
           </td>

@@ -14,7 +14,7 @@
           <a (click)="getRoleList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
         </li>
         <li>
-          <a (click)="newUser();"><i class="icon-plus" *ngIf="rule.isInstall"></i>&nbsp;新增</a>
+          <a (click)="newUser();"><i class="icon-plus" *ngIf="rule&&rule.isInstall"></i>&nbsp;新增</a>
         </li>
       </ul>
     </div>
@@ -42,13 +42,13 @@
             {{role.createTime | date:'yyyy/MM/dd HH:mm:ss'}}
           </td>
           <td class="box-option">
-             <a (click)="edit(role)" *ngIf="rule.isUpdate">
+             <a (click)="edit(role)" *ngIf="rule&&rule.isUpdate">
                <i class="icon-pencil"></i>编辑
              </a>
-            <a (click)="delete(role.roleId)" *ngIf="rule.isDelete">
+            <a (click)="delete(role.roleId)" *ngIf="rule&&rule.isDelete">
               <i class="icon-trash"></i>&nbsp;删除
             </a>
-            <a [routerLink]="['../joinAbility',role.roleId]" *ngIf="rule.isSelect">
+            <a [routerLink]="['../joinAbility',role.roleId]" *ngIf="rule&&rule.isSelect">
               <i class="icon-settings"></i>&nbsp;配置权限
             </a>
 
