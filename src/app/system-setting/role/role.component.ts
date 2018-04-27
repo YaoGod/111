@@ -3,6 +3,7 @@ import {Role} from "../../mode/user/user.service";
 import {GlobalCatalogService} from "../../service/global-catalog/global-catalog.service";
 import {UserPortalService} from "../../service/user-portal/user-portal.service";
 import {ErrorResponseService} from "../../service/error-response/error-response.service";
+import {sndCatalog} from "../../mode/catalog/catalog.service";
 declare var $:any;
 declare var confirmFunc:any;
 
@@ -21,15 +22,23 @@ export class RoleComponent implements OnInit {
   public deptList: Array<any>;
   public copyRole: Role;
   public winTitle: string;
+  public rule: sndCatalog = new sndCatalog();
   constructor(
     private globalCatalogService: GlobalCatalogService,
     private userPortalService:UserPortalService,
     private errorResponseService:ErrorResponseService,
 
-  ) { }
+  ) {
+    this.rule = this.globalCatalogService.getRole("system/role");
+  }
 
   ngOnInit() {
     this.globalCatalogService.setTitle("系统管理/角色管理");
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("system/role");
+      }
+    );
     this.roles = [];
     this.search = new Role();
     this.search.roleName = "";

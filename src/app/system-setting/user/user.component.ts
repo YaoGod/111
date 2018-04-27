@@ -4,6 +4,7 @@ import {User} from "../../mode/user/user.service";
 import {UserPortalService} from "../../service/user-portal/user-portal.service";
 import {ErrorResponseService} from "../../service/error-response/error-response.service";
 import {GlobalUserService} from "../../service/global-user/global-user.service";
+import {sndCatalog} from "../../mode/catalog/catalog.service";
 declare var $:any;
 declare var confirmFunc:any;
 @Component({
@@ -20,16 +21,24 @@ export class UserComponent implements OnInit {
   public users: Array<User>;
   public deptList: Array<any>;
   public copyUser: User;
+  public rule: sndCatalog = new sndCatalog();
   constructor(
     private globalCatalogService: GlobalCatalogService,
     private userPortalService:UserPortalService,
     private errorResponseService:ErrorResponseService,
     private globalUserService:GlobalUserService
 
-  ) { }
+  ) {
+    this.rule = this.globalCatalogService.getRole("security/basic");
+  }
 
   ngOnInit() {
     this.globalCatalogService.setTitle("系统管理/用户管理");
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("system/user");
+      }
+    );
     this.users = [];
     this.search = new User();
     this.copyUser = new User();

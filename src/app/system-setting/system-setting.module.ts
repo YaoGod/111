@@ -16,6 +16,7 @@ import { RoleComponent } from './role/role.component';
 import { AbilityComponent } from './ability/ability.component';
 import { JoinRoleComponent } from './join-role/join-role.component';
 import { JoinAbilityComponent } from './join-ability/join-ability.component';
+import { PersonComponent } from './person/person.component';
 
 const routes: Routes = [
   {
@@ -57,6 +58,16 @@ const routes: Routes = [
         /*系统日志管理*/
         path: 'logger',
         component: LoggerComponent
+      },
+      {
+        /*系统日志管理*/
+        path: 'person',
+        component: PersonComponent
+      },
+      {
+        /*工作流配置*/
+        path: 'flow',
+        loadChildren:  './flow/flow.module#FlowModule'
       }
     ]
   }
@@ -74,7 +85,7 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [RouteGuardService, UserPortalService],
-  declarations: [SystemSettingComponent, LoggerComponent, UserComponent, RoleComponent,
-    AbilityComponent, JoinRoleComponent, JoinAbilityComponent]
+  declarations: [SystemSettingComponent, LoggerComponent, UserComponent, RoleComponent,AbilityComponent,
+    JoinRoleComponent, JoinAbilityComponent,PersonComponent]
 })
 export class SystemSettingModule { }

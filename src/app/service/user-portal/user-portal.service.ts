@@ -185,19 +185,19 @@ export class UserPortalService {
   }
   /*新增目录权限*/
   addCataInfo(postData){
-    const url = this.ipSetting.ip + '/portal/role/addCataInfo';
+    const url = this.ipSetting.ip + '/portal/cata/addCataInfo';
     return this.http.post(url,postData,this.options)
       .map(res => res.json());
   }
   /*更新目录权限*/
   updateCataInfo(postData){
-    const url = this.ipSetting.ip + '/portal/role/updateCataInfo';
+    const url = this.ipSetting.ip + '/portal/cata/updateCataInfo';
     return this.http.post(url,postData,this.options)
       .map(res => res.json());
   }
   /*删除目录权限*/
   deleteCataInfo(id){
-    const url = this.ipSetting.ip + '/portal/role/deleteCataInfo/'+id;
+    const url = this.ipSetting.ip + '/portal/cata/deleteCataInfo/'+id;
     return this.http.delete(url,this.options)
       .map(res => res.json());
   }
@@ -207,16 +207,19 @@ export class UserPortalService {
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
+  /*获取目录组织树*/
   getCataTree(){
     const url = this.ipSetting.ip + '/portal/cata/getCataTree';
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
+  /*获取特定的角色的目录权限列表信息*/
   getAbilityCata(roleId,fatherId){
     const url = this.ipSetting.ip + '/portal/cata/getRoleCata?roleId='+roleId+'&fatherId='+fatherId;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
+  /*修改配置角色权限信息*/
   updateRoleCata(postData){
     const url = this.ipSetting.ip + '/portal/cata/updateRoleCata';
     return this.http.post(url,postData,this.options)

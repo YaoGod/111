@@ -131,6 +131,7 @@ export class JoinAbilityComponent implements OnInit {
             'imgType': 1
           });
           this.resultList = [];
+          this.getAbilityList(this.adrList[this.adrList.length-1],-1);
         }
       });
   }

@@ -3,11 +3,6 @@
     <!--页面标题-->
     <div class="nav-title">
       <a><h4>用户管理</h4></a>
-      <!--<div class="b-head-right">
-        <div class="content-box" tabindex="0" onclick="history.go(-1)">
-          <i class="icon-reload"></i> 返回
-        </div>
-      </div>-->
     </div>
     <!--搜索栏-->
     <div class="search-bar">
@@ -28,7 +23,7 @@
           <a (click)="getUserList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
         </li>
         <li>
-          <a (click)="newUser();"><i class="icon-plus"></i>&nbsp;新增</a>
+          <a (click)="newUser();"><i class="icon-plus" *ngIf="rule.isInstall"></i>&nbsp;新增</a>
         </li>
       </ul>
     </div>
@@ -67,13 +62,13 @@
            <!-- <a (click)="edit(user)">
               <i class="icon-pencil"></i>编辑
             </a>-->
-            <a (click)="editPassword(user)">
+            <a (click)="editPassword(user)"  *ngIf="rule.isUpdate">
               <i class="icon-question"></i>&nbsp;修改密码
             </a>
-            <a [routerLink]="['../joinRole',user.userid]">
+            <a [routerLink]="['../joinRole',user.userid]"  *ngIf="rule.isSelect">
               <i class="icon-settings"></i>&nbsp;配置角色
             </a>
-            <a (click)="delete(user.userid)" *ngIf="user.isDelete === 'Y'">
+            <a (click)="delete(user.userid)" *ngIf="user.isDelete === 'Y'&&rule.isDelete">
               <i class="icon-trash"></i>&nbsp;删除用户
             </a>
           </td>
