@@ -62,7 +62,6 @@ export class WorkCardOperComponent implements OnInit {
     this.ipSetting.sendPost(url,this.search).subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
           let arr = [];
-          console.log(data.data);
           for (let i in data.data.list) {
             for (let j in this.deptList) {
              if (this.deptList[j].DEPT_NAME === data.data.list[i].deptName){
@@ -71,7 +70,6 @@ export class WorkCardOperComponent implements OnInit {
             }
             arr.push(data.data.list[i]);
           }
-          console.log(arr);
           this.cardManage = arr;
           this.total = data.data.total;
         }

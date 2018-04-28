@@ -1085,7 +1085,6 @@ select{
   color: #333;
 }
 .list-table .table-head td{
-  display: inline-block;
   text-align: center;
   text-indent: 0;
   font-size: 12px;
@@ -1183,7 +1182,6 @@ select{
   width: 100%;
 }
 .list-table dd td{
-  display: inline-block;
   line-height: 32px;
   text-align: center;
   vertical-align: middle;

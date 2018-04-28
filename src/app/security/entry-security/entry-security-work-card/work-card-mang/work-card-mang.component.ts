@@ -62,8 +62,6 @@ export class WorkCardMangComponent implements OnInit {
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
           let arr = [];
-
-          console.log(data.data);
           for (let i in data.data.list) {
             /*for (let j in this.deptList) {
               if (this.deptList[j].DEPT_ID === data.data.list[i].deptId){
@@ -72,7 +70,6 @@ export class WorkCardMangComponent implements OnInit {
             }*/
             arr.push(data.data.list[i]);
           }
-          console.log(this.cardManage);
           this.cardManage = arr;
           this.total = data.data.total;
         }

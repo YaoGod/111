@@ -130,6 +130,7 @@ export class HistoryLog {
   guardId: number;
   handleTime: string;
   handleType: string;// 变更方式
+  handleContent: string; // 变更对象
   handleUserDept: string; // 操作人员部门
   handleUserId: string; // 操作人员编号
   handleUserName: string; // 操作人员姓名

@@ -30,7 +30,7 @@
            [routerLink]="['../discount/manage']">
           管&nbsp;&nbsp;理
         </a>
-        <a class="btn-fn1" (click)="randGetDiscount()"></a>
+        <a class="btn-fn1" (click)="randGetDiscount()">换一换</a>
       </span>
     </h4>
     <ul class="goods-list" *ngIf="discounts && discounts.length > 0">
@@ -64,7 +64,7 @@
         <a class="btn-mg" *ngIf="rule3&&(rule3.isUpdate||rule3.isInstall||rule3.isDelete)"
            [routerLink]="['../sale/manage']">管&nbsp;&nbsp;理</a>
         <a class="btn-mg" [routerLink]="['../sale/myorder']">我的订单</a>
-        <a class="btn-fn3" (click)="randGetSale()"></a>
+        <a class="btn-fn3" (click)="randGetSale()">换一换</a>
       </span>
     </h4>
     <ul class="goods-list" *ngIf="saleProducts && saleProducts.length > 0">
@@ -105,7 +105,7 @@
            [routerLink]="['../staffWelfare/manage']">
           管&nbsp;&nbsp;理
         </a>
-        <a class="btn-fn2" (click)="randGetWelfare();"></a>
+        <a class="btn-fn2" (click)="randGetWelfare();">换一换</a>
       </span>
     </h4>
     <ul class="goods-list" *ngIf="welfares && welfares.length >0">

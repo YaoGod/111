@@ -237,6 +237,7 @@ export class DoorMangComponent implements OnInit {
     this.record.push(new Power());
     this.getBuildingList(0);
     this.userList[0] = id;
+    // this.record[0].cardType = cardType;
     $('#newUser').show();
   }
   /*取消授权操作*/
@@ -304,10 +305,12 @@ export class DoorMangComponent implements OnInit {
     let list = document.getElementsByName("orderCheck");
     let str = [];
     let people = [];
+    // let cardTypeArr = [];
     for(let i = 0;i<list.length;i++){
       if(list[i]['checked']){
         str.push(list[i]['checked']);
         people.push(list[i]['value']);
+        // cardTypeArr.push(list[i]['value'].split(',')[1]);
       }
     }
     for(let i = 0;i<str.length;i++){
@@ -458,6 +461,7 @@ export class Power{
   buildingName: string;
   floorNum: string;
   roomNum: string;
+  cardType: string;
   buildings: Array<any>;
   floorNums: Array<any>;
   rooms: Array<any>;
