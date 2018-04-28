@@ -16,6 +16,7 @@ export class User {
   status   : string;
   flag     : string; /*标志位无意义*/
   isDelete : string;
+  serviceCenter: string;
 }
 
 export class Role{

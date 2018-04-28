@@ -23,3 +23,22 @@
   color: #fb9678;
   border-bottom: 2px solid #fb9678;
 }
+.col-content ul li{
+  float: left;
+  height: 35px;
+  width: 33%;
+  min-width: 300px;
+  line-height: 30px;
+  color: #686868;
+  font-size: 12px;
+}
+.col-title{
+  display: inline-block;
+  width: 110px;
+  padding-right: 10px;
+  margin-right: 10px;
+  background-color: #f8f8f8;
+  font-weight: 300;
+  font-size: 12px;
+  text-align: right;
+}
