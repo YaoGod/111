@@ -39,8 +39,8 @@
         </li>
         <li style="float:right">
           <a (click)="getUserList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
-          <a (click)="batchAccredit(1);"><i class="icon-docs"></i>&nbsp;批量授权</a>
-          <a (click)="cancel(1);"><i class="icon-docs"></i>&nbsp;批量清空</a>
+          <a (click)="batchAccredit();"><i class="icon-docs"></i>&nbsp;批量授权</a>
+          <a (click)="cancel();"><i class="icon-docs"></i>&nbsp;批量清空</a>
 
         </li>
       </ul>
@@ -174,7 +174,7 @@
 <div class="mask1" style="display: none;" id="delUser">
   <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title"><i class="icon-home"></i>增加授权</h4>
+      <h4 class="modal-title"><i class="icon-home"></i>操作授权</h4>
       <button class="modal-close" type="button" (click)="closeNewUser()">×</button>
     </div>
     <form class="form-building form-material">
@@ -205,7 +205,7 @@
   </div>
 </div>
 <!-- Induction 批量导入  -->
-<div class="mask" style="display: none;" id="selecteFile">
+<!--<div class="mask" style="display: none;" id="selecteFile">
   <div class="modal-content" style="width: 400px;margin-left: -180px">
     <div class="modal-header">
       <h4 style="margin-left: 175px">导入</h4>
@@ -221,7 +221,7 @@
               </button>
               <div class="form-inp" style=" margin-top:-39px;">
                 <a href="javascript:" style="color:#FFFFFF; border-radius:4px; padding:6px 20px; background: #03a9f3;; font-size: 10px" onclick="$('#prese').trigger('click')">选取文件</a>
-                <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;"><!--(change)="prese_upload(prese.files)"-->
+                <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;">&lt;!&ndash;(change)="prese_upload(prese.files)"&ndash;&gt;
               </div>
             </div>
             <div class="error"></div>
@@ -231,4 +231,4 @@
     </form>
     <div class="modal-footer"></div>
   </div>
-</div>
+</div>-->

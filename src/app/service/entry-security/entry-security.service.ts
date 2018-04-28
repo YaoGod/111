@@ -93,6 +93,7 @@ export class EntryService {
   companyName: string;  /*服务公司名称*/
 
   startTime: string; // 申请时间
+  endTime:string; // 失效时间
   username : string;
   password : string;
   teleNum  : string;

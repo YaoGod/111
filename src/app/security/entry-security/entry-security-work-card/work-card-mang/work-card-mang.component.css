@@ -16,9 +16,14 @@
   font-size: 14px;
   border-bottom: 2px solid #f7fafc;
 }
-.nav-title>a>h4{
+.nav-title>a{
   display: inline-block;
+  margin-right:10px;
   line-height: 35px;
+  color: #999;
+  _border-bottom: 2px solid #fb9678;
+}
+.nav-title>a.active{
   color: #fb9678;
   border-bottom: 2px solid #fb9678;
 }
@@ -46,7 +51,20 @@ ul,li{
   margin: 0;
   list-style: none;
 }
+.search-bar{
+  position: relative;
+}
 .search-bar>ul{
+  position: relative;
+  padding: 5px 160px 5px 0;
+  _min-height: 76px;
+  background-color: #f8f8f8;
+  margin-top: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 .search-bar>ul>li{
   height: 36px;
@@ -83,15 +101,20 @@ select:focus{
   border-color: #2b2b2b;
   outline: none!important;
 }
-.search-bar>ul>li>a{
+.search-box{
+  position:absolute;
+  right:0; top:11px;
+}
+.search-box>a{
   padding: 4px 10px;
-  height: 34px;
+  display: inline-block;
   border:none;
   border-radius: 5px;
   background: #04a9f3;
   color: #ffffff;
   font-size: 12px;
   cursor: pointer;
+  margin-bottom:10px;
 }
 .search-icon{
   position: absolute;
@@ -124,7 +147,6 @@ select:focus{
 .row td,.row-add td{
   color: #686868;
   font-size: 12px;
-  font-weight: 300;
   text-align: center;
 }
 .row td>input[type=text]{

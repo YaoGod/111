@@ -20,7 +20,7 @@ declare var confirmFunc:any;
 export class WorkCardMangComponent implements OnInit {
 
   public pageNo;
-  public pageSize = 10;
+  public pageSize = 15;
   public total = 0;
   public search: EntryService;
   public deptList: Array<any>;
@@ -28,7 +28,7 @@ export class WorkCardMangComponent implements OnInit {
   public entrySecurity:EntryService;
   public cardManage: Array<EntryService>;
   public changeWay;
-
+  public userList:Array<any>;
   constructor(
     private http: Http,
     private globalCatalogService: GlobalCatalogService,
@@ -52,6 +52,7 @@ export class WorkCardMangComponent implements OnInit {
     this.search.userid = '';
     this.search.deptId = '';
     this.search.cardType = '';
+    this.search.cardStatus = '';
   }
 
   /*获取信息列表*/
@@ -61,14 +62,17 @@ export class WorkCardMangComponent implements OnInit {
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
           let arr = [];
+
+          console.log(data.data);
           for (let i in data.data.list) {
-            for (let j in this.deptList) {
+            /*for (let j in this.deptList) {
               if (this.deptList[j].DEPT_ID === data.data.list[i].deptId){
                 data.data.list[i].deptName = this.deptList[j].DEPT_NAME;
-                arr.push(data.data.list[i]);
               }
-            }
+            }*/
+            arr.push(data.data.list[i]);
           }
+          console.log(this.cardManage);
           this.cardManage = arr;
           this.total = data.data.total;
         }
@@ -84,7 +88,6 @@ export class WorkCardMangComponent implements OnInit {
         }
       })
   }
-
   /*获取全部服务公司*/
   getCompanyList(){
     this.entrySecurityService.getCompany()
@@ -94,7 +97,6 @@ export class WorkCardMangComponent implements OnInit {
         }
       })
   }
-
   /*新建用户*/
   newUser(){
     this.changeWay = 'new';
@@ -176,7 +178,52 @@ export class WorkCardMangComponent implements OnInit {
       }
     }
   }
-
+  getUserList(id,status){
+    let url = "/portal/user/getUserBySome/"+status;
+    let postData = {
+      deptId: id
+    };
+    this.ipSetting.sendPost(url,postData).subscribe(data => {
+      if (this.errorResponseService.errorMsg(data)) {
+        this.userList = data.data;
+        console.log(data.data);
+        /*this.entrySecurity.employee = data.data.username;
+        for (let j in this.deptList) {
+          if (this.deptList[j].DEPT_NAME === data.data.deptId) {
+            this.entrySecurity.deptId = this.deptList[j].DEPT_ID;
+          }
+        }*/
+      }
+    });
+  }
+  getUserNo(name){
+    for (let j in this.userList) {
+      if (this.userList[j].username === name) {
+        this.entrySecurity.employNo = this.userList[j].userid;
+      }
+    }
+  }
+  /*根据员工号获取人员和姓名*/
+  getUserName(value) {
+    if (value && value.length > 7) {
+      let url = "/portal/user/getUserInfo/" + value;
+      this.ipSetting.sendGet(url).subscribe(data => {
+        if (this.errorResponseService.errorMsg(data)) {
+          this.entrySecurity.employee = data.data.username;
+          for (let j in this.deptList) {
+            if (this.deptList[j].DEPT_NAME === data.data.deptId){
+              this.entrySecurity.deptId = this.deptList[j].DEPT_ID;
+            }
+          }
+          // this.entrySecurity.deptId = data.data.deptId;
+        }
+        if (data.status === 1) {
+          this.entrySecurity.employee = '';
+          this.entrySecurity.deptId = '';
+        }
+      });
+    }
+  }
 
   /*修改*/
   editRecord(index) {
@@ -193,25 +240,6 @@ export class WorkCardMangComponent implements OnInit {
       'imgType': 2
     });
   }
-  // /*提交修改*/
-  // submitEditRecord(){
-  //   let error = 0;
-  //   this.verifyEmpty(this.entrySecurity.password,'password');
-  //   if($('.red').length === 0 && error === 0) {
-  //     this.userPortalService.updatePassword(this.entrySecurity, '0')
-  //       .subscribe(data => {
-  //         if (this.errorResponseService.errorMsg(data)) {
-  //           confirmFunc.init({
-  //             'title': '提示',
-  //             'mes': data.msg,
-  //             'popType': 2,
-  //             'imgType': 1,
-  //           });
-  //           this.closeNewUser();
-  //         }
-  //       })
-  //   }
-  // }
 
   /*删除*/
   delete(index){

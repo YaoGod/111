@@ -79,32 +79,35 @@
     </div>
     <div class="table-head" style="margin-top: 10px">
       <h2>历史变更记录</h2>
-      <table border="0" cellspacing="0" cellpadding="0" class="list-box" *ngIf="history.length>0">
-        <tr class="row list-title" style="height:45px;">
-          <th width="10%">员工编号</th>
-          <th width="10%">员工姓名</th>
-          <th width="15%">员工部门</th>
-          <!--<th width="8%" class="text-left">工号牌编号</th>
-          <th width="8%" class="text-left">工号牌类型</th>
-          <th width="8%" class="text-left">大楼名称</th>
-          <th width="8%" class="text-left">楼层</th>
-          <th width="8%" class="text-left">房间</th>-->
-          <th width="10%">变动类型</th>
-          <th width="15%">变动时间</th>
-        </tr>
-        <tr class="row" *ngFor="let abc of history;let i=index">
-          <td width="10%">{{abc.userId}}</td>
-          <td width="10%">{{abc.userName}}</td>
-          <td width="15%">{{abc.userDept}}</td>
-          <!--<td>{{abc}}</td>
-          <td>{{abc}}</td>
-          <td>{{abc}}</td>
-          <td>{{abc}}</td>
-          <td>{{abc}}</td>-->
-          <td width="10%">{{abc.handleType}}</td>
-          <td width="15%">{{abc.handleTime}}</td>
-        </tr>
-      </table>
+      <div style="min-height: 300px;">
+        <table border="0" cellspacing="0" cellpadding="0" class="list-box" *ngIf="history.length>0">
+          <tr class="row list-title" style="height:45px;">
+            <th width="10%">员工编号</th>
+            <th width="10%">员工姓名</th>
+            <th width="15%">员工部门</th>
+            <!--<th width="8%" class="text-left">工号牌编号</th>
+            <th width="8%" class="text-left">工号牌类型</th>
+            <th width="8%" class="text-left">大楼名称</th>
+            <th width="8%" class="text-left">楼层</th>
+            <th width="8%" class="text-left">房间</th>-->
+            <th width="10%">变动类型</th>
+            <th width="15%">变动时间</th>
+          </tr>
+          <tr class="row" *ngFor="let abc of history;let i=index">
+            <td width="10%">{{abc.userId}}</td>
+            <td width="10%">{{abc.userName}}</td>
+            <td width="15%">{{abc.userDept}}</td>
+            <!--<td>{{abc}}</td>
+            <td>{{abc}}</td>
+            <td>{{abc}}</td>
+            <td>{{abc}}</td>
+            <td>{{abc}}</td>-->
+            <td width="10%">{{abc.handleType}}</td>
+            <td width="15%">{{abc.handleTime}}</td>
+          </tr>
+        </table>
+      </div>
+
       <div class="div-none" *ngIf="history.length === 0">
         <p>暂无历史操作记录</p>
       </div>

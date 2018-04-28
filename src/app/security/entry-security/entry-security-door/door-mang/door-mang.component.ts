@@ -106,6 +106,21 @@ export class DoorMangComponent implements OnInit {
   }
   /*获取楼层名称*/
   getFloorNameListMsg(id,index) {
+    if(id === ''){
+      for(let i=0;i<this.record.length;i++){
+        this.record[i].buildingId = '';
+        this.record[i].buildingName = '';
+        this.record[i].floorNum = '';
+        this.record[i].roomNum = '';
+      }
+      return false;
+    }
+    for(let i=0;i<this.record.length;i++){
+      this.record[i].floorNums = [];
+      this.record[i].rooms = [];
+      this.record[i].floorNum = '';
+      this.record[i].roomNum = '';
+    }
     for(let i=0;i<this.record[index].buildings.length;i++){
        if(this.record[index].buildings[i].ID==id){
          this.record[index].buildingName = this.record[index].buildings[i].NAME;
@@ -120,7 +135,9 @@ export class DoorMangComponent implements OnInit {
   }
   /*获取楼层房间信息*/
   getRoomListMsg(id,index){
-    // console.log(this.record[index].floorNums);
+    if(id===''){
+      return false;
+    }
     for (let i=0;i<this.record[index].floorNums.length;i++) {
       if (this.record[index].floorNums[i].FLOOR_NUM == id) {
         this.infoBuildingService.getRoomListMsg( this.record[index].floorNums[i].ID, 1,99)
@@ -153,10 +170,8 @@ export class DoorMangComponent implements OnInit {
   /*新增提交*/
   submit(){
     let error = 0;
-
     let url = '/building/guard/addGuard';
-    let temporary = JSON.parse(JSON.stringify(this.record));
-    if(temporary.length<1){
+    if(!this.record||this.record.length<1){
       confirmFunc.init({
         'title': '提示',
         'mes': '请增加授权信息！',
@@ -165,17 +180,28 @@ export class DoorMangComponent implements OnInit {
       });
       return false;
     }
+    let temporary = JSON.parse(JSON.stringify(this.record));
     for(let i=0;i<temporary.length;i++){
       delete temporary[i].buildings;
       delete temporary[i].floorNums;
       delete temporary[i].rooms;
+    }
+    for(let i=0;i<temporary.length;i++){
+      if(!temporary[i].buildingId||temporary[i].buildingId===''){
+        confirmFunc.init({
+          'title': '提示',
+          'mes': '大楼信息为必填！',
+          'popType': 2,
+          'imgType': 2,
+        });
+        return false;
+      }
     }
 
     let postData = {
       guard: temporary,
       listUser: this.userList
     };
-    // console.log(postData);
     /*for(let i=0;i<this.cardManage.length;i++){
       if(postData[0].userId === this.cardManage[i].employNo){
         for(let j=0;j<postData.length;j++){

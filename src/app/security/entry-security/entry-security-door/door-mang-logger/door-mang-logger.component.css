@@ -21,6 +21,7 @@
   line-height: 35px;
   color: #fb9678;
   border-bottom: 2px solid #fb9678;
+  font-size:16px;
 }
 .b-head-right{
   float: right;
@@ -104,8 +105,8 @@ select:focus{
   margin-bottom: -3px;
 }
 .list-title{
-  background-color: #f0f7fc;
-  color: #4b87d4;
+  background-color: #66b3ff/*f0f7fc*/;
+  color: #fff; /*#4b87d4;*/
 }
 .list-box{
   width: 100%;
@@ -115,16 +116,19 @@ select:focus{
 }
 .row td, .row th{
   padding: 3px 10px;
+  font-size:15px;
   text-align: center;
   border-bottom: 1px solid #e1eaf2;
 }
 .row:active,.row:hover{
   background-color: #f7fafc;
 }
+.row:active,.list-title:hover{
+  background-color: #66b3ff;
+}
 .row td,.row-add td{
   color: #686868;
-  font-size: 12px;
-  font-weight: 300;
+  font-size: 14px;
   text-align: center;
 }
 .row td>input[type=text]{
@@ -432,17 +436,18 @@ select{
 }
 .cont-inner{
   padding:20px;
-  margin:20px;
+  margin:15px;
   position: relative;
-  -webkit-background-size: 110px 110px;
+  background-color: #f0f0f0;
+  /*-webkit-background-size: 110px 110px;
   -moz-background-size: 110px 110px;
-  background-size: 110px 110px; /* 控制条纹的大小 */
+  background-size: 110px 110px; */
 
   -moz-box-shadow: 1px 1px 8px gray;
   -webkit-box-shadow: 1px 1px 8px gray;
   box-shadow: 1px 1px 8px gray;
 
-  background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #F4F4F4), color-stop(.25, transparent), to(transparent)),
+  /*background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #F4F4F4), color-stop(.25, transparent), to(transparent)),
   -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.25, #F4F4F4), color-stop(.25, transparent), to(transparent)),
   -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.75, transparent), color-stop(.75, #F4F4F4)),
   -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.75, transparent), color-stop(.75, #F4F4F4));
@@ -454,7 +459,7 @@ select{
   background-image: linear-gradient(45deg, #F4F4F4 25%, transparent 25%, transparent),
   linear-gradient(-45deg, #F4F4F4 25%, transparent 25%, transparent),
   linear-gradient(45deg, transparent 75%, #F4F4F4 75%),
-  linear-gradient(-45deg, transparent 75%, #F4F4F4 75%);
+  linear-gradient(-45deg, transparent 75%, #F4F4F4 75%);*/
 }
 .card-left{
   float: left;
@@ -469,6 +474,7 @@ select{
 }
 .card-left>li,.card-right>li{
   line-height:40px;
+  font-size: 15px;
 }
 .note{
   float: left;

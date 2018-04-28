@@ -12,6 +12,7 @@ import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
 import {ImgurlModule} from "../../../pipe/imgurl/imgurl.module";
 import { WorkCardApplyComponent } from './work-card-apply/work-card-apply.component';
 import { WorkCardMangComponent } from './work-card-mang/work-card-mang.component';
+import { WorkCardOperComponent } from './work-card-oper/work-card-oper.component';
 const routes: Routes = [
   {
     path: '',
@@ -24,9 +25,14 @@ const routes: Routes = [
         component:WorkCardApplyComponent
       },
       {
-        /*工号牌管理*/
+        /*工号牌记录*/
         path: 'manage',
         component:WorkCardMangComponent
+      },
+      {
+        /*工号牌管理*/
+        path: 'oper',
+        component:WorkCardOperComponent
       },
     ]
   }
@@ -44,6 +50,6 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [RouteGuardService],
-  declarations: [EntrySecurityWorkCardComponent, WorkCardApplyComponent, WorkCardMangComponent]
+  declarations: [EntrySecurityWorkCardComponent, WorkCardApplyComponent,WorkCardOperComponent,WorkCardMangComponent]
 })
 export class EntrySecurityWorkCardModule { }

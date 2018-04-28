@@ -2,7 +2,8 @@
   <div class="content-inner">
     <!--页面标题-->
     <div class="nav-title">
-      <a><h4>工号牌管理</h4></a>
+      <a routerLink="/hzportal/security/entrySecurity/workCard/manage" routerLinkActive="active">工号牌记录</a>
+      <a routerLink="/hzportal/security/entrySecurity/workCard/oper" routerLinkActive="active">工号牌管理</a>
       <div class="b-head-right">
         <div class="content-box" tabindex="0" onclick="history.go(-1)">
           <i class="icon-reload"></i> 返回
@@ -11,7 +12,7 @@
     </div>
     <!--搜索栏-->
     <div class="search-bar">
-      <ul class="clearfix">
+      <ul class="search-list clearfix">
         <li><label>HRMIS</label>
           <input type="text" name="searchUserId" [(ngModel)]="search.employNo">
         </li>
@@ -22,38 +23,46 @@
           </select>
         </li>
         <li><label>工号牌类型</label>
-          <select name="searchDeptId" [(ngModel)]="search.cardType">
+          <select name="searchcardType" [(ngModel)]="search.cardType">
             <option value="">全部</option>
             <option [value]="1">自有员工</option>
             <option [value]="0">第三方员工</option>
           </select>
         </li>
-        <li style="float: right;">
-          <a (click)="getCardManageList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
-
-          <a (click)="newUser();"><i class="icon-plus"></i>&nbsp;新增</a>
-
-          <a (click)="selecteFile();"><i class="icon-cloud-upload"></i>&nbsp;导入</a>
-
-          <a class="btn-danger" href="javascript:;" (click)="downDeriving()" ><!--[href]="exportSysLog()"-->
-            <i class="icon-share-alt"></i>&nbsp;导出</a>
+        <li><label>工号牌状态</label>
+          <select name="searchcardStatus" [(ngModel)]="search.cardStatus">
+            <option value="">全部</option>
+            <option [value]="1">正常</option>
+            <option [value]="2">失效</option>
+          </select>
         </li>
-
+        <li><label>申请时间</label>
+          <input name="searchbTime" [(ngModel)]="search.bTime" type="date">
+          -
+          <input name="searcheTime" [(ngModel)]="search.eTime" type="date">
+        </li>
       </ul>
+      <div class="search-box">
+          <a (click)="getCardManageList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
+          <!--<a (click)="newUser();"><i class="icon-plus"></i>&nbsp;新增</a><br>
+          <a (click)="selecteFile();"><i class="icon-cloud-upload"></i>&nbsp;导入</a>
+          <a class="btn-danger" href="javascript:;" (click)="downDeriving()" >
+            <i class="icon-share-alt"></i>&nbsp;导出</a>-->
+      </div>
     </div>
     <!--表头-->
     <div class="table-head" style="margin-top: 10px">
       <table border="0" cellspacing="0" cellpadding="0" class="list-box">
         <tr class="row list-title" style="height:45px;">
           <th width="12%" class="text-left">工号牌编号</th>
-          <th width="12%" class="text-left">工号牌状态</th>
-          <th width="12%" class="text-left">工号牌类型</th>
-          <!--<th width="10%" class="text-left">使用部门</th>-->
-          <th width="12%">员工编号<hr>服务公司</th>
-          <th width="12%">员工姓名</th>
+          <th width="10%" class="text-left">工号牌状态</th>
+          <th width="10%" class="text-left">工号牌类型</th>
+          <th width="10%">员工编号<hr>服务公司</th>
+          <th width="10%">员工姓名</th>
           <th width="12%">员工部门<hr>归属局方部门</th>
-          <th width="12%">最近申请日期</th>
-          <th width="12%">操作</th>
+          <th width="12%">最近申请时间</th>
+          <th width="12%">失效时间</th>
+          <!--<th width="10%">操作</th>-->
         </tr>
       </table>
     </div>
@@ -64,22 +73,19 @@
           <td width="12%" class="text-left">
             {{user.cardNo}}
           </td>
-          <td width="12%" class="text-left" style="color:mediumseagreen" *ngIf="user.cardStatus==='1'">
+          <td width="10%" class="text-left" style="color:mediumseagreen" *ngIf="user.cardStatus==='1'">
             正常
           </td>
-          <td width="12%" class="text-left" style="color:#ff1103" *ngIf="user.cardStatus==='2'">
+          <td width="10%" class="text-left" style="color:#ff1103" *ngIf="user.cardStatus==='2'">
             失效
           </td>
-          <td width="12%" class="text-left">
+          <td width="10%" class="text-left">
             {{user.cardType==='1'?'自有员工':'第三方员工'}}
           </td>
-          <!--<td width="15%">-->
-          <!--{{user.homeAddr}}-->
-          <!--</td>-->
-          <td width="12%">
+          <td width="10%">
             {{user.employNo}}
           </td>
-          <td width="12%">
+          <td width="10%">
             {{user.employee}}
           </td>
           <td width="12%">
@@ -88,18 +94,23 @@
           <td width="12%">
             {{user.startTime}}
           </td>
-          <td width="12%" class="box-option">
-            <a *ngIf="user.cardStatus==='1'" (click)="editRecord(i)">
+          <td width="12%">
+            {{user.endTime}}
+          </td>
+          <!--<td width="10%" class="box-option">
+            &lt;!&ndash;<a *ngIf="user.cardStatus==='1'" (click)="editRecord(i)">
               <i class="icon-pencil"></i>修改
             </a>
             <a *ngIf="user.cardStatus==='2'" (click)="alertRecord()">
               <i class="icon-pencil"></i>修改
-            </a>
-            <a (click)="delete(i)">
+            </a>&ndash;&gt;
+            <a *ngIf="user.cardStatus==='1'" (click)="delete(i)">
               <i class="icon-trash"></i>失效
             </a>
-
-          </td>
+            <a *ngIf="user.cardStatus==='2'" (click)="alertRecord()">
+              <i class="icon-trash"></i>失效
+            </a>
+          </td>-->
         </tr>
       </table>
       <div class="div-none" *ngIf="cardManage.length === 0">
@@ -129,7 +140,7 @@
         <div class="modal-right">
           <div class="form-group">
             <label class="control-label"><span>工号牌编号</span>
-              <input type="text" class="form-control" id="cardNo" name="cardNo"
+              <input type="text" class="form-control" id="cardNo" name="cardNo" maxlength="16"
                      [(ngModel)]="entrySecurity.cardNo" (blur)="verifyEmpty(entrySecurity.cardNo,'cardNo')">
             </label>
             <div class="error"></div>
@@ -165,25 +176,29 @@
             </label>
           </div>
           <div class="form-group">
-            <label class="control-label"><span>员工姓名</span>
-              <input type="text" class="form-control" name="oaEmail"
-                     [(ngModel)]="entrySecurity.employee">
+            <label class="control-label">
+              <span *ngIf="entrySecurity.cardType === '1'">员工部门</span>
+              <span *ngIf="entrySecurity.cardType === '0'">归属局方部门</span>
+              <select class="form-control" id="deptId" name="deptId" (change)="getUserList(entrySecurity.deptId,entrySecurity.cardType)"
+                      [(ngModel)]="entrySecurity.deptId" ><!--(blur)="verifyEmpty(entrySecurity.deptId,'deptId')"-->
+                <option *ngFor="let dept of deptList" [value]="dept.DEPT_ID">{{dept.DEPT_NAME}}</option>
+              </select>
             </label>
             <div class="error"></div>
           </div>
-          <!--<div class="form-group">-->
-          <!--<label class="control-label">-->
-          <!--<span *ngIf="entrySecurity.cardType === '1'">员工编号</span>-->
-          <!--<span *ngIf="entrySecurity.cardType === '0'">服务公司</span>-->
-          <!--<input type="text" class="form-control" name="teleNum"-->
-          <!--[(ngModel)]="entrySecurity.employNo">-->
-          <!--</label>-->
-          <!--<div class="error"></div>-->
-          <!--</div>-->
+          <div class="form-group">
+            <label class="control-label"><span>员工姓名</span>
+              <select type="text" class="form-control" name="oaEmail" (change)="getUserNo(entrySecurity.employee)"
+                     [(ngModel)]="entrySecurity.employee">
+                <option *ngFor="let use of userList" [value]="use.username">{{use.username}}</option>
+              </select>
+            </label>
+            <div class="error"></div>
+          </div>
           <div class="form-group">
             <label class="control-label" *ngIf="entrySecurity.cardType === '1'"><span >员工编号</span>
               <input type="text" class="form-control" name="teleNum"
-                     [(ngModel)]="entrySecurity.employNo">
+                     [(ngModel)]="entrySecurity.employNo" disabled="disabled" ><!--(keyup)="getUserName(entrySecurity.employNo);"-->
             </label>
             <label class="control-label" *ngIf="entrySecurity.cardType === '0'"><span >服务公司</span>
               <select class="form-control" id="companyName" name="companyName"
@@ -193,17 +208,8 @@
             </label>
             <div class="error"></div>
           </div>
-          <div class="form-group">
-            <label class="control-label">
-              <span *ngIf="entrySecurity.cardType === '1'">员工部门</span>
-              <span *ngIf="entrySecurity.cardType === '0'">归属局方部门</span>
-              <select class="form-control" id="deptId" name="deptId"
-                      [(ngModel)]="entrySecurity.deptId" (blur)="verifyEmpty(entrySecurity.deptId,'deptId')">
-                <option *ngFor="let dept of deptList" [value]="dept.DEPT_ID">{{dept.DEPT_NAME}}</option>
-              </select>
-            </label>
-            <div class="error"></div>
-          </div>
+
+
         </div>
       </div>
     </form>
@@ -244,36 +250,3 @@
   </div>
 </div>
 
-
-<!-- Induction 批量导入  -->
-<!--<div class="modal-back" id="selecteFile" style="display:none;">-->
-<!--<div class="modal induction">-->
-<!--<div class="modal-dialog">-->
-<!--<div class="modal-content">-->
-<!--<div class="modal-header">-->
-<!--<h4 class="modal-title">导入</h4>-->
-<!--<button type="button" class="close pull-right" (click)="closeFile()">-->
-<!--<span aria-hidden="true">×</span>-->
-<!--</button>-->
-<!--</div>-->
-<!--<div class="modal-body clearfix">-->
-<!--<div class="form-control">-->
-<!--<div class="form-inp clearfix">-->
-<!--<div class="select-file">-->
-<!--<input type="file" value="" id="prese" #prese (change)="prese_upload(prese.files)" accept="application/vnd.ms-excel,.xlsx">-->
-<!--<a onclick="$('#prese').trigger('click')">选取文件</a>-->
-<!--</div>-->
-<!--<div class="download-file">-->
-<!--<a id="downLoadTemplate" [href]="ipSetting.ip+'/building/parking/exportTemplate'">下载模板</a>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="foot" style="height:30px;">-->
-<!--&lt;!&ndash; <button type="submit" class="btn-mask btn-info" (click)="inductionUploadFile(prese2.files)">确 定</button>-->
-<!--<button type="button" class="btn-mask btn-danger" (click)="closeInductionDialog()">取 消</button>&ndash;&gt;-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->

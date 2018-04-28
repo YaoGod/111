@@ -88,8 +88,6 @@ export class PaperComponent implements OnInit {
   }
   /*获取停车证信息*/
   getPermitInfo(){
-    // console.log(this.searchInfo)
-
     let url = "/building/parking/getParkingPermitList/list/"+this.pageNo+"/"+this.pageSize+'?buildingName='+
       this.searchInfo.buildingName+'&&type='+this.searchInfo.type+'&&useStatus='+this.searchInfo.useStatus+
       '&&permitStatus='+this.searchInfo.permitStatus+'&&useUserName='+this.searchInfo.useUserName+
