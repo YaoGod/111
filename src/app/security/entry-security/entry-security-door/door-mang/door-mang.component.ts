@@ -56,8 +56,18 @@ export class DoorMangComponent implements OnInit {
     this.entry = new DoorMang();
 
     this.record.push(this.recordChild);
-    this.search.deptId = '';// this.globalUserService.getVal().deptId;
-    this.search.cardType = '';
+    // this.search.deptId = ''; this.globalUserService.getVal().deptId;
+    // this.search.cardType = '';
+    if(localStorage.getItem("deptIdDoorMang")){
+      this.search.deptId = localStorage.getItem("deptIdDoorMang");
+    }else{
+      this.search.deptId = '';
+    }
+    if(localStorage.getItem("cardTypeDoorMang")){
+      this.search.cardType = localStorage.getItem("cardTypeDoorMang");
+    }else{
+      this.search.cardType = '';
+    }
     this.getUserList(1);
     this.getDeptList();
     this.getBuildingList(0);
@@ -70,9 +80,10 @@ export class DoorMangComponent implements OnInit {
     this.entrySecurityService.getCardManageList(this.pageNo,this.pageSize,this.search)
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
-          // console.log(data.data);
           this.cardManage = data.data.list;
           this.total = data.data.total;
+          localStorage.setItem("deptIdDoorMang",this.search.deptId);
+          localStorage.setItem("cardTypeDoorMang",this.search.cardType);
         }
       })
   }
@@ -99,7 +110,6 @@ export class DoorMangComponent implements OnInit {
   addPro(){
     this.record.push(new Power());
     this.getBuildingList(this.record.length-1);
-    // console.log(this.record);
   }
   removePro(index){
     this.record.splice(index,1);
@@ -107,20 +117,13 @@ export class DoorMangComponent implements OnInit {
   /*获取楼层名称*/
   getFloorNameListMsg(id,index) {
     if(id === ''){
-      for(let i=0;i<this.record.length;i++){
-        this.record[i].buildingId = '';
-        this.record[i].buildingName = '';
-        this.record[i].floorNum = '';
-        this.record[i].roomNum = '';
-      }
+      this.record[index].buildingId = '';
+      this.record[index].buildingName = '';
       return false;
     }
-    for(let i=0;i<this.record.length;i++){
-      this.record[i].floorNums = [];
-      this.record[i].rooms = [];
-      this.record[i].floorNum = '';
-      this.record[i].roomNum = '';
-    }
+    this.record[index].rooms = [];
+    this.record[index].floorNum = '';
+    this.record[index].roomNum = '';
     for(let i=0;i<this.record[index].buildings.length;i++){
        if(this.record[index].buildings[i].ID==id){
          this.record[index].buildingName = this.record[index].buildings[i].NAME;
@@ -247,7 +250,6 @@ export class DoorMangComponent implements OnInit {
     postData.userId = id;
      this.ipSetting.sendPost(url,postData).subscribe(data => {
      if(this.errorResponseService.errorMsg(data)) {
-      // console.log(data.data.infos);
       this.editrecord = data.data.infos;
       if(this.editrecord.length===0){
         confirmFunc.init({
@@ -390,7 +392,6 @@ export class DoorMangComponent implements OnInit {
     postData.userId = id;
     this.ipSetting.sendPost(url,postData).subscribe(data => {
       if(this.errorResponseService.errorMsg(data)) {
-        // console.log(data.data.infos);
         this.editrecord = data.data.infos;
         if(this.editrecord.length===0){
           confirmFunc.init({

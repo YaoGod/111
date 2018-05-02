@@ -65,7 +65,6 @@ export class DoorMangLoggerComponent implements OnInit {
     this.entrySecurityService.getCardManageList(this.pageNo,this.pageSize,postData)
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
-          // console.log(data.data.list);
           this.recordUser = data.data.list[0];
           this.total = data.data.total;
         }
@@ -78,7 +77,6 @@ export class DoorMangLoggerComponent implements OnInit {
     postData.userId = this.ID;
     this.ipSetting.sendPost(url,postData).subscribe(data => {
       if(this.errorResponseService.errorMsg(data)) {
-        // console.log(data.data.infos);
         this.record = data.data.infos;
       }
     });

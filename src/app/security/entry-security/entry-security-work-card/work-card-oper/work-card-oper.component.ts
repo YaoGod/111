@@ -53,6 +53,9 @@ export class WorkCardOperComponent implements OnInit {
     this.search.deptId = '';
     this.search.cardType = '';
     this.search.cardStatus = '';
+    this.search.eTime = '';
+    this.search.bTime = '';
+
   }
 
   /*获取信息列表*/
@@ -122,7 +125,8 @@ export class WorkCardOperComponent implements OnInit {
   /*导出数据下载*/
   public downDeriving(){
     let url = this.ipSetting.ip + "/building/employCard/export?userId="+ this.search.userid+
-      '&&userDept='+this.search.deptId+'&&type='+this.search.cardType;
+      '&&userDept='+this.search.deptId+'&&type='+this.search.cardType+'&&bTime='+this.search.bTime+'&&eTime='
+      +this.search.eTime+'&&cardStatus='+this.search.cardStatus;
     this.http.get(url)
     // .map(res => res.json())
       .subscribe(data => {
@@ -183,7 +187,6 @@ export class WorkCardOperComponent implements OnInit {
     this.ipSetting.sendPost(url,postData).subscribe(data => {
       if (this.errorResponseService.errorMsg(data)) {
         this.userList = data.data;
-        console.log(data.data);
         /*this.entrySecurity.employee = data.data.username;
          for (let j in this.deptList) {
          if (this.deptList[j].DEPT_NAME === data.data.deptId) {

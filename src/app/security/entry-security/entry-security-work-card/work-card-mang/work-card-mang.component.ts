@@ -183,7 +183,6 @@ export class WorkCardMangComponent implements OnInit {
     this.ipSetting.sendPost(url,postData).subscribe(data => {
       if (this.errorResponseService.errorMsg(data)) {
         this.userList = data.data;
-        console.log(data.data);
         /*this.entrySecurity.employee = data.data.username;
         for (let j in this.deptList) {
           if (this.deptList[j].DEPT_NAME === data.data.deptId) {
