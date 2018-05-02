@@ -160,7 +160,7 @@ button{
   background-color: #f8f8f8;
   padding: 10px;
   float: left;
-  font-weight: 300;
+
   -webkit-box-flex: 0;
   -ms-flex: 0 0 30%;
   flex: 0 0 30%;
@@ -330,7 +330,7 @@ input{
   background-color: #f8f8f8;
   padding:10px;
   float: left;
-  font-weight: 300;
+
   -webkit-box-flex: 0;
   -webkit-flex: 0 0 35%;
   -ms-flex: 0 0 35%;
@@ -391,7 +391,7 @@ input{
   text-indent: 2em;
   line-height:36px;
   background-color:#f8f8f8;
-  font-weight: 300;
+
   color: #8d9ea7;
   margin-bottom: 5px;
   font-size: 12px;

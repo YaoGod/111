@@ -359,7 +359,7 @@ button{
   border: 0;
   box-shadow: 0 1px 1px #efefed;
   font-size: 14px;
-  font-weight: 300;
+
   border-radius: 5px;
   padding: 8px 32px;
   margin: 5px 10px;
@@ -396,7 +396,7 @@ button{
   padding-right: 7px;
   margin-right: 7px;
   background-color: #f8f8f8;
-  font-weight: 300;
+
   font-size: 12px;
   text-align: right;
 }

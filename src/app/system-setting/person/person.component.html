@@ -4,6 +4,10 @@
     <div class="nav-title">
       <a><h4>个人信息管理</h4></a>
     </div>
+    <div class="top-right">
+      <button class="btn-edit" (click)="openUserModal()">
+        <i class="icon-pencil"></i> 编辑</button>
+    </div>
     <div class="col-content">
       <ul>
         <li><span class="col-title">HRMIS号</span>{{user.userid}}</li>
@@ -12,9 +16,89 @@
         <li><span class="col-title">性别</span>{{user.sex}}</li>
         <li><span class="col-title">联系电话</span>{{user.teleNum}}</li>
         <li><span class="col-title">邮箱</span>{{user.oaEmail}}</li>
+        <li><span class="col-title">地址</span>{{user.homeAddr}}</li>
         <li><span class="col-title">服务中心</span>{{user.serviceCenter}}</li>
-
+        <li><span class="col-title">创建时间</span>{{user.createTime}}</li>
+        <li><span class="col-title">上次修改时间</span>{{user.modifyTime}}</li>
       </ul>
+    </div>
+  </div>
+</div>
+
+<div class="mask" style="display: none;" id="newUser">
+  <div  class="modal-content" style="width: 360px;margin-left: -180px">
+    <div  class="modal-header">
+      <h4 class="modal-title"><i class="icon-home"></i>个人信息编辑</h4>
+      <button class="modal-close" type="button" (click)="closeUserModal()">×</button>
+    </div>
+    <form  class="form-building form-material ng-untouched ng-pristine ng-valid" novalidate="">
+      <div  class="modal-body clearfix">
+        <div class="modal-right">
+          <div  class="form-group">
+            <label  class="control-label"><span>HRMIS</span>
+              <input type="text" class="form-control" id="userid" name="userid"
+                     [(ngModel)]="copyUser.userid" (blur)="verifyUserId(copyUser.userid,'userid')">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label"><span>姓名</span>
+              <input type="text" class="form-control" id="username" name="username"
+                     [(ngModel)]="copyUser.username" (blur)="verifyEmpty(copyUser.username,'username')">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label"><span>部门</span>
+              <select class="form-control" id="deptId" name="deptId"
+                      [(ngModel)]="copyUser.deptId" (blur)="verifyEmpty(copyUser.deptId,'deptId')">
+                <option *ngFor="let dept of deptList" [value]="dept.DEPT_NAME">{{dept.DEPT_NAME}}</option>
+              </select>
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label"><span>性别</span>
+              <label for="man">
+                <input id="man" name="sex" type="radio" value="男"
+                       [(ngModel)]="copyUser.sex">
+                男
+              </label>
+              <label for="woman">
+                <input id="woman" name="sex" type="radio" value="女"
+                       [(ngModel)]="copyUser.sex">
+                女
+              </label>
+              <div class="error"></div>
+            </label>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label"><span>电话</span>
+              <input type="text" class="form-control" name="teleNum"
+                     [(ngModel)]="copyUser.teleNum">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label"><span>邮箱</span>
+              <input type="text" class="form-control" name="oaEmail"
+                     [(ngModel)]="copyUser.oaEmail">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label"><span>地址</span>
+              <input type="text" class="form-control" name="homeAddr"
+                     [(ngModel)]="copyUser.homeAddr">
+            </label>
+            <div class="error"></div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div  class="modal-footer">
+      <button  class="btn btn-info" type="submit"
+               (click)="submit()">确  定</button>
     </div>
   </div>
 </div>

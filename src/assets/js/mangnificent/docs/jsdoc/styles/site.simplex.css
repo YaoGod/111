@@ -1175,7 +1175,7 @@ h6,
 .h5,
 .h6 {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 300;
+
   line-height: 1.1;
   color: #444;
 }
@@ -1283,7 +1283,7 @@ p {
 .lead {
   margin-bottom: 18px;
   font-size: 14px;
-  font-weight: 300;
+
   line-height: 1.4;
 }
 @media (min-width: 768px) {

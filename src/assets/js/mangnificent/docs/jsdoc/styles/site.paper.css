@@ -1283,7 +1283,7 @@ p {
 .lead {
   margin-bottom: 23px;
   font-size: 14px;
-  font-weight: 300;
+
   line-height: 1.4;
 }
 @media (min-width: 768px) {
@@ -7416,7 +7416,7 @@ input[type="checkbox"]:disabled:checked:after,
 }
 .close {
   font-size: 34px;
-  font-weight: 300;
+
   line-height: 24px;
   opacity: 0.6;
   -webkit-transition: all 0.2s;

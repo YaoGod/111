@@ -411,7 +411,7 @@ ul,li{
   border: 0;
   box-shadow: 0 1px 1px #efefed;
   font-size: 14px;
-  font-weight: 300;
+
   border-radius: 5px;
   padding: 8px 32px;
   margin: -10px 10px;
@@ -515,7 +515,7 @@ ul,li{
 .row td,.row-add td{
   color: #686868;
   font-size: 12px;
-  font-weight: 300;
+
   text-align: center;
 }
 .row td>input[type=text],.row td>input[type=number]{
@@ -580,7 +580,7 @@ td>img{
   border: none;
   background: none;
   font-size: 12px;
-  font-weight: 300;
+
 }
 .row .tleft{
   text-align: left;

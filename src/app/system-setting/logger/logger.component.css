@@ -48,6 +48,7 @@ ul,li{
 }
 .search-bar>ul{
   display: flex;
+  flex-wrap:wrap;
 }
 .search-bar>ul>li{
   height: 36px;
@@ -124,7 +125,6 @@ select:focus{
 .row td,.row-add td{
   color: #686868;
   font-size: 12px;
-  font-weight: 300;
   text-align: center;
 }
 .row td>input[type=text]{

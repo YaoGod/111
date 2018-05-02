@@ -84,12 +84,6 @@ export class UserPortalService {
     return this.http.post(url,search,this.options)
       .map(res => res.json());
   }
-  /*获取门禁人员信息*/
-  getGuardList(pageNo,pageSize,search){
-    const url = this.ipSetting.ip + '/building/guard/getGuardList/'+pageNo+'/'+pageSize;
-    return this.http.post(url,search,this.options)
-      .map(res => res.json());
-  }
   /*获取所有模块访问量数据*/
   getAccessNum(data,pageNo,pageSize){
     const url = this.ipSetting.ip + '/portal/sysLog/getAccessNum?bTime='+data.bTime+'&eTime='+data.eTime
@@ -106,14 +100,16 @@ export class UserPortalService {
   /*系统日志列表*/
   getSysLog(pageNo,pageSize,search){
     const url = this.ipSetting.ip + '/portal/sysLog/getSysLog/'+pageNo+'/'+pageSize+
-    '?bTime='+search.bTime + '&eTime=' + search.eTime + '&module='+ search.module +'&dataType=list';
+    '?bTime='+search.bTime + '&eTime=' + search.eTime + '&module='+ search.module +'&dataType=list&userDept='+
+    search.userDept+'&userName='+search.userName;
     return this.http.get(url,this.options)
       .map(res => res.json());
   }
   /*导出系统日志*/
   exportSysLog(pageNo,pageSize,search){
     const url = this.ipSetting.ip + '/portal/sysLog/getSysLog/'+pageNo+'/'+pageSize+
-      '?bTime='+search.bTime + '&eTime=' + search.eTime + '&module='+ search.module +'&dataType=excel';
+      '?bTime='+search.bTime + '&eTime=' + search.eTime + '&module='+ search.module +'&dataType=excel&userDept='+
+      search.userDept+'&userName='+search.userName;
     return url;
   }
   /*获取操作文档下载地址*/

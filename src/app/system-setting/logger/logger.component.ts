@@ -35,9 +35,13 @@ export class LoggerComponent implements OnInit {
     let today = new Date().toJSON().substr(0,10);
     this.search.bTime = today;
     this.search.eTime = '';
+    this.search.userDept = "";
+    this.search.userName = "";
     this.select = new Logger();
     this.select.bTime = "";
     this.select.eTime = today;
+    this.select.userDept = "";
+    this.select.userName = "";
     this.moduleCounts = [];
     this.getModuleList();
     this.getSystemLogger(1);

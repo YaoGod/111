@@ -1175,7 +1175,7 @@ h6,
 .h5,
 .h6 {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 300;
+
   line-height: 1.1;
   color: inherit;
 }
@@ -1283,7 +1283,7 @@ p {
 .lead {
   margin-bottom: 21px;
   font-size: 17px;
-  font-weight: 300;
+
   line-height: 1.4;
 }
 @media (min-width: 768px) {
@@ -6728,7 +6728,7 @@ button.close {
 .navbar {
   border: none;
   font-size: 13px;
-  font-weight: 300;
+
 }
 .navbar .navbar-toggle:hover .icon-bar {
   background-color: #b3b3b3;
@@ -6757,7 +6757,7 @@ button.close {
 .navbar .dropdown-menu > li > a:focus {
   background-color: transparent;
   font-size: 13px;
-  font-weight: 300;
+
 }
 .navbar .dropdown-header {
   color: rgba(255, 255, 255, 0.5);
@@ -6885,7 +6885,7 @@ blockquote.pull-right {
 }
 blockquote small {
   font-size: 12px;
-  font-weight: 300;
+
 }
 table {
   font-size: 12px;
@@ -6916,18 +6916,18 @@ input[type="checkbox"] {
   border-bottom-color: #222222;
 }
 .nav-pills {
-  font-weight: 300;
+
 }
 .breadcrumb {
   border: 1px solid #ddd;
   border-radius: 3px;
   font-size: 10px;
-  font-weight: 300;
+
   text-transform: uppercase;
 }
 .pagination {
   font-size: 12px;
-  font-weight: 300;
+
   color: #999999;
 }
 .pagination > li > a,
@@ -6958,12 +6958,12 @@ input[type="checkbox"] {
 }
 .pager {
   font-size: 12px;
-  font-weight: 300;
+
   color: #999999;
 }
 .list-group {
   font-size: 12px;
-  font-weight: 300;
+
 }
 .close {
   opacity: 0.4;
@@ -6976,7 +6976,7 @@ input[type="checkbox"] {
 }
 .alert {
   font-size: 12px;
-  font-weight: 300;
+
 }
 .alert .alert-link {
   font-weight: normal;
@@ -6987,14 +6987,14 @@ input[type="checkbox"] {
   padding-left: 1em;
   padding-right: 1em;
   border-radius: 0;
-  font-weight: 300;
+
 }
 .label-default {
   background-color: #e7e7e7;
   color: #333333;
 }
 .badge {
-  font-weight: 300;
+
 }
 .progress {
   height: 22px;
@@ -7021,7 +7021,7 @@ input[type="checkbox"] {
 .popover {
   color: #fff;
   font-size: 12px;
-  font-weight: 300;
+
 }
 .panel-heading,
 .panel-footer {

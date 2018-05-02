@@ -131,7 +131,7 @@ li.active .tab{
   margin-right: 10px;
   background-color: #f8f8f8;
   color: #8d9ea7;
-  font-weight: 300;
+
   font-size: 12px;
   text-align: right;
 }
@@ -150,7 +150,7 @@ li.active .tab{
 .div-text>.summary-text{
   width: auto;
   padding: 10px 7.5px;
-  font-weight: 300;
+
   word-break: break-all;
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
   margin: 0;
@@ -482,7 +482,7 @@ input[type = date]{
   line-height:40px;
   margin:10px 0;
   color: #8d9ea7;
-  font-weight: 300;
+
   border-bottom:1px solid rgba(120, 130, 140, .13);
   text-align: left;
 }
@@ -502,7 +502,7 @@ input[type = date]{
   padding-left: 20px;
   margin: 10px 0;
   color: #8d9ea7;
-  font-weight: 300;
+
   text-align: left;
   cursor: pointer;
 }

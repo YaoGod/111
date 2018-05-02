@@ -101,7 +101,7 @@
 .row td,.row-add td{
   color: #686868;
   font-size: 12px;
-  font-weight: 300;
+
   text-align: center;
 }
 .row td>input[type=text]{

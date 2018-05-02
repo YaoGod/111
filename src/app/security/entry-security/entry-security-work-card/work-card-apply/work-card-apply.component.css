@@ -124,7 +124,7 @@ select:focus{
 .row td,.row-add td{
   color: #686868;
   font-size: 12px;
-  font-weight: 300;
+
   text-align: center;
 }
 .row td>input[type=text]{
@@ -634,7 +634,7 @@ select{
   width: 90px;
   margin-right: 10px;
   color: #5d5d5d;
-  font-weight: 300;
+
   font-size: 12px;
   text-align: left;
   word-wrap: break-word;

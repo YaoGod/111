@@ -17,6 +17,8 @@ export class User {
   flag     : string; /*标志位无意义*/
   isDelete : string;
   serviceCenter: string;
+  createTime: string;
+  modifyTime: string;
 }
 
 export class Role{

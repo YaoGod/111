@@ -97,7 +97,7 @@ input[type=text]{
 .row td,.row-add td{
   color: #686868;
   font-size: 12px;
-  font-weight: 300;
+
   text-align: center;
 }
 .row td>input[type=text]{
@@ -272,7 +272,7 @@ td>img{
   color: #2b2b2b;
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
   margin: 10px 0;
-  font-weight: 300;
+
 }
 .box-plus>a{
   position: relative;
@@ -570,7 +570,7 @@ textarea.form-control{
   margin-right: 10px;
   background-color: #f8f8f8;
   color: #8d9ea7;
-  font-weight: 300;
+
   font-size: 12px;
   text-align: center;
   vertical-align: top;

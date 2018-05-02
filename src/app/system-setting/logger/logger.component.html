@@ -15,6 +15,12 @@
           <input type="date" name="bTime" [(ngModel)]="select.bTime">至
           <input type="date" name="eTime" [(ngModel)]="select.eTime">
         </li>
+        <li><label>部门</label>
+          <input type="text" name="userDept" [(ngModel)]="select.userDept">
+        </li>
+        <li><label>姓名</label>
+          <input type="text" name="userName" [(ngModel)]="select.userName">
+        </li>
         <li>
           <a (click)="getAccessNum();"><i class="icon-graph"></i>&nbsp;生成统计图表</a>
         </li>
@@ -33,6 +39,12 @@
         <li><label>时间</label>
           <input type="date" name="bTime" [(ngModel)]="search.bTime">至
           <input type="date" name="eTime" [(ngModel)]="search.eTime">
+        </li>
+        <li><label>部门</label>
+          <input type="text" name="userDept" [(ngModel)]="search.userDept">
+        </li>
+        <li><label>姓名</label>
+          <input type="text" name="userName" [(ngModel)]="search.userName">
         </li>
         <li>
           <a (click)="getSystemLogger(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>

@@ -100,7 +100,7 @@ input[type=text]{
 .row td,.row-add td{
   color: #686868;
   font-size: 12px;
-  font-weight: 300;
+
   text-align: center;
 }
 .row td>input[type=text],.row td>input[type=number]{
@@ -214,7 +214,7 @@ td>img{
   background-color: #fff;
   border-bottom: 1px solid rgba(120, 130, 140, .13);
   border-radius: 0;
-  font-weight: 300;
+
   text-transform: uppercase;
   padding: 15px 25px;
 }
