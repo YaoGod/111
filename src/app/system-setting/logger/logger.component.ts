@@ -21,6 +21,7 @@ export class LoggerComponent implements OnInit {
   public select :Logger;
   public selectPageNo = 1;
   public selectPages = [];
+  public deptList: Array<any>;
   constructor(
     private globalCatalogService: GlobalCatalogService,
     private userPortalService:UserPortalService,
@@ -46,6 +47,7 @@ export class LoggerComponent implements OnInit {
     this.getModuleList();
     this.getSystemLogger(1);
     this.getAccessNum();
+    this.getDeptList();
   }
   /*获取类型下拉列表*/
   getModuleList(){
@@ -53,6 +55,15 @@ export class LoggerComponent implements OnInit {
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
           this.moduleList = data.data;
+        }
+      })
+  }
+  /*获取所有部门下拉列表*/
+  getDeptList(){
+    this.userPortalService.getDeptList()
+      .subscribe(data=>{
+        if(this.errorResponseService.errorMsg(data)){
+          this.deptList = data.data;
         }
       })
   }

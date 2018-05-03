@@ -88,7 +88,8 @@ export class LoginComponent implements OnInit {
       .subscribe(data =>{
         if(this.errorResponse.errorMsg(data)){
           this.catalogs = data.data;
-          if(this.catalogs!==null&&this.catalogs.length>0){
+          this.router.navigate(['hzportal']);
+         /* if(this.catalogs!==null&&this.catalogs.length>0){
             if(this.catalogs[0].routeUrl!==null){
               this.router.navigate([this.catalogs[0].routeUrl]);
             }else{
@@ -96,7 +97,7 @@ export class LoginComponent implements OnInit {
             }
           }else{
             this.router.navigate(['hzportal']);
-          }
+          }*/
         }
       });
   }

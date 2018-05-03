@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { HeaderComponent } from './header/header.component';
 import { RouteGuardService } from '../service/route-guard/route-guard.service';
 import {HelpDocComponent} from "./help-doc/help-doc.component";
+import { HomepageComponent } from './homepage/homepage.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
     canActivate: [RouteGuardService],
     component: HeaderComponent,
     children: [
+      {
+        path: '',
+        component: HomepageComponent
+      },
       {
         /*后勤物业*/
         path: 'security',

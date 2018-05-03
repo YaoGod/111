@@ -1,4 +1,31 @@
-.nav-left{
-  float: left;
-  width: 200px;
+.back-xihu{
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+}
+.cont{
+  position: absolute;
+}
+.cont h3{
+  padding: 30px 20px 0;
+  font-size: 30px;
+  color: #ffffff;
+  text-shadow: rgba(0,0,0,0.1) 2px 2px 0;
+}
+.cont h3>span{
+  display: inline-block;
+  padding-left: 20px;
+  margin-left: 20px;
+  border-left: 1px solid #ffffff;
+}
+.cont p{
+  padding: 10px 20px;
+  color: #ffffff;
+
+}
+.cont-wel{
+  font-size: 24px;
+}
+.cont-time{
+  font-size: 18px;
 }

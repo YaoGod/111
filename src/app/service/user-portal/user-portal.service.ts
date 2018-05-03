@@ -66,6 +66,12 @@ export class UserPortalService {
     return this.http.post(url,postData,this.options)
       .map(res => res.json());
   }
+  /*编辑用户*/
+  uploadUserInfo(postData){
+    const url = this.ipSetting.ip + '/portal/user/updateUserInfo';
+    return this.http.post(url,postData,this.options)
+      .map(res => res.json());
+  }
   /*删除用户*/
   deleteUserInfo(id){
     const url = this.ipSetting.ip + "/portal/user/deleteUserInfo/"+id;

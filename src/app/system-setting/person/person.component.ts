@@ -3,6 +3,8 @@ import {UserPortalService} from "../../service/user-portal/user-portal.service";
 import {ErrorResponseService} from "../../service/error-response/error-response.service";
 import {User} from "../../mode/user/user.service";
 import {GlobalUserService} from "../../service/global-user/global-user.service";
+import {sndCatalog} from "../../mode/catalog/catalog.service";
+import {GlobalCatalogService} from "../../service/global-catalog/global-catalog.service";
 declare var $:any;
 declare var confirmFunc:any;
 @Component({
@@ -15,16 +17,25 @@ export class PersonComponent implements OnInit {
   public user: User;
   public copyUser: User;
   public deptList: Array<any>;
+  public rule: sndCatalog = new sndCatalog();
   constructor(
+    private globalCatalogService: GlobalCatalogService,
     private globalUserService:GlobalUserService,
     private userPortalService:UserPortalService,
     private errorResponseService:ErrorResponseService
-  ) { }
+  ) {
+    this.rule = this.globalCatalogService.getRole("system/person");
+  }
 
   ngOnInit() {
     this.user = new User();
     this.user.userid = this.globalUserService.getVal().userid;
     this.copyUser = new User();
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("system/person");
+      }
+    );
     this.getPersonalMsg(this.user.userid);
     this.getDeptList();
   }
@@ -51,7 +62,13 @@ export class PersonComponent implements OnInit {
     this.verifyEmpty(this.copyUser.username,'username');
     this.verifyEmpty(this.copyUser.deptId,'deptId');
     if($('.red').length === 0 && error === 0) {
-      this.userPortalService.addUserInfo(this.copyUser)
+      let postdata = JSON.parse(JSON.stringify(this.copyUser));
+      for(let i = 0;i<this.deptList.length;i++){
+        if(postdata.deptId === this.deptList[i].DEPT_NAME){
+          postdata.deptId = this.deptList[i].DEPT_ID;
+        }
+      }
+      this.userPortalService.uploadUserInfo(postdata)
         .subscribe(data => {
           if (this.errorResponseService.errorMsg(data)) {
             confirmFunc.init({
@@ -79,17 +96,12 @@ export class PersonComponent implements OnInit {
   }
   verifyUserId(value,id){
     if(this.verifyEmpty(value,id)){
-      if(value.indexOf('66')!==0){
-        this.addErrorClass(id,'第三方人员的HRMIS需以66开头');
+      if(value.length<3){
+        this.addErrorClass(id,'长度过短');
         return false;
-      }else{
-        if(value.length<3){
-          this.addErrorClass(id,'长度过短');
-          return false;
-        }
-        this.removeErrorClass(id);
-        return true;
       }
+      this.removeErrorClass(id);
+      return true;
     }
   }
   /*非空验证*/
