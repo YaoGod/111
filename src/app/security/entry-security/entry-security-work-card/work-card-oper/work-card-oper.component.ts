@@ -50,6 +50,7 @@ export class WorkCardOperComponent implements OnInit {
     this.getCompanyList();
     this.getDeptList();
     this.search.userid = '';
+    this.search.employee = '';
     this.search.deptId = '';
     this.search.cardType = '';
     this.search.cardStatus = '';
@@ -124,7 +125,7 @@ export class WorkCardOperComponent implements OnInit {
   }
   /*导出数据下载*/
   public downDeriving(){
-    let url = this.ipSetting.ip + "/building/employCard/export?userId="+ this.search.userid+
+    let url = this.ipSetting.ip + "/building/employCard/export?userId="+ this.search.userid+'&&employee='+this.search.employee+
       '&&userDept='+this.search.deptId+'&&type='+this.search.cardType+'&&bTime='+this.search.bTime+'&&eTime='
       +this.search.eTime+'&&cardStatus='+this.search.cardStatus;
     this.http.get(url)
@@ -250,6 +251,7 @@ export class WorkCardOperComponent implements OnInit {
       'imgType': 3,
       "callback": () => {
         let postData = JSON.parse(JSON.stringify(this.cardManage[index]));
+        postData.employNo = postData.userId;
         postData.cardStatus = '2';
         this.entrySecurityService.modifyCardInfo(postData)
           .subscribe(data => {
@@ -274,22 +276,24 @@ export class WorkCardOperComponent implements OnInit {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorResponseService.errorMsg(data)) {
           if(data.status === 0 ){/*&& data.data.result==='success'*/
-            confirmFunc.init({
-              'title': '提示' ,
-              'mes': '导入成功',
-              'popType': 0 ,
-              'imgType': 1,
-            });
-          }else if(data.data.result==='fail'){
-            confirmFunc.init({
-              'title': '提示',
-              'mes': '导入失败，是否下载错误信息？',
-              'popType': 1,
-              'imgType': 3,
-              "callback": () => {
-                window.location.href = this.ipSetting.ip+'/building/employCard/downExcel/'+data.data.fileName;
-              }
-            })
+            if(data.data.result==='fail'){
+              confirmFunc.init({
+                'title': '提示',
+                'mes': '导入失败，是否下载错误信息？',
+                'popType': 1,
+                'imgType': 3,
+                "callback": () => {
+                  window.location.href = this.ipSetting.ip+'/building/employCard/downExcel/'+data.data.fileName;
+                }
+              })
+            }else{
+              confirmFunc.init({
+                'title': '提示' ,
+                'mes': '导入成功',
+                'popType': 0 ,
+                'imgType': 1,
+              });
+            }
           }
           $('#prese').val('');
           $('#selecteFile').hide();

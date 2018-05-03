@@ -576,23 +576,26 @@ export class GuardComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)) {
-          if(data.status === 0 && data.data.result==='success'){
-            confirmFunc.init({
-              'title': '提示' ,
-              'mes': '导入成功',
-              'popType': 0 ,
-              'imgType': 1,
-            });
-          }else if(data.data.result==='fail'){
-            confirmFunc.init({
-              'title': '提示',
-              'mes': '导入失败，是否下载错误信息？',
-              'popType': 1,
-              'imgType': 3,
-              "callback": () => {
-                window.location.href = this.ipSetting.ip+'/common/file/downErrorExcel/'+data.data.fileName;
-              }
-            })
+          if(data.status === 0 ){/*&& data.data.result==='success'*/
+            if(data.data.result==='fail'){
+              confirmFunc.init({
+                'title': '提示',
+                'mes': '导入失败，是否下载错误信息？',
+                'popType': 1,
+                'imgType': 3,
+                "callback": () => {
+                  window.location.href = this.ipSetting.ip+'/common/file/downErrorExcel/'+data.data.fileName;
+                }
+              })
+            }else{
+              confirmFunc.init({
+                'title': '提示' ,
+                'mes': '导入成功',
+                'popType': 0 ,
+                'imgType': 1,
+              });
+            }
+
           }
           $('#prese2').val('');
           $('#induction').hide();

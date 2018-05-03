@@ -234,7 +234,16 @@ export class DoorMangComponent implements OnInit {
   }
 
   /*新增授权*/
-  addRecord(id) {
+  addRecord(id,num) {
+    if(!num){
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '暂无工号牌或已离职，无法授权！',
+        'popType': 2,
+        'imgType': 2
+      });
+      return false;
+    }
     this.userList = [];
     this.record = [];
     this.record.push(new Power());
