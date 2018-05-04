@@ -2,9 +2,10 @@
   <div class="content-inner">
     <!--页面标题-->
     <div class="nav-title">
-      <a class="active"><h4>工作流群组配置</h4></a>
-      <a><h4>工作流流程配置</h4></a>
-      <a><h4>工作流工单管理</h4></a>
+      <a *ngFor="let title of list" [routerLink]="'../../'+title.routeUrl" routerLinkActive="active">
+        <h4>{{title.name}}</h4>
+      </a>
     </div>
+    <router-outlet></router-outlet>
   </div>
 </div>

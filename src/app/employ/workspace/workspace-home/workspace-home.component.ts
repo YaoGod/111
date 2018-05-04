@@ -31,14 +31,14 @@ export class WorkspaceHomeComponent implements OnInit {
     this.count = 0;
     this.pendings = [];
     this.globalCatalogService.setTitle("员工服务/我的工作台");
+    this.getMyServiceCenter();
+    this.getServiceCenter();
     this.getBalance();
     this.getHandlingOrder();
     this.costChart("costHistoryChart",[]);
     this.costChart("costDashHistoryChart",[]);
     this.getUserConsume("costHistoryChart","cost");
     this.getUserConsume("costDashHistoryChart","laundry");
-    this.getServiceCenter();
-    this.getMyServiceCenter();
   }
 
   linkCost(){

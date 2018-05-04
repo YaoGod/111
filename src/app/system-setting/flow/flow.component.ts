@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {GlobalCatalogService} from "../../service/global-catalog/global-catalog.service";
+import {ErrorResponseService} from "../../service/error-response/error-response.service";
+import {Router, ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-flow',
@@ -8,12 +10,37 @@ import {GlobalCatalogService} from "../../service/global-catalog/global-catalog.
 })
 export class FlowComponent implements OnInit {
 
+  public rule;
+  public list: Array<any>;
   constructor(
     private globalCatalogService: GlobalCatalogService,
-  ) { }
+    private errorResponseService:ErrorResponseService,
+    private router:Router,
+    private route:ActivatedRoute
+  ) {
+    this.rule = this.globalCatalogService.getRole("system/flow");
+  }
 
   ngOnInit() {
     this.globalCatalogService.setTitle("系统管理/工作流配置");
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("system/flow");
+      }
+    );
+    this.getCataList(this.rule.ID);
+  }
+  getCataList(id){
+    this.globalCatalogService.getCata(id,"system","")
+      .subscribe(data=>{
+        if(this.errorResponseService.errorMsg(data)){
+          this.list = data.data;
+          if(this.list.length>0){
+            this.router.navigate(["../../../../"+this.list[0].routeUrl],{relativeTo:this.route});
+            this.router.navigate(["../../../../"+this.list[0].routeUrl],{relativeTo:this.route});
+          }
+        }
+      });
   }
 
 }
