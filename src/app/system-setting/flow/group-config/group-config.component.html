@@ -20,6 +20,9 @@
         <li style="float:right">
           <a (click)="newUser();"><i class="icon-plus"></i>&nbsp;新增</a>
         </li>
+        <li style="float:right">
+          <a [href]="ipSetting.ip+'/workflow/group/downloadTemplate'">模板下载</a>
+        </li>
       </ul>
     </div>
     <!--表头-->
@@ -67,8 +70,9 @@
             不可用
           </td>
           <td width="12%" class="text-left">
+            <i class="icon-eye" style="font-size: 18px;" title="查看" (click)="checkPerson(flow.id)"></i>
             <i *ngIf="flow.status==='1'" class="icon-plus" title="增加人员" (click)="addPerson(flow.id)"></i>
-            <i class="icon-pencil" title="编辑" (click)="editName(flow.id,flow.name)"></i>
+            <i class="icon-pencil" title="编辑" (click)="editName(flow.id,flow.name,flow.isdept)"></i>
             <i *ngIf="flow.status==='0'" class="icon-check" title="可用" (click)="abateNameOK(flow.id)"></i>
             <i *ngIf="flow.status==='1'" class="icon-ban" title="不可用" (click)="abateNameNO(flow.id)"></i>
           </td>
@@ -170,7 +174,10 @@
                 </select>
               </li>
               <li style="float:right">
-                <a (click)="getUserList();"><i class="icon-magnifier"></i>&nbsp;查询</a>
+
+                <a (click)="getUserList();"><i class="icon-magnifier"></i>&nbsp;查 询</a>
+                <a href="javascript:;" onclick="$('#prese').trigger('click')"><i class="icon-docs"></i> 导 入</a>
+                <input type="file" value="" id="prese" #prese (change)="prese_upload(prese.files)" accept="application/vnd.ms-excel,.xlsx" style="display: none;">
               </li>
             </ul>
           </div>
@@ -202,6 +209,29 @@
           </button>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="mask2">
+  <div class="modal-content modal-check">
+    <div class="modal-header">
+      <h4 class="modal-title"><i class="icon-home"></i>&nbsp;群组人员查看</h4>
+      <button class="modal-close" type="button" (click)="closeNewUser()">×</button>
+    </div>
+    <div class="modal-body clearfix">
+      <div class="modal-inner clearfix">
+          <h3>群组人员：</h3>
+          <ul class="check-list">
+            <li *ngFor="let person of personList"><span>[{{person.userid}}]{{person.username}}</span>
+            </li>
+          </ul>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-info" type="submit"
+              (click)="closeNewUser()">关 闭
+      </button>
     </div>
   </div>
 </div>

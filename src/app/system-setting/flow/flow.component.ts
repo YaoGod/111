@@ -47,6 +47,8 @@ export class FlowComponent implements OnInit {
               this.router.navigate(["/hzportal/system/flow/jobMang"]);
             }else if(url[url.length-1] === 'reclaim') {
               this.router.navigate(["/hzportal/system/flow/reclaim"]);
+            }else if(url[url.length-2] === 'detail') {
+              this.router.navigate(["/hzportal/system/flow/reclaim/detail/"+url[url.length-1]]);
             }else if(url[url.length-1] === 'flow') {
               this.router.navigate(["/hzportal/"+this.list[0].routeUrl]);
             }else{

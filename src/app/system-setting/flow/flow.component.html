@@ -5,9 +5,6 @@
       <a *ngFor="let title of list" [routerLink]="['/hzportal/'+title.routeUrl]" routerLinkActive="active">
         <h4>{{title.name}}</h4>
       </a>
-      <a [routerLink]="['/hzportal/system/flow/reclaim']" routerLinkActive="active">
-        <h4>人员群组回收</h4>
-      </a>
     </div>
     <router-outlet></router-outlet>
   </div>

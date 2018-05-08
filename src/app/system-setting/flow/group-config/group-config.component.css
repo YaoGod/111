@@ -200,7 +200,7 @@ td>img{
   text-align: center;
 }
 
-.mask,.mask1 {
+.mask,.mask1,.mask2 {
   display: none;
   position: fixed;
   left: 0;
@@ -216,6 +216,10 @@ td>img{
   left: 50%;
   top: 100px;
   margin-left: -430px;
+}
+.modal-check{
+  width: 440px;
+  margin-left: -220px;
 }
 .modal-header {
   display: -webkit-box;
@@ -522,4 +526,20 @@ select{
 .modal-middle div{
   width:40px; margin:180px auto 0; line-height: 40px; border:1px solid #4ac0e4; text-align: center;
   color:#4ac0e4;
+}
+.check-list::-webkit-scrollbar{
+  display: none;
+}
+.check-list{
+  height:320px;
+  overflow-y: auto;
+  border:1px solid #878787;
+}
+.check-list li{
+  line-height:24px;
+  font-size:15px;
+}
+.check-list li:nth-of-type(odd){ background:#f1f5f8;}
+.check-list li:hover{
+  background-color: #8daccb;
 }

@@ -35,7 +35,7 @@ export class GroupConfigComponent implements OnInit {
     private saleProductEmployeeService: SaleProductEmployeeService,
     private errorResponseService:ErrorResponseService,
     private flowService:FlowService,
-    private ipSetting: IpSettingService
+    public ipSetting: IpSettingService
   ) {
 
   }
@@ -92,6 +92,15 @@ export class GroupConfigComponent implements OnInit {
         }
       });
   }
+  /*获取指定群组人员*/
+  getAppoint(id){
+    let url = '/workflow/group/getUserList/1/9999/'+id;
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if (this.errorResponseService.errorMsg(data)) {
+        this.personList = data.data.list;
+      }
+    });
+  }
   /*新增*/
   newUser(){
     this.editBoole = true;
@@ -105,25 +114,22 @@ export class GroupConfigComponent implements OnInit {
   closeNewUser(){
     $('.red').removeClass('red');
     $('.error').fadeOut();
-    $('.mask,.mask1').hide();
+    $('.mask,.mask1,.mask2').hide();
   }
   /*增加群组人员*/
   addPerson(id){
     $('.mask1').fadeIn();
     this.groupId = id;
-    let url = '/workflow/group/getUserList/1/9999/'+id;
-    this.ipSetting.sendGet(url).subscribe(data => {
-      if (this.errorResponseService.errorMsg(data)) {
-        this.personList = data.data.list;
-      }
-    });
+    this.getAppoint(id);
   }
+
   /*编辑群组*/
-  editName(id,name){
+  editName(id,name,isdept){
     this.editBoole = false;
     $('#newUser').show();
     this.flowConfigure.id = id;
     this.flowConfigure.name = name;
+    this.flowConfigure.isdept = isdept;
     $('#newUser .modal-title').html('工作流群组编辑');
   }
   /*启用不可用*/
@@ -147,20 +153,28 @@ export class GroupConfigComponent implements OnInit {
   }
   /*不可用操作*/
   abateNameNO(id){
-    let url = '/workflow/group/del';
-    let postData = {
-      id: id,
-      status: '0'
-    };
-    this.ipSetting.sendPost(url,postData).subscribe(data => {
-      if (this.errorResponseService.errorMsg(data)) {
-        confirmFunc.init({
-          'title': '提示' ,
-          'mes': data['msg'],
-          'popType': 0,
-          'imgType': 1,
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否使群组不可用？',
+      'popType': 1,
+      'imgType': 3,
+      "callback": () => {
+        let url = '/workflow/group/del';
+        let postData = {
+          id: id,
+          status: '0'
+        };
+        this.ipSetting.sendPost(url,postData).subscribe(data => {
+          if (this.errorResponseService.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': data['msg'],
+              'popType': 0,
+              'imgType': 1,
+            });
+            this.getGroupList(1);
+          }
         });
-        this.getGroupList(1);
       }
     });
   }
@@ -175,13 +189,40 @@ export class GroupConfigComponent implements OnInit {
           'popType': 0 ,
           'imgType': 1,
         });
-        this.getGroupList(1);
+        this.getAppoint(this.groupId);
       }
     });
   }
   /*群组人员删除*/
-  delPersonList(id){
-
+  delPersonList(userid){
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否删除此人员？',
+      'popType': 1,
+      'imgType': 3,
+      "callback": () => {
+        let userList = [];
+        let groupList = [];
+        userList.push(userid);
+        groupList.push(this.groupId);
+        let url = '/workflow/group/deleteBatchUserGroup';
+        let postData = {
+          userList:userList,
+          groupList:groupList
+        };
+        this.ipSetting.sendPost(url,postData).subscribe(data => {
+          if (this.errorResponseService.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': data['msg'],
+              'popType': 0 ,
+              'imgType': 1,
+            });
+            this.getAppoint(this.groupId);
+          }
+        });
+      }
+    });
   }
   /*确定*/
   submitNew(){
@@ -205,22 +246,27 @@ export class GroupConfigComponent implements OnInit {
     });
     $('#newUser').hide();
   }
-
+  checkPerson(id){
+    $('.mask2').fadeIn();
+    this.getAppoint(id);
+  }
 
   /*导入*/
   prese_upload(files) {
-    var xhr = this.flowService.importCard(files[0]);
+    var xhr = this.flowService.importCard(files[0],this.groupId);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorResponseService.errorMsg(data)) {
-          if(data.status === 0 && data.data.result==='success'){
+          if(data.status === 0&&data.data.result==='success'){
             confirmFunc.init({
               'title': '提示' ,
               'mes': '导入成功',
               'popType': 0 ,
               'imgType': 1,
             });
+
+            this.getAppoint(this.groupId);
           }else if(data.data.result==='fail'){
             confirmFunc.init({
               'title': '提示',
@@ -233,9 +279,6 @@ export class GroupConfigComponent implements OnInit {
             })
           }
           $('#prese').val('');
-          $('#induction').hide();
-          this.pageNo = 1;
-          // this.getCardManageList(1);
         }else{
           $('#prese').val('');
         }

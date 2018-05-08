@@ -7,6 +7,7 @@ import { GroupConfigComponent } from './group-config/group-config.component';
 import { FlowConfigComponent } from './flow-config/flow-config.component';
 import { JobMangComponent } from './job-mang/job-mang.component';
 import {FormsModule} from "@angular/forms";
+import { ReclaimDetailComponent } from './reclaim/reclaim-detail/reclaim-detail.component';
 import {TurnBarModule} from "../../component/turn-bar/turn-bar.module";
 
 const routes: Routes = [
@@ -37,6 +38,11 @@ const routes: Routes = [
         path: 'reclaim',
         // component: ReclaimComponent,
         loadChildren: './reclaim/reclaim.module#ReclaimModule'
+      },
+      {
+        /*人员群组回收详情*/
+        path: 'reclaim/detail/:id',
+        component:ReclaimDetailComponent
       }
     ]
   }
@@ -50,6 +56,6 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [RouteGuardService],
-  declarations: [FlowComponent, FlowConfigComponent, JobMangComponent]
+  declarations: [FlowComponent, FlowConfigComponent, JobMangComponent, ReclaimDetailComponent]
 })
 export class FlowModule { }

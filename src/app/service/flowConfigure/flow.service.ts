@@ -16,16 +16,23 @@ export class FlowService {
     private ipSetting  : IpSettingService
   ) { }
 
-  /*新增*/
-  add(postData){
-    const url = this.ipSetting.ip + '/building/employCard/add';
+  /*获取所有用户信息列表*/
+  getUserList(postData){
+    const url = this.ipSetting.ip + '/portal/user/getUserBySome/1';
     return this.http.post(url,postData,this.options)
       .map(res => res.json());
   }
 
+  /*获取指定用户的指定群组*/
+  getUserGroup(userId){
+    const url = this.ipSetting.ip + '/workflow/group/getUserGroup/'+userId;
+    return this.http.get(url,this.options)
+      .map(res => res.json());
+  }
+
   /*导入*/
-  importCard(postData) {
-    const url = this.ipSetting.ip + "/building/employCard/importData";
+  importCard(postData,id) {
+    const url = this.ipSetting.ip + "/workflow/group/importData/"+id;
     var form = new FormData();
     if (typeof(postData) === 'object') {
       form.append('file', postData);
@@ -43,9 +50,12 @@ export class FlowService {
 
 export class FlowConfigure {
   id: number;
+  username:string;
   name     : string;
   isdept      : string;
   status   : string;
+  userid: string;
+  deptId: string;
 
 }
 
