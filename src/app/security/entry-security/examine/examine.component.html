@@ -1,3 +1,69 @@
-<p>
-  examine works!
-</p>
+<div class="content-area">
+  <div class="content-inner">
+    <!--页面标题-->
+    <div class="nav-title">
+      <a><h4>我的审批</h4></a>
+    </div>
+    <!--搜索栏-->
+    <div class="search-bar">
+      <ul>
+        <li><label>时间</label>
+          <input type="date" name="bTime" [(ngModel)]="search.bTime">至
+          <input type="date" name="eTime" [(ngModel)]="search.eTime">
+        </li>
+        <li>
+          <a (click)="getMyExamine(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
+        </li>
+      </ul>
+    </div>
+    <!--表头-->
+    <div class="table-head" style="margin-top: 10px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row list-title" style="height:45px;">
+          <th width="10%" class="text-left">发起人HRMIS号</th>
+          <th width="10%" class="text-left">发起人姓名</th>
+          <th width="10%" class="text-left">发起类型</th>
+          <th width="15%" class="text-left">发起时间</th>
+          <th width="35%" class="text-left">下一处理人</th>
+          <th width="20%">操作</th>
+        </tr>
+        <tr class="row" *ngFor="let order of orderList;let i = index">
+          <td class="text-left">
+            {{order.userId}}
+          </td>
+          <td class="text-left">
+            {{order.userName}}
+          </td>
+          <td class="text-left">
+            {{order.operationModule}}
+          </td>
+          <td>
+            <p>{{order.operationTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
+          </td>
+          <td class="text-left">
+            {{order.employee}}
+          </td>
+          <td class="box-option">
+            <a (click)="edit(order)">
+              <i class="icon-docs"></i>查看
+            </a>
+            <a (click)="edit(order)">
+              <i class="icon-speech"></i>审批
+            </a>
+          </td>
+        </tr>
+      </table>
+      <div class="div-none" *ngIf="orderList.length === 0">
+        <p>暂无信息</p>
+      </div>
+    </div>
+    <!--翻页-->
+    <app-turn-bar
+      [pageNo] = "pageNo"
+      [pageSize] = "pageSize"
+      [total] = "total"
+      (turnEvent) = "getMyExamine($event)">
+    </app-turn-bar>
+
+  </div>
+</div>

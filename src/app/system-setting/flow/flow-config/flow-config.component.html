@@ -1,3 +1,103 @@
-<p>
-  flow-config works!
-</p>
+<!--搜索栏-->
+<div class="search-bar">
+  <ul>
+    <li><label>流程名称</label>
+      <input type="text" name="searchUserId" [(ngModel)]="search.name">
+    </li>
+    <li>
+      <a (click)="getFlowList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
+    </li>
+    <li *ngIf="rule&&rule.isInstall">
+      <a (click)="newFlow();"><i class="icon-plus" ></i>&nbsp;新增</a>
+    </li>
+  </ul>
+</div>
+<!--表头-->
+<div class="table-head" style="margin-top: 10px">
+  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+    <tr class="row list-title" style="height:45px;">
+      <th width="5%" class="text-left">流程名称</th>
+      <th width="20%">操作</th>
+    </tr>
+    <tr class="row" *ngFor="let flow of flows;let i = index">
+      <td class="text-left">
+        {{flow.name}}
+      </td>
+      <td class="box-option">
+        <a (click)="newFlow()">
+          <i class="icon-settings"></i>&nbsp;配置流程
+        </a>
+      </td>
+    </tr>
+  </table>
+  <div class="div-none" *ngIf="flows.length === 0">
+    <p>暂无信息</p>
+  </div>
+</div>
+<!--翻页-->
+<app-turn-bar
+  [pageNo] = "pageNo"
+  [pageSize] = "pageSize"
+  [total] = "total"
+  (turnEvent) = "getFlowList($event)">
+</app-turn-bar>
+
+<div class="mask" style="display: none;" id="FlowSetting">
+  <div  class="modal-content" style="width: 360px;margin-left: -180px">
+    <div  class="modal-header">
+      <h4 class="modal-title"><i class="icon-home"></i>工作流流程</h4>
+      <button class="modal-close" type="button" (click)="closeFlow()">×</button>
+    </div>
+      <div  class="modal-body clearfix">
+        <div class="modal-right">
+          <div  class="form-group">
+            <label  class="control-label"><span>流程名称</span>
+              <input type="text" class="form-control" id="name" name="name"
+                     [(ngModel)]="copyFlow.name" (blur)="verifyEmpty(copyFlow.name,'name')">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-button">
+            <button (click)="addFlows()">
+              增加环节
+            </button>
+            <button (click)="delFlows()">
+              减少环节
+            </button>
+          </div>
+          <div class="flow-area">
+            <ul>
+              <li class="node">
+                <div class="rect">
+                  开始
+                </div>
+                <div class="arrow"></div>
+              </li>
+              <li class="node">
+                <div class="rect">
+                  发起人发起
+                </div>
+                <div class="arrow"></div>
+              </li>
+              <li class="node" *ngFor="let segment of copyFlow.content">
+                <div class="rect">
+                  <input type="text" placeholder="请输入内容" [(ngModel)]="segment.name">
+                </div>
+                <div class="arrow"></div>
+              </li>
+              <li class="node">
+                <div class="rect">
+                  结束
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    <div  class="modal-footer">
+      <button  class="btn btn-info" type="submit"
+               (click)="submit()">确  定</button>
+    </div>
+  </div>
+</div>
+

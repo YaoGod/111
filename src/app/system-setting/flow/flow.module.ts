@@ -7,6 +7,7 @@ import { GroupConfigComponent } from './group-config/group-config.component';
 import { FlowConfigComponent } from './flow-config/flow-config.component';
 import { JobMangComponent } from './job-mang/job-mang.component';
 import {FormsModule} from "@angular/forms";
+import {TurnBarModule} from "../../component/turn-bar/turn-bar.module";
 
 const routes: Routes = [
   {
@@ -44,6 +45,7 @@ const routes: Routes = [
   imports: [
     FormsModule,
     CommonModule,
+    TurnBarModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
