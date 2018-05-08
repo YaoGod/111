@@ -1,9 +1,12 @@
 <div class="content-area">
   <div class="content-inner">
     <!--页面标题-->
-    <div class="nav-title">
-      <a *ngFor="let title of list" [routerLink]="'../../'+title.routeUrl" routerLinkActive="active">
+    <div class="nav-title"><!--[routerLink]="'../../'+title.routeUrl"-->
+      <a *ngFor="let title of list" [routerLink]="['/hzportal/'+title.routeUrl]" routerLinkActive="active">
         <h4>{{title.name}}</h4>
+      </a>
+      <a [routerLink]="['/hzportal/system/flow/reclaim']" routerLinkActive="active">
+        <h4>人员群组回收</h4>
       </a>
     </div>
     <router-outlet></router-outlet>

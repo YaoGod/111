@@ -26,18 +26,32 @@ export class FlowComponent implements OnInit {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("system/flow");
+        this.getRule(this.rule.ID);
       }
     );
-    this.getCataList(this.rule.ID);
+    if(this.rule){this.getRule(this.rule.ID);}
   }
-  getCataList(id){
+  getRule(id){
     this.globalCatalogService.getCata(id,"system","")
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
           this.list = data.data;
-          if(this.list.length>0){
-            this.router.navigate(["../../../../"+this.list[0].routeUrl],{relativeTo:this.route});
-            this.router.navigate(["../../../../"+this.list[0].routeUrl],{relativeTo:this.route});
+          // this.router.navigate(["../../../../" + this.list[0].routeUrl], {relativeTo: this.route});
+          if(this.list&&this.list.length>0) {
+            let url = this.router.url.split('/');
+            if(url[url.length-1] === 'groupConfig') {
+              this.router.navigate(["/hzportal/system/flow/groupConfig"]);
+            }else if(url[url.length-1] === 'flowConfig') {
+              this.router.navigate(["/hzportal/system/flow/flowConfig"]);
+            }else if(url[url.length-1] === 'jobMang') {
+              this.router.navigate(["/hzportal/system/flow/jobMang"]);
+            }else if(url[url.length-1] === 'reclaim') {
+              this.router.navigate(["/hzportal/system/flow/reclaim"]);
+            }else if(url[url.length-1] === 'flow') {
+              this.router.navigate(["/hzportal/"+this.list[0].routeUrl]);
+            }else{
+              this.router.navigate([url[url.length-1]]);
+            }
           }
         }
       });

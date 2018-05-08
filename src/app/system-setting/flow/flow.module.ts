@@ -6,6 +6,7 @@ import {RouteGuardService} from "../../service/route-guard/route-guard.service";
 import { GroupConfigComponent } from './group-config/group-config.component';
 import { FlowConfigComponent } from './flow-config/flow-config.component';
 import { JobMangComponent } from './job-mang/job-mang.component';
+import {FormsModule} from "@angular/forms";
 
 const routes: Routes = [
   {
@@ -14,8 +15,14 @@ const routes: Routes = [
     component: FlowComponent,
     children: [
       {
+        path: '',
+        redirectTo: "groupConfig",
+        pathMatch: 'full'
+      },
+      {
         path: 'groupConfig',
-        component: GroupConfigComponent,
+        loadChildren: './group-config/group-config.module#GroupConfigModule'
+        // component: GroupConfigComponent,
       },
       {
         path: 'flowConfig',
@@ -24,17 +31,23 @@ const routes: Routes = [
       {
         path: 'jobMang',
         component: JobMangComponent,
+      },
+      {
+        path: 'reclaim',
+        // component: ReclaimComponent,
+        loadChildren: './reclaim/reclaim.module#ReclaimModule'
       }
     ]
   }
-]
+];
 @NgModule({
   imports: [
+    FormsModule,
     CommonModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
   providers: [RouteGuardService],
-  declarations: [FlowComponent, GroupConfigComponent, FlowConfigComponent, JobMangComponent]
+  declarations: [FlowComponent, FlowConfigComponent, JobMangComponent]
 })
 export class FlowModule { }

@@ -1,3 +1,207 @@
-<p>
-  group-config works!
-</p>
+<div class="content-area">
+  <div class="content-inner">
+
+    <!--搜索栏-->
+    <div class="search-bar">
+      <ul class="clearfix">
+        <li><label>群组名称</label>
+          <input type="text" name="searchUserId" [(ngModel)]="search.name">
+        </li>
+        <li><label>群组状态</label>
+          <select name="searchDeptId" [(ngModel)]="search.status">
+            <option value="">全部</option>
+            <option [value]="1">可用</option>
+            <option [value]="0">不可用</option>
+          </select>
+        </li>
+        <li style="float:right">
+          <a (click)="getGroupList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
+        </li>
+        <li style="float:right">
+          <a (click)="newUser();"><i class="icon-plus"></i>&nbsp;新增</a>
+        </li>
+      </ul>
+    </div>
+    <!--表头-->
+    <div class="table-head" style="margin-top: 10px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row list-title" style="height:45px;">
+          <th width="20%" class="text-left">群组名称</th>
+          <th width="20%" class="text-left">关联部门</th>
+          <th width="20%" class="text-left">群组状态</th>
+          <th width="20%" class="text-left">操作</th>
+        </tr>
+      </table>
+    </div>
+    <!--表格内容-->
+    <!--<div>
+          <i class="icon-action-redo"></i><i class="icon-action-undo"></i><i class="icon-anchor"></i><i class="icon-arrow-down-circle"></i><i class="icon-arrow-left-circle"></i><i class="icon-arrow-right-circle"></i><i class="icon-arrow-up-circle"></i><i class="icon-badge"></i><i class="icon-bag"></i><i class="icon-ban"></i><i class="icon-basket"></i><i class="icon-basket-loaded"></i><i class="icon-bell"></i><i class="icon-book-open"></i><i class="icon-briefcase"></i><i class="icon-bubble"></i><i class="icon-bubbles"></i><i class="icon-calculator"></i><i class="icon-bulb"></i><i class="icon-calender"></i><i class="icon-call-end"></i><i class="icon-chart"></i><i class="icon-check"></i><i class="icon-chemistry"></i>
+          <i class="icon-clock"></i><i class="icon-close"></i><i class="icon-cloud-download"></i><i class="icon-cloud-upload"></i><i class="icon-compass"></i><i class="icon-control-end"></i><i class="icon-control-forward"></i><i class="icon-control-pause"></i><i class="icon-control-play"></i><i class="icon-control-rewind"></i><i class="icon-control-start"></i><i class="icon-credit-card"></i><i class="icon-crop"></i><i class="icon-cup"></i><i class="icon-cursor"></i><i class="icon-cursor-move"></i><i class="icon-diamond"></i>
+          <i class="icon-direction"></i><i class="icon-directions"></i><i class="icon-disc"></i><i class="icon-dislike"></i><i class="icon-doc"></i><i class="icon-docs"></i><i class="icon-drawar"></i><i class="icon-drop"></i><i class="icon-earphones"></i><i class="icon-earphones-alt"></i><i class="icon-emotsmile"></i><i class="icon-energy"></i><i class="icon-envelope"></i>
+          <i class="icon-envelope-letter"></i><i class="icon-envelope-open"></i><i class="icon-equalizer"></i><i class="icon-eye"></i><i class="icon-game-controller"></i><i class="icon-frame"></i><i class="icon-folder-alt"></i><i class="icon-folder"></i><i class="icon-flag"></i><i class="icon-fire"></i><i class="icon-film"></i><i class="icon-feed"></i><i class="icon-eyeglass"></i><i class="icon-ghost"></i><i class="icon-globe"></i><i class="icon-globe-alt"></i><i class="icon-graduation"></i>
+          <i class="icon-graph"></i><i class="icon-grid"></i><i class="icon-handbag"></i><i class="icon-heart"></i><i class="icon-home"></i><i class="icon-hourglass"></i><i class="icon-info"></i><i class="icon-key"></i><i class="icon-layers"></i><i class="icon-like"></i><i class="icon-link"></i><i class="icon-list"></i><i class="icon-location-pin"></i>
+          <i class="icon-lock"></i><i class="icon-lock-open"></i><i class="icon-login"></i><i class="icon-logout"></i><i class="icon-loop"></i><i class="icon-magic-wand"></i><i class="icon-magnet"></i><i class="icon-magnifier"></i>
+          <i class="icon-magnifier-add"></i><i class="icon-magnifier-remove"></i><i class="icon-microphone"></i><i class="icon-mouse"></i><i class="icon-music-tone"></i><i class="icon-music-tone-alt"></i><i class="icon-mustache"></i><i class="icon-note"></i><i class="icon-notebook"></i><i class="icon-paper-clip"></i><i class="icon-paper-plane"></i>
+          <i class="icon-pencil"></i><i class="icon-people"></i><i class="icon-phone"></i><i class="icon-picture"></i><i class="icon-pie-chart"></i><i class="icon-pin"></i><i class="icon-plane"></i><i class="icon-playlist"></i><i class="icon-plus"></i><i class="icon-power"></i><i class="icon-present"></i><i class="icon-printer"></i><i class="icon-puzzle"></i><i class="icon-question"></i><i class="icon-refresh"></i><i class="icon-reload"></i><i class="icon-rocket"></i><i class="icon-screen-desktop"></i><i class="icon-screen-smartphone"></i><i class="icon-screen-tablet"></i><i class="icon-settings"></i><i class="icon-share"></i><i class="icon-share-alt"></i><i class="icon-shield"></i><i class="icon-shuffle"></i><i class="icon-size-actual"></i><i class="icon-size-fullscreen"></i>
+          <i class="icon-social-dribbble"></i><i class="icon-social-dropbox"></i><i class="icon-social-facebook"></i><i class="icon-social-twitter"></i><i class="icon-social-youtube"></i><i class="icon-speech"></i><i class="icon-speedometer"></i><i class=""></i><i class="icon-star"></i><i class="icon-support"></i>
+          <i class="icon-symble-female"></i><i class="icon-symbol-male"></i><i class="icon-tag"></i><i class="icon-target"></i><i class="icon-trash"></i><i class="icon-trophy"></i><i class="icon-umbrella"></i><i class="icon-user"></i><i class="icon-user-female"></i><i class="icon-user-follow"></i><i class="icon-user-following"></i>
+          <i class="icon-user-unfollow"></i><i class="icon-vector"></i><i class="icon-volume-1"></i><i class="icon-volume-2"></i><i class="icon-volume-off"></i><i class="icon-wallet"></i><i class="icon-wrench"></i>
+          <i class="icon-call-in"></i><i class="icon-call-out"></i><i class="icon-camera"></i><i class="icon-camrecorder"></i>
+        </div>-->
+    <div class="table-content" style="min-height: 360px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row" *ngFor="let flow of flowList;let i = index">
+          <td width="12%" class="text-left">
+            {{flow.name}}
+          </td>
+          <td *ngIf="flow.isdept==='0'" width="12%" class="text-left">
+            否
+          </td>
+          <td *ngIf="flow.isdept==='1'" width="12%" class="text-left">
+            是
+          </td>
+          <td *ngIf="flow.status==='1'" width="12%" class="text-left" style="color:#00a379;">
+            可用
+          </td>
+          <td *ngIf="flow.status==='0'" width="12%" class="text-left" style="color: #ff0000;">
+            不可用
+          </td>
+          <td width="12%" class="text-left">
+            <i *ngIf="flow.status==='1'" class="icon-plus" title="增加人员" (click)="addPerson(flow.id)"></i>
+            <i class="icon-pencil" title="编辑" (click)="editName(flow.id,flow.name)"></i>
+            <i *ngIf="flow.status==='0'" class="icon-check" title="可用" (click)="abateNameOK(flow.id)"></i>
+            <i *ngIf="flow.status==='1'" class="icon-ban" title="不可用" (click)="abateNameNO(flow.id)"></i>
+          </td>
+        </tr>
+        <!--<tr class="row">
+          <td width="12%" class="text-left">
+            是是是
+          </td>
+          <td width="12%" class="text-left">
+            对对对
+          </td>
+          <td width="12%" class="text-left">
+            发发发
+          </td>
+          <td width="12%" class="text-left">
+            <i class="icon-plus" title="增加人员" (click)="addPerson(1)"></i>
+            <i class="icon-pencil" title="编辑" (click)="editName(1,'是是是')"></i>
+          </td>
+        </tr>-->
+
+      </table>
+      <div class="div-none" *ngIf="flowList.length === 0">
+        <p>暂无信息</p>
+      </div>
+    </div>
+
+    <div class="mask" id="newUser">
+      <div class="modal-content" style="width: 360px;margin-left: -180px">
+        <div class="modal-header">
+          <h4 class="modal-title">工作流群组新增</h4>
+          <button class="modal-close" type="button" (click)="closeNewUser()">×</button>
+        </div>
+        <form class="form-building form-material">
+          <div class="modal-body clearfix">
+            <div class="modal-newuser">
+              <div class="form-group">
+                <label class="control-label"><span>群组名称</span>
+                  <input type="text" class="form-control" id="groupName" name="groupName" maxlength="20"
+                         [(ngModel)]="flowConfigure.name" (blur)="verifyEmpty(flowConfigure.name,'groupName')">
+                </label>
+                <div class="error"></div>
+              </div>
+              <div class="form-group" *ngIf="editBoole===true">
+                <label class="control-label"><span>关联部门</span>
+                  <label for="yes">
+                    <input id="yes" name="yes" type="radio" value="1" [(ngModel)]="flowConfigure.isdept">
+                    是
+                  </label>
+                  <label>&nbsp;&nbsp;</label>
+                  <label for="no">
+                    <input id="no" name="no" type="radio" value="0" [(ngModel)]="flowConfigure.isdept">
+                    否
+                  </label>
+                  <div class="error"></div>
+                </label>
+              </div>
+              <!--<div *ngIf="flowConfigure.deptType !== '1'" class="form-group">-->
+                <!--<div style="margin-left: 35px; height: 37px">-->
+                  <!--<a id="downLoadTemplate" class="btn btn-info" [href]="ipSetting.ip+'/building/employCard/downloadTemplate?type='">-->
+                    <!--下载模板</a>-->
+                  <!--<div class="form-inp" style=" margin-top:-39px;">-->
+                    <!--<a href="javascript:" style="color:#FFFFFF; border-radius:4px; padding:6px 20px; background: #03a9f3;; font-size: 10px" onclick="$('#prese').trigger('click')">选取文件</a>-->
+                    <!--<input type="file" class="dropify" #prese id="prese" style="visibility: hidden;"-->
+                           <!--(change)="prese_upload(prese.files)">-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="error"></div>-->
+              <!--</div>-->
+            </div>
+          </div>
+        </form>
+        <div class="modal-footer">
+          <button class="btn btn-info" type="submit"
+                  (click)="submitNew()">确 定
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mask1">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><i class="icon-home"></i>&nbsp;群组人员新增</h4>
+          <button class="modal-close" type="button" (click)="closeNewUser()">×</button>
+        </div>
+        <div class="modal-body clearfix">
+          <div class="modal-search">
+            <ul class="clearfix">
+              <li><label>HRMIS</label>
+                <input type="text" name="searchUserId" [(ngModel)]="searchPerson.userid">
+              </li>
+              <li><label>员工姓名</label>
+                <input type="text" name="searchUserName" [(ngModel)]="searchPerson.username">
+              </li>
+              <li><label>员工部门</label>
+                <select name="searchDeptId" [(ngModel)]="searchPerson.deptId" style="width: 168px;">
+                  <option value="">全部</option>
+                  <option *ngFor="let dept of deptList" [value]="dept.DEPT_ID">{{dept.DEPT_NAME}}</option>
+                </select>
+              </li>
+              <li style="float:right">
+                <a (click)="getUserList();"><i class="icon-magnifier"></i>&nbsp;查询</a>
+              </li>
+            </ul>
+          </div>
+          <div class="modal-inner clearfix">
+            <div class="modal-left">
+              <h3>查询人员：</h3>
+              <ul class="all-list">
+                <li *ngFor="let person of userList"><span>[{{person.userid}}]{{person.username}}</span>
+                  <a href="javascript:;" (click)="addPersonList(person.userid)">>> 加入群组</a>
+                </li>
+              </ul>
+            </div>
+            <div class="modal-middle">
+              <div>></div>
+            </div>
+            <div class="modal-right">
+              <h3>群组人员：</h3>
+              <ul class="group-list">
+                <li *ngFor="let person of personList"><span>[{{person.userid}}]{{person.username}}</span>
+                  <a href="javascript:;" (click)="delPersonList(person.userid)">× 删除</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-info" type="submit"
+                  (click)="closeNewUser()">关 闭
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
