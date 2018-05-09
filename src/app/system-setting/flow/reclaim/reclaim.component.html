@@ -54,9 +54,9 @@
           <td width="12%" class="text-left">
             {{flow.deptId}}
           </td>
-          <td width="12%" class="text-left">
-            <i class="icon-pencil" title="我的群组" (click)="myGroup(flow.userid)">我的群组</i>
-            <i class="icon-close" title="一键清空群组" (click)="onekeyCancelAuthorization(flow.userid)">一键清空</i>
+          <td width="12%" class="handle text-left"><!--class="icon-pencil"-->
+            <i  style="margin-right: 10px;" title="群组回收" (click)="myGroup(flow.userid)">群组回收</i>
+            <i  title="清空群组" (click)="onekeyCancelAuthorization(flow.userid)">清空群组</i><!--class="icon-close"-->
           </td>
         </tr>
       </table>

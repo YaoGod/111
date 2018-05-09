@@ -3,6 +3,11 @@
     <!--页面标题-->
     <div class="nav-title">
       <a><h4>我的审批</h4></a>
+      <div class="b-head-right">
+        <div class="content-box" tabindex="0" onclick="history.go(-1)">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>
     </div>
     <!--搜索栏-->
     <div class="search-bar">
@@ -10,6 +15,13 @@
         <li><label>时间</label>
           <input type="date" name="bTime" [(ngModel)]="search.bTime">至
           <input type="date" name="eTime" [(ngModel)]="search.eTime">
+        </li>
+        <li><label>工单状态</label>
+          <select class="search-ipt" name="searchStatus">
+            <option value="">全部</option>
+            <option value="0">已审批</option>
+            <option value="1">待审批</option>
+          </select>
         </li>
         <li>
           <a (click)="getMyExamine(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>

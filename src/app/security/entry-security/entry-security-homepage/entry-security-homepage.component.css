@@ -6,6 +6,7 @@
 .card{
   width:48%;
   height:100%;
+  margin-bottom: 15px;
   float: left;
   box-sizing: content-box;
   border:3px solid #1ab2ff;

@@ -202,7 +202,7 @@ export class ReclaimComponent implements OnInit {
   /*批量取消授权*/
   cancelAllAuthorization() {
     this.beginCheck = false;
-    let url = '/workflow/group/deleteBatchUserGroup';
+    let url = '/workflow/group/deleteAllUserGroup';
     let list = document.getElementsByName("orderCheck");
     let postData = [];
     let str = [];
@@ -217,26 +217,24 @@ export class ReclaimComponent implements OnInit {
         this.beginCheck = true;
       }
     }
-    let userList = {
-      userList: postData
-    };
     if (this.beginCheck) {
       confirmFunc.init({
         'title': '提示',
-        'mes': '是否删除所选群组？',
+        'mes': '是否清空所选人员群组信息？',
         'popType': 1,
         'imgType': 3,
         "callback": () => {
-          this.ipSetting.sendPost(url, userList)
+          this.ipSetting.sendPost(url, postData)
             .subscribe(data => {
               if (this.errorResponseService.errorMsg(data)) {
                 confirmFunc.init({
                   'title': '提示',
-                  'mes': data.msg,
+                  'mes': '用户群组回收成功',
                   'popType': 2,
                   'imgType': 1
                 });
-                // this.getUserList(1);
+                this.getUserList(1);
+                this.all = false;
               }
             });
         }
