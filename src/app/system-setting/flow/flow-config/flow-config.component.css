@@ -370,8 +370,9 @@ input[type=date]:disabled.form-control{
   color: #8d9ea7;
 }
 select{
-  height: 38px;
   padding: 0 10px;
+  background: none;
+  text-align: center;
 }
 .dropify-message>img{
   width: 100%;
@@ -410,13 +411,12 @@ button{
   border:none;
   border-radius: 5px;
   background: #04a9f3;
-  color: #ffffff;
   font-size: 12px;
   cursor: pointer;
 }
 .flow-area{
   padding: 10px 0;
-  max-height: 420px;
+  max-height: 260px;
   overflow: auto;
 }
 .node>.rect{

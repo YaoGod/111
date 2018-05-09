@@ -16,16 +16,28 @@
 <div class="table-head" style="margin-top: 10px">
   <table border="0" cellspacing="0" cellpadding="0" class="list-box">
     <tr class="row list-title" style="height:45px;">
-      <th width="5%" class="text-left">流程名称</th>
+      <th width="45%" class="text-left">流程名称</th>
+      <th width="10%">创建人HRMIS号</th>
+      <th width="15%">创建时间</th>
+      <th width="10%">状态</th>
       <th width="20%">操作</th>
     </tr>
     <tr class="row" *ngFor="let flow of flows;let i = index">
       <td class="text-left">
         {{flow.name}}
       </td>
+      <td>{{flow.createUserId}}</td>
+      <td>{{flow.createTime| date:'yyyy/MM/dd HH:mm:ss'}}</td>
+      <td>{{flow.status}}</td>
       <td class="box-option">
-        <a (click)="newFlow()">
-          <i class="icon-settings"></i>&nbsp;配置流程
+        <a (click)="watch(flow)" *ngIf="rule&&rule.isSelect">
+          <i class="icon-screen-desktop"></i>&nbsp;查看流程
+        </a>
+        <a (click)="edit(flow)" *ngIf="rule&&rule.isUpdate">
+          <i class="icon-pencil"></i>&nbsp;编辑
+        </a>
+        <a (click)="delFlow(flow.id)" *ngIf="rule&&rule.isDelete">
+          <i class="icon-trash"></i>&nbsp;删除
         </a>
       </td>
     </tr>
@@ -52,12 +64,12 @@
         <div class="modal-right">
           <div  class="form-group">
             <label  class="control-label"><span>流程名称</span>
-              <input type="text" class="form-control" id="name" name="name"
+              <input type="text" class="form-control" id="name" name="name" [disabled]="disableStatus"
                      [(ngModel)]="copyFlow.name" (blur)="verifyEmpty(copyFlow.name,'name')">
             </label>
             <div class="error"></div>
           </div>
-          <div  class="form-button">
+          <div  class="form-button" *ngIf="!disableStatus">
             <button (click)="addFlows()">
               增加环节
             </button>
@@ -79,9 +91,13 @@
                 </div>
                 <div class="arrow"></div>
               </li>
-              <li class="node" *ngFor="let segment of copyFlow.content">
+              <li class="node" *ngFor="let segment of copyFlow.content;let i = index">
                 <div class="rect">
-                  <input type="text" placeholder="请输入内容" [(ngModel)]="segment.name">
+                  <select type="text" [(ngModel)]="segment.id" [disabled]="disableStatus"
+                          (change)="changeSelect(i,$event.target.selectedIndex)">
+                    <option *ngFor="let node of list" [value]="node.id"
+                            >{{node.name}}</option>
+                  </select>
                 </div>
                 <div class="arrow"></div>
               </li>

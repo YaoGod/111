@@ -20,7 +20,8 @@ export class FlowConfigComponent implements OnInit {
   public flows: Array<Flow>;
   public copyFlow: Flow;
   public search: Flow;
-
+  public list: Array<Segment>;
+  public disableStatus: boolean;
   constructor(
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
@@ -37,26 +38,66 @@ export class FlowConfigComponent implements OnInit {
     this.flows = [];
     this.copyFlow = new Flow();
     this.copyFlow.content = [];
+    this.list = [];
+    this.disableStatus = false;
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("system/flow");
       }
     );
-    console.log(this.rule);
+    if(this.rule){
+      this.getRule(this.rule.ID);
+    }
+    this.getSelectList();
+    this.getFlowList(1);
   }
+  getRule(id) {
+    this.globalCatalogService.getCata(id, "system", "system/flow/flowConfig")
+      .subscribe(data =>{
+        if(this.errorResponseService.errorMsg(data)&&data.data.length>0){
+          this.rule = data.data[0];
+        }
+      })
+  }
+  /*获取所有群组作为工作流配置条件*/
+  getSelectList(){
+    this.workflowService.getGroupSelect("")
+      .subscribe(data => {
+        if (this.errorResponseService.errorMsg(data)) {
+          this.list = data.data;
+        }
+      });
+  }
+  /*获取所有流程的列表*/
   getFlowList(pageNo){
     this.pageNo = pageNo;
+    this.workflowService.getFlowList(this.search,this.pageNo,this.pageSize)
+      .subscribe(data => {
+        if (this.errorResponseService.errorMsg(data)) {
+          this.flows = data.data.infos;
+          this.total = data.data.total;
+        }
+      });
   }
-  /*编辑用户*/
+  /*查看流程*/
+  watch(flow:Flow){
+    this.newFlow();
+    this.copyFlow = JSON.parse(JSON.stringify(flow));
+    this.copyFlow.content = this.copyFlow.content.slice(2,this.copyFlow.content.length-1);
+    this.disableStatus = true;
+  }
+  /*编辑流程*/
   edit(flow:Flow){
     this.newFlow();
     this.copyFlow = JSON.parse(JSON.stringify(flow));
+    this.copyFlow.content = this.copyFlow.content.slice(2,this.copyFlow.content.length-1);
   }
   /*新建流程*/
   newFlow(){
     this.copyFlow = new Flow();
     this.copyFlow.content = [];
     $('#FlowSetting').show();
+    this.disableStatus = false;
   }
   /*关闭流程新建弹框*/
   closeFlow(){
@@ -65,26 +106,50 @@ export class FlowConfigComponent implements OnInit {
     $('.error').fadeOut();
     $('#FlowSetting').hide();
   }
+  delFlow(id){
+
+  }
   /*流程*/
   submit(){
+    if(this.disableStatus){
+      this.closeFlow();
+    }
+    else{
     let error = 0;
     this.verifyEmpty(this.copyFlow.name,'name');
     this.verifyEmpty(this.copyFlow.note,'note');
     if($('.red').length === 0 && error === 0) {
       let postdata = JSON.parse(JSON.stringify(this.copyFlow));
-      this.workflowService.addFlow(postdata)
-        .subscribe(data => {
-          if (this.errorResponseService.errorMsg(data)) {
-            confirmFunc.init({
-              'title': '提示',
-              'mes': data.msg,
-              'popType': 2,
-              'imgType': 1,
-            });
-            this.closeFlow();
-            this.getFlowList(1);
-          }
-        })
+      if(postdata.id === null){
+        this.workflowService.addFlow(postdata)
+          .subscribe(data => {
+            if (this.errorResponseService.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data.msg,
+                'popType': 2,
+                'imgType': 1,
+              });
+              this.closeFlow();
+              this.getFlowList(1);
+            }
+          })
+      }else{
+        this.workflowService.editFlow(postdata)
+          .subscribe(data => {
+            if (this.errorResponseService.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data.msg,
+                'popType': 2,
+                'imgType': 1,
+              });
+              this.closeFlow();
+              this.getFlowList(1);
+            }
+          })
+      }
+    }
     }
   }
   addFlows(){
@@ -115,12 +180,18 @@ export class FlowConfigComponent implements OnInit {
     $('#' + id).removeClass('red');
     $('#' + id).parent().next('.error').fadeOut();
   }
+  changeSelect(index,j){
+   this.copyFlow.content[index] = this.list[j];
+  }
 }
 export class Flow{
   id: number;
   name: string;
   content: Array<Segment>;
   note: string;
+  status: string;
+  createTime: string;
+  createUserId: string;
 }
 
 export class Segment {
