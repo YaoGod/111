@@ -16,11 +16,11 @@
 <div class="table-head" style="margin-top: 10px">
   <table border="0" cellspacing="0" cellpadding="0" class="list-box">
     <tr class="row list-title" style="height:45px;">
-      <th width="45%" class="text-left">流程名称</th>
-      <th width="10%">创建人HRMIS号</th>
+      <th width="30%" class="text-left">流程名称</th>
+      <th width="20%">创建人HRMIS号</th>
       <th width="15%">创建时间</th>
       <th width="10%">状态</th>
-      <th width="20%">操作</th>
+      <th width="25%">操作</th>
     </tr>
     <tr class="row" *ngFor="let flow of flows;let i = index">
       <td class="text-left">
@@ -33,10 +33,13 @@
         <a (click)="watch(flow)" *ngIf="rule&&rule.isSelect">
           <i class="icon-screen-desktop"></i>&nbsp;查看流程
         </a>
+        <a (click)="changeStatus(flow)" *ngIf="rule&&rule.isUpdate">
+          <i class="icon-settings"></i>&nbsp;改变状态
+        </a>
         <a (click)="edit(flow)" *ngIf="rule&&rule.isUpdate">
           <i class="icon-pencil"></i>&nbsp;编辑
         </a>
-        <a (click)="delFlow(flow.id)" *ngIf="rule&&rule.isDelete">
+        <a (click)="delFlow(flow)" *ngIf="rule&&rule.isDelete">
           <i class="icon-trash"></i>&nbsp;删除
         </a>
       </td>

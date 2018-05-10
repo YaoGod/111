@@ -106,8 +106,29 @@ export class FlowConfigComponent implements OnInit {
     $('.error').fadeOut();
     $('#FlowSetting').hide();
   }
-  delFlow(id){
-
+  delFlow(flow){
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否删除'+flow.name+'流程?',
+      'popType': 1,
+      'imgType': 3,
+      'callback': ()=> {
+        let postData = JSON.parse(JSON.stringify(flow));
+        postData.status = "delete";
+        this.workflowService.updateFlowStatus(postData)
+          .subscribe(data => {
+            if (this.errorResponseService.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data.msg,
+                'popType': 2,
+                'imgType': 1,
+              });
+              this.getFlowList(1);
+            }
+          })
+      }
+    });
   }
   /*流程*/
   submit(){
@@ -118,9 +139,20 @@ export class FlowConfigComponent implements OnInit {
     let error = 0;
     this.verifyEmpty(this.copyFlow.name,'name');
     this.verifyEmpty(this.copyFlow.note,'note');
+    for(let i = 0;i<this.copyFlow.content.length;i++){
+      if(typeof (this.copyFlow.id)==="undefined"||this.copyFlow.id === null){
+        confirmFunc.init({
+          'title': '提示',
+          'mes': "请补充流程环节信息！",
+          'popType': 2,
+          'imgType': 2,
+        });
+        return false;
+      }
+    }
     if($('.red').length === 0 && error === 0) {
       let postdata = JSON.parse(JSON.stringify(this.copyFlow));
-      if(postdata.id === null){
+      if(typeof (postdata.id) === "undefined"){
         this.workflowService.addFlow(postdata)
           .subscribe(data => {
             if (this.errorResponseService.errorMsg(data)) {
@@ -182,6 +214,38 @@ export class FlowConfigComponent implements OnInit {
   }
   changeSelect(index,j){
    this.copyFlow.content[index] = this.list[j];
+  }
+  changeStatus(flow:Flow){
+    let postData = JSON.parse(JSON.stringify(flow));
+    let status;
+    if(flow.status === '有效') {
+      postData.status = "invalid";
+      status = '无效';
+    }
+    else {
+      postData.status = "valid";
+      status = '有效';
+    }
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否修改'+postData.name+'的状态为' + status+'?',
+      'popType': 1,
+      'imgType': 3,
+      'callback': ()=> {
+        this.workflowService.updateFlowStatus(postData)
+          .subscribe(data => {
+            if (this.errorResponseService.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data.msg,
+                'popType': 2,
+                'imgType': 1,
+              });
+              this.getFlowList(1);
+            }
+          })
+      }
+    });
   }
 }
 export class Flow{
