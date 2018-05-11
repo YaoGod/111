@@ -190,6 +190,9 @@ export class FlowConfigComponent implements OnInit {
   delFlows(){
     this.copyFlow.content.pop();
   }
+  changeSelect(index,j){
+    this.copyFlow.content[index] = JSON.parse(JSON.stringify(this.list[j]));
+  }
   /*非空验证*/
   verifyEmpty( value, id?){
     if(typeof (value) === "undefined" ||
@@ -211,9 +214,6 @@ export class FlowConfigComponent implements OnInit {
   private  removeErrorClass(id: string) {
     $('#' + id).removeClass('red');
     $('#' + id).parent().next('.error').fadeOut();
-  }
-  changeSelect(index,j){
-   this.copyFlow.content[index] = this.list[j];
   }
   changeStatus(flow:Flow){
     let postData = JSON.parse(JSON.stringify(flow));
