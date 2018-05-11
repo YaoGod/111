@@ -13,7 +13,7 @@
     <!--<img *ngIf="groupProduct.imgPathList" [src]="groupProduct.imgPathList[0] | imgsafeurl"/>-->
     <!--<img src="../../../../assets/image/work_card_flowchart.png"/>-->
 
-    <div class="warp">
+    <div class="warp clearfix">
       <div class="warp-left">
         <div class="warp-fist">
           <img src="assets/image/work_card_flowchart.png"/>
@@ -21,34 +21,7 @@
       </div>
       <div class="warp-right">
         <div class="form-group">
-          <label class="control-label"><span>员工编号</span>
-            <input class="form-control" id="name"
-                   name="name" placeholder="" type="text">
-            <!--[(ngModel)]="shareProduct.name"-->
-            <!--(blur)="verifyEmpty(shareProduct.name,'name')">-->
-          </label>
-          <div class="error"></div>
-        </div>
-        <div class="form-group">
-          <label class="control-label"><span>员工姓名</span>
-            <input class="form-control" id="price"
-                   name="price" placeholder="" type="text">
-            <!--[(ngModel)]="shareProduct.unitPrice"-->
-            <!--(blur)="verifyEmpty(shareProduct.unitPrice,'price')">-->
-          </label>
-          <div class="error"></div>
-        </div>
-        <div class="form-group">
-          <label class="control-label"><span>员工部门</span>
-            <select class="form-control" id="deptId" name="deptId"
-                    [(ngModel)]="entrySecurity.deptId" (blur)="verifyEmpty(entrySecurity.deptId,'deptId')">
-              <option *ngFor="let dept of deptList" [value]="dept.DEPT_ID">{{dept.DEPT_NAME}}</option>
-            </select>
-          </label>
-          <div class="error"></div>
-        </div>
-        <div class="form-group">
-          <label class="control-label"><span>申请类型</span>
+          <label class="control-label"><span>申请门禁类型</span>
             <div class="choose-group" *ngFor="let type of types;let i=index">
               <label class="cb-blue">
                 <input type="radio" name="productType"
@@ -60,41 +33,80 @@
           <div class="error"></div>
         </div>
         <div class="form-group">
-          <label class="control-label"><span>大楼名称</span>
-            <select class="form-control" name="searchBuildID" [(ngModel)]="search.building">
-              <option *ngFor="let building of buildings" [value]="building.ID">{{building.NAME}}</option>
-            </select>
+          <label class="control-label"><span>申请人员类型</span>
+            <div class="choose-group" *ngFor="let type of personTypes;let i=index">
+              <label class="cb-blue">
+                <input type="radio" name="personType"
+                       [(ngModel)]="entrySecurity.personType" [value]="type">
+                <span>{{type}}</span>
+              </label>
+            </div>
           </label>
           <div class="error"></div>
         </div>
         <div class="form-group">
-          <label class="control-label"><span>楼层</span>
-            <input class="form-control" id="floorNum"
-                   name="amount" placeholder="" type="text">
-            <!--[(ngModel)]="shareProduct.amount"-->
-            <!--(blur)="verifyEmpty(shareProduct.amount,'amount')">-->
+          <label class="control-label"><span>申请人员</span>
+            <input class="form-control" id="name"
+                   name="name" placeholder="" type="text">
+            <!--[(ngModel)]="shareProduct.name"-->
+            <!--(blur)="verifyEmpty(shareProduct.name,'name')">-->
+
+          </label>
+          <em style="cursor:pointer;"  (click)="addPerson()"><i class="icon-plus"></i> 增加人员</em>
+          <div class="error"></div>
+        </div>
+        <!--<div class="form-group">
+          <label class="control-label"><span>员工姓名</span>
+            <input class="form-control" id="price"
+                   name="price" placeholder="" type="text">
           </label>
           <div class="error"></div>
         </div>
-        <div class="modal-right">
-          <div class="form-group">
-            <label class="control-label"><span>申请原因</span>
-              <textarea class="form-control" type="text" rows="3" style="margin-top: -29px; margin-left: 60px; line-height: 20px; width: 500px"
-                        id="deptName" name="deptName">
-              </textarea>
-            </label>
-            <div class="error"></div>
-          </div>
-          <div style="text-align: right">
-            <button class="btn btn-info" type="submit"
-                    (click)="submitPassword()">提交
-            </button>
-          </div>
+        <div class="form-group">
+          <label class="control-label"><span>员工部门</span>
+            <select class="form-control" id="deptId" name="deptId"
+                    [(ngModel)]="entrySecurity.deptId" (blur)="verifyEmpty(entrySecurity.deptId,'deptId')">
+              <option *ngFor="let dept of deptList" [value]="dept.DEPT_ID">{{dept.DEPT_NAME}}</option>
+            </select>
+          </label>
+          <div class="error"></div>
+        </div>-->
+
+        <div class="form-group">
+          <label class="control-label"><span>申请内容</span>
+            <input class="form-control" id="info"
+                   name="amount" placeholder="" type="text">
+            <!--<select class="form-control" name="searchBuildID" [(ngModel)]="search.building">
+              <option *ngFor="let building of buildings" [value]="building.ID">{{building.NAME}}</option>
+            </select>-->
+          </label>
+          <em style="cursor:pointer;" (click)="addInfo()"><i class="icon-plus"></i> 增加内容</em>
+          <div class="error"></div>
+        </div>
+        <!--<div class="form-group">
+          <label class="control-label"><span>楼层</span>
+            <input class="form-control" id="floorNum"
+                   name="amount" placeholder="" type="text">
+          </label>
+          <div class="error"></div>
+        </div>-->
+        <div class="form-group">
+          <label class="control-label"><span>申请原因</span>
+            <textarea class="form-control" type="text" rows="3" style="text-indent:0;line-height: 20px; width: 360px"
+                      id="deptName" name="deptName">
+            </textarea>
+          </label>
+          <div class="error"></div>
+        </div>
+        <div style="text-align: right">
+          <button class="btn btn-info" type="submit"
+                  (click)="submitPassword()">提交
+          </button>
         </div>
       </div>
 
       <!--表头-->
-      <div class="table-head" style="margin-top: 10px">
+      <!--<div class="table-head" style="margin-top: 10px">
         <table border="0" cellspacing="0" cellpadding="0" class="list-box">
           <tr class="row list-title" style="height:45px;">
             <th width="10%" class="text-left">流程节点</th>
@@ -105,7 +117,6 @@
           </tr>
         </table>
       </div>
-      <!--表格内容-->
       <div class="table-content" style="min-height: 360px">
         <table border="0" cellspacing="0" cellpadding="0" class="list-box">
           <tr class="row" *ngFor="let log of applyList;let i = index">
@@ -129,15 +140,92 @@
         <div class="div-none" *ngIf="applyList.length === 0">
           <p>暂无信息</p>
         </div>
-      </div>
+      </div>-->
       <!--翻页-->
-      <app-turn-bar
+      <!--<app-turn-bar
         [pageNo]="pageNo"
         [pageSize]="pageSize"
         [total]="total"
         (turnEvent)="getSystemLogger($event)">
-      </app-turn-bar>
+      </app-turn-bar>-->
 
+    </div>
+  </div>
+</div>
+<div class="mask">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title"><i class="icon-home"></i>增加申请内容</h4>
+      <button class="modal-close" type="button" (click)="close()">×</button>
+    </div>
+    <form class="form-building form-material">
+      <div class="modal-body" *ngFor="let inner of record;let i=index">
+        <div class="form-int form-group-big"><span>大楼名称</span>
+          <select [name]="'buildingId'+i" [(ngModel)]="inner.buildingId"  class="form-control"
+                  (change)="getFloorNameListMsg(inner.buildingId,i)">
+            <option value="">请选择</option>
+            <option *ngFor="let building of inner.buildings" [value]="building.ID">{{building.NAME}}</option>
+          </select>
+        </div>
+        <div class="form-int form-group-little"><span>楼层</span>
+          <select [name]="'floorNum'+i" [(ngModel)]="inner.floorNum"  class="form-control duan"
+                  (change)="getRoomListMsg(inner.floorNum,i)">
+            <option value="">请选择</option>
+            <option *ngFor="let floorName of inner.floorNums" [value]="floorName.FLOOR_NUM">{{floorName.FLOOR_NUM}}</option>
+          </select>
+        </div>
+        <div class="form-int form-group-little"><span>房间号</span>
+          <select [name]="'roomNum'+i" [(ngModel)]="inner.roomNum"  class="form-control duan">
+            <option value="">请选择</option>
+            <option *ngFor="let room of inner.rooms" [value]="room.roomNum">{{room.roomNum}}</option>
+          </select>
+        </div>
+        <div class="form-int form-group-cancel"><span style="display: inline-block; width: 18px;border:1px solid #000; border-radius: 50%; line-height: 18px; text-align: center; margin-top:10px;" title="删除" (click)="removePro(i)">X</span></div>
+      </div>
+      <div class="addPro">
+        <button class="btn btn-info" type="submit"
+                (click)="addPro()">增加栏目
+        </button>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <button class="btn btn-info" type="submit"
+              (click)="saveContent()">确 定
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="mask2">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title"><i class="icon-home"></i>增加申请人员</h4>
+      <button class="modal-close" type="button" (click)="close()">×</button>
+    </div>
+    <form class="form-building form-material">
+      <div class="modal-body" *ngFor="let inner of userList;let i=index">
+        <div class="form-int"><span>员工编号</span>
+          <input [name]="'userId'+i" [(ngModel)]="inner.userid"  class="form-control"
+                  (keyup)="getUserInfo(inner.userid,i)">
+        </div>
+        <div class="form-int"><span>员工姓名</span>
+          <input [name]="'userName'+i" [(ngModel)]="inner.username"  class="form-control">
+        </div>
+        <div class="form-int"><span>部门</span>
+          <input [name]="'deptName'+i" [(ngModel)]="inner.deptId"  class="form-control">
+        </div>
+        <div class="form-int form-group-cancel"><span style="display: inline-block; width: 18px;border:1px solid #000; border-radius: 50%; line-height: 18px; text-align: center; margin-top:10px;" title="删除" (click)="removePro(i)">X</span></div>
+      </div>
+      <div class="addPro">
+        <button class="btn btn-info" type="submit"
+                (click)="addProPerson()">增加栏目
+        </button>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <button class="btn btn-info" type="submit"
+              (click)="savePerson()">确 定
+      </button>
     </div>
   </div>
 </div>

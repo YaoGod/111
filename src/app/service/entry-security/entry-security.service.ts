@@ -106,7 +106,7 @@ export class EntryService {
   buildingId: number;
   buildingName:string;
   productType: string;  /*选择的类型*/
-
+  personType: string; /*人员性质*/
   userId : number;
   userName:string;
   operationModule:string;

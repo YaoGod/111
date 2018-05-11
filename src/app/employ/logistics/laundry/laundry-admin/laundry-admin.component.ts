@@ -351,6 +351,7 @@ export class LaundryOrder {
   status:string;
   note:string;
   payment:string;
+  createTime:string;
   payTime:string;
   balanceReason:string;
   facilitator:string;

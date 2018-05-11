@@ -143,6 +143,7 @@ export class PlanLaundryReportComponent implements OnInit {
 }
 export class LaundryOrder {
   id:number;
+  createTime:string;
   orderNo:string;
   payment:string;
   facilitator:string;

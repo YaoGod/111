@@ -31,7 +31,7 @@
             <tr>
               <td class="zero">订单编号：{{order.orderNo}}</td>
               <td class="zero">服务中心：{{order.serviceCenter}}</td>
-              <td class="zero">下单时间：{{order.payTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+              <td class="zero">下单时间：{{order.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
               <td class="zero">订单价格：￥{{order.payment}}元</td>
               <td class="zero status" *ngIf="order.status=='0'">订单状态：订购中</td>
               <td class="zero status" *ngIf="order.status=='4'">订单状态：已收货</td>

@@ -74,6 +74,7 @@
                   <input type="checkbox" name="all" [(ngModel)]="all" (change)="checkedAll()">
                 </th>
                 <th class="fir">订单编号</th>
+                <th class="fir">下单时间</th>
                 <th class="fir">服务商</th>
                 <th class="fir">服务中心</th>
                 <th class="sec">订单人</th>
@@ -89,6 +90,7 @@
                   <input type="checkbox" name="orderCheck" [value]="order.id" (change)="checkIsAll()">
                 </td>
                 <td class="fir">{{order.orderNo}}</td>
+                <td class="fir">{{order.createTime}}</td>
                 <td class="fir">{{order.facilitator}}</td>
                 <td class="fir">{{order.serviceCenter}}</td>
                 <td class="sec">{{order.username}}</td>
