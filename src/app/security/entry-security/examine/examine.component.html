@@ -12,15 +12,17 @@
     <!--搜索栏-->
     <div class="search-bar">
       <ul>
+        <li><label>工单类型</label>
+          <input type="text" name="cardType" [(ngModel)]="search.type">
+        </li>
         <li><label>时间</label>
           <input type="date" name="bTime" [(ngModel)]="search.bTime">至
           <input type="date" name="eTime" [(ngModel)]="search.eTime">
         </li>
         <li><label>工单状态</label>
-          <select class="search-ipt" name="searchStatus">
-            <option value="">全部</option>
-            <option value="0">已审批</option>
-            <option value="1">待审批</option>
+          <select class="search-ipt" name="searchStatus" [(ngModel)]="search.status">
+            <option value="0">待审批</option>
+            <option value="1">已审批</option>
           </select>
         </li>
         <li>
@@ -32,35 +34,43 @@
     <div class="table-head" style="margin-top: 10px">
       <table border="0" cellspacing="0" cellpadding="0" class="list-box">
         <tr class="row list-title" style="height:45px;">
-          <th width="10%" class="text-left">发起人HRMIS号</th>
+          <th width="5%" class="text-left">编号</th>
+          <th width="10%" class="text-left">名称</th>
+          <th width="15%" class="text-left">说明</th>
+          <th width="10%" class="text-left">类型</th>
+          <th width="10%" class="text-left">状态</th>
           <th width="10%" class="text-left">发起人姓名</th>
-          <th width="10%" class="text-left">发起类型</th>
-          <th width="15%" class="text-left">发起时间</th>
-          <th width="35%" class="text-left">下一处理人</th>
+          <th width="10%" class="text-left">发起时间</th>
           <th width="20%">操作</th>
         </tr>
         <tr class="row" *ngFor="let order of orderList;let i = index">
           <td class="text-left">
-            {{order.userId}}
+            {{order.id}}
           </td>
           <td class="text-left">
-            {{order.userName}}
+            {{order.name}}
           </td>
           <td class="text-left">
-            {{order.operationModule}}
+            {{order.note}}
+          </td>
+          <td class="text-left">
+            {{order.type}}
+          </td>
+          <td class="text-left">
+            {{order.status}}
+          </td>
+          <td class="text-left">
+            {{order.createUserName}}
           </td>
           <td>
-            <p>{{order.operationTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
-          </td>
-          <td class="text-left">
-            {{order.employee}}
+            <p>{{order.createTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
           </td>
           <td class="box-option">
-            <a (click)="edit(order)">
-              <i class="icon-docs"></i>查看
+            <a [routerLink]="['../detail',order.id]">
+              <i class="icon-docs"></i>&nbsp;查看
             </a>
-            <a (click)="edit(order)">
-              <i class="icon-speech"></i>审批
+            <a [routerLink]="['../check',order.id]">
+              <i class="icon-speech"></i>&nbsp;审批
             </a>
           </td>
         </tr>

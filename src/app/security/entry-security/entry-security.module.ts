@@ -12,6 +12,7 @@ import {ImgurlModule} from "../../pipe/imgurl/imgurl.module";
 import { EntrySecurityHomepageComponent } from './entry-security-homepage/entry-security-homepage.component';
 import { LaunchedComponent } from './launched/launched.component';
 import { ExamineComponent } from './examine/examine.component';
+import { ExamineDetailComponent } from './examine-detail/examine-detail.component';
 const routes: Routes = [
   {
     path: '',
@@ -32,6 +33,16 @@ const routes: Routes = [
         /*我发起的*/
         path: 'launched',
         component:LaunchedComponent
+      },
+      {
+        /*工单详情*/
+        path: 'detail/:id',
+        component:ExamineDetailComponent
+      },
+      {
+        /*工单审核*/
+        path: 'check/:id',
+        component:ExamineDetailComponent
       },
       {
         /*工号牌申请模块*/
@@ -60,6 +71,7 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [RouteGuardService],
-  declarations:[EntrySecurityComponent, EntrySecurityHomepageComponent, LaunchedComponent, ExamineComponent]
+  declarations:[EntrySecurityHomepageComponent,EntrySecurityComponent, LaunchedComponent,
+    ExamineComponent,ExamineDetailComponent]
 })
 export class EntrySecurityModule { }

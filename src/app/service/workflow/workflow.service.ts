@@ -39,4 +39,55 @@ export class WorkflowService {
     return this.http.post(url,data,this.ipSetting.options)
       .map(res => res.json());
   }
+  /*获取待审批的工作流*/
+  getReviewList(search,pageNo,pageSize) {
+    const url = this.ipSetting.ip + '/workflow/review/getReviewList/'+pageNo+'/'+pageSize;
+    return this.http.post(url,search,this.ipSetting.options)
+      .map(res => res.json());
+  }
+}
+
+export class Review{
+  id: number;
+  name: string;
+  note: string;
+  status: string;
+  createTime: string;
+  createUserId: string;
+  createUserName: string;
+  type: string;
+  bTime: string;
+  eTime: string;
+  batchId: string;
+  cause: string;
+  content:  Array<Segment>;
+  deptId: string;
+  handleHasUser: number;
+  handleMinUser: number;
+  handleUserId: string;
+  modifyTime: string;
+  modifyUserId: string;
+  priority: number;
+  schedule: number;
+}
+
+export class Flow{
+  id: number;
+  name: string;
+  content: Array<Segment>;
+  note: string;
+  status: string;
+  createTime: string;
+  createUserId: string;
+}
+
+export class Segment {
+  id :number;
+  name:string;
+  content:string;
+  groupId:string;
+  type:string;
+  status:string;
+  front:string;
+  next:string;
 }

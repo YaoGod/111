@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {sndCatalog} from "../../../mode/catalog/catalog.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
-import {WorkflowService} from "../../../service/workflow/workflow.service";
+import {Flow, Segment, WorkflowService} from "../../../service/workflow/workflow.service";
 declare var $:any;
 declare var confirmFunc:any;
 @Component({
@@ -248,23 +248,4 @@ export class FlowConfigComponent implements OnInit {
     });
   }
 }
-export class Flow{
-  id: number;
-  name: string;
-  content: Array<Segment>;
-  note: string;
-  status: string;
-  createTime: string;
-  createUserId: string;
-}
 
-export class Segment {
-  id :number;
-  name:string;
-  content:string;
-  groupId:string;
-  type:string;
-  status:string;
-  front:string;
-  next:string;
-}
