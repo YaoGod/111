@@ -152,6 +152,7 @@ export class FlowConfigComponent implements OnInit {
     }
     if($('.red').length === 0 && error === 0) {
       let postdata = JSON.parse(JSON.stringify(this.copyFlow));
+      delete postdata.status;
       if(typeof (postdata.id) === "undefined"){
         this.workflowService.addFlow(postdata)
           .subscribe(data => {
@@ -191,7 +192,8 @@ export class FlowConfigComponent implements OnInit {
     this.copyFlow.content.pop();
   }
   changeSelect(index,j){
-    this.copyFlow.content[index] = JSON.parse(JSON.stringify(this.list[j]));
+    // this.copyFlow.content[index] = JSON.parse(JSON.stringify(this.list[j]));
+    this.copyFlow.content[index].name = this.list[j].name;
   }
   /*非空验证*/
   verifyEmpty( value, id?){

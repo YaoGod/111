@@ -5,7 +5,6 @@ import {RouterModule, Routes} from "@angular/router";
 import {RouteGuardService} from "../../service/route-guard/route-guard.service";
 import { GroupConfigComponent } from './group-config/group-config.component';
 import { FlowConfigComponent } from './flow-config/flow-config.component';
-import { JobMangComponent } from './job-mang/job-mang.component';
 import {FormsModule} from "@angular/forms";
 import { ReclaimDetailComponent } from './reclaim/reclaim-detail/reclaim-detail.component';
 import {TurnBarModule} from "../../component/turn-bar/turn-bar.module";
@@ -24,15 +23,10 @@ const routes: Routes = [
       {
         path: 'groupConfig',
         loadChildren: './group-config/group-config.module#GroupConfigModule'
-        // component: GroupConfigComponent,
       },
       {
         path: 'flowConfig',
         component: FlowConfigComponent,
-      },
-      {
-        path: 'jobMang',
-        component: JobMangComponent,
       },
       {
         path: 'reclaim',
@@ -56,6 +50,6 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [RouteGuardService],
-  declarations: [FlowComponent, FlowConfigComponent, JobMangComponent, ReclaimDetailComponent]
+  declarations: [FlowComponent, FlowConfigComponent, ReclaimDetailComponent]
 })
 export class FlowModule { }

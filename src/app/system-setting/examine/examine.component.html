@@ -21,7 +21,7 @@
         </li>
         <li><label>工单状态</label>
           <select class="search-ipt" name="searchStatus" [(ngModel)]="search.status">
-            <option value="0">待审批</option>
+            <option value="going">待审批</option>
             <option value="1">已审批</option>
           </select>
         </li>
@@ -66,9 +66,6 @@
             <p>{{order.createTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
           </td>
           <td class="box-option">
-            <a [routerLink]="['../detail',order.id]">
-              <i class="icon-docs"></i>&nbsp;查看
-            </a>
             <a [routerLink]="['../check',order.id]">
               <i class="icon-speech"></i>&nbsp;审批
             </a>

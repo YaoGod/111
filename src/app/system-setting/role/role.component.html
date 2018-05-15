@@ -82,7 +82,7 @@
         <div class="modal-right">
           <div  class="form-group">
             <label  class="control-label"><span>角色ID</span>
-              <input type="number" class="form-control" id="roleId" name="roleId"
+              <input type="number" class="form-control" id="roleId" name="roleId" [disabled]="winTitle ==='编辑'"
                      [(ngModel)]="copyRole.roleId" (blur)="verifyEmpty(copyRole.roleId,'roleId')">
             </label>
             <div class="error"></div>

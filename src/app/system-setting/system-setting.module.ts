@@ -17,7 +17,8 @@ import { AbilityComponent } from './ability/ability.component';
 import { JoinRoleComponent } from './join-role/join-role.component';
 import { JoinAbilityComponent } from './join-ability/join-ability.component';
 import { PersonComponent } from './person/person.component';
-
+import {ExamineDetailComponent} from "./examine-detail/examine-detail.component";
+import {ExamineComponent} from "./examine/examine.component";
 const routes: Routes = [
   {
     path: '',
@@ -68,7 +69,17 @@ const routes: Routes = [
         /*工作流配置*/
         path: 'flow',
         loadChildren:  './flow/flow.module#FlowModule'
-      }
+      },
+      {
+        /*工单管理*/
+        path: 'examine',
+        component:ExamineComponent
+      },
+      {
+        /*工单审核*/
+        path: 'check/:id',
+        component:ExamineDetailComponent
+      },
     ]
   }
 ];
@@ -85,7 +96,8 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [RouteGuardService, UserPortalService],
-  declarations: [SystemSettingComponent, LoggerComponent, UserComponent, RoleComponent,AbilityComponent,
-    JoinRoleComponent, JoinAbilityComponent,PersonComponent]
+  declarations: [SystemSettingComponent, LoggerComponent, UserComponent, RoleComponent,
+    AbilityComponent, JoinRoleComponent, JoinAbilityComponent,PersonComponent,
+    ExamineComponent,ExamineDetailComponent,]
 })
 export class SystemSettingModule { }

@@ -10,20 +10,18 @@
       </div>
     </div>
     <div class="warp">
-      <div class="warp-left">
+      <!--<div class="warp-left">
         <div class="warp-fist">
           <img src="assets/image/work_card_flowchart.png"/>
         </div>
-      </div>
+      </div>-->
       <div class="warp-right">
-        <div class="form-group">
+        <!--<div class="form-group">
           <label class="control-label"><span>员工编号</span>
 
           </label>
           <div class="error"></div>
-        </div>
-
-
+        </div>-->
       </div>
 
       <!--表头-->
@@ -41,21 +39,21 @@
       <!--表格内容-->
       <div class="table-content" style="min-height: 360px">
         <table border="0" cellspacing="0" cellpadding="0" class="list-box">
-          <tr class="row" *ngFor="let log of applyList;let i = index">
+          <tr class="row" *ngFor="let log of history;let i = index">
             <td width="10%" class="text-left">
-              {{log.userId}}
+
             </td>
             <td width="10%" class="text-left">
-              {{log.operationModule}}
+
             </td>
             <td width="10%">
-              {{log.clientIp}}
+
             </td>
             <td width="15%">
-              <p>{{log.operationTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
+              <p>{{log.createTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
             </td>
             <td width="50%" class="text-left">
-              <p class="big-text">{{log.operationContent}}</p>
+              <p class="big-text">{{log.note}}</p>
             </td>
           </tr>
         </table>
