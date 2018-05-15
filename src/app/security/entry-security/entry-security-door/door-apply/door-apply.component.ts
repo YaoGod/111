@@ -4,6 +4,7 @@ import {ErrorResponseService} from "../../../../service/error-response/error-res
 import {EntrySecurityService, EntryService} from "../../../../service/entry-security/entry-security.service";
 import {InfoBuildingService} from "../../../../service/info-building/info-building.service";
 import {UserPortalService} from "../../../../service/user-portal/user-portal.service";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 
 declare var $:any;
 declare var confirmFunc:any;
@@ -27,44 +28,42 @@ export class DoorApplyComponent implements OnInit {
   public types : Array<string>;
   public personTypes : Array<string>;
   public record : Array<Power>;
-  public user:any;
+  public havePower:any;
+  public addUser:Person;
+  public postData:Wotany;
+  public userId:string;
+  public handleUserId:any;
+  public groupId:string;
   constructor(
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
     private entrySecurityService:EntrySecurityService,
     private infoBuildingService:InfoBuildingService,
     private userPortalService:UserPortalService,
+    public ipSetting  : IpSettingService
   ) { }
 
   ngOnInit() {
     this.globalCatalogService.setTitle("后勤物业/出入安全管理");
+    this.userId = '';
     this.record = [];
     this.record.push(new Power());
     this.userList = [];
     this.userList.push(new Person());
     this.entrySecurity = new EntryService();
+    this.addUser = new Person();
+    this.postData = new Wotany();
+    this.postData.data = [];
     this.types = ['授权','取消授权'];
     this.personTypes = ['自有员工','第三方员工'];
     this.entrySecurity.productType = this.types[0];
     this.entrySecurity.personType = this.personTypes[0];
 
-
-    // this.getSystemLogger(1);
     this.getDeptList();
     this.getBuildingList(0);
+    this.getGuardGroupId();
   }
 
-  /*获取日志列表*/
-  getSystemLogger(pageNo){
-   /* this.pageNo = pageNo;
-    this.entrySecurityService.getSysLog(this.pageNo,this.pageSize,this.search)
-      .subscribe(data=>{
-        if(this.errorResponseService.errorMsg(data)){
-          this.applyList = data.data.infos;
-          this.total = data.data.total;
-        }
-      })*/
-  }
   /*获取类型下拉列表*/
   getDeptList(){
     this.entrySecurityService.getDeptList()
@@ -75,34 +74,62 @@ export class DoorApplyComponent implements OnInit {
       })
   }
   /*根据用户id获取姓名和部门*/
-  getUserInfo(id,i){
+  getUserInfo(id){
     if(id&&id.length>7) {
+      this.userId = id;
       this.userPortalService.getUserInfo(id)
         .subscribe(data => {
           if (this.errorResponseService.errorMsg(data)) {
-            this.userList[i] = data.data;
-            console.log(this.userList);
+            this.addUser = data.data;
           }
-        })
+        });
+      let url = '/building/guard/getGuardList/1/999';
+      let postData = {userId:id};
+      this.ipSetting.sendPost(url,postData).subscribe(data => {
+        if(this.errorResponseService.errorMsg(data)) {
+          this.havePower = data.data.infos;
+          console.log(this.havePower);
+        }
+      });
     }
+  }
+  /*获取审批群组ID*/
+  getGuardGroupId(){
+    let url = '/building/guard/getGuardGroup';
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorResponseService.errorMsg(data)) {
+        this.groupId = data.data;
+        console.log(data);
+        let urlSecond = '/workflow/group/getUserSelect/'+this.groupId;
+        this.ipSetting.sendGet(urlSecond).subscribe(data2 => {
+          if(this.errorResponseService.errorMsg(data2)) {
+            this.handleUserId = data2.data;
+            console.log(data2.data);
+          }
+        });
+      }
+    });
   }
   /*增加授权栏目*/
   addPro(){
     this.record.push(new Power());
     this.getBuildingList(this.record.length-1);
   }
-  /*增加申请人员*/
-  addProPerson(){
-    this.userList.push(new Person());
-  }
+
   /*获取大楼列表*/
   getBuildingList(index) {
-    this.entrySecurityService.getBuildingList('')
-      .subscribe(data => {
-        if(this.errorResponseService.errorMsg(data)) {
-          this.record[index].buildings = data.data;
-        }
-      })
+
+      this.entrySecurityService.getBuildingList('')
+        .subscribe(data => {
+          if(this.errorResponseService.errorMsg(data)) {
+            if(index>0){
+              this.record[index].buildings = data.data;
+            }else{
+              this.record[0].buildings = data.data;
+            }
+          }
+        })
+
   }
   /*获取楼层名称*/
   getFloorNameListMsg(id,index) {
@@ -164,29 +191,49 @@ export class DoorApplyComponent implements OnInit {
 
     let postData = {
       guard: temporary,
-      // listUser: this.userList
+      userId: this.addUser.userid,
+      userName: this.addUser.username
     };
+    this.postData.data.push(postData);
+    this.close();
   }
-  /*保存申请人员信息*/
-  savePerson(){
-    let temporary = JSON.parse(JSON.stringify(this.userList));
-  }
+
   /*增加人员弹窗*/
   addPerson(){
     $('.mask2').fadeIn();
+    this.addUser = new Person();
+    this.record = [];
+    if(this.entrySecurity.productType==='授权'){
+      this.record.push(new Power());
+    }
+    this.getBuildingList(this.record.length-1);
+  }
+  /*删除人员*/
+  removePerson(index){
+    this.postData.data.splice(index,1);
   }
   submitPassword(){
-
+    // this.postData.handleUserId = localStorage.getItem('username');
+    let list = document.getElementsByName("orderCheck");
+    let str = [];
+    for(let i = 0;i<list.length;i++){
+      if(list[i]['checked']){
+        str.push(list[i]['value']);
+      }
+    }
+    this.postData.handleUserId = str.join(',');
+    console.log(this.postData);
   }
   close(){
+    this.havePower = [];
     $('.mask,.mask1,.mask2').hide();
     $('.error').html('');
   }
-  /*增加申请内容*/
-  addInfo(){
-    $('.mask').fadeIn();
+  /*申请取消授权*/
+  removehavePower(index){
+    this.havePower.splice(index,1);
   }
-  /*删除申请内容*/
+  /*删除增加的申请内容*/
   removePro(index){
     this.record.splice(index,1);
   }
@@ -231,4 +278,14 @@ export class Person{
   username: string;
   deptId: string;
   deptName: string;
+}
+export class Wotany{
+  data: Array<Guard>;
+  cause: string;
+  handleUserId: string;
+}
+export class Guard{
+  userId:string;
+  userName:string;
+  guard:Array<Power>;
 }

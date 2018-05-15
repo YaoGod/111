@@ -173,7 +173,7 @@ export class DoorMangComponent implements OnInit {
   /*新增提交*/
   submit(){
     let error = 0;
-    let url = '/building/guard/addGuard';
+    let url = '/building/guard/addGuard?cheat='+this.userList[0];
     if(!this.record||this.record.length<1){
       confirmFunc.init({
         'title': '提示',

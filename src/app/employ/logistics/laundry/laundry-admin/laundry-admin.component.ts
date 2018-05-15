@@ -358,7 +358,8 @@ export class LaundryOrder {
   username:string;
   telPhone:string;
   deptName:string;
-
+  bTime:string;
+  eTime:string;
   serviceCenter:           string;
   orderItems: Array<LaundryOrderItem>;
 }
