@@ -88,7 +88,6 @@ export class DoorApplyComponent implements OnInit {
       this.ipSetting.sendPost(url,postData).subscribe(data => {
         if(this.errorResponseService.errorMsg(data)) {
           this.havePower = data.data.infos;
-          console.log(this.havePower);
         }
       });
     }
@@ -99,12 +98,10 @@ export class DoorApplyComponent implements OnInit {
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorResponseService.errorMsg(data)) {
         this.groupId = data.data;
-        console.log(data);
         let urlSecond = '/workflow/group/getUserSelect/'+this.groupId;
         this.ipSetting.sendGet(urlSecond).subscribe(data2 => {
           if(this.errorResponseService.errorMsg(data2)) {
             this.handleUserId = data2.data;
-            console.log(data2.data);
           }
         });
       }
