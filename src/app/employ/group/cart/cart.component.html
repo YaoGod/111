@@ -29,7 +29,7 @@
                   <dd>
                     <table width="100%">
                       <td class="fir">
-                        <img *ngIf="cart.imgPath" [src]="cart.imgPath  | imgsafeurl"/>
+                        <img *ngIf="cart.imgPath" [src]="ipSetting.imgUrl+cart.imgPath[0]"/>
                       </td>
                       <td class="sec">{{cart.name}}</td>
                       <td class="sec">{{cart.price}}</td>

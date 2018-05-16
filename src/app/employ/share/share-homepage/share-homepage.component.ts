@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {ShareProductPublicService} from "../../../service/share-product-public/share-product-public.service";
 import {ShareProduct} from "../../../mode/shareProduct/share-product.service";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 
 @Component({
   selector: 'app-share-homepage',
@@ -19,6 +20,7 @@ export class ShareHomepageComponent implements OnInit {
   constructor(
     private shareProductPublicService: ShareProductPublicService,
     private errorResponseService:ErrorResponseService,
+    public ipSetting:IpSettingService
   ) { }
 
   ngOnInit() {

@@ -96,6 +96,11 @@ export class OrderComponent implements OnInit {
       .subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.orders = data.data.infos;
+        for(let i=0;i<this.orders.length;i++){
+          for(let j=0;j<this.orders[i].groupOrderItems.length;j++){
+            this.orders[i].groupOrderItems[j].imgPath = this.orders[i].groupOrderItems[j].imgPath.split(';');
+          }
+        }
         this.total = data.data.total;
        }
     });

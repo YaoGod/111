@@ -13,13 +13,14 @@
     <div class="warp">
       <div class="warp-left">
         <div class="warp-first">
-          <img *ngIf="showImg" [src]="showImg | imgsafeurl" >
+          <!--<img *ngIf="distUrl" [src]="ipSetting.imgUrl+distUrl" >-->
+          <img *ngIf="showImg" [src]="ipSetting.imgUrl+showImg" >
         </div>
         <ul class="warp-list">
-          <li class="dropify-wrapper" *ngFor="let img of shareProduct.imgPathList;let i = index">
+          <li class="dropify-wrapper" *ngFor="let img of shareProduct.imgPath;let i = index">
             <a class="top-trash" title="删除图片" (click)="delImgPath(i)">x</a>
             <div  class="dropify-message">
-              <img [src]="img | imgsafeurl" *ngIf="img">
+              <img [src]="ipSetting.imgUrl+img" *ngIf="img">
             </div>
           </li>
           <li  class="dropify-wrapper bpt">

@@ -7,6 +7,7 @@ import {ErrorResponseService} from "../../../service/error-response/error-respon
 import {SaleProductEmployeeService} from "../../../service/sale-product-employee/sale-product-employee.service";
 import {GlobalUserService} from "../../../service/global-user/global-user.service";
 import {User} from "../../../mode/user/user.service";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 declare var $:any;
 declare var confirmFunc:any;
 @Component({
@@ -16,7 +17,8 @@ declare var confirmFunc:any;
   providers: [SaleProductEmployeeService, GlobalUserService]
 })
 export class ShareNewProductComponent implements OnInit {
-
+  public distUrl = '';
+  public inner = [];
   public user:User;
   public shareProduct: ShareProduct;
   public deptList: Array<Department>;
@@ -29,7 +31,8 @@ export class ShareNewProductComponent implements OnInit {
     private errorResponseService:ErrorResponseService,
     private shareProductPublicService: ShareProductPublicService,
     private saleProductEmployeeService:SaleProductEmployeeService,
-    private globalUserService: GlobalUserService
+    private globalUserService: GlobalUserService,
+    public ipSetting:IpSettingService
   ) { }
 
   ngOnInit() {
@@ -59,9 +62,7 @@ export class ShareNewProductComponent implements OnInit {
           this.shareProduct = data.data;
           if(this.shareProduct.imgPath!==null){
             this.shareProduct.imgPath = this.shareProduct.imgPath.split(',');
-          }
-          if (this.shareProduct.imgPathList.length>0){
-            this.showImg = this.shareProduct.imgPathList[0];
+            this.showImg = this.shareProduct.imgPath[0];
           }
           this.shareProduct.targetName = this.shareProduct.targetName.split('|').slice(1,-1);
           this.shareProduct.targetId = this.shareProduct.targetId.split('|').slice(1,-1);
@@ -138,7 +139,7 @@ export class ShareNewProductComponent implements OnInit {
         if(this.errorResponseService.errorMsg(data)){
           this.shareProduct.imgPath.push(data.msg);
           this.shareProduct.imgPathList.push(window.URL.createObjectURL(files[0]));
-          this.showImg = this.shareProduct.imgPathList[this.shareProduct.imgPathList.length-1];
+          this.showImg = this.shareProduct.imgPath[this.shareProduct.imgPath.length-1];
         }
         $('#press').val('');
       }else if(xhr.readyState === 4 && xhr.status === 413 ){
@@ -155,10 +156,11 @@ export class ShareNewProductComponent implements OnInit {
   delImgPath(index){
     this.shareProduct.imgPathList.splice(index,1);
     this.shareProduct.imgPath.splice(index,1);
+    this.inner.splice(index,1);
     if(index === this.shareProduct.imgPath.length&&index!==0){
-      this.showImg = this.shareProduct.imgPathList[this.shareProduct.imgPathList.length-1];
+      this.showImg = this.shareProduct.imgPath[this.shareProduct.imgPath.length-1];
     }
-    if(this.shareProduct.imgPathList.length === 0){
+    if(this.shareProduct.imgPath.length === 0){
       delete this.showImg;
     }
   }

@@ -20,6 +20,7 @@ export class GroupinfoComponent implements OnInit {
   public cart:GroupCart;
   public cartsize:number;
   public proId:number;
+  public showImg:string;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -51,7 +52,17 @@ export class GroupinfoComponent implements OnInit {
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           this.discount = data.data;
-          this.discount.imgPath = this.discount.imgPathList[0];
+          if(this.discount.imgPath!==null){
+            this.discount.imgPath = this.discount.imgPath.split(';');
+            for(let i = 0 ;i<this.discount.imgPath.length;i++) {
+              if(this.discount.imgPath[i] === "" || typeof(this.discount.imgPath[i]) === "undefined") {
+                this.discount.imgPath.splice(i,1);
+                i= i-1;
+              }
+            }
+            this.showImg = this.discount.imgPath[0];
+          }
+
         }
       })
   }
@@ -82,7 +93,7 @@ export class GroupinfoComponent implements OnInit {
   }
   /*查看图片*/
   chooseImg(i){
-    this.discount.imgPath = this.discount.imgPathList[i];
+    this.showImg = this.discount.imgPath[i];
   }
   /*判断textarea的行数自适应*/
   definedRows(){

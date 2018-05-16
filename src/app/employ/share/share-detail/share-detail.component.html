@@ -13,11 +13,15 @@
     <div class="warp">
       <div class="warp-left">
         <div class="warp-fist">
-          <img *ngIf="shareProduct.imgPath" [src]="shareProduct.imgPath | imgsafeurl" >
+          <!--<img *ngIf="shareProduct.imgPath" [src]="shareProduct.imgPath | imgsafeurl" >-->
+          <img *ngIf="distUrl" [src]="imgUrl+distUrl" >
         </div>
         <ul class="warp-list">
-          <li *ngFor="let image of shareProduct.imgPathList;let i = index" (mouseover)="chooseImg(i)">
+          <!--<li *ngFor="let image of shareProduct.imgPathList;let i = index" (mouseover)="chooseImg(i)">
             <img [src]="image | imgsafeurl">
+          </li>-->
+          <li *ngFor="let image of inner;let i = index" (mouseover)="chooseImg(i)">
+            <img [src]="imgUrl+image">
           </li>
         </ul>
       </div>

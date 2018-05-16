@@ -54,7 +54,7 @@
                 <table style="width: 100%;">
                   <tr>
                     <td class="fir">
-                      <img *ngIf="product.imgPath" [src]="product.imgPath | imgsafeurl" />
+                      <img *ngIf="product.imgPath" [src]="ipSetting.imgUrl+product.imgPath[0]" />
                     </td>
                     <td class="sec">{{product.price}}</td>
                     <td class="sec" >
