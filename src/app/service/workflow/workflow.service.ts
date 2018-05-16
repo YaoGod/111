@@ -45,6 +45,12 @@ export class WorkflowService {
     return this.http.post(url,search,this.ipSetting.options)
       .map(res => res.json());
   }
+  /*获取指定的工作流*/
+  getReviewInfo(id){
+    const url = this.ipSetting.ip + '/workflow/review/getReviewInfo/'+id;
+    return this.http.get(url,this.ipSetting.options)
+      .map(res => res.json());
+  }
 }
 
 export class Review{
@@ -90,4 +96,10 @@ export class Segment {
   status:string;
   front:string;
   next:string;
+  createTime: string;
+}
+
+export class CheckMsg {
+  name: string;
+  createTime:string;
 }

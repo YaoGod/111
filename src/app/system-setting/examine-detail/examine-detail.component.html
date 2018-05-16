@@ -10,18 +10,54 @@
       </div>
     </div>
     <div class="warp">
-      <!--<div class="warp-left">
-        <div class="warp-fist">
-          <img src="assets/image/work_card_flowchart.png"/>
+      <div class="warp-left">
+        <div class="flow-area">
+          <ul>
+            <li class="node" *ngFor="let segment of order.content;let i = index">
+              <div class="rect" [ngClass]="setSegmentClass(i)">
+               {{segment.name}}
+              </div>
+              <div class="arrow"></div>
+            </li>
+          </ul>
         </div>
-      </div>-->
+      </div>
       <div class="warp-right">
-        <!--<div class="form-group">
-          <label class="control-label"><span>员工编号</span>
-
-          </label>
+        <h4>{{order.name}}</h4>
+        <div class="form-group">
+          <span class="control-label"><span class="form-title">发起人</span>
+            <p class="form-control">{{order.createUserName}}</p>
+          </span>
           <div class="error"></div>
-        </div>-->
+        </div>
+        <div class="form-group">
+          <span class="control-label"><span class="form-title">发起时间</span>
+            <p class="form-control">{{order.createTime| date:'yyyy/MM/dd'}}</p>
+          </span>
+          <div class="error"></div>
+        </div>
+        <div class="form-group">
+          <span class="control-label"><span class="form-title">工单类型</span>
+            <p class="form-control">{{order.type}}</p>
+          </span>
+          <div class="error"></div>
+        </div>
+        <div class="form-group" *ngFor="let msg of order.note.split(';');let i =index">
+          <span class="control-label"><span class="form-title"><i *ngIf="i===0">申请内容</i></span>
+            <p class="form-control">{{msg}}</p>
+          </span>
+          <div class="error"></div>
+        </div>
+        <div class="form-group">
+          <span class="control-label"><span class="form-title">申请原因</span>
+            <p class="form-control">{{order.cause}}</p>
+          </span>
+          <div class="error"></div>
+        </div>
+
+        <div class="submit-footer">
+          <a class="btn-info" (click)="openModal()">立即审批</a>
+        </div>
       </div>
 
       <!--表头-->
@@ -29,46 +65,54 @@
         <table border="0" cellspacing="0" cellpadding="0" class="list-box">
           <tr class="row list-title" style="height:45px;">
             <th width="10%" class="text-left">流程节点</th>
-            <th width="8%" class="text-left">当前处理人</th>
-            <th width="10%">下一处理人</th>
+            <th width="8%" class="text-left">处理人</th>
             <th width="15%">处理时间</th>
             <th width="50%" class="text-left">处理意见</th>
           </tr>
-        </table>
-      </div>
-      <!--表格内容-->
-      <div class="table-content" style="min-height: 360px">
-        <table border="0" cellspacing="0" cellpadding="0" class="list-box">
           <tr class="row" *ngFor="let log of history;let i = index">
-            <td width="10%" class="text-left">
-
+            <td class="text-left">
+              {{log.name}}
             </td>
-            <td width="10%" class="text-left">
-
+            <td class="text-left">
+              {{log.type}}
             </td>
-            <td width="10%">
-
-            </td>
-            <td width="15%">
+            <td>
               <p>{{log.createTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
             </td>
-            <td width="50%" class="text-left">
-              <p class="big-text">{{log.note}}</p>
+            <td class="text-left">
+              <p class="big-text">{{log.content}}</p>
             </td>
           </tr>
         </table>
-        <div class="div-none" *ngIf="applyList.length === 0">
+        <div class="div-none" *ngIf="history.length === 0">
           <p>暂无信息</p>
         </div>
       </div>
-      <!--翻页-->
-      <app-turn-bar
-        [pageNo]="pageNo"
-        [pageSize]="pageSize"
-        [total]="total"
-        (turnEvent)="getSystemLogger($event)">
-      </app-turn-bar>
+    </div>
+  </div>
+</div>
 
+<div class="mask" style="display: none;" id="checkModal">
+  <div  class="modal-content" style="width: 360px;margin-left: -180px">
+    <div  class="modal-header">
+      <h4 class="modal-title"><i class="icon-home"></i>审批意见</h4>
+      <button class="modal-close" type="button" (click)="closeCheckModal()">×</button>
+    </div>
+    <div  class="modal-body">
+      <div class="modal-right">
+        <!--<div  class="form-group">
+          <label  class="control-label"><span>流程名称</span>
+            <input type="text" class="form-control" id="name" name="name" [disabled]="disableStatus"
+                   [(ngModel)]="copyFlow.name" (blur)="verifyEmpty(copyFlow.name,'name')">
+          </label>
+          <div class="error"></div>
+        </div>-->
+
+      </div>
+    </div>
+    <div  class="modal-footer">
+      <button  class="btn btn-info" type="submit"
+               (click)="submit()">确  定</button>
     </div>
   </div>
 </div>

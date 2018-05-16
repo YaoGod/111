@@ -19,7 +19,6 @@ export class ExamineComponent implements OnInit {
   public orderList: Array<Review>;
   constructor(
     private globalCatalogService: GlobalCatalogService,
-    private userPortalService:UserPortalService,
     private errorResponseService:ErrorResponseService,
     private workflowService:WorkflowService
   ) { }
