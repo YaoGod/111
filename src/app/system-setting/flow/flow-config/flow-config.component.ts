@@ -13,6 +13,7 @@ declare var confirmFunc:any;
 })
 export class FlowConfigComponent implements OnInit {
 
+  public fatherRule:sndCatalog;
   public rule: sndCatalog;
   public pageNo: number;
   public pageSize:number;
@@ -27,7 +28,7 @@ export class FlowConfigComponent implements OnInit {
     private errorResponseService:ErrorResponseService,
     private workflowService:WorkflowService
   ) {
-    this.rule = this.globalCatalogService.getRole("system/flow");
+    this.fatherRule = this.globalCatalogService.getRole("system/flow");
   }
 
   ngOnInit() {
@@ -42,11 +43,11 @@ export class FlowConfigComponent implements OnInit {
     this.disableStatus = false;
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
-        this.rule = this.globalCatalogService.getRole("system/flow");
+        this.fatherRule = this.globalCatalogService.getRole("system/flow");
       }
     );
-    if(this.rule){
-      this.getRule(this.rule.ID);
+    if(this.fatherRule){
+      this.getRule(this.fatherRule.ID);
     }
     this.getSelectList();
     this.getFlowList(1);

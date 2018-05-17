@@ -51,6 +51,18 @@ export class WorkflowService {
     return this.http.get(url,this.ipSetting.options)
       .map(res => res.json());
   }
+  /*对当前工作流节点进行审批*/
+  checkWorkFlow(workFlowNode,flowId,handleUserId) {
+    const url = this.ipSetting.ip + '/workflow/review/checkWorkFlow/'+flowId+'?handleUserId='+handleUserId;
+    return this.http.post(url,workFlowNode,this.ipSetting.options)
+      .map(res => res.json());
+  }
+  /*获取指定群组所有用户作为下拉条件*/
+  getUserSelect(id){
+    const url = this.ipSetting.ip + '/workflow/group/getUserSelect/'+id;
+    return this.http.get(url,this.ipSetting.options)
+      .map(res => res.json());
+  }
 }
 
 export class Review{
@@ -97,9 +109,17 @@ export class Segment {
   front:string;
   next:string;
   createTime: string;
+  handleUserId: string;
+  nodeReview: ReviewNote;
+  nodeReviews: Array<ReviewNote>;
+  userName: string;
+  userId: string;
+  note: string;
+  result: string;
 }
 
-export class CheckMsg {
-  name: string;
-  createTime:string;
+export class ReviewNote{
+  id: string;
+  note: string;
+  result: string;
 }
