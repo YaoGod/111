@@ -59,7 +59,7 @@
       </td>
       <td width="15%" class="box-demo">
         <img *ngIf="sale.imgPathList&&sale.imgPathList.length>0"
-             [src]="sale.imgPathList[0] | imgsafeurl">
+             [src]="ipSetting.imgUrl+sale.imgPathList[0]">
       </td>
       <td width="5%">
         {{sale.price | number:'1.2-2'}}
@@ -130,7 +130,7 @@
           <div class="dropify-wrapper" *ngFor="let img of copySale.imgPathList;let i = index">
             <a class="top-trash" title="删除图片" (click)="delImgPath(i)">x</a>
             <div  class="dropify-message">
-              <img [src]="img | imgsafeurl" *ngIf="img">
+              <img [src]="ipSetting.imgUrl+img" *ngIf="img">
             </div>
           </div>
           <div  class="dropify-wrapper bpt">

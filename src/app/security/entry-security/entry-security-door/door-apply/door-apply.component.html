@@ -15,8 +15,18 @@
 
     <div class="warp clearfix">
       <div class="warp-left">
-        <div class="warp-fist">
+        <!--<div class="warp-fist">
           <img src="assets/image/work_card_flowchart.png"/>
+        </div>-->
+        <div class="flow-area">
+          <ul>
+            <li class="node" *ngFor="let segment of content;let i = index">
+              <div class="rect">
+                <input name="name" type="text" disabled="disabled" [value]="segment.name">
+              </div>
+              <div class="arrow"></div>
+            </li>
+          </ul>
         </div>
       </div>
       <div class="warp-right">

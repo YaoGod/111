@@ -52,8 +52,8 @@
         </p>
       </td>
       <td width="20%" class="box-demo">
-        <img *ngIf="discount.imgPath"
-             [src]="discount.imgPathList[0] | imgsafeurl">
+        <img *ngIf="discount.imgPathList"
+             [src]="ipSetting.imgUrl+discount.imgPathList[0]">
       </td>
       <td width="10%">
         {{discount.feedBack}}
@@ -104,9 +104,8 @@
         <div class="modal-left">
           <div  class="dropify-wrapper">
             <div  class="dropify-message">
-              <!--<img [src]="copyWelfare.imgPath | imgsafeurl:press1.files" *ngIf="copyWelfare.imgPath">-->
-              <img *ngIf="!open&&imgUrl&&imgUrl[0].length>0" [src]="copyWelfare.imgPath | imgsafeurl:press1.files">
-              <img *ngIf="open&&copyWelfare.imgPathList[0]" [src]="copyWelfare.imgPathList[0] | imgsafeurl:press1.files" />
+              <img *ngIf="imgUrl&&imgUrl[0].length>0" [src]="ipSetting.imgUrl+imgUrl[0]">
+              <!--<img *ngIf="open&&copyWelfare.imgPathList[0]" [src]="copyWelfare.imgPathList[0] | imgsafeurl:press1.files" />-->
             </div>
             <p >点击上传图片</p>
             <input  class="dropify" type="file"  id="press1"
@@ -115,9 +114,8 @@
           </div>
           <div  class="dropify-wrapper">
             <div  class="dropify-message">
-              <!--<img [src]="copyWelfare.imgPath | imgsafeurl:press2.files" *ngIf="copyWelfare.imgPath">-->
-              <img *ngIf="!open&&imgUrl&&imgUrl[1].length>0" [src]="copyWelfare.imgPath | imgsafeurl:press2.files">
-              <img *ngIf="open&&copyWelfare.imgPathList[1]" [src]="copyWelfare.imgPathList[1] | imgsafeurl:press2.files" />
+              <img *ngIf="imgUrl&&imgUrl[1].length>0" [src]="ipSetting.imgUrl+imgUrl[1]">
+
             </div>
             <p >点击上传图片</p>
             <input  class="dropify" type="file"  id="press2"
@@ -126,9 +124,7 @@
           </div>
           <div  class="dropify-wrapper">
             <div  class="dropify-message">
-              <!--<img [src]="copyWelfare.imgPath | imgsafeurl:press3.files" *ngIf="copyWelfare.imgPath">-->
-              <img *ngIf="!open&&imgUrl&&imgUrl[2].length>0" [src]="copyWelfare.imgPath | imgsafeurl:press3.files">
-              <img *ngIf="open&&copyWelfare.imgPathList[2]" [src]="copyWelfare.imgPathList[2] | imgsafeurl:press3.files" />
+              <img *ngIf="imgUrl&&imgUrl[2].length>0" [src]="ipSetting.imgUrl+imgUrl[2]">
             </div>
             <p >点击上传图片</p>
             <input  class="dropify" type="file"  id="press3"

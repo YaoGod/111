@@ -22,10 +22,10 @@ export class SaleStatisticsComponent implements OnInit {
   constructor(
     private router   : Router,
     private route    : ActivatedRoute,
-    private ipSetting: IpSettingService,
     private globalCatalogService   : GlobalCatalogService,
     private errorResponseService   : ErrorResponseService,
     private saleProductEmployeeService:SaleProductEmployeeService,
+    public ipSetting: IpSettingService,
   ) { }
 
   ngOnInit() {
@@ -45,7 +45,7 @@ export class SaleStatisticsComponent implements OnInit {
     this.saleProductEmployeeService.getSaleProduct(id)
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
-          this.saleProduct=data.data;
+          this.saleProduct = data.data;
           this.saleProduct.imgPath = this.saleProduct.imgPathList[0];
         }
       })

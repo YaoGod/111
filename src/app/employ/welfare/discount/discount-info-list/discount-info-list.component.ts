@@ -33,7 +33,8 @@ export class DiscountInfoListComponent implements OnInit {
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
     private discountEmployeeService:DiscountEmployeeService,
-    private welfareEmployeeService:WelfareEmployeeService
+    private welfareEmployeeService:WelfareEmployeeService,
+    public ipSetting:IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("employ/welfare");
   }

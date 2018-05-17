@@ -5,6 +5,7 @@ import {ErrorResponseService} from "../../../../service/error-response/error-res
 import {SaleProduct, UserSale} from "../../../../mode/saleProduct/sale-product.service";
 import {GlobalUserService} from "../../../../service/global-user/global-user.service";
 import {getResponseURL} from "@angular/http/src/http_utils";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 declare var $:any;
 declare var confirmFunc:any;
 @Component({
@@ -27,7 +28,8 @@ export class SaleDetailComponent implements OnInit {
     private route:ActivatedRoute,
     private gobalUserService:GlobalUserService,
     private saleProductEmployeeService:SaleProductEmployeeService,
-    private errorResponseService:ErrorResponseService
+    private errorResponseService:ErrorResponseService,
+    public ipSetting:IpSettingService
   ) { }
 
   ngOnInit() {
@@ -54,7 +56,9 @@ export class SaleDetailComponent implements OnInit {
           this.saleProduct=data.data;
           this.saleProduct.imgPath = this.saleProduct.imgPathList[0];
           this.userSale.productName = this.saleProduct.name;
-          this.types = this.saleProduct.type.split(",");
+          if(this.saleProduct.type){
+            this.types = this.saleProduct.type.split(",");
+          }
           this.userSale.productType = this.types[0];
           this.getSystemTime();
         }

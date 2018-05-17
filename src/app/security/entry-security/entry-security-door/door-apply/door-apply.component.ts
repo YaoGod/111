@@ -34,13 +34,14 @@ export class DoorApplyComponent implements OnInit {
   public userId:string;
   public handleUserId:any;
   public groupId:string;
+  public content = [];
   constructor(
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
     private entrySecurityService:EntrySecurityService,
     private infoBuildingService:InfoBuildingService,
     private userPortalService:UserPortalService,
-    public ipSetting  : IpSettingService
+    public ipSetting  : IpSettingService,
   ) { }
 
   ngOnInit() {
@@ -62,6 +63,7 @@ export class DoorApplyComponent implements OnInit {
     this.getDeptList();
     this.getBuildingList(0);
     this.getGuardGroupId();
+    this.getFlowList();
   }
 
   /*获取类型下拉列表*/
@@ -104,6 +106,19 @@ export class DoorApplyComponent implements OnInit {
             this.handleUserId = data2.data;
           }
         });
+      }
+    });
+  }
+  /*获取门禁申请流程*/
+  getFlowList(){
+    let url = '/workflow/flow/getFlowList/1/99';
+    let postData = {
+      name:'门禁权限申请'
+    };
+    this.ipSetting.sendPost(url,postData).subscribe(data => {
+      if(this.errorResponseService.errorMsg(data)) {
+        this.content = data.data.infos[0].content;
+        console.log( this.content);
       }
     });
   }

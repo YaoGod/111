@@ -1,16 +1,9 @@
 .content-area{
-  /*padding: 20px;*/
 }
 .content-inner{
   min-height: 84vh;
-  /*padding: 15px;*/
-  background-color: #ffffff;
   box-sizing: border-box;
-  transition-duration: 300ms;
 }
-/*.content-inner:hover{*/
-  /*box-shadow: 2px 4px 15px rgba(158, 178, 178, 0.33);*/
-/*}*/
 .nav-title{
   position: relative;
   margin-bottom: 10px;

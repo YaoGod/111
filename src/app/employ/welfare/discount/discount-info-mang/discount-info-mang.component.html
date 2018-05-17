@@ -51,8 +51,8 @@
         </p>
       </td>
       <td width="20%" class="box-demo">
-        <img *ngIf="discount.imgPath"
-             [src]="discount.imgPathList[0] | imgsafeurl">
+        <img *ngIf="discount.imgPathList"
+             [src]="ipSetting.imgUrl+discount.imgPathList[0]">
       </td>
       <td width="20%">
         <span>
@@ -100,8 +100,8 @@
         <div class="modal-left">
           <div  class="dropify-wrapper">
             <div  class="dropify-message">
-              <img *ngIf="!open&&imgUrl&&imgUrl[0].length>0" [src]="imgUrl | imgsafeurl:prese1.files">
-              <img *ngIf="open&&copyDiscount.imgPathList[0]" [src]="copyDiscount.imgPathList[0] | imgsafeurl:prese1.files" />
+              <img *ngIf="imgUrl&&imgUrl[0].length>0" [src]="ipSetting.imgUrl+imgUrl[0]">
+              <!--<img *ngIf="open&&copyDiscount.imgPathList[0]" [src]="copyDiscount.imgPathList[0] | imgsafeurl:prese1.files" />-->
             </div>
             <p style="font-size: 12px;">点击添加图片</p>
             <input  class="dropify" type="file"  id="prese1"
@@ -110,8 +110,7 @@
           </div>
           <div  class="dropify-wrapper">
             <div  class="dropify-message">
-              <img *ngIf="!open&&imgUrl&&imgUrl[1].length>0"  [src]="copyDiscount.imgPath | imgsafeurl:prese2.files">
-              <img *ngIf="open&&copyDiscount.imgPathList[1]" [src]="copyDiscount.imgPathList[1] | imgsafeurl:prese2.files" />
+              <img *ngIf="imgUrl&&imgUrl[1].length>0"  [src]="ipSetting.imgUrl+imgUrl[1]">
             </div>
             <p style="font-size: 12px;">点击添加图片</p>
             <input  class="dropify" type="file"  id="prese2"
@@ -120,8 +119,7 @@
           </div>
           <div  class="dropify-wrapper">
             <div  class="dropify-message">
-              <img *ngIf="!open&&imgUrl&&imgUrl[2].length>0"  [src]="copyDiscount.imgPath | imgsafeurl:prese3.files">
-              <img *ngIf="open&&copyDiscount.imgPathList[2]" [src]="copyDiscount.imgPathList[2] | imgsafeurl:prese3.files" />
+              <img *ngIf="imgUrl&&imgUrl[2].length>0"  [src]="ipSetting.imgUrl+imgUrl[2]">
             </div>
             <p style="font-size: 12px;">点击添加图片</p>
             <input  class="dropify" type="file"  id="prese3"

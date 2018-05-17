@@ -10,7 +10,7 @@
 <!--抢购商品信息简介-->
 <div class="goods-box">
   <div class="goods-img">
-    <img [src]="saleProduct.imgPath | imgsafeurl" *ngIf="saleProduct.imgPath">
+    <img [src]="ipSetting.imgUrl+saleProduct.imgPath" *ngIf="saleProduct.imgPath">
   </div>
   <p>商品名称：&nbsp;{{saleProduct.name}}</p>
   <p>商品总量：&nbsp;{{saleProduct.maxNumber}}</p>

@@ -17,11 +17,11 @@
 <div class="warp">
   <div class="warp-left">
     <div class="warp-fist">
-      <img *ngIf="welfare&&welfare.imgPath" [src]="welfare.imgPath | imgsafeurl" >
+      <img *ngIf="welfare&&welfare.imgPath" [src]="ipSetting.imgUrl+welfare.imgPath" >
     </div>
     <ul class="warp-list">
       <li *ngFor="let image of welfare.imgPathList;let i = index" (mouseover)="chooseImg(i)">
-        <img [src]="image | imgsafeurl">
+        <img [src]="ipSetting.imgUrl+image">
       </li>
     </ul>
   </div>

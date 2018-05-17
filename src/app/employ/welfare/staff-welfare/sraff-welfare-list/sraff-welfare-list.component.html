@@ -23,7 +23,7 @@
     <li *ngFor="let welfare of welfares">
       <a (click)="linkWelfare(welfare.id)">
         <div class="img-wrap">
-          <img *ngIf="welfare.imgPath" [src]="welfare.imgPathList[0] | imgsafeurl">
+          <img *ngIf="welfare.imgPathList" [src]="ipSetting.imgUrl+welfare.imgPathList[0]">
         </div>
         <div class="goods-msg">
           <h5>{{welfare.title}}</h5>

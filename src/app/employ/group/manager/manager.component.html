@@ -110,7 +110,7 @@
             <div class="pimg">
               <div class="dropify-wrapper">
                 <div class="dropify-message">
-                  <img *ngIf="open" [src]="upGroupProduct.imgPathList[0] | imgsafeurl:prese1.files" />
+                  <img *ngIf="open" [src]="ipSetting.imgUrl+imgUrl[0]" />
                 </div>
                 <p>点击此处上传图片</p>
                 <input type="file" class="dropify" #prese1 id="prese1" (change)="prese_upload2(prese1.files,0)">
@@ -119,7 +119,7 @@
             <div class="pimg">
               <div class="dropify-wrapper">
                 <div class="dropify-message">
-                  <img *ngIf="open&&imgUrl[1]" [src]="upGroupProduct.imgPathList[1] | imgsafeurl:prese2.files" />
+                  <img *ngIf="open&&imgUrl[1]" [src]="ipSetting.imgUrl+imgUrl[1]" />
                 </div>
                 <p>点击此处上传图片</p>
                 <input type="file" class="dropify" #prese2 id="prese2" (change)="prese_upload2(prese2.files,1)">
@@ -128,7 +128,7 @@
             <div class="pimg">
               <div class="dropify-wrapper">
                 <div class="dropify-message">
-                  <img *ngIf="open&&imgUrl[2]" [src]="upGroupProduct.imgPathList[2] | imgsafeurl:prese3.files" />
+                  <img *ngIf="open&&imgUrl[2]" [src]="ipSetting.imgUrl+imgUrl[2]" />
                 </div>
                 <p>点击此处上传图片</p>
                 <input type="file" class="dropify" #prese3 id="prese3" (change)="prese_upload2(prese3.files,2)">

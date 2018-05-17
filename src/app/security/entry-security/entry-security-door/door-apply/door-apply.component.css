@@ -688,3 +688,57 @@ select{
 .z-person .form-control{
   width:30px;
 }
+.flow-area{
+  padding: 10px 0;
+  max-height: 260px;
+  overflow: auto;
+}
+.node>.rect{
+  width: 160px;
+  color: #333333;
+  padding: 5px 10px;
+  border: 1px solid #04a9f3;
+  text-align: center;
+  box-sizing: border-box;
+}
+.rect>input{
+  width: 140px;
+  border: none;
+  text-align: center;
+}
+.arrow:before{
+  content: "";
+  display: inline-block;
+  width: 80px;
+  height: 20px;
+  border-right: 1px solid #04a9f3;
+}
+.arrow:after{
+  content: "";
+  position: relative;
+  left: -5px;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-right: 1px solid #04a9f3;
+  border-bottom:1px solid #04a9f3;
+  transform: rotate(45deg);
+}
+.flow-area ul .node:nth-last-of-type(1) .arrow:before{
+  content: "";
+  display: none;
+  width: 80px;
+  height: 20px;
+  border-right: 1px solid #04a9f3;
+}
+.flow-area ul .node:nth-last-of-type(1) .arrow:after{
+  content: "";
+  position: relative;
+  left: -5px;
+  display: none;
+  width: 10px;
+  height: 10px;
+  border-right: 1px solid #04a9f3;
+  border-bottom:1px solid #04a9f3;
+  transform: rotate(45deg);
+}

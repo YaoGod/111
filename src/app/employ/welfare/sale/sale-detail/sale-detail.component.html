@@ -12,11 +12,11 @@
 <div class="warp">
   <div class="warp-left">
     <div class="warp-fist">
-      <img *ngIf="saleProduct&&saleProduct.imgPath" [src]="saleProduct.imgPath | imgsafeurl" >
+      <img *ngIf="saleProduct&&saleProduct.imgPath" [src]="ipSetting.imgUrl+saleProduct.imgPath" >
     </div>
     <ul class="warp-list">
       <li *ngFor="let image of saleProduct.imgPathList;let i = index" (mouseover)="chooseImg(i)">
-        <img [src]="image | imgsafeurl">
+        <img [src]="ipSetting.imgUrl+image">
       </li>
     </ul>
   </div>
@@ -94,7 +94,7 @@
                 <th >合计（元）</th>
               </tr>
               <tr class="table-cont">
-                <td  width="25%"><img *ngIf="saleProduct.imgPathList" [src]="saleProduct.imgPathList[0]  | imgsafeurl"/></td>
+                <td  width="25%"><img *ngIf="saleProduct.imgPathList" [src]="ipSetting.imgUrl+saleProduct.imgPathList[0]"/></td>
                 <td>{{userSale.productType}}</td>
                 <td >{{saleProduct.name}}</td>
                 <td>￥{{saleProduct.price| number:'1.2-2'}}</td>

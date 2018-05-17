@@ -98,14 +98,9 @@ export class StaffWelfareMangComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorResponseService.errorMsg(data)){
-          // this.copyWelfare.imgPath = data.msg;
-          this.imgUrl[index] = data.msg;
-          if(this.open){
-            this.copyWelfare.imgPathList[index] = data.msg;
-          }else{
-            this.copyWelfare.imgPathList.push(data.msg);
-          }
+          this.copyWelfare.imgPathList[index] = data.msg;
         }
+        $('.dropify').val('');
       }else if(xhr.readyState === 4 && xhr.status === 413 ){
         confirmFunc.init({
           'title': '提示' ,
@@ -113,6 +108,7 @@ export class StaffWelfareMangComponent implements OnInit {
           'popType': 1 ,
           'imgType': 2 ,
         });
+        $('.dropify').val('');
       }
     };
   }
@@ -327,12 +323,12 @@ export class StaffWelfareMangComponent implements OnInit {
   edit(data){
     this.open = true;
     $('.mask').show();
+    this.winTitle = "编辑";
     this.copyWelfare = JSON.parse(JSON.stringify(data));
     if(this.copyWelfare.feedBackEtime){
       this.copyWelfare.feedBackEtime = this.copyWelfare.feedBackEtime.replace(/\//g,'-');
     }
-    this.imgUrl = this.copyWelfare.imgPath.split(',');
-    this.winTitle = "编辑";
+    this.imgUrl = this.copyWelfare.imgPathList;
     this.tempOther = JSON.parse(JSON.stringify(data.others));
     for(let i = 0;i< this.tempOther.length;i++){
       this.tempOther[i].isShow = true;

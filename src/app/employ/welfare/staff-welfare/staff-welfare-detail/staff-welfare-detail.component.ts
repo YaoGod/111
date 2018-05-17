@@ -4,6 +4,7 @@ import { Welfare } from '../../../../mode/welfare/welfare.service';
 import { GlobalCatalogService } from '../../../../service/global-catalog/global-catalog.service';
 import { ErrorResponseService } from '../../../../service/error-response/error-response.service';
 import { WelfareEmployeeService } from '../../../../service/welfare-employee/welfare-employee.service';
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 declare var confirmFunc:any;
 declare var $:any;
 @Component({
@@ -20,7 +21,8 @@ export class StaffWelfareDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
-    private welfareEmployeeService:WelfareEmployeeService
+    private welfareEmployeeService:WelfareEmployeeService,
+    public ipSetting:IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("employ/welfare");
   }

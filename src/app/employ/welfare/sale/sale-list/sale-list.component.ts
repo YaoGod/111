@@ -3,6 +3,7 @@ import {SaleProduct} from "../../../../mode/saleProduct/sale-product.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {SaleProductEmployeeService} from "../../../../service/sale-product-employee/sale-product-employee.service";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 
 @Component({
   selector: 'app-sale-list',
@@ -22,6 +23,7 @@ export class SaleListComponent implements OnInit {
     private route:ActivatedRoute,
     private saleProductEmployeeService:SaleProductEmployeeService,
     private errorResponseService:ErrorResponseService,
+    public ipSetting:IpSettingService
   ) { }
   ngOnInit() {
     this.search = new SaleProduct();
