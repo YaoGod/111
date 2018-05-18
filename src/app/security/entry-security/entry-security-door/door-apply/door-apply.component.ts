@@ -55,6 +55,7 @@ export class DoorApplyComponent implements OnInit {
     this.addUser = new Person();
     this.postData = new Wotany();
     this.postData.data = [];
+    this.postData.handleURL = '/security/entrySecurity/door/apply';
     this.types = ['授权','取消授权','清空授权'];
     this.personTypes = ['自有员工','第三方员工'];
     this.entrySecurity.productType = this.types[0];
@@ -322,7 +323,8 @@ export class DoorApplyComponent implements OnInit {
       let subInfo = {
         data: inner,
         cause: this.postData.cause,
-        handleUserId: this.postData.handleUserId
+        handleUserId: this.postData.handleUserId,
+          handleURL:'/security/entrySecurity/door/apply'
       };
       this.ipSetting.sendPost(url,subInfo).subscribe(data => {
         if(this.errorResponseService.errorMsg(data)) {
@@ -349,7 +351,8 @@ export class DoorApplyComponent implements OnInit {
       let subInfo = {
         data: inner,
         cause: this.postData.cause,
-        handleUserId: this.postData.handleUserId
+        handleUserId: this.postData.handleUserId,
+        handleURL:'/security/entrySecurity/door/apply'
       };
       this.ipSetting.sendPost(url,subInfo).subscribe(data => {
         if(this.errorResponseService.errorMsg(data)) {
@@ -430,6 +433,7 @@ export class Wotany{
   data: Array<Guard>;
   cause: string;
   handleUserId: string;
+  handleURL:string;
 }
 export class Guard{
   userId:string;
