@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ShareProduct} from "../../../mode/shareProduct/share-product.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {ShareProductPublicService} from "../../../service/share-product-public/share-product-public.service";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 declare var $: any;
 declare var confirmFunc:any;
 @Component({
@@ -20,6 +21,7 @@ export class ShareCheckComponent implements OnInit {
   constructor(
     private errorResponseService:ErrorResponseService,
     private shareProductPublicService: ShareProductPublicService,
+    public ipSetting:IpSettingService
   ) { }
 
   ngOnInit() {

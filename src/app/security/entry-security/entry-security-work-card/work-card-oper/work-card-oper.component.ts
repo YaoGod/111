@@ -197,12 +197,28 @@ export class WorkCardOperComponent implements OnInit {
       }
     });
   }
-  getUserNo(name){
-    for (let j in this.userList) {
-      if (this.userList[j].username === name) {
-        this.entrySecurity.employNo = this.userList[j].userid;
+  getUserNo(name,id){
+    if(id==='1'){
+      for (let j in this.userList) {
+        if (this.userList[j].username === name) {
+          this.entrySecurity.employNo = this.userList[j].userid;
+        }
       }
+    }else if(id==='0'){
+      for (let j in this.userList) {
+        if (this.userList[j].username === name) {
+          this.entrySecurity.employNo = this.userList[j].userid;
+        }
+      }
+      // console.log(this.entrySecurity.employNo);
+      let url = '/building/person/getConpamyName/'+ this.entrySecurity.employNo;
+      this.ipSetting.sendGet(url).subscribe(data => {
+        if (this.errorResponseService.errorMsg(data)) {
+          this.entrySecurity.employNo = data.data;
+        }
+      });
     }
+
   }
   /*根据员工号获取人员和姓名*/
   getUserName(value) {

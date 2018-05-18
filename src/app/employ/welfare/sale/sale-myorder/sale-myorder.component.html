@@ -52,7 +52,7 @@
       <tr>
         <td>
           <img *ngIf="order.imgPathList&&order.imgPathList.length>0"
-               [src]="order.imgPathList[0] | imgsafeurl"/>
+               [src]="ipSetting.imgUrl+order.imgPathList[0]"/>
           {{order.productName}}
         </td>
         <td>￥{{order.total | number:'1.2-2'}}</td>

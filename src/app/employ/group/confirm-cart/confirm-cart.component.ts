@@ -44,6 +44,11 @@ export class ConfirmCartComponent implements OnInit {
     this.groupProductService.getCartList().subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.carts = data.data.infos;
+        for(let i=0;i<this.carts.length;i++){
+          if(this.carts[i].imgPath!==null){
+            this.carts[i].imgPath = this.carts[i].imgPath.split(';');
+          }
+        }
         this.mutipalPrice = data.data.mutipalPrice;
         this.userInfo = data.data.userInfo;
         if(this.carts.length===0){

@@ -176,6 +176,9 @@ export class OrderExcel {
   deptName:string;
   startTime:string;
   finshTime:string;
+  bTime:string;
+  eTime:string;
+  username:string;
 }
 export class Facilitator {
   applyId:          string;/*经销商id*/

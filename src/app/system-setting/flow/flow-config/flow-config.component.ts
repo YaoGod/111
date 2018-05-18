@@ -13,6 +13,7 @@ declare var confirmFunc:any;
 })
 export class FlowConfigComponent implements OnInit {
 
+  public fatherRule:sndCatalog;
   public rule: sndCatalog;
   public pageNo: number;
   public pageSize:number;
@@ -27,7 +28,7 @@ export class FlowConfigComponent implements OnInit {
     private errorResponseService:ErrorResponseService,
     private workflowService:WorkflowService
   ) {
-    this.rule = this.globalCatalogService.getRole("system/flow");
+    this.fatherRule = this.globalCatalogService.getRole("system/flow");
   }
 
   ngOnInit() {
@@ -42,11 +43,11 @@ export class FlowConfigComponent implements OnInit {
     this.disableStatus = false;
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
-        this.rule = this.globalCatalogService.getRole("system/flow");
+        this.fatherRule = this.globalCatalogService.getRole("system/flow");
       }
     );
-    if(this.rule){
-      this.getRule(this.rule.ID);
+    if(this.fatherRule){
+      this.getRule(this.fatherRule.ID);
     }
     this.getSelectList();
     this.getFlowList(1);
@@ -152,6 +153,7 @@ export class FlowConfigComponent implements OnInit {
     }
     if($('.red').length === 0 && error === 0) {
       let postdata = JSON.parse(JSON.stringify(this.copyFlow));
+      delete postdata.status;
       if(typeof (postdata.id) === "undefined"){
         this.workflowService.addFlow(postdata)
           .subscribe(data => {
@@ -191,7 +193,8 @@ export class FlowConfigComponent implements OnInit {
     this.copyFlow.content.pop();
   }
   changeSelect(index,j){
-    this.copyFlow.content[index] = JSON.parse(JSON.stringify(this.list[j]));
+    // this.copyFlow.content[index] = JSON.parse(JSON.stringify(this.list[j]));
+    this.copyFlow.content[index].name = this.list[j].name;
   }
   /*非空验证*/
   verifyEmpty( value, id?){

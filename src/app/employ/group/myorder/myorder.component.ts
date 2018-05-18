@@ -73,6 +73,12 @@ export class MyorderComponent implements OnInit {
       this.ipSetting.sendGet(url).subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           this.orders = data.data.infos;
+          for(let i=0;i<this.orders.length;i++){
+            for(let j=0;j<this.orders[i].groupOrderItems.length;j++){
+              this.orders[i].groupOrderItems[j].imgPath = this.orders[i].groupOrderItems[j].imgPath.split(';');
+            }
+          }
+
           this.total = data.data.total;
         }
       });
@@ -81,6 +87,7 @@ export class MyorderComponent implements OnInit {
     this.groupProductService.getProductShowList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.cartsize = data.data.cartsize;
+
       }
     });
   }

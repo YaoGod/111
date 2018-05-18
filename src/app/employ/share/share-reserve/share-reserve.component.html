@@ -54,7 +54,7 @@
           </td>
           <td width="20%" class="box-demo">
             <img *ngIf="product.imgPathList&&product.imgPathList.length>0"
-                 [src]="product.imgPathList[0] | imgsafeurl">
+                 [src]="ipSetting.imgUrl+product.imgPathList[0]">
           </td>
           <td width="15%">
             {{product.unitPrice| number:'1.2-2'}}

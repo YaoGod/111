@@ -191,8 +191,9 @@
           </div>
           <div class="form-group">
             <label class="control-label"><span>员工姓名</span>
-              <select type="text" class="form-control" name="oaEmail" (change)="getUserNo(entrySecurity.employee)"
+              <select type="text" class="form-control" name="oaEmail" (change)="getUserNo(entrySecurity.employee,entrySecurity.cardType)"
                       [(ngModel)]="entrySecurity.employee">
+                <option value="">请选择</option>
                 <option *ngFor="let use of userList" [value]="use.username">{{use.username}}</option>
               </select>
             </label>
@@ -204,10 +205,9 @@
                      [(ngModel)]="entrySecurity.employNo" disabled="disabled" ><!--(keyup)="getUserName(entrySecurity.employNo);"-->
             </label>
             <label class="control-label" *ngIf="entrySecurity.cardType === '0'"><span >服务公司</span>
-              <select class="form-control" id="companyName" name="companyName"
+              <input class="form-control" id="companyName" name="companyName" disabled="disabled"
                       [(ngModel)]="entrySecurity.employNo" >
-                <option *ngFor="let comp of serviceCom" [value]="comp.companyName">{{comp.companyName}}</option>
-              </select>
+
             </label>
             <div class="error"></div>
           </div>

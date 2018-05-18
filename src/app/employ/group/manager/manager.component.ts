@@ -84,6 +84,11 @@ export class ManagerComponent implements OnInit {
     this.groupProductService.getProductList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.groupProducts = data.data.infos;
+        for(let i=0;i<this.groupProducts.length;i++){
+          if(this.groupProducts[i].imgPath!==null){
+            this.groupProducts[i].imgPath = this.groupProducts[i].imgPath.split(';');
+          }
+        }
         this.total = data.data.total;
       }
     });

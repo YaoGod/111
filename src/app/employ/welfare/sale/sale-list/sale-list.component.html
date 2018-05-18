@@ -24,7 +24,7 @@
       <a (click)="linkSale(sale.id)">
         <div class="img-wrap">
           <img *ngIf="sale.imgPathList&&sale.imgPathList.length>0"
-               [src]="sale.imgPathList[0] | imgsafeurl">
+               [src]="ipSetting.imgUrl+sale.imgPathList[0]">
         </div>
         <div class="goods-msg">
           <h5>{{sale.name}}</h5>

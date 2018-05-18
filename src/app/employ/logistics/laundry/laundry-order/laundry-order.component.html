@@ -22,6 +22,11 @@
               <option value="2">退单</option>
             </select>
           </li>
+          <li>
+            <label>下单时间：</label>
+            <input type="date" name="searchbTime" class="noticetext" [(ngModel)]="search.bTime" > 至
+            <input type="date" name="searcheTime" class="noticetext" [(ngModel)]="search.eTime" >
+          </li>
           <li><a class="search" href="javascript: void(0);" (click)="getOrderList(1)" >查询</a></li>
         </ul>
       </div>

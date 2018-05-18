@@ -3,6 +3,7 @@ import {ErrorResponseService} from "../../../service/error-response/error-respon
 import {ShareProductPublicService} from "../../../service/share-product-public/share-product-public.service";
 import {ShareProduct} from "../../../mode/shareProduct/share-product.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 declare var $:any;
 declare var confirmFunc:any;
 @Component({
@@ -11,17 +12,21 @@ declare var confirmFunc:any;
   styleUrls: ['./share-detail.component.css']
 })
 export class ShareDetailComponent implements OnInit {
-
+  public imgUrl:string;
+  public distUrl = '';
+  public inner = [];
   public shareProduct: ShareProduct;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private errorResponseService:ErrorResponseService,
     private shareProductPublicService: ShareProductPublicService,
+    public ipSetting: IpSettingService,
   ) { }
 
   ngOnInit() {
     this.shareProduct = new ShareProduct();
+    this.imgUrl = this.ipSetting.imgUrl;
     let tempid = 0;
     this.route.params.subscribe(data => {
       if(tempid === 0){
@@ -36,6 +41,9 @@ export class ShareDetailComponent implements OnInit {
     this.shareProductPublicService.getShareProductDetail(id)
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
+          this.inner = data.data.imgPath.split(',');
+          this.distUrl = this.inner[0];
+          // console.log(this.inner);
           this.shareProduct = data.data;
           if(this.shareProduct.imgPathList.length>0){
             this.shareProduct.imgPath = this.shareProduct.imgPathList[0];
@@ -53,7 +61,8 @@ export class ShareDetailComponent implements OnInit {
   }
   /*查看图片*/
   chooseImg(i){
-    this.shareProduct.imgPath = this.shareProduct.imgPathList[i];
+    // this.shareProduct.imgPath = this.shareProduct.imgPathList[i];
+    this.distUrl = this.inner[i];
   }
   /*预定商品*/
   OrderProduct(id){

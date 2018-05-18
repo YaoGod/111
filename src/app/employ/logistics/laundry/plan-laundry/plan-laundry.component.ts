@@ -51,7 +51,7 @@ export class PlanLaundryComponent implements OnInit {
       if (this.errorVoid.errorMsg(data)) {
         this.applierList = data.data.providers;
         this.serverCenters = data.data.centers;
-        console.log(data.data);
+        // console.log(data.data);
         this.getOrderList(1);
       }
     });

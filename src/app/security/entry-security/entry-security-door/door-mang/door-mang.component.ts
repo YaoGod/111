@@ -173,7 +173,7 @@ export class DoorMangComponent implements OnInit {
   /*新增提交*/
   submit(){
     let error = 0;
-    let url = '/building/guard/addGuard';
+    let url = '/building/guard/addGuard?cheat='+this.userList[0];
     if(!this.record||this.record.length<1){
       confirmFunc.init({
         'title': '提示',
@@ -257,6 +257,7 @@ export class DoorMangComponent implements OnInit {
     let url = '/building/guard/getGuardList/1/999';
     let postData = JSON.parse(JSON.stringify(this.search));
     postData.userId = id;
+    postData.status = 'valid';
      this.ipSetting.sendPost(url,postData).subscribe(data => {
      if(this.errorResponseService.errorMsg(data)) {
       this.editrecord = data.data.infos;

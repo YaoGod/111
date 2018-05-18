@@ -49,4 +49,6 @@ export class LaundryOrder {
   orderNo:string;
   status:string;
   orderItems:any;
+  bTime:string;
+  eTime:string;
 }

@@ -29,6 +29,7 @@ export class ProductComponent implements OnInit {
   public pages: Array<number>;
   public imgUrl: Array<string>;
   public open = false;
+  public imgUrlPath = ['','',''];
   public upGroupProduct={
     code:'',
     name: '',
@@ -97,6 +98,12 @@ export class ProductComponent implements OnInit {
     this.groupProductService.getProductList(this.pageNo,this.pageSize,this.search).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.groupProducts = data.data.infos;
+        for(let i=0;i<this.groupProducts.length;i++){
+          if(this.groupProducts[i].imgPath!==null){
+            this.groupProducts[i].imgPath = this.groupProducts[i].imgPath.split(';');
+          }
+        }
+
         this.total = data.data.total;
       }
     });
@@ -229,7 +236,7 @@ export class ProductComponent implements OnInit {
     $('.errorMessage').html('');
   }
   /*新增文件图片上传*/
-  prese_upload(files){
+  prese_upload(files,index){
     let  xhr = this.groupProductService.uploadImg(files[0],'group',-2);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
@@ -237,15 +244,18 @@ export class ProductComponent implements OnInit {
         if(this.errorVoid.errorMsg(data)){
           if(this.newGroupProduct.imgPath.length>0){
             this.newGroupProduct.imgPath = this.newGroupProduct.imgPath +';'+ data.msg;
+
           }else{
             this.newGroupProduct.imgPath = data.msg;
           }
+          this.imgUrlPath[index] = data.msg;
           confirmFunc.init({
             'title': '提示',
             'mes': '上传成功',
             'popType': 0,
             'imgType': 1,
           });
+          $("#preseA,#preseB,#preseC").val("");
         }else {
           $("#preseA,#preseB,#preseC").val("");
         }

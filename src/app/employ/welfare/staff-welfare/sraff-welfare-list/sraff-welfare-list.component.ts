@@ -27,11 +27,11 @@ export class SraffWelfareListComponent implements OnInit {
   public search: string;
   constructor(
     private router: Router,
-    public IpSetting:IpSettingService,
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
     private discountEmployeeService:DiscountEmployeeService,
-    private welfareEmployeeService:WelfareEmployeeService
+    private welfareEmployeeService:WelfareEmployeeService,
+    public ipSetting:IpSettingService,
   ) {
     this.rule = this.globalCatalogService.getRole("employ/welfare");
   }

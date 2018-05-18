@@ -10,14 +10,23 @@
       <ul class="search-list clearfix">
         <li>
           <label>订单编号 </label>
-          <input type="text"  class="noticetext"  [(ngModel)]="search.orderNo" >
+          <input type="text" name="searchOrderNo" class="noticetext"  [(ngModel)]="search.orderNo" >
         </li>
         <li>
           <label>服务中心 </label>
-          <select id="serverCenter_add" name="serverCenter_add" class="noticetext" [(ngModel)]="search.serviceCenter">
+          <select id="serverCenter_add" name="searchServerCenter_add" class="noticetext" [(ngModel)]="search.serviceCenter">
             <option value="">-全部-</option>
             <option *ngFor="let center of serverCenters; let idx=index" value="{{center.name}}">{{center.name}}</option>
           </select>
+        </li>
+        <li>
+          <label>订单人 </label>
+          <input type="text" name="searchUsername" class="noticetext"  [(ngModel)]="search.username" >
+        </li>
+        <li>
+          <label>下单时间 </label>
+          <input type="date" name="searchbTime" class="noticetext"  [(ngModel)]="search.bTime" > 至
+          <input type="date" name="searcheTime" class="noticetext"  [(ngModel)]="search.eTime" >
         </li>
         <li><a class="search" href="javascript: void(0);" (click)="getOrderAllList(1)" >查询</a></li>
       </ul>

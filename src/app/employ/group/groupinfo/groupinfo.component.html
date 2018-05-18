@@ -13,11 +13,11 @@
       <div class="warp">
         <div class="warp-left">
           <div class="warp-fist">
-            <img *ngIf="discount&&discount.imgPath" [src]="discount.imgPath | imgsafeurl" >
+            <img *ngIf="discount&&discount.imgPath" [src]="ipSetting.imgUrl+showImg" >
           </div>
           <ul class="warp-list">
-            <li *ngFor="let image of discount.imgPathList;let i = index" (mouseover)="chooseImg(i)">
-              <img [src]="image | imgsafeurl">
+            <li *ngFor="let image of discount.imgPath;let i = index" (mouseover)="chooseImg(i)">
+              <img *ngIf="image!==''" [src]="ipSetting.imgUrl+image">
             </li>
           </ul>
         </div>

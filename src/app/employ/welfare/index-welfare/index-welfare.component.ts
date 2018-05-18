@@ -7,6 +7,7 @@ import { DiscountEmployeeService } from '../../../service/discount-employee/disc
 import { WelfareEmployeeService } from '../../../service/welfare-employee/welfare-employee.service';
 import {SaleProduct} from "../../../mode/saleProduct/sale-product.service";
 import {SaleProductEmployeeService} from "../../../service/sale-product-employee/sale-product-employee.service";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 declare var confirmFunc:any;
 declare var $: any;
 @Component({
@@ -36,7 +37,8 @@ export class IndexWelfareComponent implements OnInit {
     private errorResponseService:ErrorResponseService,
     private discountEmployeeService:DiscountEmployeeService,
     private welfareEmployeeService:WelfareEmployeeService,
-    private saleProductEmployee:SaleProductEmployeeService
+    private saleProductEmployee:SaleProductEmployeeService,
+    public ipSetting:IpSettingService
   ) {
     this.rule = this.globalCatalogService.getRole("employ/welfare");
   }

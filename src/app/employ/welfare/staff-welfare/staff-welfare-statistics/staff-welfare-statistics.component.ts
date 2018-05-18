@@ -25,10 +25,10 @@ export class StaffWelfareStatisticsComponent implements OnInit {
   constructor(
     private router   : Router,
     private route    : ActivatedRoute,
-    private ipSetting: IpSettingService,
     private globalCatalogService   : GlobalCatalogService,
     private errorResponseService   : ErrorResponseService,
-    private welfareEmployeeService : WelfareEmployeeService
+    private welfareEmployeeService : WelfareEmployeeService,
+  public ipSetting: IpSettingService,
   ) { }
 
   ngOnInit() {

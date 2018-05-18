@@ -1,0 +1,204 @@
+<div class="content-area">
+  <div class="content-inner">
+    <!--页面标题-->
+    <div class="nav-title">
+      <a><h4>工单详情页</h4></a>
+      <div class="b-head-right">
+        <div class="content-box" tabindex="0" (click)="openFlowModal()">
+          <i class="icon-zoom-in"></i> 流程图
+        </div>
+        <div class="content-box" tabindex="0" (click)="openHistoryModal()">
+          <i class="icon-search"></i> 审批记录
+        </div>
+        <div class="content-box" tabindex="0" onclick="history.go(-1)">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>
+    </div>
+    <div class="warp">
+      <div class="warp-right">
+        <h4>{{order.name}}（当前状态：{{order.content[order.schedule].name}}）</h4>
+        <div class="form-group">
+          <span class="control-label"><span class="form-title">发起人</span>
+            <p class="form-control">{{order.createUserName}}</p>
+          </span>
+          <div class="error"></div>
+        </div>
+        <div class="form-group">
+          <span class="control-label"><span class="form-title">发起时间</span>
+            <p class="form-control">{{order.createTime| date:'yyyy/MM/dd'}}</p>
+          </span>
+          <div class="error"></div>
+        </div>
+        <div class="form-group">
+          <span class="control-label"><span class="form-title">工单类型</span>
+            <p class="form-control">{{order.type}}</p>
+          </span>
+          <div class="error"></div>
+        </div>
+        <div class="form-group" *ngFor="let msg of order.note.split(';');let i =index">
+          <span class="control-label"><span class="form-title"><i *ngIf="i===0">申请内容</i></span>
+            <p class="form-control">{{msg}}</p>
+          </span>
+          <div class="error"></div>
+        </div>
+        <div class="form-group">
+          <span class="control-label"><span class="form-title">申请原因</span>
+            <p class="form-control">{{order.cause}}</p>
+          </span>
+          <div class="error"></div>
+        </div>
+
+        <div class="submit-footer">
+          <a class="btn-danger" (click)="openModal()">立即审批</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="mask" style="display: none;" id="checkModal">
+  <div  class="modal-content" style="width: 600px;margin-left: -300px">
+    <div  class="modal-header">
+      <h4 class="modal-title"><i class="icon-home"></i>审批意见</h4>
+      <button class="modal-close" type="button" (click)="closeCheckModal()">×</button>
+    </div>
+    <div  class="modal-body">
+      <div class="modal-right">
+        <div  class="form-group">
+          <span  class="control-label"><span>审核结果</span>
+            <label>
+              <input type="radio" id="result1" name="result"
+                     [(ngModel)]="checkMsg.nodeReview.result" value="pass"
+                     (click)="setNote('同意')"
+                     (blur)="verifyEmpty(checkMsg.nodeReview.result,'result1')">
+              同意
+            </label>
+            <label>
+              <input type="radio" id="result2" name="result"
+                     [(ngModel)]="checkMsg.nodeReview.result"
+                     value="rollback" (click)="setNote('重审')"
+                     (blur)="verifyEmpty(checkMsg.nodeReview.result,'result1')">
+              回退到上一级
+            </label>
+            <label>
+              <input type="radio" id="result3" name="result"
+                     [(ngModel)]="checkMsg.nodeReview.result" value="rollbackTotal"
+                     (click)="setNote('撤销')"
+                     (blur)="verifyEmpty(checkMsg.nodeReview.result,'result1')">
+              回退到发起人
+            </label>
+            <label>
+              <input type="radio" id="result4" name="result"
+                     [(ngModel)]="checkMsg.nodeReview.result" value="fail"
+                     (click)="setNote('驳回')"
+                     (blur)="verifyEmpty(checkMsg.nodeReview.result,'result1')">
+              终止
+            </label>
+          </span>
+          <div class="error"></div>
+        </div>
+        <div  class="form-group" *ngIf="checkMsg.nodeReview.result === 'pass'">
+          <span  class="control-label"><span>下一审批人</span>
+            <label *ngFor="let user of userSelects">
+              <input type="radio" name="note" [value]="user.userid"
+                     [(ngModel)]="checkMsg.handleUserId">
+              {{user.username}}
+            </label>
+            <input type="text" class="form-control" value="暂无可用审批人" disabled *ngIf="userSelects.length===0">
+          </span>
+          <div class="error"></div>
+        </div>
+        <div  class="form-group">
+          <label  class="control-label"><span>处理意见</span>
+            <input type="text" class="form-control" id="note" name="note"
+                   [(ngModel)]="checkMsg.nodeReview.note"
+                   (blur)="verifyEmpty(checkMsg.nodeReview.note,'note')">
+          </label>
+          <div class="error"></div>
+        </div>
+      </div>
+    </div>
+    <div  class="modal-footer">
+      <button  class="btn btn-info" type="submit"
+               (click)="submit()">确  定</button>
+    </div>
+  </div>
+</div>
+
+<div class="mask" style="display: none;" id="flowModal">
+  <div  class="modal-content" style="width: 360px;margin-left: -180px">
+    <div  class="modal-header">
+      <h4 class="modal-title"><i class="icon-home"></i>流程进行状态</h4>
+      <button class="modal-close" type="button" (click)="closeflowModal()">×</button>
+    </div>
+    <div  class="modal-body">
+      <div class="modal-right">
+        <div class="flow-area">
+          <ul>
+            <li class="node" *ngFor="let segment of order.content;let i = index">
+              <div class="rect" [ngClass]="setSegmentClass(i)">
+                {{segment.name}}
+              </div>
+              <div class="arrow"></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div  class="modal-footer">
+      <button  class="btn btn-info" type="submit"
+               (click)="closeflowModal()">确  定</button>
+    </div>
+  </div>
+</div>
+
+<div class="mask" style="display: none;" id="historyModal">
+  <div  class="modal-content" style="width: 1000px;margin-left: -500px">
+    <div  class="modal-header">
+      <h4 class="modal-title"><i class="icon-home"></i>审批记录</h4>
+      <button class="modal-close" type="button" (click)="closeHistoryModal()">×</button>
+    </div>
+    <div  class="modal-body">
+      <div class="modal-right">
+        <!--表头-->
+        <div class="table-head" style="margin-top: 10px">
+          <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+            <tr class="row list-title" style="height:45px;">
+              <th width="10%" class="text-left">流程节点</th>
+              <th width="8%" class="text-left">处理人</th>
+              <th width="15%">处理时间</th>
+              <th width="20%" class="text-left">审核结果</th>
+              <th width="30%" class="text-left">处理意见</th>
+            </tr>
+            <tr class="row" *ngFor="let log of history;let i = index">
+              <td class="text-left">
+                {{log.name}}
+              </td>
+              <td class="text-left">
+                {{log.userName}}
+              </td>
+              <td>
+                <p>{{log.createTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
+              </td>
+              <td class="text-left">
+                {{log.result}}
+              </td>
+              <td class="text-left">
+                <p class="big-text">{{log.note}}</p>
+              </td>
+            </tr>
+          </table>
+          <div class="div-none" *ngIf="history.length === 0">
+            <p>暂无信息</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div  class="modal-footer">
+      <button  class="btn btn-info" type="submit"
+               (click)="closeHistoryModal()">确  定</button>
+    </div>
+  </div>
+</div>

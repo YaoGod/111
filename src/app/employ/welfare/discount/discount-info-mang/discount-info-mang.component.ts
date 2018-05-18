@@ -81,11 +81,12 @@ export class DiscountInfoMangComponent implements OnInit {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorResponseService.errorMsg(data)){
           this.imgUrl[index] = data.msg;
-          if(this.open){
+          this.copyDiscount.imgPathList[index] = data.msg;
+          /*if(this.open){
             this.copyDiscount.imgPathList[index] = data.msg;
           }else{
             this.copyDiscount.imgPathList.push(data.msg);
-          }
+          }*/
         }
       }else if(xhr.readyState === 4 && xhr.status === 413 ){
         confirmFunc.init({
@@ -162,7 +163,7 @@ export class DiscountInfoMangComponent implements OnInit {
       postdata.effectBtime = postdata.effectBtime.replace(/-/g, '/');
       postdata.effectEtime = postdata.effectEtime.replace(/-/g, '/');
       if(typeof (postdata.id) === "undefined" || postdata.id === null) {
-        // console.log(postdata);
+        // console.log(postdata);   新增
         this.discountEmployeeService.addDiscount(postdata)
           .subscribe(data => {
             if (this.errorResponseService.errorMsg(data)) {
@@ -183,7 +184,8 @@ export class DiscountInfoMangComponent implements OnInit {
             }
           });
       }else{
-        for(let i=0;i<postdata.imgPathList.length;i++){
+        // 编辑
+        /*for(let i=0;i<postdata.imgPathList.length;i++){
           if(typeof postdata.imgPathList[i] !== null || postdata.imgPathList[i].length>250){
             postdata.imgPathList[i] = this.imgUrl[i];
           }
@@ -191,7 +193,7 @@ export class DiscountInfoMangComponent implements OnInit {
         postdata.imgPath = '';
         for(let i=0;i<this.imgUrl.length;i++){
           postdata.imgPath += this.imgUrl[i] + ','
-        }
+        }*/
         this.discountEmployeeService.updateDiscount(postdata)
           .subscribe(data => {
             if (this.errorResponseService.errorMsg(data)) {
@@ -223,7 +225,7 @@ export class DiscountInfoMangComponent implements OnInit {
             $('.mask').show();
             this.navtitle = "编辑";
             this.copyDiscount = data.data;
-            this.imgUrl = this.copyDiscount.imgPath.split(',');
+            this.imgUrl = this.copyDiscount.imgPathList;// .split(',');
             this.copyDiscount.effectBtime = this.copyDiscount.effectBtime.replace(/\//g,'-');
             this.copyDiscount.effectEtime = this.copyDiscount.effectEtime.replace(/\//g,'-');
             this.tempOther = JSON.parse(JSON.stringify(data.data.others));

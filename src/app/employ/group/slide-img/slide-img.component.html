@@ -10,7 +10,7 @@
 <div class="bannerContainer">
   <ul class="bannerPicList">
     <li *ngFor="let abc of imgData;let i=index" [class.active]="currentPic==i">
-        <img [src]="abc.imageContent | imgsafeurl">
+        <img [src]="ipSetting.imgUrl+abc.imagePath">
     </li>
     <!--<li [class.active]="currentPic==0"> <img src="assets/image/z1.jpg"/></li>
     <li [class.active]="currentPic==1"> <img src="assets/image/z2.jpg"/></li>

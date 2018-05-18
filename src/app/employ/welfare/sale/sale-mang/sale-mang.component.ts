@@ -3,6 +3,7 @@ import {SaleProductEmployeeService} from "../../../../service/sale-product-emplo
 import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
 import {SaleProduct} from "../../../../mode/saleProduct/sale-product.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
 declare var $:any;
 declare var confirmFunc:any;
 @Component({
@@ -27,6 +28,7 @@ export class SaleMangComponent implements OnInit {
     private route:ActivatedRoute,
     private saleProductEmployeeService:SaleProductEmployeeService,
     private errorResponseService:ErrorResponseService,
+    public ipSetting:IpSettingService
   ) { }
 
   ngOnInit() {
@@ -171,6 +173,7 @@ export class SaleMangComponent implements OnInit {
   /*编辑初始化*/
   edit(sale){
     this.fadeBom();
+    this.winTitle = "编辑";
     this.copySale = JSON.parse(JSON.stringify(sale));
     /*图片存储地址处理，转数组*/
     if(this.verifyEmpty(this.copySale.imgPath)){
@@ -197,11 +200,14 @@ export class SaleMangComponent implements OnInit {
       }
     }
     /*自定义类型解析*/
-    let tempList = this.copySale.type.split(",");
-    for(let i = 0;i<tempList.length;i++){
-      this.typeList[i] = new ChooseType();
-      this.typeList[i].name = tempList[i];
+    if(this.copySale.type){
+      let tempList = this.copySale.type.split(",");
+      for(let i = 0;i<tempList.length;i++){
+        this.typeList[i] = new ChooseType();
+        this.typeList[i].name = tempList[i];
+      }
     }
+
   }
   /*关闭窗口*/
   closeMask(){
@@ -227,7 +233,8 @@ export class SaleMangComponent implements OnInit {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorResponseService.errorMsg(data)){
           this.copySale.imgPath.push(data.msg);
-          this.copySale.imgPathList.push(window.URL.createObjectURL(files[0]));
+          this.copySale.imgPathList.push(data.msg);
+          // this.copySale.imgPathList.push(window.URL.createObjectURL(files[0]));
         }
         $('#press').val('');
       }else if(xhr.readyState === 4 && xhr.status === 413 ){
@@ -237,6 +244,7 @@ export class SaleMangComponent implements OnInit {
           'popType': 1 ,
           'imgType': 2 ,
         });
+        $('#press').val('');
       }
     };
   }

@@ -76,7 +76,7 @@
         <a>
           <div class="img-wrap">
             <img *ngIf="product.imgPathList&&product.imgPathList.length>0"
-                 [src]="product.imgPathList[0] | imgsafeurl">
+                 [src]="ipSetting.imgUrl+product.imgPathList[0] | imgsafeurl">
           </div>
           <div class="goods-msg">
             <h5>{{product.name}}</h5>

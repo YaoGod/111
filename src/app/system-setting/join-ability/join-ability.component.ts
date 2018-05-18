@@ -83,8 +83,8 @@ export class JoinAbilityComponent implements OnInit {
                 }
                 this.adrList = temp;
               }
-              this.clickStatus = true;
             }
+            this.clickStatus = true;
           }
         })
     }
