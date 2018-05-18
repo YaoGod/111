@@ -80,6 +80,11 @@ const routes: Routes = [
         path: 'check/:id',
         component:ExamineDetailComponent
       },
+      {
+        /*工单详情*/
+        path: 'detail/:id',
+        component:ExamineDetailComponent
+      },
     ]
   }
 ];
