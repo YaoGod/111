@@ -13,16 +13,16 @@ declare var confirmFunc:any;
 })
 export class ExamineDetailComponent implements OnInit {
 
-  public search :Review;
+  public search: Review;
   public order: Review;
   public history: Array<Segment>;
   public checkMsg: Segment;
   public userSelects: Array<User>;
-  constructor(
-    private route: ActivatedRoute,
-    private errorResponseService:ErrorResponseService,
-    private workflowService:WorkflowService
-  ) { }
+
+  constructor(private route: ActivatedRoute,
+              private errorResponseService: ErrorResponseService,
+              private workflowService: WorkflowService) {
+  }
 
   ngOnInit() {
     this.search = new Review();
@@ -35,10 +35,10 @@ export class ExamineDetailComponent implements OnInit {
     this.checkMsg = new Segment();
     this.checkMsg.nodeReview = new ReviewNote();
     this.userSelects = [];
-    if(typeof (this.route.params['_value']['id']) !== "undefined"){
+    if (typeof (this.route.params['_value']['id']) !== "undefined") {
       let tempid = 0;
       this.route.params
-        .switchMap((params: Params) => this.order.id  = params['id'])
+        .switchMap((params: Params) => this.order.id = params['id'])
         .subscribe(() => {
           if (tempid === 0) {
             this.getReviewInfo(this.order.id);
@@ -47,69 +47,101 @@ export class ExamineDetailComponent implements OnInit {
         });
     }
   }
+
   /*获取工单信息*/
-  getReviewInfo(id){
+  getReviewInfo(id) {
     this.workflowService.getReviewInfo(id)
-      .subscribe(data=>{
-        if(this.errorResponseService.errorMsg(data)){
+      .subscribe(data => {
+        if (this.errorResponseService.errorMsg(data)) {
           this.order = data.data;
-          this.order.note = this.order.note.substring(0,this.order.note.length-1);
-          this.getUserSelect(this.order.content[this.order.schedule+1].groupId);
+          this.order.note = this.order.note.substring(0, this.order.note.length - 1);
+          if (this.order.schedule + 1 < this.order.content.length) {
+            this.getUserSelect(this.order.content[this.order.schedule + 1].groupId);
+          }
           this.getHistoryReviewLogs(this.order.content);
         }
       })
   }
+
   /*判断流程进度节点*/
-  setSegmentClass(index){
-    if(this.order.schedule){
-      if(index<this.order.schedule){
+  setSegmentClass(index) {
+    if (this.order.schedule) {
+      if (index < this.order.schedule) {
         return "process";
-      }else if(index === this.order.schedule){
+      } else if (index === this.order.schedule) {
+        if (this.order.schedule + 1 === this.order.content.length) {
+          return "process";
+        }
         return "active";
       }
     }
     return "";
   }
+
   /*获取下一审批人列表*/
-  getUserSelect(id){
-    if(id){
+  getUserSelect(id) {
+    if (id) {
       this.workflowService.getUserSelect(id)
-        .subscribe(data=>{
-          if(this.errorResponseService.errorMsg(data)){
+        .subscribe(data => {
+          if (this.errorResponseService.errorMsg(data)) {
             this.userSelects = data.data;
           }
         })
     }
-    else{
+    else {
       this.userSelects = [];
     }
   }
+
   /*审批记录数据*/
-  getHistoryReviewLogs(list){
+  getHistoryReviewLogs(list) {
     let temp = [];
-    let k =0;
-    for(let i = 0;i<list.length;i++){
-     if(list[i].nodeReviews!==null&&list[i].nodeReviews.length>0){
-       for(let j= 0;j<list[i].nodeReviews.length;j++){
-         temp[k] = new Segment();
-         temp[k].id = list[i].id;
-         temp[k].name = list[i].name;
-         temp[k].userId = list[i].nodeReviews[j].userId;
-         temp[k].userName = list[i].nodeReviews[j].userName;
-         temp[k].note = list[i].nodeReviews[j].note;
-         temp[k].result = list[i].nodeReviews[j].result;
-         temp[k].createTime = list[i].nodeReviews[j].createTime;
-         k++;
-       }
-     }/*else{
+    let k = 0;
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].nodeReviews !== null && list[i].nodeReviews.length > 0) {
+        for (let j = 0; j < list[i].nodeReviews.length; j++) {
+          temp[k] = new Segment();
+          temp[k].id = list[i].id;
+          temp[k].name = list[i].name;
+          temp[k].userId = list[i].nodeReviews[j].userId;
+          temp[k].userName = list[i].nodeReviews[j].userName;
+          temp[k].note = list[i].nodeReviews[j].note;
+          temp[k].result = list[i].nodeReviews[j].result;
+          temp[k].createTime = list[i].nodeReviews[j].createTime;
+          k++;
+        }
+      }
+      /*else{
        temp[k] = new Segment();
        temp[k].id = list[i].id;
        temp[k].name = list[i].name;
        k++;
-     }*/
+       }*/
 
     }
-    this.history = JSON.parse(JSON.stringify(temp));
+    this.history = JSON.parse(JSON.stringify(this.quickSortArray(temp)));
+  }
+  quickSortArray(array){
+
+    let quickSort = (arr)=> {
+      if (arr.length <= 1) {
+        return arr;
+      }
+      let midIndex = Math.floor(arr.length / 2);
+      let midIndexVal = arr.splice(midIndex, 1)[0];
+      let left = [];
+      let right = [];
+      for (let i = 0; i < arr.length; i++) {
+        if (new Date( arr[i].createTime).getTime() > new Date( midIndexVal.createTime).getTime()) {
+          left.push(arr[i]);
+        }
+        else {
+          right.push(arr[i]);
+        }
+      }
+      return quickSort(left).concat(midIndexVal, quickSort(right));
+    };
+    return quickSort(array);
   }
   /*非空验证*/
   verifyEmpty( value, id?){
@@ -184,6 +216,9 @@ export class ExamineDetailComponent implements OnInit {
       let postData = JSON.parse(JSON.stringify(this.checkMsg));
       if(postData.nodeReview.result === "pass"){
         postData.next = this.order.schedule+1;
+        if(postData.handleUserId===null){
+          postData.handleUserId = "";
+        }
       }else if(postData.nodeReview.result === "fail"){
         postData.next = null;
         postData.handleUserId = "";

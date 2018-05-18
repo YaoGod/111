@@ -55,7 +55,8 @@ export class DoorApplyComponent implements OnInit {
     this.addUser = new Person();
     this.postData = new Wotany();
     this.postData.data = [];
-    this.types = ['授权','取消授权'];
+    this.postData.handleURL = '/security/entrySecurity/door/apply';
+    this.types = ['授权','取消授权','清空授权'];
     this.personTypes = ['自有员工','第三方员工'];
     this.entrySecurity.productType = this.types[0];
     this.entrySecurity.personType = this.personTypes[0];
@@ -85,6 +86,10 @@ export class DoorApplyComponent implements OnInit {
             this.addUser = data.data;
           }
         });
+      if(this.entrySecurity.productType === '清空授权'){
+        this.havePower = [];
+        return false;
+      }
       let url = '/building/guard/getGuardList/1/999';
       let postData = {userId:id,status:'valid'};
       this.ipSetting.sendPost(url,postData).subscribe(data => {
@@ -118,7 +123,6 @@ export class DoorApplyComponent implements OnInit {
     this.ipSetting.sendPost(url,postData).subscribe(data => {
       if(this.errorResponseService.errorMsg(data)) {
         this.content = data.data.infos[0].content;
-        console.log( this.content);
       }
     });
   }
@@ -224,6 +228,15 @@ export class DoorApplyComponent implements OnInit {
       this.postData.data.push(postData);
       // console.log(this.postData.data);
       this.close();
+    }else if(this.entrySecurity.productType === '清空授权'){
+      let postData = {
+        guard: this.powerId,
+        userId: this.addUser.userid,
+        userName: this.addUser.username
+      };
+      this.postData.data.push(postData);
+      // console.log(this.postData.data);
+      this.close();
     }
 
   }
@@ -244,7 +257,6 @@ export class DoorApplyComponent implements OnInit {
   }
   /*提交*/
   submitPassword(){
-    // this.postData.handleUserId = localStorage.getItem('username');
     let list = document.getElementsByName("orderCheck");
     let str = [];
     for(let i = 0;i<list.length;i++){
@@ -284,21 +296,81 @@ export class DoorApplyComponent implements OnInit {
     let url = '';
     if(this.entrySecurity.productType === '授权'){
       url = '/building/guard/addGuard';
-    }else{
+      this.ipSetting.sendPost(url,this.postData).subscribe(data => {
+        if(this.errorResponseService.errorMsg(data)) {
+          // console.log(data);
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '提交成功！',
+            'popType': 2,
+            'imgType': 1,
+          });
+          this.postData = new Wotany();
+          this.postData.data = [];
+          this.entrySecurity.productType = this.types[0];
+          this.entrySecurity.personType = this.personTypes[0];
+          $("input:checkbox[name='orderCheck']").prop('checked',false);
+        }
+      });
+    }else if(this.entrySecurity.productType === '取消授权'){
       url = '/building/guard/deleteGuardBatch';
-    }
-    this.ipSetting.sendPost(url,this.postData).subscribe(data => {
-      if(this.errorResponseService.errorMsg(data)) {
-        // console.log(data);
-        confirmFunc.init({
-          'title': '提示',
-          'mes': '提交成功！',
-          'popType': 2,
-          'imgType': 1,
-        });
+      let inner = [];
+      for(let i=0;i<this.postData.data.length;i++){
+        for(let j=0;j<this.postData.data[i].guard.length;j++){
+          inner.push(this.postData.data[i].guard[j]);
+        }
       }
-    });
-
+      let subInfo = {
+        data: inner,
+        cause: this.postData.cause,
+        handleUserId: this.postData.handleUserId,
+          handleURL:'/security/entrySecurity/door/apply'
+      };
+      this.ipSetting.sendPost(url,subInfo).subscribe(data => {
+        if(this.errorResponseService.errorMsg(data)) {
+          // console.log(data);
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '提交成功！',
+            'popType': 2,
+            'imgType': 1,
+          });
+          this.postData = new Wotany();
+          this.postData.data = [];
+          this.entrySecurity.productType = this.types[0];
+          this.entrySecurity.personType = this.personTypes[0];
+          $("input:checkbox[name='orderCheck']").prop('checked',false);
+        }
+      });
+    }else if(this.entrySecurity.productType === '清空授权'){
+      url = '/building/guard/deleteUserGuardBatch';
+      let inner = [];
+      for(let i=0;i<this.postData.data.length;i++){
+        inner.push(this.postData.data[i].userId);
+      }
+      let subInfo = {
+        data: inner,
+        cause: this.postData.cause,
+        handleUserId: this.postData.handleUserId,
+        handleURL:'/security/entrySecurity/door/apply'
+      };
+      this.ipSetting.sendPost(url,subInfo).subscribe(data => {
+        if(this.errorResponseService.errorMsg(data)) {
+          // console.log(data);
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '提交成功！',
+            'popType': 2,
+            'imgType': 1,
+          });
+          this.postData = new Wotany();
+          this.postData.data = [];
+          this.entrySecurity.productType = this.types[0];
+          this.entrySecurity.personType = this.personTypes[0];
+          $("input:checkbox[name='orderCheck']").prop('checked',false);
+        }
+      });
+    }
   }
   close(){
     this.havePower = [];
@@ -361,6 +433,7 @@ export class Wotany{
   data: Array<Guard>;
   cause: string;
   handleUserId: string;
+  handleURL:string;
 }
 export class Guard{
   userId:string;

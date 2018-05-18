@@ -259,6 +259,7 @@ td>img{
 .warp-left{
   float: left;
   padding: 10px;
+  border-right:2px solid #e4e4e4;
 }
 .warp-fist{
   width: 450px;
@@ -392,6 +393,9 @@ td>img{
   width: 100%;
   clear: both;
 }
+.control-label{
+  display: block;
+}
 .control-label>span{
   display: inline-block;
   width: 88px;
@@ -421,7 +425,7 @@ td>img{
 .form-control {
   float: none;
   padding: 0 5px;
-  width: 220px;
+  width: 240px;
   max-width: 100%;
   line-height: 38px;
   background-color: rgba(0, 0, 0, 0);
@@ -683,15 +687,15 @@ select{
 }
 .z-person label{
   display: inline-block;
-  width:75px;
+  min-width: 80px;
 }
 .z-person .form-control{
   width:30px;
 }
 .flow-area{
   padding: 10px 0;
-  max-height: 260px;
   overflow: auto;
+
 }
 .node>.rect{
   width: 160px;
