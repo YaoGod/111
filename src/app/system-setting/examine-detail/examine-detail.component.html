@@ -87,14 +87,14 @@
             <label>
               <input type="radio" id="result3" name="result"
                      [(ngModel)]="checkMsg.nodeReview.result" value="rollbackTotal"
-                     (click)="setNote('撤销')"
+                     (click)="setNote('驳回')"
                      (blur)="verifyEmpty(checkMsg.nodeReview.result,'result1')">
               回退到发起人
             </label>
             <label>
               <input type="radio" id="result4" name="result"
                      [(ngModel)]="checkMsg.nodeReview.result" value="fail"
-                     (click)="setNote('驳回')"
+                     (click)="setNote('终止')"
                      (blur)="verifyEmpty(checkMsg.nodeReview.result,'result1')">
               终止
             </label>

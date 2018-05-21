@@ -48,7 +48,6 @@ export class ExamineDetailComponent implements OnInit {
           }
         });
     }
-    console.log(111);
   }
 
   /*获取工单信息*/
@@ -57,7 +56,9 @@ export class ExamineDetailComponent implements OnInit {
       .subscribe(data => {
         if (this.errorResponseService.errorMsg(data)) {
           this.order = data.data;
-          this.order.note = this.order.note.substring(0, this.order.note.length - 1);
+          if(this.order.note){
+            this.order.note = this.order.note.substring(0, this.order.note.length - 1);
+          }
           if (this.order.schedule + 1 < this.order.content.length) {
             this.getUserSelect(this.order.content[this.order.schedule + 1].groupId);
           }
