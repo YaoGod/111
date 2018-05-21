@@ -13,6 +13,7 @@ import {EntrySecurityDoorComponent} from "./entry-security-door.component";
 import { DoorApplyComponent } from './door-apply/door-apply.component';
 import { DoorMangComponent } from './door-mang/door-mang.component';
 import { DoorMangLoggerComponent } from './door-mang-logger/door-mang-logger.component';
+import { ResubmitComponent } from './resubmit/resubmit.component';
 const routes: Routes = [
   {
     path: '',
@@ -23,6 +24,11 @@ const routes: Routes = [
         /*门禁权限变更申请单*/
         path: 'apply',
         component:DoorApplyComponent
+      },
+      {
+        /*门禁权限变更申请单*/
+        path: 'resubmit',
+        component:ResubmitComponent
       },
       {
         /*门禁系统权限*/
@@ -50,6 +56,6 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [RouteGuardService],
-  declarations: [EntrySecurityDoorComponent, DoorApplyComponent, DoorMangComponent, DoorMangLoggerComponent]
+  declarations: [EntrySecurityDoorComponent, DoorApplyComponent, ResubmitComponent, DoorMangComponent, DoorMangLoggerComponent]
 })
 export class EntrySecurityDoorModule { }

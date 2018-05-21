@@ -8,20 +8,19 @@ import {IpSettingService} from "../../../../service/ip-setting/ip-setting.servic
 
 declare var $:any;
 declare var confirmFunc:any;
-
 @Component({
-  selector: 'app-door-apply',
-  templateUrl: './door-apply.component.html',
-  styleUrls: ['./door-apply.component.css'],
+  selector: 'app-resubmit',
+  templateUrl: './resubmit.component.html',
+  styleUrls: ['./resubmit.component.css'],
   providers: [EntrySecurityService,ErrorResponseService,InfoBuildingService]
 })
-export class DoorApplyComponent implements OnInit {
+
+export class ResubmitComponent implements OnInit {
 
   public pageNo;
   public pageSize = 10;
   public total = 0;
   public userList : Array<Person>;
-  public deptList;
   public buildings;
   public powerId = [];
   public entrySecurity:EntryService;
@@ -35,6 +34,8 @@ export class DoorApplyComponent implements OnInit {
   public handleUserId:any;
   public groupId:string;
   public content = [];
+  public arguments : any;
+  public lastAddPower = [];
   constructor(
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
@@ -55,14 +56,17 @@ export class DoorApplyComponent implements OnInit {
     this.addUser = new Person();
     this.postData = new Wotany();
     this.postData.data = [];
-    this.postData.handleURL = '/security/entrySecurity/door/resubmit';
+    this.postData.handleURL = '/security/entrySecurity/door/apply';
     this.types = ['授权','取消授权','清空授权'];
+    this.personTypes = ['自有员工','第三方员工'];
     this.entrySecurity.productType = this.types[0];
+    this.entrySecurity.personType = this.personTypes[0];
 
-    this.getDeptList();
     this.getBuildingList(0);
     this.getGuardGroupId();
     this.getFlowList();
+    this.arguments = this.getParameter();
+    this.getGuardFlow();
   }
 
   /*获取类型下拉列表*/
@@ -70,9 +74,41 @@ export class DoorApplyComponent implements OnInit {
     this.entrySecurityService.getDeptList()
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
-          this.deptList = data.data;
+          // this.deptList = data.data;
         }
       })
+  }
+  /*获取get参数*/
+  getParameter(){
+      let url = window.document.location.href.toString();
+      let u = url.split("?");
+      if(typeof(u[1]) == "string"){
+        u = u[1].split("&");
+        let get = {};
+        for(let i in u){
+          let j = u[i].split("=");
+          get[j[0]] = j[1];
+        }
+        return get;
+      } else {
+        return {};
+      }
+  }
+  /*根据批次号获取本次编辑的内容*/
+  getGuardFlow(){
+    let id = this.arguments.batchId;
+    this.postData.batchId = id;
+    let url = '/building/guard/getGuardFlowByBatch?batchId='+id;
+
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorResponseService.errorMsg(data)) {
+         // this.havePower = data.data.infos;
+        console.log(data.data);
+        this.postData.cause = data.data.flowInfo.cause;
+        this.postData.type = data.data.flowInfo.type;
+        this.postData.data = data.data.guard;
+      }
+    });
   }
   /*根据用户id获取姓名和部门*/
   getUserInfo(id){
@@ -138,16 +174,16 @@ export class DoorApplyComponent implements OnInit {
 
   /*获取大楼列表*/
   getBuildingList(index) {
-      this.entrySecurityService.getBuildingList('')
-        .subscribe(data => {
-          if(this.errorResponseService.errorMsg(data)) {
-            if(index>0){
-              this.record[index].buildings = data.data;
-            }else{
-              this.record[0].buildings = data.data;
-            }
+    this.entrySecurityService.getBuildingList('')
+      .subscribe(data => {
+        if(this.errorResponseService.errorMsg(data)) {
+          if(index>0){
+            this.record[index].buildings = data.data;
+          }else{
+            this.record[0].buildings = data.data;
           }
-        })
+        }
+      })
 
   }
   /*获取楼层名称*/
@@ -188,9 +224,16 @@ export class DoorApplyComponent implements OnInit {
       }
     }
   }
+  /*编辑个人申请内容*/
+  editPerson(index){
+    $('.mask1').fadeIn();
+    this.addUser.userid = this.postData.data[index].userId;
+    this.getUserInfo(this.addUser.userid);
+    this.lastAddPower = this.postData.data[index].guard;
+  }
   /*保存申请内容信息(申请授权）*/
   saveContent(){
-    if(this.entrySecurity.productType === '授权'){
+    if(this.postData.type === '门禁权限申请'){
       let temporary = JSON.parse(JSON.stringify(this.record));
       for(let i=0;i<temporary.length;i++){
         delete temporary[i].buildings;
@@ -243,7 +286,7 @@ export class DoorApplyComponent implements OnInit {
     $('.mask2').fadeIn();
     this.addUser = new Person();
     this.record = [];
-    if(this.entrySecurity.productType==='授权'){
+    if(this.postData.type === '门禁权限申请'){
       this.record.push(new Power());
       this.getBuildingList(this.record.length-1);
     }
@@ -291,8 +334,8 @@ export class DoorApplyComponent implements OnInit {
       return false;
     }
     let url = '';
-    if(this.entrySecurity.productType === '授权'){
-      url = '/building/guard/addGuard';
+    if(this.postData.type === '门禁权限申请'){
+      url = '/building/guard/updateFlowGuard';
       this.ipSetting.sendPost(url,this.postData).subscribe(data => {
         if(this.errorResponseService.errorMsg(data)) {
           // console.log(data);
@@ -320,7 +363,7 @@ export class DoorApplyComponent implements OnInit {
         data: inner,
         cause: this.postData.cause,
         handleUserId: this.postData.handleUserId,
-          handleURL:'/security/entrySecurity/door/resubmit'
+        handleURL:'/security/entrySecurity/door/apply'
       };
       this.ipSetting.sendPost(url,subInfo).subscribe(data => {
         if(this.errorResponseService.errorMsg(data)) {
@@ -333,7 +376,6 @@ export class DoorApplyComponent implements OnInit {
           });
           this.postData = new Wotany();
           this.postData.data = [];
-          this.entrySecurity.productType = this.types[0];
           $("input:checkbox[name='orderCheck']").prop('checked',false);
         }
       });
@@ -347,7 +389,7 @@ export class DoorApplyComponent implements OnInit {
         data: inner,
         cause: this.postData.cause,
         handleUserId: this.postData.handleUserId,
-        handleURL:'/security/entrySecurity/door/resubmit'
+        handleURL:'/security/entrySecurity/door/apply'
       };
       this.ipSetting.sendPost(url,subInfo).subscribe(data => {
         if(this.errorResponseService.errorMsg(data)) {
@@ -360,8 +402,6 @@ export class DoorApplyComponent implements OnInit {
           });
           this.postData = new Wotany();
           this.postData.data = [];
-          this.entrySecurity.productType = this.types[0];
-          this.entrySecurity.personType = this.personTypes[0];
           $("input:checkbox[name='orderCheck']").prop('checked',false);
         }
       });
@@ -426,9 +466,11 @@ export class Person{
 }
 export class Wotany{
   data: Array<Guard>;
+  type:string;
   cause: string;
   handleUserId: string;
   handleURL:string;
+  batchId:string;
 }
 export class Guard{
   userId:string;
