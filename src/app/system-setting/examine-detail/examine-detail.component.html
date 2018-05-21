@@ -52,7 +52,7 @@
           <a class="btn-danger" (click)="openModal()">立即审批</a>
         </div>
         <div class="submit-footer" *ngIf="order.schedule===1">
-          <a class="btn-danger" onclick="alert('暂不可编辑')">立即修改</a>
+          <a class="btn-danger" [routerLink]="['hzportal'+order.handleUrl,order.batchId]">立即修改</a>
         </div>
       </div>
 
@@ -103,9 +103,9 @@
         </div>
         <div  class="form-group" *ngIf="checkMsg.nodeReview.result === 'pass'&&userSelects.length!==0">
           <span  class="control-label"><span>下一审批人</span>
-            <label *ngFor="let user of userSelects">
-              <input type="radio" name="note" [value]="user.userid"
-                     [(ngModel)]="checkMsg.handleUserId">
+            <label *ngFor="let user of userSelects;let i=index;">
+              <input type="checkbox" [value]="user.userid"
+                     [(ngModel)]="user.isBoolean">
               {{user.username}}
             </label>
           </span>

@@ -2,11 +2,8 @@
   <div class="content-inner">
     <!--页面标题-->
     <div class="nav-title">
-      <a><h4>工单管理</h4></a>
+      <a><h4>我的工单</h4></a>
       <div class="b-head-right">
-        <div class="content-box" tabindex="0" [routerLink]="['../myExamine']">
-          我的工单
-        </div>
         <div class="content-box" tabindex="0" onclick="history.go(-1)">
           <i class="icon-reload"></i> 返回
         </div>
@@ -22,12 +19,6 @@
           <input type="date" name="bTime" [(ngModel)]="search.bTime">至
           <input type="date" name="eTime" [(ngModel)]="search.eTime">
         </li>
-        <li><label>工单状态</label>
-          <select class="search-ipt" name="searchStatus" [(ngModel)]="search.status">
-            <option value="going">待处理</option>
-            <option value="end">已处理</option>
-          </select>
-        </li>
         <li>
           <a (click)="getMyExamine(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
         </li>
@@ -42,7 +33,6 @@
           <th width="15%" class="text-left">说明</th>
           <th width="10%" class="text-left">类型</th>
           <th width="10%" class="text-left">状态</th>
-          <th width="10%" class="text-left">发起人姓名</th>
           <th width="10%" class="text-left">发起时间</th>
           <th width="20%">操作</th>
         </tr>
@@ -60,20 +50,14 @@
             {{order.type}}
           </td>
           <td class="text-left">
-            <p *ngIf="order.status === 'going'">待处理</p>
-            <p *ngIf="order.status === 'end'">已处理</p>
-          </td>
-          <td class="text-left">
-            {{order.createUserName}}
+            <p *ngIf="order.status === 'going'">进行中</p>
+            <p *ngIf="order.status === 'end'">已完结</p>
           </td>
           <td>
             <p>{{order.createTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
           </td>
           <td class="box-option">
-            <a [routerLink]="['../check',order.id]" *ngIf="order.status === 'going'">
-              <i class="icon-speech"></i>&nbsp;前往处理
-            </a>
-            <a [routerLink]="['../detail',order.id]" *ngIf="order.status === 'end'">
+            <a [routerLink]="['../detail',order.id]">
               <i class="icon-eye"></i>&nbsp;详情
             </a>
           </td>

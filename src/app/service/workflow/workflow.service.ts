@@ -87,6 +87,7 @@ export class Review{
   modifyUserId: string;
   priority: number;
   schedule: number;
+  handleUrl: string;
 }
 
 export class Flow{
@@ -109,7 +110,7 @@ export class Segment {
   front:string;
   next:string;
   createTime: string;
-  handleUserId: string;
+  handleUserId: Array<string>;
   nodeReview: ReviewNote;
   nodeReviews: Array<ReviewNote>;
   userName: string;

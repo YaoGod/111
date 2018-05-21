@@ -19,6 +19,7 @@ export class User {
   serviceCenter: string;
   createTime: string;
   modifyTime: string;
+  isBoolean: boolean;
 }
 
 export class Role{
