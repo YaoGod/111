@@ -20,7 +20,7 @@ export class ExamineDetailComponent implements OnInit {
   public history: Array<Segment>;
   public checkMsg: Segment;
   public userSelects: Array<User>;
-  constructor(private route: ActivatedRoute,
+  constructor(public route: ActivatedRoute,
               private errorResponseService: ErrorResponseService,
               private workflowService: WorkflowService) {
   }
