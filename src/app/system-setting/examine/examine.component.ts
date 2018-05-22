@@ -18,6 +18,7 @@ export class ExamineComponent implements OnInit {
   public pageSize: number;
   public total: number;
   public orderList: Array<Review>;
+  public searchType: string;
   constructor(
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
@@ -34,6 +35,7 @@ export class ExamineComponent implements OnInit {
     this.search.status = 'going';
     this.orderList = [];
     this.getMyExamine(1);
+    this.searchType = "going";
   }
 
   getMyExamine(pageNo){
@@ -43,6 +45,7 @@ export class ExamineComponent implements OnInit {
         if(this.errorResponseService.errorMsg(data)){
           this.orderList = data.data.infos;
           this.total = data.data.total;
+          this.searchType = this.search.status;
         }
       })
   }

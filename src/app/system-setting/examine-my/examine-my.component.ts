@@ -31,7 +31,6 @@ export class ExamineMyComponent implements OnInit {
     this.pageSize = 10;
     this.total = 0;
     this.search = new Review();
-    this.search.status = 'going';
     this.search.createUserId = this.globalUserService.getVal().userid+"";
     this.orderList = [];
     this.isOwner = false;
