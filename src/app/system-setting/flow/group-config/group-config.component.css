@@ -486,11 +486,11 @@ select{
 }
 .modal-right,.modal-left{
   float: left;
-  width:42%;
+  width:44%;
 }
 .modal-middle{
   float: left;
-  width:16%;
+  width:12%;
 }
 .modal-right{
   float: right;
@@ -514,7 +514,7 @@ select{
 }
 .modal-left li span,.modal-right li span{
   display: inline-block;
-  min-width:156px;
+  min-width:52px;
 }
 .modal-middle div{
   width:40px; margin:180px auto 0; line-height: 40px; border:1px solid #4ac0e4; text-align: center;

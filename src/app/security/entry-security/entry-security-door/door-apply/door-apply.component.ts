@@ -272,7 +272,7 @@ export class DoorApplyComponent implements OnInit {
       });
       return false;
     }
-    if(this.postData.cause.trim()===''){
+    if(!this.postData.cause || this.postData.cause.trim()===''){
       confirmFunc.init({
         'title': '提示',
         'mes': '请填写申请原因！',
@@ -305,6 +305,7 @@ export class DoorApplyComponent implements OnInit {
           this.postData = new Wotany();
           this.postData.data = [];
           this.entrySecurity.productType = this.types[0];
+          this.postData.handleURL = '/security/entrySecurity/door/resubmit';
           $("input:checkbox[name='orderCheck']").prop('checked',false);
         }
       });
@@ -333,6 +334,7 @@ export class DoorApplyComponent implements OnInit {
           });
           this.postData = new Wotany();
           this.postData.data = [];
+          this.postData.handleURL = '/security/entrySecurity/door/resubmit';
           this.entrySecurity.productType = this.types[0];
           $("input:checkbox[name='orderCheck']").prop('checked',false);
         }
@@ -360,8 +362,8 @@ export class DoorApplyComponent implements OnInit {
           });
           this.postData = new Wotany();
           this.postData.data = [];
+          this.postData.handleURL = '/security/entrySecurity/door/resubmit';
           this.entrySecurity.productType = this.types[0];
-          this.entrySecurity.personType = this.personTypes[0];
           $("input:checkbox[name='orderCheck']").prop('checked',false);
         }
       });

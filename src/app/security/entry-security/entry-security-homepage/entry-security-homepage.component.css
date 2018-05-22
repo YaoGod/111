@@ -42,7 +42,7 @@
 }
 .card-right p{
   height:150px;
-  border-left:1px solid #6a3484;
+  _border-left:1px solid #6a3484;
   text-align: center;
   background: #fff;
   font:20px/150px "Adobe 楷体 Std R";

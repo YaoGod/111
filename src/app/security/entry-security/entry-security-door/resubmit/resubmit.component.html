@@ -39,15 +39,14 @@
           <label class="control-label" *ngFor="let inner of postData.data;let i=index;"><span>申请人员内容</span>
             <input class="form-control" [id]="'name'+i" disabled="disabled"
                    [name]="'name'+i" placeholder="" type="text" [value]="inner.userName + '['+inner.userId +']'">
-            <em style="cursor:pointer;"  (click)="editPerson(i)"><i class="icon-pencil"></i> 更改内容</em>
-            <em style="cursor:pointer;" (click)="removePerson(i)"><i class="icon-close"></i></em>
+            <em style="cursor:pointer; margin-right:10px;"  (click)="editPerson(i)" title="编辑内容"><i class="icon-pencil"></i></em>
+            <em style="cursor:pointer;" (click)="removePerson(i)"  title="删除人员"><i class="icon-close"></i></em>
           </label>
 
         </div>
         <div class="form-group">
           <label class="control-label" style="display: inline-block"><span>申请人员内容</span>
           </label>
-
           <em style="cursor:pointer;"  (click)="addPerson()"><i class="icon-plus"></i> 增加人员及内容</em>
         </div>
         <div class="form-group">
@@ -87,13 +86,13 @@
     <form class="form-building form-material">
       <div class="modal-body">
         <div class="form-int"><span>员工编号</span>
-          <input name="AddUserId" [(ngModel)]="addUser.userid"  class="form-control" disabled="disabled">
+          <input name="AddUserId2" [(ngModel)]="addUser.userid"  class="form-control" disabled="disabled">
         </div>
         <div class="form-int"><span>员工姓名</span>
-          <input name="AddUserName" [(ngModel)]="addUser.username"  class="form-control" disabled="disabled">
+          <input name="AddUserName2" [(ngModel)]="addUser.username"  class="form-control" disabled="disabled">
         </div>
         <div class="form-int"><span>部门</span>
-          <input name="AddDeptName" [(ngModel)]="addUser.deptId"  class="form-control" disabled="disabled">
+          <input name="AddDeptName2" [(ngModel)]="addUser.deptId"  class="form-control" disabled="disabled">
         </div>
       </div>
 
@@ -113,16 +112,16 @@
       </div>
       <div class="modal-body have-power" *ngFor="let inner of lastAddPower;let i=index">
         <div class="form-int form-group-big"><span>大楼名称</span>
-          <input [name]="'buildingIdHave'+i" [(ngModel)]="inner.buildingName"  class="form-control" disabled="disabled">
+          <input [name]="'buildingIdLast'+i" [(ngModel)]="inner.buildingName"  class="form-control" disabled="disabled">
         </div>
         <div class="form-int form-group-little"><span>楼层</span>
-          <input [name]="'floorNumHave'+i" [(ngModel)]="inner.floorNum"  class="form-control duan" disabled="disabled">
+          <input [name]="'floorNumLast'+i" [(ngModel)]="inner.floorNum"  class="form-control duan" disabled="disabled">
         </div>
         <div class="form-int form-group-little"><span>房间号</span>
-          <input [name]="'roomNumHave'+i" [(ngModel)]="inner.roomNum"  class="form-control duan" disabled="disabled">
+          <input [name]="'roomNumLast'+i" [(ngModel)]="inner.roomNum"  class="form-control duan" disabled="disabled">
         </div>
         <div class="form-int form-group-cancel">
-          <span style="display: inline-block; width: 16px;border:1px solid #00a379; border-radius: 50%; line-height: 16px; text-align: center; margin-top:10px;" title="删除" (click)="removehavePower(i,inner.id)">X</span>
+          <span style="display: inline-block; width: 16px;border:1px solid #00a379; border-radius: 50%; line-height: 16px; text-align: center; margin-top:10px;" title="删除" (click)="removelastPower(i)">X</span>
         </div>
       </div>
       <div class="modal-body" *ngFor="let inner of record;let i=index">
@@ -156,7 +155,7 @@
     </form>
     <div class="modal-footer">
       <button class="btn btn-info" type="submit"
-              (click)="saveContent()">保 存
+              (click)="saveContent(0)">保 存
       </button>
     </div>
   </div>
@@ -197,13 +196,13 @@
       </div>
       <div class="modal-body have-power" *ngFor="let inner of lastAddPower;let i=index">
         <div class="form-int form-group-big"><span>大楼名称</span>
-          <input [name]="'buildingIdHave'+i" [(ngModel)]="inner.buildingName"  class="form-control" disabled="disabled">
+          <input [name]="'buildingIdlastAdd'+i" [(ngModel)]="inner.buildingName"  class="form-control" disabled="disabled">
         </div>
         <div class="form-int form-group-little"><span>楼层</span>
-          <input [name]="'floorNumHave'+i" [(ngModel)]="inner.floorNum"  class="form-control duan" disabled="disabled">
+          <input [name]="'floorNumlastAdd'+i" [(ngModel)]="inner.floorNum"  class="form-control duan" disabled="disabled">
         </div>
         <div class="form-int form-group-little"><span>房间号</span>
-          <input [name]="'roomNumHave'+i" [(ngModel)]="inner.roomNum"  class="form-control duan" disabled="disabled">
+          <input [name]="'roomNumlastAdd'+i" [(ngModel)]="inner.roomNum"  class="form-control duan" disabled="disabled">
         </div>
         <div class="form-int form-group-cancel">
           <span style="display: inline-block; width: 16px;border:1px solid #00a379; border-radius: 50%; line-height: 16px; text-align: center; margin-top:10px;" title="删除" (click)="removehavePower(i,inner.id)">X</span>
@@ -240,7 +239,7 @@
     </form>
     <div class="modal-footer">
       <button class="btn btn-info" type="submit"
-              (click)="saveContent()">保 存
+              (click)="saveContent(1)">保 存
       </button>
     </div>
   </div>

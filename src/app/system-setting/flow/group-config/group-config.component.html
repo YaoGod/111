@@ -185,8 +185,8 @@
             <div class="modal-left">
               <h3>查询人员：</h3>
               <ul class="all-list">
-                <li *ngFor="let person of userList"><span>[{{person.userid}}]{{person.username}}</span>
-                  <a href="javascript:;" (click)="addPersonList(person.userid)">>> 加入群组</a>
+                <li *ngFor="let person of userList">{{person.deptId}}[{{person.userid}}]<span>{{person.username}}</span>
+                  <a href="javascript:;" (click)="addPersonList(person.userid)">+加入群组</a>
                 </li>
               </ul>
             </div>
@@ -196,7 +196,7 @@
             <div class="modal-right">
               <h3>群组人员：</h3>
               <ul class="group-list">
-                <li *ngFor="let person of personList"><span>[{{person.userid}}]{{person.username}}</span>
+                <li *ngFor="let person of personList">{{person.deptId}}[{{person.userid}}]<span>{{person.username}}</span>
                   <a href="javascript:;" (click)="delPersonList(person.userid)">× 删除</a>
                 </li>
               </ul>

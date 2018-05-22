@@ -5,6 +5,7 @@ import {EntrySecurityService, EntryService} from "../../../../service/entry-secu
 import {InfoBuildingService} from "../../../../service/info-building/info-building.service";
 import {UserPortalService} from "../../../../service/user-portal/user-portal.service";
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 declare var $:any;
 declare var confirmFunc:any;
@@ -36,7 +37,10 @@ export class ResubmitComponent implements OnInit {
   public content = [];
   public arguments : any;
   public lastAddPower = [];
+  public powerIndex:number;
   constructor(
+    private router: Router,
+    private route    : ActivatedRoute,
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
     private entrySecurityService:EntrySecurityService,
@@ -65,7 +69,9 @@ export class ResubmitComponent implements OnInit {
     this.getBuildingList(0);
     this.getGuardGroupId();
     this.getFlowList();
-    this.arguments = this.getParameter();
+    this.route.params.subscribe(data => {
+      this.arguments = data.id;
+    });
     this.getGuardFlow();
   }
 
@@ -96,16 +102,17 @@ export class ResubmitComponent implements OnInit {
   }
   /*根据批次号获取本次编辑的内容*/
   getGuardFlow(){
-    let id = this.arguments.batchId;
+    let id = this.arguments;
     this.postData.batchId = id;
     let url = '/building/guard/getGuardFlowByBatch?batchId='+id;
 
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorResponseService.errorMsg(data)) {
-         // this.havePower = data.data.infos;
         console.log(data.data);
-        this.postData.cause = data.data.flowInfo.cause;
-        this.postData.type = data.data.flowInfo.type;
+        if(data.data.flowInfo){
+          this.postData.cause = data.data.flowInfo.cause;
+          this.postData.type = data.data.flowInfo.type;
+        }
         this.postData.data = data.data.guard;
       }
     });
@@ -120,7 +127,7 @@ export class ResubmitComponent implements OnInit {
             this.addUser = data.data;
           }
         });
-      if(this.entrySecurity.productType === '清空授权'){
+      if(this.entrySecurity.productType === '申请清空授权'){
         this.havePower = [];
         return false;
       }
@@ -227,12 +234,21 @@ export class ResubmitComponent implements OnInit {
   /*编辑个人申请内容*/
   editPerson(index){
     $('.mask1').fadeIn();
+    this.powerIndex = index;
+    this.record = [];
     this.addUser.userid = this.postData.data[index].userId;
     this.getUserInfo(this.addUser.userid);
-    this.lastAddPower = this.postData.data[index].guard;
+    if(this.postData.type === '门禁权限申请'){
+      this.record.push(new Power());
+      this.getBuildingList(this.record.length-1);
+      this.lastAddPower = this.postData.data[index].guard;
+    }else if(this.postData.type === '申请取消授权'){
+      this.lastAddPower = [];
+    }
+
   }
   /*保存申请内容信息(申请授权）*/
-  saveContent(){
+  saveContent(index){
     if(this.postData.type === '门禁权限申请'){
       let temporary = JSON.parse(JSON.stringify(this.record));
       for(let i=0;i<temporary.length;i++){
@@ -251,30 +267,47 @@ export class ResubmitComponent implements OnInit {
           return false;
         }
       }
-
+      for(let i=0;i<this.lastAddPower.length;i++){
+        delete this.lastAddPower[i].id;
+        delete this.lastAddPower[i].note;
+      }
       let postData = {
-        guard: temporary,
+        guard: temporary.concat(this.lastAddPower),
         userId: this.addUser.userid,
         userName: this.addUser.username
       };
-      this.postData.data.push(postData);
+      if(index===0){
+        this.lastAddPower = postData.guard;
+        this.postData.data[this.powerIndex] = postData;
+      }else if(index===1){
+        this.postData.data.push(postData);
+      }
+
       this.close();
-    }else if(this.entrySecurity.productType === '取消授权'){
+    }else if(this.postData.type === '申请取消授权'){
       let postData = {
         guard: this.powerId,
         userId: this.addUser.userid,
         userName: this.addUser.username
       };
-      this.postData.data.push(postData);
+      if(index===0){
+        this.postData.data[this.powerIndex] = postData;
+      }else if(index===1){
+        this.postData.data.push(postData);
+      }
       // console.log(this.postData.data);
       this.close();
-    }else if(this.entrySecurity.productType === '清空授权'){
+    }else if(this.postData.type === '申请清空授权'){
       let postData = {
         guard: this.powerId,
         userId: this.addUser.userid,
         userName: this.addUser.username
       };
-      this.postData.data.push(postData);
+      if(index===0){
+        this.postData.data[this.powerIndex] = postData;
+      }else if(index===1){
+        this.postData.data.push(postData);
+      }
       // console.log(this.postData.data);
       this.close();
     }
@@ -347,11 +380,12 @@ export class ResubmitComponent implements OnInit {
           });
           this.postData = new Wotany();
           this.postData.data = [];
-          this.entrySecurity.productType = this.types[0];
+          this.postData.handleURL = '/security/entrySecurity/door/resubmit';
           $("input:checkbox[name='orderCheck']").prop('checked',false);
+          this.router.navigate(['/hzportal/system/examine']);
         }
       });
-    }else if(this.entrySecurity.productType === '取消授权'){
+    }else if(this.postData.type === '申请取消授权'){
       url = '/building/guard/deleteGuardBatch';
       let inner = [];
       for(let i=0;i<this.postData.data.length;i++){
@@ -361,9 +395,10 @@ export class ResubmitComponent implements OnInit {
       }
       let subInfo = {
         data: inner,
+        batchId:this.postData.batchId,
         cause: this.postData.cause,
         handleUserId: this.postData.handleUserId,
-        handleURL:'/security/entrySecurity/door/apply'
+        handleURL:'/security/entrySecurity/door/resubmit'
       };
       this.ipSetting.sendPost(url,subInfo).subscribe(data => {
         if(this.errorResponseService.errorMsg(data)) {
@@ -376,10 +411,12 @@ export class ResubmitComponent implements OnInit {
           });
           this.postData = new Wotany();
           this.postData.data = [];
+          this.postData.handleURL = '/security/entrySecurity/door/resubmit';
           $("input:checkbox[name='orderCheck']").prop('checked',false);
+          this.router.navigate(['/hzportal/system/examine']);
         }
       });
-    }else if(this.entrySecurity.productType === '清空授权'){
+    }else if(this.postData.type === '申请清空授权'){
       url = '/building/guard/deleteUserGuardBatch';
       let inner = [];
       for(let i=0;i<this.postData.data.length;i++){
@@ -387,9 +424,10 @@ export class ResubmitComponent implements OnInit {
       }
       let subInfo = {
         data: inner,
+        batchId:this.postData.batchId,
         cause: this.postData.cause,
         handleUserId: this.postData.handleUserId,
-        handleURL:'/security/entrySecurity/door/apply'
+        handleURL:'/security/entrySecurity/door/resubmit'
       };
       this.ipSetting.sendPost(url,subInfo).subscribe(data => {
         if(this.errorResponseService.errorMsg(data)) {
@@ -402,16 +440,23 @@ export class ResubmitComponent implements OnInit {
           });
           this.postData = new Wotany();
           this.postData.data = [];
+          this.postData.handleURL = '/security/entrySecurity/door/resubmit';
           $("input:checkbox[name='orderCheck']").prop('checked',false);
+          this.router.navigate(['/hzportal/system/examine']);
         }
       });
     }
   }
   close(){
     this.havePower = [];
+    this.lastAddPower = [];
     this.powerId = [];
     $('.mask,.mask1,.mask2').hide();
     $('.error').html('');
+  }
+  /*编辑已申请授权的取消*/
+  removelastPower(index){
+    this.lastAddPower.splice(index,1);
   }
   /*申请取消授权*/
   removehavePower(index,id){
