@@ -9,15 +9,8 @@
         </div>
       </div>
     </div>
-
-    <!--<img *ngIf="groupProduct.imgPathList" [src]="groupProduct.imgPathList[0] | imgsafeurl"/>-->
-    <!--<img src="../../../../assets/image/work_card_flowchart.png"/>-->
-
     <div class="warp clearfix">
       <div class="warp-left">
-        <!--<div class="warp-fist">
-          <img src="assets/image/work_card_flowchart.png"/>
-        </div>-->
         <div class="flow-area">
           <ul>
             <li class="node" *ngFor="let segment of content;let i = index">
@@ -32,32 +25,21 @@
       <div class="warp-right">
         <div class="form-group">
           <label class="control-label"><span>申请门禁类型</span>
-            <div class="choose-group" *ngFor="let type of types;let i=index">
+            <div class="choose-group">
               <label class="cb-blue">
                 <input type="radio" name="productType" (change)="emptyPro()"
-                       [(ngModel)]="entrySecurity.productType" [value]="type">
-                <span>{{type}}</span>
+                       [(ngModel)]="postData.type" [value]="postData.type">
+                <span>{{postData.type}}</span>
               </label>
             </div>
           </label>
           <div class="error"></div>
         </div>
-        <!--<div class="form-group">
-          <label class="control-label"><span>申请人员类型</span>
-            <div class="choose-group" *ngFor="let type of personTypes;let i=index">
-              <label class="cb-blue">
-                <input type="radio" name="personType"
-                       [(ngModel)]="entrySecurity.personType" [value]="type">
-                <span>{{type}}</span>
-              </label>
-            </div>
-          </label>
-          <div class="error"></div>
-        </div>-->
         <div class="form-group">
           <label class="control-label" *ngFor="let inner of postData.data;let i=index;"><span>申请人员内容</span>
             <input class="form-control" [id]="'name'+i" disabled="disabled"
                    [name]="'name'+i" placeholder="" type="text" [value]="inner.userName + '['+inner.userId +']'">
+            <em style="cursor:pointer;"  (click)="editPerson(i)"><i class="icon-pencil"></i> 更改内容</em>
             <em style="cursor:pointer;" (click)="removePerson(i)"><i class="icon-close"></i></em>
           </label>
 
@@ -65,19 +47,9 @@
         <div class="form-group">
           <label class="control-label" style="display: inline-block"><span>申请人员内容</span>
           </label>
+
           <em style="cursor:pointer;"  (click)="addPerson()"><i class="icon-plus"></i> 增加人员及内容</em>
         </div>
-        <!--<div class="form-group">
-          <label class="control-label"><span>申请内容</span>
-            <input class="form-control" id="info"
-                   name="amount" placeholder="" type="text">
-            &lt;!&ndash;<select class="form-control" name="searchBuildID" [(ngModel)]="search.building">
-              <option *ngFor="let building of buildings" [value]="building.ID">{{building.NAME}}</option>
-            </select>&ndash;&gt;
-          </label>
-          <em style="cursor:pointer;" (click)="addInfo()"><i class="icon-plus"></i> 增加内容</em>
-          <div class="error"></div>
-        </div>-->
         <div class="form-group">
           <label class="control-label"><span>申请原因</span>
             <textarea class="form-control" type="text" rows="3" style="text-indent:0;line-height: 20px; width: 360px"
@@ -99,31 +71,29 @@
         </div>
         <div style="text-align: right">
           <button class="btn btn-info" type="submit"
-                  (click)="submitPassword()">提交
+                  (click)="submitPassword()">重新提交
           </button>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<div class="mask2">
+<div class="mask1">
   <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title"><i class="icon-home"></i>增加申请人员和申请权限</h4>
+      <h4 class="modal-title"><i class="icon-home"></i>编辑申请人员和申请权限</h4>
       <button class="modal-close" type="button" (click)="close()">×</button>
     </div>
     <form class="form-building form-material">
       <div class="modal-body">
         <div class="form-int"><span>员工编号</span>
-          <input name="AddUserId" [(ngModel)]="addUser.userid"  class="form-control"
-                  (keyup)="getUserInfo(addUser.userid)">
+          <input name="AddUserId" [(ngModel)]="addUser.userid"  class="form-control" disabled="disabled">
         </div>
         <div class="form-int"><span>员工姓名</span>
-          <input name="AddUserName" [(ngModel)]="addUser.username"  class="form-control">
+          <input name="AddUserName" [(ngModel)]="addUser.username"  class="form-control" disabled="disabled">
         </div>
         <div class="form-int"><span>部门</span>
-          <input name="AddDeptName" [(ngModel)]="addUser.deptId"  class="form-control">
+          <input name="AddDeptName" [(ngModel)]="addUser.deptId"  class="form-control" disabled="disabled">
         </div>
       </div>
 
@@ -137,7 +107,21 @@
         <div class="form-int form-group-little"><span>房间号</span>
           <input [name]="'roomNumHave'+i" [(ngModel)]="inner.roomNum"  class="form-control duan" disabled="disabled">
         </div>
-        <div class="form-int form-group-cancel" *ngIf="entrySecurity.productType==='取消授权'">
+        <div class="form-int form-group-cancel" *ngIf="postData.type==='申请取消授权'">
+          <span style="display: inline-block; width: 16px;border:1px solid #00a379; border-radius: 50%; line-height: 16px; text-align: center; margin-top:10px;" title="删除" (click)="removehavePower(i,inner.id)">X</span>
+        </div>
+      </div>
+      <div class="modal-body have-power" *ngFor="let inner of lastAddPower;let i=index">
+        <div class="form-int form-group-big"><span>大楼名称</span>
+          <input [name]="'buildingIdHave'+i" [(ngModel)]="inner.buildingName"  class="form-control" disabled="disabled">
+        </div>
+        <div class="form-int form-group-little"><span>楼层</span>
+          <input [name]="'floorNumHave'+i" [(ngModel)]="inner.floorNum"  class="form-control duan" disabled="disabled">
+        </div>
+        <div class="form-int form-group-little"><span>房间号</span>
+          <input [name]="'roomNumHave'+i" [(ngModel)]="inner.roomNum"  class="form-control duan" disabled="disabled">
+        </div>
+        <div class="form-int form-group-cancel">
           <span style="display: inline-block; width: 16px;border:1px solid #00a379; border-radius: 50%; line-height: 16px; text-align: center; margin-top:10px;" title="删除" (click)="removehavePower(i,inner.id)">X</span>
         </div>
       </div>
@@ -165,7 +149,91 @@
         <div class="form-int form-group-cancel"><span style="display: inline-block; width: 16px;border:1px solid #000; border-radius: 50%; line-height: 16px; text-align: center; margin-top:10px;" title="删除" (click)="removePro(i)">X</span></div>
       </div>
       <div class="addPro">
-        <button class="btn btn-info" type="submit" *ngIf="entrySecurity.productType==='授权'"
+        <button class="btn btn-info" type="submit" *ngIf="postData.type==='门禁权限申请'"
+                (click)="addPro()">增加申请内容
+        </button>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <button class="btn btn-info" type="submit"
+              (click)="saveContent()">保 存
+      </button>
+    </div>
+  </div>
+</div>
+<div class="mask2">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title"><i class="icon-home"></i>增加申请人员和申请权限</h4>
+      <button class="modal-close" type="button" (click)="close()">×</button>
+    </div>
+    <form class="form-building form-material">
+      <div class="modal-body">
+        <div class="form-int"><span>员工编号</span>
+          <input name="AddUserId" [(ngModel)]="addUser.userid"  class="form-control"
+                 (keyup)="getUserInfo(addUser.userid)">
+        </div>
+        <div class="form-int"><span>员工姓名</span>
+          <input name="AddUserName" [(ngModel)]="addUser.username"  class="form-control">
+        </div>
+        <div class="form-int"><span>部门</span>
+          <input name="AddDeptName" [(ngModel)]="addUser.deptId"  class="form-control">
+        </div>
+      </div>
+
+      <div class="modal-body have-power" *ngFor="let inner of havePower;let i=index">
+        <div class="form-int form-group-big"><span>大楼名称</span>
+          <input [name]="'buildingIdHave'+i" [(ngModel)]="inner.buildingName"  class="form-control" disabled="disabled">
+        </div>
+        <div class="form-int form-group-little"><span>楼层</span>
+          <input [name]="'floorNumHave'+i" [(ngModel)]="inner.floorNum"  class="form-control duan" disabled="disabled">
+        </div>
+        <div class="form-int form-group-little"><span>房间号</span>
+          <input [name]="'roomNumHave'+i" [(ngModel)]="inner.roomNum"  class="form-control duan" disabled="disabled">
+        </div>
+        <div class="form-int form-group-cancel" *ngIf="postData.type==='申请取消授权'">
+          <span style="display: inline-block; width: 16px;border:1px solid #00a379; border-radius: 50%; line-height: 16px; text-align: center; margin-top:10px;" title="删除" (click)="removehavePower(i,inner.id)">X</span>
+        </div>
+      </div>
+      <div class="modal-body have-power" *ngFor="let inner of lastAddPower;let i=index">
+        <div class="form-int form-group-big"><span>大楼名称</span>
+          <input [name]="'buildingIdHave'+i" [(ngModel)]="inner.buildingName"  class="form-control" disabled="disabled">
+        </div>
+        <div class="form-int form-group-little"><span>楼层</span>
+          <input [name]="'floorNumHave'+i" [(ngModel)]="inner.floorNum"  class="form-control duan" disabled="disabled">
+        </div>
+        <div class="form-int form-group-little"><span>房间号</span>
+          <input [name]="'roomNumHave'+i" [(ngModel)]="inner.roomNum"  class="form-control duan" disabled="disabled">
+        </div>
+        <div class="form-int form-group-cancel">
+          <span style="display: inline-block; width: 16px;border:1px solid #00a379; border-radius: 50%; line-height: 16px; text-align: center; margin-top:10px;" title="删除" (click)="removehavePower(i,inner.id)">X</span>
+        </div>
+      </div>
+      <div class="modal-body" *ngFor="let inner of record;let i=index">
+        <div class="form-int form-group-big"><span>大楼名称</span>
+          <select [name]="'buildingId'+i" [(ngModel)]="inner.buildingId"  class="form-control"
+                  (change)="getFloorNameListMsg(inner.buildingId,i)">
+            <option value="">请选择</option>
+            <option *ngFor="let building of inner.buildings" [value]="building.ID">{{building.NAME}}</option>
+          </select>
+        </div>
+        <div class="form-int form-group-little"><span>楼层</span>
+          <select [name]="'floorNum'+i" [(ngModel)]="inner.floorNum"  class="form-control duan"
+                  (change)="getRoomListMsg(inner.floorNum,i)">
+            <option value="">请选择</option>
+            <option *ngFor="let floorName of inner.floorNums" [value]="floorName.FLOOR_NUM">{{floorName.FLOOR_NUM}}</option>
+          </select>
+        </div>
+        <div class="form-int form-group-little"><span>房间号</span>
+          <select [name]="'roomNum'+i" [(ngModel)]="inner.roomNum"  class="form-control duan">
+            <option value="">请选择</option>
+            <option *ngFor="let room of inner.rooms" [value]="room.roomNum">{{room.roomNum}}</option>
+          </select>
+        </div>
+        <div class="form-int form-group-cancel"><span style="display: inline-block; width: 16px;border:1px solid #000; border-radius: 50%; line-height: 16px; text-align: center; margin-top:10px;" title="删除" (click)="removePro(i)">X</span></div>
+      </div>
+      <div class="addPro">
+        <button class="btn btn-info" type="submit" *ngIf="postData.type==='门禁权限申请'"
                 (click)="addPro()">增加申请内容
         </button>
       </div>

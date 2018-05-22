@@ -3,6 +3,8 @@ import {Review, ReviewNote, Segment, WorkflowService} from "../../service/workfl
 import {ErrorResponseService} from "../../service/error-response/error-response.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import {User} from "../../mode/user/user.service";
+import {checkAndUpdateBinding} from "@angular/core/src/view/util";
+import {isNumber} from "util";
 declare var $:any;
 declare var confirmFunc:any;
 @Component({
@@ -18,8 +20,7 @@ export class ExamineDetailComponent implements OnInit {
   public history: Array<Segment>;
   public checkMsg: Segment;
   public userSelects: Array<User>;
-
-  constructor(private route: ActivatedRoute,
+  constructor(public route: ActivatedRoute,
               private errorResponseService: ErrorResponseService,
               private workflowService: WorkflowService) {
   }
@@ -34,6 +35,7 @@ export class ExamineDetailComponent implements OnInit {
     this.history = [];
     this.checkMsg = new Segment();
     this.checkMsg.nodeReview = new ReviewNote();
+    this.checkMsg.handleUserId = [];
     this.userSelects = [];
     if (typeof (this.route.params['_value']['id']) !== "undefined") {
       let tempid = 0;
@@ -54,7 +56,9 @@ export class ExamineDetailComponent implements OnInit {
       .subscribe(data => {
         if (this.errorResponseService.errorMsg(data)) {
           this.order = data.data;
-          this.order.note = this.order.note.substring(0, this.order.note.length - 1);
+          if(this.order.note){
+            this.order.note = this.order.note.substring(0, this.order.note.length - 1);
+          }
           if (this.order.schedule + 1 < this.order.content.length) {
             this.getUserSelect(this.order.content[this.order.schedule + 1].groupId);
           }
@@ -193,6 +197,9 @@ export class ExamineDetailComponent implements OnInit {
     $('.red').removeClass('red');
     $('.error').fadeOut();
     $('#checkModal').hide();
+    this.userSelects.forEach((user)=>{
+      user.isBoolean = false;
+    });
   }
   setNote(message){
     this.checkMsg.nodeReview.note = "【"+message+"】";
@@ -201,7 +208,11 @@ export class ExamineDetailComponent implements OnInit {
   /*提交审批意见*/
   submit(){
     this.verifyEmpty(this.checkMsg.nodeReview.result,'result');
-    if(this.checkMsg.nodeReview.result === "pass"&&this.userSelects.length>0&&this.checkMsg.handleUserId===null){
+    this.checkMsg.handleUserId = [];
+    this.userSelects.forEach((user)=>{
+      if(user.isBoolean){this.checkMsg.handleUserId.push(user.userid);}
+    });
+    if(this.checkMsg.nodeReview.result === "pass"&&this.userSelects.length>0&&this.checkMsg.handleUserId.length === 0){
       confirmFunc.init({
         'title': '提示',
         'mes': "请选择下一处理人！",
@@ -211,6 +222,7 @@ export class ExamineDetailComponent implements OnInit {
       return false;
     }
     if($('.red').length === 0) {
+      console.log(111);
       let index = this.order.schedule;
       let node = this.order.content[index];
       let postData = JSON.parse(JSON.stringify(this.checkMsg));
@@ -222,7 +234,7 @@ export class ExamineDetailComponent implements OnInit {
       }else if(postData.nodeReview.result === "fail"){
         postData.next = null;
         postData.handleUserId = "";
-      }else if(postData.nodeReview.result = "rollback"){
+      }else if(postData.nodeReview.result === "rollback"){
         postData.next = this.order.schedule-1;
         if(node.groupId !== null){
           postData.handleUserId = this.history[this.history.length-1].userId;
@@ -244,7 +256,7 @@ export class ExamineDetailComponent implements OnInit {
             });
             window.history.go(-1);
           }
-        })
+        });
     }
 
   }

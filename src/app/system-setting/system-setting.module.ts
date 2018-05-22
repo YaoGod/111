@@ -19,6 +19,7 @@ import { JoinAbilityComponent } from './join-ability/join-ability.component';
 import { PersonComponent } from './person/person.component';
 import {ExamineDetailComponent} from "./examine-detail/examine-detail.component";
 import {ExamineComponent} from "./examine/examine.component";
+import { ExamineMyComponent } from './examine-my/examine-my.component';
 const routes: Routes = [
   {
     path: '',
@@ -76,6 +77,11 @@ const routes: Routes = [
         component:ExamineComponent
       },
       {
+        /*我的工单*/
+        path: 'myExamine',
+        component:ExamineMyComponent
+      },
+      {
         /*工单审核*/
         path: 'check/:id',
         component:ExamineDetailComponent
@@ -102,7 +108,7 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [RouteGuardService, UserPortalService],
   declarations: [SystemSettingComponent, LoggerComponent, UserComponent, RoleComponent,
-    AbilityComponent, JoinRoleComponent, JoinAbilityComponent,PersonComponent,
-    ExamineComponent,ExamineDetailComponent,]
+    AbilityComponent, ExamineMyComponent, JoinRoleComponent, JoinAbilityComponent,
+    PersonComponent, ExamineComponent,ExamineDetailComponent,]
 })
 export class SystemSettingModule { }
