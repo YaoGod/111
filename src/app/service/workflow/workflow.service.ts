@@ -79,7 +79,7 @@ export class Review{
   eTime: string;
   batchId: string;
   cause: string;
-  content:  Array<Segment>;
+  nodes:  Array<Node>;
   deptId: string;
   handleHasUser: number;
   handleMinUser: number;
@@ -89,6 +89,7 @@ export class Review{
   priority: number;
   schedule: number;
   handleUrl: string;
+  workFlowHistory: Array<ReviewNote>;
 }
 
 export class Flow{
@@ -102,7 +103,7 @@ export class Flow{
   createUserId: string;
 }
 
-export class Segment {
+/*export class Segment {
   id :number;
   name:string;
   content:string;
@@ -119,9 +120,9 @@ export class Segment {
   userId: string;
   note: string;
   result: string;
-}
+}*/
 
-export class Node {
+export class Node{
   id :number;
   name:string;
   groupId:number;
@@ -136,6 +137,11 @@ export class ReviewNote{
   id: string;
   note: string;
   result: string;
+  userName: string;
+  userId: string;
+  createTime: string;
+  schedule: number;
+  group: Group;
 }
 
 export class Group{

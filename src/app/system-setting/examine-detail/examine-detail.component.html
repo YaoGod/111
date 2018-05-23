@@ -17,7 +17,7 @@
     </div>
     <div class="warp">
       <div class="warp-right">
-        <h4>{{order.name}}（当前状态：{{order.content[order.schedule-2].group.name}}）</h4>
+        <h4>{{order.name}}<span *ngIf="order.schedule > 0">（当前状态：{{order.nodes[order.schedule-2].group.name}}）</span></h4>
         <div class="form-group">
           <span class="control-label"><span class="form-title">发起人</span>
             <p class="form-control">{{order.createUserName}}</p>
@@ -49,7 +49,7 @@
           <div class="error"></div>
         </div>
         <div class="submit-footer" *ngIf="route.url['value'][0].path !== 'detail'">
-          <a class="btn-danger" *ngIf="order.schedule+1<order.content.length&&order.schedule!==1" (click)="openModal()">立即审批</a>
+          <a class="btn-danger" *ngIf="order.schedule-1<order.nodes.length&&order.schedule!==1" (click)="openModal()">立即审批</a>
           <a class="btn-danger" *ngIf="order.schedule===1" [routerLink]="['/hzportal'+order.handleUrl,order.batchId]">立即修改</a>
         </div>
       </div>
@@ -67,38 +67,38 @@
       <div class="modal-right">
         <div  class="form-group">
           <span  class="control-label"><span>审核结果</span>
-            <!--<label>
+            <label>
               <input type="radio" id="result1" name="result"
-                     [(ngModel)]="checkMsg.nodeReview.result" value="pass"
+                     [(ngModel)]="checkMsg.result" value="pass"
                      (click)="setNote('同意')"
-                     (blur)="verifyEmpty(checkMsg.nodeReview.result,'result1')">
+                     (blur)="verifyEmpty(checkMsg.result,'result1')">
               同意
             </label>
             <label>
               <input type="radio" id="result2" name="result"
-                     [(ngModel)]="checkMsg.nodeReview.result"
+                     [(ngModel)]="checkMsg.result"
                      value="rollback" (click)="setNote('重审')"
-                     (blur)="verifyEmpty(checkMsg.nodeReview.result,'result1')">
+                     (blur)="verifyEmpty(checkMsg.result,'result1')">
               回退到上一级
             </label>
             <label>
               <input type="radio" id="result3" name="result"
-                     [(ngModel)]="checkMsg.nodeReview.result" value="rollbackTotal"
+                     [(ngModel)]="checkMsg.result" value="rollbackTotal"
                      (click)="setNote('驳回')"
-                     (blur)="verifyEmpty(checkMsg.nodeReview.result,'result1')">
+                     (blur)="verifyEmpty(checkMsg.result,'result1')">
               回退到发起人
-            </label>-->
+            </label>
             <label>
               <input type="radio" id="result4" name="result"
-                     [(ngModel)]="checkMsg.nodeReview.result" value="fail"
+                     [(ngModel)]="checkMsg.result" value="fail"
                      (click)="setNote('终止')"
-                     (blur)="verifyEmpty(checkMsg.nodeReview.result,'result1')">
+                     (blur)="verifyEmpty(checkMsg.result,'result1')">
               终止
             </label>
           </span>
           <div class="error"></div>
         </div>
-        <div  class="form-group" *ngIf="checkMsg.nodeReview.result === 'pass'&&userSelects.length!==0">
+        <div  class="form-group" *ngIf="checkMsg.result === 'pass'&&userSelects.length!==0">
           <span  class="control-label"><span>下一审批人</span>
             <label *ngFor="let user of userSelects;let i=index;">
               <input type="checkbox" [value]="user.userid"
@@ -111,8 +111,8 @@
         <div  class="form-group">
           <label  class="control-label"><span>处理意见</span>
             <input type="text" class="form-control" id="note" name="note"
-                   [(ngModel)]="checkMsg.nodeReview.note"
-                   (blur)="verifyEmpty(checkMsg.nodeReview.note,'note')">
+                   [(ngModel)]="checkMsg.note"
+                   (blur)="verifyEmpty(checkMsg.note,'note')">
           </label>
           <div class="error"></div>
         </div>
@@ -135,11 +135,22 @@
       <div class="modal-right">
         <div class="flow-area">
           <ul>
-            <li class="node" *ngFor="let segment of order.content;let i = index">
-              <div class="rect" [ngClass]="setSegmentClass(i)">
-                {{segment.name}}
+            <li class="node">
+              <div class="rect">
+                发起人发起
               </div>
               <div class="arrow"></div>
+            </li>
+            <li class="node" *ngFor="let segment of order.nodes;let i = index">
+              <div class="rect" [ngClass]="setSegmentClass(i)">
+                {{segment.group.name}}
+              </div>
+              <div class="arrow"></div>
+            </li>
+            <li class="node">
+              <div class="rect">
+                结束
+              </div>
             </li>
           </ul>
         </div>
@@ -171,9 +182,9 @@
               <th width="30%" class="text-left">处理意见</th>
             </tr>
             <tr class="row" *ngFor="let log of history;">
-              <td class="text-left">
+              <!--<td class="text-left">
                 {{log.name}}
-              </td>
+              </td>-->
               <td class="text-left">
                 {{log.userName}}
               </td>

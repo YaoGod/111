@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Review, ReviewNote, Segment, WorkflowService} from "../../service/workflow/workflow.service";
+import {Review, ReviewNote, Node, WorkflowService, Group} from "../../service/workflow/workflow.service";
 import {ErrorResponseService} from "../../service/error-response/error-response.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import {User} from "../../mode/user/user.service";
@@ -17,8 +17,8 @@ export class ExamineDetailComponent implements OnInit {
 
   public search: Review;
   public order: Review;
-  public history: Array<Segment>;
-  public checkMsg: Segment;
+  public history: Array<ReviewNote>;
+  public checkMsg: ReviewNote;
   public userSelects: Array<User>;
   constructor(public route: ActivatedRoute,
               private errorResponseService: ErrorResponseService,
@@ -28,15 +28,20 @@ export class ExamineDetailComponent implements OnInit {
   ngOnInit() {
     this.search = new Review();
     this.order = new Review();
-    this.order.content = [];
+     this.order.nodes = [];
+    /*for (let i =0; i< 9;i++){
+      this.order.nodes[i].group = new Group();
+    }*/
+
     this.order.schedule = 0;
-    this.order.content[0] = new Segment();
+    this.order.nodes[0] = new Node();
+    this.order.nodes[0].group=new Group();
     this.order.note = "";
     this.history = [];
-    this.checkMsg = new Segment();
+    this.checkMsg = new ReviewNote();
 
-    /*this.checkMsg.nodeReview = new ReviewNote();
-    this.checkMsg.handleUserId = [];*/
+    //this.checkMsg.group = new ReviewNote();
+    //this.checkMsg.handleUserId = [];
     // this.checkMsg.nodeReview = new ReviewNote();
 
     this.userSelects = [];
@@ -62,10 +67,10 @@ export class ExamineDetailComponent implements OnInit {
           if(this.order.note){
             this.order.note = this.order.note.substring(0, this.order.note.length - 1);
           }
-          if (this.order.schedule-1  < this.order.content.length) {
-            this.getUserSelect(this.order.content[this.order.schedule - 1].groupId);
+          if (this.order.schedule-1  < this.order.nodes.length) {
+            this.getUserSelect(this.order.nodes[this.order.schedule - 2].groupId);
           }
-          this.getHistoryReviewLogs(this.order.content);
+          this.getHistoryReviewLogs(this.order.workFlowHistory);
         }
       })
   }
@@ -73,10 +78,11 @@ export class ExamineDetailComponent implements OnInit {
   /*判断流程进度节点*/
   setSegmentClass(index) {
     if (this.order.schedule) {
-      if (index < this.order.schedule) {
+      // console.log(this.order.schedule+'+++++++++++++');
+      if (index < this.order.schedule -3) {
         return "process";
-      } else if (index === this.order.schedule) {
-        if (this.order.schedule + 1 === this.order.content.length) {
+      } else if (index === this.order.schedule-3) {
+        if (this.order.schedule  === 9) {
           return "process";
         }
         return "active";
@@ -102,7 +108,8 @@ export class ExamineDetailComponent implements OnInit {
 
   /*审批记录数据*/
   getHistoryReviewLogs(list) {
-    let temp = [];
+    this.history = list;
+    /*let temp = [];
     let k = 0;
     for (let i = 0; i < list.length; i++) {
       if (list[i].nodeReviews !== null && list[i].nodeReviews.length > 0) {
@@ -118,15 +125,15 @@ export class ExamineDetailComponent implements OnInit {
           k++;
         }
       }
-      /*else{
+      /!*else{
        temp[k] = new Segment();
        temp[k].id = list[i].id;
        temp[k].name = list[i].name;
        k++;
-       }*/
+       }*!/
 
     }
-    this.history = JSON.parse(JSON.stringify(this.quickSortArray(temp)));
+    this.history = JSON.parse(JSON.stringify(this.quickSortArray(temp)));*/
   }
   quickSortArray(array){
 
@@ -231,7 +238,7 @@ export class ExamineDetailComponent implements OnInit {
     if($('.red').length === 0) {
       console.log(111);
       let index = this.order.schedule;
-      let node = this.order.content[index];
+      let node = this.order.nodes[index];
       let postData = JSON.parse(JSON.stringify(this.checkMsg));
       if(postData.nodeReview.result === "pass"){
         postData.next = this.order.schedule+1;

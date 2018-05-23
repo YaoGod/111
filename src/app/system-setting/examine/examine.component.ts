@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {GlobalCatalogService} from "../../service/global-catalog/global-catalog.service";
 import {UserPortalService} from "../../service/user-portal/user-portal.service";
 import {ErrorResponseService} from "../../service/error-response/error-response.service";
-import {Review, Segment, WorkflowService} from "../../service/workflow/workflow.service";
+import {Review, WorkflowService} from "../../service/workflow/workflow.service";
 import {GlobalUserService} from "../../service/global-user/global-user.service";
 
 @Component({
