@@ -67,19 +67,19 @@
         <div class="modal-right">
           <div  class="form-group">
             <label  class="control-label"><span>流程名称</span>
-              <input type="text" class="form-control" id="name" name="name" [disabled]="disableStatus"
+              <input type="text" class="form-control" id="name" name="name" [disabled]="true"
                      [(ngModel)]="copyFlow.name" (blur)="verifyEmpty(copyFlow.name,'name')">
             </label>
             <div class="error"></div>
           </div>
-          <div  class="form-button" *ngIf="!disableStatus">
+          <!--<div  class="form-button" *ngIf="!disableStatus">
             <button (click)="addFlows()">
               增加环节
             </button>
             <button (click)="delFlows()">
               减少环节
             </button>
-          </div>
+          </div>-->
           <div class="flow-area">
             <ul>
               <li class="node">
@@ -94,13 +94,15 @@
                 </div>
                 <div class="arrow"></div>
               </li>
-              <li class="node" *ngFor="let segment of copyFlow.content;let i = index">
+              <li class="node" *ngFor="let segment of copyFlow.nodes;let i = index">
                 <div class="rect">
-                  <select type="text" [(ngModel)]="segment.groupId" [disabled]="disableStatus"
+                  <select type="text" [(ngModel)]="tempSegment[i].groupId" [disabled]="disableStatus || i ==0 || i == copyFlow.nodes.length -1"
                           (change)="changeSelect(i,$event.target.selectedIndex)">
                     <option *ngFor="let node of list" [value]="node.id"
                             >{{node.name}}</option>
                   </select>
+                  <i *ngIf="!disableStatus && i != copyFlow.nodes.length -1" class="icon-plus" title="增加节点" (click)="addNode(i)"></i>
+                  <i *ngIf="disableStatus == false && i !=0 && i != copyFlow.nodes.length -1" class="icon-close" title="删除节点" (click)="deleteNode(i)"></i>
                 </div>
                 <div class="arrow"></div>
               </li>

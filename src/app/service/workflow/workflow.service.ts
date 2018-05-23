@@ -17,13 +17,14 @@ export class WorkflowService {
   }
   /*编辑工作流*/
   editFlow(data) {
-    const url = this.ipSetting.ip + '/workflow/flow/updateFlow';
+    const url = this.ipSetting.ip + '/workflow/flow/modify';
     return this.http.post(url,data,this.ipSetting.options)
       .map(res => res.json());
   }
   /*获取所有群组作为工作流配置条件*/
   getGroupSelect(name) {
     const url = this.ipSetting.ip + '/workflow/group/getGroupSelect?name='+name;
+  //  const url = this.ipSetting.ip + '/workflow/group/getGroupSelect?name='+name;
     return this.http.get(url,this.ipSetting.options)
       .map(res => res.json());
   }
@@ -93,7 +94,8 @@ export class Review{
 export class Flow{
   id: number;
   name: string;
-  content: Array<Segment>;
+ // content: Array<Segment>;
+  nodes: Array<Node>;
   note: string;
   status: string;
   createTime: string;
@@ -119,8 +121,24 @@ export class Segment {
   result: string;
 }
 
+export class Node {
+  id :number;
+  name:string;
+  groupId:number;
+  type:string;
+  nodeState:string;
+  createTime: string;
+  createUserId: string;
+  group: Group;
+}
+
 export class ReviewNote{
   id: string;
   note: string;
   result: string;
+}
+
+export class Group{
+   id: string;
+   name: string;
 }

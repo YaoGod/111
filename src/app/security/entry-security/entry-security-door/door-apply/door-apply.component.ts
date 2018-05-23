@@ -61,7 +61,6 @@ export class DoorApplyComponent implements OnInit {
 
     this.getDeptList();
     this.getBuildingList(0);
-    this.getGuardGroupId();
     this.getFlowList();
   }
 
@@ -99,7 +98,14 @@ export class DoorApplyComponent implements OnInit {
   }
   /*获取审批群组ID*/
   getGuardGroupId(){
-    let url = '/building/guard/getGuardGroup';
+    this.groupId = this.content[0].groupId;
+    let urlSecond = '/workflow/group/getUserSelect/'+this.groupId;
+    this.ipSetting.sendGet(urlSecond).subscribe(data2 => {
+      if(this.errorResponseService.errorMsg(data2)) {
+        this.handleUserId = data2.data;
+      }
+    });
+    /*let url = '/building/guard/getGuardGroup';
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorResponseService.errorMsg(data)) {
         this.groupId = data.data;
@@ -110,7 +116,7 @@ export class DoorApplyComponent implements OnInit {
           }
         });
       }
-    });
+    });*/
   }
   /*获取门禁申请流程*/
   getFlowList(){
@@ -120,7 +126,8 @@ export class DoorApplyComponent implements OnInit {
     };
     this.ipSetting.sendPost(url,postData).subscribe(data => {
       if(this.errorResponseService.errorMsg(data)) {
-        this.content = data.data.infos[0].content;
+        this.content = data.data.infos[0].nodes;
+        this.getGuardGroupId();
       }
     });
   }

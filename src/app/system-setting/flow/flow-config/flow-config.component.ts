@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {sndCatalog} from "../../../mode/catalog/catalog.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
-import {Flow, Segment, WorkflowService} from "../../../service/workflow/workflow.service";
+import {Flow, Node, WorkflowService} from "../../../service/workflow/workflow.service";
+import {forEach} from "@angular/router/src/utils/collection";
 declare var $:any;
 declare var confirmFunc:any;
 @Component({
@@ -21,7 +22,8 @@ export class FlowConfigComponent implements OnInit {
   public flows: Array<Flow>;
   public copyFlow: Flow;
   public search: Flow;
-  public list: Array<Segment>;
+  public list: Array<Node>;
+  public tempSegment: Array<Node>;
   public disableStatus: boolean;
   constructor(
     private globalCatalogService: GlobalCatalogService,
@@ -38,7 +40,7 @@ export class FlowConfigComponent implements OnInit {
     this.search = new Flow();
     this.flows = [];
     this.copyFlow = new Flow();
-    this.copyFlow.content = [];
+   // this.copyFlow.content = [];
     this.list = [];
     this.disableStatus = false;
     this.globalCatalogService.valueUpdated.subscribe(
@@ -65,7 +67,7 @@ export class FlowConfigComponent implements OnInit {
     this.workflowService.getGroupSelect("")
       .subscribe(data => {
         if (this.errorResponseService.errorMsg(data)) {
-          this.list = data.data;
+          this.list = data.data.infos;
         }
       });
   }
@@ -83,26 +85,33 @@ export class FlowConfigComponent implements OnInit {
   /*查看流程*/
   watch(flow:Flow){
     this.newFlow();
-    this.copyFlow = JSON.parse(JSON.stringify(flow));
-    this.copyFlow.content = this.copyFlow.content.slice(2,this.copyFlow.content.length-1);
+     this.copyFlow = JSON.parse(JSON.stringify(flow));
+     this.tempSegment = JSON.parse(JSON.stringify(this.copyFlow.nodes));
+    // this.copyFlow = flow;
+    // this.copyFlow.content = this.copyFlow.content.slice(2,this.copyFlow.content.length-1);
+    // this.copyFlow.content = flow.nodes;
+    // this.list = flow.nodes;
     this.disableStatus = true;
   }
   /*编辑流程*/
   edit(flow:Flow){
     this.newFlow();
     this.copyFlow = JSON.parse(JSON.stringify(flow));
-    this.copyFlow.content = this.copyFlow.content.slice(2,this.copyFlow.content.length-1);
+    this.tempSegment = JSON.parse(JSON.stringify(this.copyFlow.nodes));
+    // this.copyFlow.content = this.copyFlow.content.slice(2,this.copyFlow.content.length-1);
+    // this.copyFlow.content = flow.nodes;
   }
+
   /*新建流程*/
   newFlow(){
     this.copyFlow = new Flow();
-    this.copyFlow.content = [];
+    // this.copyFlow.content = [];
     $('#FlowSetting').show();
     this.disableStatus = false;
   }
   /*关闭流程新建弹框*/
   closeFlow(){
-    this.copyFlow.content = [];
+    // this.copyFlow.content = [];
     $('.red').removeClass('red');
     $('.error').fadeOut();
     $('#FlowSetting').hide();
@@ -138,9 +147,9 @@ export class FlowConfigComponent implements OnInit {
     }
     else{
     let error = 0;
-    this.verifyEmpty(this.copyFlow.name,'name');
+    /*this.verifyEmpty(this.copyFlow.name,'name');
     this.verifyEmpty(this.copyFlow.note,'note');
-    for(let i = 0;i<this.copyFlow.content.length;i++){
+    for(let i = 0;i<this.copyFlow.nodes.length;i++){
       if(typeof (this.copyFlow.id)==="undefined"||this.copyFlow.id === null){
         confirmFunc.init({
           'title': '提示',
@@ -150,11 +159,11 @@ export class FlowConfigComponent implements OnInit {
         });
         return false;
       }
-    }
+    }*/
     if($('.red').length === 0 && error === 0) {
       let postdata = JSON.parse(JSON.stringify(this.copyFlow));
       delete postdata.status;
-      if(typeof (postdata.id) === "undefined"){
+      /*if(typeof (postdata.id) === "undefined"){
         this.workflowService.addFlow(postdata)
           .subscribe(data => {
             if (this.errorResponseService.errorMsg(data)) {
@@ -168,7 +177,7 @@ export class FlowConfigComponent implements OnInit {
               this.getFlowList(1);
             }
           })
-      }else{
+      }else*/{
         this.workflowService.editFlow(postdata)
           .subscribe(data => {
             if (this.errorResponseService.errorMsg(data)) {
@@ -187,15 +196,51 @@ export class FlowConfigComponent implements OnInit {
     }
   }
   addFlows(){
-    this.copyFlow.content.push(new Segment());
+    this.copyFlow.nodes.push(new Node());
   }
   delFlows(){
-    this.copyFlow.content.pop();
+    this.copyFlow.nodes.pop();
   }
   changeSelect(index,j){
     // this.copyFlow.content[index] = JSON.parse(JSON.stringify(this.list[j]));
-    this.copyFlow.content[index].name = this.list[j].name;
+    // this.copyFlow.content[index].name = this.list[j].name;
+     // this.copyFlow.nodes[index].group.name = this.list[j].name;
+    // alert(this.copyFlow.nodes[index].groupId + '========='+this.list[j].id);
+    this.copyFlow.nodes[index].groupId = this.list[j].id;
+    // alert('修改后' +this.copyFlownodes[index].groupId + '========='+this.list[j].id);
+    // alert(this.copyFlow.nodes);
+
   }
+  addNode(i){
+    if(this.copyFlow.nodes.length < 9) {
+      let node = new Node();
+      this.tempSegment.splice(i + 1, 0, node);
+      this.copyFlow.nodes.splice(i + 1, 0, node);
+    }else{
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '必须少于9个的流程节点',
+        'popType': 2,
+        'imgType': 2,
+        'callback': ()=> {}
+      });
+    }
+  }
+  deleteNode(i){
+    if(this.copyFlow.nodes.length > 1){
+      this.tempSegment.splice(i,1);
+      this.copyFlow.nodes.splice(i,1);
+    }else{
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '必须保留一个以上的流程节点',
+        'popType': 2,
+        'imgType': 2,
+        'callback': ()=> {}
+      });
+    }
+  }
+
   /*非空验证*/
   verifyEmpty( value, id?){
     if(typeof (value) === "undefined" ||

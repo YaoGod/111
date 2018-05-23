@@ -34,8 +34,11 @@ export class ExamineDetailComponent implements OnInit {
     this.order.note = "";
     this.history = [];
     this.checkMsg = new Segment();
-    this.checkMsg.nodeReview = new ReviewNote();
-    this.checkMsg.handleUserId = [];
+
+    /*this.checkMsg.nodeReview = new ReviewNote();
+    this.checkMsg.handleUserId = [];*/
+    // this.checkMsg.nodeReview = new ReviewNote();
+
     this.userSelects = [];
     if (typeof (this.route.params['_value']['id']) !== "undefined") {
       let tempid = 0;
@@ -59,8 +62,8 @@ export class ExamineDetailComponent implements OnInit {
           if(this.order.note){
             this.order.note = this.order.note.substring(0, this.order.note.length - 1);
           }
-          if (this.order.schedule + 1 < this.order.content.length) {
-            this.getUserSelect(this.order.content[this.order.schedule + 1].groupId);
+          if (this.order.schedule-1  < this.order.content.length) {
+            this.getUserSelect(this.order.content[this.order.schedule - 1].groupId);
           }
           this.getHistoryReviewLogs(this.order.content);
         }
@@ -189,7 +192,7 @@ export class ExamineDetailComponent implements OnInit {
   openModal(){
     $('#checkModal').show();
     // $(":radio[name='result'][value='pass']").prop("checked", "checked");
-    this.checkMsg.nodeReview.result = "pass";
+    // this.checkMsg.nodeReview.result = "pass";
     this.setNote('同意');
   }
   /*关闭审批窗口*/
@@ -202,17 +205,21 @@ export class ExamineDetailComponent implements OnInit {
     });
   }
   setNote(message){
-    this.checkMsg.nodeReview.note = "【"+message+"】";
-    this.checkMsg.handleUserId = null;
+  //  this.checkMsg.nodeReview.note = "【"+message+"】";
+  //  this.checkMsg.handleUserId = null;
   }
   /*提交审批意见*/
   submit(){
-    this.verifyEmpty(this.checkMsg.nodeReview.result,'result');
+
+   /* this.verifyEmpty(this.checkMsg.nodeReview.result,'result');
     this.checkMsg.handleUserId = [];
     this.userSelects.forEach((user)=>{
       if(user.isBoolean){this.checkMsg.handleUserId.push(user.userid);}
     });
     if(this.checkMsg.nodeReview.result === "pass"&&this.userSelects.length>0&&this.checkMsg.handleUserId.length === 0){
+*/
+   // this.verifyEmpty(this.checkMsg.nodeReview.result,'result');
+    if(/*this.checkMsg.nodeReview.result === "pass"&&*/this.userSelects.length>0/*&&this.checkMsg.handleUserId===null*/){
       confirmFunc.init({
         'title': '提示',
         'mes': "请选择下一处理人！",
@@ -237,7 +244,7 @@ export class ExamineDetailComponent implements OnInit {
       }else if(postData.nodeReview.result === "rollback"){
         postData.next = this.order.schedule-1;
         if(node.groupId !== null){
-          postData.handleUserId = this.history[this.history.length-1].userId;
+          // postData.handleUserId = this.history[this.history.length-1].userId;
         }else{
           postData.handleUserId = "";
         }

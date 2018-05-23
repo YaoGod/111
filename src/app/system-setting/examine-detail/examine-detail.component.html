@@ -17,7 +17,7 @@
     </div>
     <div class="warp">
       <div class="warp-right">
-        <h4>{{order.name}}（当前状态：{{order.content[order.schedule].name}}）</h4>
+        <h4>{{order.name}}（当前状态：{{order.content[order.schedule-2].group.name}}）</h4>
         <div class="form-group">
           <span class="control-label"><span class="form-title">发起人</span>
             <p class="form-control">{{order.createUserName}}</p>
@@ -67,7 +67,7 @@
       <div class="modal-right">
         <div  class="form-group">
           <span  class="control-label"><span>审核结果</span>
-            <label>
+            <!--<label>
               <input type="radio" id="result1" name="result"
                      [(ngModel)]="checkMsg.nodeReview.result" value="pass"
                      (click)="setNote('同意')"
@@ -87,7 +87,7 @@
                      (click)="setNote('驳回')"
                      (blur)="verifyEmpty(checkMsg.nodeReview.result,'result1')">
               回退到发起人
-            </label>
+            </label>-->
             <label>
               <input type="radio" id="result4" name="result"
                      [(ngModel)]="checkMsg.nodeReview.result" value="fail"
