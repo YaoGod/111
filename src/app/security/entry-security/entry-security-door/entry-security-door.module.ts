@@ -27,7 +27,7 @@ const routes: Routes = [
       },
       {
         /*门禁权限变更申请单*/
-        path: 'resubmit',
+        path: 'resubmit/:id',
         component:ResubmitComponent
       },
       {

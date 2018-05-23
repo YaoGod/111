@@ -50,10 +50,9 @@
         </div>
         <div class="submit-footer" *ngIf="route.url['value'][0].path !== 'detail'">
           <a class="btn-danger" *ngIf="order.schedule+1<order.content.length&&order.schedule!==1" (click)="openModal()">立即审批</a>
-          <a class="btn-danger" *ngIf="order.schedule===1" [routerLink]="['hzportal'+order.handleUrl,order.batchId]">立即修改</a>
+          <a class="btn-danger" *ngIf="order.schedule===1" [routerLink]="['/hzportal'+order.handleUrl,order.batchId]">立即修改</a>
         </div>
       </div>
-
     </div>
   </div>
 </div>

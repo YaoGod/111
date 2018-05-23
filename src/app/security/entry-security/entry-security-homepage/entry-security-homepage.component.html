@@ -37,9 +37,10 @@
       <img src="assets/image/shua.png">
     </div>
     <div class="card-right">
-      <p><a [routerLink]="['../door/apply']">申请页</a></p>
+      <p *ngFor="let abc of routeArr"><a [routerLink]="['/hzportal/security/entrySecurity/door/'+abc]">
+        {{abc==='apply'?'门禁申请':'门禁管理'}}</a></p>
       <!--<p> </p>-->
-      <p><a [routerLink]="['../door/manage']">管理页</a></p>
+      <!--<p><a [routerLink]="['../door/manage']">管理页</a></p>-->
     </div>
   </div>
 </div>

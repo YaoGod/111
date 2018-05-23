@@ -425,7 +425,7 @@ select:focus{
 .form-control {
   float: none;
   padding: 0 5px;
-  width: 340px;
+  min-width: 340px;
   max-width: 100%;
   line-height: 38px;
   background-color: rgba(0, 0, 0, 0);
