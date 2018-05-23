@@ -53,8 +53,8 @@ export class WorkflowService {
       .map(res => res.json());
   }
   /*对当前工作流节点进行审批*/
-  checkWorkFlow(workFlowNode,flowId,handleUserId) {
-    const url = this.ipSetting.ip + '/workflow/review/checkWorkFlow/'+flowId+'?handleUserId='+handleUserId;
+  checkWorkFlow(workFlowNode) {
+    const url = this.ipSetting.ip + '/workflow/review/checkWorkFlow';
     return this.http.post(url,workFlowNode,this.ipSetting.options)
       .map(res => res.json());
   }
@@ -126,6 +126,7 @@ export class Node{
   id :number;
   name:string;
   groupId:number;
+  flowNum:number;
   type:string;
   nodeState:string;
   createTime: string;
@@ -137,11 +138,19 @@ export class ReviewNote{
   id: string;
   note: string;
   result: string;
-  userName: string;
+  username: string;
   userId: string;
   createTime: string;
+  handleTime: string;
   schedule: number;
   group: Group;
+}
+export class Approve{
+  id: string;
+  note: string;
+  result: string;
+  handleUserId: string;
+
 }
 
 export class Group{
