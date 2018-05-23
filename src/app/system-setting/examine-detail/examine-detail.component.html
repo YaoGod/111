@@ -17,7 +17,7 @@
     </div>
     <div class="warp">
       <div class="warp-right">
-        <h4>{{order.name}}<span *ngIf="order.schedule > 0">（当前状态：{{order.nodes[order.schedule-2].group.name}}）</span></h4>
+        <h4>{{order.name}}<span *ngIf="order.schedule > 0">（当前状态：{{order.nodes[order.schedule-1].group.name}}）</span></h4>
         <div class="form-group">
           <span class="control-label"><span class="form-title">发起人</span>
             <p class="form-control">{{order.createUserName}}</p>
@@ -49,8 +49,8 @@
           <div class="error"></div>
         </div>
         <div class="submit-footer" *ngIf="route.url['value'][0].path !== 'detail'">
-          <a class="btn-danger" *ngIf="order.schedule-1<order.nodes.length&&order.schedule!==1" (click)="openModal()">立即审批</a>
-          <a class="btn-danger" *ngIf="order.schedule===1" [routerLink]="['/hzportal'+order.handleUrl,order.batchId]">立即修改</a>
+          <a class="btn-danger" *ngIf="order.schedule-1<order.nodes.length&&order.schedule!==0" (click)="openModal()">立即审批</a>
+          <a class="btn-danger" *ngIf="order.schedule===0" [routerLink]="['/hzportal'+order.handleUrl,order.batchId]">立即修改</a>
         </div>
       </div>
     </div>
@@ -69,7 +69,7 @@
           <span  class="control-label"><span>审核结果</span>
             <label>
               <input type="radio" id="result1" name="result"
-                     [(ngModel)]="checkMsg.result" value="pass"
+                     [(ngModel)]="checkMsg.result" value="1"
                      (click)="setNote('同意')"
                      (blur)="verifyEmpty(checkMsg.result,'result1')">
               同意
@@ -77,20 +77,20 @@
             <label>
               <input type="radio" id="result2" name="result"
                      [(ngModel)]="checkMsg.result"
-                     value="rollback" (click)="setNote('重审')"
+                     value="2" (click)="setNote('重审')"
                      (blur)="verifyEmpty(checkMsg.result,'result1')">
               回退到上一级
             </label>
             <label>
               <input type="radio" id="result3" name="result"
-                     [(ngModel)]="checkMsg.result" value="rollbackTotal"
+                     [(ngModel)]="checkMsg.result" value="3"
                      (click)="setNote('驳回')"
                      (blur)="verifyEmpty(checkMsg.result,'result1')">
               回退到发起人
             </label>
             <label>
               <input type="radio" id="result4" name="result"
-                     [(ngModel)]="checkMsg.result" value="fail"
+                     [(ngModel)]="checkMsg.result" value="4"
                      (click)="setNote('终止')"
                      (blur)="verifyEmpty(checkMsg.result,'result1')">
               终止
@@ -98,7 +98,7 @@
           </span>
           <div class="error"></div>
         </div>
-        <div  class="form-group" *ngIf="checkMsg.result === 'pass'&&userSelects.length!==0">
+        <div  class="form-group" *ngIf="checkMsg.result === '1'&&userSelects.length!==0">
           <span  class="control-label"><span>下一审批人</span>
             <label *ngFor="let user of userSelects;let i=index;">
               <input type="checkbox" [value]="user.userid"
@@ -175,7 +175,7 @@
         <div class="table-head" style="margin-top: 10px">
           <table border="0" cellspacing="0" cellpadding="0" class="list-box">
             <tr class="row list-title" style="height:45px;">
-              <th width="10%" class="text-left">流程节点</th>
+              <!--<th width="10%" class="text-left">流程节点</th>-->
               <th width="8%" class="text-left">处理人</th>
               <th width="15%">处理时间</th>
               <th width="20%" class="text-left">审核结果</th>
@@ -186,10 +186,10 @@
                 {{log.name}}
               </td>-->
               <td class="text-left">
-                {{log.userName}}
+                {{log.username}}
               </td>
               <td>
-                <p>{{log.createTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
+                <p>{{log.handleTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
               </td>
               <td class="text-left">
                 {{log.result}}
@@ -199,7 +199,7 @@
               </td>
             </tr>
           </table>
-          <div class="div-none" *ngIf="history.length === 0">
+          <div class="div-none" *ngIf="history&&history.length === 0">
             <p>暂无信息</p>
           </div>
         </div>
