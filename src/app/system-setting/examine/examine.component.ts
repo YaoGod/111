@@ -32,6 +32,7 @@ export class ExamineComponent implements OnInit {
     this.pageSize = 10;
     this.total = 0;
     this.search = new Review();
+    this.search.type = "";
     this.search.status = 'going';
     this.orderList = [];
     this.getMyExamine(1);

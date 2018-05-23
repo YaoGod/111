@@ -16,17 +16,21 @@
     <div class="search-bar">
       <ul>
         <li><label>工单类型</label>
-          <input type="text" name="cardType" [(ngModel)]="search.type">
-        </li>
-        <li><label>时间</label>
-          <input type="date" name="bTime" [(ngModel)]="search.bTime">至
-          <input type="date" name="eTime" [(ngModel)]="search.eTime">
+          <select class="search-ipt" name="searchType" [(ngModel)]="search.type">
+            <option value="">全部</option>
+            <option value="门禁权限申请">门禁权限申请</option>
+            <option value="申请取消授权">申请取消授权</option>
+          </select>
         </li>
         <li><label>工单状态</label>
           <select class="search-ipt" name="searchStatus" [(ngModel)]="search.status">
             <option value="going">待处理</option>
             <option value="">已处理</option>
           </select>
+        </li>
+        <li><label>时间</label>
+          <input type="date" name="bTime" [(ngModel)]="search.bTime">至
+          <input type="date" name="eTime" [(ngModel)]="search.eTime">
         </li>
         <li>
           <a (click)="getMyExamine(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
@@ -39,7 +43,6 @@
         <tr class="row list-title" style="height:45px;">
           <th width="5%" class="text-left">编号</th>
           <th width="10%" class="text-left">名称</th>
-          <th width="15%" class="text-left">说明</th>
           <th width="10%" class="text-left">类型</th>
           <th width="10%" class="text-left">状态</th>
           <th width="10%" class="text-left">发起人姓名</th>
@@ -52,9 +55,6 @@
           </td>
           <td class="text-left">
             {{order.name}}
-          </td>
-          <td class="text-left">
-            {{order.note}}
           </td>
           <td class="text-left">
             {{order.type}}
