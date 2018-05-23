@@ -40,8 +40,8 @@ export class ExamineDetailComponent implements OnInit {
     this.history = [];
     this.checkMsg = new ReviewNote();
 
-    //this.checkMsg.group = new ReviewNote();
-    //this.checkMsg.handleUserId = [];
+    // this.checkMsg.group = new ReviewNote();
+    // this.checkMsg.handleUserId = [];
     // this.checkMsg.nodeReview = new ReviewNote();
 
     this.userSelects = [];
@@ -236,7 +236,6 @@ export class ExamineDetailComponent implements OnInit {
       return false;
     }
     if($('.red').length === 0) {
-      console.log(111);
       let index = this.order.schedule;
       let node = this.order.nodes[index];
       let postData = JSON.parse(JSON.stringify(this.checkMsg));

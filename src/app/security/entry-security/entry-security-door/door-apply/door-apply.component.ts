@@ -98,13 +98,18 @@ export class DoorApplyComponent implements OnInit {
   }
   /*获取审批群组ID*/
   getGuardGroupId(){
-    this.groupId = this.content[0].groupId;
-    let urlSecond = '/workflow/group/getUserSelect/'+this.groupId;
-    this.ipSetting.sendGet(urlSecond).subscribe(data2 => {
-      if(this.errorResponseService.errorMsg(data2)) {
-        this.handleUserId = data2.data;
-      }
-    });
+    if(this.content){
+      this.groupId = this.content[0].groupId;
+      let urlSecond = '/workflow/group/getUserSelect/'+this.groupId;
+      this.ipSetting.sendGet(urlSecond).subscribe(data2 => {
+        if(this.errorResponseService.errorMsg(data2)) {
+          this.handleUserId = data2.data;
+        }
+      });
+    }else{
+
+    }
+
     /*let url = '/building/guard/getGuardGroup';
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorResponseService.errorMsg(data)) {
@@ -389,7 +394,16 @@ export class DoorApplyComponent implements OnInit {
   }
   /*删除增加的申请内容*/
   removePro(index){
-    this.record.splice(index,1);
+    if(this.record&&this.record.length===1){
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '必须保留一条申请内容！',
+        'popType': 2,
+        'imgType': 2,
+      });
+    }else{
+      this.record.splice(index,1);
+    }
   }
   /*非空验证*/
   verifyEmpty( value, id?){

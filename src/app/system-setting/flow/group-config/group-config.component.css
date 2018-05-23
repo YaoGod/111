@@ -536,3 +536,7 @@ select{
 .check-list li:hover{
   background-color: #8daccb;
 }
+.check-list li span{
+  min-width:66px;
+  display: inline-block;
+}

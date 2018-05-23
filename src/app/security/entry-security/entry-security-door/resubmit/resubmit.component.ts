@@ -108,7 +108,6 @@ export class ResubmitComponent implements OnInit {
 
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorResponseService.errorMsg(data)) {
-        console.log(data.data);
         if(data.data.flowInfo){
           this.postData.cause = data.data.flowInfo.cause;
           this.postData.type = data.data.flowInfo.type;
@@ -338,7 +337,6 @@ export class ResubmitComponent implements OnInit {
       }
     }
     this.postData.handleUserId = str.join(',');
-    // console.log(this.postData);
     if(this.postData.data.length===0){
       confirmFunc.init({
         'title': '提示',

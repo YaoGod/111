@@ -4,11 +4,6 @@
     <!--页面标题-->
     <div class="nav-title">
       <a><h4>门禁系统权限</h4></a>
-      <!--<div class="b-head-right">
-        <div class="content-box" tabindex="0" [routerLink]="['../logger']">
-          <i class="icon-reload"></i> 权限变更日志
-        </div>
-      </div>-->
       <div class="b-head-right">
         <div class="content-box" tabindex="0" onclick="history.go(-1)">
           <i class="icon-reload"></i> 返回
@@ -44,11 +39,6 @@
 
         </li>
       </ul>
-      <!--<div class="batch">
-        <div class="batch-row" (click)="batchAccredit();"><i class="icon-docs"></i>&nbsp;批量授权</div>
-        <div class="batch-row" (click)="cancel();"><i class="icon-docs"></i>&nbsp;批量清空</div>
-
-      </div>-->
     </div>
     <!--表头-->
     <div class="table-head" style="margin-top: 10px">
@@ -62,9 +52,6 @@
           <th width="15%" class="text-left">归属部门</th>
           <th width="10%" class="text-left">工号牌编号</th>
           <th width="10%">工号牌类型</th>
-          <!--<th width="10%">员工姓名</th>
-          <th width="10%">员工部门</th>
-          <th width="15%">最近申请日期</th>-->
           <th width="20%">操作</th>
         </tr>
       </table>
@@ -73,7 +60,6 @@
     <div class="table-content" style="min-height: 360px">
       <table border="0" cellspacing="0" cellpadding="0" class="list-box">
         <tr class="row" *ngFor="let user of cardManage;let i = index">
-          <!--<td><a [routerLink]="['../paperinfo/'+user.id]" href="javascript:;">{{user.buildingName}}</a> </td>-->
           <td width="5%">
             <input type="checkbox" name="orderCheck" [value]="user.employNo" (change)="checkIsAll()">
           </td>
@@ -111,7 +97,7 @@
           </td>
         </tr>
       </table>
-      <div class="div-none" *ngIf="cardManage.length === 0">
+      <div class="div-none" *ngIf="cardManage&&cardManage.length === 0">
         <p>暂无信息</p>
       </div>
     </div>
@@ -204,31 +190,3 @@
     </div>
   </div>
 </div>
-<!-- Induction 批量导入  -->
-<!--<div class="mask" style="display: none;" id="selecteFile">
-  <div class="modal-content" style="width: 400px;margin-left: -180px">
-    <div class="modal-header">
-      <h4 style="margin-left: 175px">导入</h4>
-      <button class="modal-close" type="button" (click)="closeFile()">×</button>
-    </div>
-    <form class="form-building form-material">
-      <div class="modal-body clearfix">
-        <div class="modal-right">
-          <div class="form-group">
-            <div style="margin-top: 20px;margin-left: 55px; height: 60px">
-              <button class="btn btn-info" type="submit"
-                      (click)="downloadTemplates()">下载模板
-              </button>
-              <div class="form-inp" style=" margin-top:-39px;">
-                <a href="javascript:" style="color:#FFFFFF; border-radius:4px; padding:6px 20px; background: #03a9f3;; font-size: 10px" onclick="$('#prese').trigger('click')">选取文件</a>
-                <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;">&lt;!&ndash;(change)="prese_upload(prese.files)"&ndash;&gt;
-              </div>
-            </div>
-            <div class="error"></div>
-          </div>
-        </div>
-      </div>
-    </form>
-    <div class="modal-footer"></div>
-  </div>
-</div>-->

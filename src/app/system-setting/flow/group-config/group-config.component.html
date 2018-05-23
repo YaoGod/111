@@ -223,7 +223,7 @@
       <div class="modal-inner clearfix">
           <h3>群组人员：</h3>
           <ul class="check-list">
-            <li *ngFor="let person of personList"><span>[{{person.userid}}]{{person.username}}</span>
+            <li *ngFor="let person of personList">[{{person.userid}}]<span>{{person.username}}</span>{{person.deptId}}222
             </li>
           </ul>
         </div>

@@ -56,8 +56,6 @@ export class DoorMangComponent implements OnInit {
     this.entry = new DoorMang();
 
     this.record.push(this.recordChild);
-    // this.search.deptId = ''; this.globalUserService.getVal().deptId;
-    // this.search.cardType = '';
     if(localStorage.getItem("deptIdDoorMang")){
       this.search.deptId = localStorage.getItem("deptIdDoorMang");
     }else{

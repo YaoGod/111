@@ -204,7 +204,7 @@ export class GoodsComponent implements OnInit {
             'imgType': 1 ,
           });
           this.closeMaskUp();
-          this.getGoodsList(1);
+          this.getGoodsList(this.pageNo);
         }
       })
   }
