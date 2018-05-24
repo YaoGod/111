@@ -3,8 +3,8 @@ import {Review, ReviewNote, Node, WorkflowService, Group, Approve} from "../../s
 import {ErrorResponseService} from "../../service/error-response/error-response.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import {User} from "../../mode/user/user.service";
-import {checkAndUpdateBinding} from "@angular/core/src/view/util";
-import {isNumber} from "util";
+import {IpSettingService} from "../../service/ip-setting/ip-setting.service";
+import {Http} from "@angular/http";
 declare var $:any;
 declare var confirmFunc:any;
 @Component({
@@ -21,9 +21,12 @@ export class ExamineDetailComponent implements OnInit {
   public checkMsg: Approve;
   public userSelects: Array<User>;
   public groupId: number;
-  constructor(public route: ActivatedRoute,
+  public nowState: number;
+  constructor(private http: Http,public route: ActivatedRoute,
               private errorResponseService: ErrorResponseService,
-              private workflowService: WorkflowService) {
+              private workflowService: WorkflowService,
+              public ipSetting:IpSettingService,
+  ) {
   }
 
   ngOnInit() {
@@ -35,6 +38,7 @@ export class ExamineDetailComponent implements OnInit {
      }*/
 
     this.order.schedule = 0;
+    this.nowState = 0;
     this.order.nodes[0] = new Node();
     this.order.nodes[0].group = new Group();
     this.order.note = "";
@@ -69,29 +73,50 @@ export class ExamineDetailComponent implements OnInit {
           }
           for(let i=0;i<this.order.nodes.length;i++){
             if(this.order.schedule===this.order.nodes[i].flowNum){
-              this.groupId = this.order.nodes[i+1].groupId;
+              if(i===this.order.nodes.length-1){
+                this.groupId = this.order.nodes[i].groupId;
+                this.nowState = i;
+              }else{
+                this.groupId = this.order.nodes[i+1].groupId;
+                this.nowState = i;
+                this.getUserSelect(this.groupId);
+              }
+
             }
           }
-          if (this.order.schedule - 1 < this.order.nodes.length) {
-            this.getUserSelect(this.groupId);/*this.order.nodes[this.order.schedule - 1].groupId*/
-          }
+          /*if (this.order.schedule - 1 < this.order.nodes.length) {
+            this.getUserSelect(this.groupId);/!*this.order.nodes[this.order.schedule - 1].groupId*!/
+          }*/
         }
       })
   }
 
   /*判断流程进度节点*/
   setSegmentClass(index) {
-    if (this.order.schedule) {
-      if (index < this.order.schedule) {
+    // console.log(index+"=="+this.nowState);
+    if(this.order.status==='end'&&this.order.schedule===9){
+      return "process";
+    }else{
+      if (index < this.nowState) {
         return "process";
-      } else if (index === this.order.schedule) {
-        if (this.order.schedule === 9) {
-          return "process";
-        }
+      } else if (index === this.nowState) {
+        /*if (this.order.schedule === 9) {
+         return "process";
+         }*/
         return "active";
+      }else{
+        return "";
       }
     }
-    return "";
+  }
+  exportInfo(){
+    let url = this.ipSetting.ip+'/workflow/review/getReviewExcel/'+this.order.id;
+    this.http.get(url)
+    // .map(res => res.json())
+      .subscribe(data => {
+        window.location.href = url;
+
+      });
   }
 
   /*获取下一审批人列表*/
@@ -140,7 +165,6 @@ export class ExamineDetailComponent implements OnInit {
   }
 
   quickSortArray(array) {
-
     let quickSort = (arr) => {
       if (arr.length <= 1) {
         return arr;
@@ -229,10 +253,37 @@ export class ExamineDetailComponent implements OnInit {
     this.checkMsg.note = "【" + message + "】";
     this.checkMsg.handleUserId = null;
   }
+  /*完结工单*/
+  endWorkFlow(){
+    confirmFunc.init({
+      'title': '提示',
+      'mes': '是否确认完结该工单？',
+      'popType': 1,
+      'imgType': 3,
+      'callback': () => {
+        let postData = JSON.parse(JSON.stringify(this.checkMsg));
+        postData.id = this.order.id;
+        postData.result = '1';
+        postData.note = '【结单】';
+        console.log(postData);
+        this.workflowService.checkWorkFlow(postData)
+          .subscribe(data => {
+            if (this.errorResponseService.errorMsg(data)) {
+              confirmFunc.init({
+                'title': '提示',
+                'mes': data.msg,
+                'popType': 2,
+                'imgType': 1,
+              });
+              window.history.go(-1);
+            }
+          });
 
+      }
+    });
+  }
   /*提交审批意见*/
   submit() {
-
     // this.verifyEmpty(this.checkMsg.result, 'result');
     this.checkMsg.handleUserId = '';
     this.userSelects.forEach((user) => {
@@ -240,10 +291,9 @@ export class ExamineDetailComponent implements OnInit {
         this.checkMsg.handleUserId += user.userid + ',';
       }
     });
-    console.log(this.checkMsg.handleUserId+'=='+this.userSelects);
-    if (this.checkMsg.result === "1" && this.userSelects.length > 0 && this.checkMsg.handleUserId!== '') {
+      // console.log(this.checkMsg.handleUserId+'=='+this.userSelects);
       // this.verifyEmpty(this.checkMsg.result, 'result');
-      console.log(this.checkMsg.result);
+     // console.log(this.checkMsg.result);
       if (this.checkMsg.result === "1" && this.userSelects.length > 0 && this.checkMsg.handleUserId === null) {
         confirmFunc.init({
           'title': '提示',
@@ -264,15 +314,22 @@ export class ExamineDetailComponent implements OnInit {
         } else if (postData.result === "4") {
           postData.handleUserId = "";
         } else if (postData.result === "2") {
-          if (node.groupId !== null) {
-            // postData.handleUserId = this.history[this.history.length-1].userId;
+          let inner = 0;
+          if (this.history&&this.history.length>0) {
+            for(let i=0;i<this.history.length;i++){
+              if(this.order.schedule>this.history[i].schedule){
+                inner = i;
+                break;
+              }
+            }
+            postData.handleUserId = this.history[inner].userid;
+            // console.log(this.history[inner]);
           } else {
-            postData.handleUserId = "";
+            postData.handleUserId = this.order.createUserId;
           }
         } else if (postData.result === "3") {
           postData.handleUserId = this.order.createUserId;
         }
-        console.log(postData);
         postData.id = this.order.id;
         this.workflowService.checkWorkFlow(postData)
           .subscribe(data => {
@@ -287,7 +344,5 @@ export class ExamineDetailComponent implements OnInit {
             }
           });
       }
-
-    }
   }
 }

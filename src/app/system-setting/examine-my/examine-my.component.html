@@ -2,7 +2,7 @@
   <div class="content-inner">
     <!--页面标题-->
     <div class="nav-title">
-      <a><h4>我的工单</h4></a>
+      <a><h4>全部工单</h4></a>
       <div class="b-head-right">
         <div class="content-box" tabindex="0" onclick="history.go(-1)">
           <i class="icon-reload"></i> 返回
@@ -22,6 +22,12 @@
         <li><label>时间</label>
           <input type="date" name="bTime" [(ngModel)]="search.bTime">至
           <input type="date" name="eTime" [(ngModel)]="search.eTime">
+        </li>
+        <li><label>工单状态</label>
+          <select class="search-ipt" name="searchStatus" [(ngModel)]="search.status">
+            <option value="going">待办</option>
+            <option value="">已办</option>
+          </select>
         </li>
         <li>
           <a (click)="getMyExamine(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>

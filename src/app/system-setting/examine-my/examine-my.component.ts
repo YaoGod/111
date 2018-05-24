@@ -32,7 +32,8 @@ export class ExamineMyComponent implements OnInit {
     this.total = 0;
     this.search = new Review();
     this.search.type = "";
-    this.search.createUserId = this.globalUserService.getVal().userid+"";
+    // this.search.createUserId = this.globalUserService.getVal().userid+"";
+    this.search.status = 'going';
     this.orderList = [];
     this.isOwner = false;
     this.getMyExamine(1);

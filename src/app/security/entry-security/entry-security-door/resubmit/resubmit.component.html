@@ -13,11 +13,22 @@
       <div class="warp-left">
         <div class="flow-area">
           <ul>
-            <li class="node" *ngFor="let segment of content;let i = index">
+            <li class="node">
               <div class="rect">
-                <input name="name" type="text" disabled="disabled" [value]="segment.name">
+                发起人发起
               </div>
               <div class="arrow"></div>
+            </li>
+            <li class="node" *ngFor="let segment of content;let i = index">
+              <div class="rect">
+                <input name="name" type="text" disabled="disabled" [value]="segment.group.name">
+              </div>
+              <div class="arrow"></div>
+            </li>
+            <li class="node">
+              <div class="rect">
+                结束
+              </div>
             </li>
           </ul>
         </div>

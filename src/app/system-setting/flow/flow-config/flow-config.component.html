@@ -45,7 +45,7 @@
       </td>
     </tr>
   </table>
-  <div class="div-none" *ngIf="flows.length === 0">
+  <div class="div-none" *ngIf="flows&&flows.length === 0">
     <p>暂无信息</p>
   </div>
 </div>
@@ -82,12 +82,12 @@
           </div>-->
           <div class="flow-area">
             <ul>
-              <li class="node">
+              <!--<li class="node">
                 <div class="rect">
                   开始
                 </div>
                 <div class="arrow"></div>
-              </li>
+              </li>-->
               <li class="node">
                 <div class="rect">
                   发起人发起

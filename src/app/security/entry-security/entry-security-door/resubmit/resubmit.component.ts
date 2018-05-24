@@ -162,7 +162,7 @@ export class ResubmitComponent implements OnInit {
     };
     this.ipSetting.sendPost(url,postData).subscribe(data => {
       if(this.errorResponseService.errorMsg(data)) {
-        this.content = data.data.infos[0].content;
+        this.content = data.data.infos[0].nodes;
       }
     });
   }
@@ -266,10 +266,26 @@ export class ResubmitComponent implements OnInit {
           return false;
         }
       }
+
       for(let i=0;i<this.lastAddPower.length;i++){
         delete this.lastAddPower[i].id;
         delete this.lastAddPower[i].note;
+        delete this.lastAddPower[i].batchId;
+        delete this.lastAddPower[i].cardCode;
+        delete this.lastAddPower[i].cardType;
+        delete this.lastAddPower[i].createTime;
+        delete this.lastAddPower[i].createUserId;
+        delete this.lastAddPower[i].handleTime;
+        delete this.lastAddPower[i].modifyTime;
+        delete this.lastAddPower[i].modifyUserId;
+        delete this.lastAddPower[i].status;
+        delete this.lastAddPower[i].type;
+        delete this.lastAddPower[i].userDept;
+        delete this.lastAddPower[i].userId;
+        delete this.lastAddPower[i].userName;
+
       }
+      console.log(this.lastAddPower);
       let postData = {
         guard: temporary.concat(this.lastAddPower),
         userId: this.addUser.userid,

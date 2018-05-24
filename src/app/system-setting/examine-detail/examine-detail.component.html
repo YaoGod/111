@@ -17,7 +17,7 @@
     </div>
     <div class="warp">
       <div class="warp-right">
-        <h4>{{order.name}}<span *ngIf="order.schedule > 0">（当前状态：{{order.nodes[order.schedule-1].group.name}}）</span></h4>
+        <h4>{{order.name}}<span *ngIf="order.schedule > 0">（当前状态：{{order.nodes[nowState].group.name}}）</span></h4>
         <div class="form-group">
           <span class="control-label"><span class="form-title">发起人</span>
             <p class="form-control">{{order.createUserName}}</p>
@@ -49,7 +49,8 @@
           <div class="error"></div>
         </div>
         <div class="submit-footer" *ngIf="route.url['value'][0].path !== 'detail'">
-          <a class="btn-danger" *ngIf="order.schedule-1<order.nodes.length&&order.schedule!==0" (click)="openModal()">立即审批</a>
+          <a class="btn-danger" *ngIf="nowState===(order.nodes.length-1)" (click)="endWorkFlow()">完结工单</a>
+          <a class="btn-danger" *ngIf="nowState!==(order.nodes.length-1)&&order.schedule!==0" (click)="openModal()">立即审批</a>
           <a class="btn-danger" *ngIf="order.schedule===0" [routerLink]="['/hzportal'+order.handleUrl,order.batchId]">立即修改</a>
         </div>
       </div>
@@ -172,14 +173,17 @@
     <div  class="modal-body">
       <div class="modal-right">
         <!--表头-->
-        <div class="table-head" style="margin-top: 10px">
+        <div class="table-head">
+
           <table border="0" cellspacing="0" cellpadding="0" class="list-box">
             <tr class="row list-title" style="height:45px;">
               <!--<th width="10%" class="text-left">流程节点</th>-->
-              <th width="8%" class="text-left">处理人</th>
+              <th width="10%" class="text-left">处理人</th>
+              <th width="10%" class="text-left">审核结果</th>
+              <th width="40%" class="text-left">处理意见</th>
+              <th width="15%">接收时间</th>
               <th width="15%">处理时间</th>
-              <th width="20%" class="text-left">审核结果</th>
-              <th width="30%" class="text-left">处理意见</th>
+              <th><button class="btn btn-info" (click)="exportInfo()">导出</button></th>
             </tr>
             <tr class="row" *ngFor="let log of history;">
               <!--<td class="text-left">
@@ -188,14 +192,20 @@
               <td class="text-left">
                 {{log.username}}
               </td>
-              <td>
-                <p>{{log.handleTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
-              </td>
+
               <td class="text-left">
                 {{log.result}}
               </td>
               <td class="text-left">
                 <p class="big-text">{{log.note}}</p>
+              </td>
+              <td>
+                <p>{{log.createtime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
+              </td>
+              <td>
+                <p>{{log.handleTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
+              </td>
+              <td>
               </td>
             </tr>
           </table>
