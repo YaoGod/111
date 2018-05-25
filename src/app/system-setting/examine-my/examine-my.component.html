@@ -56,7 +56,7 @@
             {{order.type}}
           </td>
           <td class="text-left">
-            <p *ngIf="order.status === 'going'">进行中<span *ngIf="order.schedule===1">（已退回）</span></p>
+            <p *ngIf="order.status === 'going'">进行中<span *ngIf="order.schedule===0">（已退回发起人）</span></p>
             <p *ngIf="order.status === 'end'">已完结</p>
           </td>
           <td>

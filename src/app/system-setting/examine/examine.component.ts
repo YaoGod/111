@@ -4,6 +4,7 @@ import {UserPortalService} from "../../service/user-portal/user-portal.service";
 import {ErrorResponseService} from "../../service/error-response/error-response.service";
 import {Review, WorkflowService} from "../../service/workflow/workflow.service";
 import {GlobalUserService} from "../../service/global-user/global-user.service";
+import {IpSettingService} from "../../service/ip-setting/ip-setting.service";
 
 @Component({
   selector: 'app-examine',
@@ -19,7 +20,9 @@ export class ExamineComponent implements OnInit {
   public total: number;
   public orderList: Array<Review>;
   public searchType: string;
+  public industry:boolean;
   constructor(
+    public ipSetting:IpSettingService,
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
     private workflowService:WorkflowService,
@@ -28,6 +31,7 @@ export class ExamineComponent implements OnInit {
 
   ngOnInit() {
     this.globalCatalogService.setTitle("系统管理/工单管理");
+    this.getUserPower();
     this.pageNo = 1;
     this.pageSize = 10;
     this.total = 0;
@@ -51,4 +55,14 @@ export class ExamineComponent implements OnInit {
         }
       })
   }
+  /*获取用户权限*/
+  getUserPower(){
+    let url = '/portal/user/getIsAdmin';
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorResponseService.errorMsg(data)) {
+        this.industry = data.data;
+      }
+    });
+  }
+
 }

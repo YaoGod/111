@@ -265,7 +265,7 @@ export class ExamineDetailComponent implements OnInit {
         postData.id = this.order.id;
         postData.result = '1';
         postData.note = '【结单】';
-        console.log(postData);
+        // console.log(postData);
         this.workflowService.checkWorkFlow(postData)
           .subscribe(data => {
             if (this.errorResponseService.errorMsg(data)) {

@@ -4,7 +4,7 @@
     <div class="nav-title">
       <a><h4>我的工单</h4></a>
       <div class="b-head-right">
-        <div class="content-box" tabindex="0" [routerLink]="['../myExamine']">
+        <div *ngIf="industry" class="content-box" tabindex="0" [routerLink]="['../myExamine']">
           全部工单
         </div>
         <div class="content-box" tabindex="0" onclick="history.go(-1)">

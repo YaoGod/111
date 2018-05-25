@@ -222,7 +222,7 @@ export class FlowConfigComponent implements OnInit {
     }else{
       confirmFunc.init({
         'title': '提示',
-        'mes': '必须少于9个的流程节点',
+        'mes': '流程节点已经最大！',
         'popType': 2,
         'imgType': 2,
         'callback': ()=> {}
