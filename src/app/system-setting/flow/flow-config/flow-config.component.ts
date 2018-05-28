@@ -31,6 +31,9 @@ export class FlowConfigComponent implements OnInit {
     private workflowService:WorkflowService
   ) {
     this.fatherRule = this.globalCatalogService.getRole("system/flow");
+    if(this.fatherRule){
+      this.getRule(this.fatherRule.ID);
+    }
   }
 
   ngOnInit() {
@@ -46,18 +49,18 @@ export class FlowConfigComponent implements OnInit {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.fatherRule = this.globalCatalogService.getRole("system/flow");
+        if(this.fatherRule){
+          this.getRule(this.fatherRule.ID);
+        }
       }
     );
-    if(this.fatherRule){
-      this.getRule(this.fatherRule.ID);
-    }
     this.getSelectList();
     this.getFlowList(1);
   }
   getRule(id) {
     this.globalCatalogService.getCata(id, "system", "system/flow/flowConfig")
       .subscribe(data =>{
-        if(this.errorResponseService.errorMsg(data)&&data.data.length>0){
+        if(this.errorResponseService.errorMsg(data)){
           this.rule = data.data[0];
         }
       })
@@ -219,7 +222,7 @@ export class FlowConfigComponent implements OnInit {
     }else{
       confirmFunc.init({
         'title': '提示',
-        'mes': '必须少于9个的流程节点',
+        'mes': '流程节点已经最大！',
         'popType': 2,
         'imgType': 2,
         'callback': ()=> {}
@@ -264,14 +267,19 @@ export class FlowConfigComponent implements OnInit {
     $('#' + id).parent().next('.error').fadeOut();
   }
   changeStatus(flow:Flow){
-    let postData = JSON.parse(JSON.stringify(flow));
+    let postData = {
+      status :flow.status,
+      id:flow.id,
+      name:flow.name
+    };
+    // JSON.parse(JSON.stringify(flow));
     let status;
     if(flow.status === '有效') {
-      postData.status = "invalid";
+      postData.status = "0";
       status = '无效';
     }
     else {
-      postData.status = "valid";
+      postData.status = "1";
       status = '有效';
     }
     confirmFunc.init({

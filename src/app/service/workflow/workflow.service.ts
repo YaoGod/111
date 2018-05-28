@@ -139,8 +139,8 @@ export class ReviewNote{
   note: string;
   result: string;
   username: string;
-  userId: string;
-  createTime: string;
+  userid: string;
+  createtime: string;
   handleTime: string;
   schedule: number;
   group: Group;

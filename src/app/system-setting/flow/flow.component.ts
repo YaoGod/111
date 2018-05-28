@@ -26,7 +26,9 @@ export class FlowComponent implements OnInit {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("system/flow");
-        this.getRule(this.rule.ID);
+        if(this.rule){
+          this.getRule(this.rule.ID);
+        }
       }
     );
     if(this.rule){this.getRule(this.rule.ID);}

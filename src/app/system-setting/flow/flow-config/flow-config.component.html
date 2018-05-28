@@ -45,7 +45,7 @@
       </td>
     </tr>
   </table>
-  <div class="div-none" *ngIf="flows.length === 0">
+  <div class="div-none" *ngIf="flows&&flows.length === 0">
     <p>暂无信息</p>
   </div>
 </div>
@@ -67,7 +67,7 @@
         <div class="modal-right">
           <div  class="form-group">
             <label  class="control-label"><span>流程名称</span>
-              <input type="text" class="form-control" id="name" name="name" [disabled]="true"
+              <input type="text" class="form-control" id="name" name="name" [disabled]="disableStatus"
                      [(ngModel)]="copyFlow.name" (blur)="verifyEmpty(copyFlow.name,'name')">
             </label>
             <div class="error"></div>
@@ -82,12 +82,12 @@
           </div>-->
           <div class="flow-area">
             <ul>
-              <li class="node">
+              <!--<li class="node">
                 <div class="rect">
                   开始
                 </div>
                 <div class="arrow"></div>
-              </li>
+              </li>-->
               <li class="node">
                 <div class="rect">
                   发起人发起
@@ -96,7 +96,8 @@
               </li>
               <li class="node" *ngFor="let segment of copyFlow.nodes;let i = index">
                 <div class="rect">
-                  <select type="text" [(ngModel)]="tempSegment[i].groupId" [disabled]="disableStatus || i ==0 || i == copyFlow.nodes.length -1"
+                  <select type="text" [(ngModel)]="tempSegment[i].groupId"
+                          [disabled]="disableStatus || i ==0 || i == copyFlow.nodes.length -1"
                           (change)="changeSelect(i,$event.target.selectedIndex)">
                     <option *ngFor="let node of list" [value]="node.id"
                             >{{node.name}}</option>
