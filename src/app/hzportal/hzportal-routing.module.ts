@@ -50,6 +50,11 @@ const routes: Routes = [
         /*系统管理*/
         path: 'help',
         component: HelpDocComponent
+      },
+      {
+        /*党建管理*/
+        path: 'party',
+        loadChildren: '../party-build/party-build.module#PartyBuildModule'
       }
 
     ]

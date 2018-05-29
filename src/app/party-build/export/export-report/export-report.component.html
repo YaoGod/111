@@ -1,0 +1,60 @@
+<!--搜索栏-->
+<div class="search-bar">
+  <ul>
+    <li><label>支部名称</label>
+      <select name="module">
+        <option value="">全部</option>
+      </select>
+    </li>
+    <li>
+      <a (click)="getDataList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
+    </li>
+  </ul>
+</div>
+<!--表头-->
+<div class="table-head" style="margin-top: 10px">
+  <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+    <tr class="row list-title" style="height:45px;">
+      <th width="10%" class="text-left">操作账号</th>
+      <th width="10%" class="text-left">操作人姓名</th>
+      <th width="10%" class="text-left">操作人部门</th>
+      <th width="10%" class="text-left">操作类型</th>
+      <th width="10%">客户端地址</th>
+      <th width="15%">操作时间</th>
+      <th width="20%" class="text-left">操作</th>
+    </tr>
+    <tr class="row" *ngFor="let report of list;let i = index">
+      <td class="text-left">
+        {{report.userId}}
+      </td>
+      <td class="text-left">
+        {{report.userName}}
+      </td>
+      <td class="text-left">
+        {{report.userDept}}
+      </td>
+      <td class="text-left">
+        {{report.operationModule}}
+      </td>
+      <td>
+        {{report.clientIp}}
+      </td>
+      <td>
+        <p>{{report.operationTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
+      </td>
+      <td class="text-left">
+        <p class="big-text">{{report.operationContent}}</p>
+      </td>
+    </tr>
+  </table>
+  <div class="div-none" *ngIf="list.length === 0">
+    <p>暂无信息</p>
+  </div>
+</div>
+<!--翻页-->
+<app-turn-bar
+  [pageNo] = "pageNo"
+  [pageSize] = "pageSize"
+  [total] = "total"
+  (turnEvent) = "getDataList($event)">
+</app-turn-bar>

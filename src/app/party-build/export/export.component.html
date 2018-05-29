@@ -1,0 +1,12 @@
+<div class="content-area">
+  <div class="content-inner">
+    <!--页面标题-->
+    <div class="nav-title">
+      <a [routerLink]="['report']" routerLinkActive="active"><h4>工作报表</h4></a>
+      <a [routerLink]="['count']" routerLinkActive="active"><h4>统计报表</h4></a>
+    </div>
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

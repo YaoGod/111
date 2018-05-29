@@ -1,0 +1,24 @@
+<div class="limit-height">
+  <!--列表展示-->
+  <div class="view" style="min-height: 350px;">
+    <div class="page-panel">
+      <ul class="page-area">
+        <li class="card" *ngFor="let building of buildings;let idx=index">
+          <div class="card-img" [routerLink]="['detail',building.id]">
+            <div class="el-overlay">
+            </div>
+            <!--<img  [src]="building.imgPath | imgsafeurl">-->
+            <!--<img  [src]="building.imgPath">-->
+            <img src="assets/image/{{building.imgPath}}">
+            <!--<img src="assets/image/sanhuiyike1.png">-->
+          </div>
+          <div class="mark">
+            <h3>{{building.name}}</h3>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+

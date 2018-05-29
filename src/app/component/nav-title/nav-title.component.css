@@ -7,6 +7,9 @@
   background-color: #04a9f3;
   _z-index: 99;
 }
+.red{
+  background-color: red;
+}
 .header>img{
   margin-right: 30px;
   width: 16px;

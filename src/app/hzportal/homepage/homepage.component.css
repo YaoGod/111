@@ -70,3 +70,8 @@
   margin-right: 20px;
   font-size: 20px;
 }
+.bd:hover>a{
+  font-weight: 700;
+  border-radius: 50%;
+  background-color: rgba(0,0,0,.1);
+}

@@ -17,6 +17,10 @@ export class HomepageComponent implements OnInit {
 
   ngOnInit() {
     this.userName = this.globalUserService.getVal().username;
+    this.sayHello();
+  }
+  /*打招呼*/
+  sayHello(){
     let hour = new Date().getHours();
     if(hour>=5&&hour<=10){
       this.nowTime = "早上";
