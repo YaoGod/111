@@ -15,15 +15,6 @@
           <input type="date" name="bTime" [(ngModel)]="select.bTime">至
           <input type="date" name="eTime" [(ngModel)]="select.eTime">
         </li>
-        <!--<li><label>部门</label>
-          <select name="selectDeptId" [(ngModel)]="select.userDept">
-            <option value="">全部</option>
-            <option *ngFor="let dept of deptList" [value]="dept.DEPT_NAME">{{dept.DEPT_NAME}}</option>
-          </select>
-        </li>
-        <li><label>姓名</label>
-          <input type="text" name="userName" [(ngModel)]="select.userName">
-        </li>-->
         <li>
           <a (click)="getAccessNum();"><i class="icon-graph"></i>&nbsp;生成统计图表</a>
         </li>

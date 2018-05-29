@@ -21,7 +21,7 @@
       <th width="10%" class="text-left">操作类型</th>
       <th width="10%">客户端地址</th>
       <th width="15%">操作时间</th>
-      <th width="20%" class="text-left">操作</th>
+      <th width="20%">操作</th>
     </tr>
     <tr class="row" *ngFor="let report of list;let i = index">
       <td class="text-left">
@@ -42,8 +42,10 @@
       <td>
         <p>{{report.operationTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
       </td>
-      <td class="text-left">
-        <p class="big-text">{{report.operationContent}}</p>
+      <td class="box-option">
+        <a [routerLink]="['../../exportDetail',report.id]">
+          <i class="icon-eye"></i>&nbsp;详情
+        </a>
       </td>
     </tr>
   </table>

@@ -14,11 +14,11 @@ const routes: Routes = [
     canActivate: [RouteGuardService],
     component: PartyBuildComponent,
     children: [
-      {
+    /*  {
         path: '',
         redirectTo: 'upload',
         pathMatch: 'full'
-      },
+      },*/
       {
         path: 'upload',
         loadChildren: './upload/upload.module#UploadModule'
@@ -26,6 +26,10 @@ const routes: Routes = [
       {
         path: 'export',
         loadChildren: './export/export.module#ExportModule'
+      },
+      {
+        path: 'exportDetail/:id',
+        loadChildren: './export-detail/export-detail.module#ExportDetailModule'
       },
       {
         path: 'uploaddetail',
