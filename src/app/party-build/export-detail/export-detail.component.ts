@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {GlobalCatalogService} from "../../service/global-catalog/global-catalog.service";
 
 @Component({
   selector: 'app-export-detail',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExportDetailComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private globalCatalogService:GlobalCatalogService
+  ) { }
 
   ngOnInit() {
+    this.globalCatalogService.setTitle("党建管理/工作详情");
   }
 
 }

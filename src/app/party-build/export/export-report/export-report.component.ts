@@ -21,6 +21,7 @@ export class ExportReportComponent implements OnInit {
     this.pageSize = 10;
     this.list = [];
     this.list[0] = {};
+    this.list[0].id = 0;
     this.globalCatalogService.setTitle("党建管理/工作报表管理");
   }
   getDataList(pageNo){
