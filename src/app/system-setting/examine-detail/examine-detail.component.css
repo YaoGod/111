@@ -267,7 +267,7 @@ select:focus{
   background: #fff;
 }
 .modal-right{
-  max-height: 600px;
+  max-height: 400px;
   overflow-y: auto;
 }
 .dropify-wrapper{

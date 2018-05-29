@@ -36,7 +36,9 @@ export class VegetableComponent implements OnInit {
     status: '',
     saletime: '',
     limitnum:'',
-    stock:''
+    stock:'',
+    downDay:'',
+    downTime:''
   };
   public  vegetableAdd={
     code:'',
@@ -47,7 +49,9 @@ export class VegetableComponent implements OnInit {
     status: '',
     saletime: '',
     limitnum:'',
-    stock:''
+    stock:'',
+    downDay:'',
+    downTime:''
   };
   public  vegetableUp={
     code:'',
@@ -58,7 +62,9 @@ export class VegetableComponent implements OnInit {
     status: '',
     saletime: '',
     limitnum:'',
-    stock:''
+    stock:'',
+    downDay:'',
+    downTime:''
   };
   constructor(private vegetableInfoService: VegetableInfoService,
               private errorVoid: ErrorResponseService,
@@ -228,7 +234,9 @@ chang(value) {
       status: '',
       saletime: '',
       limitnum:'',
-      stock:''
+      stock:'',
+      downDay:'',
+      downTime:''
     };
     for(let i=1;i<8;i++){
       $('#upsale'+i).removeClass("btn-danger2");

@@ -31,13 +31,14 @@
               <td class="three">净菜状态</td>
               <td class="three">预定时间</td>
               <td class="four">限购数量</td>
+              <td class="four">下架时间</td>
             </table>
             <dl *ngFor="let vegetable of vegetables;let idx=index">
               <dt><span>净菜名称：{{vegetable.vname}}</span>
               <div class="ope-list">
-                <a class="one"   title="查看" href="javascript:void(0);"(click)="view(vegetable.code)"></a>
-                <a class="two"   title="修改" href="javascript:void(0);"(click)="update(vegetable.code)"></a>
-                <a class="tre"   title="删除" href="javascript:void(0);"(click)="delete(vegetable.code)"></a>
+                <a class="one"   title="查看" href="javascript:void(0);" (click)="view(vegetable.code)"></a>
+                <a class="two"   title="修改" href="javascript:void(0);" (click)="update(vegetable.code)"></a>
+                <a class="tre"   title="删除" href="javascript:void(0);" (click)="delete(vegetable.code)"></a>
               </div>
               </dt>
               <dd>
@@ -51,6 +52,7 @@
                     <td class="three" *ngIf="vegetable.status=='2'">下架</td>
                     <td class="three">{{vegetable.saletime}}</td>
                     <td class="four">{{vegetable.limitnum}}</td>
+                    <td class="four">星期四 {{vegetable.limitnum}}</td>
                   </tr>
                   <tr>
                     <td  style="text-align: left; text-indent: 10px;" colspan="5" > <label>简介：</label> <p class="con">{{vegetable.detail}}</p></td>
@@ -125,12 +127,12 @@
             <div style="margin-top: 6px;">
               <div>
                 <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态：</label>
-                <input type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="vegetableAdd.status" value="1">上架
-                <input type="radio" [ngModelOptions]="{standalone: true}" [(ngModel)]="vegetableAdd.status" value="2">下架
+                <input type="radio" name="Addstatus" [(ngModel)]="vegetableAdd.status" value="1">上架
+                <input type="radio" name="Addstatus" [(ngModel)]="vegetableAdd.status" value="2">下架<!--[ngModelOptions]="{standalone: true}"-->
               </div>
             </div>
             <div style="margin-top: 6px;">
-              <div>
+              <div class="clearfix">
                 <label style="float: left">预定时间：</label>
                 <ul class="saletime">
                   <li>
@@ -157,7 +159,24 @@
                 </ul>
               </div>
             </div>
+            <div style="margin-top: 6px;">
+              <div class="clearfix">
+                <label>下架时间：</label>
+                <select class="producttext" name="downDay" [(ngModel)]="vegetableAdd.downDay">
+                  <option value="">请选择</option>
+                  <option value="星期一">星期一</option>
+                  <option value="星期二">星期二</option>
+                  <option value="星期三">星期三</option>
+                  <option value="星期四">星期四</option>
+                  <option value="星期五">星期五</option>
+                  <option value="星期六">星期六</option>
+                  <option value="星期日">星期日</option>
+                </select>
+                <input type="time" class="producttext" [(ngModel)]="vegetableAdd.downTime" name="downTime">
+              </div>
+            </div>
           </div>
+
         </div>
         <div class="modal-right2">
           <label>净菜详情：</label>
