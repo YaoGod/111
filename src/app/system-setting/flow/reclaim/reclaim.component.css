@@ -769,5 +769,6 @@ select{
 .handle i{
   padding:4px 5px;
   border-radius: 3px;
-  background-color: #8daccb;
+  color: #fff;
+  background-color: #04a9f3;
 }
