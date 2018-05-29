@@ -99,7 +99,26 @@
   color: #fff;
   background: #66cdff;
 }
-
+.search-notice{
+  width:50%;
+  max-width:550px;
+  float: right;
+  border:3px solid #0b76cc;
+}
+.search-notice h3{
+  line-height: 30px;
+  color:#0a4b3e;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+.search-notice p{
+  line-height: 22px;
+  color:#0a4b3e;
+  padding:0 6px 6px;
+  max-height: 70px;
+  overflow-y: auto;
+}
 /*团购*/
 .clearb{
   clear: both;

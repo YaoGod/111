@@ -13,7 +13,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'laundry',
+        redirectTo: 'property',
         pathMatch: 'full'
       },
       {

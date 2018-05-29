@@ -35,6 +35,7 @@ export class VegbuyComponent implements OnInit {
     this.pages = [];
     this.getRule();
     this.getVegetableShowList(1);
+    this.typewriter();
 
   }
   getRule(){
@@ -69,6 +70,32 @@ export class VegbuyComponent implements OnInit {
         this.total = data.data.total;
       }
     });
+  }
+  typewriter(){
+    let typewriter = document.querySelector(".typewriter");
+    let code = typewriter.innerHTML;
+    let pos = 0;
+    let len = code.length;
+    typewriter.innerHTML="";
+    // typewriter.style.display="block";
+    function typewriting(){
+      pos++;
+      if(pos<=len) {
+        switch(code.charAt(pos)) {
+          case "<":
+            pos=code.indexOf(">",pos);
+            break;
+          case "&":
+            pos=code.indexOf(";",pos);
+            break;
+        }
+        typewriter.innerHTML=code.substring(0,pos);
+        setTimeout(typewriting,100);
+      } else {
+        typewriter.classList.add("gameover");
+      }
+    }
+    typewriting();
   }
 
   addToCart(id: number){
