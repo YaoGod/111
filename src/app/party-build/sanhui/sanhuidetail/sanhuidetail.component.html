@@ -1,0 +1,67 @@
+<div class="wrap">
+  <div class="cont">
+    <div class="row clearfix">
+      <div class="row-title">三会一课记录详情</div>
+      <div class="content-box" tabindex="0" onclick="history.go(-1)">
+        <i class="icon-reload"></i> 返回
+      </div>
+    </div>
+    <div class="cont-inner clearfix">
+      <ul class="card-left">
+        <li>支部名称</li>
+        <li>会议类型</li>
+        <li>开始时间</li>
+        <li>结束时间</li>
+        <li>主持人</li>
+        <li>记录人</li>
+        <li>应到人数</li>
+        <li>实到人数</li>
+        <li>缺席人数</li>
+        <li>缺席原因</li>
+        <li>会议主题</li>
+      </ul>
+      <ul class="card-right">
+        <li>{{newCard.branchName}}</li>
+        <li>{{newCard.type}}</li>
+        <li>{{newCard.bTime}}</li>
+        <li>{{newCard.eTime}}</li>
+        <li>{{newCard.compere}}</li>
+        <li>{{newCard.recorder}}</li>
+        <li>{{newCard.shouldNum}}</li>
+        <li>{{newCard.factNum}}</li>
+        <li>{{newCard.absentNum}}</li>
+        <li>{{newCard.reason}}</li>
+        <li>{{newCard.theme}}</li>
+      </ul>
+      <div class="note">
+        <div class="title"><span>会议议程</span><p>{{newCard.note}}</p></div>
+
+      </div>
+    </div>
+    <!--<div class="history" style="height: 60px; min-height: 90px;">
+      <div class="history-title">当前使用员工</div>
+
+      <table width="100%" class="record">
+        <tr style="height: 40px; background-color: #EEEEE0; text-align: center">
+          <th>员工姓名</th>
+          <th>员工部门</th>
+          <th>员工编号</th>
+          <th>员工电话</th>
+          <th>车牌号</th>
+          &lt;!&ndash;<th>发放日期</th>&ndash;&gt;
+          <th>发放截止日期</th>
+        </tr>
+        <tr style="height: 36px; text-align: center;background:#F4F4F4">
+          <td>{{newCard.useUserName}}</td>
+          <td>{{newCard.useUserDept}}</td>
+          <td>{{newCard.useUserId}}</td>
+          <td>{{newCard.useUserTel}}</td>
+          <td>{{newCard.useCarCode}}</td>
+          &lt;!&ndash;<td>{{newCard.modifyTime}}</td>&ndash;&gt;
+          <td>{{newCard.useETime}}</td>
+
+      </table>
+    </div>-->
+  </div>
+</div>
+

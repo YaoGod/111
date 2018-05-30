@@ -4,7 +4,7 @@
     <div class="page-panel">
       <ul class="page-area">
         <li class="card" *ngFor="let building of buildings;let idx=index">
-          <div class="card-img" [routerLink]="['detail',building.id]">
+          <div class="card-img" [routerLink]="['/hzportal/party/'+building.url]"><!--[routerLink]="['../../sanhui',building.id]"-->
             <div class="el-overlay">
             </div>
             <!--<img  [src]="building.imgPath | imgsafeurl">-->

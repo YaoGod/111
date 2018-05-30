@@ -233,7 +233,7 @@ if ( typeof define === 'function' && define.amd ) {
 														window.localStorage.setItem('polyfilter_' + href,polyfilter._stylesheets[index].content)
 													}
 													catch(e){
-														if(window.console)
+														if(window.console){}
 													}
 												}
 											}

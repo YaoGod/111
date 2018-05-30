@@ -7,6 +7,7 @@ import {FormsModule} from "@angular/forms";
 import {TurnBarModule} from "../component/turn-bar/turn-bar.module";
 import {NavTitleModule} from "../component/nav-title/nav-title.module";
 import {GlobalFooterModule} from "../component/global-footer/global-footer.module";
+import { UploadHomeComponent } from './upload-home/upload-home.component';
 
 const routes: Routes = [
   {
@@ -14,11 +15,11 @@ const routes: Routes = [
     canActivate: [RouteGuardService],
     component: PartyBuildComponent,
     children: [
-    /*  {
+      {
         path: '',
         redirectTo: 'upload',
         pathMatch: 'full'
-      },*/
+      },
       {
         path: 'upload',
         loadChildren: './upload/upload.module#UploadModule'
@@ -28,12 +29,16 @@ const routes: Routes = [
         loadChildren: './export/export.module#ExportModule'
       },
       {
-        path: 'exportDetail/:id',
-        loadChildren: './export-detail/export-detail.module#ExportDetailModule'
+        path: 'home',
+        component: UploadHomeComponent
       },
       {
         path: 'uploaddetail',
         loadChildren: './upload-detail/upload-detail.module#UploadDetailModule'
+      },
+      {
+        path: 'sanhui',
+        loadChildren: './sanhui/sanhui.module#SanhuiModule'
       }
     ]
   }
@@ -49,6 +54,6 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [RouteGuardService],
-  declarations: [PartyBuildComponent]
+  declarations: [PartyBuildComponent, UploadHomeComponent]
 })
 export class PartyBuildModule { }
