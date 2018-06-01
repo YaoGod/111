@@ -7,6 +7,7 @@ import {ExportReportComponent} from "./export-report/export-report.component";
 import { ExportCountComponent } from './export-count/export-count.component';
 import {GlobalFooterModule} from "../../component/global-footer/global-footer.module";
 import {TurnBarModule} from "../../component/turn-bar/turn-bar.module";
+import {FormsModule} from "@angular/forms";
 
 const routes: Routes = [
   {
@@ -34,6 +35,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     GlobalFooterModule,
     TurnBarModule,
     RouterModule.forChild(routes),

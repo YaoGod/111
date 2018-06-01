@@ -1,10 +1,25 @@
 <!--搜索栏-->
 <div class="search-bar">
   <ul>
+    <li><label>模块类型</label>
+      <select name="module" [(ngModel)]="search.type">
+        <option value="">全部</option>
+        <option>三会一课</option>
+        <option>六好建设</option>
+        <option>主题党日</option>
+        <option>实践案例</option>
+        <option>党委调研</option>
+        <option>工作总结</option>
+        <option>岗区委建设</option>
+      </select>
+    </li>
     <li><label>支部名称</label>
       <select name="module">
         <option value="">全部</option>
       </select>
+    </li>
+    <li *ngIf="search.type!=='三会一课'"><label>月份</label>
+      <input name="month" type="month">
     </li>
     <li>
       <a (click)="getDataList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
@@ -15,12 +30,12 @@
 <div class="table-head" style="margin-top: 10px">
   <table border="0" cellspacing="0" cellpadding="0" class="list-box">
     <tr class="row list-title" style="height:45px;">
-      <th width="10%" class="text-left">操作账号</th>
-      <th width="10%" class="text-left">操作人姓名</th>
-      <th width="10%" class="text-left">操作人部门</th>
-      <th width="10%" class="text-left">操作类型</th>
-      <th width="10%">客户端地址</th>
-      <th width="15%">操作时间</th>
+      <th width="10%">模块类型</th>
+      <th width="10%" class="text-left">支部名称</th>
+      <th width="10%" class="text-left"  *ngIf="search.type!=='三会一课'">月份</th>
+      <th width="10%" class="text-left">文件名称</th>
+      <th width="10%" class="text-left">创建人</th>
+      <th width="15%">创建时间</th>
       <th width="20%">操作</th>
     </tr>
     <tr class="row" *ngFor="let report of list;let i = index">
@@ -30,7 +45,7 @@
       <td class="text-left">
         {{report.userName}}
       </td>
-      <td class="text-left">
+      <td class="text-left"  *ngIf="search.type!=='三会一课'">
         {{report.userDept}}
       </td>
       <td class="text-left">

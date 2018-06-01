@@ -3,12 +3,14 @@ import {Http} from "@angular/http";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 declare var $: any;
 declare var confirmFunc: any;
 @Component({
   selector: 'app-dangwei-list',
   templateUrl: './dangwei-list.component.html',
-  styleUrls: ['./dangwei-list.component.css']
+  styleUrls: ['./dangwei-list.component.css'],
+  providers: [UtilBuildingService]
 })
 export class DangweiListComponent implements OnInit {
 
@@ -27,6 +29,7 @@ export class DangweiListComponent implements OnInit {
     public ipSetting:IpSettingService,
     public errorVoid:ErrorResponseService,
     private globalCatalogService:GlobalCatalogService,
+    private utilBuildingService:UtilBuildingService
   ) { }
 
   ngOnInit() {
@@ -45,7 +48,7 @@ export class DangweiListComponent implements OnInit {
       this.record[i] = new CardInfo();
       this.record[i].id = i+1;
       this.record[i].branchName = "杭分移动市场部党支部";
-      this.record[i].fileName = "中国中央党支部第一文件";
+      this.record[i].fileName = ["中国中央党支部第一文件"];
       this.record[i].month = (i+1).toString();
       this.record[i].partyWorkerName = "毛建设";
       this.record[i].themeTitle = "关于陈东尔同志岗位调动反响调研";
@@ -242,6 +245,40 @@ export class DangweiListComponent implements OnInit {
     $('#' + id).parents('.form-inp').removeClass('form-error');
     $('#' + id).parents('.form-inp').children('.errorMessage').html('');
   }
+  /*合同上传*/
+  prese_upload(files) {
+    var xhr = this.utilBuildingService.uploadFile(files[0],'sanhui',-1);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
+        var data:any = JSON.parse(xhr.responseText);
+        if(this.errorVoid.errorMsg(data)){
+          this.newCard.fileName.push(files[0].name);
+          this.newCard.filePath.push(data.msg);
+
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': '上传成功',
+            'popType': 0 ,
+            'imgType': 1,
+          });
+          $('#prese').val('');
+        }
+      }else if (xhr.readyState === 4 && xhr.status === 413){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '文件太大',
+          'popType': 0 ,
+          'imgType': 2,
+        });
+        $('#prese').val('');
+      }
+    };
+  }
+  /*删除合同文件*/
+  delFile(index) {
+    this.newCard.filePath.splice(index,1);
+    this.newCard.fileName.splice(index,1);
+  }
 }
 export class CardInfo {
   id: number; // 本条信息ID
@@ -258,8 +295,8 @@ export class CardInfo {
   reason:string; // 缺席原因
   theme:string; // 会议主题
   note:string; // 会议议程
-
-  fileName: string; // 文件名称
+  filePath:Array<any>;
+  fileName: Array<any>; // 文件名称
   partyWorkerName: string;  // 党委委员
   themeTitle: string; // 调研主题
 }

@@ -12,6 +12,7 @@ export class ExportReportComponent implements OnInit {
   public pageSize:number;
   public total: number;
   public list: Array<any>;
+  public search: Report;
   constructor(
     private globalCatalogService:GlobalCatalogService,
   ) { }
@@ -23,8 +24,14 @@ export class ExportReportComponent implements OnInit {
     this.list[0] = {};
     this.list[0].id = 0;
     this.globalCatalogService.setTitle("党建管理/工作报表管理");
+    this.search = new Report();
+    this.search.type = "";
   }
   getDataList(pageNo){
 
   }
+}
+
+export class Report{
+  type: string;
 }
