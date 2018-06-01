@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 import {ActivatedRoute} from "@angular/router";
-
+declare var $:any;
+declare var confirmFunc:any;
 @Component({
   selector: 'app-sanhuidetail',
   templateUrl: './sanhuidetail.component.html',
@@ -40,7 +41,11 @@ export class SanhuidetailComponent implements OnInit {
   getWelfare(id){
 
   }
-
+  /*判断textarea的行数自适应*/
+  definedRows(){
+    let length = $("#content").val().split(/\r?\n/).length;
+    return length+1;
+  }
 }
 export class CardInfo {
   id: number; // 本条信息ID

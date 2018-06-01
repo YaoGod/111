@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Review, ReviewNote, Node, WorkflowService, Group, Approve} from "../../service/workflow/workflow.service";
 import {ErrorResponseService} from "../../service/error-response/error-response.service";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {User} from "../../mode/user/user.service";
 import {IpSettingService} from "../../service/ip-setting/ip-setting.service";
 import {Http} from "@angular/http";
@@ -22,7 +22,9 @@ export class ExamineDetailComponent implements OnInit {
   public userSelects: Array<User>;
   public groupId: number;
   public nowState: number;
-  constructor(private http: Http,public route: ActivatedRoute,
+  constructor(private http: Http,
+              private router: Router,
+              public route: ActivatedRoute,
               private errorResponseService: ErrorResponseService,
               private workflowService: WorkflowService,
               public ipSetting:IpSettingService,
@@ -275,7 +277,8 @@ export class ExamineDetailComponent implements OnInit {
                 'popType': 2,
                 'imgType': 1,
               });
-              window.history.go(-1);
+              // window.history.go(-1);
+              this.router.navigate(["/hzportal/system/examine"]);
             }
           });
 

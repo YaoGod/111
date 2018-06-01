@@ -70,6 +70,9 @@
   line-height:45px;
   text-indent:36px;
 }
+.menu-zero a{
+  color:#ff1d1b;
+}
 .menu-second a:hover{
   color:#03a9f3;
 }

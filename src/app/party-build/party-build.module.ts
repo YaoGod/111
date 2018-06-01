@@ -41,6 +41,22 @@ const routes: Routes = [
         loadChildren: './sanhui/sanhui.module#SanhuiModule'
       },
       {
+        path: 'liuhao',
+        loadChildren: './liuhao/liuhao.module#LiuhaoModule'
+      },
+      {
+        path: 'subunit',
+        loadChildren: './subunit/subunit.module#SubunitModule'
+      },
+      {// 活动简报
+        path: 'bulletin',
+        loadChildren: './activity-bulletin/activity-bulletin.module#ActivityBulletinModule'
+      },
+      {// 实践案例
+        path: 'practice',
+        loadChildren: './practice-cases/practice-cases.module#PracticeCasesModule'
+      },
+      {
         path: 'dangwei',
         loadChildren: './dangwei/dangwei.module#DangweiModule'
       },

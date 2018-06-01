@@ -3,12 +3,14 @@ import {Http} from "@angular/http";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 declare var $: any;
 declare var confirmFunc: any;
 @Component({
   selector: 'app-sanhuilist',
   templateUrl: './sanhuilist.component.html',
-  styleUrls: ['./sanhuilist.component.css']
+  styleUrls: ['./sanhuilist.component.css'],
+  providers:[UtilBuildingService,],
 })
 export class SanhuilistComponent implements OnInit {
   public newCard = new CardInfo();
@@ -25,6 +27,7 @@ export class SanhuilistComponent implements OnInit {
     public ipSetting:IpSettingService,
     public errorVoid:ErrorResponseService,
     private globalCatalogService:GlobalCatalogService,
+    private utilBuildingService:UtilBuildingService,
   ) { }
 
   ngOnInit() {
@@ -67,7 +70,7 @@ export class SanhuilistComponent implements OnInit {
   }
 
   /*点击编辑*/
-  editCardInfo(id,useId){
+  editCardInfo(id){
     this.contractBool = false;
     $('.form-add').attr('disabled',false);
     $('.form-disable').attr('disabled',true).css('backgroundColor','#f8f8f8');
@@ -185,7 +188,40 @@ export class SanhuilistComponent implements OnInit {
     }
     return true;
   }
+  /*合同上传*/
+  prese_upload(files) {
+    var xhr = this.utilBuildingService.uploadFile(files[0],'sanhui',-1);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
+        var data:any = JSON.parse(xhr.responseText);
+        if(this.errorVoid.errorMsg(data)){
+          this.newCard.fileName.push(files[0].name);
+          this.newCard.filePath.push(data.msg);
 
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': '上传成功',
+            'popType': 0 ,
+            'imgType': 1,
+          });
+          $('#prese').val('');
+        }
+      }else if (xhr.readyState === 4 && xhr.status === 413){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '文件太大',
+          'popType': 0 ,
+          'imgType': 2,
+        });
+        $('#prese').val('');
+      }
+    };
+  }
+  /*删除合同文件*/
+  delFile(index) {
+    this.newCard.filePath.splice(index,1);
+    this.newCard.fileName.splice(index,1);
+  }
   submit(){
     var url;
     if(this.contractBool === false){
@@ -262,4 +298,6 @@ export class CardInfo {
   reason:string; // 缺席原因
   theme:string; // 会议主题
   note:string; // 会议议程
+  fileName=[];
+  filePath=[];
 }

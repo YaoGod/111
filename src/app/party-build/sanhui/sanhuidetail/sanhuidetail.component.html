@@ -6,36 +6,34 @@
         <i class="icon-reload"></i> 返回
       </div>
     </div>
-    <div class="cont-inner clearfix">
-      <ul class="card-left">
-        <li>支部名称</li>
-        <li>会议类型</li>
-        <li>开始时间</li>
-        <li>结束时间</li>
-        <li>主持人</li>
-        <li>记录人</li>
-        <li>应到人数</li>
-        <li>实到人数</li>
-        <li>缺席人数</li>
-        <li>缺席原因</li>
-        <li>会议主题</li>
-      </ul>
-      <ul class="card-right">
-        <li>{{newCard.branchName}}</li>
-        <li>{{newCard.type}}</li>
-        <li>{{newCard.bTime}}</li>
-        <li>{{newCard.eTime}}</li>
-        <li>{{newCard.compere}}</li>
-        <li>{{newCard.recorder}}</li>
-        <li>{{newCard.shouldNum}}</li>
-        <li>{{newCard.factNum}}</li>
-        <li>{{newCard.absentNum}}</li>
-        <li>{{newCard.reason}}</li>
-        <li>{{newCard.theme}}</li>
+    <div class="cont-inner">
+      <ul class="card-left clearfix">
+        <li class="left-li"><span>支部名称</span><strong>{{newCard.branchName}}</strong></li>
+        <li class="left-li"><span>会议类型</span><strong>{{newCard.type}}</strong></li>
+        <li class="left-li"><span>开始时间</span><strong>{{newCard.bTime}}</strong></li>
+        <li class="left-li"><span>结束时间</span><strong>{{newCard.eTime}}</strong></li>
+        <li class="left-li"><span>主 持 人</span><strong>{{newCard.compere}}</strong></li>
+        <li class="left-li"><span>记 录 人</span><strong>{{newCard.recorder}}</strong></li>
+        <li class="left-li"><span>应到人数</span><strong>{{newCard.shouldNum}}</strong></li>
+        <li class="left-li"><span>实到人数</span><strong>{{newCard.factNum}}</strong></li>
+        <li class="left-li"><span>缺席人数</span><strong>{{newCard.absentNum}}</strong></li>
+        <li class="left-li"><span>缺席原因</span><strong>{{newCard.reason}}</strong></li>
+        <li class="left-alone"><span>会议主题</span><strong>{{newCard.theme}}</strong></li>
       </ul>
       <div class="note">
-        <div class="title"><span>会议议程</span><p>{{newCard.note}}</p></div>
+        <div class="title"><span>会议议程</span></div>
+        <div class="word">
+          <textarea id="content" [rows]="definedRows()" wrap="hard">Cross-site scripting (跨站脚本) 跨站脚本（Cross-site
+scripting，通常简称为XSS）是一种网站应用程序的安全漏洞攻击，是代码注入的一种。它允许恶意用户将代码注入到网页上，其他用户在观看网页时就会受到影响。这类攻击通常包含了HTML以及用户端脚本语言。
 
+XSS攻击通常指的是通过利用网页开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页，使用户加载并执行攻击者恶意制造的网页程序。这些恶意网页程序通常是JavaScript，但实际上也可以包括Java，VBScript，ActiveX，Flash或者甚至是普通的HTML。攻击成功后，攻击者可能得到更高的权限（如执行一些操作）、私密网页内容、会话和cookie等各种内容。
+— 维基百科 Cross-site scripting 示例
+互联网上的几乎每个博客都有一个评论的系统，允许用户对文章发表评论。评论信息一般使用常用的 HTML 表单进行提交。具体示例如下：{{newCard.note}}</textarea>
+        </div>
+        <div class="title"><span>会议附件</span></div>
+        <ul class="attachment">
+          <li><a href="#">我的天啊 <i class="icon-cloud-download">下载</i></a></li>
+        </ul>
       </div>
     </div>
     <!--<div class="history" style="height: 60px; min-height: 90px;">

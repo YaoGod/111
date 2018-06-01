@@ -329,6 +329,15 @@ export class DoorApplyComponent implements OnInit {
           inner.push(this.postData.data[i].guard[j]);
         }
       }
+      if(inner.length===0){
+        confirmFunc.init({
+          'title': '提示',
+          'mes': '申请人员未操作取消权限！',
+          'popType': 2,
+          'imgType': 2,
+        });
+        return false;
+      }
       let subInfo = {
         data: inner,
         cause: this.postData.cause,

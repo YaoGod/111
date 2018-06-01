@@ -15,19 +15,28 @@
         <li><label>工单类型</label>
           <select class="search-ipt" name="searchType" [(ngModel)]="search.type">
             <option value="">全部</option>
-            <option value="门禁权限申请">门禁权限申请</option>
-            <option value="申请取消授权">申请取消授权</option>
+            <option *ngFor="let abc of typeList" [value]="abc">{{abc}}</option>
+          </select>
+        </li>
+        <li><label>工单状态</label>
+          <select class="search-ipt" name="searchStatus" [(ngModel)]="search.status">
+            <option value="">全部</option>
+            <option value="going">流转中</option>
+            <option value="end">已完成</option>
+            <option value="over">终止</option>
           </select>
         </li>
         <li><label>时间</label>
           <input type="date" name="bTime" [(ngModel)]="search.bTime">至
           <input type="date" name="eTime" [(ngModel)]="search.eTime">
         </li>
-        <li><label>工单状态</label>
-          <select class="search-ipt" name="searchStatus" [(ngModel)]="search.status">
-            <option value="going">待办</option>
-            <option value="">已办</option>
-          </select>
+        <li><label>发起人</label>
+          <input class="search-ipt" type="text" name="createUserName" [(ngModel)]="search.createUserName">
+
+        </li>
+        <li><label>工单编号</label>
+          <input class="search-ipt" type="text" name="createUserName" [(ngModel)]="search.content">
+
         </li>
         <li>
           <a (click)="getMyExamine(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
@@ -38,16 +47,17 @@
     <div class="table-head" style="margin-top: 10px">
       <table border="0" cellspacing="0" cellpadding="0" class="list-box">
         <tr class="row list-title" style="height:45px;">
-          <th width="5%" class="text-left">编号</th>
+          <th width="10%">编号</th>
           <th width="10%" class="text-left">名称</th>
           <th width="10%" class="text-left">类型</th>
           <th width="10%" class="text-left">状态</th>
-          <th width="10%" class="text-left">发起时间</th>
+          <th width="10%">发起人</th>
+          <th width="10%">发起时间</th>
           <th width="20%">操作</th>
         </tr>
         <tr class="row" *ngFor="let order of orderList;let i = index">
           <td class="text-left">
-            {{order.id}}
+            {{order.content}}
           </td>
           <td class="text-left">
             {{order.name}}
@@ -56,8 +66,12 @@
             {{order.type}}
           </td>
           <td class="text-left">
-            <p *ngIf="order.status === 'going'">进行中<span *ngIf="order.schedule===0">（已退回发起人）</span></p>
+            <p *ngIf="order.status === 'going'">进行中</p>
+            <p *ngIf="order.status === 'over'">已终止</p>
             <p *ngIf="order.status === 'end'">已完结</p>
+          </td>
+          <td>
+            <p>{{order.createUserName}}</p>
           </td>
           <td>
             <p>{{order.createTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>

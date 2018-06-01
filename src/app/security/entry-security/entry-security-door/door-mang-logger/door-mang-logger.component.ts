@@ -75,6 +75,7 @@ export class DoorMangLoggerComponent implements OnInit {
     let url = '/building/guard/getGuardList/1/999';
     let postData = JSON.parse(JSON.stringify(this.recordSearch));
     postData.userId = this.ID;
+    postData.status = 'valid';
     this.ipSetting.sendPost(url,postData).subscribe(data => {
       if(this.errorResponseService.errorMsg(data)) {
         this.record = data.data.infos;

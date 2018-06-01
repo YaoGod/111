@@ -74,6 +74,7 @@ export class Review{
   createTime: string;
   createUserId: string;
   createUserName: string;
+  content:number;
   type: string;
   bTime: string;
   eTime: string;

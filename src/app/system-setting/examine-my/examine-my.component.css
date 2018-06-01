@@ -67,9 +67,9 @@ ul,li{
 }
 .search-bar>ul>li>input[type=text],
 .search-bar>ul>li>input[type=date],
-.search-bar>ul>li>select{
+.search-bar>ul>li>.search-ipt{
   height: 26px;
-  width: 160px;
+  width: 130px;
   padding: 0 10px;
   font-size: 12px;
   line-height: 1.5;

@@ -13,13 +13,14 @@
       </div>
       <ul class="nav-list">
         <li>
-          <div class="menu-one" (click)="Listslider($event,'')">
-            <i class="icon-star"></i>&nbsp;&nbsp;
+          <div style="color:#ff1d1b" class="menu-one" (click)="Listslider($event,'')">
+            <!--<i class="icon-star"></i>&nbsp;&nbsp;-->
+            <img style="width: 13px; height: 13px" src="assets/image/danghui.png">&nbsp;&nbsp;
             党建管理<span></span>
           </div>
-          <ol class="menu-second">
+          <ol class="menu-second menu-zero">
             <li>
-              <a [routerLink]="['party']" routerLinkActive="active" class="item">工作台账上传</a>
+              <a [routerLink]="['party/upload']" routerLinkActive="active" class="item">工作台账上传</a>
             </li>
             <li>
               <a [routerLink]="['party/export']" routerLinkActive="active" class="item">工作报表管理</a>

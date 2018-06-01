@@ -205,7 +205,7 @@ input{
   line-height:32px;
   height:32px;
   border:none;
-  background-color:#66CCFF;
+  background-color:#ff4040;
   color:#fff;
   border-radius: 3px;
   cursor: pointer;
@@ -341,7 +341,7 @@ button{
   margin-left: 2%;
 }
 .form-alone .form-inp {
-  max-width: 81%;
+  max-width: 80%;
   margin-left: 1%;
 }
 .company-ipt{
@@ -361,6 +361,7 @@ button{
   overflow: auto;
   line-height: 20px;
   font-size: 12px;
+  border:1px solid #f1f1f1;
 }
 .company-sel{
   height:30px;
@@ -557,4 +558,28 @@ button{
 .recover,.recover img{
   width:14px;
   height:14px;
+}
+.contract-list{
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding: 0;
+  float: left;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 80%;
+  flex: 0 0 80%;
+  max-width: 80%;
+  margin-left: 1%;
+  height:100px;
+  border:1px solid #f1f1f1;
+  overflow-y: auto;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+  font-size:12px;
+}
+.contract-list li{
+  line-height:20px;
+}
+.contract-list li a{
+  margin-left:6px; color:#ff0000
 }

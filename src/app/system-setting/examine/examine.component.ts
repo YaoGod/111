@@ -5,6 +5,7 @@ import {ErrorResponseService} from "../../service/error-response/error-response.
 import {Review, WorkflowService} from "../../service/workflow/workflow.service";
 import {GlobalUserService} from "../../service/global-user/global-user.service";
 import {IpSettingService} from "../../service/ip-setting/ip-setting.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-examine',
@@ -21,17 +22,31 @@ export class ExamineComponent implements OnInit {
   public orderList: Array<Review>;
   public searchType: string;
   public industry:boolean;
+  public typeList = [];
+  public rule : any;
+  public jurisdiction:any;
   constructor(
     public ipSetting:IpSettingService,
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
     private workflowService:WorkflowService,
-    private globalUserService:GlobalUserService
-  ) { }
+    private globalUserService:GlobalUserService,
+    private router: Router,
+  ) {
+    this.rule = this.globalCatalogService.getRole("system/examine");
+  }
 
   ngOnInit() {
     this.globalCatalogService.setTitle("系统管理/工单管理");
-    this.getUserPower();
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("system/examine");
+        if(this.rule){
+          this.getRule(this.rule.ID);
+        }
+      }
+    );
+    if(this.rule){this.getRule(this.rule.ID);}
     this.pageNo = 1;
     this.pageSize = 10;
     this.total = 0;
@@ -42,6 +57,7 @@ export class ExamineComponent implements OnInit {
     this.orderList = [];
     this.getMyExamine(1);
     this.searchType = "going";
+    this.getFlowTypeList();
   }
 
   getMyExamine(pageNo){
@@ -55,7 +71,7 @@ export class ExamineComponent implements OnInit {
         }
       })
   }
-  /*获取用户权限*/
+  /*获取是否超级管理员*/
   getUserPower(){
     let url = '/portal/user/getIsAdmin';
     this.ipSetting.sendGet(url).subscribe(data => {
@@ -64,5 +80,23 @@ export class ExamineComponent implements OnInit {
       }
     });
   }
+  /*获取权限*/
+  getRule(id){
+    this.globalCatalogService.getCata(id,'system','')
+      .subscribe(data=>{
+        if(this.errorResponseService.errorMsg(data)){
+          this.jurisdiction = data.data;
+        }
+      })
+  }
 
+  getFlowTypeList(){
+    let url = '/workflow/flow/getFlowTypeList';
+    this.ipSetting.sendGet(url).subscribe(data=>{
+      if(this.errorResponseService.errorMsg(data)){
+        this.typeList = data.data;
+
+      }
+    })
+  }
 }
