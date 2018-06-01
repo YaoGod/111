@@ -100,7 +100,7 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control">
+      <!--<div class="form-control">
         <span class="form-label">文件名称</span>
         <div class="form-inp">
           <select class="company-ipt company-sel" name="newtype" id="newtype" [(ngModel)]="newCard.type"
@@ -114,11 +114,11 @@
           </select>
           <span class="errorMessage"></span>
         </div>
-      </div>
+      </div>-->
       <div class="form-control">
         <span class="form-label">月份</span>
         <div class="form-inp">
-          <input class="company-ipt" type="date" name="bTime" id="bTime"
+          <input class="company-ipt" type="month" name="bTime" id="bTime"
                  [(ngModel)]="newCard.bTime" (blur)="verifybTime()">
           <span class="errorMessage"></span>
         </div>
@@ -150,14 +150,13 @@
         </div>
       </div>
       <div class="form-control form-alone">
-        <span class="form-label">会议附件</span>
+        <span class="form-label">附件</span>
         <ul class="contract-list">
-          <li *ngFor="let abc of newCard.fileName; let k=index">{{abc}}<a  href="javascript:;" (click)="delFile(k)">×</a> </li>
+          <!--<li *ngFor="let abc of newCard.fileName; let k=index">{{abc}}<a  href="javascript:;" (click)="delFile(k)">×</a> </li>-->
         </ul>
         <div class="form-inp" style=" margin-top:5px;">
           <a href="javascript:;" style="color:#666; margin-left:127px; border-radius:4px; padding:5px 10px; background: #f6f6f6;" onclick="$('#prese').trigger('click')">上 传</a>
-          <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;"
-                 (change)="prese_upload(prese.files)">
+          <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;">
           <span class="errorMessage"></span>
         </div>
       </div>

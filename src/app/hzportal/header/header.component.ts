@@ -49,7 +49,7 @@ export class HeaderComponent implements OnInit {
       })
   }
 
-  private Listslider(event,url) {
+  public Listslider(event,url) {
     if(typeof(url) !== "undefined" && url !== null && url !== "") {
       this.router.navigate(["hzportal/" + url]);
     }

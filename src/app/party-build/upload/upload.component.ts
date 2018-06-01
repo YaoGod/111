@@ -53,9 +53,9 @@ export class UploadComponent implements OnInit {
       {id: 2,url:'liuhao',name:'（二）、“六好”党支部建设月报',imgPath:'liuhaoyuebao.png'},
       {id: 3,url:'bulletin',name:'（三）、"主题党日"活动简报',imgPath:'huodongjianbao.png'},
       {id: 4,url:'practice',name:'（四）、党建实践案例',imgPath:'shijiananli.png'},
-      {id: 7,url:'subunit',name:'（七）、党支部岗区队建设情况',imgPath:'quduijianshe.png'},
       {id: 5,url:'dangwei',name:'（五）、党委委员调研党支部信息',imgPath:'dangweidiaoyan.png'},
       {id: 6,url:'jihua',name:'（六）、党支部工作计划和总结',imgPath:'jihuazongjie.png'},
+      {id: 7,url:'subunit',name:'（七）、党支部岗区队建设情况',imgPath:'quduijianshe.png'},
       ]
   }
 }

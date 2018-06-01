@@ -10,24 +10,6 @@
         </div>
       </div>
     </div>
-    <!--搜索栏-->
-    <!--<div class="search-bar">
-      <ul class="clearfix">
-        <li><label>群组名称</label>
-          <input type="text" name="searchUserId" [(ngModel)]="search.name">
-        </li>
-        <li><label>群组状态</label>
-          <select name="searchDeptId" [(ngModel)]="search.status" style="width: 168px;">
-            <option value="">全部</option>
-            <option [value]="1">可用</option>
-            <option [value]="0">不可用</option>
-          </select>
-        </li>
-        <li style="float:right">
-          <a (click)="getUserList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
-        </li>
-      </ul>
-    </div>-->
     <!--表头-->
     <div class="table-head" style="margin-top: 10px">
       <table border="0" cellspacing="0" cellpadding="0" class="list-box">
@@ -35,7 +17,6 @@
           <th width="20%" class="text-left">群组名称</th>
           <th width="20%" class="text-left">关联部门</th>
           <th width="20%" class="text-left">群组状态</th>
-          <!--<th width="20%" class="text-left">操作</th>-->
         </tr>
       </table>
     </div>
@@ -57,23 +38,12 @@
           <td *ngIf="group.status==='0'" width="12%" class="text-left" style="color: #ff0000;">
             不可用
           </td>
-          <!--<td width="12%" class="text-left">
-            <i class="icon-user-unfollow" title="取消授权" (click)="cancelAuthorization(group)"></i>
-          </td>-->
         </tr>
       </table>
       <div class="div-none"  *ngIf="groupList.length === 0">
         <p>暂无信息</p>
       </div>
     </div>
-    <!--翻页-->
-    <!--<app-turn-bar-->
-      <!--[pageNo]="pageNo"-->
-      <!--[pageSize]="pageSize"-->
-      <!--[total]="total"-->
-      <!--[length]="length"-->
-      <!--(turnEvent)="getUserList($event)">-->
-    <!--</app-turn-bar>-->
   </div>
 </div>
 

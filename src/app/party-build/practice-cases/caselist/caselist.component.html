@@ -96,12 +96,12 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control">
+      <!--<div class="form-control">
         <span class="form-label">文件名称</span>
         <div class="form-inp">
           <select class="company-ipt company-sel" name="newtype" id="newtype" [(ngModel)]="newCard.type"
                   (blur)="verifynewtype()">
-            <!--<option value="">请选择</option>-->
+            &lt;!&ndash;<option value="">请选择</option>&ndash;&gt;
             <option value="党员大会记录">党员大会记录</option>
             <option value="支委会记录">支委会记录</option>
             <option value="党小组会记录">党小组会记录</option>
@@ -110,19 +110,19 @@
           </select>
           <span class="errorMessage"></span>
         </div>
-      </div>
+      </div>-->
       <div class="form-control">
         <span class="form-label">月份</span>
         <div class="form-inp">
-          <input class="company-ipt" type="date" name="bTime" id="bTime"
+          <input class="company-ipt" type="month" name="bTime" id="bTime"
                  [(ngModel)]="newCard.bTime" (blur)="verifybTime()">
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control">
+      <div class="form-control form-alone">
         <span class="form-label">案例类型</span>
         <div class="form-inp">
-          <select class="company-ipt company-sel" name="anlitype" id="anlitype" [(ngModel)]="newCard.type"
+          <select class="company-ipt company-sel form-inp" name="anlitype" id="anlitype" [(ngModel)]="newCard.type"
                   (blur)="verifynewtype()">
             <!--<option value="">请选择</option>-->
             <option value="关于落实党建工作责任制方面的实践材料">关于落实党建工作责任制方面的实践材料</option>
@@ -139,14 +139,30 @@
         </div>
       </div>
       <div class="form-control form-alone">
-        <span class="form-label">会议附件</span>
+        <span class="form-label">案例名称</span>
+        <div class="form-inp">
+          <input class="company-ipt form-inp" type="text" name="compere" id="compere" maxlength="40"
+                 [(ngModel)]="newCard.compere" (blur)="verifybTime()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone">
+        <span class="form-label">案例概述<br>(限400字)</span>
+        <div class="form-inp" style="width:100%;">
+          <textarea style="width:100%; border:1px solid #f1f1f1" name="absentNum" id="absentNum" rows="8" maxlength="400"
+                 [(ngModel)]="newCard.absentNum" (blur)="verifybTime()">
+          </textarea>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone">
+        <span class="form-label">附件</span>
         <ul class="contract-list">
-          <li *ngFor="let abc of newCard.fileName; let k=index">{{abc}}<a  href="javascript:;" (click)="delFile(k)">×</a> </li>
+          <!--<li *ngFor="let abc of newCard.fileName; let k=index">{{abc}}<a  href="javascript:;" (click)="delFile(k)">×</a> </li>-->
         </ul>
         <div class="form-inp" style=" margin-top:5px;">
           <a href="javascript:;" style="color:#666; margin-left:127px; border-radius:4px; padding:5px 10px; background: #f6f6f6;" onclick="$('#prese').trigger('click')">上 传</a>
-          <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;"
-                 (change)="prese_upload(prese.files)">
+          <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;">
           <span class="errorMessage"></span>
         </div>
       </div>

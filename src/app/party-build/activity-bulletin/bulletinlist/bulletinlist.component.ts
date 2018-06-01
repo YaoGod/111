@@ -77,7 +77,7 @@ export class BulletinlistComponent implements OnInit {
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         $('.mask').fadeIn();
-        $('.mask .mask-head p').html('编辑会议记录');
+        $('.mask .mask-head p').html('编辑“主题党日”活动简报');
         // this.newCard = data.data.object;
 
       }
@@ -112,7 +112,7 @@ export class BulletinlistComponent implements OnInit {
     $('.form-disable').attr('disabled',false).css('backgroundColor','#fff');
     this.newCard = new CardInfo();
     $('.mask').fadeIn();
-    $('.mask .mask-head p').html('新增会议记录');
+    $('.mask .mask-head p').html('新增“主题党日”活动简报');
   }
   /*新增校验*/
   public verifybranchName(){

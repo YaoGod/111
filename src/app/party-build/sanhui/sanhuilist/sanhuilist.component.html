@@ -165,18 +165,18 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control">
+      <div class="form-control form-alone">
         <span class="form-label">缺席原因</span>
         <div class="form-inp">
-          <input type="number" class="company-ipt" name="reason" id="reason" [(ngModel)]="newCard.reason"
+          <input type="text" class="company-ipt form-inp" name="reason" id="reason" [(ngModel)]="newCard.reason"
                  (blur)="verifyreason()"/>
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control">
+      <div class="form-control form-alone">
         <span class="form-label">会议主题</span>
         <div class="form-inp">
-          <input type="text" class="company-ipt" name="theme" id="theme" [(ngModel)]="newCard.theme"
+          <input type="text" class="company-ipt form-inp" name="theme" id="theme" [(ngModel)]="newCard.theme"
                  (blur)="verifytheme()"/>
           <span class="errorMessage"></span>
         </div>

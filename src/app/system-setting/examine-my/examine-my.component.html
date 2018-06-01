@@ -66,9 +66,9 @@
             {{order.type}}
           </td>
           <td class="text-left">
-            <p *ngIf="order.status === 'going'">进行中</p>
-            <p *ngIf="order.status === 'over'">已终止</p>
-            <p *ngIf="order.status === 'end'">已完结</p>
+            <p *ngIf="order.status === 'going'">流转中</p>
+            <p *ngIf="order.status === 'over'">终止</p>
+            <p *ngIf="order.status === 'end'">已完成</p>
           </td>
           <td>
             <p>{{order.createUserName}}</p>
