@@ -29,6 +29,10 @@ const routes: Routes = [
         loadChildren: './export/export.module#ExportModule'
       },
       {
+        path: 'exportDetail/:id',
+        loadChildren: './export-detail/export-detail.module#ExportDetailModule'
+      },
+      {
         path: 'home',
         component: UploadHomeComponent
       },
