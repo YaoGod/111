@@ -43,6 +43,10 @@ const routes: Routes = [
       {
         path: 'dangwei',
         loadChildren: './dangwei/dangwei.module#DangweiModule'
+      },
+      {
+        path: 'jihua',
+        loadChildren: './jihua/jihua.module#JihuaModule'
       }
     ]
   }
