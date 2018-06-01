@@ -1,0 +1,141 @@
+<div class="wrap">
+  <div class="cont">
+    <div class="row clearfix">
+      <div class="row-title">党委委员调研党支部信息</div>
+      <div class="b-head-right">
+        <div class="content-box" onclick="history.go(-1)" tabindex="0">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>
+    </div>
+    <div class="cont-inner">
+      <div class="repair-chandlery clearfix">
+        <ul class="record-search clearfix">
+          <li>
+            <label>支部名称</label>
+            <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
+              <option value="">-全部-</option>
+              <option *ngFor="let num of buildings"
+                      [value]="num.NAME">
+                {{num.NAME}}</option>
+            </select>
+          </li>
+          <li>
+            <label>文件名称</label>
+            <input class="search-ipt search-sel" type="text" placeholder="党委委员调研信息"
+                   name="searchFileName" [(ngModel)]="searchInfo.fileName">
+          </li>
+          <li>
+            <label >月份</label>
+            <input name="searchMonth" class="search-ipt search-sel" type="month" [(ngModel)]="searchInfo.month">
+          </li>
+          <li>
+            <label>党委委员</label>
+            <input class="search-ipt search-sel" type="text" placeholder=""
+                   name="searchPartyWorkerName" [(ngModel)]="searchInfo.partyWorkerName">
+          </li>
+          <li>
+            <label>调研主题</label>
+            <input class="search-ipt search-sel" type="text" placeholder=""
+                   name="searchThemeTitle" [(ngModel)]="searchInfo.themeTitle">
+          </li>
+          <li>
+            <a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
+          </li>
+        </ul>
+        <div class="search-right">
+          <a href="javascript:;" class="btn search-btn" (click)="addVehicle()"><i class="icon-plus"></i>&nbsp;&nbsp;新 增</a>
+        </div>
+      </div>
+      <ul class="card-list clearfix">
+        <li  class="room-card">
+          <table width="100%" class="card-info">
+            <tr style="height: 40px; background-color: #FFA07A; text-align: center">
+              <th>支部名称</th>
+              <th>文件名称</th>
+              <th>月份</th>
+              <th>党委委员</th>
+              <th>调研主题</th>
+              <th>操作</th>
+            </tr>
+            <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
+              <td><a style="color:#000;" href="javascript:;"
+                     [routerLink]="['../detail',inner.id]" >{{inner.branchName}}</a> </td>
+              <td><a style="color:#000;" href="javascript:;"
+                     [routerLink]="['../detail',inner.id]">{{inner.fileName}}</a> </td>
+              <td>{{inner.month}}月</td>
+              <td>{{inner.partyWorkerName}}</td>
+              <td>{{inner.themeTitle}}</td>
+              <td> <!--*ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
+                <i class="icon-pencil" (click)="editCardInfo(inner)" style="margin-left: 5px;" title="编辑"></i>
+                <i class="icon-trash" (click)="delCardInfo(inner.id)" style="margin-left: 5px;" title="删除"></i></td>
+            </tr>
+          </table>
+        </li>
+      </ul>
+      <app-turn-bar
+        [pageNo]="pageNo"
+        [pageSize]="pageSize"
+        [total]="total"
+        [length] = 'length'
+        (turnEvent)="repairSearch($event)">
+      </app-turn-bar>
+    </div>
+  </div>
+</div>
+<div class="mask">
+  <div class="mask-cotainer">
+    <div class="mask-head"><i class="icon-film"></i> <p>新增调研记录</p>
+      <button class="close" (click)="addCancel()">×</button>
+    </div>
+    <form method="post" name="topForm" class="repair-form">
+      <div class="form-control">
+        <span class="form-label">支部名称</span>
+        <div class="form-inp">
+          <select class="company-ipt company-sel" name="branchName" id="branchName"
+                  [(ngModel)]="newCard.branchName" (blur)="verifybranchName()">
+            <option value="">请选择</option>
+            <option *ngFor="let name of buildings" [value]="name.NAME">{{name.NAME}}</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">文件名称</span>
+        <div class="form-inp">
+          <input class="company-ipt" type="datetime-local" name="fileName" id="fileName"  placeholder="党委委员调研信息"
+                 [(ngModel)]="newCard.fileName" >
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">月份</span>
+        <div class="form-inp">
+          <input class="company-ipt" type="month" name="month" id="month"
+                 [(ngModel)]="newCard.month">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">党委委员</span>
+        <div class="form-inp">
+          <input class="company-ipt" type="text" name="partyWorkerName" id="partyWorkerName"
+                 [(ngModel)]="newCard.partyWorkerName">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">调研主题</span>
+        <div class="form-inp">
+          <input class="company-ipt" type="text" name="themeTitle" id="themeTitle"
+                 [(ngModel)]="newCard.themeTitle">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+    </form>
+    <div class="mask-footer">
+      <button type="submit" class="btn-mask btn-info" (click)="submit()">保 存</button>
+      <button type="button" class="btn-mask btn-danger" (click)="addCancel()">取 消</button>
+    </div>
+  </div>
+</div>
