@@ -79,7 +79,7 @@ export class DangweiListComponent implements OnInit {
     $('.form-disable').attr('disabled',true).css('backgroundColor','#f8f8f8');
     this.newCard = JSON.parse(JSON.stringify(inner));
     $('.mask').fadeIn();
-    $('.mask .mask-head p').html('编辑调研记录');
+    $('.mask .mask-head p').html('编辑“党委委员调研党支部信息”');
   }
   /*点击删除*/
   delCardInfo(id){
@@ -109,8 +109,9 @@ export class DangweiListComponent implements OnInit {
     this.contractBool = true;
     $('.form-disable').attr('disabled',false).css('backgroundColor','#fff');
     this.newCard = new CardInfo();
+    this.newCard.branchName = "";
     $('.mask').fadeIn();
-    $('.mask .mask-head p').html('新增会议记录');
+    $('.mask .mask-head p').html('新增“党委委员调研党支部信息”');
   }
   /*新增校验*/
   public verifybranchName(){

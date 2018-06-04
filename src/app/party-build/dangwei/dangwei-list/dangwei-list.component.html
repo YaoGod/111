@@ -16,8 +16,8 @@
             <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
               <option value="">-全部-</option>
               <option *ngFor="let num of buildings"
-                      [value]="num.NAME">
-                {{num.NAME}}</option>
+                      [value]="num.name">
+                {{num.name}}</option>
             </select>
           </li>
           <li>
@@ -63,7 +63,7 @@
                      [routerLink]="['../detail',inner.id]" >{{inner.branchName}}</a> </td>
               <td><a style="color:#000;" href="javascript:;"
                      [routerLink]="['../detail',inner.id]">{{inner.fileName}}</a> </td>
-              <td>{{inner.month}}月</td>
+              <td>2018年{{inner.month}}月</td>
               <td>{{inner.partyWorkerName}}</td>
               <td>{{inner.themeTitle}}</td>
               <td> <!--*ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
@@ -85,7 +85,7 @@
 </div>
 <div class="mask">
   <div class="mask-cotainer">
-    <div class="mask-head"><i class="icon-film"></i> <p>新增调研记录</p>
+    <div class="mask-head"><i class="icon-film"></i> <p></p>
       <button class="close" (click)="addCancel()">×</button>
     </div>
     <form method="post" name="topForm" class="repair-form">
@@ -95,16 +95,8 @@
           <select class="company-ipt company-sel" name="branchName" id="branchName"
                   [(ngModel)]="newCard.branchName" (blur)="verifybranchName()">
             <option value="">请选择</option>
-            <option *ngFor="let name of buildings" [value]="name.NAME">{{name.NAME}}</option>
+            <option *ngFor="let name of buildings" [value]="name.name">{{name.name}}</option>
           </select>
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">文件名称</span>
-        <div class="form-inp">
-          <input class="company-ipt" type="datetime-local" name="fileName" id="fileName"  placeholder="党委委员调研信息"
-                 [(ngModel)]="newCard.fileName" >
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -124,10 +116,10 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control">
+      <div class="form-control form-alone">
         <span class="form-label">调研主题</span>
         <div class="form-inp">
-          <input class="company-ipt" type="text" name="themeTitle" id="themeTitle"
+          <input class="company-ipt" type="text" name="themeTitle" id="themeTitle" style="width: 100%"
                  [(ngModel)]="newCard.themeTitle">
           <span class="errorMessage"></span>
         </div>

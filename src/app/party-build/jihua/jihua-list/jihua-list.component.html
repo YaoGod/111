@@ -16,14 +16,17 @@
             <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
               <option value="">-全部-</option>
               <option *ngFor="let num of buildings"
-                      [value]="num.NAME">
-                {{num.NAME}}</option>
+                      [value]="num.id">
+                {{num.name}}</option>
             </select>
           </li>
           <li>
             <label>文件名称</label>
-            <input class="search-ipt search-sel" type="text" placeholder="党委委员调研信息"
-                   name="searchFileName" [(ngModel)]="searchInfo.fileName">
+            <select class="search-ipt search-sel" type="text" name="searchFileName" [(ngModel)]="searchInfo.fileName">
+              <option value="">-全部-</option>
+              <option>党支部工作计划</option>
+              <option>党支部工作总结</option>
+            </select>
           </li>
           <li>
             <label >月份</label>
@@ -71,7 +74,7 @@
 </div>
 <div class="mask">
   <div class="mask-cotainer">
-    <div class="mask-head"><i class="icon-film"></i> <p>新增调研记录</p>
+    <div class="mask-head"><i class="icon-film"></i> <p>新增“党支部工作计划和总结”</p>
       <button class="close" (click)="addCancel()">×</button>
     </div>
     <form method="post" name="topForm" class="repair-form">
@@ -81,7 +84,7 @@
           <select class="company-ipt company-sel" name="branchName" id="branchName"
                   [(ngModel)]="newCard.branchName" (blur)="verifybranchName()">
             <option value="">请选择</option>
-            <option *ngFor="let name of buildings" [value]="name.NAME">{{name.NAME}}</option>
+            <option *ngFor="let name of buildings" [value]="name.id">{{name.name}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>
@@ -89,8 +92,11 @@
       <div class="form-control">
         <span class="form-label">文件名称</span>
         <div class="form-inp">
-          <input class="company-ipt" type="datetime-local" name="fileName" id="fileName"  placeholder="党委委员调研信息"
-                 [(ngModel)]="newCard.fileName" >
+          <select class="company-ipt" type="datetime-local" name="fileName" id="fileName"
+                 [(ngModel)]="newCard.fileName">
+            <option>党支部工作计划</option>
+            <option>党支部工作总结</option>
+          </select>
           <span class="errorMessage"></span>
         </div>
       </div>

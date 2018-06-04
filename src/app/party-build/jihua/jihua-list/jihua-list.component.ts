@@ -48,11 +48,11 @@ export class JihuaListComponent implements OnInit {
       this.record[i] = new CardInfo();
       this.record[i].id = i+1;
       this.record[i].branchName = "杭分移动市场部党支部";
-      this.record[i].fileName = ["中国中央党支部第一文件"];
+      this.record[i].fileName = ["党支部工作计划"];
       this.record[i].month = (i+1).toString();
     }
-
     this.searchInfo.branchName = "";
+    this.searchInfo.fileName = "";
     this.months = new Array(12);
   }
   /*查询*/
@@ -74,7 +74,7 @@ export class JihuaListComponent implements OnInit {
     $('.form-disable').attr('disabled',true).css('backgroundColor','#f8f8f8');
     this.newCard = JSON.parse(JSON.stringify(inner));
     $('.mask').fadeIn();
-    $('.mask .mask-head p').html('编辑调研记录');
+    $('.mask .mask-head p').html('编辑“党支部工作计划和总结”');
   }
   /*点击删除*/
   delCardInfo(id){
@@ -105,7 +105,7 @@ export class JihuaListComponent implements OnInit {
     $('.form-disable').attr('disabled',false).css('backgroundColor','#fff');
     this.newCard = new CardInfo();
     $('.mask').fadeIn();
-    $('.mask .mask-head p').html('新增会议记录');
+    $('.mask .mask-head p').html('新增“党支部工作计划和总结”');
   }
   /*新增校验*/
   public verifybranchName(){
@@ -291,7 +291,7 @@ export class CardInfo {
   theme:string; // 会议主题
   note:string; // 会议议程
   filePath: Array<string>;
-  fileName: Array<string>; // 文件名称
+  fileName: any; // 文件名称
   partyWorkerName: string;  // 党委委员
   themeTitle: string; // 调研主题
 }
