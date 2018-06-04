@@ -15,9 +15,9 @@
             <label>支部名称</label>
             <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
               <option value="">-全部-</option>
-              <option *ngFor="let num of buildings"
-                      [value]="num.NAME">
-                {{num.NAME}}</option>
+              <option *ngFor="let num of repairDept"
+                      [value]="num.DEPT_ID">
+                {{num.DEPT_NAME}}</option>
             </select>
           </li>
           <!--<li>
@@ -89,16 +89,10 @@
           <select class="company-ipt company-sel" name="branchName" id="branchName"
                   [(ngModel)]="newCard.branchName" (blur)="verifybranchName()">
             <option value="">请选择</option>
-            <option *ngFor="let name of buildings" [value]="name.NAME">{{name.NAME}}</option>
+            <option *ngFor="let num of repairDept"
+                    [value]="num.DEPT_ID">
+              {{num.DEPT_NAME}}</option>
           </select>
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">文件名称</span>
-        <div class="form-inp">
-          <input class="company-ipt" name="newtype" id="newtype" [(ngModel)]="newCard.type"
-                  (blur)="verifynewtype()" >
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -106,76 +100,28 @@
         <span class="form-label">月份</span>
         <div class="form-inp">
           <input class="company-ipt" type="month" name="bTime" id="bTime"
-                 [(ngModel)]="newCard.bTime" (blur)="verifybTime()">
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-     <!-- <div class="form-control">
-        <span class="form-label">结束时间</span>
-        <div class="form-inp">
-          <input class="company-ipt" type="datetime-local" name="bTime" id="eTime"
-                 [(ngModel)]="newCard.eTime" (blur)="verifyeTime()">
+                 [(ngModel)]="newCard.month" (blur)="verifybTime()">
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control">
-        <span class="form-label">主持人</span>
-        <div class="form-inp">
-          <input class="company-ipt" type="text" name="compere" id="compere"
-                 [(ngModel)]="newCard.compere" (blur)="verifycompere()" maxlength="25">
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">记录人</span>
-        <div class="form-inp">
-          <input type="text" id="name" class="company-ipt" name="name" [(ngModel)]="newCard.recorder"
-                 (blur)="verifyrecorder()" maxlength="25"/>
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">应到会人数</span>
-        <div class="form-inp">
-          <input class="company-ipt company-sel" type="number" name="shouldNum" id="shouldNum" [(ngModel)]="newCard.shouldNum"
-                 (blur)="verifyshouldNum()"  maxlength="5">
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">实际到会人数</span>
-        <div class="form-inp">
-          <input type="number" class="company-ipt" id="factNum" name="factNum" [(ngModel)]="newCard.factNum"
-                 (blur)="verifyfactNum()" maxlength="18"/>
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">缺席人数</span>
-        <div class="form-inp">
-          <input type="number" class="company-ipt" name="absentNum" id="absentNum" [(ngModel)]="newCard.absentNum"
-                 (blur)="verifyabsentNum()"/>
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">缺席原因</span>
-        <div class="form-inp">
-          <input type="number" class="company-ipt" name="reason" id="reason" [(ngModel)]="newCard.reason"
-                 (blur)="verifyreason()"/>
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">会议主题</span>
-        <div class="form-inp">
-          <input type="text" class="company-ipt" name="theme" id="theme" [(ngModel)]="newCard.theme"
-                 (blur)="verifytheme()"/>
-          <span class="errorMessage"></span>
-        </div>
-      </div>-->
-      <div class="form-control form-alone">
         <span class="form-label">典型做法篇数</span>
+        <div class="form-inp">
+          <input class="company-ipt" type="number" name="typicalMetho" id="typicalMetho"
+                 [(ngModel)]="newCard.typicalMetho" (blur)="verifytypicalMetho()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">动态情况简讯篇数</span>
+        <div class="form-inp">
+          <input class="company-ipt" type="number" name="pioneerNum" id="pioneerNum"
+                 [(ngModel)]="newCard.dynamicMessage" (blur)="verifypioneerNum()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <!--<div class="form-control form-alone">
+        <span class="form-label">典型做法篇数<br>(限500字)</span>
         <div class="form-inp">
           <textarea class="repairNote" id="theme" name="theme" rows="5" [(ngModel)]="newCard.theme" (blur)="verifytheme()"
                     maxlength="500"></textarea>
@@ -183,13 +129,13 @@
         </div>
       </div>
       <div class="form-control form-alone">
-        <span class="form-label">动态情况简讯篇数</span>
+        <span class="form-label">动态情况简讯篇数<br>(限200字)</span>
         <div class="form-inp">
           <textarea id="repairNote" name="note" rows="5" [(ngModel)]="newCard.note" (blur)="verifynote()"
                     maxlength="200"></textarea>
           <span class="errorMessage"></span>
         </div>
-      </div>
+      </div>-->
       <div class="form-control form-alone">
         <span class="form-label">附件</span>
         <ul class="contract-list">

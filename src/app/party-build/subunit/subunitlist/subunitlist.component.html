@@ -15,22 +15,11 @@
             <label>支部名称</label>
             <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
               <option value="">-全部-</option>
-              <option *ngFor="let num of buildings"
-                      [value]="num.NAME">
-                {{num.NAME}}</option>
+              <option *ngFor="let num of repairDept"
+                      [value]="num.DEPT_ID">
+                {{num.DEPT_NAME}}</option>
             </select>
           </li>
-          <!--<li>
-            <label >会议类型</label>
-            <select class="search-ipt search-sel" name="searchtype" [(ngModel)]="searchInfo.type">
-              <option value="">全部</option>
-              <option value="党员大会">党员大会</option>
-              <option value="支委会">支委会</option>
-              <option value="党小组会">党小组会</option>
-              <option value="党课">党课</option>
-              <option value="组织生活会">组织生活会</option>
-            </select>
-          </li>-->
           <li>
             <label >月份</label>
             <input class="search-ipt " type="month" name="useCarCode222" [(ngModel)]="searchInfo.month">
@@ -89,16 +78,10 @@
           <select class="company-ipt company-sel" name="branchName" id="branchName"
                   [(ngModel)]="newCard.branchName" (blur)="verifybranchName()">
             <option value="">请选择</option>
-            <option *ngFor="let name of buildings" [value]="name.NAME">{{name.NAME}}</option>
+            <option *ngFor="let num of repairDept"
+                    [value]="num.DEPT_ID">
+              {{num.DEPT_NAME}}</option>
           </select>
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">文件类型</span>
-        <div class="form-inp">
-          <input class="company-ipt" type="text" name="newtype" id="newtype" [(ngModel)]="newCard.type"
-                  (blur)="verifynewtype()" >
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -106,83 +89,44 @@
         <span class="form-label">月份</span>
         <div class="form-inp">
           <input class="company-ipt" type="month" name="bTime" id="bTime"
-                 [(ngModel)]="newCard.bTime" (blur)="verifybTime()">
+                 [(ngModel)]="newCard.month" (blur)="verifybTime()">
           <span class="errorMessage"></span>
         </div>
       </div>
-      <!--<div class="form-control">
-        <span class="form-label">结束时间</span>
-        <div class="form-inp">
-          <input class="company-ipt" type="datetime-local" name="bTime" id="eTime"
-                 [(ngModel)]="newCard.eTime" (blur)="verifyeTime()">
-          <span class="errorMessage"></span>
-        </div>
-      </div>-->
-      <!--<div class="form-control">
-        <span class="form-label">主持人</span>
-        <div class="form-inp">
-          <input class="company-ipt" type="text" name="compere" id="compere"
-                 [(ngModel)]="newCard.compere" (blur)="verifycompere()" maxlength="25">
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">记录人</span>
-        <div class="form-inp">
-          <input type="text" id="name" class="company-ipt" name="name" [(ngModel)]="newCard.recorder"
-                 (blur)="verifyrecorder()" maxlength="25"/>
-          <span class="errorMessage"></span>
-        </div>
-      </div>-->
       <div class="form-control">
         <span class="form-label">先锋岗数量</span>
         <div class="form-inp">
-          <input class="company-ipt company-sel" type="number" name="shouldNum" id="shouldNum" [(ngModel)]="newCard.shouldNum"
-                 (blur)="verifyshouldNum()"  maxlength="5">
+          <input class="company-ipt company-sel" type="number" name="pioneerNum" id="pioneerNum" [(ngModel)]="newCard.pioneerNum"
+                 (blur)="verifypioneerNum()"  maxlength="5">
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control">
-        <span class="form-label">责任去数量</span>
+        <span class="form-label">责任区数量</span>
         <div class="form-inp">
-          <input type="number" class="company-ipt" id="factNum" name="factNum" [(ngModel)]="newCard.factNum"
-                 (blur)="verifyfactNum()" maxlength="18"/>
+          <input type="number" class="company-ipt" id="dutyNum" name="dutyNum" [(ngModel)]="newCard.dutyNum"
+                 (blur)="verifydutyNum()" maxlength="5"/>
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">突击队数量</span>
         <div class="form-inp">
-          <input type="number" class="company-ipt" name="absentNum" id="absentNum" [(ngModel)]="newCard.absentNum"
-                 (blur)="verifyabsentNum()"/>
+          <input type="number" class="company-ipt" name="commandoNum" id="commandoNum" [(ngModel)]="newCard.commandoNum"
+                 (blur)="verifycommandoNum()"/>
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">活动开展频次</span>
         <div class="form-inp">
-          <input type="number" class="company-ipt" name="reason" id="reason" [(ngModel)]="newCard.reason"
-                 (blur)="verifyreason()"/>
+          <input type="number" class="company-ipt" name="frequency" id="frequency" [(ngModel)]="newCard.frequency"
+                 (blur)="verifyfrequency()"/>
           <span class="errorMessage"></span>
         </div>
       </div>
-      <!--<div class="form-control">
-        <span class="form-label">会议主题</span>
-        <div class="form-inp">
-          <input type="text" class="company-ipt" name="theme" id="theme" [(ngModel)]="newCard.theme"
-                 (blur)="verifytheme()"/>
-          <span class="errorMessage"></span>
-        </div>
-      </div>-->
-      <!--<div class="form-control form-alone">
-        <span class="form-label">会议议程</span>
-        <div class="form-inp">
-          <textarea id="repairNote" name="note" rows="5" [(ngModel)]="newCard.note" (blur)="verifynote()"></textarea>
-          <span class="errorMessage"></span>
-        </div>
-      </div>-->
       <div class="form-control form-alone">
-        <span class="form-label">会议附件</span>
+        <span class="form-label">附件</span>
         <ul class="contract-list">
           <li *ngFor="let abc of newCard.fileName; let k=index">{{abc}}<a  href="javascript:;" (click)="delFile(k)">×</a> </li>
         </ul>

@@ -296,6 +296,8 @@ button{
   flex-wrap: wrap;
   border-radius: 4px;
   position: relative;
+  max-height: 550px;
+  overflow-y: auto;
 }
 .mask-cotainer .form-control{
   -webkit-box-flex: 0;

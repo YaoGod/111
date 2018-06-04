@@ -52,10 +52,10 @@ export class CardInfo {
   branchName:string; // 支部名称
   type:string; // 会议类型
   month: string;// 月份
-
-  bTime:string; // 开始时间
-  eTime:string; // 结束时间
-  compere:string; // 主持人
+  name:string; // 文件名称
+  beginTime:string; // 开始时间
+  endTime:string; // 结束时间
+  host:string; // 主持人
   recorder:string; // 记录人
   shouldNum:number; // 应到人数
   factNum:number; // 实到人数
@@ -63,4 +63,7 @@ export class CardInfo {
   reason:string; // 缺席原因
   theme:string; // 会议主题
   note:string; // 会议议程
+  address:string; // 会议地点
+  fileName=[];
+  filePath=[];
 }

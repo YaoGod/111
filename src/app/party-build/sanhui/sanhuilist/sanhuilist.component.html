@@ -15,9 +15,9 @@
             <label>支部名称</label>
             <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
               <option value="">-全部-</option>
-              <option *ngFor="let num of buildings"
-                      [value]="num.NAME">
-                {{num.NAME}}</option>
+              <option *ngFor="let num of repairDept"
+                      [value]="num.DEPT_ID">
+                {{num.DEPT_NAME}}</option>
             </select>
           </li>
           <li>
@@ -33,7 +33,7 @@
           </li>
           <li>
             <label >会议时间</label>
-            <input class="search-ipt search-sel" type="date" name="useCarCode222" [(ngModel)]="searchInfo.month">
+            <input class="search-ipt search-sel" type="month" name="useCarCode222" [(ngModel)]="searchInfo.month">
           </li>
           <li>
             <a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
@@ -58,7 +58,7 @@
                      [routerLink]="['/hzportal/party/sanhui/detail',inner.id]" >{{inner.branchName}}</a> </td>
               <td><a style="color:#000;" href="javascript:;"
                 [routerLink]="['/hzportal/party/sanhui/detail',inner.id]">{{inner.type}}</a> </td>
-              <td>{{inner.bTime}}至{{inner.eTime}}</td>
+              <td>{{inner.bTime}}至{{inner.eTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
               <td>{{inner.theme}}</td>
               <td> <!--*ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
                 <i class="icon-pencil" (click)="editCardInfo(inner.id,inner.useUserId)" style="margin-left: 5px;" title="编辑"></i>
@@ -89,7 +89,7 @@
           <select class="company-ipt company-sel" name="branchName" id="branchName"
                   [(ngModel)]="newCard.branchName" (blur)="verifybranchName()">
             <option value="">请选择</option>
-            <option *ngFor="let name of buildings" [value]="name.NAME">{{name.NAME}}</option>
+            <option *ngFor="let name of repairDept" [value]="name.DEPT_ID">{{name.DEPT_NAME}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>
@@ -100,11 +100,11 @@
           <select class="company-ipt company-sel" name="newtype" id="newtype" [(ngModel)]="newCard.type"
                   (blur)="verifynewtype()" >
             <option value="">请选择</option>
-            <option value="党员大会记录">党员大会记录</option>
-            <option value="支委会记录">支委会记录</option>
-            <option value="党小组会记录">党小组会记录</option>
-            <option value="党课记录">党课记录</option>
-            <option value="组织生活会记录">组织生活会记录</option>
+            <option value="党员大会">党员大会</option>
+            <option value="支委会">支委会</option>
+            <option value="党小组会">党小组会</option>
+            <option value="党课">党课</option>
+            <option value="组织生活会">组织生活会</option>
           </select>
           <span class="errorMessage"></span>
         </div>
@@ -113,7 +113,7 @@
         <span class="form-label">开始时间</span>
         <div class="form-inp">
           <input class="company-ipt" type="datetime-local" name="bTime" id="bTime"
-                 [(ngModel)]="newCard.bTime" (blur)="verifybTime()">
+                 [(ngModel)]="newCard.beginTime" (blur)="verifybTime()">
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -121,22 +121,30 @@
         <span class="form-label">结束时间</span>
         <div class="form-inp">
           <input class="company-ipt" type="datetime-local" name="bTime" id="eTime"
-                 [(ngModel)]="newCard.eTime" (blur)="verifyeTime()">
+                 [(ngModel)]="newCard.endTime" (blur)="verifyeTime()">
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">主持人</span>
         <div class="form-inp">
-          <input class="company-ipt" type="text" name="compere" id="compere"
-                 [(ngModel)]="newCard.compere" (blur)="verifycompere()" maxlength="25">
+          <input class="company-ipt" type="text" name="host" id="host"
+                 [(ngModel)]="newCard.host" (blur)="verifyhost()" maxlength="25">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">会议地点</span>
+        <div class="form-inp">
+          <input class="company-ipt" type="text" name="address" id="address"
+                 [(ngModel)]="newCard.address" (blur)="verifyaddress()" maxlength="25">
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">记录人</span>
         <div class="form-inp">
-          <input type="text" id="name" class="company-ipt" name="name" [(ngModel)]="newCard.recorder"
+          <input type="text" class="company-ipt" name="recorder" id="recorder" [(ngModel)]="newCard.recorder"
                  (blur)="verifyrecorder()" maxlength="25"/>
           <span class="errorMessage"></span>
         </div>
@@ -189,7 +197,7 @@
         </div>
       </div>
       <div class="form-control form-alone">
-        <span class="form-label">会议附件</span>
+        <span class="form-label">附件</span>
         <ul class="contract-list">
           <li *ngFor="let abc of newCard.fileName; let k=index">{{abc}}<a  href="javascript:;" (click)="delFile(k)">×</a> </li>
         </ul>
@@ -202,7 +210,7 @@
       </div>
     </form>
     <div class="mask-footer">
-      <button type="submit" class="btn-mask btn-info" (click)="submit()">保 存</button>
+      <button type="submit" class="btn-mask btn-info" (click)="submit()">提 交</button>
       <button type="button" class="btn-mask btn-danger" (click)="addCancel()">取 消</button>
     </div>
   </div>

@@ -4,13 +4,14 @@ import {Http} from "@angular/http";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {SaleProductEmployeeService} from "../../../service/sale-product-employee/sale-product-employee.service";
 declare var $: any;
 declare var confirmFunc: any;
 @Component({
   selector: 'app-subunitlist',
   templateUrl: './subunitlist.component.html',
   styleUrls: ['./subunitlist.component.css'],
-  providers:[UtilBuildingService,],
+  providers:[UtilBuildingService,SaleProductEmployeeService],
 })
 export class SubunitlistComponent implements OnInit {
   public newCard = new CardInfo();
@@ -22,38 +23,30 @@ export class SubunitlistComponent implements OnInit {
   public searchInfo = new CardInfo();
   public record:any;
   private contractBool = true;
+  public repairDept=[];
   constructor(
     public http:Http,
     public ipSetting:IpSettingService,
     public errorVoid:ErrorResponseService,
     private globalCatalogService:GlobalCatalogService,
     private utilBuildingService:UtilBuildingService,
+    private saleProductEmployeeService:SaleProductEmployeeService,
   ) { }
 
   ngOnInit() {
     this.globalCatalogService.setTitle("党建管理/工作台账上传");
-    this.buildings = [
-      {id: 1,url:'sanhui',name:'（一）、三会一课',imgPath:'sanhuiyike.png'},
-      {id: 2,url:'sanhui',name:'（二）、“六好”党支部建设月报',imgPath:'liuhaoyuebao.png'},
-      {id: 3,url:'sanhui',name:'（三）、"主题党日"活动简报',imgPath:'huodongjianbao.png'},
-      {id: 4,url:'sanhui',name:'（四）、党建实践案例',imgPath:'shijiananli.png'},
-      {id: 5,url:'sanhui',name:'（五）、党委委员调研党支部信息',imgPath:'dangweidiaoyan.png'},
-      {id: 6,url:'sanhui',name:'（六）、党支部工作计划和总结',imgPath:'jihuazongjie.png'},
-      {id: 7,url:'sanhui',name:'（七）、党支部岗区队建设情况',imgPath:'quduijianshe.png'}];
-
+    this.getRepairDept();
+    this.searchInfo.branchName = '';
     this.record = [
-      {id:1,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',},
-      {id:2,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',},
-      {id:3,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',},
-      {id:4,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',},
-      {id:5,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',},
-      {id:6,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',},
-      {id:7,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',},
-      {id:8,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',}
+      {id:1,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00'},
+      {id:2,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00'},
+      {id:3,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00'},
+      {id:4,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00'},
+      {id:5,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00'},
+      {id:6,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00'},
+      {id:7,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00'},
+      {id:8,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00'}
     ]
-
-
-
 
   }
   /*查询*/
@@ -68,7 +61,14 @@ export class SubunitlistComponent implements OnInit {
       }
     });
   }
-
+  /*获取部门列表*/
+  getRepairDept(){
+    this.saleProductEmployeeService.getDeptList().subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        this.repairDept = data.data;
+      }
+    });
+  };
   /*点击编辑*/
   editCardInfo(id){
     this.contractBool = false;
@@ -112,6 +112,7 @@ export class SubunitlistComponent implements OnInit {
     this.contractBool = true;
     $('.form-disable').attr('disabled',false).css('backgroundColor','#fff');
     this.newCard = new CardInfo();
+    this.newCard.branchName = '';
     $('.mask').fadeIn();
     $('.mask .mask-head p').html('新增党支部岗区队建设记录');
   }
@@ -122,68 +123,32 @@ export class SubunitlistComponent implements OnInit {
     }
     return true;
   }
-  public verifynewtype(){
-    if(!this.isEmpty('newtype', '不能为空')){
-      return false;
-    }
-    return true;
-  }
   public verifybTime(){
     if (!this.isEmpty('bTime', '不能为空')) {
       return false;
     }
     return true;
   }
-  public verifyeTime(){
-    if (!this.isEmpty('eTime', '不能为空')) {
+  public verifypioneerNum(){
+    if (!this.isEmpty('pioneerNum', '不能为空')) {
       return false;
     }
     return true;
   }
-  public verifycompere(){
-    if (!this.isEmpty('compere', '不能为空')) {
+  public verifydutyNum(){
+    if (!this.isEmpty('dutyNum', '不能为空')) {
       return false;
     }
     return true;
   }
-  public verifyrecorder(){
-    if (!this.isEmpty('recorder', '不能为空')) {
+  public verifycommandoNum(){
+    if (!this.isEmpty('commandoNum', '不能为空')) {
       return false;
     }
     return true;
   }
-  public verifyshouldNum(){
-    if (!this.isEmpty('shouldNum', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyfactNum(){
-    if (!this.isEmpty('factNum', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyabsentNum(){
-    if (!this.isEmpty('absentNum', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyreason(){
-    if (!this.isEmpty('reason', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifytheme(){
-    if (!this.isEmpty('theme', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifynote(){
-    if (!this.isEmpty('repairNote', '不能为空')) {
+  public verifyfrequency(){
+    if (!this.isEmpty('frequency', '不能为空')) {
       return false;
     }
     return true;
@@ -225,15 +190,16 @@ export class SubunitlistComponent implements OnInit {
   submit(){
     var url;
     if(this.contractBool === false){
-      url = "/building/parking/updateParkingPermitInfo";
+      url = "/party/update/updateBuildInfo";
     }else{
-      url = "/building/parking/addParkingPermitInfo";
+      url = "/party/add/addBuildInfo";
     }
-    if (!this.verifybranchName()||!this.verifynewtype() ) {
+    if (!this.verifybranchName()||!this.verifybTime()||!this.verifypioneerNum()||!this.verifydutyNum()||!this.verifycommandoNum()||
+      !this.verifyfrequency()) {
       return false;
     }
-
-    this.ipSetting.sendPost(url, this.newCard).subscribe(data => {
+    let postData = JSON.parse(JSON.stringify(this.newCard));
+    this.ipSetting.sendPost(url, postData).subscribe(data => {
       if(this.errorVoid.errorMsg(data)){
         confirmFunc.init({
           'title': '提示' ,
@@ -298,6 +264,10 @@ export class CardInfo {
   reason:string; // 缺席原因
   theme:string; // 会议主题
   note:string; // 会议议程
+  pioneerNum:number; // 先锋岗数量
+  dutyNum:number; // 责任区数量
+  commandoNum:number; // 突击队数量
+  frequency:number; // 活动开展频次
   fileName=[];
   filePath=[];
 }
