@@ -56,7 +56,7 @@
         <a>
         <select name="myService" [(ngModel)]="myServiceCenter" (change)="changeMyService()">
           <option value="" *ngIf="myServiceCenter===''">请选择</option>
-          <option *ngFor="let service of serviceCenters">{{service.name}}</option>
+          <option *ngFor="let service of serviceCenters" [value]="service.name">{{service.name}}</option>
         </select>
         </a>
       </span>

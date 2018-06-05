@@ -16,13 +16,13 @@
             <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
               <option value="">-全部-</option>
               <option *ngFor="let num of repairDept"
-                      [value]="num.DEPT_ID">
+                      [value]="num.DEPT_NAME">
                 {{num.DEPT_NAME}}</option>
             </select>
           </li>
           <li>
             <label >会议类型</label>
-            <select class="search-ipt search-sel" name="searchtype" [(ngModel)]="searchInfo.type">
+            <select class="search-ipt search-sel" name="searchtype" [(ngModel)]="searchInfo.subType">
               <option value="">全部</option>
               <option value="党员大会">党员大会</option>
               <option value="支委会">支委会</option>
@@ -57,11 +57,11 @@
               <td><a style="color:#000;" href="javascript:;"
                      [routerLink]="['/hzportal/party/sanhui/detail',inner.id]" >{{inner.branchName}}</a> </td>
               <td><a style="color:#000;" href="javascript:;"
-                [routerLink]="['/hzportal/party/sanhui/detail',inner.id]">{{inner.type}}</a> </td>
-              <td>{{inner.bTime}}至{{inner.eTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                [routerLink]="['/hzportal/party/sanhui/detail',inner.id]">{{inner.subType}}</a> </td>
+              <td>{{inner.beginTime | date:'yyyy-MM-dd HH:mm:ss'}}至{{inner.endTime | date:'HH:mm:ss'}}</td>
               <td>{{inner.theme}}</td>
               <td> <!--*ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
-                <i class="icon-pencil" (click)="editCardInfo(inner.id,inner.useUserId)" style="margin-left: 5px;" title="编辑"></i>
+                <i class="icon-pencil" (click)="editCardInfo(i)" style="margin-left: 5px;" title="编辑"></i>
                 <i class="icon-trash" (click)="delCardInfo(inner.id)" style="margin-left: 5px;" title="删除"></i></td>
             </tr>
           </table>
@@ -89,7 +89,7 @@
           <select class="company-ipt company-sel" name="branchName" id="branchName"
                   [(ngModel)]="newCard.branchName" (blur)="verifybranchName()">
             <option value="">请选择</option>
-            <option *ngFor="let name of repairDept" [value]="name.DEPT_ID">{{name.DEPT_NAME}}</option>
+            <option *ngFor="let name of repairDept" [value]="name.DEPT_NAME">{{name.DEPT_NAME}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>
@@ -97,7 +97,7 @@
       <div class="form-control">
         <span class="form-label">会议类型</span>
         <div class="form-inp">
-          <select class="company-ipt company-sel" name="newtype" id="newtype" [(ngModel)]="newCard.type"
+          <select class="company-ipt company-sel" name="newtype" id="newtype" [(ngModel)]="newCard.subType"
                   (blur)="verifynewtype()" >
             <option value="">请选择</option>
             <option value="党员大会">党员大会</option>
@@ -111,7 +111,7 @@
       </div>
       <div class="form-control">
         <span class="form-label">开始时间</span>
-        <div class="form-inp">
+        <div class="form-inp"><!--[value]="newCard.beginTime | date:'yyyy-MM-dd HH:mm'" -->
           <input class="company-ipt" type="datetime-local" name="bTime" id="bTime"
                  [(ngModel)]="newCard.beginTime" (blur)="verifybTime()">
           <span class="errorMessage"></span>
@@ -168,8 +168,7 @@
       <div class="form-control">
         <span class="form-label">缺席人数</span>
         <div class="form-inp">
-          <input type="number" class="company-ipt" name="absentNum" id="absentNum" [(ngModel)]="newCard.absentNum"
-                 (blur)="verifyabsentNum()"/>
+          <input type="number" class="company-ipt" name="absentNum" id="absentNum" [(ngModel)]="newCard.absentNum"/>
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -177,7 +176,7 @@
         <span class="form-label">缺席原因</span>
         <div class="form-inp">
           <input type="text" class="company-ipt form-inp" name="reason" id="reason" [(ngModel)]="newCard.reason"
-                 (blur)="verifyreason()"/>
+                 />
           <span class="errorMessage"></span>
         </div>
       </div>

@@ -17,7 +17,7 @@ export class WorkspaceHomeComponent implements OnInit {
   public count          : number;
   public pendings       : Array<any>;
   public serviceCenters : Array<any>;
-  public myServiceCenter: string = "";
+  public myServiceCenter = '';
   constructor(
     private router:Router,
     private route:ActivatedRoute,

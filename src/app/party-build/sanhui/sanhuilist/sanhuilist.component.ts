@@ -20,7 +20,7 @@ export class SanhuilistComponent implements OnInit {
   public pageNo = 1;
   public total = 0;
   public length = 10;
-  public searchInfo = new CardInfo();
+  public searchInfo = new SearchInfo();
   public record:any;
   private contractBool = true;
   public repairDept=[];
@@ -35,10 +35,13 @@ export class SanhuilistComponent implements OnInit {
 
   ngOnInit() {
     this.globalCatalogService.setTitle("党建管理/工作台账上传");
+    this.searchInfo.type = '三会一课';
     this.searchInfo.branchName = '';
+    this.searchInfo.subType = '';
+    this.repairSearch(1);
     this.getRepairDept();
 
-    this.record = [
+    /*this.record = [
       {id:1,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018-06-01T12:00',eTime:'2018-06-01T12:00',},
       {id:2,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',},
       {id:3,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',},
@@ -47,7 +50,7 @@ export class SanhuilistComponent implements OnInit {
       {id:6,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',},
       {id:7,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',},
       {id:8,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',}
-    ]
+    ]*/
 
 
 
@@ -55,31 +58,33 @@ export class SanhuilistComponent implements OnInit {
   }
   /*查询*/
   repairSearch(num){
-    let url = "/building/parking/getParkingPermitList/list/"+num+"/"+this.pageSize+'?type='+
-      this.searchInfo.type+'&&month='+this.searchInfo.month+'&&branchName='+this.searchInfo.branchName;
-    this.ipSetting.sendGet(url).subscribe(data => {
+    let url = '/party/report/getList/'+num+'/'+this.pageSize;
+
+    this.ipSetting.sendPost(url,this.searchInfo).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
-        console.log(data.data);
-        this.record = data.data.infos;
+        this.record = data.data.list;
         this.total = data.data.total;
       }
     });
   }
 
   /*点击编辑*/
-  editCardInfo(id){
+  editCardInfo(index){
     this.contractBool = false;
     $('.form-add').attr('disabled',false);
-    $('.form-disable').attr('disabled',true).css('backgroundColor','#f8f8f8');
-    let url = '/building/parking/getParkingPermitInfo/'+id;
-    this.ipSetting.sendGet(url).subscribe(data => {
-      if(this.errorVoid.errorMsg(data)) {
-        $('.mask').fadeIn();
-        $('.mask .mask-head p').html('编辑会议记录');
-        // this.newCard = data.data.object;
-
+    // $('.form-disable').attr('disabled',true).css('backgroundColor','#f8f8f8');
+    $('.mask').fadeIn();
+    $('.mask .mask-head p').html('编辑会议记录');
+    this.newCard = JSON.parse(JSON.stringify(this.record[index]));
+    this.newCard.fileName = [];
+    this.newCard.filePath = [];
+    if(this.newCard.fileContract){
+      for(let i=0;i<this.newCard.fileContract.length;i++){
+        this.newCard.fileName.push(this.newCard.fileContract[i].fileName);
+        this.newCard.filePath.push(this.newCard.fileContract[i].filePath);
       }
-    });
+    }
+    // console.log(this.newCard);
   }
   /*点击删除*/
   delCardInfo(id){
@@ -89,7 +94,7 @@ export class SanhuilistComponent implements OnInit {
       'popType': 1 ,
       'imgType': 3 ,
       'callback': () => {
-        let url = '/building/parking/deleteParkingPermitInfo/'+id;
+        let url = '/party/report/delete/'+id;
         this.ipSetting.sendGet(url).subscribe(data => {
           if(this.errorVoid.errorMsg(data)) {
             confirmFunc.init({
@@ -118,7 +123,8 @@ export class SanhuilistComponent implements OnInit {
     $('.form-disable').attr('disabled',false).css('backgroundColor','#fff');
     this.newCard = new CardInfo();
     this.newCard.branchName = '';
-    this.newCard.type = '';
+    this.newCard.type = '三会一课';
+    this.newCard.subType = '';
     $('.mask').fadeIn();
     $('.mask .mask-head p').html('新增会议记录');
   }
@@ -177,18 +183,6 @@ export class SanhuilistComponent implements OnInit {
     }
     return true;
   }
-  public verifyabsentNum(){
-    if (!this.isEmpty('absentNum', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyreason(){
-    if (!this.isEmpty('reason', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
   public verifytheme(){
     if (!this.isEmpty('theme', '不能为空')) {
       return false;
@@ -201,15 +195,15 @@ export class SanhuilistComponent implements OnInit {
     }
     return true;
   }
-  /*合同上传*/
+  /*附件上传*/
   prese_upload(files) {
-    var xhr = this.utilBuildingService.uploadFile(files[0],'sanhui',-1);
+    var xhr = this.utilBuildingService.uploadFileReport(files[0],'partyBuild',-1);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         var data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)){
-          // this.newCard.fileName.push(files[0].name);
-          // this.newCard.filePath.push(data.msg);
+          this.newCard.fileName.push(files[0].name);
+          this.newCard.filePath.push(data.data);
 
           confirmFunc.init({
             'title': '提示' ,
@@ -232,8 +226,8 @@ export class SanhuilistComponent implements OnInit {
   }
   /*删除合同文件*/
   delFile(index) {
-    // this.newCard.filePath.splice(index,1);
-    // this.newCard.fileName.splice(index,1);
+    this.newCard.filePath.splice(index,1);
+    this.newCard.fileName.splice(index,1);
   }
   submit(){
     var url;
@@ -243,15 +237,13 @@ export class SanhuilistComponent implements OnInit {
       url = "/party/add/addThreeOne";
     }
     if (!this.verifybranchName()||!this.verifynewtype()||!this.verifybTime()||!this.verifyeTime()||!this.verifyhost()||
-    !this.verifyaddress()||!this.verifyrecorder()||!this.verifyshouldNum()||!this.verifyfactNum()||!this.verifyabsentNum()||
-    !this.verifyreason()||!this.verifytheme()||!this.verifynote()) {
+    !this.verifyaddress()||!this.verifyrecorder()||!this.verifyshouldNum()||!this.verifyfactNum()||!this.verifytheme()||
+      !this.verifynote()) {
       return false;
     }
     let postData = JSON.parse(JSON.stringify(this.newCard));
-    let myDate = new Date();
-    postData.month =  myDate.getMonth()+1;
-    postData.beginTime = postData.beginTime.replace("T"," ");
-    postData.endTime = postData.endTime.replace("T"," ");
+    postData.month =  this.getNowFormatDate();
+    // postData.beginTime = postData.beginTime.replace("T"," ");
     this.ipSetting.sendPost(url, postData).subscribe(data => {
       if(this.errorVoid.errorMsg(data)){
         confirmFunc.init({
@@ -270,6 +262,21 @@ export class SanhuilistComponent implements OnInit {
     $('.mask,.mask1,.mask2').fadeOut();
     $('.errorMessage').html('');
   }
+  private getNowFormatDate() {
+  let date = new Date();
+  let seperator1 = "-";
+  let month = date.getMonth() + 1;
+  let strDate = date.getDate();
+  let num = String(month);
+  if (month >= 1 && month <= 9) {
+    num = "0" + month;
+  }
+  /*if (strDate >= 0 && strDate <= 9) {
+    strDate = "0" + strDate;
+  }*/
+  let currentdate = date.getFullYear() + seperator1 + num;
+  return currentdate;
+}
   /**非空校验*/
   public isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
@@ -304,7 +311,8 @@ export class SanhuilistComponent implements OnInit {
 export class CardInfo {
   id: number; // 本条信息ID
   branchName:string; // 支部名称
-  type:string; // 会议类型
+  type:string; // 会议类型(三会一课同级)
+  subType:string; // 子类型
   month: string;// 月份
   name:string; // 文件名称
   beginTime:string; // 开始时间
@@ -318,6 +326,26 @@ export class CardInfo {
   theme:string; // 会议主题
   note:string; // 会议议程
   address:string; // 会议地点
-  // fileName=[];
-  // filePath=[];
+  fileName=[];
+  filePath=[];
+  fileContract:any;
+}
+export class SearchInfo {
+  id: number; // 本条信息ID
+  branchName:string; // 支部名称
+  type:string; // 会议类型(三会一课同级)
+  subType:string; // 子类型
+  month: string;// 月份
+  name:string; // 文件名称
+  beginTime:string; // 开始时间
+  endTime:string; // 结束时间
+  host:string; // 主持人
+  recorder:string; // 记录人
+  shouldNum:number; // 应到人数
+  factNum:number; // 实到人数
+  absentNum:number; // 缺席人数
+  reason:string; // 缺席原因
+  theme:string; // 会议主题
+  note:string; // 会议议程
+  address:string; // 会议地点
 }

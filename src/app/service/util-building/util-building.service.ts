@@ -50,6 +50,23 @@ export class UtilBuildingService {
     return xhr;
   }
   /*
+   文件上传
+   param: postData:file,
+   return:
+   */
+  uploadFileReport(postData,type,id){
+    const url = this.ipSetting.ip + "/party/report/uploadFile/"+type+ "/" +id;
+    var form = new FormData();
+    if (typeof(postData) === 'object') {
+      form.append('file', postData);
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.withCredentials = true;
+    xhr.send(form);
+    return xhr;
+  }
+  /*
    能耗文件上传
    param: postData:file,
    return:

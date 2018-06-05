@@ -145,6 +145,7 @@
 }
 .attachment li{
   line-height:25px;
+  margin-left:12px;
 }
 .attachment a{
    color:#666;
