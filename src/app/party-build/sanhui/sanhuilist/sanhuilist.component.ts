@@ -35,31 +35,16 @@ export class SanhuilistComponent implements OnInit {
 
   ngOnInit() {
     this.globalCatalogService.setTitle("党建管理/工作台账上传");
-    this.searchInfo.type = '三会一课';
+    this.searchInfo.type = '1';
     this.searchInfo.branchName = '';
     this.searchInfo.subType = '';
     this.repairSearch(1);
     this.getRepairDept();
 
-    /*this.record = [
-      {id:1,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018-06-01T12:00',eTime:'2018-06-01T12:00',},
-      {id:2,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',},
-      {id:3,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',},
-      {id:4,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',},
-      {id:5,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',},
-      {id:6,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',},
-      {id:7,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',},
-      {id:8,branchName:'中国移动市场部支委',type:'党员大会',theme:'研究党性原则的重要性',bTime:'2018/5/1 10:00',eTime:'2018/5/1 12:00',}
-    ]*/
-
-
-
-
   }
   /*查询*/
   repairSearch(num){
     let url = '/party/report/getList/'+num+'/'+this.pageSize;
-
     this.ipSetting.sendPost(url,this.searchInfo).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         this.record = data.data.list;
@@ -123,7 +108,7 @@ export class SanhuilistComponent implements OnInit {
     $('.form-disable').attr('disabled',false).css('backgroundColor','#fff');
     this.newCard = new CardInfo();
     this.newCard.branchName = '';
-    this.newCard.type = '三会一课';
+    this.newCard.type = '1';
     this.newCard.subType = '';
     $('.mask').fadeIn();
     $('.mask .mask-head p').html('新增会议记录');

@@ -16,21 +16,10 @@
             <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
               <option value="">-全部-</option>
               <option *ngFor="let num of repairDept"
-                      [value]="num.DEPT_ID">
+                      [value]="num.DEPT_NAME">
                 {{num.DEPT_NAME}}</option>
             </select>
           </li>
-          <!--<li>
-            <label >会议类型</label>
-            <select class="search-ipt search-sel" name="searchtype" [(ngModel)]="searchInfo.type">
-              <option value="">全部</option>
-              <option value="党员大会">党员大会</option>
-              <option value="支委会">支委会</option>
-              <option value="党小组会">党小组会</option>
-              <option value="党课">党课</option>
-              <option value="组织生活会">组织生活会</option>
-            </select>
-          </li>-->
           <li>
             <label>月份</label>
             <input class="search-ipt" type="month" name="useCarCode222" [(ngModel)]="searchInfo.month">
@@ -48,7 +37,8 @@
           <table width="100%" class="card-info">
             <tr style="height: 40px; background-color: #FFA07A; text-align: center">
               <th>支部名称</th>
-              <th>文件名称</th>
+              <th>典型做法篇数</th>
+              <th>动态情况简讯篇数</th>
               <th>月份</th>
               <!--<th>会议主题</th>-->
               <th>操作</th><!-- *ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
@@ -57,11 +47,12 @@
               <td><a style="color:#000;" href="javascript:;"
                      [routerLink]="['/hzportal/party/liuhao/detail',inner.id]" >{{inner.branchName}}</a> </td>
               <td><a style="color:#000;" href="javascript:;"
-                     [routerLink]="['/hzportal/party/liuhao/detail',inner.id]">{{inner.type}}</a> </td>
-              <td>{{inner.bTime}}</td>
+                     [routerLink]="['/hzportal/party/liuhao/detail',inner.id]">{{inner.typicalMethod}}</a> </td>
+              <td>{{inner.dynamicMessage}}</td>
+              <td>{{inner.month}}</td>
               <!--<td>{{inner.theme}}</td>-->
               <td> <!--*ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
-                <i class="icon-pencil" (click)="editCardInfo(inner.id,inner.useUserId)" style="margin-left: 5px;" title="编辑"></i>
+                <i class="icon-pencil" (click)="editCardInfo(i)" style="margin-left: 5px;" title="编辑"></i>
                 <i class="icon-trash" (click)="delCardInfo(inner.id)" style="margin-left: 5px;" title="删除"></i></td>
             </tr>
           </table>
@@ -90,7 +81,7 @@
                   [(ngModel)]="newCard.branchName" (blur)="verifybranchName()">
             <option value="">请选择</option>
             <option *ngFor="let num of repairDept"
-                    [value]="num.DEPT_ID">
+                    [value]="num.DEPT_NAME">
               {{num.DEPT_NAME}}</option>
           </select>
           <span class="errorMessage"></span>
@@ -107,8 +98,8 @@
       <div class="form-control">
         <span class="form-label">典型做法篇数</span>
         <div class="form-inp">
-          <input class="company-ipt" type="number" name="typicalMetho" id="typicalMetho"
-                 [(ngModel)]="newCard.typicalMetho" (blur)="verifytypicalMetho()">
+          <input class="company-ipt" type="number" name="typicalMethod" id="typicalMethod"
+                 [(ngModel)]="newCard.typicalMethod" (blur)="verifytypicalMethod()">
           <span class="errorMessage"></span>
         </div>
       </div>

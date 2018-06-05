@@ -28,10 +28,10 @@
   padding:20px;
   margin:20px;
   position: relative;
+  min-height: 70vh;
   -webkit-background-size: 50px 50px;
   -moz-background-size: 50px 50px;
   background-size: 50px 50px; /* 控制条纹的大小 */
-
   -moz-box-shadow: 1px 1px 8px gray;
   -webkit-box-shadow: 1px 1px 8px gray;
   box-shadow: 1px 1px 8px gray;
@@ -40,14 +40,6 @@
   -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.25, #F4F4F4), color-stop(.25, transparent), to(transparent)),
   -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.75, transparent), color-stop(.75, #F4F4F4)),
   -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.75, transparent), color-stop(.75, #F4F4F4));
-  /* background-image: -moz-linear-gradient(45deg, #555 25%, transparent 25%, transparent),
-   -moz-linear-gradient(-45deg, #555 25%, transparent 25%, transparent),
-   -moz-linear-gradient(45deg, transparent 75%, #555 75%),
-   -moz-linear-gradient(-45deg, transparent 75%, #555 75%);
-   background-image: -o-linear-gradient(45deg, #555 25%, transparent 25%, transparent),
-   -o-linear-gradient(-45deg, #555 25%, transparent 25%, transparent),
-   -o-linear-gradient(45deg, transparent 75%, #555 75%),
-   -o-linear-gradient(-45deg, transparent 75%, #555 75%);*/
   background-image: linear-gradient(45deg, #F4F4F4 25%, transparent 25%, transparent),
   linear-gradient(-45deg, #F4F4F4 25%, transparent 25%, transparent),
   linear-gradient(45deg, transparent 75%, #F4F4F4 75%),
@@ -59,7 +51,7 @@
 }
 .card-right{
   float: left;
-  width: 450px;
+  width: 75%;
 }
 .card-left>li{
   text-align: justify;
@@ -306,3 +298,15 @@ button{
   margin-left: 20px;
 }
 
+.attachment li{
+  line-height:25px;
+  margin-left:12px;
+}
+.attachment a{
+  color:#666;
+  font-size: 14px;
+}
+.attachment a i{
+  color:#0b76cc;
+  margin-left:10px;
+}

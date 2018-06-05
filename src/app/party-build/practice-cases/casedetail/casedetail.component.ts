@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {Http} from "@angular/http";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
+import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 
 @Component({
   selector: 'app-casedetail',
@@ -10,11 +13,12 @@ import {GlobalCatalogService} from "../../../service/global-catalog/global-catal
 export class CasedetailComponent implements OnInit {
 
   public ID:string;
-  public eTime:string;
-  public newCard:any;// = new CardInfo();
-  public history:any;
+  public newCard = new CardInfo();
   constructor(
+    public http:Http,
+    public ipSetting:IpSettingService,
     private route    : ActivatedRoute,
+    public errorVoid:ErrorResponseService,
     private globalCatalogService:GlobalCatalogService,
   ) { }
 
@@ -23,40 +27,24 @@ export class CasedetailComponent implements OnInit {
     this.route.params.subscribe(data => {
       this.getWelfare(data.id);
     });
-    this.newCard = {
-      id:1,
-      branchName:'中国移动市场部支委',
-      type:'党员大会',
-      theme:'研究党性原则的重要性',
-      bTime:'2018/5',
-      eTime:'2018/5',
-      compere:'张三',recorder:'李四',
-      shouldNum:5,
-      factNum:4,
-      absentNum:1,
-      reason:'事假',
-    }
   }
+
   /*获取当前id的会议内容*/
   getWelfare(id){
-
+    let url = "/party/report/detail/"+id;
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        this.newCard = data.data;
+      }
+    });
   }
-
 }
 export class CardInfo {
   id: number; // 本条信息ID
   branchName:string; // 支部名称
-  type:string; // 会议类型
+  type:string; // 党建类型
   month: string;// 月份
-
-  bTime:string; // 开始时间
-  eTime:string; // 结束时间
-  compere:string; // 主持人
-  recorder:string; // 记录人
-  shouldNum:number; // 应到人数
-  factNum:number; // 实到人数
-  absentNum:number; // 缺席人数
-  reason:string; // 缺席原因
-  theme:string; // 会议主题
-  note:string; // 会议议程
+  subType:string; // 案例类型
+  theme:string; // 案例名称
+  note:string; // 案例概述
 }

@@ -29,14 +29,14 @@ export class SanhuidetailComponent implements OnInit {
     });
   }
   /*获取当前id的会议内容*/
-  getWelfare(id){
-    let url = "/party/report/detail/"+id;
-    this.ipSetting.sendGet(url).subscribe(data => {
-      if(this.errorVoid.errorMsg(data)) {
-        // console.log(data);
-        this.newCard = data.data;
-      }
-    });
+    getWelfare(id){
+      let url = "/party/report/detail/"+id;
+      this.ipSetting.sendGet(url).subscribe(data => {
+        if(this.errorVoid.errorMsg(data)) {
+          // console.log(data);
+          this.newCard = data.data;
+        }
+      });
 
   }
   /*判断textarea的行数自适应*/

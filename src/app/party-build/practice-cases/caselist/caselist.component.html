@@ -1,7 +1,7 @@
 <div class="wrap">
   <div class="cont">
     <div class="row clearfix">
-      <div class="row-title">"实践案例"工作台账管理</div>
+      <div class="row-title">党建实践案例工作台账管理</div>
       <div class="b-head-right">
         <div class="content-box" onclick="history.go(-1)" tabindex="0">
           <i class="icon-reload"></i> 返回
@@ -15,25 +15,14 @@
             <label>支部名称</label>
             <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
               <option value="">全部</option>
-              <option *ngFor="let build of buildings"
-                      [value]="build.name">
-                {{build.name}}
-              </option>
-            </select>
-          </li>
-          <li>
-            <label>文件名称</label>
-            <select name="fileName" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
-              <option value="">全部</option>
-              <option *ngFor="let build of buildings"
-                      [value]="build.name">
-                {{build.name}}
+              <option *ngFor="let dept of deptList">
+                {{dept.DEPT_NAME}}
               </option>
             </select>
           </li>
           <li>
             <label>月份</label>
-            <input class="search-ipt search-sel" type="date" name="useCarCode222" [(ngModel)]="searchInfo.month">
+            <input class="search-ipt search-sel" type="month" name="month" [(ngModel)]="searchInfo.month">
           </li>
           <li>
             <a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
@@ -47,26 +36,28 @@
         <li class="room-card">
           <table width="100%" class="card-info">
             <tr style="height: 40px; background-color: #FFECEC; text-align: center">
+              <th>案例名称</th>
               <th>支部名称</th>
-              <th>文件名称</th>
-              <th>月份</th>
               <th>案例类型</th>
-              <th>操作</th><!-- *ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
+              <th>月份</th>
+              <th>操作</th>
             </tr>
-            <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
+            <tr style="height: 36px; text-align: center" *ngFor="let inner of recordList;let i=index">
               <td><a style="color:#000;" href="javascript:;"
-                     [routerLink]="['/hzportal/party/practice/detail',inner.id]">{{inner.branchName}}</a></td>
-              <td><a style="color:#000;" href="javascript:;"
-                     [routerLink]="['/hzportal/party/practice/detail',inner.id]">{{inner.type}}</a></td>
-              <td>{{inner.bTime}}</td>
-              <td>{{inner.theme}}</td>
-              <td> <!--*ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
-                <i class="icon-pencil" (click)="editCardInfo(inner.id,inner.useUserId)" style="margin-left: 5px;"
-                   title="编辑"></i>
-                <i class="icon-trash" (click)="delCardInfo(inner.id)" style="margin-left: 5px;" title="删除"></i></td>
+                     [routerLink]="['/hzportal/party/practice/detail',inner.id]">{{inner.theme}}</a></td>
+              <td>{{inner.branchName}}</td>
+              <td>{{inner.subType}}</td>
+              <td>{{inner.month}}</td>
+              <td>
+                <i class="icon-pencil" (click)="editCardInfo(i)" style="margin-left: 5px;" title="编辑"></i>
+                <i class="icon-trash" (click)="delCardInfo(inner.id)" style="margin-left: 5px;" title="删除"></i>
+              </td>
             </tr>
           </table>
         </li>
+        <div class="div-none" *ngIf="recordList.length === 0">
+          <p>暂无信息</p>
+        </div>
       </ul>
       <app-turn-bar
         [pageNo]="pageNo"
@@ -91,39 +82,24 @@
           <select class="company-ipt company-sel" name="branchName" id="branchName"
                   [(ngModel)]="newCard.branchName" (blur)="verifybranchName()">
             <option value="">请选择</option>
-            <option *ngFor="let name of buildings" [value]="name.NAME">{{name.NAME}}</option>
+            <option *ngFor="let dept of deptList">{{dept.DEPT_NAME}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>
       </div>
-      <!--<div class="form-control">
-        <span class="form-label">文件名称</span>
-        <div class="form-inp">
-          <select class="company-ipt company-sel" name="newtype" id="newtype" [(ngModel)]="newCard.type"
-                  (blur)="verifynewtype()">
-            &lt;!&ndash;<option value="">请选择</option>&ndash;&gt;
-            <option value="党员大会记录">党员大会记录</option>
-            <option value="支委会记录">支委会记录</option>
-            <option value="党小组会记录">党小组会记录</option>
-            <option value="党课记录">党课记录</option>
-            <option value="组织生活会记录">组织生活会记录</option>
-          </select>
-          <span class="errorMessage"></span>
-        </div>
-      </div>-->
       <div class="form-control">
         <span class="form-label">月份</span>
         <div class="form-inp">
-          <input class="company-ipt" type="month" name="bTime" id="bTime"
-                 [(ngModel)]="newCard.bTime" (blur)="verifybTime()">
+          <input class="company-ipt" type="month" name="month" id="month"
+                 [(ngModel)]="newCard.month" (blur)="verifymonth()">
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control form-alone">
         <span class="form-label">案例类型</span>
         <div class="form-inp">
-          <select class="company-ipt company-sel form-inp" name="anlitype" id="anlitype" [(ngModel)]="newCard.type"
-                  (blur)="verifynewtype()">
+          <select class="company-ipt company-sel form-inp" name="anlitype" id="anlitype" [(ngModel)]="newCard.subType"
+                  (blur)="verifyanlitype()">
             <!--<option value="">请选择</option>-->
             <option value="关于落实党建工作责任制方面的实践材料">关于落实党建工作责任制方面的实践材料</option>
             <option value="关于加强基层党组织建设方面的实践材料">关于加强基层党组织建设方面的实践材料</option>
@@ -141,16 +117,16 @@
       <div class="form-control form-alone">
         <span class="form-label">案例名称</span>
         <div class="form-inp">
-          <input class="company-ipt form-inp" type="text" name="compere" id="compere" maxlength="40"
-                 [(ngModel)]="newCard.compere" (blur)="verifybTime()">
+          <input class="company-ipt form-inp" type="text" name="caseName" id="caseName" maxlength="40"
+                 [(ngModel)]="newCard.theme" (blur)="verifycaseName()">
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control form-alone">
         <span class="form-label">案例概述<br>(限400字)</span>
         <div class="form-inp" style="width:100%;">
-          <textarea style="width:100%; border:1px solid #f1f1f1" name="absentNum" id="absentNum" rows="8" maxlength="400"
-                 [(ngModel)]="newCard.absentNum" (blur)="verifybTime()">
+          <textarea style="width:100%; border:1px solid #f1f1f1" name="caseNote" id="caseNote" rows="8" maxlength="400"
+                 [(ngModel)]="newCard.note" (blur)="verifycaseNote()">
           </textarea>
           <span class="errorMessage"></span>
         </div>
@@ -158,11 +134,12 @@
       <div class="form-control form-alone">
         <span class="form-label">附件</span>
         <ul class="contract-list">
-          <!--<li *ngFor="let abc of newCard.fileName; let k=index">{{abc}}<a  href="javascript:;" (click)="delFile(k)">×</a> </li>-->
+          <li *ngFor="let abc of newCard.fileName; let k=index">{{abc}}<a  href="javascript:;" (click)="delFile(k)">×</a> </li>
         </ul>
         <div class="form-inp" style=" margin-top:5px;">
           <a href="javascript:;" style="color:#666; margin-left:127px; border-radius:4px; padding:5px 10px; background: #f6f6f6;" onclick="$('#prese').trigger('click')">上 传</a>
-          <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;">
+          <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;"
+                 (change)="prese_upload(prese.files)">
           <span class="errorMessage"></span>
         </div>
       </div>

@@ -172,7 +172,7 @@
             <div style="margin-top: 15px;">
               <div>
                 <label>商品价格：</label>
-                <input type="text" class="producttext" id="vupprice" name="upprice" (blur)="verifyEmpty('upprice','费用不能为空')"   [(ngModel)]="goodsUp.price">
+                <input type="number" class="producttext" id="vupprice" name="upprice" (blur)="verifyEmpty('upprice','费用不能为空')"   [(ngModel)]="goodsUp.price">
                 <span class="errorMessage"></span>
               </div>
             </div>

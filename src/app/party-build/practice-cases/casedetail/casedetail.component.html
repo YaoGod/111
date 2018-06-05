@@ -1,24 +1,34 @@
 <div class="wrap">
   <div class="cont">
     <div class="row clearfix">
-      <div class="row-title">"实践案例"记录详情</div>
+      <div class="row-title">党建实践案例记录详情</div>
       <div class="content-box" tabindex="0" onclick="history.go(-1)">
         <i class="icon-reload"></i> 返回
       </div>
     </div>
     <div class="cont-inner clearfix">
       <ul class="card-left">
+        <li>案例名称</li>
         <li>支部名称</li>
-        <li>文件名称</li>
-        <li>月份</li>
         <li>案例类型</li>
+        <li>月份</li>
+        <li>案例概述</li>
+        <li>&nbsp;</li>
       </ul>
       <ul class="card-right">
+        <li>{{newCard.theme}}</li>
         <li>{{newCard.branchName}}</li>
-        <li>{{newCard.type}}</li>
-        <li>{{newCard.bTime}}</li>
-        <li>{{newCard.eTime}}</li>
+        <li>{{newCard.subType}}</li>
+        <li>{{newCard.month}}</li>
+        <li>{{newCard.note}}</li>
       </ul>
+      <div class="note">
+        <div class="title"><span>附件</span></div>
+        <ul class="attachment">
+          <li><a *ngFor="let abc of newCard.fileContract" [href]="ipSetting.fileUrl+abc.filePath" [download]="abc.fileName">
+            {{abc.fileName}} <i class="icon-cloud-download">下载</i></a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
