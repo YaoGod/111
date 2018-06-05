@@ -15,15 +15,10 @@
             <label>支部名称</label>
             <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
               <option value="">-全部-</option>
-              <option *ngFor="let num of buildings"
-                      [value]="num.name">
-                {{num.name}}</option>
+              <option *ngFor="let num of deptList"
+                      [value]="num.DEPT_NAME">
+                {{num.DEPT_NAME}}</option>
             </select>
-          </li>
-          <li>
-            <label>文件名称</label>
-            <input class="search-ipt search-sel" type="text" placeholder="党委委员调研信息"
-                   name="searchFileName" [(ngModel)]="searchInfo.fileName">
           </li>
           <li>
             <label >月份</label>
@@ -32,12 +27,12 @@
           <li>
             <label>党委委员</label>
             <input class="search-ipt search-sel" type="text" placeholder=""
-                   name="searchPartyWorkerName" [(ngModel)]="searchInfo.partyWorkerName">
+                   name="searchPartyWorkerName" [(ngModel)]="searchInfo.host">
           </li>
           <li>
             <label>调研主题</label>
             <input class="search-ipt search-sel" type="text" placeholder=""
-                   name="searchThemeTitle" [(ngModel)]="searchInfo.themeTitle">
+                   name="searchThemeTitle" [(ngModel)]="searchInfo.theme">
           </li>
           <li>
             <a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
@@ -62,10 +57,10 @@
               <td><a style="color:#000;" href="javascript:;"
                      [routerLink]="['../detail',inner.id]" >{{inner.branchName}}</a> </td>
               <td><a style="color:#000;" href="javascript:;"
-                     [routerLink]="['../detail',inner.id]">{{inner.fileName}}</a> </td>
-              <td>2018年{{inner.month}}月</td>
-              <td>{{inner.partyWorkerName}}</td>
-              <td>{{inner.themeTitle}}</td>
+                     [routerLink]="['../detail',inner.id]">{{inner.subType}}</a> </td>
+              <td>{{inner.month}}</td>
+              <td>{{inner.host}}</td>
+              <td>{{inner.theme}}</td>
               <td> <!--*ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
                 <i class="icon-pencil" (click)="editCardInfo(inner)" style="margin-left: 5px;" title="编辑"></i>
                 <i class="icon-trash" (click)="delCardInfo(inner.id)" style="margin-left: 5px;" title="删除"></i></td>
@@ -93,9 +88,9 @@
         <span class="form-label">支部名称</span>
         <div class="form-inp">
           <select class="company-ipt company-sel" name="branchName" id="branchName"
-                  [(ngModel)]="newCard.branchName" (blur)="verifybranchName()">
+                  [(ngModel)]="newCard.branchName" (blur)="verifyEmpty('branchName')">
             <option value="">请选择</option>
-            <option *ngFor="let name of buildings" [value]="name.name">{{name.name}}</option>
+            <option *ngFor="let name of deptList" [value]="name.DEPT_NAME">{{name.DEPT_NAME}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>
@@ -104,7 +99,7 @@
         <span class="form-label">月份</span>
         <div class="form-inp">
           <input class="company-ipt" type="month" name="month" id="month"
-                 [(ngModel)]="newCard.month">
+                 [(ngModel)]="newCard.month" (blur)="verifyEmpty('month')">
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -112,7 +107,7 @@
         <span class="form-label">党委委员</span>
         <div class="form-inp">
           <input class="company-ipt" type="text" name="partyWorkerName" id="partyWorkerName"
-                 [(ngModel)]="newCard.partyWorkerName">
+                 [(ngModel)]="newCard.host" (blur)="verifyEmpty('partyWorkerName')">
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -120,7 +115,7 @@
         <span class="form-label">调研主题</span>
         <div class="form-inp">
           <input class="company-ipt" type="text" name="themeTitle" id="themeTitle" style="width: 100%"
-                 [(ngModel)]="newCard.themeTitle">
+                 [(ngModel)]="newCard.theme" (blur)="verifyEmpty('themeTitle')">
           <span class="errorMessage"></span>
         </div>
       </div>

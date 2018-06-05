@@ -15,17 +15,18 @@
             <label>支部名称</label>
             <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
               <option value="">-全部-</option>
-              <option *ngFor="let num of buildings"
-                      [value]="num.id">
-                {{num.name}}</option>
+              <option *ngFor="let dept of deptList"
+                      [value]="dept.DEPT_NAME">
+                {{dept.DEPT_NAME}}</option>
             </select>
           </li>
           <li>
             <label>文件名称</label>
-            <select class="search-ipt search-sel" type="text" name="searchFileName" [(ngModel)]="searchInfo.fileName">
+            <select class="search-ipt search-sel" type="text" name="searchFileName" [(ngModel)]="searchInfo.subType">
               <option value="">-全部-</option>
               <option>党支部工作计划</option>
-              <option>党支部工作总结</option>
+              <option>党支部半年度总结</option>
+              <option>党支部年度总结</option>
             </select>
           </li>
           <li>
@@ -53,7 +54,7 @@
               <td><a style="color:#000;" href="javascript:;"
                      [routerLink]="['../detail',inner.id]" >{{inner.branchName}}</a> </td>
               <td><a style="color:#000;" href="javascript:;"
-                     [routerLink]="['../detail',inner.id]">{{inner.fileName}}</a> </td>
+                     [routerLink]="['../detail',inner.id]">{{inner.subType}}</a> </td>
               <td>{{inner.month}}月</td>
               <td> <!--*ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
                 <i class="icon-pencil" (click)="editCardInfo(inner)" style="margin-left: 5px;" title="编辑"></i>
@@ -84,7 +85,7 @@
           <select class="company-ipt company-sel" name="branchName" id="branchName"
                   [(ngModel)]="newCard.branchName" (blur)="verifybranchName()">
             <option value="">请选择</option>
-            <option *ngFor="let name of buildings" [value]="name.id">{{name.name}}</option>
+            <option *ngFor="let dept of deptList" [value]="dept.DEPT_NAME">{{dept.DEPT_NAME}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>
@@ -92,10 +93,11 @@
       <div class="form-control">
         <span class="form-label">文件名称</span>
         <div class="form-inp">
-          <select class="company-ipt" type="datetime-local" name="fileName" id="fileName"
-                 [(ngModel)]="newCard.fileName">
+          <select class="company-ipt" type="datetime-local" name="type" id="type"
+                 [(ngModel)]="newCard.subType" (blur)="verifynewtype()">
             <option>党支部工作计划</option>
-            <option>党支部工作总结</option>
+            <option>党支部半年度总结</option>
+            <option>党支部年度总结</option>
           </select>
           <span class="errorMessage"></span>
         </div>
@@ -104,7 +106,7 @@
         <span class="form-label">月份</span>
         <div class="form-inp">
           <input class="company-ipt" type="month" name="month" id="month"
-                 [(ngModel)]="newCard.month">
+                 [(ngModel)]="newCard.month" (blur)="verifybTime()">
           <span class="errorMessage"></span>
         </div>
       </div>
