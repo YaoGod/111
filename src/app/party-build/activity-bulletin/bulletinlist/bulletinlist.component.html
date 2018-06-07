@@ -35,16 +35,17 @@
       <ul class="card-list clearfix">
         <li class="room-card">
           <table width="100%" class="card-info">
-            <tr style="height: 40px; background-color: #FFECEC; text-align: center">
+            <tr style="height: 40px; background-color: #FFECEC; text-align: center; font-weight: bold; font-size: 14px;color:#04a9f3;">
               <th>支部名称</th>
               <th>活动类型</th>
+
               <th>月份</th>
               <th>支部党员人数</th>
               <th>参与人数</th>
               <th>操作</th>
             </tr>
             <tr style="height: 36px; text-align: center" *ngFor="let inner of recordList;let i=index">
-              <td><a style="color:#000;" href="javascript:;"
+              <td><a href="javascript:;"
                      [routerLink]="['/hzportal/party/bulletin/detail',inner.id]">{{inner.branchName}}</a></td>
               <td>{{inner.subType}}</td>
               <td>{{inner.month}}</td>
@@ -57,7 +58,7 @@
             </tr>
           </table>
         </li>
-        <div class="div-none" *ngIf="recordList.length === 0">
+        <div class="div-none" *ngIf="recordList && recordList.length === 0">
           <p>暂无信息</p>
         </div>
       </ul>
@@ -84,7 +85,7 @@
           <select class="company-ipt company-sel" name="branchName" id="branchName"
                   [(ngModel)]="newCard.branchName" (blur)="verifybranchName()">
             <option value="">请选择</option>
-            <option *ngFor="let dept of deptList" >{{dept.DEPT_NAME}}</option>
+            <option *ngFor="let dept of deptList" [value]="dept.DEPT_NAME" >{{dept.DEPT_NAME}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>

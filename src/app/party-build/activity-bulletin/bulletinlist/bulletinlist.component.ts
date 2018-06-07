@@ -22,6 +22,7 @@ export class BulletinlistComponent implements OnInit {
   public pageSize = 15;
   public pageNo = 1;
   public total = 0;
+  public length = 0;
   public newCard = new CardInfo();
   public searchInfo = new CardInfo();
   private contractBool = true;
@@ -38,7 +39,7 @@ export class BulletinlistComponent implements OnInit {
 
   ngOnInit() {
     this.globalCatalogService.setTitle("党建管理/工作台账上传");
-    this.searchInfo.type = '3';
+
     this.searchInfo.branchName = '';
     this.searchInfo.month = '';
     this.recordList = [];
@@ -73,8 +74,8 @@ export class BulletinlistComponent implements OnInit {
   /*点击新增*/
   addVehicle(){
     this.contractBool = true;
-    $('.form-disable').attr('disabled',false).css('backgroundColor','#fff');
     this.newCard = new CardInfo();
+    this.newCard.branchName = '';
     this.newCard.type = '3';
     $('.mask').fadeIn();
     $('.mask .mask-head p').html('新增“主题党日”活动简报');
@@ -139,7 +140,6 @@ export class BulletinlistComponent implements OnInit {
   /*点击编辑*/
   editCardInfo(index){
     this.contractBool = false;
-    $('.form-add').attr('disabled',false);
     $('.mask').fadeIn();
     $('.mask .mask-head p').html('编辑“主题党日”活动简报');
     this.newCard = JSON.parse(JSON.stringify(this.recordList[index]));

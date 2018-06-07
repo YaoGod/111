@@ -75,3 +75,22 @@
   border-radius: 50%;
   background-color: rgba(0,0,0,.1);
 }
+.cont-icon{
+  font-size: 150px;
+  text-align: center;
+  position: relative;
+}
+.cont-icon span{
+  display: inline-block;
+  font-size: 16px;
+  line-height:30px;
+  color:#fff;
+  font-weight: bold;;
+  position: absolute;
+  right:105px;
+  top:4px;
+  width:30px;
+  height:30px;
+  border-radius: 50%;
+  background-color: #ff0000;
+}

@@ -2,6 +2,7 @@
   float: left;
   line-height:36px;
   color: #fb9678;
+  font-size: 15px;
   border-bottom: 2px solid #fb9678;
 
 }
@@ -148,6 +149,7 @@
 }
 .attachment a{
   color:#666;
+  margin-left:10px;
   font-size: 14px;
 }
 .attachment a i{

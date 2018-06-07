@@ -3,26 +3,72 @@
   <ul>
     <li><label>模块类型</label>
       <select name="module" [(ngModel)]="search.type">
-        <option value="">全部</option>
-        <option>三会一课</option>
-        <option>六好建设</option>
-        <option>主题党日</option>
-        <option>实践案例</option>
-        <option>党委调研</option>
-        <option>工作总结</option>
-        <option>岗区委建设</option>
+        <option value="1">三会一课</option>
+        <option value="2">“六好”党支部建设月报</option>
+        <option value="3">"主题党日"活动简报</option>
+        <option value="4">党建实践案例</option>
+        <option value="5">党委委员调研党支部信息</option>
+        <option value="6">党支部工作计划和总结</option>
+        <option value="7">党支部岗区队建设情况</option>
       </select>
     </li>
+    <!--<li>
+      <label>统计类型</label>
+      <select
+        name="floorUse" (change)="changeDate()" [(ngModel)]="countType">
+        <option value="1">按月份</option>
+        <option value="2">按季度</option>
+        <option value="3">按年份</option>
+      </select>
+    </li>
+    <li>
+      <label>时间</label>
+      <input type="month" style="display: none;"  id="date1"  [(ngModel)]="countValue">
+
+      <select style="display: none;"
+              id="date2" [(ngModel)]="countValue1">
+        <option value="1">一季度</option>
+        <option value="2">二季度</option>
+        <option value="3">三季度</option>
+        <option value="4">四季度</option>
+      </select>
+      <select id="date3" [(ngModel)]="countValue2">
+        <option value="2017">2017年</option>
+        <option value="2018">2018年</option>
+      </select>
+    </li>-->
     <li><label>支部名称</label>
-      <select name="module">
+      <select name="branchName" [(ngModel)]="search.branchName">
         <option value="">全部</option>
+        <option *ngFor="let abc of repairDept" [value]="abc.DEPT_NAME">{{abc.DEPT_NAME}}</option>
       </select>
     </li>
-    <li *ngIf="search.type!=='三会一课'"><label>月份</label>
-      <input name="month" type="month">
+    <li *ngIf="search.type==='1'"><label>会议类型</label>
+      <select class="search-ipt search-sel" name="searchtype" [(ngModel)]="search.subType">
+        <option value="">全部</option>
+        <option value="党员大会">党员大会</option>
+        <option value="支委会">支委会</option>
+        <option value="党小组会">党小组会</option>
+        <option value="党课">党课</option>
+        <option value="组织生活会">组织生活会</option>
+      </select>
+    </li>
+    <li *ngIf="search.type==='6'">
+      <label>文件类型</label>
+      <select class="search-ipt search-sel" type="text" name="searchFileName" [(ngModel)]="search.subType">
+        <option value="">-全部-</option>
+        <option>党支部工作计划</option>
+        <option>党支部半年度总结</option>
+        <option>党支部年度总结</option>
+      </select>
+    </li>
+    <li><label>月份</label>
+      <input name="Bmonth" type="month" [(ngModel)]="search.BTime" [value]="search.BTime"> 至
+      <input name="Emonth" type="month" [(ngModel)]="search.ETime" [value]="search.ETime">
     </li>
     <li>
       <a (click)="getDataList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
+      <a (click)="downDeriving();"><i class="icon-docs"></i>&nbsp;导出</a>
     </li>
   </ul>
 </div>
@@ -30,41 +76,90 @@
 <div class="table-head" style="margin-top: 10px">
   <table border="0" cellspacing="0" cellpadding="0" class="list-box">
     <tr class="row list-title" style="height:45px;">
-      <th width="10%">模块类型</th>
-      <th width="10%" class="text-left">支部名称</th>
-      <th width="10%" class="text-left"  *ngIf="search.type!=='三会一课'">月份</th>
-      <th width="10%" class="text-left">文件名称</th>
-      <th width="10%" class="text-left">创建人</th>
-      <th width="15%">创建时间</th>
-      <th width="20%">操作</th>
+      <!--<th width="10%">模块类型</th>-->
+      <th width="10%" >支部名称</th>
+      <th width="10%" *ngIf="search.type!=='1'">月份</th>
+      <th width="10%" *ngIf="search.type==='1'">会议类型</th>
+      <th width="10%" *ngIf="search.type==='3'">活动类型</th>
+      <th width="20%" *ngIf="search.type==='4'">案例类型</th>
+      <th width="20%" *ngIf="search.type==='6'">文件类型</th>
+      <th width="20%" *ngIf="search.type==='1'">会议时间</th>
+      <th width="20%" *ngIf="search.type==='1'">会议主题</th>
+      <th width="10%" *ngIf="search.type==='2'">典型做法篇数</th>
+      <th width="10%" *ngIf="search.type==='2'">动态情况简讯篇数</th>
+      <th width="10%" *ngIf="search.type==='3'">支部党员人数</th>
+      <th width="10%" *ngIf="search.type==='3'">参与人数</th>
+      <th width="15%" *ngIf="search.type==='4'">案例名称</th>
+      <th width="15%" *ngIf="search.type==='5'">党委委员</th>
+      <th width="15%" *ngIf="search.type==='5'">调研主题</th>
+      <th width="15%" *ngIf="search.type==='7'">先锋岗数量</th>
+      <th width="15%" *ngIf="search.type==='7'">责任区数量</th>
+      <th width="15%" *ngIf="search.type==='7'">突击队数量</th>
+      <th width="15%" *ngIf="search.type==='7'">活动开展频次</th>
+      <!--<th width="10%" class="text-left">文件名称</th>-->
+      <!--<th width="10%">创建人</th>
+      <th width="15%">创建时间</th>-->
+      <th width="10%">操作</th>
     </tr>
-    <tr class="row" *ngFor="let report of list;let i = index">
-      <td class="text-left">
-        {{report.userId}}
+    <tr class="row" *ngFor="let report of record;let i = index">
+      <!--<td class="text-left">{{report.branchName}}</td>-->
+      <td>{{report.branchName}}</td>
+      <td *ngIf="search.type!=='1'">{{report.month}}</td>
+      <td *ngIf="search.type!=='2' && search.type!=='7'&& search.type!=='5'">{{report.subType}}</td>
+      <td *ngIf="search.type==='1'">{{report.beginTime | date:'yyyy/MM/dd HH:mm'}}至{{report.endTime | date:'HH:mm'}}</td>
+      <td *ngIf="search.type==='1'">{{report.theme}}</td>
+      <td *ngIf="search.type==='2'">{{report.typicalMethod}}</td>
+      <td *ngIf="search.type==='2'">{{report.dynamicMessage}}</td>
+      <td *ngIf="search.type==='3'">{{report.shouldNum}}</td>
+      <td *ngIf="search.type==='3'">{{report.factNum}}</td>
+      <td *ngIf="search.type==='4'">{{report.theme}}</td>
+      <td *ngIf="search.type==='5'">{{report.host}}</td>
+      <td *ngIf="search.type==='5'">{{report.theme}}</td>
+      <td *ngIf="search.type==='7'">{{report.pioneerNum}}</td>
+      <td *ngIf="search.type==='7'">{{report.dutyNum}}</td>
+      <td *ngIf="search.type==='7'">{{report.commandoNum}}</td>
+      <td *ngIf="search.type==='7'">{{report.frequency}}</td>
+
+      <!--<td>{{report.operationModule}}</td>
+      <td><p>{{report.operationTime| date:'yyyy/MM/dd HH:mm:ss'}}</p></td>-->
+      <td *ngIf="search.type==='1'" class="box-option">
+        <a [routerLink]="['../../sanhui/detail',report.id]">
+          <i class="icon-eye"></i>&nbsp;详情
+        </a>
       </td>
-      <td class="text-left">
-        {{report.userName}}
+      <td *ngIf="search.type==='2'" class="box-option">
+        <a [routerLink]="['../../liuhao/detail',report.id]">
+          <i class="icon-eye"></i>&nbsp;详情
+        </a>
       </td>
-      <td class="text-left"  *ngIf="search.type!=='三会一课'">
-        {{report.userDept}}
+      <td *ngIf="search.type==='3'" class="box-option">
+        <a [routerLink]="['../../bulletin/detail',report.id]">
+          <i class="icon-eye"></i>&nbsp;详情
+        </a>
       </td>
-      <td class="text-left">
-        {{report.operationModule}}
+      <td *ngIf="search.type==='4'" class="box-option">
+        <a [routerLink]="['../../practice/detail',report.id]">
+          <i class="icon-eye"></i>&nbsp;详情
+        </a>
       </td>
-      <td>
-        {{report.clientIp}}
+      <td *ngIf="search.type==='5'" class="box-option">
+        <a [routerLink]="['../../dangwei/detail',report.id]">
+          <i class="icon-eye"></i>&nbsp;详情
+        </a>
       </td>
-      <td>
-        <p>{{report.operationTime| date:'yyyy/MM/dd HH:mm:ss'}}</p>
+      <td *ngIf="search.type==='6'" class="box-option">
+        <a [routerLink]="['../../jihua/detail',report.id]">
+          <i class="icon-eye"></i>&nbsp;详情
+        </a>
       </td>
-      <td class="box-option">
-        <a [routerLink]="['../../exportDetail',report.id]">
+      <td *ngIf="search.type==='7'" class="box-option">
+        <a [routerLink]="['../../subunit/detail',report.id]">
           <i class="icon-eye"></i>&nbsp;详情
         </a>
       </td>
     </tr>
   </table>
-  <div class="div-none" *ngIf="list.length === 0">
+  <div class="div-none" *ngIf="record && record.length === 0">
     <p>暂无信息</p>
   </div>
 </div>

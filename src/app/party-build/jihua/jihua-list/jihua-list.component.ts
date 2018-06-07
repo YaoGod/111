@@ -60,8 +60,6 @@ export class JihuaListComponent implements OnInit {
   /*点击编辑*/
   editCardInfo(inner){
     this.contractBool = false;
-    $('.form-add').attr('disabled',false);
-    $('.form-disable').attr('disabled',true).css('backgroundColor','#f8f8f8');
     this.newCard = JSON.parse(JSON.stringify(inner));
     this.newCard.fileName = [];
     this.newCard.filePath = [];
@@ -98,9 +96,9 @@ export class JihuaListComponent implements OnInit {
   /*点击新增*/
   addVehicle(){
     this.contractBool = true;
-    $('.form-disable').attr('disabled',false).css('backgroundColor','#fff');
     this.newCard = new CardInfo();
     this.newCard.type = "6";
+    this.newCard.branchName = "";
     this.newCard.fileName = [];
     this.newCard.filePath = [];
     $('.mask').fadeIn();

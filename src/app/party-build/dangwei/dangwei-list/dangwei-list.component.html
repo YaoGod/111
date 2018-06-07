@@ -45,19 +45,16 @@
       <ul class="card-list clearfix">
         <li  class="room-card">
           <table width="100%" class="card-info">
-            <tr style="height: 40px; background-color: #FFA07A; text-align: center">
+            <tr style="height: 40px; background-color: #FFECEC; text-align: center; font-weight: bold; font-size: 14px;color:#04a9f3;">
               <th>支部名称</th>
-              <th>文件名称</th>
               <th>月份</th>
               <th>党委委员</th>
               <th>调研主题</th>
               <th>操作</th>
             </tr>
             <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
-              <td><a style="color:#000;" href="javascript:;"
+              <td><a href="javascript:;"
                      [routerLink]="['../detail',inner.id]" >{{inner.branchName}}</a> </td>
-              <td><a style="color:#000;" href="javascript:;"
-                     [routerLink]="['../detail',inner.id]">{{inner.subType}}</a> </td>
               <td>{{inner.month}}</td>
               <td>{{inner.host}}</td>
               <td>{{inner.theme}}</td>

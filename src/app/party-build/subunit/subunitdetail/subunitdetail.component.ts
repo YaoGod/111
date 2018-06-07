@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
+import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 declare var $:any;
 declare var confirmFunc:any;
 @Component({
@@ -11,11 +13,13 @@ declare var confirmFunc:any;
 export class SubunitdetailComponent implements OnInit {
   public ID:string;
   public eTime:string;
-  public newCard:any;// = new CardInfo();
+  public newCard = new CardInfo();
   public history:any;
   constructor(
     private route    : ActivatedRoute,
     private globalCatalogService:GlobalCatalogService,
+    public ipSetting:IpSettingService,
+    public errorVoid:ErrorResponseService,
   ) { }
 
   ngOnInit() {
@@ -23,23 +27,17 @@ export class SubunitdetailComponent implements OnInit {
     this.route.params.subscribe(data => {
       this.getWelfare(data.id);
     });
-    this.newCard = {
-      id:1,
-      branchName:'中国移动市场部支委',
-      type:'党员大会',
-      theme:'研究党性原则的重要性',
-      bTime:'2018/5',
-      eTime:'2018/5/1 12:00',
-      compere:'张三',recorder:'李四',
-      shouldNum:5,
-      factNum:4,
-      absentNum:1,
-      reason:'事假',
-    }
+
   }
   /*获取当前id的会议内容*/
   getWelfare(id){
-
+    let url = "/party/report/detail/"+id;
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        // console.log(data);
+        this.newCard = data.data;
+      }
+    });
   }
   /*判断textarea的行数自适应*/
   definedRows(){
@@ -50,12 +48,13 @@ export class SubunitdetailComponent implements OnInit {
 export class CardInfo {
   id: number; // 本条信息ID
   branchName:string; // 支部名称
-  type:string; // 会议类型
+  type:string; // 会议类型(三会一课同级)
+  subType:string; // 子类型
   month: string;// 月份
-
-  bTime:string; // 开始时间
-  eTime:string; // 结束时间
-  compere:string; // 主持人
+  name:string; // 文件名称
+  beginTime:string; // 开始时间
+  endTime:string; // 结束时间
+  host:string; // 主持人
   recorder:string; // 记录人
   shouldNum:number; // 应到人数
   factNum:number; // 实到人数
@@ -63,4 +62,12 @@ export class CardInfo {
   reason:string; // 缺席原因
   theme:string; // 会议主题
   note:string; // 会议议程
+  address:string; // 会议地点
+  fileName=[];
+  filePath=[];
+  fileContract:any;
+  pioneerNum:string; // 先锋岗数量
+  dutyNum:string; // 责任区数量
+  commandoNum:string; // 突击队数量
+  frequency:string; // 开展频次
 }

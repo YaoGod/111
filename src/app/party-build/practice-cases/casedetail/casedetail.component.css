@@ -2,6 +2,7 @@
   float: left;
   line-height:36px;
   color: #fb9678;
+  font-size: 15px;
   border-bottom: 2px solid #fb9678;
 
 }
@@ -309,4 +310,33 @@ button{
 .attachment a i{
   color:#0b76cc;
   margin-left:10px;
+}
+
+.word{
+  padding: 10px 7px;
+  word-break: break-all;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
+  margin: 0;
+  overflow-x: hidden;
+  color: #5d5d5d;
+  background-color: #fffefd;
+  font-size: 14px;
+  letter-spacing: 2px;
+  line-height: 2;
+  height: 250px;
+}
+
+#content{
+  width: 100%;
+  border: none;
+  background-color: #fff;
+  color: #5d5d5d;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
+  letter-spacing: 2px;
+  line-height: 2;
+  height: 240px;
+}
+#content::-webkit-scrollbar{
+  display: none;
 }

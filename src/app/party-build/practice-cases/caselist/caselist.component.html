@@ -35,7 +35,7 @@
       <ul class="card-list clearfix">
         <li class="room-card">
           <table width="100%" class="card-info">
-            <tr style="height: 40px; background-color: #FFECEC; text-align: center">
+            <tr style="height: 40px; background-color: #FFECEC; text-align: center; font-weight: bold; font-size: 14px;color:#04a9f3;">
               <th>案例名称</th>
               <th>支部名称</th>
               <th>案例类型</th>
@@ -43,7 +43,7 @@
               <th>操作</th>
             </tr>
             <tr style="height: 36px; text-align: center" *ngFor="let inner of recordList;let i=index">
-              <td><a style="color:#000;" href="javascript:;"
+              <td><a href="javascript:;"
                      [routerLink]="['/hzportal/party/practice/detail',inner.id]">{{inner.theme}}</a></td>
               <td>{{inner.branchName}}</td>
               <td>{{inner.subType}}</td>

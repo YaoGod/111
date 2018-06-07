@@ -175,9 +175,9 @@ input[type=text],input[type=number]{
   top: 0;
   left: 0;
   opacity: 0;
-  background-color: rgba(0, 0, 0, .4);
-  -webkit-transition: all .4s ease-in-out;
-  transition: all .4s ease-in-out;
+  background-color: rgba(255, 255, 255, .4);
+  -webkit-transition: all .8s ease-in-out;
+  transition: all .8s ease-in-out;
   z-index: 2;
 }
 .el-info {

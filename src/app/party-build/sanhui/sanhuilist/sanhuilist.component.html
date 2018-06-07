@@ -46,7 +46,7 @@
       <ul class="card-list clearfix">
         <li  class="room-card">
           <table width="100%" class="card-info">
-            <tr style="height: 40px; background-color: #FFA07A; text-align: center">
+            <tr style="height: 40px; background-color: #FFECEC; text-align: center; font-weight: bold; font-size: 14px;color:#04a9f3;">
               <th>支部名称</th>
               <th>会议类型</th>
               <th>会议时间</th>
@@ -54,10 +54,9 @@
               <th>操作</th><!-- *ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
             </tr>
             <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
-              <td><a style="color:#000;" href="javascript:;"
+              <td><a href="javascript:;"
                      [routerLink]="['/hzportal/party/sanhui/detail',inner.id]" >{{inner.branchName}}</a> </td>
-              <td><a style="color:#000;" href="javascript:;"
-                [routerLink]="['/hzportal/party/sanhui/detail',inner.id]">{{inner.subType}}</a> </td>
+              <td>{{inner.subType}}</td>
               <td>{{inner.beginTime | date:'yyyy-MM-dd HH:mm:ss'}}至{{inner.endTime | date:'HH:mm:ss'}}</td>
               <td>{{inner.theme}}</td>
               <td> <!--*ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->

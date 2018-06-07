@@ -1,7 +1,7 @@
 <div class="wrap">
   <div class="cont">
     <div class="row clearfix">
-      <div class="row-title">三会一课记录详情</div>
+      <div class="row-title">三会一课</div>
       <div class="content-box" tabindex="0" onclick="history.go(-1)">
         <i class="icon-reload"></i> 返回
       </div>
@@ -23,7 +23,7 @@
       <div class="note">
         <div class="title"><span>会议议程</span></div>
         <div class="word">
-          <textarea id="content" [rows]="definedRows()" wrap="hard">{{newCard.note}}</textarea>
+          <textarea id="content" readonly [rows]="definedRows()" wrap="hard">{{newCard.note}}</textarea>
         </div>
         <div class="title"><span>附件</span></div>
         <ul class="attachment">

@@ -177,19 +177,28 @@ export class LiuhaolistComponent implements OnInit {
       return false;
     }
     let postData = JSON.parse(JSON.stringify(this.newCard));
-
-    this.ipSetting.sendPost(url, postData).subscribe(data => {
-      if(this.errorVoid.errorMsg(data)){
-        confirmFunc.init({
-          'title': '提示' ,
-          'mes': this.contractBool === false?'更新成功':'新增成功',
-          'popType': 0 ,
-          'imgType': 1 ,
-        });
-        this.repairSearch(1);
-        this.addCancel();
-      }
-    });
+    if(postData.filePath && postData.filePath.length>0){
+      this.ipSetting.sendPost(url, postData).subscribe(data => {
+        if(this.errorVoid.errorMsg(data)){
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': this.contractBool === false?'更新成功':'新增成功',
+            'popType': 0 ,
+            'imgType': 1 ,
+          });
+          this.repairSearch(1);
+          this.addCancel();
+        }
+      });
+    }else{
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '请上传附件内容！',
+        'popType': 0 ,
+        'imgType': 2,
+      });
+      return false;
+    }
   }
   /*取消*/
   addCancel(){

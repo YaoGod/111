@@ -13,7 +13,6 @@
         <li>月份</li>
         <li>党委委员</li>
         <li>调研主题</li>
-        <li>附件</li>
       </ul>
       <ul class="card-right">
         <li>{{newCard.branchName}}</li>
@@ -21,13 +20,16 @@
         <li>{{newCard.month}}月</li>
         <li>{{newCard.host}}</li>
         <li>{{newCard.theme}}</li>
-        <li style="text-indent: 1em; line-height: 24px;" *ngFor="let abc of newCard.fileName; let j=index">
-          {{abc}}
-          <a [href]="ipSetting.ip+'/common/file/downLoadFile?path=' + newCard.filePath[j]" [download]="abc">
-            <i class="icon-cloud-download"></i>下载</a>
-        </li>
       </ul>
+      <div class="note">
+        <div class="title"><span>附件</span></div>
+        <ul class="attachment">
+          <li><a *ngFor="let abc of newCard.fileContract" [href]="ipSetting.fileUrl+abc.filePath" [download]="abc.fileName">
+            {{abc.fileName}} <i class="icon-cloud-download">下载</i></a></li>
+        </ul>
+      </div>
     </div>
+
   </div>
 </div>
 

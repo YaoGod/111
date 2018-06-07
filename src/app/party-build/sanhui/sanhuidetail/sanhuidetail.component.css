@@ -2,6 +2,7 @@
   float: left;
   line-height:36px;
   color: #fb9678;
+  font-size: 15px;
   border-bottom: 2px solid #fb9678;
 
 }
@@ -23,6 +24,9 @@
 }
 .cont{
   padding:10px;
+}
+#content{
+  min-height:180px;
 }
 .cont-inner{
   padding:20px;
@@ -120,15 +124,14 @@
   background-color: #878787;
 }
 .word{
-  width: 100%;
-  padding: 10px 7.5px;
+  padding: 10px 8px;
   word-break: break-all;
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
   margin: 0;
   overflow-x: hidden;
   color: #5d5d5d;
   font-size: 12px;
-  letter-spacing: 2.5px;
+  letter-spacing: 2px;
   line-height: 2;
 }
 #content{
@@ -149,6 +152,7 @@
 }
 .attachment a{
    color:#666;
+  margin-left: 10px;
   font-size: 14px;
 }
 .attachment a i{

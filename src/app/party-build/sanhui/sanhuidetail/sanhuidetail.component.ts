@@ -43,6 +43,7 @@ export class SanhuidetailComponent implements OnInit {
   definedRows(){
     let length = $("#content").val().split(/\r?\n/).length;
     let index = $("#content").val().indexOf($("#content").val().split(/\r?\n/));
+    index++;
     return length+1;
   }
 }

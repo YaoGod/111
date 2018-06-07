@@ -5,6 +5,9 @@ import {Http} from "@angular/http";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 
+declare var $:any;
+declare var confirmFunc:any;
+
 @Component({
   selector: 'app-casedetail',
   templateUrl: './casedetail.component.html',
@@ -38,6 +41,14 @@ export class CasedetailComponent implements OnInit {
       }
     });
   }
+
+  /*判断textarea的行数自适应*/
+  definedRows(){
+    let length = $("#content").val().split(/\r?\n/).length;
+    let index = $("#content").val().indexOf($("#content").val().split(/\r?\n/));
+    return length+1;
+  }
+
 }
 export class CardInfo {
   id: number; // 本条信息ID

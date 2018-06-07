@@ -16,7 +16,7 @@
             <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
               <option value="">-全部-</option>
               <option *ngFor="let num of repairDept"
-                      [value]="num.DEPT_ID">
+                      [value]="num.DEPT_NAME">
                 {{num.DEPT_NAME}}</option>
             </select>
           </li>
@@ -35,22 +35,25 @@
       <ul class="card-list clearfix">
         <li  class="room-card">
           <table width="100%" class="card-info">
-            <tr style="height: 40px; background-color: #FFA07A; text-align: center">
+            <tr style="height: 40px; background-color: #FFECEC; text-align: center; color:#04a9f3; font-weight: bold; font-size: 14px;">
               <th>支部名称</th>
-              <th>文件名称</th>
               <th>月份</th>
-              <!--<th>会议主题</th>-->
+              <th>先锋岗数量</th>
+              <th>责任区数量</th>
+              <th>突击队数量</th>
+              <th>活动开展频次</th>
               <th>操作</th><!-- *ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
             </tr>
             <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
-              <td><a style="color:#000;" href="javascript:;"
+              <td><a href="javascript:;"
                      [routerLink]="['/hzportal/party/subunit/detail',inner.id]" >{{inner.branchName}}</a> </td>
-              <td><a style="color:#000;" href="javascript:;"
-                     [routerLink]="['/hzportal/party/subunit/detail',inner.id]">{{inner.type}}</a> </td>
-              <td>{{inner.bTime}}</td>
-              <!--<td>{{inner.theme}}</td>-->
+              <td>{{inner.month}}</td>
+              <td>{{inner.pioneerNum}}</td>
+              <td>{{inner.dutyNum}}</td>
+              <td>{{inner.commandoNum}}</td>
+              <td>{{inner.frequency}}</td>
               <td> <!--*ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
-                <i class="icon-pencil" (click)="editCardInfo(inner.id,inner.useUserId)" style="margin-left: 5px;" title="编辑"></i>
+                <i class="icon-pencil" (click)="editCardInfo(i)" style="margin-left: 5px;" title="编辑"></i>
                 <i class="icon-trash" (click)="delCardInfo(inner.id)" style="margin-left: 5px;" title="删除"></i></td>
             </tr>
           </table>
@@ -79,7 +82,7 @@
                   [(ngModel)]="newCard.branchName" (blur)="verifybranchName()">
             <option value="">请选择</option>
             <option *ngFor="let num of repairDept"
-                    [value]="num.DEPT_ID">
+                    [value]="num.DEPT_NAME">
               {{num.DEPT_NAME}}</option>
           </select>
           <span class="errorMessage"></span>
