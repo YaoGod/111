@@ -147,13 +147,10 @@ export class FlowConfigComponent implements OnInit {
   submit(){
     if(this.disableStatus){
       this.closeFlow();
-    }
-    else{
+    } else{
     let error = 0;
-    /*this.verifyEmpty(this.copyFlow.name,'name');
-    this.verifyEmpty(this.copyFlow.note,'note');
     for(let i = 0;i<this.copyFlow.nodes.length;i++){
-      if(typeof (this.copyFlow.id)==="undefined"||this.copyFlow.id === null){
+      if(!this.copyFlow.nodes[i].groupId){
         confirmFunc.init({
           'title': '提示',
           'mes': "请补充流程环节信息！",
@@ -162,7 +159,7 @@ export class FlowConfigComponent implements OnInit {
         });
         return false;
       }
-    }*/
+    }
     if($('.red').length === 0 && error === 0) {
       let postdata = JSON.parse(JSON.stringify(this.copyFlow));
       delete postdata.status;
@@ -180,7 +177,7 @@ export class FlowConfigComponent implements OnInit {
               this.getFlowList(1);
             }
           })
-      }else*/{
+      }else{*/
         this.workflowService.editFlow(postdata)
           .subscribe(data => {
             if (this.errorResponseService.errorMsg(data)) {
@@ -196,7 +193,7 @@ export class FlowConfigComponent implements OnInit {
           })
       }
     }
-    }
+    // }
   }
   addFlows(){
     this.copyFlow.nodes.push(new Node());
@@ -205,9 +202,10 @@ export class FlowConfigComponent implements OnInit {
     this.copyFlow.nodes.pop();
   }
   changeSelect(index,j){
+    console.log(j);
     // this.copyFlow.content[index] = JSON.parse(JSON.stringify(this.list[j]));
     // this.copyFlow.content[index].name = this.list[j].name;
-     // this.copyFlow.nodes[index].group.name = this.list[j].name;
+    // this.copyFlow.nodes[index].group.name = this.list[j].name;
     // alert(this.copyFlow.nodes[index].groupId + '========='+this.list[j].id);
     this.copyFlow.nodes[index].groupId = this.list[j].id;
     // alert('修改后' +this.copyFlownodes[index].groupId + '========='+this.list[j].id);
@@ -219,6 +217,8 @@ export class FlowConfigComponent implements OnInit {
       let node = new Node();
       this.tempSegment.splice(i + 1, 0, node);
       this.copyFlow.nodes.splice(i + 1, 0, node);
+      console.log(this.tempSegment);
+      console.log(this.copyFlow.nodes);
     }else{
       confirmFunc.init({
         'title': '提示',

@@ -85,6 +85,7 @@ export class Review{
   handleHasUser: number;
   handleMinUser: number;
   handleUserId: string;
+  handleUserName: string;
   modifyTime: string;
   modifyUserId: string;
   priority: number;

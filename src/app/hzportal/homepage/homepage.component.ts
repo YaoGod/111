@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {GlobalUserService} from "../../service/global-user/global-user.service";
+import {IpSettingService} from "../../service/ip-setting/ip-setting.service";
+import {ErrorResponseService} from "../../service/error-response/error-response.service";
 
 @Component({
   selector: 'app-homepage',
@@ -10,14 +12,20 @@ export class HomepageComponent implements OnInit {
 
   public nowTime;
   public userName;
+  public flowNum:number;
+  public workNum:number;
   constructor(
     private globalUserService:GlobalUserService,
+    public ipSetting:IpSettingService,
+    private errorResponseService:ErrorResponseService,
   ) {
   }
 
   ngOnInit() {
     this.userName = this.globalUserService.getVal().username;
     this.sayHello();
+    this.getWorkFlowList();
+    this.getHandlingOrder();
   }
   /*打招呼*/
   sayHello(){
@@ -33,6 +41,23 @@ export class HomepageComponent implements OnInit {
     }else if(hour>=24&&hour<=4){
       this.nowTime = "午夜";
     }
+  }
+
+  getWorkFlowList(){
+    let url = '/workflow/review/getReviewNum';
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorResponseService.errorMsg(data)) {
+        this.flowNum = data.data;
+      }
+    });
+  }
+  getHandlingOrder(){
+    let url = '/employee/mydesk/getHandlingOrder';
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorResponseService.errorMsg(data)) {
+        this.workNum = data.data[0].value;
+      }
+    });
   }
 
 }

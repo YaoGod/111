@@ -103,25 +103,11 @@ export class DoorApplyComponent implements OnInit {
       let urlSecond = '/workflow/group/getUserSelect/'+this.groupId;
       this.ipSetting.sendGet(urlSecond).subscribe(data2 => {
         if(this.errorResponseService.errorMsg(data2)) {
+          console.log(data2.data);
           this.handleUserId = data2.data;
         }
       });
-    }else{
-
     }
-
-    /*let url = '/building/guard/getGuardGroup';
-    this.ipSetting.sendGet(url).subscribe(data => {
-      if(this.errorResponseService.errorMsg(data)) {
-        this.groupId = data.data;
-        let urlSecond = '/workflow/group/getUserSelect/'+this.groupId;
-        this.ipSetting.sendGet(urlSecond).subscribe(data2 => {
-          if(this.errorResponseService.errorMsg(data2)) {
-            this.handleUserId = data2.data;
-          }
-        });
-      }
-    });*/
   }
   /*获取门禁申请流程*/
   getFlowList(){

@@ -12,9 +12,9 @@
         </div>
       </div>
       <ul class="nav-list">
-        <li>
+        <!--<li>
           <div style="color:#ff1d1b" class="menu-one" (click)="Listslider($event,'')">
-            <!--<i class="icon-star"></i>&nbsp;&nbsp;-->
+            &lt;!&ndash;<i class="icon-star"></i>&nbsp;&nbsp;&ndash;&gt;
             <img style="width: 13px; height: 13px" src="assets/image/danghui.png">&nbsp;&nbsp;
             党建管理<span></span>
           </div>
@@ -26,10 +26,12 @@
               <a [routerLink]="['party/export']" routerLinkActive="active" class="item">工作报表管理</a>
             </li>
           </ol>
-        </li>
+        </li>-->
         <li *ngFor="let catalog of catalogs;">
-          <div class="menu-one" (click)="Listslider($event, catalog.routeUrl)">
-            <i [class]="catalog.icon"></i>&nbsp;&nbsp;
+          <div class="menu-one" [ngStyle]="{'color':catalog.name === '党建管理' ? '#ff1d1b' : '#8895a3' }"
+               (click)="Listslider($event, catalog.routeUrl)">
+            <i *ngIf="catalog.icon" [class]="catalog.icon"></i>
+            <img *ngIf="!catalog.icon" style="width: 15px; height: 15px" src="assets/image/danghui.png">&nbsp;&nbsp;&nbsp;&nbsp;
             {{catalog.name}}<span></span>
           </div>
           <ol class="menu-second">

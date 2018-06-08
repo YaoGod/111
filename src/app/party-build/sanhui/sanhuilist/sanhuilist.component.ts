@@ -227,8 +227,9 @@ export class SanhuilistComponent implements OnInit {
       return false;
     }
     let postData = JSON.parse(JSON.stringify(this.newCard));
-    postData.month =  this.getNowFormatDate();
-    // postData.beginTime = postData.beginTime.replace("T"," ");
+    postData.month = this.newCard.beginTime.substring(0, 7);
+    /*this.getNowFormatDate(); 018-06-09T10:00*/
+    /*postData.beginTime = postData.beginTime.replace("T"," ");*/
     if(postData.filePath && postData.filePath.length>0){
       this.ipSetting.sendPost(url, postData).subscribe(data => {
         if(this.errorVoid.errorMsg(data)){
@@ -259,20 +260,20 @@ export class SanhuilistComponent implements OnInit {
     $('.errorMessage').html('');
   }
   private getNowFormatDate() {
-  let date = new Date();
-  let seperator1 = "-";
-  let month = date.getMonth() + 1;
-  let strDate = date.getDate();
-  let num = String(month);
-  if (month >= 1 && month <= 9) {
-    num = "0" + month;
+    let date = new Date();
+    let seperator1 = "-";
+    let month = date.getMonth() + 1;
+    let strDate = date.getDate();
+    let num = String(month);
+    if (month >= 1 && month <= 9) {
+      num = "0" + month;
+    }
+    /*if (strDate >= 0 && strDate <= 9) {
+      strDate = "0" + strDate;
+    }*/
+    let currentdate = date.getFullYear() + seperator1 + num;
+    return currentdate;
   }
-  /*if (strDate >= 0 && strDate <= 9) {
-    strDate = "0" + strDate;
-  }*/
-  let currentdate = date.getFullYear() + seperator1 + num;
-  return currentdate;
-}
   /**非空校验*/
   public isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();

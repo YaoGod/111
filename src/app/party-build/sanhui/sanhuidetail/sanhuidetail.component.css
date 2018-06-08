@@ -24,6 +24,7 @@
 }
 .cont{
   padding:10px;
+  background-color:#fff;
 }
 #content{
   min-height:180px;
@@ -75,19 +76,19 @@
   float: left;
 }
 .left-li span{
-  display: inline-block;
+  float: left;
   width:18%;
 }
 .left-li strong{
-  display: inline-block;
+  float: left;
   width:80%;
 }
 .left-alone span{
-  display: inline-block;
+  float: left;
   width:9%;
 }
 .left-alone strong{
-  display: inline-block;
+  float: left;
   width:90%;
 }
 .note{

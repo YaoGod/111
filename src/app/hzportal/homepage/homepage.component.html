@@ -5,13 +5,27 @@
     <p class="cont-wel">{{nowTime}}好，{{userName}}!</p>
     <div class="content-area">
       <div class="side-card" draggable="true">
-        <h4>待处理工单</h4>
-        <div class="cont-icon">
-          <span>25</span>
-          <i class="icon-notebook"></i>
-        </div>
+        <a href="javascript:;" [routerLink]="['system/examine']">
+          <h4>工作流待处理工单</h4>
+          <div class="cont-icon">
+            <span *ngIf="flowNum&&flowNum>0">{{flowNum}}</span>
+            <i class="icon-notebook"></i>
+          </div>
+        </a>
       </div>
     </div>
+    <div class="content-area">
+      <div class="side-card" draggable="true">
+        <a href="javascript:;" [routerLink]="['employ/workspace/homepage']">
+          <h4>工作台待处理订单</h4>
+          <div class="cont-icon">
+            <span *ngIf="workNum&&workNum>0" style="top:19px; right: 85px;">{{workNum}}</span>
+            <i class="icon-screen-desktop"></i>
+          </div>
+        </a>
+      </div>
+    </div>
+
   </div>
 </div>
 

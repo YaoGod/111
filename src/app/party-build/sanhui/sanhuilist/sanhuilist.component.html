@@ -50,14 +50,14 @@
               <th>支部名称</th>
               <th>会议类型</th>
               <th>会议时间</th>
-              <th>会议主题</th>
+              <th width="40%">会议主题</th>
               <th>操作</th><!-- *ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
             </tr>
             <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
               <td><a href="javascript:;"
                      [routerLink]="['/hzportal/party/sanhui/detail',inner.id]" >{{inner.branchName}}</a> </td>
               <td>{{inner.subType}}</td>
-              <td>{{inner.beginTime | date:'yyyy-MM-dd HH:mm:ss'}}至{{inner.endTime | date:'HH:mm:ss'}}</td>
+              <td>{{inner.beginTime | date:'yyyy-MM-dd HH:mm'}}至{{inner.endTime | date:'HH:mm'}}</td>
               <td>{{inner.theme}}</td>
               <td> <!--*ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
                 <i class="icon-pencil" (click)="editCardInfo(i)" style="margin-left: 5px;" title="编辑"></i>
