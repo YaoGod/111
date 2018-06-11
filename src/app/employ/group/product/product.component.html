@@ -30,6 +30,7 @@
                 <td class="fir">商品信息</td>
                 <td class="sec">单价(元)</td>
                 <td class="sec">状态</td>
+                <td class="sec">团购对象</td>
                 <td class="six">审核人意见</td>
                 <td class="three">配送方式</td>
                 <td class="four">标签</td>
@@ -42,7 +43,7 @@
               <div class="ope-list">
                 <a title="重新提交" *ngIf="rule&&rule.isUpdate&&product.checkStatus === '2'" (click)="reCheck(product.code)">
                   <i class="icon-cloud-upload"></i></a>
-                <a class="two" *ngIf="rule&&rule.isUpdate&&product.status=='0'" title="修改" (click)="update(product.code)"></a>
+                <a class="two"  title="修改" *ngIf="rule&&rule.isUpdate&&product.status=='0'" (click)="update(product.code)"></a>
                 <a class="tre" *ngIf="rule&&rule.isDelete&&product.status=='0'" title="删除" (click)="delete(product.code)"></a>
               </div>
               </dt>
@@ -61,6 +62,7 @@
                       <label *ngIf="product.checkStatus=='1'" style="color: green;">（审核通过）</label>
                       <label *ngIf="product.checkStatus=='2'" style="color: red;">（不通过）</label>
                     </td>
+                    <td class="sec">{{product.targetName}}</td>
                     <td class="six">{{product.checkResult}}</td>
                     <td class="three" >配送至{{product.shipping}}</td>
                     <td class="four">{{product.label}}</td>
@@ -108,7 +110,6 @@
               <div class="dropify-wrapper">
                 <div class="dropify-message">
                   <img *ngIf="imgUrlPath&&imgUrlPath[0]!==''"  [src]="ipSetting.imgUrl+imgUrlPath[0]" />
-                  <!--<img *ngIf="newGroupProduct.imgPath"  [src]="newGroupProduct.imgPath | imgsafeurl:preseA.files" />-->
                 </div>
                 <p>点击此处上传图片</p>
                 <input type="file" class="dropify" #preseA id="preseA"  (change)="prese_upload(preseA.files,0)">
@@ -118,7 +119,6 @@
               <div class="dropify-wrapper">
                 <div class="dropify-message">
                   <img *ngIf="imgUrlPath&&imgUrlPath[1]!==''"  [src]="ipSetting.imgUrl+imgUrlPath[1]" />
-                  <!--<img *ngIf="newGroupProduct.imgPath"  [src]="newGroupProduct.imgPath " />-->
                 </div>
                 <p>点击此处上传图片</p>
                 <input type="file" class="dropify" #preseB id="preseB"  (change)="prese_upload(preseB.files,1)">
@@ -128,7 +128,6 @@
               <div class="dropify-wrapper">
                 <div class="dropify-message">
                   <img *ngIf="imgUrlPath&&imgUrlPath[2]!==''"  [src]="ipSetting.imgUrl+imgUrlPath[2]"/>
-                  <!--<img *ngIf="newGroupProduct.imgPath"  [src]="newGroupProduct.imgPath " />-->
                 </div>
                 <p>点击此处上传图片</p>
                 <input type="file" class="dropify" #preseC id="preseC"  (change)="prese_upload(preseC.files,2)">
@@ -196,14 +195,50 @@
                      style="width:130px !important;margin-left: 5px" [(ngModel)]="newGroupProduct.endTime">
               <span class="errorMessage"></span>
             </div>
+            <div  class="for clearfix">
+              <label style="display: block; height: 16px; margin-right: 10px;">团购对象</label>
+              <textarea class="form-control" rows="3"
+                        style="border:1px solid #dddddd;width:445px;!important;height:auto;background-color: #ffffff !important;"
+                        onclick="$('#deptSltWin').show()"
+                        id="deptName" name="deptName" readonly
+                        [(ngModel)]="newGroupProduct.targetName">
+              </textarea>
+
+              <div class="errorMessage"></div>
+            </div>
             <div class="for clearfix">
               <label style="display: block; height: 16px; margin-right: 10px;">商品详情：</label>
-              <textarea name="newesetail" ui-tinymce
-                        class="form-control" rows="10"
+              <textarea name="newesetail"
+                        class="form-control" rows="5"
                         id="newesetail" (blur)="verifyEmpty('newesetail','不能为空')"
-                        style="border:1px solid #dddddd;width:445px;!important;height: 140px;background-color: #ffffff !important;"  [(ngModel)]="newGroupProduct.detail" >
+                        style="border:1px solid #dddddd;width:445px;!important;height:auto;background-color: #ffffff !important;"  [(ngModel)]="newGroupProduct.detail" >
               </textarea>
-              <span class="errorMessage" style="display: block; "></span>
+              <span class="errorMessage" style=""></span>
+            </div>
+            <div class="modal-more" id="deptSltWin" style="display: none">
+              <h5>杭州移动各部门</h5>
+              <h5>已选：&nbsp;&nbsp;
+                <span>{{newGroupProduct.targetName}}</span></h5>
+              <div class="choose-group">
+                <label class="cb-blue">
+                  <input type="checkbox" name="all" id="all" [(ngModel)]="isAllDept" (change)="chooseAll()">
+                  <span>所有人员</span>
+                </label>
+              </div>
+              <div class="choose-list">
+                <div class="choose-group" *ngFor="let dept of deptList;let i=index">
+                  <label class="cb-blue">
+                    <input type="checkbox" [name]="dept.DEPT_ID" [(ngModel)]="dept.choose"
+                           [value]="dept.DEPT_ID"
+                           (change)="chooseDept()">
+                    <span>{{dept.DEPT_NAME}}</span>
+                  </label>
+                </div>
+              </div>
+              <div  class="modal-more-footer">
+                <button  class="btn btn-info" type="submit"
+                         onclick="$('#deptSltWin').fadeOut()">确定</button>
+              </div>
             </div>
           </div>
         </div>
@@ -313,14 +348,51 @@
                      style="width:118px !important;margin-left: 5px"  [(ngModel)]="upGroupProduct.endTime" >
               <span class="errorMessage"></span>
             </div>
+            <div  class="for clearfix">
+              <label style="display: block; height: 16px; margin-right: 10px;">团购对象</label>
+              <textarea class="form-control" rows="3"
+                        style="border:1px solid #dddddd;width:445px;!important;height:auto;background-color: #ffffff !important;"
+                        onclick="$('#deptSltWin2').show()"
+                        id="deptName2" name="deptName2" readonly
+                        [(ngModel)]="upGroupProduct.targetName">
+              </textarea>
+
+              <div class="errorMessage"></div>
+            </div>
             <div class="for clearfix">
               <label style="display: block; height: 16px; margin-right: 10px;">商品详情：</label>
-              <textarea name="upnewesetail" ui-tinymce
-                        class="form-control" rows="10"
+              <textarea name="upnewesetail"
+                        class="form-control" rows="5"
                         id="upnewesetail" (blur)="verifyEmpty('upnewesetail','不能为空')"
-                        style="border:1px solid #dddddd;width:445px;!important;height: 140px;background-color: #ffffff !important;"  [(ngModel)]="upGroupProduct.detail" value="{{upGroupProduct.detail}}">
+                        style="border:1px solid #dddddd;width:445px;!important;height:auto;background-color: #ffffff !important;"
+                        [(ngModel)]="upGroupProduct.detail" [value]="upGroupProduct.detail">
               </textarea>
               <span class="errorMessage" style="display: block; "></span>
+            </div>
+            <div class="modal-more" id="deptSltWin2" style="display: none">
+              <h5>杭州移动各部门</h5>
+              <h5>已选：&nbsp;&nbsp;
+                <span>{{upGroupProduct.targetName}}</span></h5>
+              <div class="choose-group">
+                <label class="cb-blue">
+                  <input type="checkbox" name="all2" id="all2" [(ngModel)]="isAllDept2" (change)="chooseAll2()">
+                  <span>所有人员</span>
+                </label>
+              </div>
+              <div class="choose-list">
+                <div class="choose-group" *ngFor="let dept of deptList;let i=index">
+                  <label class="cb-blue">
+                    <input type="checkbox" [name]="dept.DEPT_ID" [(ngModel)]="dept.choose"
+                           [value]="dept.DEPT_ID"
+                           (change)="chooseDept2()">
+                    <span>{{dept.DEPT_NAME}}</span>
+                  </label>
+                </div>
+              </div>
+              <div  class="modal-more-footer">
+                <button  class="btn btn-info" type="submit"
+                         onclick="$('#deptSltWin2').fadeOut()">确定</button>
+              </div>
             </div>
           </div>
         </div>

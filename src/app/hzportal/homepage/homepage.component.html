@@ -6,10 +6,13 @@
     <div class="content-area">
       <div class="side-card" draggable="true">
         <a href="javascript:;" [routerLink]="['system/examine']">
+          <span *ngIf="flowNum&&flowNum>0">{{flowNum}}</span>
           <h4>工作流待处理工单</h4>
           <div class="cont-icon">
-            <span *ngIf="flowNum&&flowNum>0">{{flowNum}}</span>
-            <i class="icon-notebook"></i>
+            <!--<i class="icon-notebook"></i>-->
+            <img src="assets/image/home1.jpg"  style="width:80%;"/>
+
+
           </div>
         </a>
       </div>
@@ -17,10 +20,12 @@
     <div class="content-area">
       <div class="side-card" draggable="true">
         <a href="javascript:;" [routerLink]="['employ/workspace/homepage']">
+          <span *ngIf="workNum&&workNum>0">{{workNum}}</span>
           <h4>工作台待处理订单</h4>
-          <div class="cont-icon">
-            <span *ngIf="workNum&&workNum>0" style="top:19px; right: 85px;">{{workNum}}</span>
-            <i class="icon-screen-desktop"></i>
+          <div class="cont-icon"> <!--<i class="icon-screen-desktop"></i>-->
+            <img src="assets/image/home2.jpg" style="width:68%;"/>
+
+
           </div>
         </a>
       </div>

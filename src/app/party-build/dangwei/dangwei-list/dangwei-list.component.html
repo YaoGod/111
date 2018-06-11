@@ -57,7 +57,7 @@
                      [routerLink]="['../detail',inner.id]" >{{inner.branchName}}</a> </td>
               <td>{{inner.month}}</td>
               <td>{{inner.host}}</td>
-              <td>{{inner.theme}}</td>
+              <td width="40%">{{inner.theme}}</td>
               <td> <!--*ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
                 <i class="icon-pencil" (click)="editCardInfo(inner)" style="margin-left: 5px;" title="编辑"></i>
                 <i class="icon-trash" (click)="delCardInfo(inner.id)" style="margin-left: 5px;" title="删除"></i></td>

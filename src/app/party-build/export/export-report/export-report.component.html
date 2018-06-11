@@ -92,13 +92,13 @@
       <th width="15%" *ngIf="search.type==='4'">案例名称</th>
       <th width="15%" *ngIf="search.type==='5'">党委委员</th>
       <th width="15%" *ngIf="search.type==='5'">调研主题</th>
-      <th width="15%" *ngIf="search.type==='7'">先锋岗数量</th>
-      <th width="15%" *ngIf="search.type==='7'">责任区数量</th>
-      <th width="15%" *ngIf="search.type==='7'">突击队数量</th>
-      <th width="15%" *ngIf="search.type==='7'">活动开展频次</th>
+      <th width="10%" *ngIf="search.type==='7'">先锋岗数量</th>
+      <th width="10%" *ngIf="search.type==='7'">责任区数量</th>
+      <th width="10%" *ngIf="search.type==='7'">突击队数量</th>
+      <th width="10%" *ngIf="search.type==='7'">活动开展频次</th>
       <!--<th width="10%" class="text-left">文件名称</th>-->
-      <!--<th width="10%">创建人</th>
-      <th width="15%">创建时间</th>-->
+      <th width="8%">创建人</th>
+      <th width="12%">创建时间</th>
       <th width="10%">操作</th>
     </tr>
     <tr class="row" *ngFor="let report of record;let i = index">
@@ -120,8 +120,8 @@
       <td *ngIf="search.type==='7'">{{report.commandoNum}}</td>
       <td *ngIf="search.type==='7'">{{report.frequency}}</td>
 
-      <!--<td>{{report.operationModule}}</td>
-      <td><p>{{report.operationTime| date:'yyyy/MM/dd HH:mm:ss'}}</p></td>-->
+      <td>{{report.createUserName}}</td>
+      <td><p>{{report.createTime| date:'yyyy/MM/dd HH:mm'}}</p></td>
       <td *ngIf="search.type==='1'" class="box-option">
         <a [routerLink]="['../../sanhui/detail',report.id]">
           <i class="icon-eye"></i>&nbsp;详情

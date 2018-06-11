@@ -6,6 +6,7 @@ import * as $ from 'jquery';
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
+import {SaleProductEmployeeService} from "../../../service/sale-product-employee/sale-product-employee.service";
 declare var $:any;
 declare var confirmFunc: any;
 declare var tinymce: any;
@@ -13,7 +14,7 @@ declare var tinymce: any;
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css'],
-  providers: [GroupProductService,UtilBuildingService,ErrorResponseService]
+  providers: [GroupProductService,UtilBuildingService,ErrorResponseService,SaleProductEmployeeService],
 })
 export class ProductComponent implements OnInit {
 
@@ -30,6 +31,9 @@ export class ProductComponent implements OnInit {
   public imgUrl: Array<string>;
   public open = false;
   public imgUrlPath = ['','',''];
+  public isAllDept:boolean;
+  public isAllDept2:boolean;
+  public deptList: Array<Department>;
   public upGroupProduct={
     code:'',
     name: '',
@@ -46,6 +50,8 @@ export class ProductComponent implements OnInit {
     producttype: '',
     checkStatus:'',
     shipping:'',
+    targetId:[],
+    targetName:[],
     imgPathList:[]
   };
   public newGroupProduct={
@@ -62,19 +68,25 @@ export class ProductComponent implements OnInit {
     label:  '',
     producttype: '',
     checkStatus:'',
-    shipping:''
+    shipping:'',
+    targetId:[],
+    targetName:[],
   };
   constructor(
     private groupProductService: GroupProductService,
     private globalCatalogService: GlobalCatalogService,
     private errorVoid: ErrorResponseService,
-    public  ipSetting:IpSettingService) {
+    public  ipSetting:IpSettingService,
+    private saleProductEmployeeService:SaleProductEmployeeService,
+  ) {
   }
   ngOnInit() {
     this.getRule();
     this.search = new GroupProduct();
     this.pages = [];
+    this.deptList = [];
     this.getProductList(1);
+    this.getDeptList();
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'group','employ/group')
@@ -108,8 +120,23 @@ export class ProductComponent implements OnInit {
       }
     });
   }
+  /*获取所有部门列表*/
+  getDeptList(){
+    this.saleProductEmployeeService.getDeptList()
+      .subscribe(data =>{
+        if(this.errorVoid.errorMsg(data)){
+          this.deptList = data.data;
+          for(let i = 0;i<this.deptList.length;i++){
+            this.deptList[i].choose = false;
+          }
+        }
+      });
+  }
   fadeBom() {
     $('.mask').show();
+    this.newGroupProduct.targetId = ['all'];
+    this.newGroupProduct.targetName = ['所有人员'];
+    this.isAllDept = true;
   }
   closeMask() {
     $('.mask').hide();
@@ -129,8 +156,65 @@ export class ProductComponent implements OnInit {
       label:  '',
       producttype: '',
       checkStatus:'',
-      shipping:''
+      shipping:'',
+      targetId:[],
+      targetName:[],
     };
+    for(let i = 0;i<this.deptList.length;i++){
+      this.deptList[i].choose = false;
+    }
+  }
+  /*选取部门*/
+  chooseDept(){
+    this.isAllDept = false;
+    this.newGroupProduct.targetId = [];
+    this.newGroupProduct.targetName = [];
+    for(let i = 0;i<this.deptList.length;i++){
+      if(this.deptList[i].choose){
+        this.newGroupProduct.targetId.push(this.deptList[i].DEPT_ID);
+        this.newGroupProduct.targetName.push(this.deptList[i].DEPT_NAME);
+      }
+    }
+    if(this.newGroupProduct.targetId.length === 0){
+      this.newGroupProduct.targetId = ['all'];
+      this.newGroupProduct.targetName = ['所有人员'];
+      this.isAllDept = true;
+    }
+  }
+  /*编辑选取部门*/
+  chooseDept2(){
+    this.isAllDept2 = false;
+    this.upGroupProduct.targetId = [];
+    this.upGroupProduct.targetName = [];
+    for(let i = 0;i<this.deptList.length;i++){
+      if(this.deptList[i].choose){
+        this.upGroupProduct.targetId.push(this.deptList[i].DEPT_ID);
+        this.upGroupProduct.targetName.push(this.deptList[i].DEPT_NAME);
+      }
+    }
+    if(this.upGroupProduct.targetId.length === 0){
+      this.upGroupProduct.targetId = ['all'];
+      this.upGroupProduct.targetName = ['所有人员'];
+      this.isAllDept2 = true;
+    }
+  }
+  /*全选*/
+  chooseAll(){
+    this.isAllDept = true;
+    this.newGroupProduct.targetId = ['all'];
+    this.newGroupProduct.targetName = ['所有人员'];
+    for(let i = 0;i<this.deptList.length;i++){
+      this.deptList[i].choose = false;
+    }
+  }
+  /*全选*/
+  chooseAll2(){
+    this.isAllDept2 = true;
+    this.upGroupProduct.targetId = ['all'];
+    this.upGroupProduct.targetName = ['所有人员'];
+    for(let i = 0;i<this.deptList.length;i++){
+      this.deptList[i].choose = false;
+    }
   }
   public verifyEmpty(id,label) {
     if (!this.isEmpty(id, label)) {
@@ -145,7 +229,6 @@ export class ProductComponent implements OnInit {
       return true;
     }
   }
-
   public verifyProductPrice(id) {
     if (!this.verifyIsNumber(id, '请输入正确的费用格式')) {
       return false;
@@ -172,7 +255,11 @@ export class ProductComponent implements OnInit {
       return false;
     }
     this.newGroupProduct.checkStatus = '0';
-    this.groupProductService.addGroupBuyProduct(this.newGroupProduct)
+    let postdata = JSON.parse(JSON.stringify(this.newGroupProduct));
+    postdata.checkStatus = '0';
+    // postdata.targetId = postdata.targetId.join(",");
+    // postdata.targetName = postdata.targetName.join(",");
+    this.groupProductService.addGroupBuyProduct(postdata)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           confirmFunc.init({
@@ -194,8 +281,21 @@ export class ProductComponent implements OnInit {
           this.upGroupProduct = data.data;
           this.imgUrl = this.upGroupProduct.imgPath.split(';');
           $('.mask2').show();
-        }
-
+          /*抢购对象部门处理*/
+            for (let i = 0; i < this.upGroupProduct.targetId.length; i++) {
+              if (this.upGroupProduct.targetId[i] !== "all") {
+                this.isAllDept2 = false;
+              }else{
+                this.isAllDept2 = true;
+              }
+              for (let j = 0; j < this.deptList.length; j++) {
+                if (this.deptList[j].DEPT_ID === this.upGroupProduct.targetId[i]) {
+                  this.deptList[j].choose = true;
+                  // console.log(this.deptList[j].DEPT_NAME);
+                }
+              }
+            }
+          }
       })
   }
 /** 修改商品信息提交*/
@@ -226,6 +326,7 @@ export class ProductComponent implements OnInit {
             'imgType': 1,
           });
           this.closeMask2();
+
           this.getProductList(1);
         }
       })
@@ -234,6 +335,9 @@ export class ProductComponent implements OnInit {
     $('.mask2').hide();
     $('#prese1,#prese2,#prese3').val('');
     $('.errorMessage').html('');
+    for(let i = 0;i<this.deptList.length;i++){
+      this.deptList[i].choose = false;
+    }
   }
   /*新增文件图片上传*/
   prese_upload(files,index){
@@ -371,4 +475,9 @@ export class ProductComponent implements OnInit {
         }
       })
   }
+}
+export class Department {
+  DEPT_ID   : string;
+  DEPT_NAME : string;
+  choose    : boolean;
 }

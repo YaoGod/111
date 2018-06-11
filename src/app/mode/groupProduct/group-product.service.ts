@@ -16,7 +16,9 @@ export class GroupProduct {
   payaccount:          string;/*付款账号*/
   quantity:            string;/*数量*/
   label:                string;/*商品标签*/
-  producttype:             string;/*商品类型*/
+  producttype:          string;/*商品类型*/
+  targetName=[];
+  targetId=[];
   shipping:string;/*配送方式*/
   checkStatus: string;
   checkResult:string;

@@ -10,8 +10,8 @@
       <ul class="card-left clearfix">
         <li class="left-li"><span>支部名称</span><strong>{{newCard.branchName}}</strong></li>
         <li class="left-li"><span>会议类型</span><strong>{{newCard.subType}}</strong></li>
-        <li class="left-li"><span>开始时间</span><strong>{{newCard.beginTime}}</strong></li>
-        <li class="left-li"><span>结束时间</span><strong>{{newCard.endTime}}</strong></li>
+        <li class="left-li"><span>开始时间</span><strong>{{newCard.beginTime | date:'yyyy/MM/dd HH:mm'}}</strong></li>
+        <li class="left-li"><span>结束时间</span><strong>{{newCard.endTime | date:'yyyy/MM/dd HH:mm'}}</strong></li>
         <li class="left-li"><span>主 持 人</span><strong>{{newCard.host}}</strong></li>
         <li class="left-li"><span>记 录 人</span><strong>{{newCard.recorder}}</strong></li>
         <li class="left-li"><span>应到人数</span><strong>{{newCard.shouldNum}}</strong></li>
