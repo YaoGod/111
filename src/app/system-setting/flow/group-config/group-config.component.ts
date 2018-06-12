@@ -62,6 +62,7 @@ export class GroupConfigComponent implements OnInit {
     this.ipSetting.sendPost(url,postData).subscribe(data => {
       if (this.errorResponseService.errorMsg(data)) {
         this.flowList = data.data.list;
+        this.total = data.data.total;
       }
     });
   }

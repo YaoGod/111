@@ -128,7 +128,7 @@
         <span class="form-label">主持人</span>
         <div class="form-inp">
           <input class="company-ipt" type="text" name="host" id="host"
-                 [(ngModel)]="newCard.host" (blur)="verifyhost()" maxlength="25">
+                 [(ngModel)]="newCard.host" (blur)="verifyhost()" maxlength="10">
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -144,7 +144,7 @@
         <span class="form-label">记录人</span>
         <div class="form-inp">
           <input type="text" class="company-ipt" name="recorder" id="recorder" [(ngModel)]="newCard.recorder"
-                 (blur)="verifyrecorder()" maxlength="25"/>
+                 (blur)="verifyrecorder()" maxlength="10"/>
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -152,7 +152,7 @@
         <span class="form-label">应到会人数</span>
         <div class="form-inp">
           <input class="company-ipt company-sel" type="number" name="shouldNum" id="shouldNum" [(ngModel)]="newCard.shouldNum"
-                  (blur)="verifyshouldNum()"  maxlength="5">
+                  (blur)="verifyshouldNum()"  maxlength="4">
           <span class="errorMessage"></span>
         </div>
       </div>
@@ -160,21 +160,21 @@
         <span class="form-label">实际到会人数</span>
         <div class="form-inp">
           <input type="number" class="company-ipt" id="factNum" name="factNum" [(ngModel)]="newCard.factNum"
-                 (blur)="verifyfactNum()" maxlength="18"/>
+                 (blur)="verifyfactNum()" maxlength="4"/>
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">缺席人数</span>
         <div class="form-inp">
-          <input type="number" class="company-ipt" name="absentNum" id="absentNum" [(ngModel)]="newCard.absentNum"/>
+          <input type="number" class="company-ipt" name="absentNum" id="absentNum" [(ngModel)]="newCard.absentNum" maxlength="4"/>
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control form-alone">
         <span class="form-label">缺席原因</span>
         <div class="form-inp">
-          <input type="text" class="company-ipt form-inp" name="reason" id="reason" [(ngModel)]="newCard.reason"
+          <input type="text" class="company-ipt form-inp" name="reason" id="reason" [(ngModel)]="newCard.reason" maxlength="50"
                  />
           <span class="errorMessage"></span>
         </div>
@@ -182,7 +182,7 @@
       <div class="form-control form-alone">
         <span class="form-label">会议主题</span>
         <div class="form-inp">
-          <input type="text" class="company-ipt form-inp" name="theme" id="theme" [(ngModel)]="newCard.theme"
+          <input type="text" class="company-ipt form-inp" name="theme" id="theme" [(ngModel)]="newCard.theme" maxlength="50"
                  (blur)="verifytheme()"/>
           <span class="errorMessage"></span>
         </div>

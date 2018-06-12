@@ -6,6 +6,7 @@ import * as $ from 'jquery';
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
+import {SaleProductEmployeeService} from "../../../service/sale-product-employee/sale-product-employee.service";
 declare var $:any;
 declare var confirmFunc: any;
 declare var tinymce: any;
@@ -13,7 +14,7 @@ declare var tinymce: any;
   selector: 'app-manager',
   templateUrl: './manager.component.html',
   styleUrls: ['./manager.component.css'],
-  providers: [GroupProductService,UtilBuildingService,ErrorResponseService]
+  providers: [GroupProductService,UtilBuildingService,ErrorResponseService,SaleProductEmployeeService]
 })
 export class ManagerComponent implements OnInit {
   public catas;
@@ -27,6 +28,8 @@ export class ManagerComponent implements OnInit {
   public length = 5;
   public pages: Array<number>;
   public imgUrl: Array<string>;
+  public deptList: Array<Department>;
+  public isAllDept2:boolean;
   public open = false;
   public upGroupProduct={
     code:'',
@@ -43,6 +46,8 @@ export class ManagerComponent implements OnInit {
     label:  '',
     producttype: '',
     shipping:'',
+    targetName:[],
+    targetId:[],
     imgPathList:[]
   };
 
@@ -53,13 +58,15 @@ export class ManagerComponent implements OnInit {
   constructor(private groupProductService: GroupProductService,
               private globalCatalogService: GlobalCatalogService,
               private errorVoid: ErrorResponseService,
-              public ipSetting  : IpSettingService) {
+              public ipSetting  : IpSettingService,
+              private saleProductEmployeeService:SaleProductEmployeeService,) {
   }
   ngOnInit() {
     this.getRule();
     this.search = new GroupProduct();
     this.pages = [];
     this.getProductList(1);
+    this.getDeptList();
   }
   getRule(){
     this.globalCatalogService.getCata(-1,'group','employ/group')
@@ -93,6 +100,19 @@ export class ManagerComponent implements OnInit {
       }
     });
   }
+  /*获取所有部门列表*/
+  getDeptList(){
+    this.saleProductEmployeeService.getDeptList()
+      .subscribe(data =>{
+        if(this.errorVoid.errorMsg(data)){
+          this.deptList = data.data;
+          for(let i = 0;i<this.deptList.length;i++){
+            this.deptList[i].choose = false;
+          }
+        }
+      });
+  }
+
   updateStatus(code,status){
     this.upStatusProduct.status = status;
     this.upStatusProduct.code = code;
@@ -117,6 +137,33 @@ export class ManagerComponent implements OnInit {
     $('.errorMessage').html('');
     $('.mask').hide();
     $('#prese1').val('');
+
+  }
+  /*编辑选取部门*/
+  chooseDept2(){
+    this.isAllDept2 = false;
+    this.upGroupProduct.targetId = [];
+    this.upGroupProduct.targetName = [];
+    for(let i = 0;i<this.deptList.length;i++){
+      if(this.deptList[i].choose){
+        this.upGroupProduct.targetId.push(this.deptList[i].DEPT_ID);
+        this.upGroupProduct.targetName.push(this.deptList[i].DEPT_NAME);
+      }
+    }
+    if(this.upGroupProduct.targetId.length === 0){
+      this.upGroupProduct.targetId = ['all'];
+      this.upGroupProduct.targetName = ['所有人员'];
+      this.isAllDept2 = true;
+    }
+  }
+  /*全选*/
+  chooseAll2(){
+    this.isAllDept2 = true;
+    this.upGroupProduct.targetId = ['all'];
+    this.upGroupProduct.targetName = ['所有人员'];
+    for(let i = 0;i<this.deptList.length;i++){
+      this.deptList[i].choose = false;
+    }
   }
   public verifyEmpty(id,label) {
 
@@ -206,6 +253,21 @@ export class ManagerComponent implements OnInit {
           this.upGroupProduct = data.data;
           this.imgUrl = this.upGroupProduct.imgPath.split(';');
           $('.mask2').show();
+          /*抢购对象部门处理*/
+          for (let i = 0; i < this.upGroupProduct.targetId.length; i++) {
+            if (this.upGroupProduct.targetId[i] !== "all") {
+              this.isAllDept2 = false;
+            } else {
+              this.isAllDept2 = true;
+            }
+            for (let j = 0; j < this.deptList.length; j++) {
+              if (this.deptList[j].DEPT_ID === this.upGroupProduct.targetId[i]) {
+                this.deptList[j].choose = true;
+                // console.log(this.deptList[j].DEPT_NAME);
+              }
+            }
+          }
+
         }
       })
   }
@@ -243,8 +305,11 @@ export class ManagerComponent implements OnInit {
   }
   closeMask2() {
     $('.errorMessage').html('');
-    $('.mask2').hide();
+    $('.mask2,#deptSltWin2').hide();
     $('#prese1,#prese2,#prese3').val('');
+    for(let i = 0;i<this.deptList.length;i++){
+      this.deptList[i].choose = false;
+    }
   }
 
   /*修改文件图片上传*/
@@ -302,4 +367,9 @@ export class ManagerComponent implements OnInit {
     this.getProductList(page);
   }
 
+}
+export class Department {
+  DEPT_ID   : string;
+  DEPT_NAME : string;
+  choose    : boolean;
 }

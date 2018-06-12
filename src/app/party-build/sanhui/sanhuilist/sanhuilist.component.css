@@ -27,6 +27,7 @@ input{
 }
 .cont{
   background-color: #fff;
+  min-height: 85vh;
 }
 .cont-inner{
   margin-top:10px;

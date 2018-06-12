@@ -26,6 +26,7 @@ input{
   padding:10px 20px;
 }
 .cont{
+  min-height: 85vh;
   background-color: #fff;
 }
 .cont-inner{

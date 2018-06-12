@@ -9,13 +9,6 @@
                   [ngClass]="cata.routeUrl===rule.routeUrl?'active':''"
                   [routerLink]="['../../../'+cata.routeUrl]"
             >{{cata.name}}</span>
-        <!--    <span [routerLink]="['../product']">团购商品新增</span>
-            <span class="active" >团购商品审核</span>
-            <span [routerLink]="['../manager']">团购商品管理</span>
-            <span [routerLink]="['../order']">订单管理</span>
-            <span [routerLink]="['../notice']">公告管理</span>
-            <span [routerLink]="['../report']">订单报表</span>
-            <span [routerLink]="['../count']">统计报表</span>-->
           </div>
           <div class="b-head-right">
             <div class="content-box" [routerLink]="['../groupbuy']"><i class="icon-action-undo"></i> 继续订购</div>
@@ -35,6 +28,7 @@
                 <td class="fir">商品信息</td>
                 <td class="sec">单价(元)</td>
                 <td class="three">状态</td>
+                <td class="three">团购对象</td>
                 <td class="four">标签</td>
                 <td class="five">团购时间</td>
                 <td class="six">发起人信息</td>
@@ -63,6 +57,7 @@
                       <label *ngIf="product.checkStatus=='1'">（审核通过）</label>
                       <label *ngIf="product.checkStatus=='2'">（不通过）</label>
                     </td>
+                    <td class="three">{{product.targetName}}</td>
                     <td class="four">{{product.label}}</td>
                     <td class="five">
                       <span>{{product.startTime}}</span>

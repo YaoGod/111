@@ -35,7 +35,7 @@ export class ExportReportComponent implements OnInit {
 
   ngOnInit() {
     this.pageNo = 1;
-    this.pageSize = 10;
+    this.pageSize = 15;
     this.globalCatalogService.setTitle("党建管理/工作报表管理");
     this.search = new Report();
     this.search.type = "1";
@@ -87,6 +87,7 @@ export class ExportReportComponent implements OnInit {
     this.http.get(url)
     // .map(res => res.json())
       .subscribe(data => {
+        this.getDataList(1);
         window.location.href = url;
         $('#deriving').fadeOut();
       });

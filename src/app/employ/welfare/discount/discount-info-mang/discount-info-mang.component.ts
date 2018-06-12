@@ -25,6 +25,7 @@ export class DiscountInfoMangComponent implements OnInit {
   public search: string;      /*搜索字段*/
   public navtitle:string;
   public open = false;
+  public imgInfo = [];
   public imgUrl: Array<string>;
   constructor(
     private router: Router,

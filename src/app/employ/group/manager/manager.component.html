@@ -9,13 +9,6 @@
                    [ngClass]="cata.routeUrl===rule.routeUrl?'active':''"
                    [routerLink]="['../../../'+cata.routeUrl]"
              >{{cata.name}}</span>
-            <!--span [routerLink]="['../product']">团购商品新增</span>
-            <span [routerLink]="['../check']">团购商品审核</span>
-            <span class="active" >团购商品管理</span>
-            <span [routerLink]="['../order']">订单管理</span>
-            <span [routerLink]="['../notice']">公告管理</span>
-            <span [routerLink]="['../report']">订单报表</span>
-            <span [routerLink]="['../count']">统计报表</span>-->
           </div>
           <div class="b-head-right">
             <div class="content-box" [routerLink]="['../groupbuy']"><i class="icon-action-undo"></i> 继续订购</div>
@@ -33,6 +26,7 @@
             <table class="table-head">
               <td class="fir">商品信息</td>
               <td class="sec">单价(元)</td>
+              <td class="three">团购对象</td>
               <td class="sec">状态</td>
               <td class="three">审核意见</td>
               <td class="four">标签</td>
@@ -57,6 +51,7 @@
                       <img *ngIf="product.imgPath" [src]="ipSetting.imgUrl+product.imgPath[0]" />
                     </td>
                     <td class="sec">{{product.price}}</td>
+                    <td class="three" >{{product.targetName}}</td>
                     <td class="sec" >
                       <label *ngIf="product.status=='0'">录入</label>
                       <label *ngIf="product.status=='1'">上架</label>
@@ -194,14 +189,49 @@
                      style="width:118px !important;margin-left: 5px"  [(ngModel)]="upGroupProduct.endTime" >
               <span class="errorMessage"></span>
             </div>
+            <div  class="for clearfix">
+              <label style="display: block; height: 16px; margin-right: 10px;">团购对象</label>
+              <textarea class="form-control" rows="3"
+                        style="border:1px solid #dddddd;width:445px;!important;height:auto;background-color: #ffffff !important;"
+                        onclick="$('#deptSltWin2').show()"
+                        id="deptName2" name="deptName2" readonly
+                        [(ngModel)]="upGroupProduct.targetName">
+              </textarea>
+
+              <div class="errorMessage"></div>
+            </div>
             <div class="for clearfix">
               <label style="display: block; height: 16px; margin-right: 10px;">商品详情：</label>
-              <textarea name="upnewesetail" ui-tinymce
-                        class="form-control" rows="10"
+              <textarea name="upnewesetail" class="form-control" rows="5"
                         id="upnewesetail" (blur)="verifyEmpty('upnewesetail','不能为空')"
-                        style="border:1px solid #dddddd;width:445px;!important;height: 140px;background-color: #ffffff !important;"  [(ngModel)]="upGroupProduct.detail" value="{{upGroupProduct.detail}}">
+                        style="border:1px solid #dddddd;width:445px;!important;height: auto;background-color: #ffffff !important;"  [(ngModel)]="upGroupProduct.detail" [value]="upGroupProduct.detail">
               </textarea>
               <span class="errorMessage" style="display: block; "></span>
+            </div>
+            <div class="modal-more" id="deptSltWin2" style="display: none">
+              <h5>杭州移动各部门</h5>
+              <h5>已选：&nbsp;&nbsp;
+                <span>{{upGroupProduct.targetName}}</span></h5>
+              <div class="choose-group">
+                <label class="cb-blue">
+                  <input type="checkbox" name="all2" id="all2" [(ngModel)]="isAllDept2" (change)="chooseAll2()">
+                  <span>所有人员</span>
+                </label>
+              </div>
+              <div class="choose-list">
+                <div class="choose-group" *ngFor="let dept of deptList;let i=index">
+                  <label class="cb-blue">
+                    <input type="checkbox" [name]="dept.DEPT_ID" [(ngModel)]="dept.choose"
+                           [value]="dept.DEPT_ID"
+                           (change)="chooseDept2()">
+                    <span>{{dept.DEPT_NAME}}</span>
+                  </label>
+                </div>
+              </div>
+              <div  class="modal-more-footer">
+                <button  class="btn btn-info" type="submit"
+                         onclick="$('#deptSltWin2').fadeOut()">确定</button>
+              </div>
             </div>
           </div>
         </div>

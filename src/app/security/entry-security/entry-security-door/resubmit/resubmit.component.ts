@@ -283,14 +283,21 @@ export class ResubmitComponent implements OnInit {
         delete this.lastAddPower[i].userDept;
         delete this.lastAddPower[i].userId;
         delete this.lastAddPower[i].userName;
-
       }
-      console.log(this.lastAddPower);
       let postData = {
         guard: temporary.concat(this.lastAddPower),
         userId: this.addUser.userid,
         userName: this.addUser.username
       };
+      if(postData.guard && postData.guard.length<1){
+        confirmFunc.init({
+          'title': '提示',
+          'mes': '至少保留一条申请内容！',
+          'popType': 2,
+          'imgType': 2,
+        });
+        return false;
+      }
       if(index===0){
         this.lastAddPower = postData.guard;
         this.postData.data[this.powerIndex] = postData;

@@ -98,6 +98,7 @@
     <form  class="form-building form-material ng-untouched ng-pristine ng-valid" novalidate="">
       <div  class="modal-body clearfix">
         <div class="modal-left">
+          <div class="dropify-title">商品图片</div>
           <div  class="dropify-wrapper">
             <div  class="dropify-message">
               <img *ngIf="imgUrl&&imgUrl[0].length>0" [src]="ipSetting.imgUrl+imgUrl[0]">
@@ -125,6 +126,19 @@
             <input  class="dropify" type="file"  id="prese3"
                     #prese3
                     (change)="prese_upload(prese3.files,2)">
+          </div>
+
+          <div class="dropify-wrapper" *ngFor="let img of imgPathList;let i = index">
+            <a class="top-trash" title="删除图片" (click)="delImgPath(i)">x</a>
+            <div  class="dropify-message">
+              <img [src]="ipSetting.imgUrl+img" *ngIf="img">
+            </div>
+          </div>
+          <div  class="dropify-wrapper bpt">
+            <div  class="dropify-message"></div>
+            <p>点击上传图片</p>
+            <input  class="dropify" type="file"  id="press" #press
+                    (change)="prese_upload(press.files)">
           </div>
           <div class="dropify-file">
             <a class="btn-danger">上传附件</a>
