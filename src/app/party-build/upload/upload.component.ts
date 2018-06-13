@@ -34,14 +34,15 @@ export class UploadComponent implements OnInit {
     private globalCatalogService:GlobalCatalogService,
     public  ipSetting:IpSettingService
   ) {
-    this.rule = this.globalCatalogService.getRole("security/basic");
+    this.rule = this.globalCatalogService.getRole("party/upload");
   }
 
   ngOnInit() {
     this.globalCatalogService.setTitle("党建管理/工作台账上传");
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
-        this.rule = this.globalCatalogService.getRole("security/basic");
+        this.rule = this.globalCatalogService.getRole("party/upload");
+        console.log(this.rule);
       }
     );
     this.search = new Building();
@@ -56,8 +57,8 @@ export class UploadComponent implements OnInit {
       {id: 5,url:'dangwei',name:'（五）、党委委员调研党支部信息',imgPath:'dangweidiaoyan.png'},
       {id: 6,url:'jihua',name:'（六）、党支部工作计划和总结',imgPath:'jihuazongjie.png'},
       {id: 7,url:'subunit',name:'（七）、党支部岗区队建设情况',imgPath:'quduijianshe.png'},
-      {id: 8,url:'jihua',name:'（八）、支部特色',imgPath:'zhibutese.png'},
-      {id: 9,url:'subunit',name:'（九）、学习时间',imgPath:'learningTime.png'},
+      {id: 8,url:'feature',name:'（八）、支部特色',imgPath:'zhibutese.png'},
+      {id: 9,url:'study',name:'（九）、学习时间',imgPath:'learningTime.png'},
       ]
   }
 }

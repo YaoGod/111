@@ -451,6 +451,33 @@ i{
   cursor: pointer;
   z-index: 5;
 }
+.dropify-wrapper.bpt{
+  cursor: pointer;
+}
+.top-trash{
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  line-height: 20px;
+  border-bottom-left-radius: 5px;
+  box-shadow: -1px 1px 2px #6f4144;
+  background-color: #d75452;
+  color: #ffffff;
+  cursor: pointer;
+  transition-duration: 300ms;
+  opacity: 0;
+  z-index: 4;
+}
+.dropify-wrapper:hover .top-trash{
+  opacity: 1;
+}
+.dropify-title{
+  float:left;
+  width:100%;
+  line-height:34px;
+}
 .modal-footer{
   display: -webkit-box;
   display: -ms-flexbox;

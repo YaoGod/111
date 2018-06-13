@@ -67,6 +67,14 @@ const routes: Routes = [
       {
         path: 'jihua',
         loadChildren: './jihua/jihua.module#JihuaModule'
+      },
+      {
+        path: 'feature',
+        loadChildren: './feature/feature.module#FeatureModule'
+      },
+      {
+        path: 'study',
+        loadChildren: './study/study.module#StudyModule'
       }
     ]
   }

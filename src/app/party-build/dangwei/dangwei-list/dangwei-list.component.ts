@@ -33,6 +33,7 @@ export class DangweiListComponent implements OnInit {
 
   ngOnInit() {
     this.globalCatalogService.setTitle("党建管理/党委委员调研党支部信息");
+    this.searchInfo.createUserId = localStorage.getItem("username");
     this.searchInfo.branchName = "";
     this.searchInfo.type = "5";
     this.getRepairDept();
@@ -217,6 +218,7 @@ export class CardInfo {
   id: number; // 本条信息ID
   branchName:string; // 支部名称
   type:string; // 类型
+  createUserId:string;
   filePath:Array<any>;
   fileName: Array<any>; // 文件名称
   host: string;  // 党委委员

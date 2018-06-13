@@ -62,6 +62,7 @@ export class DiscountInfoMangComponent implements OnInit {
     this.open = false;
     this.imgUrl = ['','',''];
     this.copyDiscount.imgPathList = [];
+    this.copyDiscount.contentImg = '';
     $('.mask').show();
   }
   closeMask(){
@@ -71,6 +72,7 @@ export class DiscountInfoMangComponent implements OnInit {
     $('.dropify-wrapper').removeClass('red');
     $('.error').html('');
     this.copyDiscount = new Discount();
+    this.imgInfo = [];
     this.copyDiscount.imgPathList = ['','',''];
     this.tempOther = [];
   }
@@ -124,6 +126,43 @@ export class DiscountInfoMangComponent implements OnInit {
       }
     };
   }
+  /*详情图片上传*/
+  prese_uploadInfo(files){
+    let xhr = this.discountEmployeeService.uploadImg(files[0],"discount",-1);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
+        let data:any = JSON.parse(xhr.responseText);
+        if(this.errorResponseService.errorMsg(data)){
+          if(this.imgInfo&&this.imgInfo.length>5){
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': '最多上传6张图片！',
+              'popType': 1 ,
+              'imgType': 2 ,
+            });
+            return false;
+          }else{
+            this.imgInfo.push(data.msg);
+          }
+
+          console.log(this.imgInfo);
+        }
+        $('#press').val('');
+      }else if(xhr.readyState === 4 && xhr.status === 413 ){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '图片大小超出限制',
+          'popType': 1 ,
+          'imgType': 2 ,
+        });
+        $('#press').val('');
+      }
+    };
+  }
+  /*删除图片*/
+  delImgPath(index){
+    this.imgInfo.splice(index,1);
+  }
   addLine(){
     let length = 0;
     for(let i = 0;i<this.tempOther.length;i++){
@@ -161,8 +200,9 @@ export class DiscountInfoMangComponent implements OnInit {
         }
       }
       let postdata = JSON.parse(JSON.stringify(this.copyDiscount));
-      postdata.effectBtime = postdata.effectBtime.replace(/-/g, '/');
-      postdata.effectEtime = postdata.effectEtime.replace(/-/g, '/');
+      // postdata.effectBtime = postdata.effectBtime.replace(/-/g, '/');
+      // postdata.effectEtime = postdata.effectEtime.replace(/-/g, '/');
+      postdata.contentImg = this.imgInfo.join(',');
       if(typeof (postdata.id) === "undefined" || postdata.id === null) {
         // console.log(postdata);   新增
         this.discountEmployeeService.addDiscount(postdata)
@@ -209,7 +249,7 @@ export class DiscountInfoMangComponent implements OnInit {
                 },
                 "cancel": () => {
                   this.closeMask();
-                  this.getDiscount(1);
+                  this.getDiscount(this.pageNo);
                 }
               });
             }
@@ -227,8 +267,9 @@ export class DiscountInfoMangComponent implements OnInit {
             this.navtitle = "编辑";
             this.copyDiscount = data.data;
             this.imgUrl = this.copyDiscount.imgPathList;// .split(',');
-            this.copyDiscount.effectBtime = this.copyDiscount.effectBtime.replace(/\//g,'-');
-            this.copyDiscount.effectEtime = this.copyDiscount.effectEtime.replace(/\//g,'-');
+            this.imgInfo = this.copyDiscount.contentImg.split(',');
+            // this.copyDiscount.effectBtime = this.copyDiscount.effectBtime.replace(/\//g,'-');
+            // this.copyDiscount.effectEtime = this.copyDiscount.effectEtime.replace(/\//g,'-');
             this.tempOther = JSON.parse(JSON.stringify(data.data.others));
             for(let i = 0;i< this.tempOther.length;i++){
               this.tempOther[i].isShow = true;

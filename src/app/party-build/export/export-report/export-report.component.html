@@ -2,7 +2,7 @@
 <div class="search-bar">
   <ul>
     <li><label>模块类型</label>
-      <select name="module" [(ngModel)]="search.type">
+      <select name="module" [(ngModel)]="typeTemplate" (change)="changeAttr()">
         <option value="1">三会一课</option>
         <option value="2">“六好”党支部建设月报</option>
         <option value="3">"主题党日"活动简报</option>
@@ -43,8 +43,8 @@
         <option *ngFor="let abc of repairDept" [value]="abc.DEPT_NAME">{{abc.DEPT_NAME}}</option>
       </select>
     </li>
-    <li *ngIf="search.type==='1'"><label>会议类型</label>
-      <select class="search-ipt search-sel" name="searchtype" [(ngModel)]="search.subType">
+    <li *ngIf="typeTemplate==='1'"><label>会议类型</label>
+      <select class="search-ipt search-sel"  style="width:130px;" name="searchtype" [(ngModel)]="search.subType">
         <option value="">全部</option>
         <option value="党员大会">党员大会</option>
         <option value="支委会">支委会</option>
@@ -53,9 +53,9 @@
         <option value="组织生活会">组织生活会</option>
       </select>
     </li>
-    <li *ngIf="search.type==='6'">
+    <li *ngIf="typeTemplate==='6'">
       <label>文件类型</label>
-      <select class="search-ipt search-sel" type="text" name="searchFileName" [(ngModel)]="search.subType">
+      <select class="search-ipt search-sel"  style="width:130px;" type="text" name="searchFileName" [(ngModel)]="search.subType">
         <option value="">-全部-</option>
         <option>党支部工作计划</option>
         <option>党支部半年度总结</option>
@@ -63,14 +63,14 @@
       </select>
     </li>
     <li><label>月份</label>
-      <input name="Bmonth" type="month" [(ngModel)]="search.BTime" [value]="search.BTime"> 至
-      <input name="Emonth" type="month" [(ngModel)]="search.ETime" [value]="search.ETime">
-    </li>
-    <li>
-      <a (click)="getDataList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
-      <a (click)="downDeriving();"><i class="icon-docs"></i>&nbsp;导出</a>
+      <input name="Bmonth" style="width:130px;" type="month" [(ngModel)]="search.BTime" [value]="search.BTime"> 至
+      <input name="Emonth" style="width:130px;" type="month" [(ngModel)]="search.ETime" [value]="search.ETime">
     </li>
   </ul>
+  <div class="search-right">
+    <a (click)="getDataList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
+    <a (click)="downDeriving();"><i class="icon-docs"></i>&nbsp;导出</a>
+  </div>
 </div>
 <!--表头-->
 <div class="table-head" style="margin-top: 10px; min-height: 400px;">

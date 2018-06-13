@@ -39,7 +39,7 @@ export class BulletinlistComponent implements OnInit {
 
   ngOnInit() {
     this.globalCatalogService.setTitle("党建管理/工作台账上传");
-
+    this.searchInfo.createUserId = localStorage.getItem("username");
     this.searchInfo.branchName = '';
     this.searchInfo.month = '';
     this.recordList = [];
@@ -257,6 +257,7 @@ export class CardInfo {
   branchName:string; // 支部名称
   type:string; // 党建类型
   subType:string; /*活动类型*/
+  createUserId:string;
   month: string;// 月份
   shouldNum:number; // 支部党员人数
   factNum:number; // 参与人数

@@ -36,6 +36,7 @@ export class SubunitlistComponent implements OnInit {
   ngOnInit() {
     this.globalCatalogService.setTitle("党建管理/工作台账上传");
     this.searchInfo.type = '7';
+    this.searchInfo.createUserId = localStorage.getItem("username");
     this.searchInfo.branchName = '';
     this.searchInfo.subType = '';
     this.repairSearch(1);
@@ -286,6 +287,7 @@ export class SearchInfo {
   beginTime:string; // 开始时间
   endTime:string; // 结束时间
   host:string; // 主持人
+  createUserId:string;
   recorder:string; // 记录人
   shouldNum:number; // 应到人数
   factNum:number; // 实到人数

@@ -101,7 +101,7 @@
           <div class="dropify-title">商品图片</div>
           <div  class="dropify-wrapper">
             <div  class="dropify-message">
-              <img *ngIf="imgUrl&&imgUrl[0].length>0" [src]="ipSetting.imgUrl+imgUrl[0]">
+              <img *ngIf="imgUrl&&imgUrl[0]&&imgUrl[0].length>0" [src]="ipSetting.imgUrl+imgUrl[0]">
               <!--<img *ngIf="open&&copyDiscount.imgPathList[0]" [src]="copyDiscount.imgPathList[0] | imgsafeurl:prese1.files" />-->
             </div>
             <p style="font-size: 12px;">点击添加图片</p>
@@ -111,7 +111,7 @@
           </div>
           <div  class="dropify-wrapper">
             <div  class="dropify-message">
-              <img *ngIf="imgUrl&&imgUrl[1].length>0"  [src]="ipSetting.imgUrl+imgUrl[1]">
+              <img *ngIf="imgUrl&&imgUrl[1]&&imgUrl[1].length>0"  [src]="ipSetting.imgUrl+imgUrl[1]">
             </div>
             <p style="font-size: 12px;">点击添加图片</p>
             <input  class="dropify" type="file"  id="prese2"
@@ -120,7 +120,7 @@
           </div>
           <div  class="dropify-wrapper">
             <div  class="dropify-message">
-              <img *ngIf="imgUrl&&imgUrl[2].length>0"  [src]="ipSetting.imgUrl+imgUrl[2]">
+              <img *ngIf="imgUrl&&imgUrl[2]&&imgUrl[2].length>0"  [src]="ipSetting.imgUrl+imgUrl[2]">
             </div>
             <p style="font-size: 12px;">点击添加图片</p>
             <input  class="dropify" type="file"  id="prese3"
@@ -128,17 +128,18 @@
                     (change)="prese_upload(prese3.files,2)">
           </div>
 
-          <div class="dropify-wrapper" *ngFor="let img of imgPathList;let i = index">
+          <div class="dropify-title">详情图片</div>
+          <div class="dropify-wrapper" *ngFor="let img of imgInfo;let i = index">
             <a class="top-trash" title="删除图片" (click)="delImgPath(i)">x</a>
             <div  class="dropify-message">
               <img [src]="ipSetting.imgUrl+img" *ngIf="img">
             </div>
           </div>
-          <div  class="dropify-wrapper bpt">
+          <div  class="dropify-wrapper bpt" *ngIf="imgInfo&&imgInfo.length<6">
             <div  class="dropify-message"></div>
-            <p>点击上传图片</p>
+            <p style="font-size: 12px;">点击上传图片</p>
             <input  class="dropify" type="file"  id="press" #press
-                    (change)="prese_upload(press.files)">
+                    (change)="prese_uploadInfo(press.files)">
           </div>
           <div class="dropify-file">
             <a class="btn-danger">上传附件</a>
@@ -180,13 +181,13 @@
               <span>优惠有效期</span>
               <input class="form-control" type="date"
                      id="effectBtime" name="effectBtime"
-                     placeholder="" format="yyyy/MM/dd"
+                     placeholder=""
                      [(ngModel)]="copyDiscount.effectBtime"
                      (blur)="verifyEmpty(copyDiscount.effectBtime,'effectBtime')"
               >至
               <input class="form-control" type="date"
                      id="effectEtime" name="effectEtime"
-                     placeholder="" format="yyyy/MM/dd"
+                     placeholder=""
                      [(ngModel)]="copyDiscount.effectEtime"
                      (blur)="verifyEmpty(copyDiscount.effectEtime,'effectEtime')"
               >

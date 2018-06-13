@@ -39,7 +39,7 @@ export class CaselistComponent implements OnInit {
 
   ngOnInit() {
     this.globalCatalogService.setTitle("党建管理/工作台账上传");
-
+    this.searchInfo.createUserId = localStorage.getItem("username");
     this.searchInfo.branchName = '';
     this.searchInfo.month = '';
     this.recordList = [];
@@ -257,6 +257,7 @@ export class CardInfo {
   type:string; // 党建类型
   subType:string; /*案例类型*/
   month: string;// 月份
+  createUserId:string;
   note: string;// 案例概述
   theme:string; /*案例名称*/
   fileContract:any; /*存放附件信息*/

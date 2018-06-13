@@ -58,4 +58,5 @@ export class CardInfo {
   subType:string; // 案例类型
   theme:string; // 案例名称
   note:string; // 案例概述
+  fileContract:any;
 }

@@ -14,6 +14,7 @@ declare var $:any;
 export class DiscountInfoDetailComponent implements OnInit {
 
   public discount :Discount;
+  public imgInfo = [];
   public time: string;
   constructor(
     private router: Router,
@@ -35,6 +36,9 @@ export class DiscountInfoDetailComponent implements OnInit {
       .subscribe(data=> {
         if(this.errorResponseService.errorMsg(data)){
           this.discount = data.data;
+          if(this.discount.contentImg){
+            this.imgInfo = this.discount.contentImg.split(',');
+          }
           if(this.discount.imgPathList.length>0){
             this.discount.imgPath = this.discount.imgPathList[0];
           }

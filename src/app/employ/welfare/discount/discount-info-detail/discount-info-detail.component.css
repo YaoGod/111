@@ -175,3 +175,7 @@
 .summary-text textarea:hover{
   overflow: auto;
 }
+.summary-text img{
+  width:64%;
+  max-width:100%;
+}

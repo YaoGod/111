@@ -25,6 +25,7 @@ export class ExportReportComponent implements OnInit {
   public repairDept = [];
   public record:any;
   public countType:string;
+  public typeTemplate:string;
   constructor(
     private http:Http,
     private globalCatalogService:GlobalCatalogService,
@@ -39,6 +40,7 @@ export class ExportReportComponent implements OnInit {
     this.globalCatalogService.setTitle("党建管理/工作报表管理");
     this.search = new Report();
     this.search.type = "1";
+    this.typeTemplate = '1';
     this.search.subType = '';
     this.search.branchName = '';
     this.search.BTime = '';
@@ -47,6 +49,7 @@ export class ExportReportComponent implements OnInit {
     this.getDataList(1);
   }
   getDataList(num){
+    this.search.type = this.typeTemplate;
     let url = '/party/report/getList/'+num+'/'+this.pageSize;
     this.ipSetting.sendPost(url,this.search).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
@@ -63,23 +66,28 @@ export class ExportReportComponent implements OnInit {
       }
     });
   };
-
+  changeAttr(){
+    this.search.subType = '';
+    this.search.branchName = '';
+    this.search.BTime = '';
+    this.search.ETime = '';
+  }
   public downDeriving(){
     let parms = 'branchName';
     if(this.search.type === '1'){
-      parms += ',subType,host,recorder,beginTime,endTime,address,shouldNum,factNum,absentNum,reason,theme,';
+      parms += ',subType,host,recorder,beginTime,endTime,address,shouldNum,factNum,absentNum,reason,theme,createUserName,createTime';
     }else if(this.search.type === '2'){
-      parms += ',month,typicalMethod,dynamicMessage,';
+      parms += ',month,typicalMethod,dynamicMessage,createUserName,createTime';
     }else if(this.search.type === '3'){
-      parms += ',subType,month,shouldNum,factNum,';
+      parms += ',subType,month,shouldNum,factNum,createUserName,createTime';
     }else if(this.search.type === '4'){
-      parms += ',theme,subType,month';
+      parms += ',theme,subType,month,createUserName,createTime';
     }else if(this.search.type === '5'){
-      parms += ',month,host,theme';
+      parms += ',month,host,theme,createUserName,createTime';
     }else if(this.search.type === '6'){
-      parms += ',subType,month';
+      parms += ',subType,month,createUserName,createTime';
     }else if(this.search.type === '7'){
-      parms += ',month,pioneerNum,dutyNum,commandoNum,frequency,';
+      parms += ',month,pioneerNum,dutyNum,commandoNum,frequency,createUserName,createTime';
     }
 
     let url = this.ipSetting.ip + "/party/report/getListExcel?parms="+parms+"&type="+ this.search.type+"&subType="+this.search.subType+

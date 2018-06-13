@@ -36,6 +36,7 @@ export class LiuhaolistComponent implements OnInit {
   ngOnInit() {
     this.globalCatalogService.setTitle("党建管理/工作台账上传");
     this.getRepairDept();
+    this.searchInfo.createUserId = localStorage.getItem("username");
     this.searchInfo.branchName = '';
     this.searchInfo.type = '2';
     this.searchInfo.subType = '';
@@ -267,6 +268,7 @@ export class SearchInfo {
   subType:string; // 子类型
   month: string;// 月份
   name:string; // 文件名称
+  createUserId:string;
   beginTime:string; // 开始时间
   endTime:string; // 结束时间
   host:string; // 主持人

@@ -32,6 +32,7 @@ export class JihuaListComponent implements OnInit {
   ngOnInit() {
     this.globalCatalogService.setTitle("党建管理/党委委员调研党支部信息");
     this.getRepairDept();
+    this.searchInfo.createUserId = localStorage.getItem("username");
     this.searchInfo.branchName = "";
     this.searchInfo.subType = "";
     this.searchInfo.type = "6";
@@ -224,6 +225,7 @@ export class CardInfo {
   month: string;// 月份
   bTime:string; // 开始时间
   eTime:string; // 结束时间
+  createUserId:string;
   filePath: Array<string>;
   fileName: any; // 文件名称
   subType: string; // 小标题

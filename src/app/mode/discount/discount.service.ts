@@ -15,6 +15,7 @@ export class Discount {
   filePath    : Array<string>; /*附件地址*/
   fileName    : Array<string>; /*附件名称*/
   imgPathList : Array<string>; /*多张图片*/
+  contentImg  : string; /*详情图片*/
 }
 
 export class Other {

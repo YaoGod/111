@@ -5,13 +5,14 @@ import {ErrorResponseService} from "../../../service/error-response/error-respon
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 import {SaleProductEmployeeService} from "../../../service/sale-product-employee/sale-product-employee.service";
+import {sndCatalog} from "../../../mode/catalog/catalog.service";
 declare var $: any;
 declare var confirmFunc: any;
 @Component({
   selector: 'app-sanhuilist',
   templateUrl: './sanhuilist.component.html',
   styleUrls: ['./sanhuilist.component.css'],
-  providers:[UtilBuildingService,SaleProductEmployeeService],
+  providers:[UtilBuildingService,SaleProductEmployeeService,sndCatalog],
 })
 export class SanhuilistComponent implements OnInit {
   public newCard = new CardInfo();
@@ -24,6 +25,7 @@ export class SanhuilistComponent implements OnInit {
   public record:any;
   private contractBool = true;
   public repairDept=[];
+  public rule : sndCatalog = new sndCatalog();
   constructor(
     public http:Http,
     public ipSetting:IpSettingService,
@@ -31,13 +33,21 @@ export class SanhuilistComponent implements OnInit {
     private globalCatalogService:GlobalCatalogService,
     private utilBuildingService:UtilBuildingService,
     private saleProductEmployeeService:SaleProductEmployeeService,
-  ) { }
+  ) {
+    this.rule = this.globalCatalogService.getRole("party/upload");
+  }
 
   ngOnInit() {
     this.globalCatalogService.setTitle("党建管理/工作台账上传");
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("party/upload");
+      }
+    );
     this.searchInfo.type = '1';
     this.searchInfo.branchName = '';
     this.searchInfo.subType = '';
+    this.searchInfo.createUserId = localStorage.getItem("username");
     this.repairSearch(1);
     this.getRepairDept();
 
@@ -57,7 +67,6 @@ export class SanhuilistComponent implements OnInit {
   editCardInfo(index){
     this.contractBool = false;
     $('.form-add').attr('disabled',false);
-    // $('.form-disable').attr('disabled',true).css('backgroundColor','#f8f8f8');
     $('.mask').fadeIn();
     $('.mask .mask-head p').html('编辑会议记录');
     this.newCard = JSON.parse(JSON.stringify(this.record[index]));
@@ -69,7 +78,6 @@ export class SanhuilistComponent implements OnInit {
         this.newCard.filePath.push(this.newCard.fileContract[i].filePath);
       }
     }
-    // console.log(this.newCard);
   }
   /*点击删除*/
   delCardInfo(id){
@@ -315,6 +323,7 @@ export class CardInfo {
   beginTime:string; // 开始时间
   endTime:string; // 结束时间
   host:string; // 主持人
+  createUserId:string;
   recorder:string; // 记录人
   shouldNum:number; // 应到人数
   factNum:number; // 实到人数
@@ -334,6 +343,7 @@ export class SearchInfo {
   subType:string; // 子类型
   month: string;// 月份
   name:string; // 文件名称
+  createUserId:string;
   beginTime:string; // 开始时间
   endTime:string; // 结束时间
   host:string; // 主持人

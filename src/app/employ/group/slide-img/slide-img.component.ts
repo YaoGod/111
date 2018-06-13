@@ -93,24 +93,21 @@ import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
   providers: [ErrorResponseService]
 })
 export class SlideImgComponent implements OnInit {
-  currentPic = 0;
+  public currentPic = 0;
   public imgData = [];
-
+  public imgLen = 3;
   constructor(
     private errorVoid: ErrorResponseService,
     public  ipSetting:IpSettingService
   ) {
-    setInterval(() => {
-      let id = (this.currentPic + 1) % 3;
-      this.currentPic = id;
-    },3000)
-  }
 
-  changebanner(id) {
-    this.currentPic = id;
   }
   ngOnInit() {
     this.getProductShowList();
+
+  }
+  changebanner(id) {
+    this.currentPic = id;
   }
   /*获取商品列表*/
   getProductShowList(){
@@ -119,6 +116,11 @@ export class SlideImgComponent implements OnInit {
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
           this.imgData = data.data;
+          this.imgLen = this.imgData.length;
+          setInterval(() => {
+            let id = (this.currentPic + 1) % this.imgLen;
+            this.currentPic = id;
+          },3000)
         }
       })
    }
