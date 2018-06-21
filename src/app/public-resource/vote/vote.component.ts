@@ -14,5 +14,6 @@ export class VoteComponent implements OnInit {
 
   ngOnInit() {
     this.globalCatalogService.setTitle("公共资源/投票活动");
+    // this.globalCatalogService.setTitle("工会管理");
   }
 }

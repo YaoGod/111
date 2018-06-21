@@ -317,7 +317,6 @@ input{
   -webkit-box-flex: 0;
   flex: 1 0 40%;
   max-width: 45%;
-  color:#8d9ea7;
   margin-bottom:5px;
   font-size:12px;
 }
@@ -388,8 +387,6 @@ input{
   text-indent: 2em;
   line-height:36px;
   background-color:#f8f8f8;
-
-  color: #8d9ea7;
   margin-bottom: 5px;
   font-size: 12px;
 }
@@ -398,16 +395,12 @@ input{
   width:90%;
   max-height:120px;
   overflow: hidden;
-  color:#8d9ea7;
   word-wrap: break-word;
   font-size: 12px;
   line-height:20px;
 }
 .form-attach{
   right:5%;
-}
-.form-attach,.form-attach a{
-  color:#8d9ea7;
 }
 .form-attach a i{
   color:#66CCFF;

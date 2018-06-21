@@ -20,6 +20,7 @@ import { PersonComponent } from './person/person.component';
 import {ExamineDetailComponent} from "./examine-detail/examine-detail.component";
 import {ExamineComponent} from "./examine/examine.component";
 import { ExamineMyComponent } from './examine-my/examine-my.component';
+import { RoleinfoComponent } from './roleinfo/roleinfo.component';
 const routes: Routes = [
   {
     path: '',
@@ -45,6 +46,11 @@ const routes: Routes = [
         /*角色管理*/
         path: 'role',
         component: RoleComponent
+      },
+      {
+        /*角色操作记录*/
+        path: 'roleinfo',
+        component: RoleinfoComponent
       },
       {
         /*角色配权限*/
@@ -108,7 +114,7 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [RouteGuardService, UserPortalService],
   declarations: [SystemSettingComponent, LoggerComponent, UserComponent, RoleComponent,
-    AbilityComponent, ExamineMyComponent, JoinRoleComponent, JoinAbilityComponent,
+    AbilityComponent, ExamineMyComponent, RoleinfoComponent, JoinRoleComponent, JoinAbilityComponent,
     PersonComponent, ExamineComponent,ExamineDetailComponent,]
 })
 export class SystemSettingModule { }

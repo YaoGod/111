@@ -426,7 +426,7 @@
   transition: all .5s;
 }
 
-.mask{
+.mask,.mask0{
   display: none;
   position: fixed;
   left:0;
@@ -602,4 +602,58 @@
 }
 .btn-print:hover{
   opacity: .7;
+}
+.company-sel{
+  border:none;
+  width:200px;
+  height:36px;
+  line-height:36px;
+  box-sizing: content-box;
+  background-image: linear-gradient(#03a9f3, #03a9f3), linear-gradient(rgba(120, 130, 140, .13), rgba(120, 130, 140, .13));
+  background-color: rgba(0, 0, 0, 0);
+  background-position: center bottom, center calc(99%);
+  background-repeat: no-repeat;
+  background-size: 0 1px, 100% 1px;
+  padding: 0;
+  transition: all .3s ease-out;
+}
+.modal-express{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  border-radius: 4px;
+  position: relative;
+}
+.form-control{
+  -webkit-box-flex: 0;
+  -ms-flex: 1 0 100%;
+  flex: 1 0 100%;
+  padding: 0;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+.form-label{
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding: 10px;
+  float: left;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 30%;
+  flex: 0 0 15%;
+  max-width: 15%;
+}
+.form-inp{
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding: 0;
+  float: left;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 62%;
+  flex: 0 0 62%;
+  max-width: 62%;
+  margin-left: 2%;
 }

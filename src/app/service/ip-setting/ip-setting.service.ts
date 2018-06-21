@@ -11,16 +11,20 @@ export class IpSettingService {
   });
   /* nginx */
   // public ip = "/proxy";
-  // public ip = "http://hzzh.zj.chinamobile.com/hzbs";
   // public ip = "http://localhost:8080";
   /*set ip and port for personal*/
   // public ip = "http://20.26.28.6:8081";
   // public ip = "http://10.71.246.81:8080";
   // public ip = "http://hzzh.zj.chinamobile.com/hzbs";
-  public ip = "http://10.71.246.83:8080";
   // public imgUrl = "http://dcos.hzmh.zj.chinamobile.com/attaches";
+  // public fileUrl = "http://hzzh.zj.chinamobile.com/hzbs/common/file/downLoadFile?path=";
+  // public fileUrl = "http://dcos.hzmh.zj.chinamobile.com/attaches";
+
+  public ip = "http://10.71.246.83:8080";
   public imgUrl = "http://10.71.246.83:8080/app/file/notice/files/temp";
-  public fileUrl = "http://10.71.246.83:8080/common/file/downLoadFile?path=";
+  public fileUrl = "http://10.71.246.83:8080/common/file/downLoadFile?path=/app/file/notice/files/temp";
+  // public fileUrl = "http://10.71.246.83:8080/app/file/notice/files/temp";
+
  constructor(
     private http: Http,
   ) { }

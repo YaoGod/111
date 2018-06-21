@@ -27,7 +27,7 @@ li:nth-child(2) .tab{
 .tab{
   height: 34px;
   padding: 0 20px;
-  font-size: 12px;
+  font-size: 15px;
   background: #e4e7ea;
   border: 1px solid #e4e7ea;
   cursor: pointer;

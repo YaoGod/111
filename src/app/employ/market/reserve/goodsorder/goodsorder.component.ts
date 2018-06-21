@@ -117,6 +117,8 @@ export class GoodsOrder {
   closeTime:string;/*订单关闭时间*/
   sendTime: string;/*发货时间*/
   note:string;
+  expressNum:string;
+  expressCompany:string;
   orderItemVoList:Array<GoodsOrderItem>;
   serviceCenter:string;
   paymentTypeDesc:string; /*付款方式*/

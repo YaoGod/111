@@ -11,7 +11,7 @@ declare var confirmFunc: any;
   selector: 'app-subunitlist',
   templateUrl: './subunitlist.component.html',
   styleUrls: ['./subunitlist.component.css'],
-  providers:[UtilBuildingService,SaleProductEmployeeService],
+  providers:[UtilBuildingService],
 })
 export class SubunitlistComponent implements OnInit {
   public newCard = new CardInfo();
@@ -30,7 +30,6 @@ export class SubunitlistComponent implements OnInit {
     public errorVoid:ErrorResponseService,
     private globalCatalogService:GlobalCatalogService,
     private utilBuildingService:UtilBuildingService,
-    private saleProductEmployeeService:SaleProductEmployeeService,
   ) { }
 
   ngOnInit() {
@@ -55,7 +54,8 @@ export class SubunitlistComponent implements OnInit {
   }
   /*获取部门列表*/
   getRepairDept(){
-    this.saleProductEmployeeService.getDeptList().subscribe(data => {
+    let url = '/party/report/getDeptList';
+    this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.repairDept = data.data;
       }

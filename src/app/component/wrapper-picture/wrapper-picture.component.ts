@@ -10,6 +10,7 @@ export class WrapperPictureComponent implements OnChanges {
 
   @Input ()  list : Array<any>; /*展示信息*/
   @Input ()  width : number;   /*展示信息*/
+  @Input ()  height : number;   /*展示信息*/
   @Input ()  baseUrl: string;
   public pos = 0;
   public totalSlides = 0;
@@ -19,14 +20,14 @@ export class WrapperPictureComponent implements OnChanges {
   constructor(
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {
+  }
 
   ngOnChanges() {
     this.sliderWidth = this.width?this.width:600;
     if(this.list&&this.list.length>0){
       this.totalSlides = this.list.length;
-    }
-    else{
+    } else{
       this.totalSlides = 1;
       this.list = [{
         title: '暂无信息'
@@ -34,8 +35,9 @@ export class WrapperPictureComponent implements OnChanges {
     }
     this.pagination();
     /* //set width to be 'x' times the number of slides*/
+    $('#wrapper').css({width:this.width,height:this.height});
     $('#slider-wrap ul#slider').width(this.sliderWidth*this.totalSlides);
-
+    $('#slider-wrap').css({width:this.width,height:this.height});
     /*  //hide/show controls/btns when hover
      //pause automatic slide when hover*/
     $('#slider-wrap').hover(
@@ -71,7 +73,7 @@ export class WrapperPictureComponent implements OnChanges {
    SLIDE RIGHT
    *************/
   slideRight() {
-    if(this.totalSlides>0){
+    if(this.totalSlides>1){
       this.pos++;
       if (this.pos === this.totalSlides) {
         this.pos = 0;

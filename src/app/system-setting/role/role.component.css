@@ -20,7 +20,12 @@
 .nav-title>a>h4{
   display: inline-block;
   line-height: 35px;
+  color: #d4d4d4;
+  border-bottom: 2px solid #fff;
+}
+.nav-title>a>h4.active{
   color: #fb9678;
+  margin-right:12px;
   border-bottom: 2px solid #fb9678;
 }
 .b-head-right{

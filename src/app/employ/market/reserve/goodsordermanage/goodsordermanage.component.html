@@ -69,8 +69,12 @@
               </tr>
               <tr>
                 <td colspan="2" class="zero">收货地址：{{order.address}}</td>
-                <td colspan="2" class="zero">下单时间：{{order.createTime}}</td>
-                <td class="zero"  *ngIf="order.status==20 || order.status==10"></td>
+                <td class="zero">下单时间：{{order.createTime}}</td>
+                <td class="zero">
+                  <button type="button" class="btn btn-info" style="padding: 2px 2px"
+                          (click)="addExpress(order.orderNo,order.status)">录入物流信息</button>
+                </td>
+                <td class="zero"  *ngIf="order.status==20 || order.status==10" ></td>
               </tr>
             </table>
             </dt>
@@ -149,6 +153,44 @@
     </form>
   </div>
 </div>
+<div class="mask0">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">增加订单物流信息</h4>
+      <button type="button" class="close" (click)="closeMask()">×</button>
+    </div>
+    <form class="form-building form-material">
+      <input type="hidden" name="updateOrder.id"  [(ngModel)]="updateOrder.orderNo">
+      <input type="hidden" name="updateOrder.status"  [(ngModel)]="updateOrder.status">
+      <div class="modal-body clearfix">
+        <div class="modal-express">
+          <div class="form-control">
+            <span class="form-label">物流公司</span>
+            <div class="form-inp form-error">
+              <select name="expressName" class="company-sel" id="expressCompany" [(ngModel)]="updateOrder.expressCompany"
+                      (blur)="isEmpty('expressCompany','物流公司不能为空')">
+                <option value="">请选择</option>
+                <option *ngFor="let abc of expressName" [value]="abc">{{abc}}</option>
+              </select>
+              <span class="errorMessage"></span>
+            </div>
+          </div>
+          <div class="form-control">
+            <span class="form-label">快递单号</span>
+            <div class="form-inp form-error">
+              <input name="expressNum" class="company-sel" id="expressNum" [(ngModel)]="updateOrder.expressNum">
+              <span class="errorMessage"></span>
+            </div>
+          </div>
+        </div>
+      </div>
 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closeMask()">取 消</button>
+        <button type="submit" class="btn btn-info" style="margin-left: 15px;" (click)="updateExpress()" >保 存</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 

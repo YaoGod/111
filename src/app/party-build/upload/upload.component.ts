@@ -42,7 +42,6 @@ export class UploadComponent implements OnInit {
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("party/upload");
-        console.log(this.rule);
       }
     );
     this.search = new Building();

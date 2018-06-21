@@ -29,6 +29,7 @@ export class Role{
   flag: string;
   choose: boolean;
   createTime: string;
+  modifyUserId:string;
 }
 
 export class Ability{

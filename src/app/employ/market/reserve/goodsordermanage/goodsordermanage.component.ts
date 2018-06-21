@@ -32,10 +32,13 @@ export class GoodsordermanageComponent implements OnInit {
   private delId: any;
   public pages: Array<number>;
   public updateOrder={
+    expressNum:'',
+    expressCompany:'',
     orderNo:'',
     status:0,
     note:''
   };
+  public expressName = [];
   public orderItems:Array<GoodsOrderItem>;
   public formData: Array<any>;
   public title: string = "商品预定区订单";
@@ -45,6 +48,7 @@ export class GoodsordermanageComponent implements OnInit {
 
   ngOnInit() {
     this.getRule();
+    this.expressName = ['申通','圆通','中通','顺丰','韵达','邮政快递','天天快递','商户自送'];
     this.imgPrefix = this.ipSetting.ip;
     this.pages = [];
     this.getOrderAllList(1);
@@ -89,7 +93,11 @@ export class GoodsordermanageComponent implements OnInit {
         }
       });
   }
-
+  addExpress(orderId,status){
+    $('.mask0').fadeIn();
+    this.updateOrder.orderNo = orderId;
+    this.updateOrder.status = status;
+  }
   update(orderId,status){
     this.updateOrder.orderNo = orderId;
     this.updateOrder.status = status;
@@ -123,6 +131,28 @@ export class GoodsordermanageComponent implements OnInit {
       }
     });
   }
+  updateExpress(){
+    if(this.updateOrder.expressCompany !== '商户自送'){
+      if(!this.isEmpty('expressNum','说明不能为空')){
+        return false;
+      }
+    }
+    let url = '/goodsOrder/updateOrderStatus?userId=' + localStorage.getItem("username")
+      +'&orderNo=' + this.updateOrder.orderNo +'&status=' + this.updateOrder.status+'&expressCompany='+this.updateOrder.expressCompany+
+      '&expressNum='+this.updateOrder.expressNum;
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        confirmFunc.init({
+          'title': '提示',
+          'mes': data.msg,
+          'popType': 0,
+          'imgType': 1,
+        });
+        this.closeMask();
+        this.getOrderAllList(1);
+      }
+    });
+  }
   /**删除*/
   delete(orderid:number){
     let url = '/mmall/vegetabelOrder/deleteVegetableOrder/'+orderid;
@@ -142,7 +172,7 @@ export class GoodsordermanageComponent implements OnInit {
 
   closeMask() {
     $('.errorMessage').html('');
-    $('.mask').hide();
+    $('.mask,.mask0').hide();
   }
 
   /*装载要打印的内容*/

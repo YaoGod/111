@@ -3,7 +3,8 @@
     <ul id="slider">
       <li *ngFor="let panel of list;let i = index;"
           (click)="linkAddress(panel.id)"
-          [ngStyle]="{'background':colorList[i]}">
+          [ngStyle]="{'background':colorList[i],'width':width+'px','height':height+'px'}">
+        <img *ngIf="panel.imgUrl" [src]="panel.imgUrl">
         <div>
           <h3>#{{i+1}} {{panel.title}}</h3>
           <span *ngIf="panel.content">{{panel.content}}</span>

@@ -16,8 +16,8 @@
             <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
               <option value="">-全部-</option>
               <option *ngFor="let num of deptList"
-                      [value]="num.DEPT_NAME">
-                {{num.DEPT_NAME}}</option>
+                      [value]="num">
+                {{num}}</option>
             </select>
           </li>
           <li>
@@ -87,7 +87,7 @@
           <select class="company-ipt company-sel" name="branchName" id="branchName"
                   [(ngModel)]="newCard.branchName" (blur)="verifyEmpty('branchName')">
             <option value="">请选择</option>
-            <option *ngFor="let name of deptList" [value]="name.DEPT_NAME">{{name.DEPT_NAME}}</option>
+            <option *ngFor="let name of deptList" [value]="name">{{name}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>

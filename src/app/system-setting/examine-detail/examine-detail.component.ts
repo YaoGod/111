@@ -22,6 +22,7 @@ export class ExamineDetailComponent implements OnInit {
   public userSelects: Array<User>;
   public groupId: number;
   public nowState: number;
+  public arrNote:any;
   constructor(private http: Http,
               private router: Router,
               public route: ActivatedRoute,
@@ -72,6 +73,7 @@ export class ExamineDetailComponent implements OnInit {
           this.history = this.order.workFlowHistory;
           if (this.order.note) {
             this.order.note = this.order.note.substring(0, this.order.note.length - 1);
+            this.arrNote = this.order.note.split(';');
           }
           for(let i=0;i<this.order.nodes.length;i++){
             if(this.order.schedule===this.order.nodes[i].flowNum){
@@ -83,7 +85,6 @@ export class ExamineDetailComponent implements OnInit {
                 this.nowState = i;
                 this.getUserSelect(this.groupId);
               }
-
             }
           }
           /*if (this.order.schedule - 1 < this.order.nodes.length) {

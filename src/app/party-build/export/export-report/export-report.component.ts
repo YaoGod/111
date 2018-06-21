@@ -60,7 +60,8 @@ export class ExportReportComponent implements OnInit {
   }
   /*获取部门列表*/
   getRepairDept(){
-    this.saleProductEmployeeService.getDeptList().subscribe(data => {
+    let url = '/party/report/getDeptList';
+    this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
         this.repairDept = data.data;
       }

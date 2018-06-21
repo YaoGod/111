@@ -51,12 +51,12 @@ export class CaselistComponent implements OnInit {
 
   /*获取所有部门下拉列表*/
   getDeptList(){
-    this.userPortalService.getDeptList()
-      .subscribe(data=>{
-        if(this.errorVoid.errorMsg(data)){
-          this.deptList = data.data;
-        }
-      })
+    let url = '/party/report/getDeptList';
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        this.deptList = data.data;
+      }
+    });
   }
 
   /*查询*/

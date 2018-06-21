@@ -1,0 +1,72 @@
+<div class="content-area">
+  <div class="content-inner">
+    <!--页面标题-->
+    <div class="nav-title">
+      <a [routerLink]="['../roleinfo']"><h4>角色管理</h4></a>
+      <a href="javascript:;"><h4 class="active">操作记录</h4></a>
+    </div>
+    <!--搜索栏-->
+    <div class="search-bar">
+      <ul>
+        <li><label>角色名称</label>
+          <input type="text" name="searchUserId" [(ngModel)]="search.roleName">
+        </li>
+        <li>
+          <a (click)="getRoleList(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
+        </li>
+      </ul>
+    </div>
+    <!--表头-->
+    <div class="table-head" style="margin-top: 10px">
+      <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+        <tr class="row list-title" style="height:45px;">
+          <th width="15%" class="text-left">操作账号</th>
+          <th width="15%" class="text-left">操作人部门</th>
+          <th width="35%" class="text-left">操作时间</th>
+          <th width="35%" class="text-left">操作内容</th>
+
+          <!--<th style="min-width: 200px">操作</th>-->
+        </tr>
+        <tr class="row" *ngFor="let role of roles;let i = index">
+          <td class="text-left">
+            {{role.modifyUserId}}
+          </td>
+          <td class="text-left">
+            {{role.roleName}}
+          </td>
+          <td class="text-left">
+            {{role.createTime | date:'yyyy/MM/dd HH:mm:ss'}}
+          </td>
+          <td class="text-left">
+            {{role.note}}
+          </td>
+
+          <!--<td class="box-option">
+            <a (click)="edit(role)" *ngIf="rule&&rule.isUpdate">
+              <i class="icon-pencil"></i>编辑
+            </a>
+            <a (click)="delete(role.roleId)" *ngIf="rule&&rule.isDelete">
+              <i class="icon-trash"></i>&nbsp;删除
+            </a>
+            <a [routerLink]="['../joinAbility',role.roleId]" *ngIf="rule&&rule.isSelect">
+              <i class="icon-settings"></i>&nbsp;配置权限
+            </a>
+
+          </td>-->
+        </tr>
+      </table>
+      <div class="div-none" *ngIf="roles.length === 0">
+        <p>暂无信息</p>
+      </div>
+    </div>
+    <!--翻页-->
+    <app-turn-bar
+      [pageNo] = "pageNo"
+      [pageSize] = "pageSize"
+      [total] = "total"
+      (turnEvent) = "getRoleList($event)">
+    </app-turn-bar>
+
+  </div>
+</div>
+

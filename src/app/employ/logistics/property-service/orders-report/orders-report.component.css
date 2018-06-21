@@ -302,13 +302,17 @@ input{
 
 }
 .form-msg{
-  border:1px solid #fff;
+  border:2px solid #fff;
   box-shadow: 0 0 1px #ccc;
   padding:10px 10px 5px;
   border-radius: 4px;
   transition: all .5s;
   margin:15px 0;
   position: relative;
+  background-color: #fff;
+}
+.order-container .form-msg:nth-child(even){
+  background-color: #c4eeff;
 }
 .form-msg ul{
   width:60%;
@@ -319,7 +323,6 @@ input{
   -webkit-box-flex: 0;
   flex: 1 0 40%;
   max-width: 45%;
-  color:#8d9ea7;
   margin-bottom:5px;
   font-size:12px;
 }
@@ -369,7 +372,7 @@ input{
   background-color: #ccc;
 }
 .form-msg:hover{
-  border-color:#ccc;
+  border-color:#2894ff;
 }
 .form-msg:hover .form-btn{
   opacity: 1;
@@ -392,7 +395,6 @@ input{
   line-height:36px;
   background-color:#f8f8f8;
 
-  color: #8d9ea7;
   margin-bottom: 5px;
   font-size: 12px;
 }
@@ -401,16 +403,13 @@ input{
   width:90%;
   max-height:120px;
   overflow: hidden;
-  color:#8d9ea7;
   font-size: 12px;
   line-height:20px;
 }
 .form-attach{
   right:5%;
 }
-.form-attach,.form-attach a{
-  color:#8d9ea7;
-}
+
 .form-attach a i{
   color:#66CCFF;
 }

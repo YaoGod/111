@@ -55,6 +55,11 @@ const routes: Routes = [
         /*党建管理*/
         path: 'party',
         loadChildren: '../party-build/party-build.module#PartyBuildModule'
+      },
+      {
+        /*工会管理*/
+        path: 'unions',
+        loadChildren: '../unions/unions.module#UnionsModule'
       }
 
     ]

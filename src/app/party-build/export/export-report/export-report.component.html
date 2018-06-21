@@ -4,7 +4,7 @@
     <li><label>模块类型</label>
       <select name="module" [(ngModel)]="typeTemplate" (change)="changeAttr()">
         <option value="1">三会一课</option>
-        <option value="2">“六好”党支部建设月报</option>
+        <option value="2">"六好"党支部建设月报</option>
         <option value="3">"主题党日"活动简报</option>
         <option value="4">党建实践案例</option>
         <option value="5">党委委员调研党支部信息</option>
@@ -40,7 +40,7 @@
     <li><label>支部名称</label>
       <select name="branchName" [(ngModel)]="search.branchName">
         <option value="">全部</option>
-        <option *ngFor="let abc of repairDept" [value]="abc.DEPT_NAME">{{abc.DEPT_NAME}}</option>
+        <option *ngFor="let abc of repairDept" [value]="abc">{{abc}}</option>
       </select>
     </li>
     <li *ngIf="typeTemplate==='1'"><label>会议类型</label>
@@ -75,6 +75,7 @@
 <!--表头-->
 <div class="table-head" style="margin-top: 10px; min-height: 400px;">
   <table border="0" cellspacing="0" cellpadding="0" class="list-box">
+    <thead>
     <tr class="row list-title" style="height:45px;">
       <!--<th width="10%">模块类型</th>-->
       <th width="10%" >支部名称</th>
@@ -101,6 +102,8 @@
       <th width="12%">创建时间</th>
       <th width="10%">操作</th>
     </tr>
+    </thead>
+    <tbody>
     <tr class="row" *ngFor="let report of record;let i = index">
       <!--<td class="text-left">{{report.branchName}}</td>-->
       <td>{{report.branchName}}</td>
@@ -158,6 +161,8 @@
         </a>
       </td>
     </tr>
+    </tbody>
+
   </table>
   <div class="div-none" *ngIf="record && record.length === 0">
     <p>暂无信息</p>

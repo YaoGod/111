@@ -158,3 +158,6 @@ td>img{
   max-height: 50px;
   overflow: auto;
 }
+.list-box tbody tr:nth-child(even){
+  background:#acd6ff;
+}
