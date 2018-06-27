@@ -1,0 +1,38 @@
+<div class="wrap">
+  <div class="cont">
+    <div class="row clearfix">
+      <div class="row-title">提案详情</div>
+      <div class="content-box" tabindex="0" onclick="history.go(-1)">
+        <i class="icon-reload"></i> 返回
+      </div>
+    </div>
+    <div class="cont-inner">
+      <ul class="card-left clearfix">
+        <li class="left-li"><span>发起人姓名</span><strong>{{newCard.host}}</strong></li>
+        <li class="left-li"><span>所在单位</span><strong>{{userInfo.WORK_TYPE}}</strong></li>
+        <li class="left-li"><span>发起时间</span><strong>{{newCard.beginTime | date:'yyyy/MM/dd HH:mm'}}</strong></li>
+        <li class="left-li"><span>性别</span><strong>{{userInfo.SEX}}</strong></li>
+        <li class="left-li"><span>参加工作时间</span><strong>{{userInfo.JOIN_DATE | date:'yyyy/MM/dd'}}</strong></li>
+        <li class="left-li"><span>年龄</span><strong>{{userInfo.AGE}}</strong></li>
+        <li class="left-li"><span>政治面貌</span><strong>{{userInfo.POLITICAL_STATUS}}</strong></li>
+        <li class="left-li"><span>提案类型</span><strong>{{newCard.subType}}</strong></li>
+        <li class="left-li"><span>职称</span><strong>{{newCard.subType}}</strong></li>
+
+        <!--<li class="left-li"><span>缺席人数</span><strong>{{newCard.absentNum}}</strong></li>
+        <li class="left-li"><span>缺席原因</span><strong>{{newCard.reason}}</strong></li>-->
+        <li class="left-alone"><span>提案主题</span><strong>{{newCard.theme}}</strong></li>
+      </ul>
+      <div class="note">
+        <div class="title"><span>理由及内容</span></div>
+        <div class="word">
+          <textarea id="content" readonly [rows]="definedRows()" wrap="hard">{{newCard.note}}</textarea>
+        </div>
+        <div class="title"><span>解决办法及建议</span></div>
+        <div class="word">
+          <textarea id="content2" readonly [rows]="definedRows()" wrap="hard">{{newCard.note}}</textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -103,7 +103,6 @@ export class DoorApplyComponent implements OnInit {
       let urlSecond = '/workflow/group/getUserSelect/'+this.groupId;
       this.ipSetting.sendGet(urlSecond).subscribe(data2 => {
         if(this.errorResponseService.errorMsg(data2)) {
-          console.log(data2.data);
           this.handleUserId = data2.data;
         }
       });

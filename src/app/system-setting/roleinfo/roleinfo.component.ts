@@ -4,6 +4,7 @@ import {sndCatalog} from "../../mode/catalog/catalog.service";
 import {GlobalCatalogService} from "../../service/global-catalog/global-catalog.service";
 import {UserPortalService} from "../../service/user-portal/user-portal.service";
 import {ErrorResponseService} from "../../service/error-response/error-response.service";
+import {Logger} from "../../mode/logger/logger.service";
 declare var $:any;
 declare var confirmFunc:any;
 
@@ -17,10 +18,9 @@ export class RoleinfoComponent implements OnInit {
   public pageNo;
   public pageSize = 10;
   public total = 0;
-  public search: Role;
-  public roles: Array<Role>;
+  public loggers : Array<Logger>;
+  public search: Logger;
   public deptList: Array<any>;
-  public copyRole: Role;
   public winTitle: string;
   public rule: sndCatalog = new sndCatalog();
   constructor(
@@ -39,19 +39,23 @@ export class RoleinfoComponent implements OnInit {
         this.rule = this.globalCatalogService.getRole("system/role");
       }
     );
-    this.roles = [];
-    this.search = new Role();
-    this.search.roleName = "";
-    this.copyRole = new Role();
-    this.getRoleList(1);
+    this.loggers = [];
+    this.search = new Logger();
+    this.search.module = '角色管理';
+    let today = new Date().toJSON().substr(0,10);
+    this.search.bTime = today;
+    this.search.eTime = '';
+    this.search.userDept = "";
+    this.search.userName = "";
+    this.getSystemLogger(1);
   }
-  /*获取权限信息列表*/
-  getRoleList(pageNo){
+  /*获取日志列表*/
+  getSystemLogger(pageNo){
     this.pageNo = pageNo;
-    this.userPortalService.getRoleList(this.pageNo,this.pageSize,this.search)
+    this.userPortalService.getSysLog(this.pageNo,this.pageSize,this.search)
       .subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
-          this.roles = data.data.infos;
+          this.loggers = data.data.infos;
           this.total = data.data.total;
         }
       })

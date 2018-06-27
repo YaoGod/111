@@ -18,11 +18,22 @@
   box-sizing: border-box;
 }
 .count-left h2{
+  position: relative;
   line-height: 36px;
   color: #d75452;
   font-weight: bold;
   background-color: #fff;
   text-indent: 15px;
+}
+.count-left h2 span,.list-title span{
+  position: absolute;
+  right:5px;
+  top:0;
+  font-size:14px;
+  font-weight:normal;
+  color:#4E6EFF;
+  display: inline-block;
+  line-height:36px;
 }
 .count-left h2 em{
   display: inline-block;
@@ -35,6 +46,10 @@
 .count-right{
   padding-left: 820px;
   height: 436px;
+}
+.count-right .count-list{
+  height:340px;
+  overflow: hidden;
 }
 .count-list{
   padding: 0 15px;
@@ -85,7 +100,7 @@
 }
 .goods-area .count-list{
   height:220px;
-  overflow-y: auto;
+  overflow: hidden;
 }
 .goods-inner{
   position: relative;
@@ -291,4 +306,3 @@
   color: #d75452;
   font-size: 16px;
 }
-

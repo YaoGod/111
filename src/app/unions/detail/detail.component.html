@@ -1,3 +1,18 @@
-<p>
-  detail works!
-</p>
+<div class="wrap">
+  <div class="template" *ngFor="let abc of voteWrap">
+    <h2><img src="assets/image/gong.png"> <span>{{abc.name}}</span></h2>
+    <div class="container">
+      <ul class="container-list">
+        <li *ngFor="let num of abc.list" class="container-child">
+          <div class="container-child-padding">
+            <a href="javascript:;" [routerLink]="['../../congress']"><!--/*,num.id*/-->
+              <img [src]="num.imgPath" />
+              <h5>{{num.inner}}</h5>
+            </a>
+          </div>
+
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

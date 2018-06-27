@@ -32,6 +32,11 @@ const routes: Routes = [
       {
         path: 'detail/:id',
         component: DetailComponent
+      },
+      {
+        /*工作流配置*/
+        path: 'congress',
+        loadChildren:  './congress/congress.module#CongressModule'
       }
     ]
   }

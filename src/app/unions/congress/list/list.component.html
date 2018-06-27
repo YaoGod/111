@@ -1,0 +1,235 @@
+<div class="wrap">
+  <div class="cont">
+    <div class="row clearfix">
+      <div class="row-title">
+        <a routerLink="/hzportal/unions/congress/list" routerLinkActive="active">提案发起记录
+        <span></span></a>
+      </div>
+      <div class="row-title">
+        <a routerLink="/hzportal/unions/congress/proposalReport" routerLinkActive="active">提案记录报表管理
+          <span></span>
+        </a>
+      </div>
+      <div class="row-title">
+        <a routerLink="/hzportal/unions/congress/congflow" routerLinkActive="active">提案发起流程管理
+           <span></span>
+        </a>
+      </div>
+      <div class="row-title">
+        <a routerLink="/hzportal/unions/congress/launch" routerLinkActive="active">提案发起
+           <span></span>
+        </a>
+      </div>
+
+      <div class="b-head-right">
+        <div class="content-box" onclick="history.go(-1)" tabindex="0">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>
+    </div>
+    <div class="cont-inner">
+      <div class="repair-chandlery clearfix">
+        <ul class="record-search clearfix">
+          <!--<li>
+            <label>发起人</label>
+            <input name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
+          </li>-->
+          <li>
+            <label >提案类型</label>
+            <select class="search-ipt search-sel" name="searchtype" [(ngModel)]="searchInfo.subType">
+              <option value="">全部</option>
+              <option value="市场类">市场类</option>
+              <option value="政企类">政企类</option>
+              <option value="网络类">网络类</option>
+              <option value="人力资源类">人力资源类</option>
+              <option value="员工关爱类">员工关爱类</option>
+              <option value="综合管理类">综合管理类</option>
+            </select>
+          </li>
+          <li>
+            <label >发起时间</label>
+            <input name="Bmonth" style="width:130px;" type="date" [(ngModel)]="searchInfo.beginTime"> 至
+            <input name="Emonth" style="width:130px;" type="date" [(ngModel)]="searchInfo.endTime" >
+          </li>
+          <li>
+            <a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
+          </li>
+        </ul>
+      </div>
+      <ul class="card-list clearfix">
+        <li  class="room-card">
+          <table width="100%" style="margin:0 auto;" class="card-info">
+            <tr style="height: 40px; background-color: #acd6ff; text-align: center; font-weight: bold; font-size: 14px;color:#333;">
+              <th width="30%" style="padding-left: 15px;text-align: left">提案主题</th>
+              <th>提案类型</th>
+              <th>发起人姓名</th>
+              <th>发起人部门</th>
+              <th>发起时间</th>
+              <th>操作</th><!-- *ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
+            </tr>
+            <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
+              <td width="30%" style="padding-left: 15px;text-align: left"
+              [routerLink]="['/hzportal/unions/congress/info',inner.id]">
+                <a href="javascript:;">{{inner.theme}}</a>
+              </td>
+              <td>{{inner.host}}</td>
+
+              <td>{{inner.recorder}}</td>
+              <td>{{inner.branchName}}</td>
+              <td>{{inner.beginTime | date:'yyyy-MM-dd HH:mm'}}</td>
+              <td>
+                <i class="icon-pencil" *ngIf="rule&&rule.isUpdate === true" (click)="editCardInfo(i)"
+                   style="margin-left: 5px;" title="编辑"></i>
+                <i class="icon-trash" *ngIf="rule&&rule.isDelete === true" (click)="delCardInfo(inner.id)"
+                   style="margin-left: 5px;" title="删除"></i></td>
+            </tr>
+          </table>
+        </li>
+      </ul>
+      <app-turn-bar
+        [pageNo]="pageNo"
+        [pageSize]="pageSize"
+        [total]="total"
+        [length] = 'length'
+        (turnEvent)="repairSearch($event)">
+      </app-turn-bar>
+    </div>
+  </div>
+</div>
+<div class="mask">
+  <div class="mask-cotainer">
+    <div class="mask-head"><i class="icon-film"></i> <p>新增会议记录</p>
+      <button class="close" (click)="addCancel()">×</button>
+    </div>
+    <form method="post" name="topForm" class="repair-form">
+      <div class="form-control">
+        <span class="form-label">支部名称</span>
+        <div class="form-inp">
+          <select class="company-ipt company-sel" name="branchName" id="branchName"
+                  [(ngModel)]="newCard.branchName" (blur)="verifybranchName()">
+            <option value="">请选择</option>
+            <option *ngFor="let name of repairDept" [value]="name">{{name}}</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">会议类型</span>
+        <div class="form-inp">
+          <select class="company-ipt company-sel" name="newtype" id="newtype" [(ngModel)]="newCard.subType"
+                  (blur)="verifynewtype()" >
+            <option value="">请选择</option>
+            <option value="党员大会">党员大会</option>
+            <option value="支委会">支委会</option>
+            <option value="党小组会">党小组会</option>
+            <option value="党课">党课</option>
+            <option value="组织生活会">组织生活会</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">开始时间</span>
+        <div class="form-inp"><!--[value]="newCard.beginTime | date:'yyyy-MM-dd HH:mm'" -->
+          <input class="company-ipt" type="datetime-local" name="bTime" id="bTime"
+                 [(ngModel)]="newCard.beginTime" (blur)="verifybTime()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">结束时间</span>
+        <div class="form-inp">
+          <input class="company-ipt" type="datetime-local" name="bTime" id="eTime"
+                 [(ngModel)]="newCard.endTime" (blur)="verifyeTime()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">主持人</span>
+        <div class="form-inp">
+          <input class="company-ipt" type="text" name="host" id="host"
+                 [(ngModel)]="newCard.host" (blur)="verifyhost()" maxlength="10">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">会议地点</span>
+        <div class="form-inp">
+          <input class="company-ipt" type="text" name="address" id="address"
+                 [(ngModel)]="newCard.address" (blur)="verifyaddress()" maxlength="25">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">记录人</span>
+        <div class="form-inp">
+          <input type="text" class="company-ipt" name="recorder" id="recorder" [(ngModel)]="newCard.recorder"
+                 (blur)="verifyrecorder()" maxlength="10"/>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">应到会人数</span>
+        <div class="form-inp">
+          <input class="company-ipt company-sel" type="number" name="shouldNum" id="shouldNum" [(ngModel)]="newCard.shouldNum"
+                 (blur)="verifyshouldNum()"  maxlength="4">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">实际到会人数</span>
+        <div class="form-inp">
+          <input type="number" class="company-ipt" id="factNum" name="factNum" [(ngModel)]="newCard.factNum"
+                 (blur)="verifyfactNum()" maxlength="4"/>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">缺席人数</span>
+        <div class="form-inp">
+          <input type="number" class="company-ipt" name="absentNum" id="absentNum" [(ngModel)]="newCard.absentNum" maxlength="4"/>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone">
+        <span class="form-label">缺席原因</span>
+        <div class="form-inp">
+          <input type="text" class="company-ipt form-inp" name="reason" id="reason" [(ngModel)]="newCard.reason" maxlength="50"
+          />
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone">
+        <span class="form-label">会议主题</span>
+        <div class="form-inp">
+          <input type="text" class="company-ipt form-inp" name="theme" id="theme" [(ngModel)]="newCard.theme" maxlength="50"
+                 (blur)="verifytheme()"/>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone">
+        <span class="form-label">会议议程</span>
+        <div class="form-inp">
+          <textarea id="repairNote" name="note" rows="5" [(ngModel)]="newCard.note" (blur)="verifynote()"></textarea>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone">
+        <span class="form-label">附件</span>
+        <ul class="contract-list">
+          <li *ngFor="let abc of newCard.fileName; let k=index">{{abc}}<a  href="javascript:;" (click)="delFile(k)">×</a> </li>
+        </ul>
+        <div class="form-inp" style=" margin-top:5px;">
+          <a href="javascript:;" style="color:#666; margin-left:127px; border-radius:4px; padding:5px 10px; background: #f6f6f6;" onclick="$('#prese').trigger('click')">上 传</a>
+          <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;"
+                 (change)="prese_upload(prese.files)">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+    </form>
+    <div class="mask-footer">
+      <button type="submit" class="btn-mask btn-info" (click)="submit()">提 交</button>
+      <button type="button" class="btn-mask btn-danger" (click)="addCancel()">取 消</button>
+    </div>
+  </div>
+</div>

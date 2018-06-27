@@ -68,9 +68,11 @@
                 <td class="zero"  *ngIf="order.status==20 || order.status==10"></td>
               </tr>
               <tr>
-                <td colspan="2" class="zero">收货地址：{{order.address}}</td>
+                <td class="zero">收货地址：{{order.address}}</td>
                 <td class="zero">下单时间：{{order.createTime}}</td>
-                <td class="zero">
+                <td class="zero" *ngIf="order.expressCompany">物流公司：{{order.expressCompany}}</td>
+                <td class="zero" *ngIf="order.expressCompany">快递单号：{{order.expressNum}}</td>
+                <td class="zero" *ngIf="!order.expressCompany">
                   <button type="button" class="btn btn-info" style="padding: 2px 2px"
                           (click)="addExpress(order.orderNo,order.status)">录入物流信息</button>
                 </td>

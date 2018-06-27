@@ -1,0 +1,77 @@
+.template{
+  position: relative;
+  padding: 25px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition-duration: 300ms;
+  transition-duration: 300ms;
+}
+.template h2{
+  position: relative;
+  height:60px;
+  line-height:60px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #000;
+  font-family: "Adobe 楷体 Std R";
+}
+.template h2 img {
+  width:auto;
+  height:100%;
+  position: absolute;
+  left:0;top:0;
+  z-index: 1;
+}
+.template h2 span {
+   position: relative;
+   padding-left: 20px;
+   z-index: 2;
+ }
+.container-child a{
+  display: block;
+  color:#fb9678;
+}
+.container-child img {
+  width: 100%;
+  vertical-align: top;
+}
+.container-child h5{
+  line-height: 3em;
+  font-size:16px;
+  font-weight: bold;
+  box-shadow:10px 10px 40px rgba(245,245,96,.3) inset;
+}
+.container-list{
+  position: relative;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -webkit-box;
+  display: flex;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  -ms-box-orient: horizontal;
+  -ms-box-pack: center;
+  -ms-flex-flow: row wrap;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  flex-flow: row wrap;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+}
+.container-list li{
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  height: auto;
+  position: relative;
+  padding: 10px;
+  text-align: center;
+  width:25%;
+  margin:0 0 15px;
+}
+.container-child-padding{
+  border: 1px solid #eee;
+}
