@@ -86,20 +86,12 @@ export class CardInfo {
 export class Info {
   id: number; // 本条信息ID
   AGE:string;
-  BIRTHDAY
-    :string;
-  CULTURAL_LEVEL
-    :string;
-  DEPT_NAME
-    :string;
-  JOIN_DATE
-    :string;
-  MEMBER_SHIP
-    :string;
-  POLITICAL_STATUS
-    :string;
-  SEX
-    :string;
-  WORK_TYPE
-    :string;
+  BIRTHDAY:string;
+  CULTURAL_LEVEL:string;
+  DEPT_NAME:string;
+  JOIN_DATE:string;
+  MEMBER_SHIP:string;
+  POLITICAL_STATUS:string;
+  SEX:string;
+  WORK_TYPE:string;
 }

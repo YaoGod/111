@@ -58,12 +58,7 @@ ul,li{
   float: right;
   background: #edf1f5;
 }
-.logo{
-  width: 184px;
-  height: 54px;
-  margin: 12px auto 19px auto;
-  background: url('../../../../../assets/image/logo.jpg') no-repeat;
-}
+
 .user-info{
   text-align: center;
 }

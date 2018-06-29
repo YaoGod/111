@@ -91,22 +91,10 @@ export class UnionsindexComponent implements OnInit {
   }
   getVoteList(pageNo){
     this.pageNo = pageNo;
-    /*this.publicresourceVoteService.getVoteList(this.pageNo,this.pageSize,this.search)
-      .subscribe(data=>{
-        if(this.errorResponseService.errorMsg(data)){
-          this.votes = data.data.infos;
-          this.total = data.data.total;
-        }
-      })*/
+
   }
   /*获取热门投票*/
   getVoteCharts(){
-    /*this.publicresourceVoteService.getVoteCharts()
-      .subscribe(data=>{
-        if(this.errorResponseService.errorMsg(data)){
-          this.votesTop = data.data;
-          this.wrapVotes = data.data;
-        }
-      })*/
+
   }
 }

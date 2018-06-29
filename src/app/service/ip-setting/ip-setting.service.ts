@@ -20,10 +20,10 @@ export class IpSettingService {
   // public fileUrl = "http://hzzh.zj.chinamobile.com/hzbs/common/file/downLoadFile?path=";
   // public fileUrl = "http://dcos.hzmh.zj.chinamobile.com/attaches";
 
-  public ip = "http://10.71.246.83:8080";
+   public ip = "http://10.71.246.83:8080";
   public imgUrl = "http://10.71.246.83:8080/app/file/notice/files/temp";
-  public fileUrl = "http://10.71.246.83:8080/common/file/downLoadFile?path=/app/file/notice/files/temp";
-  // public fileUrl = "http://10.71.246.83:8080/app/file/notice/files/temp";
+  // public fileUrl = "http://10.71.246.83:8080/common/file/downLoadFile?path=/app/file/notice/files/temp";
+  public fileUrl = "http://10.71.246.83:8080/app/file/notice/files/temp";
 
  constructor(
     private http: Http,

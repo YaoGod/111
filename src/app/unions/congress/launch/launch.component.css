@@ -71,3 +71,196 @@ input{
   outline: 0;
   cursor: pointer;
 }
+.content-area{
+  padding: 20px;
+}
+.content-inner{
+  padding: 15px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  transition-duration: 300ms;
+}
+.content-inner:hover{
+  box-shadow: 2px 4px 15px rgba(158, 178, 178, 0.33);
+}
+.list-title{
+  background-color: #f0f7fc;
+  color: #4b87d4;
+}
+.list-box{
+  width: 100%;
+}
+.row,.row-add{
+  height: 35px;
+}
+.row td, .row th{
+  padding: 3px 10px;
+  text-align: center;
+  border-bottom: 1px solid #e1eaf2;
+}
+.row:active,.row:hover{
+  background-color: #f7fafc;
+}
+.row td,.row-add td{
+  color: #686868;
+  font-size: 12px;
+
+  text-align: center;
+}
+.row td>input[type=text]{
+  width: calc(100% - 20px);
+  min-width: 30px;
+  border: 1px solid #e1eaf2;
+  border-radius: 3px;
+  color: #686868;
+}
+.row td>select{
+  width: 100%;
+  min-width: 120px;
+  border: 1px solid #e1eaf2;
+  border-radius: 3px;
+  color: #686868;
+}
+.row td>textarea{
+  height: 58px;
+  border: 1px solid #e1eaf2;
+  border-radius: 3px;
+  color: #686868;
+  padding: 0 5px;
+}
+.row td>input[type=text]:focus,.row td>select:focus,.row td>textarea:focus{
+  border-color: #333333;
+}
+.row-add td{
+  background-color: #ebeff7;
+}
+.row-add td:hover{
+  background-color: #e1eaf2;
+  cursor: pointer;
+}
+td>img{
+  height: 80px;
+  vertical-align: middle;
+}
+.tb-text{
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+.tb-text:hover{
+  overflow: auto;
+}
+.box-option>a{
+  display: inline-block;
+  padding-right: 10px;
+  line-height: 26px;
+  font-size: 10px;
+  color: #686868;
+  transition-duration: 500ms;
+  cursor: pointer;
+}
+.box-option>a:hover{
+  color: #fb9678;
+}
+.text-left, .row .text-left{
+  text-align: left;
+}
+.big-text{
+  max-height: 50px;
+  overflow: auto;
+}
+.form-group{
+  line-height: 38px;
+  width: 100%;
+  clear: both;
+}
+.control-label{
+  display: inline-block;
+}
+.control-label>span{
+  display: inline-block;
+  width: 88px;
+  line-height: 38px;
+  padding-right: 10px;
+  vertical-align: top;
+}
+.form-group td{
+  line-height: 24px;
+  padding: 0 10px;
+}
+.form-title{
+  width: 60px;
+  padding-right: 10px;
+  margin-right: 10px;
+  line-height: 38px;
+  background-color: rgba(0, 0, 0, 0);
+  background-position: center bottom, center calc(99%);
+  background-repeat: no-repeat;
+  background-size: 0 1px, 100% 1px;
+  border: 0;
+  border-radius: 0;
+  background-image: linear-gradient(#03a9f3, #03a9f3), linear-gradient(rgba(120, 130, 140, .13), rgba(120, 130, 140, .13));
+  box-shadow: none;
+  color: #565656;
+}
+.form-control {
+  float: none;
+  padding: 0 5px;
+  width: 240px;
+  max-width: 100%;
+  line-height: 38px;
+  background-color: rgba(0, 0, 0, 0);
+  background-position: center bottom, center calc(99%);
+  background-repeat: no-repeat;
+  background-size: 0 1px, 100% 1px;
+  transition: all .3s ease-out .3s;
+  background-image: linear-gradient(#03a9f3, #03a9f3), linear-gradient(rgba(120, 130, 140, .13), rgba(120, 130, 140, .13));
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  color: #565656;
+  box-sizing: border-box;
+}
+.form-control:focus {
+  background-size: 100% 1px, 100% 1px;
+}
+input[type=date].form-control{
+  padding-right: 0;
+  width: 275px;
+  font-size: 10px;
+}
+input[type=date]:disabled.form-control{
+  color: #8d9ea7;
+}
+select{
+  height: 38px;
+  padding: 0 10px;
+}
+.dropify-message>img{
+  width: 100%;
+}
+.error{
+  display: inline-block;
+  width: 276px;
+  line-height: 16px;
+  padding-left: 75px;
+  font-size: 10px;
+  color: #d75452;
+}
+.btn-info {
+  margin-left: 135px;
+  padding: .3rem 1.2rem;
+  border-radius: 4px;
+  background: #03a9f3;
+  border: 1px solid #03a9f3;
+  color: #fff;
+}
+.btn-info:hover {
+  background: #03a9f3;
+  opacity: .8;
+  border: 1px solid #03a9f3;
+  cursor: pointer;
+}

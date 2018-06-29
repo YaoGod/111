@@ -144,8 +144,6 @@ export class DiscountInfoMangComponent implements OnInit {
           }else{
             this.imgInfo.push(data.msg);
           }
-
-          console.log(this.imgInfo);
         }
         $('#press').val('');
       }else if(xhr.readyState === 4 && xhr.status === 413 ){
@@ -267,7 +265,10 @@ export class DiscountInfoMangComponent implements OnInit {
             this.navtitle = "编辑";
             this.copyDiscount = data.data;
             this.imgUrl = this.copyDiscount.imgPathList;// .split(',');
-            this.imgInfo = this.copyDiscount.contentImg.split(',');
+            if(this.copyDiscount.contentImg){
+              this.imgInfo = this.copyDiscount.contentImg.split(',');
+            }
+
             // this.copyDiscount.effectBtime = this.copyDiscount.effectBtime.replace(/\//g,'-');
             // this.copyDiscount.effectEtime = this.copyDiscount.effectEtime.replace(/\//g,'-');
             this.tempOther = JSON.parse(JSON.stringify(data.data.others));

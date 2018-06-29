@@ -27,8 +27,147 @@
         </div>
       </div>
     </div>
-    <div class="cont-inner">
+    <div class="content-area">
+      <div class="content-inner">
+        <div class="warp clearfix">
+          <!--<div class="warp-left">
+            <div class="flow-area">
+              <ul>
+                <li class="node">
+                  <div class="rect">
+                    发起人发起
+                  </div>
+                  <div class="arrow"></div>
+                </li>
+                <li class="node" *ngFor="let segment of content;let i = index">
+                  <div class="rect">
+                    <input name="name" type="text" disabled="disabled" [value]="segment.group.name">
+                  </div>
+                  <div class="arrow"></div>
+                </li>
+                <li class="node">
+                  <div class="rect">
+                    结束
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>-->
+          <div class="warp-right">
+            <div class="form-group">
+              <label class="control-label">
+                <span>提案人姓名</span>
+                <input class="form-control" type="text" [(ngModel)]="record.userName"
+                           name="orderCheck">
+              </label>
+              <div class="error"></div>
+            </div>
+            <div class="form-group">
+              <label class="control-label">
+                <span>所在单位</span>
+                <input class="form-control" type="text" [(ngModel)]="record.userDept"
+                       name="orderCheck">
+              </label>
+              <div class="error"></div>
+            </div>
+            <div class="form-group">
+              <label class="control-label">
+                <span>参加工作时间</span>
+                <input class="form-control" type="text" [(ngModel)]="record.joinDate"
+                       name="joinDate" (blur)="verifyjoinDate()">
+              </label>
+              <div class="error"></div>
+            </div>
+            <div class="form-group">
+              <label class="control-label">
+                <span>年龄</span>
+                <input class="form-control" type="text" [(ngModel)]="record.userAge"
+                       name="orderCheck">
+              </label>
+              <div class="error"></div>
+            </div>
+            <div class="form-group">
+              <label class="control-label">
+                <span>政治面貌</span>
+                <input class="form-control" type="text"  [(ngModel)]="record.userCultural"
+                       name="orderCheck">
+              </label>
+              <div class="error"></div>
+            </div>
+            <div class="form-group">
+              <label class="control-label">
+                <span>文化成度</span>
+                <input class="form-control" type="text" [(ngModel)]="record.userPolitical"
+                       name="orderCheck">
+              </label>
+              <div class="error"></div>
+            </div>
+            <div class="form-group">
+              <label class="control-label">
+                <span>职（岗）位</span>
+                <input class="form-control" type="text" [(ngModel)]="record.userWork"
+                       name="orderCheck">
+              </label>
+              <div class="error"></div>
+            </div>
+            <div class="form-group">
+              <label class="control-label">
+                <span>职称</span>
+                <input class="form-control" type="text" [(ngModel)]="record.userMemver"
+                       name="orderCheck">
+              </label>
+              <div class="error"></div>
+            </div>
+            <div class="form-group">
+              <label class="control-label">
+                <span>提案主题</span>
+                <input class="form-control" type="text" [(ngModel)]="record.theme" id="theme"
+                       name="theme" (blur)="verifyEmpty(record.theme,'theme')">
+              </label>
+              <div class="error"></div>
+            </div>
+            <div class="form-group">
+              <label class="control-label"><span>提案类别</span>
+                  <select class="form-control" [(ngModel)]="record.type" id="type" name="type"
+                  (blur)="verifyEmpty('type','提案类别不能为空')">
+                    <option value="">请选择</option>
+                    <option value="市场类">市场类</option>
+                    <option value="政企类">政企类</option>
+                    <option value="网络类">网络类</option>
+                    <option value="人力资源类">人力资源类</option>
+                    <option value="员工关爱类">员工关爱类</option>
+                    <option value="综合管理类">综合管理类</option>
+                  </select>
+              </label>
+              <div class="error"></div>
+            </div>
 
+            <div class="form-group">
+              <label class="control-label">
+                <span>理由及内容</span><!--[(ngModel)]="postData.cause"-->
+                <textarea class="form-control" type="text" rows="3" style="text-indent:0;line-height: 20px; width: 360px"
+                          id="deptName" name="deptName" [(ngModel)]="record.cause">
+                </textarea>
+              </label>
+              <div class="error"></div>
+            </div>
+            <div class="form-group">
+              <label class="control-label">
+                <span>解决办法及建议</span>
+                <textarea class="form-control" type="text" rows="3" style="text-indent:0;line-height: 20px; width: 360px"
+                          id="deptName2" name="deptName2" [(ngModel)]="record.suggest">
+                </textarea>
+              </label>
+              <div class="error"></div>
+            </div>
+            <div style="text-indent: 40em;">
+              <button class="btn btn-info" type="submit"
+                      (click)="submitPassword()">提交
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
