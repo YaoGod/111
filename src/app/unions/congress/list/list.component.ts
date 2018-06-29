@@ -16,9 +16,10 @@ declare var confirmFunc: any;
   providers:[UtilBuildingService,sndCatalog],
 })
 export class ListComponent implements OnInit {
-  public newCard = new SearchInfo();
-  public buildings:Array<any>;
-  public pageSize = 10;
+  public newCard = new CardInfo();
+  public mode = '0';
+  public proposal = [];
+  public pageSize = 15;
   public pageNo = 1;
   public total = 0;
   public length = 10;
@@ -38,76 +39,135 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.globalCatalogService.setTitle("工会管理/职代会");
+    this.globalCatalogService.setTitle("工会管理/职代会发起记录");
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("party/upload");
       }
     );
-    this.searchInfo.type = "";
+    this.searchInfo.type = '';
+    // this.searchInfo.createUserId = localStorage.getItem("username");
     this.repairSearch(1);
+    this.getRepairDept();
+    this.proposal = [{id:1,name:'提案1'},{id:2,name:'提案2'},{id:3,name:'提案3'},]
   }
   /*查询*/
   repairSearch(num){
-    this.pageNo = num;
-    let url = '/soclaty/flow/getSoclatyFlowList/'+this.pageNo+'/'+this.pageSize;
+    let url = '/soclaty/flow/getSoclatyFlowList/'+num+'/'+this.pageSize;
     this.ipSetting.sendPost(url,this.searchInfo).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
+        console.log(data.data);
         this.record = data.data.infos;
         this.total = data.data.total;
       }
     });
   }
-
-  /*确定立案*/
-  editCardInfo(){
-    this.contractBool = false;
-    $('.form-add').attr('disabled',false);
+  /*获取部门列表*/
+  getRepairDept(){
+    let url = '/party/report/getDeptList';
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        console.log(data.data);
+        this.repairDept = data.data;
+      }
+    });
+  };
+  /*立案操作*/
+  editCardInfo(index){
     $('.mask').fadeIn();
-   /* this.newCard = JSON.parse(JSON.stringify(this.record[index]));
-    this.newCard.fileName = [];
-    this.newCard.filePath = [];
-    if(this.newCard.fileContract){
-      for(let i=0;i<this.newCard.fileContract.length;i++){
-        this.newCard.fileName.push(this.newCard.fileContract[i].fileName);
-        this.newCard.filePath.push(this.newCard.fileContract[i].filePath);
-      }
-    }*/
-  }
-  /*附件上传*/
-  prese_upload(files) {
-    var xhr = this.utilBuildingService.uploadFileReport(files[0],'partyBuild',-1);
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
-        var data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data)){
-          this.newCard.fileName.push(files[0].name);
-          this.newCard.filePath.push(data.data);
+    this.newCard = JSON.parse(JSON.stringify(this.record[index]));
 
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': '上传成功',
-            'popType': 0 ,
-            'imgType': 1,
-          });
-          $('#prese').val('');
-        }
-      }else if (xhr.readyState === 4 && xhr.status === 413){
-        confirmFunc.init({
-          'title': '提示' ,
-          'mes': '文件太大',
-          'popType': 0 ,
-          'imgType': 2,
+  }
+
+  /*不立案操作*/
+  delCardInfo(id){
+
+        let url = '/party/report/delete/'+id;
+        this.ipSetting.sendGet(url).subscribe(data => {
+          if(this.errorVoid.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': data['msg'],
+              'popType': 0 ,
+              'imgType': 1 ,
+            });
+            this.repairSearch(1);
+          }
         });
-        $('#prese').val('');
-      }
-    };
   }
-  /*删除合同文件*/
-  delFile(index) {
-    this.newCard.filePath.splice(index,1);
-    this.newCard.fileName.splice(index,1);
+  /*点击新增*/
+  addVehicle(){
+    this.newCard = new CardInfo();
+    $('.mask').fadeIn();
   }
+  /*新增校验*/
+  public verifybranchName(){
+    if (!this.isEmpty('branchName', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifynewtype(){
+    if(!this.isEmpty('newtype', '不能为空')){
+      return false;
+    }
+    return true;
+  }
+  public verifybTime(){
+    if (!this.isEmpty('bTime', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifyeTime(){
+    if (!this.isEmpty('eTime', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifyhost(){
+    if (!this.isEmpty('host', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifyaddress(){
+    if (!this.isEmpty('address', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifyrecorder(){
+    if (!this.isEmpty('recorder', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifyshouldNum(){
+    if (!this.isEmpty('shouldNum', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifyfactNum(){
+    if (!this.isEmpty('factNum', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifytheme(){
+    if (!this.isEmpty('theme', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifynote(){
+    if (!this.isEmpty('repairNote', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+
   submit(){
     var url;
     if(this.contractBool === false){
@@ -115,10 +175,13 @@ export class ListComponent implements OnInit {
     }else{
       url = "/party/add/addThreeOne";
     }
+    if (!this.verifybranchName()||!this.verifynewtype()||!this.verifybTime()||!this.verifyeTime()||!this.verifyhost()||
+      !this.verifyaddress()||!this.verifyrecorder()||!this.verifyshouldNum()||!this.verifyfactNum()||!this.verifytheme()||
+      !this.verifynote()) {
+      return false;
+    }
     let postData = JSON.parse(JSON.stringify(this.newCard));
-    postData.month = this.newCard.beginTime.substring(0, 7);
-    /*this.getNowFormatDate(); 018-06-09T10:00*/
-    /*postData.beginTime = postData.beginTime.replace("T"," ");*/
+
     if(postData.filePath && postData.filePath.length>0){
       this.ipSetting.sendPost(url, postData).subscribe(data => {
         if(this.errorVoid.errorMsg(data)){
@@ -194,20 +257,22 @@ export class ListComponent implements OnInit {
     $('#' + id).parents('.form-inp').children('.errorMessage').html('');
   }
 }
+export class CardInfo {
+  id: number; // 本条信息ID
+  type: string; // 类型
+  fatherId: string; // 主提案
+  children: string; // 附议提案
+  hostDeptName:string; // 主办部门名字
+  hostDeptId:string; // 主办部门ID
+  helpDeptName:string; // 协办部门名字
+  helpDeptId:string; // 协办部门ID
+  createUserId:string;
+
+}
 export class SearchInfo {
   id: number; // 本条信息ID
-  name:string;
-  theme: string;
-  type:string;
-  status: string;
-  isFound: string;
-  beginTime:string; // 开始时间
-  endTime:string; // 结束时间
-  createUserName: string;
-  createUserDept: string;
-  createTime: string;
-  fileName=[];
-  filePath=[];
-  fileContract:any;
+  type: string; // 类型
+  bTime: string; // 开始时间
+  eTime: string; // 结束时间
+  createUserId:string; //
 }
-

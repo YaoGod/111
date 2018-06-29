@@ -113,9 +113,7 @@ input{
   height: 36px;
   line-height: 36px;
   margin-right: 5px;
-  background-color: #f8f8f8;
   color: #8d9ea7;
-
   font-size: 12px;
   text-align: justify;
   display: inline-block;
@@ -295,74 +293,36 @@ button{
 }
 .repair-form{
   padding:10px 20px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
   border-radius: 4px;
   position: relative;
   max-height: 440px;
   overflow-y: auto;
 }
 .mask-cotainer .form-control{
-  -webkit-box-flex: 0;
-  -ms-flex: 1 0 50%;
-  flex: 1 0 50%;
-  max-width: 50%;
+
   padding: 0;
   margin-bottom: 5px;
   font-size: 12px;
 }
-.mask-cotainer .form-alone{
-  -webkit-box-flex: 1;
-  -ms-flex: 1 0 100%;
-  flex: 1 0 100%;
-  max-width: 100%;
-}
 .mask-cotainer .form-label{
   position: relative;
-  width: 100%;
   min-height: 1px;
   background-color: #f8f8f8;
   padding: 6px 10px;
   float: left;
 
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 30%;
-  flex: 0 0 30%;
-  max-width: 30%;
 }
-.form-alone .form-label {
-  max-width: 15%;
-}
-.mask-cotainer .form-inp{
-  position: relative;
-  width: 100%;
-  min-height: 1px;
-  padding: 0;
+.form-master{
   float: left;
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 62%;
-  flex: 0 0 62%;
-  max-width: 62%;
-  margin-left: 2%;
+  width:48%;
 }
-.form-alone .form-inp {
-  max-width: 80%;
-  margin-left: 1%;
-  line-height:30px;
+.form-vice{
+  float: right;
+  width:48%;
 }
 .company-ipt{
-  width:150px;
-  line-height:30px;
-  background-image: linear-gradient(#03a9f3, #03a9f3), linear-gradient(rgba(120, 130, 140, .13), rgba(120, 130, 140, .13));
-  background-color: rgba(0, 0, 0, 0);
-  background-position: center bottom, center calc(99%);
-  background-repeat: no-repeat;
-  background-size: 0 1px, 100% 1px;
-  padding: 0;
-  transition: all .3s ease-out;
+  width:50px;
+  margin-left:20px;
 }
 #repairNote {
   width: 100%;
@@ -374,9 +334,6 @@ button{
 }
 .company-sel{
   height:30px;
-}
-.company-ipt:focus{
-  background-size: 100% 1px, 100% 1px;
 }
 .mask-footer{
   display: -webkit-box;

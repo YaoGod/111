@@ -40,7 +40,7 @@
             <div class="form-group">
               <label class="control-label">
                 <span>提案人姓名</span>
-                <input class="form-control" type="text" [(ngModel)]="record.userName"
+                <input class="form-control" type="text" [(ngModel)]="record.userName" disabled="disabled"
                            name="orderCheck">
               </label>
               <div class="error"></div>
@@ -48,7 +48,7 @@
             <div class="form-group">
               <label class="control-label">
                 <span>所在单位</span>
-                <input class="form-control" type="text" [(ngModel)]="record.userDept"
+                <input class="form-control" type="text" [(ngModel)]="record.userDept" disabled="disabled"
                        name="orderCheck">
               </label>
               <div class="error"></div>
@@ -56,7 +56,7 @@
             <div class="form-group">
               <label class="control-label">
                 <span>参加工作时间</span>
-                <input class="form-control" type="text" [(ngModel)]="record.joinDate"
+                <input class="form-control" type="text" [(ngModel)]="record.joinDate" disabled="disabled"
                        name="joinDate" (blur)="verifyjoinDate()">
               </label>
               <div class="error"></div>
@@ -64,40 +64,40 @@
             <div class="form-group">
               <label class="control-label">
                 <span>年龄</span>
-                <input class="form-control" type="text" [(ngModel)]="record.userAge"
-                       name="orderCheck">
+                <input class="form-control" type="text" [(ngModel)]="record.userAge" disabled="disabled"
+                       name="userAge">
               </label>
               <div class="error"></div>
             </div>
             <div class="form-group">
               <label class="control-label">
                 <span>政治面貌</span>
-                <input class="form-control" type="text"  [(ngModel)]="record.userCultural"
-                       name="orderCheck">
+                <input class="form-control" type="text"  [(ngModel)]="record.userCultural" disabled="disabled"
+                       name="userCultural">
               </label>
               <div class="error"></div>
             </div>
             <div class="form-group">
               <label class="control-label">
                 <span>文化成度</span>
-                <input class="form-control" type="text" [(ngModel)]="record.userPolitical"
-                       name="orderCheck">
+                <input class="form-control" type="text" [(ngModel)]="record.userPolitical" disabled="disabled"
+                       name="userPolitical">
               </label>
               <div class="error"></div>
             </div>
             <div class="form-group">
               <label class="control-label">
                 <span>职（岗）位</span>
-                <input class="form-control" type="text" [(ngModel)]="record.userWork"
-                       name="orderCheck">
+                <input class="form-control" type="text" [(ngModel)]="record.userWork" disabled="disabled"
+                       name="userWork">
               </label>
               <div class="error"></div>
             </div>
             <div class="form-group">
               <label class="control-label">
                 <span>职称</span>
-                <input class="form-control" type="text" [(ngModel)]="record.userMemver"
-                       name="orderCheck">
+                <input class="form-control" type="text" [(ngModel)]="record.userMemver" disabled="disabled"
+                       name="userMemver">
               </label>
               <div class="error"></div>
             </div>
@@ -112,7 +112,7 @@
             <div class="form-group">
               <label class="control-label"><span>提案类别</span>
                   <select class="form-control" [(ngModel)]="record.type" id="type" name="type"
-                  (blur)="verifyEmpty('type','提案类别不能为空')">
+                  (blur)="verifyEmpty(record.type,'type')">
                     <option value="">请选择</option>
                     <option value="市场类">市场类</option>
                     <option value="政企类">政企类</option>
@@ -128,8 +128,8 @@
             <div class="form-group">
               <label class="control-label">
                 <span>理由及内容</span><!--[(ngModel)]="postData.cause"-->
-                <textarea class="form-control" type="text" rows="3" style="text-indent:0;line-height: 20px; width: 360px"
-                          id="deptName" name="deptName" [(ngModel)]="record.cause">
+                <textarea class="form-control" type="text" rows="3" style="text-indent:0;line-height: 20px; width: 360px" (blur)="verifyEmpty(record.cause,'cause')"
+                          id="cause" name="cause" [(ngModel)]="record.cause">
                 </textarea>
               </label>
               <div class="error"></div>
@@ -137,8 +137,8 @@
             <div class="form-group">
               <label class="control-label">
                 <span>解决办法及建议</span>
-                <textarea class="form-control" type="text" rows="3" style="text-indent:0;line-height: 20px; width: 360px"
-                          id="deptName2" name="deptName2" [(ngModel)]="record.suggest">
+                <textarea class="form-control" type="text" rows="3" style="text-indent:0;line-height: 20px; width: 360px" (blur)="verifyEmpty(record.suggest,'suggest')"
+                          id="suggest" name="suggest" [(ngModel)]="record.suggest">
                 </textarea>
               </label>
               <div class="error"></div>

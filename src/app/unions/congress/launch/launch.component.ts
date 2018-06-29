@@ -39,9 +39,7 @@ export class LaunchComponent implements OnInit {
       this.ipSetting.sendGet(url).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.userInfo = data.data;
-          console.log(data.data);
-
-
+          // console.log(data.data);
           this.record.joinDate = this.userInfo.JOIN_DATE;
           this.record.userAge = this.userInfo.AGE;
           this.record.userWork = this.userInfo.WORK_TYPE;
@@ -79,20 +77,10 @@ export class LaunchComponent implements OnInit {
 
   }
 
-  /*增加人员弹窗*/
-  addPerson(){
-    $('.mask2').fadeIn();
-  }
-
-  /*表单校验*/
-  verifyjoinDate(){
-    if (!this.verifyEmpty('checknewesetail','审核意见不能为空')){
-      return false;
-    }
-  }
   /*提交*/
   submitPassword(){
-    if (!this.verifyEmpty('joinDate','审核意见不能为空')){
+    if (!this.verifyEmpty(this.record.theme,'theme')||!this.verifyEmpty(this.record.type,'type')||
+      !this.verifyEmpty(this.record.cause,'cause')||!this.verifyEmpty(this.record.suggest,'suggest')){
       return false;
     }
     let url = '/soclaty/flow/addSoclatyFlow';
@@ -114,22 +102,9 @@ export class LaunchComponent implements OnInit {
     $('.error').html('');
   }
 
-  /*删除增加的申请内容*/
-  removePro(index){
-    if(this.record){
-      confirmFunc.init({
-        'title': '提示',
-        'mes': '必须保留一条申请内容！',
-        'popType': 2,
-        'imgType': 2,
-      });
-    }else{
-      // this.record.splice(index,1);
-    }
-  }
   /*非空验证*/
   verifyEmpty( value, id?){
-    if(typeof (value) === "undefined" || value === null || value === ''){
+    if(typeof (value) === "undefined" || value === null || (value&&value.toString().trim() === '')){
       this.addErrorClass(id,'该值不能为空');
       return false;
     }else{
@@ -141,7 +116,6 @@ export class LaunchComponent implements OnInit {
   private addErrorClass(id: string, error: string)  {
     $('#' + id).addClass('red');
     $('#' + id).parent().next('.error').fadeIn().html(error);
-    console.log($('#' + id).parent().className);
   }
   /*去除错误信息*/
   private  removeErrorClass(id: string) {

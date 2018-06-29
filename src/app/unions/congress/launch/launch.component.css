@@ -182,7 +182,7 @@ td>img{
 }
 .control-label>span{
   display: inline-block;
-  width: 88px;
+  width: 100px;
   line-height: 38px;
   padding-right: 10px;
   vertical-align: top;
@@ -209,7 +209,7 @@ td>img{
 .form-control {
   float: none;
   padding: 0 5px;
-  width: 240px;
+  width: 360px;
   max-width: 100%;
   line-height: 38px;
   background-color: rgba(0, 0, 0, 0);
@@ -246,7 +246,7 @@ select{
   display: inline-block;
   width: 276px;
   line-height: 16px;
-  padding-left: 75px;
+  padding-left: 25px;
   font-size: 10px;
   color: #d75452;
 }

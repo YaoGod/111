@@ -2,19 +2,25 @@
   <div class="cont">
     <div class="row clearfix">
       <div class="row-title">
-        <a routerLink="../list" routerLinkActive="active">提案信息管理
+        <a routerLink="/hzportal/unions/congress/list" routerLinkActive="active">提案发起记录
         <span></span></a>
       </div>
       <div class="row-title">
-        <a routerLink="../congflow" routerLinkActive="active">工单流程管理
+        <a routerLink="/hzportal/unions/congress/proposalReport" routerLinkActive="active">提案记录报表管理
+          <span></span>
+        </a>
+      </div>
+      <div class="row-title">
+        <a routerLink="/hzportal/unions/congress/congflow" routerLinkActive="active">提案发起流程管理
            <span></span>
         </a>
       </div>
       <div class="row-title">
-        <a routerLink="../proposalReport" routerLinkActive="active">工单报表管理
-          <span></span>
+        <a routerLink="/hzportal/unions/congress/launch" routerLinkActive="active">提案发起
+           <span></span>
         </a>
       </div>
+
       <div class="b-head-right">
         <div class="content-box" onclick="history.go(-1)" tabindex="0">
           <i class="icon-reload"></i> 返回
@@ -22,8 +28,12 @@
       </div>
     </div>
     <div class="cont-inner">
-      <li class="repair-chandlery clearfix">
+      <div class="repair-chandlery clearfix">
         <ul class="record-search clearfix">
+          <!--<li>
+            <label>发起人</label>
+            <input name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
+          </li>-->
           <li>
             <label >提案类型</label>
             <select class="search-ipt search-sel" name="searchtype" [(ngModel)]="searchInfo.type">
@@ -38,39 +48,29 @@
           </li>
           <li>
             <label >发起时间</label>
-            <input name="Bmonth" style="width:130px;" type="date" [(ngModel)]="searchInfo.beginTime"> 至
-            <input name="Emonth" style="width:130px;" type="date" [(ngModel)]="searchInfo.endTime" >
+            <input name="Bmonth" style="width:130px;" type="date" [(ngModel)]="searchInfo.bTime"> 至
+            <input name="Emonth" style="width:130px;" type="date" [(ngModel)]="searchInfo.eTime" >
           </li>
           <li>
             <a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
           </li>
-          <li>
-            <a class="search-btn" href="javascript:;" routerLink="../launch" routerLinkActive="active">提案发起</a>
-          </li>
-          <li class="b-head-right">
-            <div class="search-btn" (click)="editCardInfo()">
-              合并立案
-            </div>
-          </li>
         </ul>
-
       </div>
       <ul class="card-list clearfix">
         <li  class="room-card">
           <table width="100%" style="margin:0 auto;" class="card-info">
             <tr style="height: 40px; background-color: #acd6ff; text-align: center; font-weight: bold; font-size: 14px;color:#333;">
-              <th></th>
               <th width="30%" style="padding-left: 15px;text-align: left">提案主题</th>
               <th>提案类型</th>
               <th>发起人姓名</th>
               <th>发起人部门</th>
               <th>发起时间</th>
-              <th>状态</th>
-              <th>操作</th>
+              <th>立案状态</th>
+              <th>操作</th><!-- *ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
             </tr>
             <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
-              <td><input type="checkbox" [value]="inner.id"></td>
-              <td width="30%" style="padding-left: 15px;text-align: left" [routerLink]="['/hzportal/unions/congress/info',inner.id]">
+              <td width="30%" style="padding-left: 15px;text-align: left"
+              [routerLink]="['/hzportal/unions/congress/info',inner.id]">
                 <a href="javascript:;">{{inner.theme}}</a>
               </td>
               <td>{{inner.type}}</td>
@@ -79,8 +79,10 @@
               <td>{{inner.createTime | date:'yyyy-MM-dd HH:mm'}}</td>
               <td>{{inner.isFound}}</td>
               <td>
-                <a class="search-btn">审批</a>
-              </td>
+                <i class="icon-check" *ngIf="inner.isFound" (click)="editCardInfo(i)"
+                   style="margin-left: 5px;" title="立案"></i>
+                <i class="icon-close" *ngIf="inner.isFound" (click)="delCardInfo(inner.id)"
+                   style="margin-left: 5px;" title="不立案"></i></td>
             </tr>
           </table>
         </li>
@@ -94,55 +96,65 @@
       </app-turn-bar>
     </div>
   </div>
-
-
+</div>
 <div class="mask">
   <div class="mask-cotainer">
-    <div class="mask-head"><i class="icon-film"></i> <p>合并提案确认</p>
+    <div class="mask-head"><i class="icon-film"></i> <p>立案填选内容</p>
       <button class="close" (click)="addCancel()">×</button>
     </div>
     <form method="post" name="topForm" class="repair-form">
-      <div class="form-control form-alone">
-        <span class="form-label">立案意见</span>
+      <div class="form-control clearfix">
+        <span class="form-label">立案方式</span>
         <div class="form-inp">
-          <label><input type="radio" name="attitude"/>同意</label>
-          <label><input type="radio" name="attitude"/>不同意</label>
+          <label for="yes" style="line-height: 30px;">
+            <input id="yes" name="isOrder" class="company-ipt" type="radio" value="0" [(ngModel)]="mode">
+            合并立案
+          </label>
+          <label for="no" style="line-height: 30px;">
+            <input id="no" name="isOrder"  class="company-ipt" type="radio" value="1" [(ngModel)]="mode">
+            单独立案
+          </label>
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control form-alone">
-        <span class="form-label">已选提案</span>
-        <div class="form-inp">
-          <p><span>设为主提案</span>1. 选择一的提案主题</p>
-          <p><span></span>2. 选择二的提案主题</p>
-          <p><span></span>3. 选择三的提案主题</p>
-          <p><span></span>4. 选择四的提案主题</p>
+      <div class="form-control clearfix">
+        <div class="form-master">
+          <span class="form-title">主提案</span>
+          <ul class="form-inp">
+            <li *ngFor="let abc of proposal"><input type="radio" name="master" />{{abc.name}}</li>
+          </ul>
+        </div>
+        <div class="form-vice">
+          <span class="form-title">附议提案</span>
+          <ul class="form-inp">
+            <li *ngFor="let abc of proposal"><input type="checkbox" name="vice" />{{abc.name}}</li>
+          </ul>
         </div>
       </div>
-      <div class="form-control form-alone">
+      <div class="form-control">
         <span class="form-label">主办部门</span>
         <div class="form-inp">
-          <input class="form-control" type="text">
-        </div>
-      </div>
-      <div class="form-control form-alone">
-        <span class="form-label">协办部门</span>
-        <div class="form-inp">
-          <input class="form-control" type="text">
-        </div>
-      </div>
-      <div class="form-control form-alone">
-        <span class="form-label">附件</span>
-        <ul class="contract-list">
-          <li *ngFor="let abc of newCard.fileName; let k=index">{{abc}}<a  href="javascript:;" (click)="delFile(k)">×</a> </li>
-        </ul>
-        <div class="form-inp" style=" margin-top:5px;">
-          <a href="javascript:;" style="color:#666; margin-left:127px; border-radius:4px; padding:5px 10px; background: #f6f6f6;" onclick="$('#prese').trigger('click')">上 传</a>
-          <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;"
-                 (change)="prese_upload(prese.files)">
+          <select class="company-ipt company-sel" name="newtype" id="newtype" [(ngModel)]="newCard.hostDeptId"
+                  (blur)="verifynewtype()" >
+            <option value="">请选择</option>
+            <option value="党员大会">党员大会</option>
+            <option value="支委会">支委会</option>
+            <option value="党小组会">党小组会</option>
+            <option value="党课">党课</option>
+            <option value="组织生活会">组织生活会</option>
+          </select>
           <span class="errorMessage"></span>
         </div>
       </div>
+      <div class="form-control">
+        <span class="form-label">协办部门</span>
+        <div class="form-inp"><!--[value]="newCard.beginTime | date:'yyyy-MM-dd HH:mm'" -->
+          <input class="company-ipt" type="datetime-local" name="bTime" id="bTime"
+                 (blur)="verifybTime()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+
     </form>
     <div class="mask-footer">
       <button type="submit" class="btn-mask btn-info" (click)="submit()">提 交</button>
