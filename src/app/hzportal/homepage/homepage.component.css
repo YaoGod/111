@@ -41,9 +41,9 @@
   height: 220px;
   _background-color: rgba(96, 96, 96, 0.4);
   border-radius: 5px;
-  box-shadow:0 0 30px rgba(255,255,255,0.8), 0 0 10px rgba(0,0,0,0) inset;
-  /*box-shadow: 0 0 6px rgba(255,255,255,0.2),
-              0 0 80px rgba(0,0,0,0.05) inset;*/
+  background: rgba(255,255,255,0.08);
+  -webkit-box-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 10px rgba(0,0,0,0) inset;
+  box-shadow: 0 0 10px rgba(255,255,255,0.8), 0 0 10px rgba(0,0,0,0) in
 }
 .side-card a{
   color:#EEE685;

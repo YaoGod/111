@@ -16,9 +16,9 @@ declare var confirmFunc: any;
   providers:[UtilBuildingService,sndCatalog],
 })
 export class ListComponent implements OnInit {
-  public newCard = new CardInfo();
+  public newCard = new SearchInfo();
   public buildings:Array<any>;
-  public pageSize = 15;
+  public pageSize = 10;
   public pageNo = 1;
   public total = 0;
   public length = 10;
@@ -44,32 +44,27 @@ export class ListComponent implements OnInit {
         this.rule = this.globalCatalogService.getRole("party/upload");
       }
     );
-    this.searchInfo.type = '1';
-    this.searchInfo.branchName = '';
-    this.searchInfo.subType = '';
-    this.searchInfo.createUserId = localStorage.getItem("username");
+    this.searchInfo.type = "";
     this.repairSearch(1);
-    this.getRepairDept();
-
   }
   /*查询*/
   repairSearch(num){
-    let url = '/party/report/getList/'+num+'/'+this.pageSize;
+    this.pageNo = num;
+    let url = '/soclaty/flow/getSoclatyFlowList/'+this.pageNo+'/'+this.pageSize;
     this.ipSetting.sendPost(url,this.searchInfo).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
-        this.record = data.data.list;
+        this.record = data.data.infos;
         this.total = data.data.total;
       }
     });
   }
 
-  /*点击编辑*/
-  editCardInfo(index){
+  /*确定立案*/
+  editCardInfo(){
     this.contractBool = false;
     $('.form-add').attr('disabled',false);
     $('.mask').fadeIn();
-    $('.mask .mask-head p').html('编辑会议记录');
-    this.newCard = JSON.parse(JSON.stringify(this.record[index]));
+   /* this.newCard = JSON.parse(JSON.stringify(this.record[index]));
     this.newCard.fileName = [];
     this.newCard.filePath = [];
     if(this.newCard.fileContract){
@@ -77,117 +72,7 @@ export class ListComponent implements OnInit {
         this.newCard.fileName.push(this.newCard.fileContract[i].fileName);
         this.newCard.filePath.push(this.newCard.fileContract[i].filePath);
       }
-    }
-  }
-  /*点击删除*/
-  delCardInfo(id){
-    confirmFunc.init({
-      'title': '提示' ,
-      'mes': '是否删除？',
-      'popType': 1 ,
-      'imgType': 3 ,
-      'callback': () => {
-        let url = '/party/report/delete/'+id;
-        this.ipSetting.sendGet(url).subscribe(data => {
-          if(this.errorVoid.errorMsg(data)) {
-            confirmFunc.init({
-              'title': '提示' ,
-              'mes': data['msg'],
-              'popType': 0 ,
-              'imgType': 1 ,
-            });
-            this.repairSearch(1);
-          }
-        });
-      }
-    });
-  }
-  /*获取部门列表*/
-  getRepairDept(){
-    let url = '/party/report/getDeptList';
-    this.ipSetting.sendGet(url).subscribe(data => {
-      if (this.errorVoid.errorMsg(data)) {
-        this.repairDept = data.data;
-      }
-    });
-  };
-  /*点击新增*/
-  addVehicle(){
-    this.contractBool = true;
-    $('.form-disable').attr('disabled',false).css('backgroundColor','#fff');
-    this.newCard = new CardInfo();
-    this.newCard.branchName = '';
-    this.newCard.type = '1';
-    this.newCard.subType = '';
-    $('.mask').fadeIn();
-    $('.mask .mask-head p').html('新增会议记录');
-  }
-  /*新增校验*/
-  public verifybranchName(){
-    if (!this.isEmpty('branchName', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifynewtype(){
-    if(!this.isEmpty('newtype', '不能为空')){
-      return false;
-    }
-    return true;
-  }
-  public verifybTime(){
-    if (!this.isEmpty('bTime', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyeTime(){
-    if (!this.isEmpty('eTime', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyhost(){
-    if (!this.isEmpty('host', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyaddress(){
-    if (!this.isEmpty('address', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyrecorder(){
-    if (!this.isEmpty('recorder', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyshouldNum(){
-    if (!this.isEmpty('shouldNum', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyfactNum(){
-    if (!this.isEmpty('factNum', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifytheme(){
-    if (!this.isEmpty('theme', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifynote(){
-    if (!this.isEmpty('repairNote', '不能为空')) {
-      return false;
-    }
-    return true;
+    }*/
   }
   /*附件上传*/
   prese_upload(files) {
@@ -229,11 +114,6 @@ export class ListComponent implements OnInit {
       url = "/party/update/updateThreeOne";
     }else{
       url = "/party/add/addThreeOne";
-    }
-    if (!this.verifybranchName()||!this.verifynewtype()||!this.verifybTime()||!this.verifyeTime()||!this.verifyhost()||
-      !this.verifyaddress()||!this.verifyrecorder()||!this.verifyshouldNum()||!this.verifyfactNum()||!this.verifytheme()||
-      !this.verifynote()) {
-      return false;
     }
     let postData = JSON.parse(JSON.stringify(this.newCard));
     postData.month = this.newCard.beginTime.substring(0, 7);
@@ -314,46 +194,20 @@ export class ListComponent implements OnInit {
     $('#' + id).parents('.form-inp').children('.errorMessage').html('');
   }
 }
-export class CardInfo {
+export class SearchInfo {
   id: number; // 本条信息ID
-  branchName:string; // 支部名称
-  type:string; // 会议类型(三会一课同级)
-  subType:string; // 子类型
-  month: string;// 月份
-  name:string; // 文件名称
+  name:string;
+  theme: string;
+  type:string;
+  status: string;
+  isFound: string;
   beginTime:string; // 开始时间
   endTime:string; // 结束时间
-  host:string; // 主持人
-  createUserId:string;
-  recorder:string; // 记录人
-  shouldNum:number; // 应到人数
-  factNum:number; // 实到人数
-  absentNum:number; // 缺席人数
-  reason:string; // 缺席原因
-  theme:string; // 会议主题
-  note:string; // 会议议程
-  address:string; // 会议地点
+  createUserName: string;
+  createUserDept: string;
+  createTime: string;
   fileName=[];
   filePath=[];
   fileContract:any;
 }
-export class SearchInfo {
-  id: number; // 本条信息ID
-  branchName:string; // 支部名称
-  type:string; // 会议类型(三会一课同级)
-  subType:string; // 子类型
-  month: string;// 月份
-  name:string; // 文件名称
-  createUserId:string;
-  beginTime:string; // 开始时间
-  endTime:string; // 结束时间
-  host:string; // 主持人
-  recorder:string; // 记录人
-  shouldNum:number; // 应到人数
-  factNum:number; // 实到人数
-  absentNum:number; // 缺席人数
-  reason:string; // 缺席原因
-  theme:string; // 会议主题
-  note:string; // 会议议程
-  address:string; // 会议地点
-}
+

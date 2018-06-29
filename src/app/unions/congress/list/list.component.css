@@ -16,9 +16,6 @@ input{
   height:30px;
   padding:10px 0;
 }
-.search-btn {
-  float: right;
-}
 .wrap{
   padding:10px 20px;
 }
@@ -207,8 +204,7 @@ input{
   position: absolute;
   right:10px; top:15px;
 }
-.repair-chandlery .search-btn{
-  float: left;
+.search-btn{
   margin-left:10px;
   display: inline-block;
   padding:0 10px;
