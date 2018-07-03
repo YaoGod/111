@@ -79,9 +79,9 @@
               <td>{{inner.createTime | date:'yyyy-MM-dd HH:mm'}}</td>
               <td>{{inner.isFound}}</td>
               <td>
-                <i class="icon-check" *ngIf="inner.isFound" (click)="editCardInfo(i)"
+                <i class="icon-check" *ngIf="inner.isFound&&inner.isFound==='待审核'" (click)="editCardInfo(inner.id)"
                    style="margin-left: 5px;" title="立案"></i>
-                <i class="icon-close" *ngIf="inner.isFound" (click)="delCardInfo(inner.id)"
+                <i class="icon-close" *ngIf="inner.isFound&&inner.isFound==='待审核'" (click)="delCardInfo(inner.id)"
                    style="margin-left: 5px;" title="不立案"></i></td>
             </tr>
           </table>
@@ -120,14 +120,17 @@
       <div class="form-control clearfix">
         <div class="form-master">
           <span class="form-title">主提案</span>
-          <ul class="form-inp">
-            <li *ngFor="let abc of proposal"><input type="radio" name="master" />{{abc.name}}</li>
+          <ul class="form-inp flow-list">
+            <li *ngFor="let inner of recordChoose;">
+              <input type="radio" name="master" [value]="inner.id" [(ngModel)]="newCard.fatherId"/>{{inner.theme}}
+            </li>
           </ul>
         </div>
-        <div class="form-vice">
+        <div class="form-vice" *ngIf="mode==='0'">
           <span class="form-title">附议提案</span>
-          <ul class="form-inp">
-            <li *ngFor="let abc of proposal"><input type="checkbox" name="vice" />{{abc.name}}</li>
+          <ul class="form-inp flow-list">
+            <li *ngFor="let abc of recordChoose">
+              <input type="checkbox" name="vice" [value]="abc.id"/>{{abc.theme}}</li>
           </ul>
         </div>
       </div>
@@ -135,13 +138,9 @@
         <span class="form-label">主办部门</span>
         <div class="form-inp">
           <select class="company-ipt company-sel" name="newtype" id="newtype" [(ngModel)]="newCard.hostDeptId"
-                  (blur)="verifynewtype()" >
+                  (blur)="verifynewtype()" style="width:253px; border: 1px solid #dddddd;" (change)="changeDept()">
             <option value="">请选择</option>
-            <option value="党员大会">党员大会</option>
-            <option value="支委会">支委会</option>
-            <option value="党小组会">党小组会</option>
-            <option value="党课">党课</option>
-            <option value="组织生活会">组织生活会</option>
+            <option *ngFor="let dept of repairDept" [value]="dept.DEPT_ID">{{dept.DEPT_NAME}}</option>
           </select>
           <span class="errorMessage"></span>
         </div>
@@ -149,15 +148,67 @@
       <div class="form-control">
         <span class="form-label">协办部门</span>
         <div class="form-inp"><!--[value]="newCard.beginTime | date:'yyyy-MM-dd HH:mm'" -->
-          <input class="company-ipt" type="datetime-local" name="bTime" id="bTime"
-                 (blur)="verifybTime()">
+          <textarea class="company-ipt" rows="5"
+                    style="border:1px solid #dddddd;width:250px;!important;height:auto;background-color: #ffffff !important;"
+                    onclick="$('#deptSltWin').show()"
+                    id="deptName" name="deptName" readonly
+                 [(ngModel)]="newCard.helpDeptName">
+          </textarea>
           <span class="errorMessage"></span>
         </div>
       </div>
-
+      <div class="modal-more" id="deptSltWin" style="display: none">
+        <h5>杭州移动各部门</h5>
+        <h5>已选：&nbsp;&nbsp;
+          <span>{{newCard.helpDeptName}}</span></h5>
+        <!--<div class="choose-group">
+          <label class="cb-blue">
+            <input type="checkbox" name="all" id="all" [(ngModel)]="isAllDept" (change)="chooseAll()">
+            <span>所有人员</span>
+          </label>
+        </div>-->
+        <div class="choose-list">
+          <div class="choose-group" *ngFor="let dept of repairDept;let i=index">
+            <label class="cb-blue">
+              <input type="checkbox" [name]="dept.DEPT_ID" [(ngModel)]="dept.choose"
+                     [value]="dept.DEPT_ID"
+                     (change)="chooseDept()">
+              <span>{{dept.DEPT_NAME}}</span>
+            </label>
+          </div>
+        </div>
+        <div  class="modal-more-footer">
+          <button  class="btn btn-info" type="submit"
+                   (click)="subDept()">确定</button>
+        </div>
+      </div>
     </form>
     <div class="mask-footer">
       <button type="submit" class="btn-mask btn-info" (click)="submit()">提 交</button>
+      <button type="button" class="btn-mask btn-danger" (click)="addCancel()">取 消</button>
+    </div>
+  </div>
+</div>
+<div class="mask1">
+  <div class="mask-cotainer">
+    <div class="mask-head"><i class="icon-film"></i> <p>不立案填选内容</p>
+      <button class="close" (click)="addCancel()">×</button>
+    </div>
+    <form method="post" name="topForm" class="repair-form" style="min-height: 150px;">
+      <div class="form-control">
+        <span class="form-label">主办部门</span>
+        <div class="form-inp">
+          <select class="company-ipt company-sel" name="secondtype" id="secondtype" [(ngModel)]="secondCard.hostDeptId"
+                  (blur)="verifynewtype()" style="width:200px; border: 1px solid #dddddd;" (change)="changeDept()">
+            <option value="">请选择</option>
+            <option *ngFor="let dept of repairDept" [value]="dept.DEPT_ID">{{dept.DEPT_NAME}}</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+    </form>
+    <div class="mask-footer">
+      <button type="submit" class="btn-mask btn-info" (click)="submitNo()">提 交</button>
       <button type="button" class="btn-mask btn-danger" (click)="addCancel()">取 消</button>
     </div>
   </div>

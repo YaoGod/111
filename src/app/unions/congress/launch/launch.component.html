@@ -13,29 +13,12 @@
     </div>
     <div class="content-area">
         <div class="warp clearfix">
-          <!--<div class="warp-left">
+          <div class="warp-left">
             <div class="flow-area">
-              <ul>
-                <li class="node">
-                  <div class="rect">
-                    发起人发起
-                  </div>
-                  <div class="arrow"></div>
-                </li>
-                <li class="node" *ngFor="let segment of content;let i = index">
-                  <div class="rect">
-                    <input name="name" type="text" disabled="disabled" [value]="segment.group.name">
-                  </div>
-                  <div class="arrow"></div>
-                </li>
-                <li class="node">
-                  <div class="rect">
-                    结束
-                  </div>
-                </li>
-              </ul>
+              <h3>请在<span>{{beginTime}}至{{endTime}}</span>前发起提案。</h3>
+              <p><img style="width: 100%;" src="assets/image/inner.jpg" /> </p>
             </div>
-          </div>-->
+          </div>
           <div class="warp-right">
             <div class="form-group">
               <label class="control-label">
@@ -57,7 +40,7 @@
               <label class="control-label">
                 <span>参加工作时间</span>
                 <input class="form-control" type="text" [(ngModel)]="record.joinDate" disabled="disabled"
-                       name="joinDate" (blur)="verifyjoinDate()">
+                       name="joinDate">
               </label>
               <div class="error"></div>
             </div>
@@ -143,7 +126,7 @@
               </label>
               <div class="error"></div>
             </div>
-            <div style="text-indent: 40em;">
+            <div style="text-indent: 30em;">
               <button class="btn btn-info" type="submit"
                       (click)="submitPassword()">提交
               </button>

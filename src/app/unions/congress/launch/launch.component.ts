@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
+import {Router} from "@angular/router";
 declare var $:any;
 declare var confirmFunc:any;
 @Component({
@@ -16,11 +17,14 @@ export class LaunchComponent implements OnInit {
   public pageSize = 10;
   public total = 0;
   public entrySecurity:any;
+  public beginTime:string;
+  public endTime:string;
   public types : Array<string>;
   public record = new Person();
   public userInfo = new Info();
   public userId = localStorage.getItem('username');
   constructor(
+    private router: Router,
     private globalCatalogService: GlobalCatalogService,
     private errorVoid:ErrorResponseService,
     public ipSetting  : IpSettingService,
@@ -29,7 +33,7 @@ export class LaunchComponent implements OnInit {
   ngOnInit() {
     this.globalCatalogService.setTitle("工会管理/职代会提案发起表单");
     this.getUserInfo(this.userId);
-    // this.getDeptList();
+    this.getListTime();
     // this.getBuildingList(0);
   }
 
@@ -52,6 +56,25 @@ export class LaunchComponent implements OnInit {
         }
       });
   }
+  /*获取开放时间信息*/
+  getListTime(){
+    let url = "/portal/cata/getCataList/1/999?cataName=";
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        this.entrySecurity = data.data;
+        for(let i=0;i<this.entrySecurity.length;i++){
+          if(this.entrySecurity[i].id === 2){
+            if(this.entrySecurity[i].beginTime&&this.entrySecurity[i].endTime){
+              this.beginTime = this.entrySecurity[i].beginTime;
+              this.endTime = this.entrySecurity[i].endTime;
+            }
+
+          }
+        }
+
+      }
+    });
+  }
 
   /*保存申请内容信息(申请授权）*/
   saveContent(){
@@ -61,20 +84,6 @@ export class LaunchComponent implements OnInit {
         delete temporary[i].floorNums;
         delete temporary[i].rooms;
       }
-      for(let i=0;i<temporary.length;i++){
-        if(!temporary[i].buildingId||temporary[i].buildingId===''){
-          confirmFunc.init({
-            'title': '提示',
-            'mes': '大楼信息为必填！',
-            'popType': 2,
-            'imgType': 2,
-          });
-          return false;
-        }
-      }
-      // this.postData.data.push(postData);
-      this.close();
-
   }
 
   /*提交*/
@@ -90,10 +99,11 @@ export class LaunchComponent implements OnInit {
           // console.log(data);
           confirmFunc.init({
             'title': '提示',
-            'mes': '提交成功！',
+            'mes': data.msg,
             'popType': 2,
             'imgType': 1,
           });
+          this.router.navigate(['hzportal/unions/congress/list']);
         }
       });
   }

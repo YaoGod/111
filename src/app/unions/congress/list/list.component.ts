@@ -13,10 +13,12 @@ declare var confirmFunc: any;
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css'],
-  providers:[UtilBuildingService,sndCatalog],
+  providers:[sndCatalog],
 })
 export class ListComponent implements OnInit {
   public newCard = new CardInfo();
+  public secondCard = new CardInfo();
+
   public mode = '0';
   public proposal = [];
   public pageSize = 15;
@@ -25,6 +27,7 @@ export class ListComponent implements OnInit {
   public length = 10;
   public searchInfo = new SearchInfo();
   public record:any;
+  public recordChoose:any;
   private contractBool = true;
   public repairDept=[];
   public rule : sndCatalog = new sndCatalog();
@@ -33,7 +36,6 @@ export class ListComponent implements OnInit {
     public ipSetting:IpSettingService,
     public errorVoid:ErrorResponseService,
     private globalCatalogService:GlobalCatalogService,
-    private utilBuildingService:UtilBuildingService,
   ) {
     this.rule = this.globalCatalogService.getRole("party/upload");
   }
@@ -48,6 +50,7 @@ export class ListComponent implements OnInit {
     this.searchInfo.type = '';
     // this.searchInfo.createUserId = localStorage.getItem("username");
     this.repairSearch(1);
+    this.repairWait();
     this.getRepairDept();
     this.proposal = [{id:1,name:'提案1'},{id:2,name:'提案2'},{id:3,name:'提案3'},]
   }
@@ -56,44 +59,57 @@ export class ListComponent implements OnInit {
     let url = '/soclaty/flow/getSoclatyFlowList/'+num+'/'+this.pageSize;
     this.ipSetting.sendPost(url,this.searchInfo).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
-        console.log(data.data);
         this.record = data.data.infos;
         this.total = data.data.total;
       }
     });
   }
+
+  /*获取待审提案*/
+  repairWait(){
+    let url = '/soclaty/flow/getSoclatyFlowList/1/9999';
+    let postData = {
+      isFound:'pending'
+    };
+    this.ipSetting.sendPost(url,postData).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        this.recordChoose = data.data.infos;
+      }
+    });
+  }
   /*获取部门列表*/
   getRepairDept(){
-    let url = '/party/report/getDeptList';
+    let url = '/portal/user/getDeptList';
     this.ipSetting.sendGet(url).subscribe(data => {
       if (this.errorVoid.errorMsg(data)) {
-        console.log(data.data);
+        // console.log(data.data);
         this.repairDept = data.data;
+        for(let i = 0;i<this.repairDept.length;i++){
+          this.repairDept[i].choose = false;
+        }
       }
     });
   };
   /*立案操作*/
   editCardInfo(index){
     $('.mask').fadeIn();
-    this.newCard = JSON.parse(JSON.stringify(this.record[index]));
-
+    // this.newCard = JSON.parse(JSON.stringify(this.record[index]));
+    this.newCard = new CardInfo();
+    this.newCard.fatherId = index;
+    for(let i = 0;i<this.repairDept.length;i++){
+      this.repairDept[i].choose = false;
+    }
   }
 
   /*不立案操作*/
-  delCardInfo(id){
+  delCardInfo(index){
+    $('.mask1').fadeIn();
+    this.secondCard = new CardInfo();
+    this.secondCard.fatherId = index;
+    for(let i = 0;i<this.repairDept.length;i++){
+      this.repairDept[i].choose = false;
+    }
 
-        let url = '/party/report/delete/'+id;
-        this.ipSetting.sendGet(url).subscribe(data => {
-          if(this.errorVoid.errorMsg(data)) {
-            confirmFunc.init({
-              'title': '提示' ,
-              'mes': data['msg'],
-              'popType': 0 ,
-              'imgType': 1 ,
-            });
-            this.repairSearch(1);
-          }
-        });
   }
   /*点击新增*/
   addVehicle(){
@@ -101,114 +117,131 @@ export class ListComponent implements OnInit {
     $('.mask').fadeIn();
   }
   /*新增校验*/
-  public verifybranchName(){
-    if (!this.isEmpty('branchName', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
   public verifynewtype(){
-    if(!this.isEmpty('newtype', '不能为空')){
+    if (!this.isEmpty('newtype', '不能为空')) {
       return false;
     }
     return true;
   }
-  public verifybTime(){
-    if (!this.isEmpty('bTime', '不能为空')) {
+  /*新增校验*/
+  public verifysecondtype(){
+    if (!this.isEmpty('secondtype', '不能为空')) {
       return false;
     }
     return true;
   }
-  public verifyeTime(){
-    if (!this.isEmpty('eTime', '不能为空')) {
-      return false;
+  /*选择主办部门*/
+  changeDept(){
+    for(let i = 0;i<this.repairDept.length;i++){
+      if(this.repairDept[i].DEPT_ID === this.newCard.hostDeptId){
+        this.newCard.hostDeptName = this.repairDept[i].DEPT_NAME;
+      }
+      if(this.repairDept[i].DEPT_ID === this.secondCard.hostDeptId){
+        this.secondCard.hostDeptName = this.repairDept[i].DEPT_NAME;
+      }
     }
-    return true;
   }
-  public verifyhost(){
-    if (!this.isEmpty('host', '不能为空')) {
-      return false;
+  /*选取协办部门*/
+  chooseDept(){
+    this.newCard.helpDeptId = '';
+    this.newCard.helpDeptName = '';
+    for(let i = 0;i<this.repairDept.length;i++){
+      if(this.repairDept[i].choose){
+        this.newCard.helpDeptId += this.repairDept[i].DEPT_ID+',';
+        this.newCard.helpDeptName += this.repairDept[i].DEPT_NAME+',';
+      }
     }
-    return true;
   }
-  public verifyaddress(){
-    if (!this.isEmpty('address', '不能为空')) {
-      return false;
-    }
-    return true;
+  subDept(){
+    $('#deptSltWin').fadeOut();
   }
-  public verifyrecorder(){
-    if (!this.isEmpty('recorder', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyshouldNum(){
-    if (!this.isEmpty('shouldNum', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyfactNum(){
-    if (!this.isEmpty('factNum', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifytheme(){
-    if (!this.isEmpty('theme', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifynote(){
-    if (!this.isEmpty('repairNote', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-
   submit(){
-    var url;
-    if(this.contractBool === false){
-      url = "/party/update/updateThreeOne";
-    }else{
-      url = "/party/add/addThreeOne";
+    let list = document.getElementsByName("vice");
+    let str = [];
+    for(let i = 0;i<list.length;i++){
+      if(list[i]['checked']){
+        str.push(list[i]['value']);
+      }
     }
-    if (!this.verifybranchName()||!this.verifynewtype()||!this.verifybTime()||!this.verifyeTime()||!this.verifyhost()||
-      !this.verifyaddress()||!this.verifyrecorder()||!this.verifyshouldNum()||!this.verifyfactNum()||!this.verifytheme()||
-      !this.verifynote()) {
+    this.newCard.children = str.join(',');
+    let url = "/soclaty/flow/checkHead?fatherId="+this.newCard.fatherId+"&&children="+this.newCard.children;
+    if(this.mode === '0'){
+      if(this.newCard.children.length<1){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': '合并立案下，附议提案不能为空！',
+          'popType': 0 ,
+          'imgType': 2,
+        });
+        return false;
+      }
+    }else{
+      this.newCard.children = '';
+    }
+    // this.postData.handleUserId = str.join(',');
+    if (!this.verifynewtype()) {
       return false;
     }
-    let postData = JSON.parse(JSON.stringify(this.newCard));
-
-    if(postData.filePath && postData.filePath.length>0){
-      this.ipSetting.sendPost(url, postData).subscribe(data => {
-        if(this.errorVoid.errorMsg(data)){
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': this.contractBool === false?'更新成功':'新增成功',
-            'popType': 0 ,
-            'imgType': 1 ,
-          });
-          this.repairSearch(1);
-          this.addCancel();
-        }
-      });
-    }else{
-      confirmFunc.init({
-        'title': '提示' ,
-        'mes': '请上传附件内容！',
-        'popType': 0 ,
-        'imgType': 2,
-      });
+    let postData = {
+      "soclatyFlow": {
+        "hostDeptName": this.newCard.hostDeptName,
+        "hostDeptId": this.newCard.hostDeptId,
+        "helpDeptName": this.newCard.helpDeptName,
+        "helpDeptId": this.newCard.helpDeptId,
+      },
+      "flowNode": {
+        "result": "pass"
+      }
+    };
+    // JSON.parse(JSON.stringify(this.newCard));
+    // console.log(postData);
+    this.ipSetting.sendPost(url, postData).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': data.msg,
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
+        this.repairSearch(1);
+        this.addCancel();
+      }
+    });
+  }
+  /*不立案提交*/
+  submitNo(){
+    if(!this.verifysecondtype()){
       return false;
     }
-
+    let url = "/soclaty/flow/checkHead?fatherId="+this.secondCard.fatherId+"&&children=";
+    let postData = {
+      "soclatyFlow": {
+        "hostDeptName": this.secondCard.hostDeptName,
+        "hostDeptId": this.secondCard.hostDeptId,
+      },
+      "flowNode": {
+        "result": "fails"
+      }
+    };
+    // JSON.parse(JSON.stringify(this.newCard));
+    // console.log(postData);
+    this.ipSetting.sendPost(url, postData).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': data.msg,
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
+        this.repairSearch(1);
+        this.addCancel();
+      }
+    });
   }
   /*取消*/
   addCancel(){
     $('.mask,.mask1,.mask2').fadeOut();
+    this.subDept();
     $('.errorMessage').html('');
   }
   private getNowFormatDate() {
@@ -260,7 +293,7 @@ export class ListComponent implements OnInit {
 export class CardInfo {
   id: number; // 本条信息ID
   type: string; // 类型
-  fatherId: string; // 主提案
+  fatherId: number; // 主提案
   children: string; // 附议提案
   hostDeptName:string; // 主办部门名字
   hostDeptId:string; // 主办部门ID

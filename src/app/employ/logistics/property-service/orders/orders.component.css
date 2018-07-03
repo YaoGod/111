@@ -299,6 +299,9 @@ input{
   min-height:600px;
 
 }
+.order-container .form-msg:nth-child(even) {
+  background-color: #c4eeff;
+}
 .form-msg{
   border:1px solid #fff;
   box-shadow: 0 0 1px #ccc;
@@ -357,7 +360,7 @@ input{
   margin-bottom:5px;
   font-size: 12px;
   border-radius:4px;
-  background-color: #66CCFF;
+  background-color: #ea686a;
   color:#fff;
   text-align: center;
   opacity:0;

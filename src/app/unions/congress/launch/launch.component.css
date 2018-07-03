@@ -244,7 +244,7 @@ select{
 }
 .error{
   display: inline-block;
-  width: 276px;
+  width: 100px;
   line-height: 16px;
   padding-left: 25px;
   font-size: 10px;
@@ -263,4 +263,12 @@ select{
   opacity: .8;
   border: 1px solid #03a9f3;
   cursor: pointer;
+}
+.warp-right{
+  float: left;
+
+}
+.warp-left{
+  float: right;
+  max-width:500px;
 }
