@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UploadHomeComponent } from './upload-home.component';
+import { ExpectComponent } from './expect.component';
 
-describe('UploadHomeComponent', () => {
-  let component: UploadHomeComponent;
-  let fixture: ComponentFixture<UploadHomeComponent>;
+describe('ExpectComponent', () => {
+  let component: ExpectComponent;
+  let fixture: ComponentFixture<ExpectComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UploadHomeComponent ]
+      declarations: [ ExpectComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UploadHomeComponent);
+    fixture = TestBed.createComponent(ExpectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

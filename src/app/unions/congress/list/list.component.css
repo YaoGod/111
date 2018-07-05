@@ -331,6 +331,9 @@ button{
   min-height:120px;
   border:1px solid #ddd;
 }
+.flow-list li{
+  padding:0 15px;
+}
 .company-ipt{
   width:50px;
   margin-left:20px;

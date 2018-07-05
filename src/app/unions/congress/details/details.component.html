@@ -8,28 +8,29 @@
     </div>
     <div class="cont-inner">
       <ul class="card-left clearfix">
-        <li class="left-li"><span>发起人姓名</span><strong>{{newCard.host}}</strong></li>
-        <li class="left-li"><span>所在单位</span><strong>{{userInfo.WORK_TYPE}}</strong></li>
-        <li class="left-li"><span>发起时间</span><strong>{{newCard.beginTime | date:'yyyy/MM/dd HH:mm'}}</strong></li>
-        <li class="left-li"><span>性别</span><strong>{{userInfo.SEX}}</strong></li>
-        <li class="left-li"><span>参加工作时间</span><strong>{{userInfo.JOIN_DATE | date:'yyyy/MM/dd'}}</strong></li>
-        <li class="left-li"><span>年龄</span><strong>{{userInfo.AGE}}</strong></li>
-        <li class="left-li"><span>政治面貌</span><strong>{{userInfo.POLITICAL_STATUS}}</strong></li>
-        <li class="left-li"><span>提案类型</span><strong>{{newCard.subType}}</strong></li>
-        <li class="left-li"><span>职称</span><strong>{{newCard.subType}}</strong></li>
+        <li class="left-li"><span>发起人姓名</span><strong>{{userInfo.userName}}</strong></li>
+        <li class="left-li"><span>所在单位</span><strong>{{userInfo.userDept}}</strong></li>
+        <li class="left-li"><span>发起时间</span><strong>{{userInfo.createTime | date:'yyyy/MM/dd HH:mm' }}</strong></li>
+        <!--| date:'yyyy/MM/dd HH:mm'-->
+        <li class="left-li"><span>工作岗位</span><strong>{{userInfo.userWork}}</strong></li>
+        <li class="left-li"><span>参加工作时间</span><strong>{{userInfo.joinDate | date:'yyyy/MM/dd'}}</strong></li>
+        <li class="left-li"><span>学历</span><strong>{{userInfo.userCultural}}</strong></li>
+        <li class="left-li"><span>政治面貌</span><strong>{{userInfo.userPolitical}}</strong></li>
+        <li class="left-li"><span>提案类型</span><strong>{{userInfo.type}}</strong></li>
+        <li class="left-li"><span>职称</span><strong>{{userInfo.userMemver}}</strong></li>
 
         <!--<li class="left-li"><span>缺席人数</span><strong>{{newCard.absentNum}}</strong></li>
         <li class="left-li"><span>缺席原因</span><strong>{{newCard.reason}}</strong></li>-->
-        <li class="left-alone"><span>提案主题</span><strong>{{newCard.theme}}</strong></li>
+        <li class="left-alone"><span>提案主题</span><strong>{{userInfo.theme}}</strong></li>
       </ul>
       <div class="note">
         <div class="title"><span>理由及内容</span></div>
         <div class="word">
-          <textarea id="content" readonly [rows]="definedRows()" wrap="hard">{{newCard.note}}</textarea>
+          <textarea id="content" readonly [rows]="definedRows()" wrap="hard">{{userInfo.cause}}</textarea>
         </div>
         <div class="title"><span>解决办法及建议</span></div>
         <div class="word">
-          <textarea id="content2" readonly [rows]="definedRows()" wrap="hard">{{newCard.note}}</textarea>
+          <textarea id="content2" readonly [rows]="definedRows()" wrap="hard">{{userInfo.suggest}}</textarea>
         </div>
       </div>
     </div>

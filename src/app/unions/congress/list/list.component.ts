@@ -220,7 +220,7 @@ export class ListComponent implements OnInit {
         "hostDeptId": this.secondCard.hostDeptId,
       },
       "flowNode": {
-        "result": "fails"
+        "result": "disagree"
       }
     };
     // JSON.parse(JSON.stringify(this.newCard));

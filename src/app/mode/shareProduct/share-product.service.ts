@@ -10,6 +10,7 @@ export class ShareProduct {
   imgPath     : any;  /*多图实际地址分号隔开*/
   imgPathList : Array<string>; /*多图地址base64*/
   summary     : string; /*文字说明*/
+  url         :string;
   unitPrice       : number;  /*价格*/
   amount      : number; /*数量*/
   bTime       : string; /*开始时间*/

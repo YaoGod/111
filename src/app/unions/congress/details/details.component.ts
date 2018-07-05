@@ -16,8 +16,7 @@ export class DetailsComponent implements OnInit {
   public eTime:string;
   public newCard = new CardInfo();
   public history:any;
-  public userInfo = new Info();
-  public userId = localStorage.getItem('username');
+  public userInfo = new CardInfo();
   constructor(
     private route    : ActivatedRoute,
     private globalCatalogService:GlobalCatalogService,
@@ -28,11 +27,11 @@ export class DetailsComponent implements OnInit {
   ngOnInit() {
     this.globalCatalogService.setTitle("工会管理/职代会提案详情");
     this.route.params.subscribe(data => {
-      this.getWelfare(data.id);
+      this.getUserInfo(data.id);
     });
-    this.getUserInfo(this.userId);
+    // this.getUserInfo();
   }
-  /*获取当前id的会议内容*/
+  /*获取当前id的提案内容*/
   getWelfare(id){
     let url = "/party/report/detail/"+id;
     this.ipSetting.sendGet(url).subscribe(data => {
@@ -43,9 +42,9 @@ export class DetailsComponent implements OnInit {
     });
 
   }
-  /*获取当前id的会议内容*/
+  /*获取当前id的提案内容*/
   getUserInfo(id){
-    let url = "/soclaty/flow/getUserInfo/"+id;
+    let url = "/soclaty/flow/getSoclatyFlowInfo/"+id;
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         this.userInfo = data.data;
@@ -62,26 +61,36 @@ export class DetailsComponent implements OnInit {
   }
 }
 export class CardInfo {
-  id: number; // 本条信息ID
-  branchName:string; // 支部名称
-  type:string; // 会议类型
-  subType:string; // 子类型
-  month: string;// 月份
-  name:string; // 文件名称
-  beginTime:string; // 开始时间
-  endTime:string; // 结束时间
-  host:string; // 主持人
-  recorder:string; // 记录人
-  shouldNum:number; // 应到人数
-  factNum:number; // 实到人数
-  absentNum:number; // 缺席人数
-  reason:string; // 缺席原因
-  theme:string; // 会议主题
-  note:string; // 会议议程
-  address:string; // 会议地点
-  fileName=[];
-  filePath=[];
-  fileContract:any;
+  id: number;
+  userId: string;
+  userName: string;
+  userDept: string;
+  joinDate: string;
+  userPolitical: string;
+  userCultural:string;
+  userMemver:string;
+  userAge:string;
+  userWork:string;
+
+  status:string;// 提案状态
+  hostDeptName:string;// 主办部门名字
+  hostDeptId:string; // 主办部门编号
+  helpDeptId:string; // 协办部门编号
+  helpDeptName:string; // 协办部门名字
+  createTime:string;
+  HANGDLE_CONTENT:Array<string>; // 提案处理情况数组
+  PLAN_CONTENT:any; // 实施情况数组
+  schedule:string; // 流程当前环节
+  HANDLE_USER_ID:string; // 当前处理人员
+  HANDLE_USER_ALL:string; // 已处理人员
+  FATHER_ID:string; // 父级提案
+  createSatisfled: string; // 发起人满意度
+  createUserAssess: string; // 发起人满意评价
+  hadeleUrl: string; // 流程处理跳转
+  theme: string; // 提案主题
+  type: string; // 提案类别
+  cause : string; // 原因说明
+  suggest:string;// 建议
 }
 export class Info {
   id: number; // 本条信息ID

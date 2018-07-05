@@ -146,7 +146,7 @@ export class Person{
   userAge:string;
   userWork:string;
 
-  STATUS:string;// 提案状态
+  status:string;// 提案状态
   hostDeptName:string;// 主办部门名字
   hostDeptId:string; // 主办部门编号
   helpDeptId:string; // 协办部门编号

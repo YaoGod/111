@@ -13,6 +13,7 @@ import {UnionsindexComponent} from "./unionsindex/unionsindex.component";
 import {NavTitleModule} from "../component/nav-title/nav-title.module";
 import {GlobalFooterModule} from "../component/global-footer/global-footer.module";
 import { DetailComponent } from './detail/detail.component';
+import { ExpectComponent } from './expect/expect.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
       {
         path: 'detail/:id',
         component: DetailComponent
+      },
+      {
+        path: 'expect',
+        component: ExpectComponent
       },
       {
         /*工作流配置*/
@@ -54,6 +59,6 @@ const routes: Routes = [
     TextareaModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [UnionsComponent,UnionsindexComponent, DetailComponent]
+  declarations: [UnionsComponent,UnionsindexComponent, DetailComponent, ExpectComponent]
 })
 export class UnionsModule { }

@@ -5,7 +5,7 @@
       <ul class="container-list">
         <li *ngFor="let num of abc.list" class="container-child">
           <div class="container-child-padding">
-            <a href="javascript:;" [routerLink]="['../../congress']"><!--/*,num.id*/-->
+            <a href="javascript:;" [routerLink]="['../../'+num.routeUrl]">
               <img [src]="num.imgPath" />
               <h5>{{num.inner}}</h5>
             </a>

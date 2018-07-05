@@ -29,6 +29,16 @@ input{
 .cont-inner{
   margin-top:10px;
 }
+.search-right>a{
+  padding: 5px 10px;
+  height: 34px;
+  border:none;
+  border-radius: 5px;
+  background: #1496EF;
+  color: #ffffff;
+  font-size: 12px;
+  cursor: pointer;
+}
 .row-title{
   float: left;
   padding: 0 18px;
@@ -72,8 +82,10 @@ input{
   cursor: pointer;
 }
 .card-list{
-  width:100%; height:auto;
-  min-height:550px; margin-top:10px;
+  width:100%;
+  height:auto;
+  min-height:470px;
+  margin-top:10px;
 }
 .card-list>li:nth-of-type(2n){
   margin-right:0;
@@ -194,7 +206,7 @@ input{
 .repair-chandlery ul li input,.repair-chandlery ul li select{
   height: 20px;
   box-sizing: content-box;
-  width: calc(100% - 115px);
+  width: calc(100% - 90px);
   min-width: 70px;
   padding: 3px 8px;
   font-size: 12px;
@@ -595,4 +607,18 @@ button{
 }
 .contract-list li a{
   margin-left:6px; color:#ff0000
+}
+
+
+.box-option>a{
+  display: inline-block;
+  padding-right: 10px;
+  line-height: 26px;
+  font-size: 10px;
+  color: #686868;
+  transition-duration: 500ms;
+  cursor: pointer;
+}
+.box-option>a:hover{
+  color: #fb9678;
 }

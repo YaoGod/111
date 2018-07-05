@@ -23,7 +23,7 @@
               <img [src]="ipSetting.imgUrl+img" *ngIf="img">
             </div>
           </li>
-          <li  class="dropify-wrapper bpt">
+          <li  class="dropify-wrapper bpt" *ngIf="shareProduct.imgPath&&shareProduct.imgPath.length<3">
             <div  class="dropify-message"></div>
             <p>上传图片</p>
             <input  class="dropify" type="file"  id="press" #press
@@ -76,6 +76,16 @@
                      name="eTime" placeholder="" type="datetime-local"
                      [(ngModel)]="shareProduct.eTime"
                      (blur)="verifyEmpty(shareProduct.eTime,'eTime')">
+            </label>
+            <div class="error"></div>
+          </div>
+          <div  class="form-group">
+            <label  class="control-label">
+              <span>链接地址</span>
+              <input class="form-control" id="urlAddress"
+                     name="eTime" placeholder="" type="text"
+                     [(ngModel)]="shareProduct.url"
+                     (blur)="verifyEmpty(shareProduct.url,'urlAddress')">
             </label>
             <div class="error"></div>
           </div>
