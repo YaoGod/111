@@ -24,13 +24,25 @@
     <div class="cont-inner">
       <div class="repair-chandlery clearfix">
         <ul class="record-search clearfix">
-          <!--<li>
-            <label>发起人</label>
-            <input name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
-          </li>-->
+          <li>
+            <label>工单状态</label>
+            <select class="search-ipt search-sel" name="newHelpDeptId" [(ngModel)]="searchInfo.dataType"
+            (change)="repairSearch(1)">
+              <option value="pending">待办工单</option>
+              <option value="past">已办工单</option>
+            </select>
+          </li>
+          <li>
+            <label>提案编号</label>
+            <input name="searchCode" style="width:130px;" type="text" [(ngModel)]="searchInfo.code">
+          </li>
+          <li>
+            <label>提案名称</label>
+            <input name="searchTheme" style="width:130px;" type="text" [(ngModel)]="searchInfo.theme">
+          </li>
           <li>
             <label >提案类型</label>
-            <select class="search-ipt search-sel" name="searchtype" [(ngModel)]="searchInfo.subType">
+            <select class="search-ipt search-sel" name="searchtype" [(ngModel)]="searchInfo.type">
               <option value="">全部</option>
               <option value="市场类">市场类</option>
               <option value="政企类">政企类</option>
@@ -41,9 +53,23 @@
             </select>
           </li>
           <li>
+            <label>主办部门</label>
+            <select class="search-ipt search-sel" name="newHostDeptId" [(ngModel)]="searchInfo.hostDeptId">
+              <option value="">全部</option>
+              <option *ngFor="let dept of deptList" [value]="dept.DEPT_ID">{{dept.DEPT_NAME}}</option>
+            </select>
+          </li>
+          <li>
+            <label>协办部门</label>
+            <select class="search-ipt search-sel" name="newHelpDeptId" [(ngModel)]="searchInfo.helpDeptId">
+              <option value="">全部</option>
+              <option *ngFor="let dept of deptList" [value]="dept.DEPT_ID">{{dept.DEPT_NAME}}</option>
+            </select>
+          </li>
+          <li>
             <label >发起时间</label>
-            <input name="Bmonth" style="width:130px;" type="date" [(ngModel)]="searchInfo.beginTime"> 至
-            <input name="Emonth" style="width:130px;" type="date" [(ngModel)]="searchInfo.endTime" >
+            <input name="Bmonth" style="width:130px;" type="date" [(ngModel)]="searchInfo.bTime"> 至
+            <input name="Emonth" style="width:130px;" type="date" [(ngModel)]="searchInfo.eTime" >
           </li>
           <li>
             <a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
@@ -54,28 +80,38 @@
         <li  class="room-card">
           <table width="100%" style="margin:0 auto;" class="card-info">
             <tr style="height: 40px; background-color: #acd6ff; text-align: center; font-weight: bold; font-size: 14px;color:#333;">
-              <th width="30%" style="padding-left: 15px;text-align: left">提案主题</th>
+              <th>提案编号</th>
+              <th width="20%" style="text-align: left">提案主题</th>
               <th>提案类型</th>
-              <th>发起人姓名</th>
-              <th>发起人部门</th>
+              <th>是否立案</th>
+              <th>主办部门</th>
+              <th width="10%">协办部门</th>
+              <th>当前节点</th>
+              <th>当前处理人</th>
               <th>发起时间</th>
-              <th>操作</th><!-- *ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
+              <th *ngIf="searchInfo.dataType==='pending'" width="8%">操作</th>
             </tr>
             <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
-              <td width="30%" style="padding-left: 15px;text-align: left"
-                  [routerLink]="['/hzportal/unions/congress/info',inner.id]">
+              <td>{{inner.code}}</td>
+              <td style="text-align: left"
+                  [routerLink]="['../info',inner.id]">
                 <a href="javascript:;">{{inner.theme}}</a>
               </td>
-              <td>{{inner.host}}</td>
-
-              <td>{{inner.recorder}}</td>
-              <td>{{inner.branchName}}</td>
-              <td>{{inner.beginTime | date:'yyyy-MM-dd HH:mm'}}</td>
-              <td>
-                <i class="icon-pencil" *ngIf="rule&&rule.isUpdate === true" (click)="editCardInfo(i)"
-                   style="margin-left: 5px;" title="编辑"></i>
-                <i class="icon-trash" *ngIf="rule&&rule.isDelete === true" (click)="delCardInfo(inner.id)"
-                   style="margin-left: 5px;" title="删除"></i></td>
+              <td>{{inner.type}}</td>
+              <td>{{inner.isFound}}</td>
+              <td>{{inner.hostDeptName}}</td>
+              <td>{{inner.helpDeptName}}</td>
+              <td>{{flowNameList[inner.schedule]}}</td>
+              <td>{{inner.handleUserName}}</td>
+              <td>{{inner.createTime | date:'yyyy-MM-dd HH:mm'}}</td>
+              <td *ngIf="searchInfo.dataType==='pending'">
+                <a class="search-btn" (click)="addVehicle(inner)"
+                   *ngIf="inner.schedule!==2&&inner.handleUserId===userId">
+                  <span *ngIf="inner.schedule!==6&&inner.schedule!==8">审核</span>
+                  <span *ngIf="inner.schedule===6">反馈</span>
+                  <span *ngIf="inner.schedule===8">满意度评价</span>
+                </a>
+              </td>
             </tr>
           </table>
         </li>
@@ -84,9 +120,245 @@
         [pageNo]="pageNo"
         [pageSize]="pageSize"
         [total]="total"
-        [length] = 'length'
         (turnEvent)="repairSearch($event)">
       </app-turn-bar>
+    </div>
+  </div>
+</div>
+<div class="mask" id="shenpi">
+  <div class="mask-cotainer">
+    <div class="mask-head"><i class="icon-film"></i> <p>审批意见</p>
+      <button class="close" (click)="addCancel()">×</button>
+    </div>
+    <form method="post" name="topForm" class="repair-form">
+      <div class="form-control form-alone" *ngIf="isEdit">
+        <span class="form-label">主办部门</span>
+        <div class="form-inp">
+          <select class="company-ipt company-sel" name="newHostDeptId" id="newDeptId" [(ngModel)]="newCard.hostDeptId"
+                  (blur)="verifyEmpty('newDeptId')" [disabled]="!isEdit" (change)="sethandleUser(newCard.hostDeptId)">
+            <option value="">请选择</option>
+            <option *ngFor="let dept of deptList" [value]="dept.DEPT_ID">{{dept.DEPT_NAME}}</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone" *ngIf="isEdit">
+        <span class="form-label">协办部门</span>
+        <div class="form-inp" (click)="openChooseWin()">
+          <textarea class="company-ipt" name="newHelpDeptId" id="newHelpDeptId" rows="2" style="width: 100%"
+                    [(ngModel)]="newCard.helpDeptName" disabled>
+          </textarea>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone" *ngIf="newCard.previousSchedule===6">
+        <span class="form-label">计划拟定人</span>
+        <div class="form-inp">
+          <input name="newCreateUserName" type="text" class="company-ipt company-sel"
+                 [(ngModel)]="newCard.planContent.createUserName" disabled>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control" *ngIf="newCard.previousSchedule===6">
+        <span class="form-label">计划开始时间</span>
+        <div class="form-inp">
+          <input name="newPlanBeginTime" type="datetime-local" class="company-ipt company-sel"
+                 [(ngModel)]="newCard.planContent.beginTime" disabled>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control" *ngIf="newCard.previousSchedule===6">
+        <span class="form-label">计划完成时间</span>
+        <div class="form-inp">
+          <input name="newPlanEndTime" type="datetime-local" class="company-ipt company-sel"
+                 [(ngModel)]="newCard.planContent.endTime" disabled>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone" *ngIf="newCard.previousSchedule===6">
+        <span class="form-label">计划说明内容</span>
+        <div class="form-inp">
+          <textarea name="newPlanContent" rows="5" [(ngModel)]="newCard.planContent.content"
+                    style="width: 100%" disabled></textarea>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control" *ngIf="newCard.previousSchedule===6">
+        <span class="form-label">反馈人员</span>
+        <div class="form-inp">
+          <input name="newHandleCreateUserName" type="text" class="company-ipt company-sel"
+                 [(ngModel)]="newCard.hangdleContent.createUserName" disabled>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control" *ngIf="newCard.previousSchedule===6">
+        <span class="form-label">落实完成时间</span>
+        <div class="form-inp">
+          <input name="newHandleEndTime" type="datetime-local" class="company-ipt company-sel"
+                 [(ngModel)]="newCard.hangdleContent.endTime" disabled>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone" *ngIf="newCard.previousSchedule===6">
+        <span class="form-label">落实情况内容</span>
+        <div class="form-inp">
+          <textarea name="newHandleContent" rows="5" [(ngModel)]="newCard.hangdleContent.content"
+                    style="width: 100%" disabled></textarea>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone">
+        <span class="form-label">审核决策</span>
+        <div class="form-inp">
+          <label for="yes" style="line-height: 30px;">
+            <input id="yes" name="isOrder" type="radio" value="pass" [(ngModel)]="resultSubmit.result"
+                   (change)="setResultContent()">
+            同意
+          </label>
+          <label for="no" style="line-height: 30px;" id="newResult">
+            <input id="no" name="isOrder" type="radio" value="fail" [(ngModel)]="resultSubmit.result"
+                   (change)="setResultContent()">
+            驳回
+          </label>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone" *ngIf="newCard.schedule===5&&resultSubmit.result==='pass'&&newCard.previousSchedule!==6">
+        <span class="form-label">指定实施/反馈人</span>
+        <div class="form-inp">
+          <select class="company-ipt company-sel" name="newHandleId" id="newHandleId" [(ngModel)]="newCard.handleId"
+                  (blur)="verifyEmpty('newHandleId')">
+            <option value="">请选择</option>
+            <option *ngFor="let dept of deptUserList" [value]="dept.userid">{{dept.username}}</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone">
+        <span class="form-label">审核意见</span>
+        <div class="form-inp">
+          <textarea name="newContent" id="newContent" rows="5" [(ngModel)]="resultSubmit.content"
+                    (blur)="verifyEmpty('newContent')" style="width: 100%"></textarea>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+    </form>
+    <div class="mask-footer">
+      <button type="submit" class="btn-mask btn-info" (click)="submit()">提 交</button>
+      <button type="button" class="btn-mask btn-danger" (click)="addCancel()">取 消</button>
+    </div>
+  </div>
+  <div class="modal-more" id="deptSltWin" style="display: none">
+    <h5>杭州移动各部门</h5>
+    <h5>已选：&nbsp;&nbsp;<span>{{newCard.helpDeptName}}</span></h5>
+    <div class="choose-list">
+      <div class="choose-group" *ngFor="let dept of deptList;let i=index">
+        <label class="cb-blue">
+          <input type="checkbox" [name]="dept.DEPT_ID" [(ngModel)]="dept.choose"
+                 [value]="dept.DEPT_ID"
+                 (change)="chooseDept(i)">
+          <span>{{dept.DEPT_NAME}}</span>
+        </label>
+      </div>
+    </div>
+    <div  class="modal-more-footer">
+      <button  class="btn btn-info" type="submit"
+               onclick="$('#deptSltWin').fadeOut()">确定</button>
+    </div>
+  </div>
+</div>
+
+<div class="mask" id="shishi">
+  <div class="mask-cotainer">
+    <div class="mask-head"><i class="icon-film"></i> <p>实施计划及落实信息</p>
+      <button class="close" (click)="addCancel()">×</button>
+    </div>
+    <form method="post" name="topForm" class="repair-form">
+
+      <div class="form-control">
+        <span class="form-label">计划开始时间</span>
+        <div class="form-inp">
+          <input name="newPlanBeginTime" id="newPlanBeginTime" type="datetime-local" class="company-ipt company-sel"
+                 [(ngModel)]="newCard.planContent.beginTime" (blur)="verifyEmpty('newPlanBeginTime')">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">计划完成时间</span>
+        <div class="form-inp">
+          <input name="newPlanEndTime" id="newPlanEndTime" type="datetime-local" class="company-ipt company-sel"
+                 [(ngModel)]="newCard.planContent.endTime" [disabled]="!isEdit"
+                 (blur)="verifyEmpty('newPlanEndTime')">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone">
+        <span class="form-label">计划说明内容</span>
+        <div class="form-inp">
+          <textarea name="newPlanContent" id="newPlanContent" rows="5" [(ngModel)]="newCard.planContent.content"
+                    style="width: 100%" (blur)="verifyEmpty('newPlanContent')"></textarea>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone" *ngIf="isEdit">
+        <span class="form-label">落实完成时间</span>
+        <div class="form-inp">
+          <input name="newHandleEndTime" id="newHandleEndTime" type="datetime-local" class="company-ipt company-sel"
+                 [(ngModel)]="newCard.hangdleContent.endTime"
+                 (blur)="verifyEmpty('newHandleEndTime')">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone" *ngIf="isEdit">
+        <span class="form-label">落实情况内容</span>
+        <div class="form-inp">
+          <textarea name="newHandleContent" id="newHandleContent" rows="5" [(ngModel)]="newCard.hangdleContent.content"
+                    style="width: 100%"></textarea>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+    </form>
+    <div class="mask-footer">
+      <button type="submit" class="btn-mask btn-info" (click)="submit()">提 交</button>
+      <button type="button" class="btn-mask btn-danger" (click)="addCancel()">取 消</button>
+    </div>
+  </div>
+</div>
+
+<div class="mask" id="fankui">
+  <div class="mask-cotainer">
+    <div class="mask-head"><i class="icon-film"></i> <p>满意度评价</p>
+      <button class="close" (click)="addCancel()">×</button>
+    </div>
+    <form method="post" name="topForm" class="repair-form">
+      <div class="form-control form-alone">
+        <span class="form-label">满意度</span>
+        <div class="form-inp">
+          <label for="yes" style="line-height: 30px;">
+            <input name="isOrder" type="radio" value="满意" [(ngModel)]="newCard.createSatisfled"
+                   (change)="setResultContent()">
+            满意
+          </label>
+          <label for="no" style="line-height: 30px;" id="newCreateSatisfled">
+            <input name="isOrder" type="radio" value="不满意" [(ngModel)]="newCard.createSatisfled"
+                   (change)="setResultContent()">
+            不满意
+          </label>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone">
+        <span class="form-label">满意度评价</span>
+        <div class="form-inp">
+          <textarea name="newContent" id="newCreateUserAssess" rows="5" [(ngModel)]="newCard.createUserAssess"
+                    (blur)="verifyEmpty('newCreateUserAssess')" style="width: 100%"></textarea>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+    </form>
+    <div class="mask-footer">
+      <button type="submit" class="btn-mask btn-info" (click)="submit()">提 交</button>
+      <button type="button" class="btn-mask btn-danger" (click)="addCancel()">取 消</button>
     </div>
   </div>
 </div>

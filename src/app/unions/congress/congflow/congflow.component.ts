@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 import {sndCatalog} from "../../../mode/catalog/catalog.service";
 import {Http} from "@angular/http";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {UserPortalService} from "../../../service/user-portal/user-portal.service";
+import {GlobalUserService} from "../../../service/global-user/global-user.service";
 
 declare var $: any;
 declare var confirmFunc: any;
@@ -13,259 +14,240 @@ declare var confirmFunc: any;
   selector: 'app-congflow',
   templateUrl: './congflow.component.html',
   styleUrls: ['./congflow.component.css'],
-  providers:[UtilBuildingService,sndCatalog],
+  providers:[UserPortalService,sndCatalog],
 })
 export class CongflowComponent implements OnInit {
-  public newCard = new CardInfo();
-  public buildings:Array<any>;
-  public pageSize = 15;
+
+  public pageSize = 10;
   public pageNo = 1;
   public total = 0;
-  public length = 10;
   public searchInfo = new SearchInfo();
   public record:any;
-  private contractBool = true;
-  public repairDept=[];
+  public newCard = new SearchInfo();
+  public resultSubmit: ResultSubmit;
   public rule : sndCatalog = new sndCatalog();
+  public deptList:Array<any>;
+  public deptUserList:Array<any>;
+  public isEdit = true;
+  public flowNameList = [
+    "流程开始","提案人发起","提案审查委员会主任审批","工会主席审批","总经理审批","部门正职审批",
+    "指定反馈人反馈","部门正职审批","提案人满意度评价","结束"];
+  public userId;
   constructor(
     public http:Http,
     public ipSetting:IpSettingService,
     public errorVoid:ErrorResponseService,
     private globalCatalogService:GlobalCatalogService,
-    private utilBuildingService:UtilBuildingService,
+    private userPortalService:UserPortalService,
+    private globalUserService:GlobalUserService
   ) {
-    this.rule = this.globalCatalogService.getRole("party/upload");
+    this.rule = this.globalCatalogService.getRole("unions/congress");
   }
-
   ngOnInit() {
-    this.globalCatalogService.setTitle("工会管理/职代会");
+    this.globalCatalogService.setTitle("工会管理/工单流程管理");
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
-        this.rule = this.globalCatalogService.getRole("party/upload");
+        this.rule = this.globalCatalogService.getRole("unions/congress");
       }
     );
-    this.searchInfo.type = '1';
-    this.searchInfo.branchName = '';
-    this.searchInfo.subType = '';
-    this.searchInfo.createUserId = localStorage.getItem("username");
+    this.userId = this.globalUserService.getVal().userid;
+    this.newCard.planContent = new RequestContent();
+    this.newCard.hangdleContent = new RequestContent();
+    this.searchInfo.fatherId = "-1";
+    this.searchInfo.type = "";
+    this.searchInfo.hostDeptId = "";
+    this.searchInfo.helpDeptId = "";
+    this.searchInfo.isFound = "success,disagree";
+    this.searchInfo.dataType = "pending";
+    this.resultSubmit = new ResultSubmit();
     this.repairSearch(1);
-    this.getRepairDept();
-
+    this.getDeptList();
+  }
+  /*部门列表*/
+  getDeptList(){
+    this.userPortalService.getDeptList()
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.deptList = data.data;
+        }
+      })
+  }
+  /*主办部门人员列表*/
+  getHostDeptUserList(id){
+    let dept = {
+      deptId: id
+    };
+    this.userPortalService.getDeptUserList(1,dept)
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.deptUserList = data.data;
+        }
+      })
   }
   /*查询*/
   repairSearch(num){
-    let url = '/party/report/getList/'+num+'/'+this.pageSize;
+    this.pageNo = num;
+    let url = '/soclaty/flow/getSoclatyFlowList/'+num+'/'+this.pageSize;
     this.ipSetting.sendPost(url,this.searchInfo).subscribe(data => {
-      if(this.errorVoid.errorMsg(data)) {
-        this.record = data.data.list;
+      if(this.errorVoid.errorMsg(data)){
+        this.record = data.data.infos;
         this.total = data.data.total;
       }
     });
   }
-
-  /*点击编辑*/
-  editCardInfo(index){
-    this.contractBool = false;
-    $('.form-add').attr('disabled',false);
-    $('.mask').fadeIn();
-    $('.mask .mask-head p').html('编辑会议记录');
-    this.newCard = JSON.parse(JSON.stringify(this.record[index]));
-    this.newCard.fileName = [];
-    this.newCard.filePath = [];
-    if(this.newCard.fileContract){
-      for(let i=0;i<this.newCard.fileContract.length;i++){
-        this.newCard.fileName.push(this.newCard.fileContract[i].fileName);
-        this.newCard.filePath.push(this.newCard.fileContract[i].filePath);
+  /*点击审核*/
+  addVehicle(inner: SearchInfo){
+    this.newCard = JSON.parse(JSON.stringify(inner));
+    this.newCard.hostDeptId = inner.hostDeptId?inner.hostDeptId:"";
+    this.newCard.helpDeptId = this.newCard.helpDeptId!==null?this.newCard.helpDeptId.split(","):[];
+    this.newCard.helpDeptName = this.newCard.helpDeptName!==null?this.newCard.helpDeptName.split(","):[];
+    this.newCard.planContent = new RequestContent();
+    this.newCard.hangdleContent = new RequestContent();
+    if(this.newCard.helpDeptId[this.newCard.helpDeptId.length-1]===","){
+      this.newCard.helpDeptId.pop();
+      this.newCard.helpDeptName.pop();
+    }
+    this.resultSubmit = new ResultSubmit();
+    this.resultSubmit.result = "";
+    this.resultSubmit.content = "";
+    if(this.newCard.schedule === "3"||this.newCard.schedule === "4"||
+      (this.newCard.schedule === "5"&&this.newCard.isFound === "立案")){
+      this.isEdit = false;
+    }
+    if(this.newCard.schedule === 5){
+      this.newCard.handleId = "";
+      this.getHostDeptUserList(this.newCard.hostDeptId);
+      if(this.newCard.previousSchedule === 6){
+        // 实际是第七步骤
+        this.getOrderDetail(this.newCard.id);
       }
     }
-  }
-  /*点击删除*/
-  delCardInfo(id){
-    confirmFunc.init({
-      'title': '提示' ,
-      'mes': '是否删除？',
-      'popType': 1 ,
-      'imgType': 3 ,
-      'callback': () => {
-        let url = '/party/report/delete/'+id;
-        this.ipSetting.sendGet(url).subscribe(data => {
-          if(this.errorVoid.errorMsg(data)) {
-            confirmFunc.init({
-              'title': '提示' ,
-              'mes': data['msg'],
-              'popType': 0 ,
-              'imgType': 1 ,
-            });
-            this.repairSearch(1);
-          }
-        });
-      }
-    });
-  }
-  /*获取部门列表*/
-  getRepairDept(){
-    let url = '/party/report/getDeptList';
-    this.ipSetting.sendGet(url).subscribe(data => {
-      if (this.errorVoid.errorMsg(data)) {
-        this.repairDept = data.data;
-      }
-    });
-  };
-  /*点击新增*/
-  addVehicle(){
-    this.contractBool = true;
-    $('.form-disable').attr('disabled',false).css('backgroundColor','#fff');
-    this.newCard = new CardInfo();
-    this.newCard.branchName = '';
-    this.newCard.type = '1';
-    this.newCard.subType = '';
-    $('.mask').fadeIn();
-    $('.mask .mask-head p').html('新增会议记录');
+    if(this.newCard.schedule === 6){
+      this.getOrderDetail(this.newCard.id);
+      $('#shishi').fadeIn();
+    }
+    else if(this.newCard.schedule === 8){
+      this.newCard.createSatisfled = "";
+      $('#fankui').fadeIn();
+    }
+    else{
+      $('#shenpi').fadeIn();
+    }
   }
   /*新增校验*/
-  public verifybranchName(){
-    if (!this.isEmpty('branchName', '不能为空')) {
+  public verifyEmpty(id){
+    if (!this.isEmpty(id, '不能为空')) {
       return false;
     }
     return true;
   }
-  public verifynewtype(){
-    if(!this.isEmpty('newtype', '不能为空')){
-      return false;
+  /*设置意见*/
+  setResultContent(){
+    if(this.resultSubmit.content === ""||this.resultSubmit.content === "同意"||this.resultSubmit.content === "驳回"){
+      this.resultSubmit.content = this.resultSubmit.result==="pass"?"同意":"驳回";
     }
-    return true;
-  }
-  public verifybTime(){
-    if (!this.isEmpty('bTime', '不能为空')) {
-      return false;
+    if(this.resultSubmit.result === "fail"){
+      this.removeErrorClass("newHandleId");
+      this.newCard.handleId = "";
     }
-    return true;
   }
-  public verifyeTime(){
-    if (!this.isEmpty('eTime', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyhost(){
-    if (!this.isEmpty('host', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyaddress(){
-    if (!this.isEmpty('address', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyrecorder(){
-    if (!this.isEmpty('recorder', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyshouldNum(){
-    if (!this.isEmpty('shouldNum', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyfactNum(){
-    if (!this.isEmpty('factNum', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifytheme(){
-    if (!this.isEmpty('theme', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifynote(){
-    if (!this.isEmpty('repairNote', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  /*附件上传*/
-  prese_upload(files) {
-    var xhr = this.utilBuildingService.uploadFileReport(files[0],'partyBuild',-1);
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
-        var data:any = JSON.parse(xhr.responseText);
-        if(this.errorVoid.errorMsg(data)){
-          this.newCard.fileName.push(files[0].name);
-          this.newCard.filePath.push(data.data);
-
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': '上传成功',
-            'popType': 0 ,
-            'imgType': 1,
-          });
-          $('#prese').val('');
-        }
-      }else if (xhr.readyState === 4 && xhr.status === 413){
-        confirmFunc.init({
-          'title': '提示' ,
-          'mes': '文件太大',
-          'popType': 0 ,
-          'imgType': 2,
-        });
-        $('#prese').val('');
-      }
-    };
-  }
-  /*删除合同文件*/
-  delFile(index) {
-    this.newCard.filePath.splice(index,1);
-    this.newCard.fileName.splice(index,1);
+  /*设置指定人员*/
+  sethandleUser(id){
+    this.newCard.handleId = "";
+    this.getHostDeptUserList(id);
   }
   submit(){
-    var url;
-    if(this.contractBool === false){
-      url = "/party/update/updateThreeOne";
-    }else{
-      url = "/party/add/addThreeOne";
-    }
-    if (!this.verifybranchName()||!this.verifynewtype()||!this.verifybTime()||!this.verifyeTime()||!this.verifyhost()||
-      !this.verifyaddress()||!this.verifyrecorder()||!this.verifyshouldNum()||!this.verifyfactNum()||!this.verifytheme()||
-      !this.verifynote()) {
-      return false;
-    }
-    let postData = JSON.parse(JSON.stringify(this.newCard));
-    postData.month = this.newCard.beginTime.substring(0, 7);
-    /*this.getNowFormatDate(); 018-06-09T10:00*/
-    /*postData.beginTime = postData.beginTime.replace("T"," ");*/
-    if(postData.filePath && postData.filePath.length>0){
-      this.ipSetting.sendPost(url, postData).subscribe(data => {
-        if(this.errorVoid.errorMsg(data)){
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': this.contractBool === false?'更新成功':'新增成功',
-            'popType': 0 ,
-            'imgType': 1 ,
-          });
-          this.repairSearch(1);
-          this.addCancel();
+    if(this.newCard.schedule === 3||this.newCard.schedule === 4|| this.newCard.schedule === 5){
+      if(!this.verifyEmpty('newDeptId')){
+        return false;
+      }
+      console.log(111);
+      /*if(!this.verifyEmpty('newHelpDeptId')) {
+        return false;
+      }*/
+      if (this.resultSubmit.result === "") {
+        this.addErrorClass("newResult", "请选择审核决策");
+        return false;
+      } else {
+        this.removeErrorClass("newResult");
+      }
+      if(this.newCard.previousSchedule === 4&&this.newCard.schedule === 5&&this.resultSubmit.result === 'pass'){
+        if(!this.verifyEmpty('newHandleId')){
+          return false;
         }
-      });
-    }else{
-      confirmFunc.init({
-        'title': '提示' ,
-        'mes': '请上传附件内容！',
-        'popType': 0 ,
-        'imgType': 2,
-      });
-      return false;
+      }
+      if (!this.verifyEmpty('newContent')) {
+        return false;
+      }
     }
-
+    if(this.newCard.schedule === 6){
+      if (!this.verifyEmpty('newPlanEndTime')) {
+        return false;
+      }
+    }
+    if(this.newCard.schedule === 8){
+      if (this.newCard.createSatisfled === "") {
+        this.addErrorClass("newCreateSatisfled", "请选择满意度");
+        return false;
+      } else {
+        this.removeErrorClass("newCreateSatisfled");
+      }
+      if (!this.verifyEmpty('newCreateUserAssess')) {
+        return false;
+      }
+    }
+    let url = "";
+    let postData;
+    let soclatyFlow = JSON.parse(JSON.stringify(this.newCard));
+    let flowNode = JSON.parse(JSON.stringify(this.resultSubmit));
+    soclatyFlow.helpDeptId = soclatyFlow.helpDeptId.join(",");
+    soclatyFlow.helpDeptName = soclatyFlow.helpDeptName.join(",");
+    postData = {
+      "soclatyFlow": soclatyFlow,
+      "flowNode": flowNode
+    };
+    switch (this.newCard.schedule) {
+      case 3:
+        url = "/soclaty/flow/checkManage";
+        break;
+      case 4:
+        url = "/soclaty/flow/checkManage";
+        break;
+      case 5:
+        url = "/soclaty/flow/checkDeptBoss";
+        break;
+      case 6:
+        url = "/soclaty/flow/submit/"+this.newCard.id;
+        postData = {
+          "plan": this.newCard.planContent,
+          "handle": this.newCard.hangdleContent
+        };
+        break;
+      case 7:
+        url = "/soclaty/flow/checkDeptBoss";
+        break;
+      case 8:
+        url = "/soclaty/flow/endFlow";
+        postData = soclatyFlow;
+        break;
+    }
+    this.ipSetting.sendPost(url, postData)
+      .subscribe(data => {
+      if(this.errorVoid.errorMsg(data)){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': data.msg,
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
+        this.repairSearch(1);
+        this.addCancel();
+      }
+    });
   }
   /*取消*/
   addCancel(){
-    $('.mask,.mask1,.mask2').fadeOut();
+    $('.mask').fadeOut();
     $('.errorMessage').html('');
   }
   private getNowFormatDate() {
@@ -277,16 +259,13 @@ export class CongflowComponent implements OnInit {
     if (month >= 1 && month <= 9) {
       num = "0" + month;
     }
-    /*if (strDate >= 0 && strDate <= 9) {
-     strDate = "0" + strDate;
-     }*/
     let currentdate = date.getFullYear() + seperator1 + num;
     return currentdate;
   }
   /**非空校验*/
   public isEmpty(id: string, error: string): boolean  {
     const data =  $('#' + id).val();
-    if(data === null){
+    if(typeof (data)==="undefined"|| data === null){
       this.addErrorClass(id, error);
       return false;
     }else{
@@ -300,7 +279,7 @@ export class CongflowComponent implements OnInit {
     }
   }
   /** 添加错误信息class */
-  public  addErrorClass(id: string, error?: string)  {
+  public  addErrorClass(id: string, error?: string){
     $('#' + id).parents('.form-inp').addClass('form-error');
     if (error === undefined || error.trim().length === 0 ) {
       $('#' + id).next('span').html('输入错误');
@@ -313,48 +292,122 @@ export class CongflowComponent implements OnInit {
     $('#' + id).parents('.form-inp').removeClass('form-error');
     $('#' + id).parents('.form-inp').children('.errorMessage').html('');
   }
-}
-export class CardInfo {
-  id: number; // 本条信息ID
-  branchName:string; // 支部名称
-  type:string; // 会议类型(三会一课同级)
-  subType:string; // 子类型
-  month: string;// 月份
-  name:string; // 文件名称
-  beginTime:string; // 开始时间
-  endTime:string; // 结束时间
-  host:string; // 主持人
-  createUserId:string;
-  recorder:string; // 记录人
-  shouldNum:number; // 应到人数
-  factNum:number; // 实到人数
-  absentNum:number; // 缺席人数
-  reason:string; // 缺席原因
-  theme:string; // 会议主题
-  note:string; // 会议议程
-  address:string; // 会议地点
-  fileName=[];
-  filePath=[];
-  fileContract:any;
+  /*打开部门选择框*/
+  openChooseWin(){
+    if(this.isEdit){
+      $('#deptSltWin').show();
+      for(let i = 0;i<this.deptList.length;i++){
+        this.deptList[i].choose = false;
+        for(let j = 0 ;j<this.newCard.helpDeptId.length;j++){
+          if(this.deptList[i].DEPT_ID === this.newCard.helpDeptId[j]){
+            this.deptList[i].choose = true;
+          }
+        }
+      }
+    }
+
+  }
+  /*选取部门*/
+  chooseDept(index) {
+    this.newCard.helpDeptId = [];
+    this.newCard.helpDeptName = [];
+    for (let i = 0; i < this.deptList.length; i++) {
+      if (this.deptList[i].choose) {
+        this.newCard.helpDeptId.push(this.deptList[i].DEPT_ID);
+        this.newCard.helpDeptName.push(this.deptList[i].DEPT_NAME);
+      }
+    }
+  }
+  getOrderDetail(id){
+    let url = "/soclaty/flow/getSoclatyFlowInfo/"+id;
+    this.ipSetting.sendGet(url)
+      .subscribe(data => {
+        if(this.errorVoid.errorMsg(data)){
+          this.newCard.planContent = data.data.planContent;
+          this.newCard.hangdleContent = data.data.hangdleContent;
+          this.newCard.planContent.beginTime = this.newCard.planContent.beginTime!==null
+            ?this.newCard.planContent.beginTime.replace(" ","T"):"";
+          this.newCard.planContent.endTime = this.newCard.planContent.endTime!==null
+            ?this.newCard.planContent.endTime.replace(" ","T"):"";
+          this.newCard.hangdleContent.endTime = this.newCard.hangdleContent.endTime!==null
+            ?this.newCard.hangdleContent.endTime.replace(" ","T"):"";
+          if(typeof (this.newCard.planContent.endTime)==="undefined"||
+            this.newCard.planContent.endTime===null|| this.newCard.planContent.endTime===""){
+            this.isEdit = false;
+          }
+        }
+      });
+  }
 }
 export class SearchInfo {
   id: number; // 本条信息ID
-  branchName:string; // 支部名称
-  type:string; // 会议类型(三会一课同级)
-  subType:string; // 子类型
-  month: string;// 月份
-  name:string; // 文件名称
+  bTime:string;
+  cause:string;
+  children:string;
+  code: string;
+  content:string;
+  createSatisfled:string;
+  createTime:string;
+  createUserAssess:string;
+  createUserDept:string;
   createUserId:string;
-  beginTime:string; // 开始时间
-  endTime:string; // 结束时间
-  host:string; // 主持人
-  recorder:string; // 记录人
-  shouldNum:number; // 应到人数
-  factNum:number; // 实到人数
-  absentNum:number; // 缺席人数
-  reason:string; // 缺席原因
-  theme:string; // 会议主题
-  note:string; // 会议议程
-  address:string; // 会议地点
+  createUserName:string;
+  deptBoss:string;
+  deptId:string;
+  eTime:string;
+  endTime:string;
+  fatherId:string;
+  handleId:string;
+  handleName:string;
+  handleUrl:string;
+  handleUserAll:string;
+  handleUserId:string;
+  handleUserName:string;
+  hangdleContent:RequestContent;
+  helpDeptId:any;
+  helpDeptName:any;
+  hostDeptId:string;
+  hostDeptName:string;
+  isFound:string;
+  joinDate:string;
+  modifyTime:string;
+  modifyUserId:string;
+  name:string;
+  note:string;
+  opinionContent:string;
+  planContent:RequestContent;
+  previousSchedule:any;
+  previousUserId:string;
+  schedule:any;
+  sex:string;
+  status:string;
+  suggest:string;
+  theme:string;
+  type:string;
+  userAge:string;
+  userCultural:string;
+  userDept:string;
+  userMemver:string;
+  userName:string;
+  userPolitical:string;
+  userWork:string;
+  dataType: string;
+  filePath:Array<string>;
+  fileName:Array<string>;
 }
-
+export class ResultSubmit {
+  content: string;
+  result: string;
+  userId: string;
+  userName: string;
+  userGroup: string;
+  createTime: string;
+  type: string;
+  createUserAssess:string;
+}
+export class RequestContent{
+  content: string;
+  beginTime: string;
+  endTime: string;
+  createUserName:string;
+}

@@ -16,9 +16,6 @@ input{
   height:30px;
   padding:10px 0;
 }
-.search-btn {
-  float: right;
-}
 .wrap{
   padding:10px 20px;
 }
@@ -194,7 +191,7 @@ input{
 .repair-chandlery ul li input,.repair-chandlery ul li select{
   height: 20px;
   box-sizing: content-box;
-  width: calc(100% - 115px);
+  width: 130px;
   min-width: 70px;
   padding: 3px 8px;
   font-size: 12px;
@@ -207,8 +204,7 @@ input{
   position: absolute;
   right:10px; top:15px;
 }
-.repair-chandlery .search-btn{
-  float: left;
+.search-btn{
   margin-left:10px;
   display: inline-block;
   padding:0 10px;
@@ -358,7 +354,7 @@ button{
   line-height:30px;
 }
 .company-ipt{
-  width:150px;
+  width:180px;
   line-height:30px;
   background-image: linear-gradient(#03a9f3, #03a9f3), linear-gradient(rgba(120, 130, 140, .13), rgba(120, 130, 140, .13));
   background-color: rgba(0, 0, 0, 0);
@@ -595,4 +591,79 @@ button{
 }
 .contract-list li a{
   margin-left:6px; color:#ff0000
+}
+.modal-more{
+  position: absolute;
+  width: 700px;
+  top: 10%;
+  left: 50%;
+  margin-left: -350px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 6px 0 6px rgba(0,0,0,.1), -6px 0 6px rgba(0,0,0,.1), 0 6px 6px rgba(0,0,0,.1);
+  z-index: 6;
+}
+.modal-more h5{
+  line-height: 30px;
+}
+.modal-more-footer{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding-top: 3px;
+  clear: both;
+}
+.choose-list{
+  padding-bottom: 10px;
+  clear: both;
+}
+.choose-group{
+  float: left;
+  width: 25%;
+  height: 24px;
+  line-height: 18px;
+  padding: 2px;
+  text-align: center;
+  box-sizing: border-box;
+}
+.cb-blue>input[type=checkbox]{
+  position: absolute;
+  opacity: 0;
+}
+.cb-blue span{
+  display: inline-block;
+  width: 100%;
+  border:2px solid #d6d5d7;
+  border-radius: 3px;
+  color: #8d9ea7;
+  background-color: #ffffff;
+  transition-duration: 300ms;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.cb-blue>input[type=checkbox]:checked+span{
+  border:2px solid #03a9f3;
+  color: #ffffff;
+  background-color: #03a9f3;
+}
+.fitBox{
+  position: relative;
+  float: right;
+  top: -25px;
+  right: -15px;
+  padding: 0 5px;
+  cursor: pointer;
+}
+.fitBox a i{
+  padding: 0;
+}
+textarea:disabled{
+  border: none;
 }

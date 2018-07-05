@@ -41,7 +41,7 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.globalCatalogService.setTitle("工会管理/职代会发起记录");
+    this.globalCatalogService.setTitle("工会管理/提案信息管理");
     this.globalCatalogService.valueUpdated.subscribe(
       (val) =>{
         this.rule = this.globalCatalogService.getRole("party/upload");

@@ -55,6 +55,14 @@ export class UserPortalService {
     return this.http.get(url,this.ipSetting.options)
       .map(res => res.json());
   }
+  /*获取部门人员列表*/
+  /*type 1 自有员工
+  type 0 第三方人员*/
+  getDeptUserList(type,postData){
+    const url = this.ipSetting.ip + '/portal/user/getUserBySome/'+type;
+    return this.http.post(url,postData,this.ipSetting.options)
+      .map(res => res.json());
+  }
   /*新增用户*/
   addUserInfo(postData){
     const url = this.ipSetting.ip + '/portal/user/addUserInfo';
