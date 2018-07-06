@@ -159,7 +159,11 @@ input{
   padding:0;
   margin:0;
 }
+label + .errorMessage,.company-ipt + .errorMessage{
+  line-height: 30px;
+}
 .errorMessage{
+  position: absolute;
   color:#CE0004;
 }
 .repair-chandlery{
@@ -351,10 +355,9 @@ button{
 .form-alone .form-inp {
   max-width: 80%;
   margin-left: 1%;
-  line-height:30px;
 }
 .company-ipt{
-  width:180px;
+  width:170px;
   line-height:30px;
   background-image: linear-gradient(#03a9f3, #03a9f3), linear-gradient(rgba(120, 130, 140, .13), rgba(120, 130, 140, .13));
   background-color: rgba(0, 0, 0, 0);

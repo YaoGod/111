@@ -28,11 +28,12 @@ export class CongflowComponent implements OnInit {
   public rule : sndCatalog = new sndCatalog();
   public deptList:Array<any>;
   public deptUserList:Array<any>;
-  public isEdit = true;
+  public isEdit = false;
   public flowNameList = [
     "流程开始","提案人发起","提案审查委员会主任审批","工会主席审批","总经理审批","部门正职审批",
     "指定反馈人反馈","部门正职审批","提案人满意度评价","结束"];
   public userId;
+  public plFlag = false;
   constructor(
     public http:Http,
     public ipSetting:IpSettingService,
@@ -110,15 +111,16 @@ export class CongflowComponent implements OnInit {
     this.resultSubmit = new ResultSubmit();
     this.resultSubmit.result = "";
     this.resultSubmit.content = "";
-    if(this.newCard.schedule === "3"||this.newCard.schedule === "4"||
-      (this.newCard.schedule === "5"&&this.newCard.isFound === "立案")){
-      this.isEdit = false;
+    if(this.newCard.schedule === 3||this.newCard.schedule === 4||
+      (this.newCard.schedule === 5&&this.newCard.isFound === "立案")){
+      this.isEdit = true;
     }
     if(this.newCard.schedule === 5){
       this.newCard.handleId = "";
       this.getHostDeptUserList(this.newCard.hostDeptId);
       if(this.newCard.previousSchedule === 6){
         // 实际是第七步骤
+        this.isEdit = false;
         this.getOrderDetail(this.newCard.id);
       }
     }
@@ -143,7 +145,8 @@ export class CongflowComponent implements OnInit {
   }
   /*设置意见*/
   setResultContent(){
-    if(this.resultSubmit.content === ""||this.resultSubmit.content === "同意"||this.resultSubmit.content === "驳回"){
+    if(typeof (this.resultSubmit.content)==="undefined"||this.resultSubmit.content === ""||
+      this.resultSubmit.content === "同意"||this.resultSubmit.content === "驳回"){
       this.resultSubmit.content = this.resultSubmit.result==="pass"?"同意":"驳回";
     }
     if(this.resultSubmit.result === "fail"){
@@ -158,13 +161,11 @@ export class CongflowComponent implements OnInit {
   }
   submit(){
     if(this.newCard.schedule === 3||this.newCard.schedule === 4|| this.newCard.schedule === 5){
-      if(!this.verifyEmpty('newDeptId')){
-        return false;
+      if(this.newCard.schedule === 3||this.newCard.schedule === 5){
+        if(!this.verifyEmpty('newDeptId')){
+          return false;
+        }
       }
-      console.log(111);
-      /*if(!this.verifyEmpty('newHelpDeptId')) {
-        return false;
-      }*/
       if (this.resultSubmit.result === "") {
         this.addErrorClass("newResult", "请选择审核决策");
         return false;
@@ -181,7 +182,10 @@ export class CongflowComponent implements OnInit {
       }
     }
     if(this.newCard.schedule === 6){
-      if (!this.verifyEmpty('newPlanEndTime')) {
+      if (this.newCard.isFound==="立案"&&!this.verifyEmpty('newPlanEndTime')) {
+        return false;
+      }
+      if (this.newCard.isFound==="不同意"&&!this.verifyEmpty('newHandleContentResult')) {
         return false;
       }
     }
@@ -200,8 +204,10 @@ export class CongflowComponent implements OnInit {
     let postData;
     let soclatyFlow = JSON.parse(JSON.stringify(this.newCard));
     let flowNode = JSON.parse(JSON.stringify(this.resultSubmit));
-    soclatyFlow.helpDeptId = soclatyFlow.helpDeptId.join(",");
-    soclatyFlow.helpDeptName = soclatyFlow.helpDeptName.join(",");
+    if(typeof (soclatyFlow.helpDeptId)!=="undefined"){
+      soclatyFlow.helpDeptId = soclatyFlow.helpDeptId.join(",");
+      soclatyFlow.helpDeptName = soclatyFlow.helpDeptName.join(",");
+    }
     postData = {
       "soclatyFlow": soclatyFlow,
       "flowNode": flowNode
@@ -211,7 +217,18 @@ export class CongflowComponent implements OnInit {
         url = "/soclaty/flow/checkManage";
         break;
       case 4:
-        url = "/soclaty/flow/checkManage";
+        if(!this.plFlag){
+          url = "/soclaty/flow/checkManage";
+        }else{
+          // 总经理批量审批
+          let temps = $("input[name='rSelect']:checked");
+          let tempID = [];
+          for(let i = 0;i < temps.length;i++){
+            tempID.push(temps[i].value);
+          }
+          url = "/soclaty/flow/checkManageBatch?ids="+tempID.join(",");
+          postData = flowNode;
+        }
         break;
       case 5:
         url = "/soclaty/flow/checkDeptBoss";
@@ -333,10 +350,24 @@ export class CongflowComponent implements OnInit {
             ?this.newCard.hangdleContent.endTime.replace(" ","T"):"";
           if(typeof (this.newCard.planContent.endTime)==="undefined"||
             this.newCard.planContent.endTime===null|| this.newCard.planContent.endTime===""){
-            this.isEdit = false;
+            this.isEdit = true;
           }
         }
       });
+  }
+  piliangCheck(){
+    let temps = $("input[name='rSelect']:checked");
+    if(temps.length>0){
+      this.plFlag = true;
+      this.newCard = new SearchInfo();
+      this.newCard.schedule = 4;
+      this.resultSubmit = new ResultSubmit();
+      this.resultSubmit.result = "";
+      this.resultSubmit.content = "";
+      $('#shenpi').fadeIn();
+    }else {
+      this.plFlag = false;
+    }
   }
 }
 export class SearchInfo {

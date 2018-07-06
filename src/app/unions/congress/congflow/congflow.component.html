@@ -74,12 +74,16 @@
           <li>
             <a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
           </li>
+          <li>
+            <a href="javascript:;" class="search-btn" (click)="piliangCheck()">批量审批</a>
+          </li>
         </ul>
       </div>
       <ul class="card-list clearfix">
         <li  class="room-card">
           <table width="100%" style="margin:0 auto;" class="card-info">
             <tr style="height: 40px; background-color: #acd6ff; text-align: center; font-weight: bold; font-size: 14px;color:#333;">
+              <th style="width: 30px;" *ngIf="searchInfo.dataType==='pending'"></th>
               <th>提案编号</th>
               <th width="20%" style="text-align: left">提案主题</th>
               <th>提案类型</th>
@@ -92,6 +96,10 @@
               <th *ngIf="searchInfo.dataType==='pending'" width="8%">操作</th>
             </tr>
             <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
+              <td style="width: 30px;" *ngIf="searchInfo.dataType==='pending'">
+                <input type="checkbox" name="rSelect" *ngIf="inner.schedule === 4"
+                       [value]="inner.id">
+              </td>
               <td>{{inner.code}}</td>
               <td style="text-align: left"
                   [routerLink]="['../info',inner.id]">
@@ -106,10 +114,10 @@
               <td>{{inner.createTime | date:'yyyy-MM-dd HH:mm'}}</td>
               <td *ngIf="searchInfo.dataType==='pending'">
                 <a class="search-btn" (click)="addVehicle(inner)"
-                   *ngIf="inner.schedule!==2&&inner.handleUserId===userId">
+                   *ngIf="inner.schedule!==2">
                   <span *ngIf="inner.schedule!==6&&inner.schedule!==8">审核</span>
                   <span *ngIf="inner.schedule===6">反馈</span>
-                  <span *ngIf="inner.schedule===8">满意度评价</span>
+                  <span *ngIf="inner.schedule===8">评价</span>
                 </a>
               </td>
             </tr>
@@ -131,7 +139,7 @@
       <button class="close" (click)="addCancel()">×</button>
     </div>
     <form method="post" name="topForm" class="repair-form">
-      <div class="form-control form-alone" *ngIf="isEdit">
+      <div class="form-control form-alone" *ngIf="!plFlag">
         <span class="form-label">主办部门</span>
         <div class="form-inp">
           <select class="company-ipt company-sel" name="newHostDeptId" id="newDeptId" [(ngModel)]="newCard.hostDeptId"
@@ -142,7 +150,7 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control form-alone" *ngIf="isEdit">
+      <div class="form-control form-alone" *ngIf="!plFlag&&(newCard.isFound==='立案')">
         <span class="form-label">协办部门</span>
         <div class="form-inp" (click)="openChooseWin()">
           <textarea class="company-ipt" name="newHelpDeptId" id="newHelpDeptId" rows="2" style="width: 100%"
@@ -151,7 +159,7 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control form-alone" *ngIf="newCard.previousSchedule===6">
+      <div class="form-control form-alone" *ngIf="newCard.isFound==='立案'&&newCard.previousSchedule===6">
         <span class="form-label">计划拟定人</span>
         <div class="form-inp">
           <input name="newCreateUserName" type="text" class="company-ipt company-sel"
@@ -159,7 +167,7 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control" *ngIf="newCard.previousSchedule===6">
+      <div class="form-control" *ngIf="newCard.isFound==='立案'&&newCard.previousSchedule===6">
         <span class="form-label">计划开始时间</span>
         <div class="form-inp">
           <input name="newPlanBeginTime" type="datetime-local" class="company-ipt company-sel"
@@ -167,7 +175,7 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control" *ngIf="newCard.previousSchedule===6">
+      <div class="form-control" *ngIf="newCard.isFound==='立案'&&newCard.previousSchedule===6">
         <span class="form-label">计划完成时间</span>
         <div class="form-inp">
           <input name="newPlanEndTime" type="datetime-local" class="company-ipt company-sel"
@@ -175,7 +183,7 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control form-alone" *ngIf="newCard.previousSchedule===6">
+      <div class="form-control form-alone" *ngIf="newCard.isFound==='立案'&&newCard.previousSchedule===6">
         <span class="form-label">计划说明内容</span>
         <div class="form-inp">
           <textarea name="newPlanContent" rows="5" [(ngModel)]="newCard.planContent.content"
@@ -191,7 +199,7 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control" *ngIf="newCard.previousSchedule===6">
+      <div class="form-control" *ngIf="newCard.isFound==='立案'&&newCard.previousSchedule===6">
         <span class="form-label">落实完成时间</span>
         <div class="form-inp">
           <input name="newHandleEndTime" type="datetime-local" class="company-ipt company-sel"
@@ -199,8 +207,16 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control form-alone" *ngIf="newCard.previousSchedule===6">
+      <div class="form-control form-alone" *ngIf="newCard.isFound==='立案'&&newCard.previousSchedule===6">
         <span class="form-label">落实情况内容</span>
+        <div class="form-inp">
+          <textarea name="newHandleContent" rows="5" [(ngModel)]="newCard.hangdleContent.content"
+                    style="width: 100%" disabled></textarea>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone" *ngIf="newCard.isFound==='不同意'&&newCard.previousSchedule===6">
+        <span class="form-label">不同意原因</span>
         <div class="form-inp">
           <textarea name="newHandleContent" rows="5" [(ngModel)]="newCard.hangdleContent.content"
                     style="width: 100%" disabled></textarea>
@@ -270,12 +286,12 @@
 
 <div class="mask" id="shishi">
   <div class="mask-cotainer">
-    <div class="mask-head"><i class="icon-film"></i> <p>实施计划及落实信息</p>
+    <div class="mask-head"><i class="icon-film"></i><p>反馈信息</p>
       <button class="close" (click)="addCancel()">×</button>
     </div>
     <form method="post" name="topForm" class="repair-form">
 
-      <div class="form-control">
+      <div class="form-control" *ngIf="newCard.isFound === '立案'">
         <span class="form-label">计划开始时间</span>
         <div class="form-inp">
           <input name="newPlanBeginTime" id="newPlanBeginTime" type="datetime-local" class="company-ipt company-sel"
@@ -283,7 +299,7 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control">
+      <div class="form-control" *ngIf="newCard.isFound === '立案'">
         <span class="form-label">计划完成时间</span>
         <div class="form-inp">
           <input name="newPlanEndTime" id="newPlanEndTime" type="datetime-local" class="company-ipt company-sel"
@@ -292,7 +308,7 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control form-alone">
+      <div class="form-control form-alone" *ngIf="newCard.isFound === '立案'">
         <span class="form-label">计划说明内容</span>
         <div class="form-inp">
           <textarea name="newPlanContent" id="newPlanContent" rows="5" [(ngModel)]="newCard.planContent.content"
@@ -300,7 +316,7 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control form-alone" *ngIf="isEdit">
+      <div class="form-control form-alone" *ngIf="newCard.isFound === '立案'&&!isEdit">
         <span class="form-label">落实完成时间</span>
         <div class="form-inp">
           <input name="newHandleEndTime" id="newHandleEndTime" type="datetime-local" class="company-ipt company-sel"
@@ -309,10 +325,20 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control form-alone" *ngIf="isEdit">
+      <div class="form-control form-alone" *ngIf="newCard.isFound === '立案'&&!isEdit">
         <span class="form-label">落实情况内容</span>
         <div class="form-inp">
           <textarea name="newHandleContent" id="newHandleContent" rows="5" [(ngModel)]="newCard.hangdleContent.content"
+                    style="width: 100%"></textarea>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone" *ngIf="newCard.isFound === '不同意'">
+        <span class="form-label">不同意原因</span>
+        <div class="form-inp">
+          <textarea name="newHandleContent" id="newHandleContentResult" rows="5"
+                    [(ngModel)]="newCard.hangdleContent.content"
+                    (blur)="verifyEmpty('newHandleContentResult')"
                     style="width: 100%"></textarea>
           <span class="errorMessage"></span>
         </div>
