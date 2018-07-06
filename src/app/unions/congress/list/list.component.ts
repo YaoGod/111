@@ -30,23 +30,19 @@ export class ListComponent implements OnInit {
   public recordChoose:any;
   private contractBool = true;
   public repairDept=[];
-  public rule : sndCatalog = new sndCatalog();
+  public rule;
+  public catas;
   constructor(
     public http:Http,
     public ipSetting:IpSettingService,
     public errorVoid:ErrorResponseService,
     private globalCatalogService:GlobalCatalogService,
   ) {
-    this.rule = this.globalCatalogService.getRole("party/upload");
   }
 
   ngOnInit() {
     this.globalCatalogService.setTitle("工会管理/提案信息管理");
-    this.globalCatalogService.valueUpdated.subscribe(
-      (val) =>{
-        this.rule = this.globalCatalogService.getRole("party/upload");
-      }
-    );
+    this.getRule();
     this.searchInfo.type = '';
     // this.searchInfo.createUserId = localStorage.getItem("username");
     this.repairSearch(1);
@@ -64,7 +60,23 @@ export class ListComponent implements OnInit {
       }
     });
   }
-
+  getRule(){
+    this.globalCatalogService.getCata(-1,'unions','unions/congress/list')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          this.catas = data.data[0];
+          /*for(let i = 0;i<this.catas.length;i++){
+            if(this.catas[i].routeUrl === "employ/group"){
+              this.catas.splice(i,1);
+              i = 0;
+            }
+            if(this.catas[i].routeUrl === "employ/group/product"){
+              this.rule = this.catas[i];
+            }
+          }*/
+        }
+      })
+  }
   /*获取待审提案*/
   repairWait(){
     let url = '/soclaty/flow/getSoclatyFlowList/1/9999';

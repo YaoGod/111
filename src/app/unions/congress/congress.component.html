@@ -1,1 +1,17 @@
-<router-outlet></router-outlet>
+<div class="wrap">
+  <div class="cont">
+    <div class="row clearfix">
+      <div class="row-title" *ngFor="let cata of catas">
+        <a [routerLink]="['../../'+cata.routeUrl]" routerLinkActive="active" >{{cata.name}}<span></span></a>
+      </div>
+      <!--<div class="b-head-right">
+        <div class="content-box" onclick="history.go(-1)" tabindex="0">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>-->
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+

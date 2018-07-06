@@ -1,6 +1,6 @@
 <div class="wrap">
   <div class="cont">
-    <div class="row clearfix">
+    <!--<div class="row clearfix">
       <div class="row-title">
         <a routerLink="../list" routerLinkActive="active">提案信息管理
           <span></span></a>
@@ -20,7 +20,7 @@
           <i class="icon-reload"></i> 返回
         </div>
       </div>
-    </div>
+    </div>-->
     <div class="cont-inner">
       <div class="repair-chandlery clearfix">
         <ul class="record-search clearfix">
@@ -48,14 +48,14 @@
           <li>
             <a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
           </li>
-          <li>
+          <li *ngIf="catas&&catas.isInstall">
             <a class="search-btn" href="javascript:;" routerLink="../launch" routerLinkActive="active">提案发起</a>
           </li>
-          <li class="b-head-right">
+          <!--<li class="b-head-right">
             <div class="search-btn" (click)="editCardInfo()">
               合并立案
             </div>
-          </li>
+          </li>-->
         </ul>
       </div>
       <ul class="card-list clearfix">
@@ -68,7 +68,7 @@
               <th>发起人部门</th>
               <th>发起时间</th>
               <th>立案状态</th>
-              <th>操作</th><!-- *ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
+              <th *ngIf="rule&&rule.isUpdate">操作</th>
             </tr>
             <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
               <td width="30%" style="padding-left: 15px;text-align: left"
@@ -80,7 +80,7 @@
               <td>{{inner.createUserDept}}</td>
               <td>{{inner.createTime | date:'yyyy-MM-dd HH:mm'}}</td>
               <td>{{inner.isFound}}</td>
-              <td>
+              <td *ngIf="rule&&rule.isUpdate">
                 <i class="icon-check" *ngIf="inner.isFound&&inner.isFound==='待审核'" (click)="editCardInfo(inner.id)"
                    style="margin-left: 5px;" title="立案"></i>
                 <i class="icon-close" *ngIf="inner.isFound&&inner.isFound==='待审核'" (click)="delCardInfo(inner.id)"
