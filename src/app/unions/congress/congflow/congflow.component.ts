@@ -350,6 +350,8 @@ export class CongflowComponent implements OnInit {
             ?this.newCard.hangdleContent.endTime.replace(" ","T"):"";
           if(typeof (this.newCard.planContent.endTime)==="undefined"||
             this.newCard.planContent.endTime===null|| this.newCard.planContent.endTime===""){
+            this.isEdit = false;
+          }else{
             this.isEdit = true;
           }
         }

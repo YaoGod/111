@@ -282,7 +282,7 @@
         <span class="form-label">计划完成时间</span>
         <div class="form-inp">
           <input name="newPlanEndTime" id="newPlanEndTime" type="datetime-local" class="company-ipt company-sel"
-                 [(ngModel)]="newCard.planContent.endTime" [disabled]="!isEdit"
+                 [(ngModel)]="newCard.planContent.endTime" [disabled]="isEdit"
                  (blur)="verifyEmpty('newPlanEndTime')">
           <span class="errorMessage"></span>
         </div>
@@ -295,7 +295,7 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control form-alone" *ngIf="newCard.isFound === '立案'&&!isEdit">
+      <div class="form-control form-alone" *ngIf="newCard.isFound === '立案'&&isEdit">
         <span class="form-label">落实完成时间</span>
         <div class="form-inp">
           <input name="newHandleEndTime" id="newHandleEndTime" type="datetime-local" class="company-ipt company-sel"
@@ -304,7 +304,7 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control form-alone" *ngIf="newCard.isFound === '立案'&&!isEdit">
+      <div class="form-control form-alone" *ngIf="newCard.isFound === '立案'&&isEdit">
         <span class="form-label">落实情况内容</span>
         <div class="form-inp">
           <textarea name="newHandleContent" id="newHandleContent" rows="5" [(ngModel)]="newCard.hangdleContent.content"
