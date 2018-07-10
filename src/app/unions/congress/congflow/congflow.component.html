@@ -210,7 +210,8 @@
                    (change)="setResultContent()">
             同意
           </label>
-          <label for="no" style="line-height: 30px;" id="newResult" *ngIf="newCard.previousSchedule!==4">
+          <label for="no" style="line-height: 30px;" id="newResult" *ngIf="newCard.previousSchedule!==4&&
+          (newCard.previousSchedule!==2&&newCard.schedule === 5)">
             <input id="no" name="isOrder" type="radio" value="fail" [(ngModel)]="resultSubmit.result"
                    (change)="setResultContent()">
             驳回
@@ -218,7 +219,7 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control form-alone" *ngIf="newCard.schedule===5&&resultSubmit.result==='pass'&&newCard.previousSchedule!==6">
+      <div class="form-control form-alone" *ngIf="newCard.schedule===5&&newCard.previousSchedule!==6">
         <span class="form-label">指定实施/反馈人</span>
         <div class="form-inp">
           <select class="company-ipt company-sel" name="newHandleId" id="newHandleId" [(ngModel)]="newCard.handleId"
