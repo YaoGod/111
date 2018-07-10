@@ -111,16 +111,15 @@ export class CongflowComponent implements OnInit {
     this.resultSubmit = new ResultSubmit();
     this.resultSubmit.result = "";
     this.resultSubmit.content = "";
-    if(this.newCard.schedule === 3||this.newCard.schedule === 4||
-      (this.newCard.schedule === 5&&this.newCard.isFound === "立案")){
+    if(this.newCard.schedule === 3||this.newCard.schedule === 4){
       this.isEdit = true;
     }
     if(this.newCard.schedule === 5){
+      this.isEdit = true;
       this.newCard.handleId = "";
       this.getHostDeptUserList(this.newCard.hostDeptId);
       if(this.newCard.previousSchedule === 6){
         // 实际是第七步骤
-        this.isEdit = false;
         this.getOrderDetail(this.newCard.id);
       }
     }
@@ -353,6 +352,9 @@ export class CongflowComponent implements OnInit {
             this.isEdit = false;
           }else{
             this.isEdit = true;
+            if(this.newCard.previousSchedule === 6&&this.newCard.schedule === 5){
+              this.isEdit = false;
+            }
           }
         }
       });
@@ -376,7 +378,7 @@ export class SearchInfo {
   id: number; // 本条信息ID
   bTime:string;
   cause:string;
-  children:string;
+  children:Array<any>;
   code: string;
   content:string;
   createSatisfled:string;
@@ -407,7 +409,7 @@ export class SearchInfo {
   modifyUserId:string;
   name:string;
   note:string;
-  opinionContent:string;
+  opinionContent:Array<any>;
   planContent:RequestContent;
   previousSchedule:any;
   previousUserId:string;

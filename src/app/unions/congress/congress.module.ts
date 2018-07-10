@@ -11,6 +11,8 @@ import { CongflowComponent } from './congflow/congflow.component';
 import { LaunchComponent } from './launch/launch.component';
 import { ApproveComponent } from './approve/approve.component';
 import {ProposalReportComponent} from "./proposal-report/proposal-report.component";
+import { CongflowDetailComponent } from './congflow-detail/congflow-detail.component';
+import {EmptyValueModule} from "../../pipe/rename/rename.module";
 const routes: Routes = [
   {
     path: '',
@@ -30,6 +32,9 @@ const routes: Routes = [
       },{
         path: 'congflow',
         component: CongflowComponent,
+      },{
+        path: 'detail/:id',
+        component: CongflowDetailComponent,
       },{
         path: 'approve/:id',
         component: ApproveComponent,
@@ -53,9 +58,10 @@ const routes: Routes = [
     FormsModule,
     CommonModule,
     TurnBarModule,
+    EmptyValueModule,
     RouterModule.forChild(routes),
   ],
   declarations: [CongressComponent,ListComponent, DetailsComponent, CongflowComponent, LaunchComponent,
-    ApproveComponent,ProposalReportComponent]
+    ApproveComponent,ProposalReportComponent, CongflowDetailComponent]
 })
 export class CongressModule { }

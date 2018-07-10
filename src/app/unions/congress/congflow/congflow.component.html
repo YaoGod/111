@@ -16,7 +16,7 @@
             <input name="searchCode" style="width:130px;" type="text" [(ngModel)]="searchInfo.code">
           </li>
           <li>
-            <label>提案名称</label>
+            <label>提案主题</label>
             <input name="searchTheme" style="width:130px;" type="text" [(ngModel)]="searchInfo.theme">
           </li>
           <li>
@@ -38,13 +38,13 @@
               <option *ngFor="let dept of deptList" [value]="dept.DEPT_ID">{{dept.DEPT_NAME}}</option>
             </select>
           </li>
-          <li>
+          <!--<li>
             <label>协办部门</label>
             <select class="search-ipt search-sel" name="newHelpDeptId" [(ngModel)]="searchInfo.helpDeptId">
               <option value="">全部</option>
               <option *ngFor="let dept of deptList" [value]="dept.DEPT_ID">{{dept.DEPT_NAME}}</option>
             </select>
-          </li>
+          </li>-->
           <li>
             <label >发起时间</label>
             <input name="Bmonth" style="width:130px;" type="date" [(ngModel)]="searchInfo.bTime"> 至
@@ -68,7 +68,7 @@
               <th>提案类型</th>
               <th>是否立案</th>
               <th>主办部门</th>
-              <th width="10%">协办部门</th>
+              <!--<th width="10%">协办部门</th>-->
               <th>当前节点</th>
               <th>当前处理人</th>
               <th>发起时间</th>
@@ -81,13 +81,13 @@
               </td>
               <td>{{inner.code}}</td>
               <td style="text-align: left"
-                  [routerLink]="['../info',inner.id]">
+                  [routerLink]="['../detail',inner.id]">
                 <a href="javascript:;">{{inner.theme}}</a>
               </td>
               <td>{{inner.type}}</td>
               <td>{{inner.isFound}}</td>
               <td>{{inner.hostDeptName}}</td>
-              <td>{{inner.helpDeptName}}</td>
+             <!-- <td>{{inner.helpDeptName}}</td>-->
               <td>{{flowNameList[inner.schedule]}}</td>
               <td>{{inner.handleUserName}}</td>
               <td>{{inner.createTime | date:'yyyy-MM-dd HH:mm'}}</td>
@@ -210,7 +210,7 @@
                    (change)="setResultContent()">
             同意
           </label>
-          <label for="no" style="line-height: 30px;" id="newResult">
+          <label for="no" style="line-height: 30px;" id="newResult" *ngIf="newCard.previousSchedule!==4">
             <input id="no" name="isOrder" type="radio" value="fail" [(ngModel)]="resultSubmit.result"
                    (change)="setResultContent()">
             驳回

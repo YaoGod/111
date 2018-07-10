@@ -1,0 +1,174 @@
+<div class="wrap">
+  <div class="cont">
+    <div class="view">
+      <div class="title"><span>主议提案</span></div>
+      <ul class="form-msg">
+        <li class="form-bar">
+          <span class="form-title">提案编号</span>
+          <span class="word">{{flow.code | emptyValue:'暂无数据'}}</span>
+        </li>
+        <li>
+          <a class="btn-link" title="查看提案信息" [routerLink]="['../../info',flow.id]"></a>
+        </li>
+        <li class="form-bar full-line">
+            <span class="form-title">提案主题</span>
+            <span class="word">{{flow.theme | emptyValue:'暂无数据'}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">主办部门</span>
+          <span class="word">{{flow.hostDeptName | emptyValue:'暂无数据'}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">提案类型</span>
+          <span class="word">{{flow.type | emptyValue:'暂无数据'}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">立案情况</span>
+          <span class="word">{{flow.isFound | emptyValue:'暂无数据'}}</span>
+        </li>
+        <li class="form-bar full-line">
+          <span class="form-title">协办部门</span>
+          <pre class="word">{{flow.helpDeptName | emptyValue:'暂无数据'}}</pre>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">发起人姓名</span>
+          <span class="word">{{flow.userName | emptyValue:'暂无数据'}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">所在单位</span>
+          <span class="word">{{flow.userDept | emptyValue:'暂无数据'}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">职称</span>
+          <span class="word">{{flow.userMemver | emptyValue:'暂无数据'}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">工作岗位</span>
+          <span class="word">{{flow.userWork | emptyValue:'暂无数据'}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">参加工作时间</span>
+          <span class="word">{{flow.joinDate | date:'yyyy/MM/dd'}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">学历</span>
+          <span class="word">{{flow.userCultural | emptyValue:'暂无数据'}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">政治面貌</span>
+          <span class="word">{{flow.userPolitical | emptyValue:'暂无数据'}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">发起时间</span>
+          <span class="word">{{flow.createTime | date:'yyyy/MM/dd HH:mm'}}</span>
+        </li>
+        <li class="form-bar full-line">
+          <span class="form-title">理由及内容</span>
+          <pre class="word">{{flow.cause | emptyValue:'暂无数据'}}</pre>
+        </li>
+        <li class="form-bar full-line">
+          <span class="form-title">解决办法及建议</span>
+          <pre class="word">{{flow.suggest | emptyValue:'暂无数据'}}</pre>
+        </li>
+      </ul>
+      <div *ngIf="flow.children&&flow.children.length>0">
+        <div class="title"><span>附议提案</span></div>
+        <ul class="fy-card">
+          <li *ngFor="let child of flow.children;let i=index">
+            <div class="fy-inner">
+              <h5>{{child.theme}}<span>{{child.type}}</span></h5>
+              <p class="fy-time">{{child.createUserName}}&nbsp;（{{child.userDept}}）&nbsp;{{child.createTime| date:'yyyy/MM/dd HH:mm'}}</p>
+              <a class="btn-link" title="查看提案信息" [routerLink]="['../../info',child.id]"></a>
+              <p>{{child.suggest}}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="flow.planContent.endTime">
+        <div class="title"><span>实施计划</span></div>
+        <ul class="form-msg">
+          <li class="form-bar">
+            <span class="form-title">计划开始时间</span>
+            <span class="word">{{flow.planContent.beginTime | date:'yyyy/MM/dd HH:mm'}}</span>
+          </li>
+          <li class="form-bar">
+            <span class="form-title">计划完成时间</span>
+            <span class="word">{{flow.planContent.endTime | date:'yyyy/MM/dd HH:mm'}}</span>
+          </li>
+          <li class="form-bar">
+            <span class="form-title">计划拟定人</span>
+            <span class="word">{{flow.planContent.createUserName | emptyValue:'暂无数据'}}</span>
+          </li>
+          <li class="form-bar full-line">
+            <span class="form-title">计划说明内容</span>
+            <pre class="word">{{flow.planContent.content | emptyValue:'暂无数据'}}</pre>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="flow.planContent.endTime&&flow.isFound ==='立案'">
+        <div class="title"><span>落实情况</span></div>
+        <ul class="form-msg">
+          <li class="form-bar">
+            <span class="form-title">落实完成时间</span>
+            <span class="word">{{flow.hangdleContent.endTime | date:'yyyy/MM/dd HH:mm'}}</span>
+          </li>
+          <li class="form-bar">
+            <span class="form-title">反馈人姓名</span>
+            <span class="word">{{flow.hangdleContent.createUserName | emptyValue:'暂无数据'}}</span>
+          </li>
+          <li class="form-bar full-line">
+            <span class="form-title">落实情况内容</span>
+            <pre class="word">{{flow.hangdleContent.content | emptyValue:'暂无数据'}}</pre>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="flow.planContent.endTime&&flow.isFound ==='disagree'">
+        <div class="title"><span>未立案原因</span></div>
+        <ul class="form-msg">
+          <li class="form-bar full-line">
+            <span class="form-title">不同意说明</span>
+            <pre class="word">{{flow.hangdleContent.content | emptyValue:'暂无数据'}}</pre>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="flow.createSatisfled">
+        <div class="title"><span>提案人评价</span></div>
+        <ul class="form-msg">
+          <li class="form-bar">
+            <span class="form-title">满意度</span>
+            <span class="word">{{flow.createSatisfled | emptyValue:'暂无数据'}}</span>
+          </li>
+          <li class="form-bar full-line">
+            <span class="form-title">满意度评价</span>
+            <pre class="word">{{flow.createUserAssess | emptyValue:'暂无数据'}}</pre>
+          </li>
+        </ul>
+      </div>
+      <div class="title"><span>审批记录</span></div>
+      <table width="100%" style="margin:0 auto;" class="card-info">
+        <tr style="height: 40px; background-color: #acd6ff; text-align: center; font-weight: bold; font-size: 14px;color:#333;">
+          <th width="20%">节点名称</th>
+          <th width="20%">处理人</th>
+          <th width="20%">处理时间</th>
+          <th width="20%">审核决策</th>
+          <th width="20%">审核意见</th>
+        </tr>
+        <!--<tr style="height: 36px; text-align: center" *ngIf="flow.id">
+          <td>发起人发起</td>
+          <td>{{flow.createUserName}}</td>
+          <td>{{flow.createTime}}</td>
+          <td>发起</td>
+          <td style="max-width: 350px;">发起提案</td>
+        </tr>-->
+        <tr style="height: 36px; text-align: center" *ngFor="let inner of flow.opinionContent;let i=index">
+          <td>{{inner.userGroup}}</td>
+          <td>{{inner.userName}}</td>
+          <td>{{inner.createTime}}</td>
+          <td>{{inner.result}}</td>
+          <td style="max-width: 350px;">{{inner.content}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
