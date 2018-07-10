@@ -184,8 +184,15 @@ export class CongflowComponent implements OnInit {
       if (this.newCard.isFound==="立案"&&!this.verifyEmpty('newPlanEndTime')) {
         return false;
       }
-      if (this.newCard.isFound==="不同意"&&!this.verifyEmpty('newHandleContentResult')) {
-        return false;
+      if (this.newCard.isFound==="立案"&&this.isEdit) {
+        if(!this.verifyEmpty('newHandleEndTime')){
+          return false;
+        }
+      }
+      if (this.newCard.isFound==="不同意") {
+        if(!this.verifyEmpty('newHandleContentResult')){
+          return false;
+        }
       }
     }
     if(this.newCard.schedule === 8){

@@ -211,7 +211,7 @@
             同意
           </label>
           <label for="no" style="line-height: 30px;" id="newResult" *ngIf="newCard.previousSchedule!==4&&
-          (newCard.previousSchedule!==2&&newCard.schedule === 5)">
+          !(newCard.previousSchedule===2&&newCard.schedule === 5)">
             <input id="no" name="isOrder" type="radio" value="fail" [(ngModel)]="resultSubmit.result"
                    (change)="setResultContent()">
             驳回
