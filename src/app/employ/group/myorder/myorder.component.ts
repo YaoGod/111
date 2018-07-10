@@ -55,7 +55,7 @@ export class MyorderComponent implements OnInit {
     if(typeof (this.route.params['_value']['id']) === "undefined"){
       this.getOrderList(1,this.chooseId);
     }else{
-      let tempid: number = 0;
+      let tempid = 0;
       this.route.params
         .switchMap((params: Params) => this.chooseId = params['id'])
         .subscribe(() => {

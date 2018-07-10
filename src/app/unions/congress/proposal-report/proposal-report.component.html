@@ -19,36 +19,22 @@
               <option value="综合管理类">综合管理类</option>
             </select>
           </li>
-          <!--<li>-->
-            <!--<label>HRMIS号</label>-->
-            <!--<input name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.createUserId">-->
-          <!--</li>-->
-          <!--<li>-->
-            <!--<label>姓名</label>-->
-            <!--<input name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.createUserName">-->
-          <!--</li>-->
-          <!--<li>-->
-            <!--<label>部门</label>-->
-            <!--<select name="buildingNameS" style="width:125px;" [(ngModel)]="searchInfo.createUserDept">-->
-              <!--<option value="">全部</option>-->
-              <!--<option *ngFor="let dept of deptList" [value]="dept.DEPT_NAME">-->
-                <!--{{dept.DEPT_NAME}}-->
-              <!--</option>-->
-            <!--</select>-->
-          <!--</li>-->
           <li>
             <label >发起时间</label>
             <input name="createTime" style="width:125px;" type="date" [(ngModel)]="searchInfo.bTime"> 至
             <input name="createTime" style="width:125px;" type="date" [(ngModel)]="searchInfo.eTime" >
           </li>
-          <!--<li>-->
-            <!--<a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a>-->
-          <!--</li>-->
         </ul>
         <div class="search-right">
           <a (click)="repairSearch(1);"><i class="icon-magnifier"></i>&nbsp;查询</a>
           <a (click)="exportReport();"><i class="icon-docs"></i>&nbsp;导出</a>
         </div>
+      </div>
+      <div class="card-list">
+        <span>提案发起时间</span>
+        <input class="card-title" type="date" name="beginTime" [(ngModel)]="beginTime">至
+        <input class="card-title" type="date" name="endTime" [(ngModel)]="endTime">
+        <span class="btn-edit" (click)="saveContent()">保存更改</span>
       </div>
       <ul class="card-list clearfix">
         <li  class="room-card">

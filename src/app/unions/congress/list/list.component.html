@@ -30,7 +30,7 @@
           </li>-->
           <li>
             <label >提案类型</label>
-            <select class="search-ipt search-sel" name="searchtype" [(ngModel)]="searchInfo.type">
+            <select class="search-ipt search-sel" name="searchtype" [(ngModel)]="searchInfo.type" style="width:125px;">
               <option value="">全部</option>
               <option value="市场类">市场类</option>
               <option value="政企类">政企类</option>
@@ -68,7 +68,7 @@
               <th>发起人部门</th>
               <th>发起时间</th>
               <th>立案状态</th>
-              <th *ngIf="rule&&rule.isUpdate">操作</th>
+              <th *ngIf="catas&&catas.isUpdate">操作</th>
             </tr>
             <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
               <td width="30%" style="padding-left: 15px;text-align: left"
@@ -80,7 +80,7 @@
               <td>{{inner.createUserDept}}</td>
               <td>{{inner.createTime | date:'yyyy-MM-dd HH:mm'}}</td>
               <td>{{inner.isFound}}</td>
-              <td *ngIf="rule&&rule.isUpdate">
+              <td *ngIf="catas&&catas.isUpdate">
                 <i class="icon-check" *ngIf="inner.isFound&&inner.isFound==='待审核'" (click)="editCardInfo(inner.id)"
                    style="margin-left: 5px;" title="立案"></i>
                 <i class="icon-close" *ngIf="inner.isFound&&inner.isFound==='待审核'" (click)="delCardInfo(inner.id)"

@@ -171,6 +171,8 @@ export class GoodsordermanageComponent implements OnInit {
   }
 
   closeMask() {
+    this.updateOrder.expressNum = '';
+    this.updateOrder.expressCompany = '';
     $('.errorMessage').html('');
     $('.mask,.mask0').hide();
   }

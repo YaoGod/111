@@ -58,32 +58,27 @@ export class LaunchComponent implements OnInit {
   }
   /*获取开放时间信息*/
   getListTime(){
-    let url = "/portal/cata/getCataList/1/999?cataName=";
+    let url = "/portal/cata/getCataList/1/999?cataName=工会管理";
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
-        this.entrySecurity = data.data;
-        for(let i=0;i<this.entrySecurity.length;i++){
-          if(this.entrySecurity[i].id === 2){
-            if(this.entrySecurity[i].beginTime&&this.entrySecurity[i].endTime){
-              this.beginTime = this.entrySecurity[i].beginTime;
-              this.endTime = this.entrySecurity[i].endTime;
-            }
-
-          }
+        this.entrySecurity = data.data.infos[0];
+        if(this.entrySecurity){
+          this.beginTime = this.entrySecurity.beginTime;
+          this.endTime = this.entrySecurity.endTime;
         }
-
       }
     });
   }
 
   /*保存申请内容信息(申请授权）*/
   saveContent(){
-      let temporary = JSON.parse(JSON.stringify(this.record));
+      /*let temporary = JSON.parse(JSON.stringify(this.record));
       for(let i=0;i<temporary.length;i++){
         delete temporary[i].buildings;
         delete temporary[i].floorNums;
         delete temporary[i].rooms;
-      }
+      }*/
+
   }
 
   /*提交*/
@@ -94,6 +89,7 @@ export class LaunchComponent implements OnInit {
     }
     let url = '/soclaty/flow/addSoclatyFlow';
     let postData = JSON.parse(JSON.stringify(this.record));
+    postData.handleUrl = '/hzportal/unions/congress/list';
       this.ipSetting.sendPost(url,postData).subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           // console.log(data);
@@ -151,6 +147,7 @@ export class Person{
   hostDeptId:string; // 主办部门编号
   helpDeptId:string; // 协办部门编号
   helpDeptName:string; // 协办部门名字
+  handleUrl:string; // 跳转链接
   HANGDLE_CONTENT:Array<string>; // 提案处理情况数组
   PLAN_CONTENT:any; // 实施情况数组
   SCHEDULE:string; // 流程当前环节

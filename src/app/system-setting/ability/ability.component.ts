@@ -186,9 +186,9 @@ export class AbilityComponent implements OnInit {
               data: [data.data],
 
               top: '1%',
-              left: '1%',
+              left: '10%',
               bottom: '1%',
-              right: '20%',
+              right: '10%',
               symbolSize: 10,
               initialTreeDepth: 2,
               label: {
@@ -196,7 +196,7 @@ export class AbilityComponent implements OnInit {
                   position: 'left',
                   verticalAlign: 'middle',
                   align: 'right',
-                  fontSize: 9
+                  fontSize: 14
                 }
               },
 

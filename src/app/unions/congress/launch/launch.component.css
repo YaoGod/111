@@ -244,9 +244,9 @@ select{
 }
 .error{
   display: inline-block;
-  width: 100px;
+  width: 85px;
   line-height: 16px;
-  padding-left: 25px;
+  padding-left: 15px;
   font-size: 10px;
   color: #d75452;
 }

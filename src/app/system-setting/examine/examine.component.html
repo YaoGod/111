@@ -74,11 +74,14 @@
             <p>{{order.handleUserName}}</p>
           </td>
           <td class="box-option">
-            <a [routerLink]="['../check',order.id]" *ngIf="(searchType=== 'going'&&order.status === 'going')||order.schedule===0">
+            <a [routerLink]="[order.handleUrl]" *ngIf="order.type==='职代会流程申请'&&order.handleUrl">
+              <i class="icon-speech"></i>&nbsp;前往处理
+            </a>
+            <a [routerLink]="['../check',order.id]" *ngIf="order.type!=='职代会流程申请'&&((searchType=== 'going'&&order.status === 'going')||order.schedule===0)">
               <i class="icon-speech"></i>&nbsp;前往处理
             </a>
             <a [routerLink]="['../detail',order.id]"
-               *ngIf="(searchType=== ''||order.status === 'end')&&order.schedule!==0"><!--/*searchType=== ''||*/-->
+               *ngIf="(searchType=== ''||order.status === 'end')&&order.schedule!==0">
               <i class="icon-eye"></i>&nbsp;详情
             </a>
           </td>

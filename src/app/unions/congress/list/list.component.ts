@@ -20,7 +20,6 @@ export class ListComponent implements OnInit {
   public secondCard = new CardInfo();
 
   public mode = '0';
-  public proposal = [];
   public pageSize = 15;
   public pageNo = 1;
   public total = 0;
@@ -28,7 +27,6 @@ export class ListComponent implements OnInit {
   public searchInfo = new SearchInfo();
   public record:any;
   public recordChoose:any;
-  private contractBool = true;
   public repairDept=[];
   public rule;
   public catas;
@@ -48,7 +46,6 @@ export class ListComponent implements OnInit {
     this.repairSearch(1);
     this.repairWait();
     this.getRepairDept();
-    this.proposal = [{id:1,name:'提案1'},{id:2,name:'提案2'},{id:3,name:'提案3'},]
   }
   /*查询*/
   repairSearch(num){
@@ -200,6 +197,7 @@ export class ListComponent implements OnInit {
         "hostDeptId": this.newCard.hostDeptId,
         "helpDeptName": this.newCard.helpDeptName,
         "helpDeptId": this.newCard.helpDeptId,
+        "handleUrl": '/hzportal/unions/congress/congflow'
       },
       "flowNode": {
         "result": "pass"
@@ -230,6 +228,7 @@ export class ListComponent implements OnInit {
       "soclatyFlow": {
         "hostDeptName": this.secondCard.hostDeptName,
         "hostDeptId": this.secondCard.hostDeptId,
+        "handleUrl": '/hzportal/unions/congress/congflow'
       },
       "flowNode": {
         "result": "disagree"

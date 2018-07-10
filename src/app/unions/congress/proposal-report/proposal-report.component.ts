@@ -5,6 +5,7 @@ import {Http} from "@angular/http";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
+import {UserPortalService} from "../../../service/user-portal/user-portal.service";
 declare var $: any;
 declare var confirmFunc: any;
 @Component({
@@ -22,10 +23,14 @@ export class ProposalReportComponent implements OnInit {
   public searchInfo = new SearchInfo();
   public record:any;
   public rule : sndCatalog = new sndCatalog();
+  public entrySecurity:any;
+  public beginTime:string;
+  public endTime:string;
   constructor(
     public http:Http,
     public ipSetting:IpSettingService,
     public errorVoid:ErrorResponseService,
+    private userPortalService:UserPortalService,
     private globalCatalogService:GlobalCatalogService
   ) {
     this.rule = this.globalCatalogService.getRole("party/upload");
@@ -43,6 +48,7 @@ export class ProposalReportComponent implements OnInit {
     this.searchInfo.bTime = '';
     this.searchInfo.eTime = '';
     this.repairSearch(1);
+    this.getListTime();
   }
 
   /*查询*/
@@ -55,10 +61,39 @@ export class ProposalReportComponent implements OnInit {
       }
     });
   }
+  /*获取开放时间信息*/
+  getListTime(){
+    let url = "/portal/cata/getCataList/1/999?cataName=工会管理";
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        this.entrySecurity = data.data.infos[0];
+        this.beginTime = this.entrySecurity.beginTime;
+        this.endTime = this.entrySecurity.endTime;
+
+      }
+    });
+  }
+  /*保存时间更改*/
+  saveContent(){
+    let temporary = JSON.parse(JSON.stringify(this.entrySecurity));
+    this.userPortalService.updateCataInfo(temporary)
+      .subscribe(data => {
+        if (this.errorVoid.errorMsg(data)) {
+          confirmFunc.init({
+            'title': '提示',
+            'mes': data.msg,
+            'popType': 2,
+            'imgType': 1,
+          });
+          this.getListTime();
+        }
+      })
+  }
 
   /*导出*/
   exportReport() {
-    let url = this.ipSetting.ip+'/soclaty/flow/getSoclatyFlowExcel?type='+this.searchInfo.type+'&bTime='+this.searchInfo.bTime+'&eTime='+this.searchInfo.eTime;
+    let url = this.ipSetting.ip+'/soclaty/flow/getSoclatyFlowExcel?type='+this.searchInfo.type+'&bTime='+
+      this.searchInfo.bTime+'&eTime='+this.searchInfo.eTime;
     this.http.get(url)
       .subscribe(data => {
         window.location.href = url;

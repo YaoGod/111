@@ -141,4 +141,5 @@ export class SearchOrder {
   payTime:string;
   address:string;
   teleNum:string;
+  oaEmail:string;
 }

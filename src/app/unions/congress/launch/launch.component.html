@@ -15,7 +15,7 @@
         <div class="warp clearfix">
           <div class="warp-left">
             <div class="flow-area">
-              <h3>请在<span>{{beginTime}}至{{endTime}}</span>前发起提案。</h3>
+              <h3>请在<span>{{beginTime}}至{{endTime}}</span>发起提案。</h3>
               <p><img style="width: 100%;" src="assets/image/inner.png" /> </p>
             </div>
           </div>
@@ -55,7 +55,7 @@
             <div class="form-group">
               <label class="control-label">
                 <span>政治面貌</span>
-                <input class="form-control" type="text"  [(ngModel)]="record.userCultural" disabled="disabled"
+                <input class="form-control" type="text"  [(ngModel)]="record.userPolitical" disabled="disabled"
                        name="userCultural">
               </label>
               <div class="error"></div>
@@ -63,7 +63,7 @@
             <div class="form-group">
               <label class="control-label">
                 <span>文化成度</span>
-                <input class="form-control" type="text" [(ngModel)]="record.userPolitical" disabled="disabled"
+                <input class="form-control" type="text" [(ngModel)]="record.userCultural" disabled="disabled"
                        name="userPolitical">
               </label>
               <div class="error"></div>
@@ -126,7 +126,7 @@
               </label>
               <div class="error"></div>
             </div>
-            <div style="text-indent: 30em;">
+            <div style="text-indent: 25em;">
               <button class="btn btn-info" type="submit"
                       (click)="submitPassword()">提交
               </button>
