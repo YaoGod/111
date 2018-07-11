@@ -58,8 +58,7 @@
           </li>-->
         </ul>
       </div>
-      <ul class="card-list clearfix">
-        <li  class="room-card">
+
           <table width="100%" style="margin:0 auto;" class="card-info">
             <tr style="height: 40px; background-color: #acd6ff; text-align: center; font-weight: bold; font-size: 14px;color:#333;">
               <th width="30%" style="padding-left: 15px;text-align: left">提案主题</th>
@@ -87,8 +86,9 @@
                    style="margin-left: 5px;" title="不立案"></i></td>
             </tr>
           </table>
-        </li>
-      </ul>
+      <div class="div-none" *ngIf="record && record.length === 0">
+        <p>暂无信息</p>
+      </div>
       <app-turn-bar
         [pageNo]="pageNo"
         [pageSize]="pageSize"

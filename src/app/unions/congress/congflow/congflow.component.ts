@@ -58,7 +58,6 @@ export class CongflowComponent implements OnInit {
     this.searchInfo.type = "";
     this.searchInfo.hostDeptId = "";
     this.searchInfo.helpDeptId = "";
-    this.searchInfo.isFound = "success,disagree";
     this.searchInfo.dataType = "pending";
     this.resultSubmit = new ResultSubmit();
     this.repairSearch(1);
@@ -88,6 +87,11 @@ export class CongflowComponent implements OnInit {
   /*查询*/
   repairSearch(num){
     this.pageNo = num;
+    if(this.searchInfo.dataType === "past"){
+      this.searchInfo.isFound = null;
+    }else {
+      this.searchInfo.isFound = "success,disagree";
+    }
     let url = '/soclaty/flow/getSoclatyFlowList/'+num+'/'+this.pageSize;
     this.ipSetting.sendPost(url,this.searchInfo).subscribe(data => {
       if(this.errorVoid.errorMsg(data)){
@@ -121,6 +125,8 @@ export class CongflowComponent implements OnInit {
       if(this.newCard.previousSchedule === 6){
         // 实际是第七步骤
         this.getOrderDetail(this.newCard.id);
+      }else if(this.newCard.previousSchedule === 2){
+        this.isEdit = false;
       }
     }
     if(this.newCard.schedule === 6){
@@ -128,7 +134,7 @@ export class CongflowComponent implements OnInit {
       $('#shishi').fadeIn();
     }
     else if(this.newCard.schedule === 8){
-      this.newCard.createSatisfled = "";
+      this.resultSubmit.satisfled = "";
       $('#fankui').fadeIn();
     }
     else{
@@ -187,7 +193,7 @@ export class CongflowComponent implements OnInit {
       if (this.newCard.isFound==="立案"&&this.isEdit) {
         if(!this.verifyEmpty('newHandleEndTime')){
           return false;
-        }
+          }
       }
       if (this.newCard.isFound==="不同意") {
         if(!this.verifyEmpty('newHandleContentResult')){
@@ -196,7 +202,8 @@ export class CongflowComponent implements OnInit {
       }
     }
     if(this.newCard.schedule === 8){
-      if (this.newCard.createSatisfled === "") {
+      console.log(this.resultSubmit);
+      if (this.resultSubmit.satisfled === "") {
         this.addErrorClass("newCreateSatisfled", "请选择满意度");
         return false;
       } else {
@@ -250,8 +257,8 @@ export class CongflowComponent implements OnInit {
         url = "/soclaty/flow/checkDeptBoss";
         break;
       case 8:
-        url = "/soclaty/flow/endFlow";
-        postData = soclatyFlow;
+        url = "/soclaty/flow/endFlow/"+this.newCard.id;
+        postData = flowNode;
         break;
     }
     this.ipSetting.sendPost(url, postData)
@@ -388,9 +395,9 @@ export class SearchInfo {
   children:Array<any>;
   code: string;
   content:string;
-  createSatisfled:string;
+  satisfled:string;
   createTime:string;
-  createUserAssess:string;
+  createUserAssess: Array<any>;
   createUserDept:string;
   createUserId:string;
   createUserName:string;
@@ -445,7 +452,8 @@ export class ResultSubmit {
   userGroup: string;
   createTime: string;
   type: string;
-  createUserAssess:string;
+  satisfled: string
+  userAssess:string;
 }
 export class RequestContent{
   content: string;

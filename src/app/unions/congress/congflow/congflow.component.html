@@ -58,51 +58,50 @@
           </li>
         </ul>
       </div>
-      <ul class="card-list clearfix">
-        <li  class="room-card">
-          <table width="100%" style="margin:0 auto;" class="card-info">
-            <tr style="height: 40px; background-color: #acd6ff; text-align: center; font-weight: bold; font-size: 14px;color:#333;">
-              <th style="width: 30px;" *ngIf="searchInfo.dataType==='pending'"></th>
-              <th>提案编号</th>
-              <th width="20%" style="text-align: left">提案主题</th>
-              <th>提案类型</th>
-              <th>是否立案</th>
-              <th>主办部门</th>
-              <!--<th width="10%">协办部门</th>-->
-              <th>当前节点</th>
-              <th>当前处理人</th>
-              <th>发起时间</th>
-              <th *ngIf="searchInfo.dataType==='pending'" width="8%">操作</th>
-            </tr>
-            <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
-              <td style="width: 30px;" *ngIf="searchInfo.dataType==='pending'">
-                <input type="checkbox" name="rSelect" *ngIf="inner.schedule === 4"
-                       [value]="inner.id">
-              </td>
-              <td>{{inner.code}}</td>
-              <td style="text-align: left"
-                  [routerLink]="['../detail',inner.id]">
-                <a href="javascript:;">{{inner.theme}}</a>
-              </td>
-              <td>{{inner.type}}</td>
-              <td>{{inner.isFound}}</td>
-              <td>{{inner.hostDeptName}}</td>
-             <!-- <td>{{inner.helpDeptName}}</td>-->
-              <td>{{flowNameList[inner.schedule]}}</td>
-              <td>{{inner.handleUserName}}</td>
-              <td>{{inner.createTime | date:'yyyy-MM-dd HH:mm'}}</td>
-              <td *ngIf="searchInfo.dataType==='pending'">
-                <a class="search-btn" (click)="addVehicle(inner)"
-                   *ngIf="inner.schedule!==2">
-                  <span *ngIf="inner.schedule!==6&&inner.schedule!==8">审核</span>
-                  <span *ngIf="inner.schedule===6">反馈</span>
-                  <span *ngIf="inner.schedule===8">评价</span>
-                </a>
-              </td>
-            </tr>
-          </table>
-        </li>
-      </ul>
+      <table width="100%" style="margin:0 auto;" class="card-info">
+        <tr style="height: 40px; background-color: #acd6ff; text-align: center; font-weight: bold; font-size: 14px;color:#333;">
+          <th style="width: 30px;" *ngIf="searchInfo.dataType==='pending'"></th>
+          <th>提案编号</th>
+          <th width="20%" style="text-align: left">提案主题</th>
+          <th>提案类型</th>
+          <th>是否立案</th>
+          <th>主办部门</th>
+          <!--<th width="10%">协办部门</th>-->
+          <th>当前节点</th>
+          <th>当前处理人</th>
+          <th>发起时间</th>
+          <th *ngIf="searchInfo.dataType==='pending'" width="8%">操作</th>
+        </tr>
+        <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
+          <td style="width: 30px;" *ngIf="searchInfo.dataType==='pending'">
+            <input type="checkbox" name="rSelect" *ngIf="inner.schedule === 4"
+                   [value]="inner.id">
+          </td>
+          <td>{{inner.code}}</td>
+          <td style="text-align: left"
+              [routerLink]="['../detail',inner.id]">
+            <a href="javascript:;">{{inner.theme}}</a>
+          </td>
+          <td>{{inner.type}}</td>
+          <td>{{inner.isFound}}</td>
+          <td>{{inner.hostDeptName}}</td>
+         <!-- <td>{{inner.helpDeptName}}</td>-->
+          <td>{{flowNameList[inner.schedule]}}</td>
+          <td>{{inner.handleUserName}}</td>
+          <td>{{inner.createTime | date:'yyyy-MM-dd HH:mm'}}</td>
+          <td *ngIf="searchInfo.dataType==='pending'">
+            <a class="search-btn" (click)="addVehicle(inner)"
+               *ngIf="inner.schedule!==2">
+              <span *ngIf="inner.schedule!==6&&inner.schedule!==8">审核</span>
+              <span *ngIf="inner.schedule===6">反馈</span>
+              <span *ngIf="inner.schedule===8">评价</span>
+            </a>
+          </td>
+        </tr>
+      </table>
+      <div class="div-none" *ngIf="record && record.length === 0">
+        <p>暂无信息</p>
+      </div>
       <app-turn-bar
         [pageNo]="pageNo"
         [pageSize]="pageSize"
@@ -341,13 +340,11 @@
         <span class="form-label">满意度</span>
         <div class="form-inp">
           <label for="yes" style="line-height: 30px;">
-            <input name="isOrder" type="radio" value="满意" [(ngModel)]="newCard.createSatisfled"
-                   (change)="setResultContent()">
+            <input name="satisfled" type="radio" value="满意" [(ngModel)]="resultSubmit.satisfled">
             满意
           </label>
           <label for="no" style="line-height: 30px;" id="newCreateSatisfled">
-            <input name="isOrder" type="radio" value="不满意" [(ngModel)]="newCard.createSatisfled"
-                   (change)="setResultContent()">
+            <input name="satisfled" type="radio" value="不满意" [(ngModel)]="resultSubmit.satisfled">
             不满意
           </label>
           <span class="errorMessage"></span>
@@ -356,7 +353,7 @@
       <div class="form-control form-alone">
         <span class="form-label">满意度评价</span>
         <div class="form-inp">
-          <textarea name="newContent" id="newCreateUserAssess" rows="5" [(ngModel)]="newCard.createUserAssess"
+          <textarea name="newContent" id="newCreateUserAssess" rows="5" [(ngModel)]="resultSubmit.userAssess"
                     (blur)="verifyEmpty('newCreateUserAssess')" style="width: 100%"></textarea>
           <span class="errorMessage"></span>
         </div>

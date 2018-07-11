@@ -36,8 +36,6 @@
         <input class="card-title" type="date" name="endTime" [(ngModel)]="endTime">
         <span class="btn-edit" (click)="saveContent()">保存更改</span>
       </div>
-      <ul class="card-list clearfix">
-        <li  class="room-card">
           <table width="100%" style="margin:0 auto;" class="card-info">
             <tr style="height: 40px; background-color: #acd6ff; text-align: center; font-weight: bold; font-size: 14px;color:#333;">
               <th>提案编号</th>
@@ -67,11 +65,11 @@
               </td>
             </tr>
           </table>
-        </li>
+
         <div class="div-none" *ngIf="record && record.length === 0">
           <p>暂无信息</p>
         </div>
-      </ul>
+
       <app-turn-bar
         [pageNo]="pageNo"
         [pageSize]="pageSize"
