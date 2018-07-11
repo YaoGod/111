@@ -24,7 +24,7 @@ export class JihuaDetailComponent implements OnInit {
 
   ngOnInit() {
     this.newCard = new CardInfo();
-    this.globalCatalogService.setTitle("党建管理/党委");
+    this.globalCatalogService.setTitle("党建管理/党支部工作计划和总结");
     this.route.params.subscribe(data => {
       this.getWelfare(data.id);
     });

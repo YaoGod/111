@@ -4,15 +4,15 @@ import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 import {UtilBuildingService} from "../../../service/util-building/util-building.service";
-import {SaleProductEmployeeService} from "../../../service/sale-product-employee/sale-product-employee.service";
 import {sndCatalog} from "../../../mode/catalog/catalog.service";
 declare var $: any;
 declare var confirmFunc: any;
+
 @Component({
   selector: 'app-sanhuilist',
   templateUrl: './sanhuilist.component.html',
   styleUrls: ['./sanhuilist.component.css'],
-  providers:[UtilBuildingService,SaleProductEmployeeService,sndCatalog],
+  providers:[UtilBuildingService,sndCatalog],
 })
 export class SanhuilistComponent implements OnInit {
   public newCard = new CardInfo();
@@ -32,7 +32,6 @@ export class SanhuilistComponent implements OnInit {
     public errorVoid:ErrorResponseService,
     private globalCatalogService:GlobalCatalogService,
     private utilBuildingService:UtilBuildingService,
-    private saleProductEmployeeService:SaleProductEmployeeService,
   ) {
     this.rule = this.globalCatalogService.getRole("party/upload");
   }
@@ -125,6 +124,12 @@ export class SanhuilistComponent implements OnInit {
   /*新增校验*/
   public verifybranchName(){
     if (!this.isEmpty('branchName', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifybranchAttach(){
+    if (!this.isEmpty('branchAttach', '不能为空')) {
       return false;
     }
     return true;
@@ -230,8 +235,9 @@ export class SanhuilistComponent implements OnInit {
     }else{
       url = "/party/add/addThreeOne";
     }
-    if (!this.verifybranchName()||!this.verifynewtype()||!this.verifybTime()||!this.verifyeTime()||!this.verifyhost()||
-    !this.verifyaddress()||!this.verifyrecorder()||!this.verifyshouldNum()||!this.verifyfactNum()||!this.verifytheme()||
+    if (!this.verifybranchName()||!this.verifynewtype()||!this.verifybTime()||!this.verifyeTime()||
+      !this.verifyhost()|| !this.verifyaddress()||!this.verifyrecorder()||!this.verifyshouldNum()||!this.verifyfactNum()||
+      !this.verifytheme()||
       !this.verifynote()) {
       return false;
     }
@@ -317,6 +323,7 @@ export class SanhuilistComponent implements OnInit {
 export class CardInfo {
   id: number; // 本条信息ID
   branchName:string; // 支部名称
+  branchAttach:string; // 所属党支部
   type:string; // 会议类型(三会一课同级)
   subType:string; // 子类型
   month: string;// 月份

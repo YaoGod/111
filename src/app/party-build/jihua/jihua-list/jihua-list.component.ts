@@ -30,7 +30,7 @@ export class JihuaListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.globalCatalogService.setTitle("党建管理/党委委员调研党支部信息");
+    this.globalCatalogService.setTitle("党建管理/党支部工作计划和总结");
     this.getRepairDept();
     this.searchInfo.createUserId = localStorage.getItem("username");
     this.searchInfo.branchName = "";
@@ -222,6 +222,7 @@ export class JihuaListComponent implements OnInit {
 export class CardInfo {
   id: number; // 本条信息ID
   branchName:string; // 支部名称
+  branchAttach:string;
   type:string; // 类型
   month: string;// 月份
   bTime:string; // 开始时间

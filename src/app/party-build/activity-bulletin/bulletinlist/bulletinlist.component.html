@@ -12,7 +12,7 @@
       <div class="repair-chandlery clearfix">
         <ul class="record-search clearfix">
           <li>
-            <label>支部名称</label>
+            <label>党(总)支部名称</label>
             <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
               <option value="">全部</option>
               <option *ngFor="let dept of deptList" [value]="dept">
@@ -36,7 +36,7 @@
         <li class="room-card">
           <table width="100%" class="card-info">
             <tr style="height: 40px; background-color: #FFECEC; text-align: center; font-weight: bold; font-size: 14px;color:#04a9f3;">
-              <th>支部名称</th>
+              <th>党(总)支部名称</th>
               <th width="40%">活动类型</th>
               <th>月份</th>
               <th>支部党员人数</th>
@@ -79,7 +79,7 @@
     </div>
     <form method="post" name="topForm" class="repair-form">
       <div class="form-control">
-        <span class="form-label">支部名称</span>
+        <span class="form-label">党(总)支部名称</span>
         <div class="form-inp">
           <select class="company-ipt company-sel" name="branchName" id="branchName"
                   [(ngModel)]="newCard.branchName" (blur)="verifybranchName()">
@@ -90,13 +90,29 @@
         </div>
       </div>
       <div class="form-control">
-        <span class="form-label">活动类型</span>
+        <span class="form-label">所属党支部名称</span>
         <div class="form-inp">
-          <input class="company-ipt" type="text" name="activityType" id="activityType"
-                 [(ngModel)]="newCard.subType" (blur)="verifyactivityType()" maxlength="25">
+          <select class="company-ipt company-sel" name="branchAttach" id="branchAttach"
+                  [(ngModel)]="newCard.branchAttach" >
+            <option value=""> </option>
+            <option value="第一党支部">第一党支部</option>
+            <option value="第二党支部">第二党支部</option>
+            <option value="第三党支部">第三党支部</option>
+            <option value="第四党支部">第四党支部</option>
+            <option value="第五党支部">第五党支部</option>
+            <option value="第六党支部">第六党支部</option>
+          </select>
           <span class="errorMessage"></span>
         </div>
       </div>
+      <!--<div class="form-control">-->
+        <!--<span class="form-label">活动类型</span>-->
+        <!--<div class="form-inp">-->
+          <!--<input class="company-ipt" type="text" name="activityType" id="activityType"-->
+                 <!--[(ngModel)]="newCard.subType" (blur)="verifyactivityType()" maxlength="25">-->
+          <!--<span class="errorMessage"></span>-->
+        <!--</div>-->
+      <!--</div>-->
       <div class="form-control">
         <span class="form-label">月份</span>
         <div class="form-inp">
@@ -121,6 +137,22 @@
                  [(ngModel)]="newCard.factNum"
                  (blur)="verifyabsentNum()" maxlength="5">
           <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control"></div>
+      <div class="form-control">
+        <span class="form-label">活动类型</span>
+        <div class="modal-more" id="deptSltWin">
+          <div class="choose-list">
+            <div class="choose-group" *ngFor="let subType of newCard.subTypeArr;let i=index">
+              <label class="cb-blue">
+                <input type="checkbox" [name]="subType.name" id="activityType" [(ngModel)]="subType.choose" (blur)="verifyactivityType()"
+                       [value]="subType.name"
+                       (change)="chooseDept()">
+                <span>{{subType.name}}</span>
+              </label>
+            </div>
+          </div>
         </div>
       </div>
       <div class="form-control form-alone">

@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import {UtilBuildingService} from "../../../service/util-building/util-building.service";
 import {Http} from "@angular/http";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
-import {SaleProductEmployeeService} from "../../../service/sale-product-employee/sale-product-employee.service";
+import {UtilBuildingService} from "../../../service/util-building/util-building.service";
+import {sndCatalog} from "../../../mode/catalog/catalog.service";
 declare var $: any;
 declare var confirmFunc: any;
 @Component({
-  selector: 'app-subunitlist',
-  templateUrl: './subunitlist.component.html',
-  styleUrls: ['./subunitlist.component.css'],
-  providers:[UtilBuildingService],
+  selector: 'app-featurelist',
+  templateUrl: './featurelist.component.html',
+  styleUrls: ['./featurelist.component.css'],
+  providers:[UtilBuildingService,sndCatalog],
 })
-export class SubunitlistComponent implements OnInit {
+export class FeaturelistComponent implements OnInit {
   public newCard = new CardInfo();
   public buildings:Array<any>;
   public pageSize = 15;
@@ -24,23 +24,27 @@ export class SubunitlistComponent implements OnInit {
   public record:any;
   private contractBool = true;
   public repairDept=[];
-  constructor(
-    public http:Http,
-    public ipSetting:IpSettingService,
-    public errorVoid:ErrorResponseService,
-    private globalCatalogService:GlobalCatalogService,
-    private utilBuildingService:UtilBuildingService,
+  public rule : sndCatalog = new sndCatalog();
+  constructor( public http:Http,
+               public ipSetting:IpSettingService,
+               public errorVoid:ErrorResponseService,
+               private globalCatalogService:GlobalCatalogService,
+               private utilBuildingService:UtilBuildingService,
   ) { }
 
   ngOnInit() {
     this.globalCatalogService.setTitle("党建管理/工作台账上传");
-    this.searchInfo.type = '7';
-    this.searchInfo.createUserId = localStorage.getItem("username");
+    this.globalCatalogService.valueUpdated.subscribe(
+      (val) =>{
+        this.rule = this.globalCatalogService.getRole("party/upload");
+      }
+    );
+    this.searchInfo.type = '1';
     this.searchInfo.branchName = '';
     this.searchInfo.subType = '';
+    this.searchInfo.createUserId = localStorage.getItem("username");
     this.repairSearch(1);
     this.getRepairDept();
-
   }
   /*查询*/
   repairSearch(num){
@@ -52,20 +56,13 @@ export class SubunitlistComponent implements OnInit {
       }
     });
   }
-  /*获取部门列表*/
-  getRepairDept(){
-    let url = '/party/report/getDeptList';
-    this.ipSetting.sendGet(url).subscribe(data => {
-      if (this.errorVoid.errorMsg(data)) {
-        this.repairDept = data.data;
-      }
-    });
-  };
+
   /*点击编辑*/
   editCardInfo(index){
     this.contractBool = false;
+    $('.form-add').attr('disabled',false);
     $('.mask').fadeIn();
-    $('.mask .mask-head p').html('编辑党支部岗区队建设记录');
+    $('.mask .mask-head p').html('编辑会议记录');
     this.newCard = JSON.parse(JSON.stringify(this.record[index]));
     this.newCard.fileName = [];
     this.newCard.filePath = [];
@@ -99,18 +96,41 @@ export class SubunitlistComponent implements OnInit {
       }
     });
   }
+  /*获取部门列表*/
+  getRepairDept(){
+    let url = '/party/report/getDeptList';
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if (this.errorVoid.errorMsg(data)) {
+        this.repairDept = data.data;
+      }
+    });
+  };
   /*点击新增*/
   addVehicle(){
     this.contractBool = true;
+    $('.form-disable').attr('disabled',false).css('backgroundColor','#fff');
     this.newCard = new CardInfo();
-    this.newCard.type = '7';
     this.newCard.branchName = '';
+    this.newCard.type = '1';
+    this.newCard.subType = '';
     $('.mask').fadeIn();
-    $('.mask .mask-head p').html('新增党支部岗区队建设记录');
+    $('.mask .mask-head p').html('新增会议记录');
   }
   /*新增校验*/
   public verifybranchName(){
     if (!this.isEmpty('branchName', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifybranchAttach(){
+    if (!this.isEmpty('branchAttach', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifynewtype(){
+    if(!this.isEmpty('newtype', '不能为空')){
       return false;
     }
     return true;
@@ -121,31 +141,55 @@ export class SubunitlistComponent implements OnInit {
     }
     return true;
   }
-  public verifypioneerNum(){
-    if (!this.isEmpty('pioneerNum', '不能为空')) {
+  public verifyeTime(){
+    if (!this.isEmpty('eTime', '不能为空')) {
       return false;
     }
     return true;
   }
-  public verifydutyNum(){
-    if (!this.isEmpty('dutyNum', '不能为空')) {
+  public verifyhost(){
+    if (!this.isEmpty('host', '不能为空')) {
       return false;
     }
     return true;
   }
-  public verifycommandoNum(){
-    if (!this.isEmpty('commandoNum', '不能为空')) {
+  public verifyaddress(){
+    if (!this.isEmpty('address', '不能为空')) {
       return false;
     }
     return true;
   }
-  public verifyfrequency(){
-    if (!this.isEmpty('frequency', '不能为空')) {
+  public verifyrecorder(){
+    if (!this.isEmpty('recorder', '不能为空')) {
       return false;
     }
     return true;
   }
-  /*合同上传*/
+  public verifyshouldNum(){
+    if (!this.isEmpty('shouldNum', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifyfactNum(){
+    if (!this.isEmpty('factNum', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifytheme(){
+    if (!this.isEmpty('theme', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  public verifynote(){
+    if (!this.isEmpty('repairNote', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
+  /*附件上传*/
   prese_upload(files) {
     var xhr = this.utilBuildingService.uploadFileReport(files[0],'partyBuild',-1);
     xhr.onreadystatechange = () => {
@@ -182,15 +226,20 @@ export class SubunitlistComponent implements OnInit {
   submit(){
     var url;
     if(this.contractBool === false){
-      url = "/party/update/updateBuildInfo";
+      url = "/party/update/updateThreeOne";
     }else{
-      url = "/party/add/addBuildInfo";
+      url = "/party/add/addThreeOne";
     }
-    if (!this.verifybranchName()||!this.verifybTime()||!this.verifypioneerNum()||!this.verifydutyNum()||!this.verifycommandoNum()||
-      !this.verifyfrequency()) {
+    if (!this.verifybranchName()||!this.verifynewtype()||!this.verifybTime()||!this.verifyeTime()||
+      !this.verifyhost()|| !this.verifyaddress()||!this.verifyrecorder()||!this.verifyshouldNum()||!this.verifyfactNum()||
+      !this.verifytheme()||
+      !this.verifynote()) {
       return false;
     }
     let postData = JSON.parse(JSON.stringify(this.newCard));
+    postData.month = this.newCard.beginTime.substring(0, 7);
+    /*this.getNowFormatDate(); 018-06-09T10:00*/
+    /*postData.beginTime = postData.beginTime.replace("T"," ");*/
     if(postData.filePath && postData.filePath.length>0){
       this.ipSetting.sendPost(url, postData).subscribe(data => {
         if(this.errorVoid.errorMsg(data)){
@@ -213,11 +262,27 @@ export class SubunitlistComponent implements OnInit {
       });
       return false;
     }
+
   }
   /*取消*/
   addCancel(){
     $('.mask,.mask1,.mask2').fadeOut();
     $('.errorMessage').html('');
+  }
+  private getNowFormatDate() {
+    let date = new Date();
+    let seperator1 = "-";
+    let month = date.getMonth() + 1;
+    let strDate = date.getDate();
+    let num = String(month);
+    if (month >= 1 && month <= 9) {
+      num = "0" + month;
+    }
+    /*if (strDate >= 0 && strDate <= 9) {
+     strDate = "0" + strDate;
+     }*/
+    let currentdate = date.getFullYear() + seperator1 + num;
+    return currentdate;
   }
   /**非空校验*/
   public isEmpty(id: string, error: string): boolean  {
@@ -253,34 +318,7 @@ export class SubunitlistComponent implements OnInit {
 export class CardInfo {
   id: number; // 本条信息ID
   branchName:string; // 支部名称
-  branchAttach:string;
-  type:string; // 会议类型(三会一课同级)
-  subType:string; // 子类型
-  month: string;// 月份
-  name:string; // 文件名称
-  beginTime:string; // 开始时间
-  endTime:string; // 结束时间
-  host:string; // 主持人
-  recorder:string; // 记录人
-  shouldNum:number; // 应到人数
-  factNum:number; // 实到人数
-  absentNum:number; // 缺席人数
-  reason:string; // 缺席原因
-  theme:string; // 会议主题
-  note:string; // 会议议程
-  address:string; // 会议地点
-  fileName=[];
-  filePath=[];
-  fileContract:any;
-  pioneerNum:string; // 先锋岗数量
-  dutyNum:string; // 责任区数量
-  commandoNum:string; // 突击队数量
-  frequency:string; // 开展频次
-
-}
-export class SearchInfo {
-  id: number; // 本条信息ID
-  branchName:string; // 支部名称
+  branchAttach:string; // 所属党支部
   type:string; // 会议类型(三会一课同级)
   subType:string; // 子类型
   month: string;// 月份
@@ -297,5 +335,27 @@ export class SearchInfo {
   theme:string; // 会议主题
   note:string; // 会议议程
   address:string; // 会议地点
+  fileName=[];
+  filePath=[];
+  fileContract:any;
 }
-
+export class SearchInfo {
+  id: number; // 本条信息ID
+  branchName:string; // 支部名称
+  type:string; // 会议类型(三会一课同级)
+  subType:string; // 子类型
+  month: string;// 月份
+  name:string; // 文件名称
+  createUserId:string;
+  beginTime:string; // 开始时间
+  endTime:string; // 结束时间
+  host:string; // 主持人
+  recorder:string; // 记录人
+  shouldNum:number; // 应到人数
+  factNum:number; // 实到人数
+  absentNum:number; // 缺席人数
+  reason:string; // 缺席原因
+  theme:string; // 会议主题
+  note:string; // 会议议程
+  address:string; // 会议地点
+}

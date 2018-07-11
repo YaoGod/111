@@ -23,16 +23,20 @@
   cursor: pointer;
 }
 .cont{
-  padding:10px;    background: #fff;
+  padding:10px;
+  background-color:#fff;
+}
+#content{
+  min-height:180px;
 }
 .cont-inner{
   padding:20px;
   margin:20px;
   position: relative;
-  min-height: 70vh;
   -webkit-background-size: 50px 50px;
   -moz-background-size: 50px 50px;
   background-size: 50px 50px; /* 控制条纹的大小 */
+
   -moz-box-shadow: 1px 1px 8px gray;
   -webkit-box-shadow: 1px 1px 8px gray;
   box-shadow: 1px 1px 8px gray;
@@ -41,50 +45,53 @@
   -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.25, #F4F4F4), color-stop(.25, transparent), to(transparent)),
   -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.75, transparent), color-stop(.75, #F4F4F4)),
   -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.75, transparent), color-stop(.75, #F4F4F4));
+  /* background-image: -moz-linear-gradient(45deg, #555 25%, transparent 25%, transparent),
+   -moz-linear-gradient(-45deg, #555 25%, transparent 25%, transparent),
+   -moz-linear-gradient(45deg, transparent 75%, #555 75%),
+   -moz-linear-gradient(-45deg, transparent 75%, #555 75%);
+   background-image: -o-linear-gradient(45deg, #555 25%, transparent 25%, transparent),
+   -o-linear-gradient(-45deg, #555 25%, transparent 25%, transparent),
+   -o-linear-gradient(45deg, transparent 75%, #555 75%),
+   -o-linear-gradient(-45deg, transparent 75%, #555 75%);*/
   background-image: linear-gradient(45deg, #F4F4F4 25%, transparent 25%, transparent),
   linear-gradient(-45deg, #F4F4F4 25%, transparent 25%, transparent),
   linear-gradient(45deg, transparent 75%, #F4F4F4 75%),
   linear-gradient(-45deg, transparent 75%, #F4F4F4 75%);
 }
 .card-left{
-  float: left;
-  width:220px;
-}
-.card-right{
-  float: left;
-  width: 450px;
-}
-.card-left>li{
-  text-align: justify;
-}
-.card-left>li,.card-right>li{
-  height:40px;
-  line-height:40px;
-}
-@keyframes myfirst
-{
-  0% {transform:scale(.9);}
-  100% {transform:scale(1.1);}
+
 
 }
-.mark{
-  position: absolute;
-  right:0;
-  top:20px;
-  width:100px;
-  font:bold 20px/30px 'kaiti';
-  color:#CE0004;;
-  text-align: center;
+
+.card-left>li,.card-right>li{
+
+  line-height:40px;
 }
-.mark-info{
-  transform:scale(.9);
-  animation: myfirst 1.5s  infinite alternate;
-  -moz-animation: myfirst 1.5s infinite;	/* Firefox */
-  -webkit-animation: myfirst 1.5s infinite alternate;	/* Safari 和 Chrome */
-  -o-animation: myfirst 1.5s infinite;
+.left-li{
+  width:50%;
+  float: left;
+}
+.left-alone{
+  width:100%;
+  float: left;
+}
+.left-li span{
+  float: left;
+  width:20%;
+}
+.left-li strong{
+  float: left;
+  width:80%;
+}
+.left-alone span{
+  float: left;
+  width:9%;
+}
+.left-alone strong{
+  float: left;
+  width:90%;
 }
 .note{
-  float: left;
   width:100%;
 }
 .title{
@@ -117,31 +124,28 @@
 .invalid{
   background-color: #878787;
 }
-.history{
-  padding:20px;
-  min-height:250px;
+.word{
+  padding: 10px 8px;
+  word-break: break-all;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
+  margin: 0;
+  overflow-x: hidden;
+  color: #5d5d5d;
+  font-size: 12px;
+  letter-spacing: 2px;
+  line-height: 2;
 }
-
-.history-title{
-  text-align: center;
-  padding: 0 10px;
-  font: bold 20px/40px 'Adobe 楷体 Std R';
-  color: #2a85e9;
-  -webkit-box-shadow: 1px 2px 5px #999;
-  box-shadow: 1px 2px 5px #999;
-  background: repeating-linear-gradient(90deg, #ff0, #3c0 100%);
-  z-index:1;
-  /*-webkit-animation: flymove 20s  linear infinite;
-  -moz-animation: flymove 20s linear infinite;
-  animation: flymove 20s linear infinite;*/
+#content{
+  width: 100%;
+  border: none;
+  color: #5d5d5d;
+  font-size: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
+  letter-spacing: 2.5px;
+  line-height: 2;
 }
-@-webkit-keyframes flymove{
-  0%{background-position:0 0;}
-  100%{background-position:2400px 0;}
-}
-@-moz-keyframes flymove{
-  0%{background-position:0 0;}
-  100%{background-position:2400px 0;}
+#content::-webkit-scrollbar{
+  display: none;
 }
 .attachment li{
   line-height:25px;
@@ -158,7 +162,6 @@
 }
 .record tr:nth-child(odd){background:#F4F4F4; }
 .record tr:nth-child(even){color:#73B1E0;}
-
 .mask{
   display: none;
   z-index: 1000;

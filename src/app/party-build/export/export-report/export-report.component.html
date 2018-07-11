@@ -37,7 +37,7 @@
         <option value="2018">2018年</option>
       </select>
     </li>-->
-    <li><label>支部名称</label>
+    <li><label>党(总)支部名称</label>
       <select name="branchName" [(ngModel)]="search.branchName">
         <option value="">全部</option>
         <option *ngFor="let abc of repairDept" [value]="abc">{{abc}}</option>
@@ -78,7 +78,7 @@
     <thead>
     <tr class="row list-title" style="height:45px;">
       <!--<th width="10%">模块类型</th>-->
-      <th width="10%" >支部名称</th>
+      <th width="10%" >党(总)支部名称</th>
       <th width="10%" *ngIf="search.type!=='1'">月份</th>
       <th width="10%" *ngIf="search.type==='1'">会议类型</th>
       <th width="10%" *ngIf="search.type==='3'">活动类型</th>

@@ -254,6 +254,7 @@ export class CaselistComponent implements OnInit {
 export class CardInfo {
   id: number; // 本条信息ID
   branchName:string; // 支部名称
+  branchAttach:string;
   type:string; // 党建类型
   subType:string; /*案例类型*/
   month: string;// 月份

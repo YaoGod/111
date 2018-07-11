@@ -48,6 +48,7 @@ export class SubunitdetailComponent implements OnInit {
 export class CardInfo {
   id: number; // 本条信息ID
   branchName:string; // 支部名称
+  branchAttach:string;
   type:string; // 会议类型(三会一课同级)
   subType:string; // 子类型
   month: string;// 月份

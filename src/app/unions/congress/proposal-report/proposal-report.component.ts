@@ -63,7 +63,7 @@ export class ProposalReportComponent implements OnInit {
   }
   /*获取开放时间信息*/
   getListTime(){
-    let url = "/portal/cata/getCataList/1/999?cataName=工会管理";
+    let url = "/portal/cata/getCataList/1/999?cataName=职代会提案发起时间";
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         this.entrySecurity = data.data.infos[0];
@@ -76,6 +76,8 @@ export class ProposalReportComponent implements OnInit {
   /*保存时间更改*/
   saveContent(){
     let temporary = JSON.parse(JSON.stringify(this.entrySecurity));
+    temporary.beginTime = this.beginTime;
+    temporary.endTime = this.endTime;
     this.userPortalService.updateCataInfo(temporary)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {

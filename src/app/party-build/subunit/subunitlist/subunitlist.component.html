@@ -12,7 +12,7 @@
       <div class="repair-chandlery clearfix">
         <ul class="record-search clearfix">
           <li>
-            <label>支部名称</label>
+            <label>党(总)支部名称</label>
             <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
               <option value="">-全部-</option>
               <option *ngFor="let num of repairDept"
@@ -36,7 +36,7 @@
         <li  class="room-card">
           <table width="100%" class="card-info">
             <tr style="height: 40px; background-color: #FFECEC; text-align: center; color:#04a9f3; font-weight: bold; font-size: 14px;">
-              <th>支部名称</th>
+              <th>党(总)支部名称</th>
               <th>月份</th>
               <th>先锋岗数量</th>
               <th>责任区数量</th>
@@ -76,7 +76,7 @@
     </div>
     <form method="post" name="topForm" class="repair-form">
       <div class="form-control">
-        <span class="form-label">支部名称</span>
+        <span class="form-label">党(总)支部名称</span>
         <div class="form-inp">
           <select class="company-ipt company-sel" name="branchName" id="branchName"
                   [(ngModel)]="newCard.branchName" (blur)="verifybranchName()">
@@ -84,6 +84,22 @@
             <option *ngFor="let num of repairDept"
                     [value]="num">
               {{num}}</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">所属党支部名称</span>
+        <div class="form-inp">
+          <select class="company-ipt company-sel" name="branchName" id="branchAttach"
+                  [(ngModel)]="newCard.branchAttach" >
+            <option value=""> </option>
+            <option value="第一党支部">第一党支部</option>
+            <option value="第二党支部">第二党支部</option>
+            <option value="第三党支部">第三党支部</option>
+            <option value="第四党支部">第四党支部</option>
+            <option value="第五党支部">第五党支部</option>
+            <option value="第六党支部">第六党支部</option>
           </select>
           <span class="errorMessage"></span>
         </div>

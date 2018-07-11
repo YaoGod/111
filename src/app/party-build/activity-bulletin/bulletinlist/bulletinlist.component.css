@@ -169,14 +169,19 @@ input{
 .repair-chandlery ul li{
   -webkit-box-flex: 0;
   -ms-flex: 0;
-  flex: 0 0 25%;
-  max-width: 250px;
+  flex: 0 0 28%;
+  max-width: 280px;
+}
+.repair-chandlery ul li:last-child{
+  -webkit-box-flex: 0;
+  -ms-flex: 0;
+  flex: 0 0 10%;
 }
 .repair-chandlery ul li label{
   float: left;
   color: #686868;
   height: 30px;
-  width: 70px;
+  width: 100px;
   padding-right: 10px;
   line-height: 30px;
   font-size: 12px;
@@ -185,7 +190,7 @@ input{
 .repair-chandlery ul li input,.repair-chandlery ul li select{
   height: 20px;
   box-sizing: content-box;
-  width: calc(100% - 115px);
+  width: calc(100% - 135px);
   min-width: 70px;
   padding: 3px 8px;
   font-size: 12px;
@@ -583,4 +588,66 @@ button{
 }
 .contract-list li a{
   margin-left:6px; color:#ff0000
+}
+
+.modal-more{
+  position: absolute;
+  width: 550px;
+  top: 41%;
+  left: 67%;
+  margin-left: -350px;
+  /*padding: 10px;*/
+  border-radius: 5px;
+  background-color: #ffffff;
+  /*box-shadow: 6px 0 6px rgba(0,0,0,.1), -6px 0 6px rgba(0,0,0,.1), 0 6px 6px rgba(0,0,0,.1);*/
+  z-index: 6;
+}
+.modal-more h5{
+  line-height: 30px;
+}
+.modal-more-footer{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding-top: 3px;
+  clear: both;
+}
+.choose-list{
+  padding-bottom: 10px;
+  clear: both;
+}
+.choose-group{
+  float: left;
+  width: 20%;
+  height: 24px;
+  line-height: 18px;
+  padding: 2px;
+  text-align: center;
+  box-sizing: border-box;
+}
+.cb-blue>input[type=checkbox]{
+  position: absolute;
+  opacity: 0;
+}
+.cb-blue span{
+  display: inline-block;
+  width: 100%;
+  border:2px solid #d6d5d7;
+  border-radius: 3px;
+  color: #8d9ea7;
+  background-color: #ffffff;
+  transition-duration: 300ms;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.cb-blue>input[type=checkbox]:checked+span{
+  border:2px solid #03a9f3;
+  color: #ffffff;
+  background-color: #03a9f3;
 }

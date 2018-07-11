@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FeatureComponent } from './feature.component';
 import {RouterModule, Routes} from "@angular/router";
 import {RouteGuardService} from "../../service/route-guard/route-guard.service";
+import {FeaturedetailComponent} from "./featuredetail/featuredetail.component";
 
 const routes: Routes = [
   {
     path: '',
     canActivate: [RouteGuardService],
     component: FeatureComponent,
-    /*children: [
+    children: [
      {
      path: '',
      redirectTo: 'list',
@@ -17,13 +18,13 @@ const routes: Routes = [
      },
      {
      path: 'list',
-     loadChildren: './subunitlist/subunitlist.module#SubunitlistModule'
+     loadChildren: './featurelist/featurelist.module#FeaturelistModule'
      },
      {
      path: 'detail/:id',
-     component: SubunitdetailComponent
+     component: FeaturedetailComponent
      }
-     ]*/
+     ]
   }
 ];
 @NgModule({
@@ -31,6 +32,6 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [FeatureComponent]
+  declarations: [FeatureComponent,FeaturedetailComponent]
 })
 export class FeatureModule { }

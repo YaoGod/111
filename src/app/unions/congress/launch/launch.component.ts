@@ -58,7 +58,7 @@ export class LaunchComponent implements OnInit {
   }
   /*获取开放时间信息*/
   getListTime(){
-    let url = "/portal/cata/getCataList/1/999?cataName=工会管理";
+    let url = "/portal/cata/getCataList/1/999?cataName=职代会提案发起时间";
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         this.entrySecurity = data.data.infos[0];

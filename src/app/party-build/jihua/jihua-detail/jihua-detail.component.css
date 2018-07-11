@@ -58,6 +58,7 @@
   text-align: justify;
 }
 .card-left>li,.card-right>li{
+  height:40px;
   line-height:40px;
 }
 @keyframes myfirst

@@ -218,6 +218,7 @@ export class DangweiListComponent implements OnInit {
 export class CardInfo {
   id: number; // 本条信息ID
   branchName:string; // 支部名称
+  branchAttach:string;
   type:string; // 类型
   createUserId:string;
   filePath:Array<any>;

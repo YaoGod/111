@@ -30,7 +30,6 @@ export class BulletinlistComponent implements OnInit {
   constructor(
     public http:Http,
     public ipSetting:IpSettingService,
-    private userPortalService:UserPortalService,
     private utilBuildingService:UtilBuildingService,
     public errorVoid:ErrorResponseService,
     private globalCatalogService:GlobalCatalogService,
@@ -75,10 +74,26 @@ export class BulletinlistComponent implements OnInit {
   addVehicle(){
     this.contractBool = true;
     this.newCard = new CardInfo();
+    this.newCard.subTypeArr = [
+      {choose:false, name:'理论学习'},
+      {choose:false, name:'政治生日'},
+      {choose:false, name:'培训教育'},
+      {choose:false, name:'支部议事'},
+      {choose:false, name:'结对奉献'}];
     this.newCard.branchName = '';
     this.newCard.type = '3';
     $('.mask').fadeIn();
     $('.mask .mask-head p').html('新增“主题党日”活动简报');
+  }
+
+  /*选择活动类型*/
+  chooseDept(){
+    this.newCard.subType = '';
+    for(let i = 0;i<this.newCard.subTypeArr.length;i++){
+      if(this.newCard.subTypeArr[i].choose){
+        this.newCard.subType = this.newCard.subType + this.newCard.subTypeArr[i].name + ',';
+      }
+    }
   }
 
   /*附件上传*/
@@ -123,18 +138,29 @@ export class BulletinlistComponent implements OnInit {
       return false;
     }
 
-    this.ipSetting.sendPost(url, this.newCard).subscribe(data => {
-      if(this.errorVoid.errorMsg(data)){
-        confirmFunc.init({
-          'title': '提示' ,
-          'mes': this.contractBool === false?'更新成功':'新增成功',
-          'popType': 0 ,
-          'imgType': 1 ,
-        });
-        this.repairSearch(1);
-        this.addCancel();
-      }
-    });
+    if(this.newCard.subType && this.newCard.subType.length>0){
+      this.ipSetting.sendPost(url, this.newCard).subscribe(data => {
+        if(this.errorVoid.errorMsg(data)){
+          confirmFunc.init({
+            'title': '提示' ,
+            'mes': this.contractBool === false?'更新成功':'新增成功',
+            'popType': 0 ,
+            'imgType': 1 ,
+          });
+          this.repairSearch(1);
+          this.addCancel();
+        }
+      });
+    }else{
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '请选择活动类型！',
+        'popType': 0 ,
+        'imgType': 2,
+      });
+      return false;
+    }
+
   }
 
   /*点击编辑*/
@@ -142,7 +168,24 @@ export class BulletinlistComponent implements OnInit {
     this.contractBool = false;
     $('.mask').fadeIn();
     $('.mask .mask-head p').html('编辑“主题党日”活动简报');
+    this.newCard = new CardInfo();
     this.newCard = JSON.parse(JSON.stringify(this.recordList[index]));
+
+    this.newCard.subTypeArr = [
+      {choose:false, name:'理论学习'},
+      {choose:false, name:'政治生日'},
+      {choose:false, name:'培训教育'},
+      {choose:false, name:'支部议事'},
+      {choose:false, name:'结对奉献'}];
+    var subTypeArr = this.newCard.subType!==null?this.newCard.subType.split(","):[];
+    for(let i = 0;i<this.newCard.subTypeArr.length;i++){
+      for(let j = 0;j<subTypeArr.length;j++){
+        if(this.newCard.subTypeArr[i].name === subTypeArr[j]){
+          this.newCard.subTypeArr[i].choose = true;
+        }
+      }
+    }
+
     this.newCard.type = '3';
     this.newCard.fileName = [];
     this.newCard.filePath = [];
@@ -255,8 +298,10 @@ export class BulletinlistComponent implements OnInit {
 export class CardInfo {
   id: number; // 本条信息ID
   branchName:string; // 支部名称
+  branchAttach:string;
   type:string; // 党建类型
   subType:string; /*活动类型*/
+  subTypeArr=[]; /*活动类型数组*/
   createUserId:string;
   month: string;// 月份
   shouldNum:number; // 支部党员人数

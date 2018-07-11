@@ -30,17 +30,21 @@ export class ListComponent implements OnInit {
   public repairDept=[];
   public rule;
   public catas;
+  public catas2;
+  public inner = false;
   constructor(
     public http:Http,
     public ipSetting:IpSettingService,
     public errorVoid:ErrorResponseService,
     private globalCatalogService:GlobalCatalogService,
   ) {
+
   }
 
   ngOnInit() {
     this.globalCatalogService.setTitle("工会管理/提案信息管理");
     this.getRule();
+    this.getRuleMe();
     this.searchInfo.type = '';
     // this.searchInfo.createUserId = localStorage.getItem("username");
     this.repairSearch(1);
@@ -57,20 +61,34 @@ export class ListComponent implements OnInit {
       }
     });
   }
+
   getRule(){
-    this.globalCatalogService.getCata(-1,'unions','unions/congress/list')
+    this.globalCatalogService.getCata(-1,'unions','unions/congress/launch')
       .subscribe(data=>{
         if(this.errorVoid.errorMsg(data)){
-          this.catas = data.data[0];
-          /*for(let i = 0;i<this.catas.length;i++){
-            if(this.catas[i].routeUrl === "employ/group"){
-              this.catas.splice(i,1);
-              i = 0;
+          this.catas = data.data;
+          for(let i = 0;i<this.catas.length;i++){
+            if(this.catas[i].routeUrl === "unions/congress/launch"){
+              this.inner = true;
             }
-            if(this.catas[i].routeUrl === "employ/group/product"){
+            /*if(this.catas[i].routeUrl === "employ/group/product"){
               this.rule = this.catas[i];
+            }*/
+          }
+        }
+      })
+  }
+  getRuleMe(){
+    this.globalCatalogService.getCata(-1,'unions','unions/congress/')
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          if(data.data&&data.data.length>0){
+            for(let i = 0;i<data.data.length;i++){
+              if(data.data[i].routeUrl === "unions/congress/list"){
+                this.catas2 = data.data[i];
+              }
             }
-          }*/
+          }
         }
       })
   }
@@ -197,7 +215,8 @@ export class ListComponent implements OnInit {
         "hostDeptId": this.newCard.hostDeptId,
         "helpDeptName": this.newCard.helpDeptName,
         "helpDeptId": this.newCard.helpDeptId,
-        "handleUrl": '/hzportal/unions/congress/congflow'
+        "handleUrl": '/hzportal/unions/congress/congflow',
+        "content":'同意立案'
       },
       "flowNode": {
         "result": "pass"
@@ -228,7 +247,8 @@ export class ListComponent implements OnInit {
       "soclatyFlow": {
         "hostDeptName": this.secondCard.hostDeptName,
         "hostDeptId": this.secondCard.hostDeptId,
-        "handleUrl": '/hzportal/unions/congress/congflow'
+        "handleUrl": '/hzportal/unions/congress/congflow',
+        "content":'不同意立案'
       },
       "flowNode": {
         "result": "disagree"
