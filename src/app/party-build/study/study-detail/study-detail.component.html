@@ -1,0 +1,31 @@
+<div class="wrap">
+  <div class="cont">
+    <div class="row clearfix">
+      <div class="row-title">学“习”时间/心得体会</div>
+      <div class="content-box" tabindex="0" onclick="history.go(-1)">
+        <i class="icon-reload"></i> 返回
+      </div>
+    </div>
+    <div class="cont-inner clearfix">
+      <ul class="card-left">
+        <li>党(总)支部名称</li>
+        <li>心得体会或征文的主题</li>
+        <li>上传篇数</li>
+        <li>&nbsp;</li>
+      </ul>
+      <ul class="card-right">
+        <li>{{newCard.branchName}}</li>
+        <li>{{newCard.theme}}</li>
+        <li>{{newCard.typicalMethod}}</li>
+      </ul>
+      <div class="note">
+        <div class="title"><span>附件</span></div>
+        <ul class="attachment">
+          <li><a *ngFor="let abc of newCard.fileContract" [href]="ipSetting.fileUrl+abc.filePath" [download]="abc.fileName">
+            {{abc.fileName}} <i class="icon-cloud-download">下载</i></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+

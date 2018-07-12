@@ -126,7 +126,12 @@ export class CongflowComponent implements OnInit {
         // 实际是第七步骤
         this.getOrderDetail(this.newCard.id);
       }else if(this.newCard.previousSchedule === 2){
+        // 不同意第五步
         this.isEdit = false;
+        this.resultSubmit.result = "pass";
+      }else if(this.newCard.previousSchedule === 4){
+        // 同意的第五步
+        this.resultSubmit.result = "pass";
       }
     }
     if(this.newCard.schedule === 6){

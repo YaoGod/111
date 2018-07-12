@@ -70,7 +70,7 @@
           <th>当前节点</th>
           <th>当前处理人</th>
           <th>发起时间</th>
-          <th *ngIf="searchInfo.dataType==='pending'" width="8%">操作</th>
+          <th width="8%">操作</th>
         </tr>
         <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
           <td style="width: 30px;" *ngIf="searchInfo.dataType==='pending'">
@@ -78,9 +78,8 @@
                    [value]="inner.id">
           </td>
           <td>{{inner.code}}</td>
-          <td style="text-align: left"
-              [routerLink]="['../detail',inner.id]">
-            <a href="javascript:;">{{inner.theme}}</a>
+          <td style="text-align: left">
+            {{inner.theme}}
           </td>
           <td>{{inner.type}}</td>
           <td>{{inner.isFound}}</td>
@@ -89,9 +88,12 @@
           <td>{{flowNameList[inner.schedule]}}</td>
           <td>{{inner.handleUserName}}</td>
           <td>{{inner.createTime | date:'yyyy-MM-dd HH:mm'}}</td>
-          <td *ngIf="searchInfo.dataType==='pending'">
+          <td  class="box-option" style="min-width: 120px;">
+            <a class="search-link" [routerLink]="['../detail',inner.id]">
+              <i class="icon-eye"></i>&nbsp;详情
+            </a>
             <a class="search-btn" (click)="addVehicle(inner)"
-               *ngIf="inner.schedule!==2">
+               *ngIf="inner.schedule!==2&&searchInfo.dataType==='pending'">
               <span *ngIf="inner.schedule!==6&&inner.schedule!==8">审核</span>
               <span *ngIf="inner.schedule===6">反馈</span>
               <span *ngIf="inner.schedule===8">评价</span>

@@ -1,0 +1,113 @@
+<div class="wrap">
+  <div class="cont">
+    <div class="row clearfix">
+      <div class="row-title">学“习”时间</div>
+      <div class="b-head-right">
+        <div class="content-box" onclick="history.go(-1)" tabindex="0">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>
+    </div>
+    <div class="cont-inner">
+      <div class="repair-chandlery clearfix">
+        <ul class="record-search clearfix">
+          <li>
+            <label>党(总)支部名称</label>
+            <select name="buildingNameS" class="search-ipt search-sel" [(ngModel)]="searchInfo.branchName">
+              <option value="">-全部-</option>
+              <option *ngFor="let num of repairDept"
+                      [value]="num">
+                {{num}}</option>
+            </select>
+          </li>
+          <li>
+            <a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
+          </li>
+        </ul>
+        <div class="search-right">
+          <a href="javascript:;" class="btn search-btn" (click)="addVehicle()"><i class="icon-plus"></i>&nbsp;&nbsp;新 增</a>
+        </div>
+      </div>
+      <table width="100%" class="card-info">
+        <tr style="height: 40px; background-color: #FFECEC; text-align: center; font-weight: bold; font-size: 14px;color:#04a9f3;">
+          <th>党(总)支部名称</th>
+          <th>心得体会或征文的主题</th>
+          <th>上传篇数</th>
+          <th>操作</th>
+        </tr>
+        <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
+          <td><a href="javascript:;"
+                 [routerLink]="['../detail',inner.id]" >{{inner.branchName}}</a> </td>
+          <td>{{inner.theme}}</td>
+          <td>{{inner.typicalMethod}}</td>
+          <td>
+            <i class="icon-pencil" (click)="editCardInfo(i)" style="margin-left: 5px;" title="编辑"></i>
+            <i class="icon-trash" (click)="delCardInfo(inner.id)" style="margin-left: 5px;" title="删除"></i></td>
+        </tr>
+      </table>
+      <div class="div-none" *ngIf="record.length === 0">暂无信息</div>
+      <app-turn-bar
+        [pageNo]="pageNo"
+        [pageSize]="pageSize"
+        [total]="total"
+        [length] = 'length'
+        (turnEvent)="repairSearch($event)">
+      </app-turn-bar>
+    </div>
+  </div>
+</div>
+<div class="mask">
+  <div class="mask-cotainer">
+    <div class="mask-head"><i class="icon-film"></i> <p>新增心得体会</p>
+      <button class="close" (click)="addCancel()">×</button>
+    </div>
+    <form method="post" name="topForm" class="repair-form">
+      <div class="form-control">
+        <span class="form-label">党(总)支部名称</span>
+        <div class="form-inp">
+          <select class="company-ipt company  -sel" name="branchName" id="branchName"
+                  [(ngModel)]="newCard.branchName" (blur)="verifybranchName()">
+            <option value="">请选择</option>
+            <option *ngFor="let num of repairDept"
+                    [value]="num">
+              {{num}}</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone">
+        <span class="form-label">心得体会/征文主题</span>
+        <div class="form-inp">
+          <textarea class="repairNote" id="theme" name="theme" rows="2" [(ngModel)]="newCard.theme"
+                    (blur)="verifyTheme()"
+                    maxlength="50"></textarea>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">上传篇数</span>
+        <div class="form-inp">
+          <input class="company-ipt" type="number" name="pioneerNum" id="pioneerNum"
+                 [(ngModel)]="newCard.typicalMethod" (blur)="verifypioneerNum()">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone">
+        <span class="form-label">附件</span>
+        <ul class="contract-list">
+          <li *ngFor="let abc of newCard.fileName; let k=index">{{abc}}<a  href="javascript:;" (click)="delFile(k)">×</a> </li>
+        </ul>
+        <div class="form-inp" style=" margin-top:5px;">
+          <a href="javascript:;" style="color:#666; margin-left:127px; border-radius:4px; padding:5px 10px; background: #f6f6f6;" onclick="$('#prese').trigger('click')">上 传</a>
+          <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;"
+                 (change)="prese_upload(prese.files)">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+    </form>
+    <div class="mask-footer">
+      <button type="submit" class="btn-mask btn-info" (click)="submit()">保 存</button>
+      <button type="button" class="btn-mask btn-danger" (click)="addCancel()">取 消</button>
+    </div>
+  </div>
+</div>
