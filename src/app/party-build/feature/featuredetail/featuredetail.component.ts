@@ -3,8 +3,10 @@ import {ActivatedRoute} from "@angular/router";
 import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
+
 declare var $:any;
 declare var confirmFunc:any;
+
 @Component({
   selector: 'app-featuredetail',
   templateUrl: './featuredetail.component.html',
@@ -20,7 +22,7 @@ export class FeaturedetailComponent implements OnInit {
     private globalCatalogService:GlobalCatalogService,
     public ipSetting:IpSettingService,
     public errorVoid:ErrorResponseService,
- ) { }
+  ) { }
 
   ngOnInit() {
     this.globalCatalogService.setTitle("党建管理/工作台账上传");
@@ -39,7 +41,6 @@ export class FeaturedetailComponent implements OnInit {
     });
 
   }
-
 }
 export class CardInfo {
   id: number; // 本条信息ID

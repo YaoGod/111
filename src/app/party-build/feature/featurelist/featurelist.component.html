@@ -1,7 +1,7 @@
 <div class="wrap">
   <div class="cont">
     <div class="row clearfix">
-      <div class="row-title">三会一课工作台账管理</div>
+      <div class="row-title">支部特色</div>
       <div class="b-head-right">
         <div class="content-box" onclick="history.go(-1)" tabindex="0">
           <i class="icon-reload"></i> 返回
@@ -21,19 +21,8 @@
             </select>
           </li>
           <li>
-            <label >会议类型</label>
-            <select class="search-ipt search-sel" name="searchtype" [(ngModel)]="searchInfo.subType">
-              <option value="">全部</option>
-              <option value="党员大会">党员大会</option>
-              <option value="支委会">支委会</option>
-              <option value="党小组会">党小组会</option>
-              <option value="党课">党课</option>
-              <option value="组织生活会">组织生活会</option>
-            </select>
-          </li>
-          <li>
-            <label >会议时间</label>
-            <input class="search-ipt search-sel" type="month" name="useCarCode222" [(ngModel)]="searchInfo.month">
+            <label >活动照片名称</label>
+            <input class="search-ipt search-sel" type="text" name="useCarCode222" [(ngModel)]="searchInfo.imageName">
           </li>
           <li>
             <a href="javascript:;" class="search-btn" (click)="repairSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
@@ -48,15 +37,16 @@
           <table width="100%" class="card-info">
             <tr style="height: 40px; background-color: #FFECEC; text-align: center; font-weight: bold; font-size: 14px;color:#04a9f3;">
               <th>党(总)支部名称</th>
-              <th>会议类型</th>
-              <th>会议时间</th>
-              <th width="40%">会议主题</th>
+              <th>所属党支部</th>
+              <th>活动照片名称1</th>
+              <th>活动照片名称2</th>
+              <th>活动照片名称3</th>
               <th>操作</th><!-- *ngIf="jurisdiction&&jurisdiction.isUpdate === true"-->
             </tr>
             <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
               <td><a href="javascript:;"
-                     [routerLink]="['/hzportal/party/sanhui/detail',inner.id]" >{{inner.branchName}}</a> </td>
-              <td>{{inner.subType}}</td>
+                     [routerLink]="['/hzportal/party/feature/detail',inner.id]" >{{inner.branchName}}</a> </td>
+              <td>{{inner.branchAttach}}</td>
               <td>{{inner.beginTime | date:'yyyy-MM-dd HH:mm'}}至{{inner.endTime | date:'HH:mm'}}</td>
               <td>{{inner.theme}}</td>
               <td>
@@ -80,7 +70,7 @@
 </div>
 <div class="mask">
   <div class="mask-cotainer">
-    <div class="mask-head"><i class="icon-film"></i> <p>新增会议记录</p>
+    <div class="mask-head"><i class="icon-film"></i> <p>新增支部特色内容</p>
       <button class="close" (click)="addCancel()">×</button>
     </div>
     <form method="post" name="topForm" class="repair-form">

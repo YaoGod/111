@@ -24,6 +24,9 @@ export class FeaturelistComponent implements OnInit {
   public record:any;
   private contractBool = true;
   public repairDept=[];
+  public activity1:string;
+  public activity2:string;
+  public activity3:string;
   public rule : sndCatalog = new sndCatalog();
   constructor( public http:Http,
                public ipSetting:IpSettingService,
@@ -39,7 +42,7 @@ export class FeaturelistComponent implements OnInit {
         this.rule = this.globalCatalogService.getRole("party/upload");
       }
     );
-    this.searchInfo.type = '1';
+    this.searchInfo.type = '8';
     this.searchInfo.branchName = '';
     this.searchInfo.subType = '';
     this.searchInfo.createUserId = localStorage.getItem("username");
@@ -108,23 +111,16 @@ export class FeaturelistComponent implements OnInit {
   /*点击新增*/
   addVehicle(){
     this.contractBool = true;
-    $('.form-disable').attr('disabled',false).css('backgroundColor','#fff');
     this.newCard = new CardInfo();
     this.newCard.branchName = '';
-    this.newCard.type = '1';
+    this.newCard.type = '8';
     this.newCard.subType = '';
     $('.mask').fadeIn();
-    $('.mask .mask-head p').html('新增会议记录');
+    $('.mask .mask-head p').html('新增支部特色内容');
   }
   /*新增校验*/
   public verifybranchName(){
     if (!this.isEmpty('branchName', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifybranchAttach(){
-    if (!this.isEmpty('branchAttach', '不能为空')) {
       return false;
     }
     return true;
@@ -342,6 +338,7 @@ export class CardInfo {
 export class SearchInfo {
   id: number; // 本条信息ID
   branchName:string; // 支部名称
+  imageName:string;
   type:string; // 会议类型(三会一课同级)
   subType:string; // 子类型
   month: string;// 月份

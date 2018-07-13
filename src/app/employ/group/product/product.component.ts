@@ -141,6 +141,7 @@ export class ProductComponent implements OnInit {
   closeMask() {
     $('.mask').hide();
     $('.errorMessage').html('');
+    this.imgUrlPath = ['','',''];
     $('#preseA,#preseB,#preseC').val('');
     this.newGroupProduct={
       name: '',
@@ -257,8 +258,22 @@ export class ProductComponent implements OnInit {
     this.newGroupProduct.checkStatus = '0';
     let postdata = JSON.parse(JSON.stringify(this.newGroupProduct));
     postdata.checkStatus = '0';
-    // postdata.targetId = postdata.targetId.join(",");
-    // postdata.targetName = postdata.targetName.join(",");
+    postdata.imgPath = '';
+    let array = JSON.parse(JSON.stringify(this.imgUrlPath));
+    this.filter_array(array);
+    if(array&&array.length===0){
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '请上传图片！',
+        'popType': 0,
+        'imgType': 2,
+      });
+      return false;
+    }
+    for(let i=0;i<array.length;i++){
+      postdata.imgPath += array[i] + ';'
+    }
+    delete postdata.imgPathList;
     this.groupProductService.addGroupBuyProduct(postdata)
       .subscribe(data => {
         if (this.errorVoid.errorMsg(data)) {
@@ -298,8 +313,23 @@ export class ProductComponent implements OnInit {
           }
       })
   }
-/** 修改商品信息提交*/
+
+  private filter_array(array) {
+    // return array.filter(item=>item);
+    for(var i = 0 ;i<array.length;i++)
+    {
+      if(array[i] == "" || typeof(array[i]) == "undefined")
+      {
+        array.splice(i,1);
+        i= i-1;
+      }
+    }
+    return array;
+  }
+
+  /** 修改商品信息提交*/
   updateGroupProduct() {
+
     if (!this.verifyEmpty('upnewname','名称不能为空')||!this.verifyEmpty('upnewprice','不能为空')||!this.verifyEmpty('upnewstartTime'
         ,'不能为空')|| !this.verifyEmpty('upnewendTime','不能为空')||!this.verifyEmpty('upnewpconcant','联系人不能为空')||
       !this.verifyEmpty('upnewphone','不能为空')|| !this.verifyEmpty('upnewpayaccount','收款账户不能为空')||!this.verifyEmpty(
@@ -312,8 +342,9 @@ export class ProductComponent implements OnInit {
       return false;
     }
     postdata.imgPath = '';
+    this.filter_array(this.imgUrl);
     for(let i=0;i<this.imgUrl.length;i++){
-      postdata.imgPath += this.imgUrl[i] + ';'
+        postdata.imgPath += this.imgUrl[i] + ';'
     }
     delete postdata.imgPathList;
     this.groupProductService.updateGroupbuyProduct(postdata)
@@ -346,12 +377,6 @@ export class ProductComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)){
-          if(this.newGroupProduct.imgPath.length>0){
-            this.newGroupProduct.imgPath = this.newGroupProduct.imgPath +';'+ data.msg;
-
-          }else{
-            this.newGroupProduct.imgPath = data.msg;
-          }
           this.imgUrlPath[index] = data.msg;
           confirmFunc.init({
             'title': '提示',
@@ -374,6 +399,7 @@ export class ProductComponent implements OnInit {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)){
           this.imgUrl[index] = data.msg;
+
           confirmFunc.init({
             'title': '提示',
             'mes': '上传成功',

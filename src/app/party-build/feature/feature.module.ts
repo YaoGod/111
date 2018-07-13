@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FeatureComponent } from './feature.component';
 import {RouterModule, Routes} from "@angular/router";
 import {RouteGuardService} from "../../service/route-guard/route-guard.service";
-import {FeaturedetailComponent} from "./featuredetail/featuredetail.component";
+import { FeaturedetailComponent } from './featuredetail/featuredetail.component';
 
 const routes: Routes = [
   {
@@ -32,6 +32,6 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [FeatureComponent,FeaturedetailComponent]
+  declarations: [FeatureComponent, FeaturedetailComponent]
 })
 export class FeatureModule { }

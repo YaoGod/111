@@ -271,7 +271,18 @@ export class ManagerComponent implements OnInit {
         }
       })
   }
-
+  private filter_array(array) {
+    // return array.filter(item=>item);
+    for(var i = 0 ;i<array.length;i++)
+    {
+      if(array[i] == "" || typeof(array[i]) == "undefined")
+      {
+        array.splice(i,1);
+        i= i-1;
+      }
+    }
+    return array;
+  }
   updateGroupProduct() {
     if (!this.verifyEmpty('upnewname','名称不能为空')||!this.verifyEmpty('upnewprice','不能为空')||!this.verifyEmpty('upnewstartTime'
         ,'不能为空')|| !this.verifyEmpty('upnewendTime','不能为空')||!this.verifyEmpty('upnewpconcant','联系人不能为空')||
@@ -285,6 +296,7 @@ export class ManagerComponent implements OnInit {
       return false;
     }
     postdata.imgPath = '';
+    this.filter_array(this.imgUrl);
     for(let i=0;i<this.imgUrl.length;i++){
       postdata.imgPath += this.imgUrl[i] + ';'
     }

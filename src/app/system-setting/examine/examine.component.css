@@ -14,7 +14,7 @@
 .nav-title{
   position: relative;
   margin-bottom: 10px;
-  font-size: 14px;
+  font-size: 16px;
   border-bottom: 2px solid #f7fafc;
 }
 .nav-title>a>h4{
@@ -127,7 +127,7 @@ select:focus{
 }
 .row td,.row-add td{
   color: #686868;
-  font-size: 12px;
+  font-size: 14px;
   text-align: center;
 }
 .row td>input[type=text]{
@@ -180,7 +180,6 @@ td>img{
   display: inline-block;
   padding-right: 10px;
   line-height: 26px;
-  font-size: 10px;
   color: #686868;
   transition-duration: 500ms;
   cursor: pointer;

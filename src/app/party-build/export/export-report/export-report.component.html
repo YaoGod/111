@@ -3,13 +3,7 @@
   <ul>
     <li><label>模块类型</label>
       <select name="module" [(ngModel)]="typeTemplate" (change)="changeAttr()">
-        <option value="1">三会一课</option>
-        <option value="2">"六好"党支部建设月报</option>
-        <option value="3">"主题党日"活动简报</option>
-        <option value="4">党建实践案例</option>
-        <option value="5">党委委员调研党支部信息</option>
-        <option value="6">党支部工作计划和总结</option>
-        <option value="7">党支部岗区队建设情况</option>
+        <option *ngFor="let inner of abc;let i=index;" [value]="i+1">{{inner}}</option>
       </select>
     </li>
     <!--<li>
@@ -79,7 +73,8 @@
     <tr class="row list-title" style="height:45px;">
       <!--<th width="10%">模块类型</th>-->
       <th width="10%" >党(总)支部名称</th>
-      <th width="10%" *ngIf="search.type!=='1'">月份</th>
+      <th width="10%" *ngIf="search.type==='2'||search.type==='3'||search.type==='4'||search.type==='5'||search.type==='6'||
+      search.type==='7'">月份</th>
       <th width="10%" *ngIf="search.type==='1'">会议类型</th>
       <th width="10%" *ngIf="search.type==='3'">活动类型</th>
       <th width="20%" *ngIf="search.type==='4'">案例类型</th>
@@ -97,6 +92,9 @@
       <th width="10%" *ngIf="search.type==='7'">责任区数量</th>
       <th width="10%" *ngIf="search.type==='7'">突击队数量</th>
       <th width="10%" *ngIf="search.type==='7'">活动开展频次</th>
+      <th width="10%" *ngIf="search.type==='8'">活动照片名称1</th>
+      <th width="10%" *ngIf="search.type==='8'">活动照片名称2</th>
+      <th width="10%" *ngIf="search.type==='8'">活动照片名称3</th>
       <!--<th width="10%" class="text-left">文件名称</th>-->
       <th width="8%">创建人</th>
       <th width="12%">创建时间</th>
@@ -107,7 +105,8 @@
     <tr class="row" *ngFor="let report of record;let i = index">
       <!--<td class="text-left">{{report.branchName}}</td>-->
       <td>{{report.branchName}}</td>
-      <td *ngIf="search.type!=='1'">{{report.month}}</td>
+      <td *ngIf="search.type==='2'||search.type==='3'||search.type==='4'||search.type==='5'||search.type==='6'||
+      search.type==='7'">{{report.month}}</td>
       <td *ngIf="search.type!=='2' && search.type!=='7'&& search.type!=='5'">{{report.subType}}</td>
       <td *ngIf="search.type==='1'">{{report.beginTime | date:'yyyy/MM/dd HH:mm'}}至{{report.endTime | date:'HH:mm'}}</td>
       <td *ngIf="search.type==='1'">{{report.theme}}</td>
@@ -122,6 +121,9 @@
       <td *ngIf="search.type==='7'">{{report.dutyNum}}</td>
       <td *ngIf="search.type==='7'">{{report.commandoNum}}</td>
       <td *ngIf="search.type==='7'">{{report.frequency}}</td>
+      <td *ngIf="search.type==='8'">{{activity1}}</td>
+      <td *ngIf="search.type==='8'">{{activity2}}</td>
+      <td *ngIf="search.type==='8'">{{activity3}}</td>
 
       <td>{{report.createUserName}}</td>
       <td><p>{{report.createTime| date:'yyyy/MM/dd HH:mm'}}</p></td>

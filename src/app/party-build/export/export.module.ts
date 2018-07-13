@@ -23,12 +23,12 @@ const routes: Routes = [
       {
         path: "report",
         component:ExportReportComponent
-      },
+      }/*,
       {
-        /*统计报表*/
+        /!*统计报表*!/
         path: "count",
         component:ExportCountComponent
-      }
+      }*/
     ]
   }
 ];

@@ -22,17 +22,6 @@
         <li class="left-li"><span>缺席原因</span><strong>{{newCard.reason}}</strong></li>
         <li class="left-alone"><span>会议主题</span><strong>{{newCard.theme}}</strong></li>
       </ul>
-      <div class="note">
-        <div class="title"><span>会议议程</span></div>
-        <div class="word">
-          <textarea id="content" readonly [rows]="definedRows()" wrap="hard">{{newCard.note}}</textarea>
-        </div>
-        <div class="title"><span>附件</span></div>
-        <ul class="attachment">
-          <li><a *ngFor="let abc of newCard.fileContract" [href]="ipSetting.fileUrl+abc.filePath" [download]="abc.fileName">
-            {{abc.fileName}} <i class="icon-cloud-download">下载</i></a></li>
-        </ul>
-      </div>
     </div>
   </div>
 </div>

@@ -81,7 +81,11 @@
               <i class="icon-speech"></i>&nbsp;前往处理
             </a>
             <a [routerLink]="['../detail',order.id]"
-               *ngIf="(searchType=== ''||order.status === 'end')&&order.schedule!==0">
+               *ngIf="order.type!=='职代会流程申请'&&((searchType=== ''||order.status === 'end')&&order.schedule!==0)">
+              <i class="icon-eye"></i>&nbsp;详情
+            </a>
+            <a [routerLink]="['/hzportal/unions/congress/detail',order.id]"
+               *ngIf="order.type==='职代会流程申请'&&((searchType=== ''||order.status === 'end')&&order.schedule!==0)">
               <i class="icon-eye"></i>&nbsp;详情
             </a>
           </td>
