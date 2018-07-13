@@ -31,6 +31,7 @@
       <table width="100%" class="card-info">
         <tr style="height: 40px; background-color: #FFECEC; text-align: center; font-weight: bold; font-size: 14px;color:#04a9f3;">
           <th>党(总)支部名称</th>
+          <th>所属党支部名称</th>
           <th>心得体会或征文的主题</th>
           <th>上传篇数</th>
           <th>操作</th>
@@ -38,10 +39,11 @@
         <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
           <td><a href="javascript:;"
                  [routerLink]="['../detail',inner.id]" >{{inner.branchName}}</a> </td>
+          <td>{{inner.branchAttach}}</td>
           <td>{{inner.theme}}</td>
           <td>{{inner.typicalMethod}}</td>
           <td>
-            <i class="icon-pencil" (click)="editCardInfo(i)" style="margin-left: 5px;" title="编辑"></i>
+            <i class="icon-pencil" (click)="editCardInfo(inner)" style="margin-left: 5px;" title="编辑"></i>
             <i class="icon-trash" (click)="delCardInfo(inner.id)" style="margin-left: 5px;" title="删除"></i></td>
         </tr>
       </table>
@@ -65,12 +67,28 @@
       <div class="form-control">
         <span class="form-label">党(总)支部名称</span>
         <div class="form-inp">
-          <select class="company-ipt company  -sel" name="branchName" id="branchName"
+          <select class="company-ipt company  -sel" name="newBranchName" id="newBranchName"
                   [(ngModel)]="newCard.branchName" (blur)="verifybranchName()">
             <option value="">请选择</option>
             <option *ngFor="let num of repairDept"
                     [value]="num">
               {{num}}</option>
+          </select>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control">
+        <span class="form-label">所属党支部名称</span>
+        <div class="form-inp">
+          <select class="company-ipt company-sel" name="branchAttach" id="branchAttach"
+                  [(ngModel)]="newCard.branchAttach">
+            <option value=""> </option>
+            <option value="第一党支部">第一党支部</option>
+            <option value="第二党支部">第二党支部</option>
+            <option value="第三党支部">第三党支部</option>
+            <option value="第四党支部">第四党支部</option>
+            <option value="第五党支部">第五党支部</option>
+            <option value="第六党支部">第六党支部</option>
           </select>
           <span class="errorMessage"></span>
         </div>
@@ -99,7 +117,8 @@
         </ul>
         <div class="form-inp" style=" margin-top:5px;">
           <a href="javascript:;" style="color:#666; margin-left:127px; border-radius:4px; padding:5px 10px; background: #f6f6f6;" onclick="$('#prese').trigger('click')">上 传</a>
-          <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;"
+          <input type="file" class="dropify" #prese accept="application/zip,application/msword,application/vnd.ms-works"
+                 id="prese" style="visibility: hidden;"
                  (change)="prese_upload(prese.files)">
           <span class="errorMessage"></span>
         </div>

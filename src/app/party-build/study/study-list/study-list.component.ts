@@ -60,11 +60,11 @@ export class StudyListComponent implements OnInit {
     });
   };
   /*点击编辑*/
-  editCardInfo(index){
+  editCardInfo(inner){
     this.contractBool = false;
     $('.mask').fadeIn();
     $('.mask .mask-head p').html('编辑心得体会');
-    this.newCard = JSON.parse(JSON.stringify(this.record[index]));
+    this.newCard = JSON.parse(JSON.stringify(inner));
     this.newCard.fileName = [];
     this.newCard.filePath = [];
     if(this.newCard.fileContract){
@@ -109,7 +109,7 @@ export class StudyListComponent implements OnInit {
   }
   /*新增校验*/
   public verifybranchName(){
-    if (!this.isEmpty('branchName', '不能为空')) {
+    if (!this.isEmpty('newBranchName', '不能为空')) {
       return false;
     }
     return true;
