@@ -26,6 +26,7 @@ export class StudyDetailComponent implements OnInit {
 
   ngOnInit() {
     this.globalCatalogService.setTitle("党建管理/学“习”时间");
+    this.newCard = new CardInfo();
     this.route.params.subscribe(data => {
       this.getWelfare(data.id);
     });

@@ -168,6 +168,11 @@ export class CongflowComponent implements OnInit {
   sethandleUser(id){
     this.newCard.handleId = "";
     this.getHostDeptUserList(id);
+    for(let i =0;i<this.deptList.length;i++){
+      if(this.newCard.hostDeptId === this.deptList[i].DEPT_ID){
+        this.newCard.hostDeptName = this.deptList[i].DEPT_NAME;
+      }
+    }
   }
   submit(){
     if(this.newCard.schedule === 3||this.newCard.schedule === 4|| this.newCard.schedule === 5){
