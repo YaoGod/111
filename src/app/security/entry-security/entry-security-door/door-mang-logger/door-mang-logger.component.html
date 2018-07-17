@@ -78,7 +78,15 @@
       </div>
     </div>
     <div class="table-head" style="margin-top: 10px">
-      <h2>历史变更记录</h2>
+      <h2 style="position: relative;">历史变更记录
+        <a class="btn-danger"
+           style="float:right; font-size:14px; line-height: 20px;cursor: pointer; padding:3px 6px;
+           border-radius: 3px; background:#04a9f3; color:#fff;"
+           (click)="downDeriving()">
+          <i class="icon-cloud-download"></i>
+          导出
+        </a>
+      </h2>
       <div style="min-height: 300px;">
         <table border="0" cellspacing="0" cellpadding="0" class="list-box" *ngIf="history.length>0">
           <tr class="row list-title" style="height:45px;">

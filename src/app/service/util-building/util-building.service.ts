@@ -32,6 +32,18 @@ export class UtilBuildingService {
     xhr.send(form);
     return xhr;
   }
+  uploadImages(postData,type,id){
+    const url = this.ipSetting.ip + "/party/util/uploadImg/"+type+ "/" +id;
+    var form = new FormData();
+    if (typeof(postData) === 'object') {
+      form.append('img', postData);
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.withCredentials = true;
+    xhr.send(form);
+    return xhr;
+  }
   /*
    文件上传
    param: postData:file,

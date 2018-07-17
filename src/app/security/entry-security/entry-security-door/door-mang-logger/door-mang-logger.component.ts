@@ -7,6 +7,7 @@ import {GlobalUserService} from "../../../../service/global-user/global-user.ser
 import {UtilBuildingService} from "../../../../service/util-building/util-building.service";
 import {ActivatedRoute} from "@angular/router";
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
+import {Http} from "@angular/http";
 declare var $:any;
 declare var confirmFunc:any;
 @Component({
@@ -29,6 +30,7 @@ export class DoorMangLoggerComponent implements OnInit {
   public history: Array<HistoryLog>;
   public ID:number;
   constructor(
+    private http:Http,
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
     private globalUserService:GlobalUserService,
@@ -83,7 +85,7 @@ export class DoorMangLoggerComponent implements OnInit {
     });
   }
   getGuardRecord(num){
-    let url = '/building/guard/getGuardRecord/'+this.ID+'/'+num+'/'+this.pageSize;
+    let url = '/building/guard/getGuardRecord/'+this.ID+'/list/'+num+'/'+this.pageSize;
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorResponseService.errorMsg(data)) {
         // console.log(data.data);
@@ -92,6 +94,13 @@ export class DoorMangLoggerComponent implements OnInit {
       }
     });
 
+  }
+  public downDeriving(){
+    let url = this.ipSetting.ip + "/building/guard/getGuardRecord/"+this.ID+'/excel/1/999999';
+    this.http.get(url)
+      .subscribe(data => {
+        window.location.href = url;
+      });
   }
   /*获取大楼名称列表*/
   getBuildingList() {

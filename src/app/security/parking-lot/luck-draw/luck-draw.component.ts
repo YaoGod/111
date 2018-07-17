@@ -41,23 +41,6 @@ export class LuckDrawComponent implements OnInit {
   ngOnInit() {
     this.getBuildings();
     this.getDeptList();
-    // this.getPermitInfo();
-    /*this.result = [{CAR_NUMBER:"浙A52110",
-    SERVICE_CENTER:"环北服务中心",
-    TELE_NUM:"13666651107",
-    USERID:"22B00130",
-    USERNAME:"徐佳华"},
-      {CAR_NUMBER:"浙A52110",
-        SERVICE_CENTER:"环北服务中心",
-        TELE_NUM:"13666651107",
-        USERID:"22B00131",
-        USERNAME:"徐佳华2"}
-        ];*/
-
-    /*this.status.length = this.result.length;
-    for(let i=0;i<this.result.length;i++){
-      this.status[i]='1';
-    }*/
   }
 
   /*获取大楼列表*/
@@ -66,7 +49,6 @@ export class LuckDrawComponent implements OnInit {
       .subscribe(data => {
         if(this.errorVoid.errorMsg(data)) {
           this.buildings = data['data'];
-          // console.log(this.buildings);
         }
       })
   }
@@ -125,6 +107,7 @@ export class LuckDrawComponent implements OnInit {
   }
   getParkNumber() {
     if(!this.verfybuildingsName()||!this.verfysearchtype()||!this.verfysearchname()){
+      this.setInfo.parkNumber = 0;
       return false;
     }
       let url = "/building/parking/getPermitCount";
@@ -213,22 +196,38 @@ export class LuckDrawComponent implements OnInit {
     }
     return true;
   }
+   public verfydateTime(){
+    if (!this.isEmpty('dateTime', '不能为空')) {
+      return false;
+    }
+    return true;
+  }
   /*开始摇号*/
   beiginDraw(){
-    if (this.setInfo.parkNumber === undefined){
+    if (this.setInfo.parkNumber === undefined||this.setInfo.parkNumber === 0){
       confirmFunc.init({
         'title': '提示' ,
-        'mes': '请先查看未发放停车证数量',
+        'mes': '请确保停车证数量充足！',
         'popType': 0 ,
         'imgType': 2 ,
       });
       return false;
     }
 
-    if (!this.verfydeptId()||!this.verfylotNumber()){
+    if (!this.verfydeptId()||!this.verfylotNumber()||!this.verfydateTime()){
       confirmFunc.init({
         'title': '提示' ,
-        'mes': '请选择摇号部门和摇号数量',
+        'mes': '摇号部门、有效日期和摇号数量必选！',
+        'popType': 0 ,
+        'imgType': 2 ,
+      });
+      return false;
+    }
+    let abc = this.sum(this.perNum);
+    if(abc === 0){
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '请确保存在参与摇号人员！',
         'popType': 0 ,
         'imgType': 2 ,
       });
@@ -289,9 +288,21 @@ export class LuckDrawComponent implements OnInit {
       });
       return false;
     }
-
   }
 
+  private sum(arr) {
+    let s = 0;
+    if(arr.length === 0){
+      return 0;
+    }else if(arr.length === 1){
+      return arr[0];
+    }else{
+      for(let i=0;i<arr.length;i++){
+        s += arr[i];
+      }
+      return s;
+    }
+  }
   /*提交摇号最终结果*/
   submit(){
     let url = '/building/parking/addShakeResult?name=&&useETime='+ this.setInfo.useETime +'&&type='
@@ -321,6 +332,7 @@ export class LuckDrawComponent implements OnInit {
           'popType': 0 ,
           'imgType': 1 ,
         });
+        this.result = [];
       }
     });
   }

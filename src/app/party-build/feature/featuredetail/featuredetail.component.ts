@@ -35,7 +35,7 @@ export class FeaturedetailComponent implements OnInit {
     let url = "/party/report/detail/"+id;
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
-        // console.log(data);
+        console.log(data);
         this.newCard = data.data;
       }
     });

@@ -12,6 +12,79 @@ input{
   height:40px;
   _border-bottom:3px solid #ff5b3a;
 }
+.pimg{
+  width: 160px;
+  float:left;
+  margin-right:15px;
+  margin-bottom:5px;
+  position: relative;
+}
+.dropify-wrapper {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  height: 160px;
+  font-size: 14px;
+  line-height: 22px;
+  color: #777;
+  background-color: #FFF;
+  background-image: none;
+  text-align: center;
+  border: 2px solid #E5E5E5;
+}
+.dropify-wrapper p{
+  position: absolute;
+  left:0;
+  top: 43%;
+  width:100%;
+  line-height:24px;
+  z-index: 2;
+}
+.dropify-wrapper .dropify-message {
+  position: relative;
+  z-index: 3;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.dropify-message img{
+  width:100%;
+}
+.dropify-wrapper .dropify-loader {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: none;
+  z-index: 9;
+}
+.dropify-wrapper .dropify-errors-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  background: rgba(243,65,65,.8);
+  text-align: left;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: visibility 0s linear .15s,opacity .15s linear;
+  transition: visibility 0s linear .15s,opacity .15s linear;
+}
+.dropify-wrapper input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 5;
+}
 .row-no{
   height:30px;
   padding:10px 0;
@@ -302,8 +375,6 @@ button{
   flex-wrap: wrap;
   border-radius: 4px;
   position: relative;
-  max-height: 440px;
-  overflow-y: auto;
 }
 .mask-cotainer .form-control{
   -webkit-box-flex: 0;
@@ -363,6 +434,9 @@ button{
   background-size: 0 1px, 100% 1px;
   padding: 0;
   transition: all .3s ease-out;
+}
+.protop-left{
+  padding-bottom:40px;
 }
 #repairNote {
   width: 100%;

@@ -52,7 +52,14 @@
           <th width="15%" class="text-left">归属部门</th>
           <th width="10%" class="text-left">工号牌编号</th>
           <th width="10%">工号牌类型</th>
-          <th width="20%">操作</th>
+          <th width="20%">操作
+              <a class="btn-danger"
+                 style="margin-left:10px; cursor: pointer; padding:3px 6px; border-radius: 3px; background:#04a9f3; color:#fff;"
+                 (click)="downDeriving()">
+              <i class="icon-cloud-download"></i>
+              导出
+            </a>
+          </th>
         </tr>
       </table>
     </div>

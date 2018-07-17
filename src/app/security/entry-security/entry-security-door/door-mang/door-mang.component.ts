@@ -6,6 +6,7 @@ import {EntrySecurityService, EntryService} from "../../../../service/entry-secu
 import {GlobalUserService} from "../../../../service/global-user/global-user.service";
 import {InfoBuildingService} from "../../../../service/info-building/info-building.service";
 import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
+import {Http} from "@angular/http";
 
 declare var $:any;
 declare var confirmFunc:any;
@@ -37,6 +38,7 @@ export class DoorMangComponent implements OnInit {
   public arr = [];
   public userList = [];
   constructor(
+    private http:Http,
     private globalCatalogService: GlobalCatalogService,
     private errorResponseService:ErrorResponseService,
     private infoBuildingService:InfoBuildingService,
@@ -167,7 +169,32 @@ export class DoorMangComponent implements OnInit {
     this.entry = new DoorMang();
     $('#selecteFile').hide();
   }*/
-
+  public downDeriving(){
+    let list = document.getElementsByName("orderCheck");
+    let people = [];
+    // let cardTypeArr = [];
+    for(let i = 0;i<list.length;i++){
+      if(list[i]['checked']){
+        people.push(list[i]['value']);
+        // cardTypeArr.push(list[i]['value'].split(',')[1]);
+      }
+    }
+    if(people&&people.length<1){
+      confirmFunc.init({
+        'title': '提示',
+        'mes': '请选择要导出的人员！',
+        'popType': 2,
+        'imgType': 2
+      });
+      return false;
+    }
+    let url = this.ipSetting.ip + "/building/employCard/getUserCardExcel?ids="+people.join();
+    // let url = this.ipSetting.ip + "/building/employCard/getUserCardExcel?ids="+people.join() ;
+    this.http.get(url)
+      .subscribe(data => {
+        window.location.href = url;
+      });
+  }
   /*新增提交*/
   submit(){
     let error = 0;

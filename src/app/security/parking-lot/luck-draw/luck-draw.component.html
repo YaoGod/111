@@ -27,7 +27,7 @@
         <li>
           <label >停车证名称</label>
           <select class="search-ipt search-sel" id="searchname" name="searchname" [(ngModel)]="setInfo.name">
-            <option value="">全部</option>
+            <option value="">-请选择-</option>
             <option *ngFor="let num of names"
                     [value]="num">
               {{num}}</option>
@@ -58,7 +58,7 @@
           (focus)="openChooseWin()" rows="4">
           </textarea><!--[(ngModel)]="targetName"-->
           <ol *ngIf="targetName" class="deptList">
-            <li *ngFor="let num of targetName;let i=index;">{{num}}<span *ngIf="perNum.length>0">({{perNum[i]}})</span></li>
+            <li *ngFor="let num of targetName;let i=index;">{{num}}<span *ngIf="perNum.length>0">(可参与摇号人数{{perNum[i]}})</span></li>
           </ol>
           <div class="modal-more" id="deptSltWin" style="display: none">
             <h5>杭州移动各部门</h5>
@@ -95,7 +95,7 @@
         </li>
       </ul>
     </div>
-    <div class="count-inner">
+    <div class="count-inner" *ngIf="!result||result.length===0">
       <div class="count-build" (click)="beiginDraw()" style="font-size: 24px;">
         <div class="count-icon"><img src="assets/image/luck.png"> </div>
         开始摇号

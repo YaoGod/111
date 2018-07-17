@@ -84,7 +84,7 @@
                *ngIf="order.type!=='职代会流程申请'&&((searchType=== ''||order.status === 'end')&&order.schedule!==0)">
               <i class="icon-eye"></i>&nbsp;详情
             </a>
-            <a [routerLink]="['/hzportal/unions/congress/detail',order.id]"
+            <a [routerLink]="['/hzportal/unions/congress/detail',order.content]"
                *ngIf="order.type==='职代会流程申请'&&((searchType=== ''||order.status === 'end')&&order.schedule!==0)">
               <i class="icon-eye"></i>&nbsp;详情
             </a>

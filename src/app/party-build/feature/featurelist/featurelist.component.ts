@@ -24,6 +24,9 @@ export class FeaturelistComponent implements OnInit {
   public record:any;
   private contractBool = true;
   public repairDept=[];
+  public imgUrlPath = ['','',''];
+  public imgName = ['','',''];
+  public activityArr = [];
   public activity1:string;
   public activity2:string;
   public activity3:string;
@@ -33,7 +36,9 @@ export class FeaturelistComponent implements OnInit {
                public errorVoid:ErrorResponseService,
                private globalCatalogService:GlobalCatalogService,
                private utilBuildingService:UtilBuildingService,
-  ) { }
+  ) {
+    this.rule = this.globalCatalogService.getRole("party/upload");
+  }
 
   ngOnInit() {
     this.globalCatalogService.setTitle("党建管理/工作台账上传");
@@ -56,6 +61,32 @@ export class FeaturelistComponent implements OnInit {
       if(this.errorVoid.errorMsg(data)) {
         this.record = data.data.list;
         this.total = data.data.total;
+        for(let i = 0;i<this.record.length;i++){
+          if(this.record[i].imageName){
+            this.record[i].arr = this.record[i].imageName.split(',');
+            this.filter_array(this.record[i].arr);
+            if(this.record[i].arr.length === 0){
+              this.record[i].aaa = '';
+              this.record[i].bbb = '';
+              this.record[i].ccc = '';
+            }
+            if(this.record[i].arr.length === 1){
+              this.record[i].aaa = this.record[i].arr[0];
+              this.record[i].bbb = '';
+              this.record[i].ccc = '';
+            }
+            if(this.record[i].arr.length === 2){
+              this.record[i].aaa = this.record[i].arr[0];
+              this.record[i].bbb = this.record[i].arr[1];
+              this.record[i].ccc = '';
+            }
+            if(this.record[i].arr.length === 3){
+              this.record[i].aaa = this.record[i].arr[0];
+              this.record[i].bbb = this.record[i].arr[1];
+              this.record[i].ccc = this.record[i].arr[2];
+            }
+          }
+        }
       }
     });
   }
@@ -63,18 +94,33 @@ export class FeaturelistComponent implements OnInit {
   /*点击编辑*/
   editCardInfo(index){
     this.contractBool = false;
-    $('.form-add').attr('disabled',false);
+    this.imgUrlPath = ['','',''];
+    $("#preseA,#preseB,#preseC").val("");
     $('.mask').fadeIn();
-    $('.mask .mask-head p').html('编辑会议记录');
+    $('.mask .mask-head p').html('编辑支部特色内容');
     this.newCard = JSON.parse(JSON.stringify(this.record[index]));
-    this.newCard.fileName = [];
+    console.log(this.newCard.imgPathList);
+    if(this.newCard.imgPathList){
+      this.imgUrlPath = this.newCard.imgPathList;
+      this.imgName = this.newCard.imageName.split(',');
+    }
+    console.log(this.imgUrlPath);
+    if(this.newCard.imgPathList.length===1){
+      this.imgUrlPath.push('');
+      this.imgUrlPath.push('');
+    }
+    if(this.newCard.imgPathList.length===2){
+      this.imgUrlPath.push('');
+    }
+    console.log(this.newCard);
+    /*this.newCard.fileName = [];
     this.newCard.filePath = [];
     if(this.newCard.fileContract){
       for(let i=0;i<this.newCard.fileContract.length;i++){
         this.newCard.fileName.push(this.newCard.fileContract[i].fileName);
         this.newCard.filePath.push(this.newCard.fileContract[i].filePath);
       }
-    }
+    }*/
   }
   /*点击删除*/
   delCardInfo(id){
@@ -125,65 +171,27 @@ export class FeaturelistComponent implements OnInit {
     }
     return true;
   }
-  public verifynewtype(){
-    if(!this.isEmpty('newtype', '不能为空')){
-      return false;
-    }
-    return true;
-  }
-  public verifybTime(){
-    if (!this.isEmpty('bTime', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyeTime(){
-    if (!this.isEmpty('eTime', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyhost(){
-    if (!this.isEmpty('host', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyaddress(){
-    if (!this.isEmpty('address', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyrecorder(){
-    if (!this.isEmpty('recorder', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyshouldNum(){
-    if (!this.isEmpty('shouldNum', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyfactNum(){
-    if (!this.isEmpty('factNum', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifytheme(){
-    if (!this.isEmpty('theme', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifynote(){
-    if (!this.isEmpty('repairNote', '不能为空')) {
-      return false;
-    }
-    return true;
+  /*新增文件图片上传*/
+  prese_upload2(files,index){
+    let xhr = this.utilBuildingService.uploadImages(files[0],'partyBuild',-1);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
+        let data:any = JSON.parse(xhr.responseText);
+        if(this.errorVoid.errorMsg(data)){
+          this.imgUrlPath[index] = data.msg;
+          this.imgName[index] = files[0].name;
+          confirmFunc.init({
+            'title': '提示',
+            'mes': '上传成功',
+            'popType': 0,
+            'imgType': 1,
+          });
+          $("#preseA,#preseB,#preseC").val("");
+        }else {
+          $("#preseA,#preseB,#preseC").val("");
+        }
+      }
+    };
   }
   /*附件上传*/
   prese_upload(files) {
@@ -222,47 +230,65 @@ export class FeaturelistComponent implements OnInit {
   submit(){
     var url;
     if(this.contractBool === false){
-      url = "/party/update/updateThreeOne";
+      url = "/party/update/updateFeature";
     }else{
-      url = "/party/add/addThreeOne";
+      url = "/party/add/addFeature";
     }
-    if (!this.verifybranchName()||!this.verifynewtype()||!this.verifybTime()||!this.verifyeTime()||
-      !this.verifyhost()|| !this.verifyaddress()||!this.verifyrecorder()||!this.verifyshouldNum()||!this.verifyfactNum()||
-      !this.verifytheme()||
-      !this.verifynote()) {
+    if (!this.verifybranchName()) {
       return false;
     }
     let postData = JSON.parse(JSON.stringify(this.newCard));
-    postData.month = this.newCard.beginTime.substring(0, 7);
+    // postData.month = this.newCard.beginTime.substring(0, 7);
     /*this.getNowFormatDate(); 018-06-09T10:00*/
     /*postData.beginTime = postData.beginTime.replace("T"," ");*/
-    if(postData.filePath && postData.filePath.length>0){
-      this.ipSetting.sendPost(url, postData).subscribe(data => {
-        if(this.errorVoid.errorMsg(data)){
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': this.contractBool === false?'更新成功':'新增成功',
-            'popType': 0 ,
-            'imgType': 1 ,
-          });
-          this.repairSearch(1);
-          this.addCancel();
-        }
-      });
-    }else{
+    postData.imgPathList = ['','',''];
+    postData.imageName = '';
+    let array = JSON.parse(JSON.stringify(this.imgUrlPath));
+    let arrayName = JSON.parse(JSON.stringify(this.imgName));
+    // this.filter_array(array);
+    this.filter_array(arrayName);
+    if(array&&array.length===0){
       confirmFunc.init({
-        'title': '提示' ,
-        'mes': '请上传附件内容！',
-        'popType': 0 ,
+        'title': '提示',
+        'mes': '请上传图片！',
+        'popType': 0,
         'imgType': 2,
       });
       return false;
     }
+    // postData.imgPathList += array[i] + ',';
+    for(let i=0;i<array.length;i++){
 
+      postData.imageName += arrayName[i] + ',';
+
+    }
+    delete postData.imgPathList;
+    this.ipSetting.sendPost(url, postData).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)){
+        confirmFunc.init({
+          'title': '提示' ,
+          'mes': this.contractBool === false?'更新成功':'新增成功',
+          'popType': 0 ,
+          'imgType': 1 ,
+        });
+        this.repairSearch(1);
+        this.addCancel();
+      }
+    });
+  }
+  private filter_array(array) {
+    for(var i = 0 ;i<array.length;i++) {
+      if(array[i] == "" || typeof(array[i]) == "undefined") {
+        array.splice(i,1);
+        i= i-1;
+      }
+    }
+    return array;
   }
   /*取消*/
   addCancel(){
     $('.mask,.mask1,.mask2').fadeOut();
+    this.imgUrlPath = ['','',''];
     $('.errorMessage').html('');
   }
   private getNowFormatDate() {
@@ -331,6 +357,9 @@ export class CardInfo {
   theme:string; // 会议主题
   note:string; // 会议议程
   address:string; // 会议地点
+  imageName:string;
+  imgPath:string;
+  imgPathList = [];
   fileName=[];
   filePath=[];
   fileContract:any;

@@ -46,9 +46,10 @@
             <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
               <td><a href="javascript:;"
                      [routerLink]="['/hzportal/party/feature/detail',inner.id]" >{{inner.branchName}}</a> </td>
-              <td>{{inner.branchAttach}}</td>
-              <td>{{inner.beginTime | date:'yyyy-MM-dd HH:mm'}}至{{inner.endTime | date:'HH:mm'}}</td>
-              <td>{{inner.theme}}</td>
+              <td>{{inner.branchAttach}}</td><!--inner.beginTime | date:'yyyy-MM-dd HH:mm'-->
+              <td><span>{{inner.aaa}}</span></td>
+              <td><span>{{inner.bbb}}</span></td>
+              <td><span>{{inner.ccc}}</span></td>
               <td>
                 <i class="icon-pencil" *ngIf="rule&&rule.isUpdate === true" (click)="editCardInfo(i)"
                    style="margin-left: 5px;" title="编辑"></i>
@@ -83,13 +84,12 @@
             <option *ngFor="let name of repairDept" [value]="name">{{name}}</option>
           </select>
           <span class="errorMessage"></span>
-
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">所属党支部名称</span>
         <div class="form-inp">
-          <select class="company-ipt company-sel" name="branchName" id="branchAttach"
+          <select class="company-ipt company-sel" name="branchAttach" id="branchAttach"
                   [(ngModel)]="newCard.branchAttach" >
             <option value=""> </option>
             <option value="第一党支部">第一党支部</option>
@@ -102,108 +102,45 @@
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control">
-        <span class="form-label">会议类型</span>
-        <div class="form-inp">
-          <select class="company-ipt company-sel" name="newtype" id="newtype" [(ngModel)]="newCard.subType"
-                  (blur)="verifynewtype()" >
-            <option value="">请选择</option>
-            <option value="党员大会">党员大会</option>
-            <option value="支委会">支委会</option>
-            <option value="党小组会">党小组会</option>
-            <option value="党课">党课</option>
-            <option value="组织生活会">组织生活会</option>
-          </select>
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">开始时间</span>
-        <div class="form-inp"><!--[value]="newCard.beginTime | date:'yyyy-MM-dd HH:mm'" -->
-          <input class="company-ipt" type="datetime-local" name="bTime" id="bTime"
-                 [(ngModel)]="newCard.beginTime" (blur)="verifybTime()">
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">结束时间</span>
-        <div class="form-inp">
-          <input class="company-ipt" type="datetime-local" name="bTime" id="eTime"
-                 [(ngModel)]="newCard.endTime" (blur)="verifyeTime()">
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">主持人</span>
-        <div class="form-inp">
-          <input class="company-ipt" type="text" name="host" id="host"
-                 [(ngModel)]="newCard.host" (blur)="verifyhost()" maxlength="10">
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">会议地点</span>
-        <div class="form-inp">
-          <input class="company-ipt" type="text" name="address" id="address"
-                 [(ngModel)]="newCard.address" (blur)="verifyaddress()" maxlength="25">
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">记录人</span>
-        <div class="form-inp">
-          <input type="text" class="company-ipt" name="recorder" id="recorder" [(ngModel)]="newCard.recorder"
-                 (blur)="verifyrecorder()" maxlength="10"/>
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">应到会人数</span>
-        <div class="form-inp">
-          <input class="company-ipt company-sel" type="number" name="shouldNum" id="shouldNum" [(ngModel)]="newCard.shouldNum"
-                 (blur)="verifyshouldNum()"  maxlength="4">
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">实际到会人数</span>
-        <div class="form-inp">
-          <input type="number" class="company-ipt" id="factNum" name="factNum" [(ngModel)]="newCard.factNum"
-                 (blur)="verifyfactNum()" maxlength="4"/>
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">缺席人数</span>
-        <div class="form-inp">
-          <input type="number" class="company-ipt" name="absentNum" id="absentNum" [(ngModel)]="newCard.absentNum" maxlength="4"/>
-          <span class="errorMessage"></span>
-        </div>
-      </div>
       <div class="form-control form-alone">
-        <span class="form-label">缺席原因</span>
+        <span class="form-label">活动照片</span>
         <div class="form-inp">
-          <input type="text" class="company-ipt form-inp" name="reason" id="reason" [(ngModel)]="newCard.reason" maxlength="50"
-          />
-          <span class="errorMessage"></span>
+          <div class="protop-left clearfix">
+            <div class="pimg">
+              <div class="dropify-wrapper">
+                <div class="dropify-message">
+                  <img  *ngIf="imgUrlPath&&imgUrlPath[0]!==''" [src]="ipSetting.imgUrl+imgUrlPath[0]" />
+                </div>
+                <p>点击此处上传图片</p>
+                <input type="file" class="dropify" #preseA id="preseA"  (change)="prese_upload2(preseA.files,0)">
+              </div>
+              <h4 *ngIf="imgUrlPath&&imgUrlPath[0]!==''">{{imgName[0]}}</h4>
+            </div>
+            <div class="pimg">
+              <div class="dropify-wrapper">
+                <div class="dropify-message">
+                  <img *ngIf="imgUrlPath&&imgUrlPath[1]!==''"  [src]="ipSetting.imgUrl+imgUrlPath[1]" />
+                </div>
+                <p>点击此处上传图片</p>
+                <input type="file" class="dropify" #preseB id="preseB"  (change)="prese_upload2(preseB.files,1)">
+              </div>
+              <h4 *ngIf="imgUrlPath&&imgUrlPath[1]!==''">{{imgName[1]}}</h4>
+            </div>
+            <div class="pimg">
+              <div class="dropify-wrapper">
+                <div class="dropify-message">
+                  <img *ngIf="imgUrlPath&&imgUrlPath[2]!==''"  [src]="ipSetting.imgUrl+imgUrlPath[2]"/>
+                </div>
+                <p>点击此处上传图片</p>
+                <input type="file" class="dropify" #preseC id="preseC"  (change)="prese_upload2(preseC.files,2)">
+              </div>
+              <h4 *ngIf="imgUrlPath&&imgUrlPath[2]!==''">{{imgName[2]}}</h4>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="form-control form-alone">
-        <span class="form-label">会议主题</span>
-        <div class="form-inp">
-          <input type="text" class="company-ipt form-inp" name="theme" id="theme" [(ngModel)]="newCard.theme" maxlength="50"
-                 (blur)="verifytheme()"/>
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control form-alone">
-        <span class="form-label">会议议程</span>
-        <div class="form-inp">
-          <textarea id="repairNote" name="note" rows="5" [(ngModel)]="newCard.note" (blur)="verifynote()"></textarea>
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control form-alone">
+
+      <!--<div class="form-control form-alone">
         <span class="form-label">附件</span>
         <ul class="contract-list">
           <li *ngFor="let abc of newCard.fileName; let k=index">{{abc}}<a  href="javascript:;" (click)="delFile(k)">×</a> </li>
@@ -214,7 +151,7 @@
                  (change)="prese_upload(prese.files)">
           <span class="errorMessage"></span>
         </div>
-      </div>
+      </div>-->
     </form>
     <div class="mask-footer">
       <button type="submit" class="btn-mask btn-info" (click)="submit()">提 交</button>
