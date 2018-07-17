@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LiaoxiuyangSignComponent implements OnInit {
 
+  public pageSize = 10;
+  public pageNo = 1;
+  public total = 0;
+  public searchInfo:any;
+  public orders:any;
   constructor() { }
 
   ngOnInit() {
+    this.searchInfoList(1);
+  }
+  searchInfoList(number){
+
   }
 
 }

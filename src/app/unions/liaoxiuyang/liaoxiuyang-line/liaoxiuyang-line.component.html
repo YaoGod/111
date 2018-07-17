@@ -1,1 +1,32 @@
-asaa
+<div class="wrap-inner">
+  <div class="repair-chandlery">
+    <ul>
+      <li>
+        <label>名称</label>
+        <input name="searchName" style="width:130px;" type="text" [(ngModel)]="searchInfo">
+      </li>
+      <li>
+        <a href="javascript:;" class="search-btn" (click)="searchInfoList(1)"><i class="icon-magnifier"></i> 查 询</a>
+      </li>
+    </ul>
+  </div>
+  <table width="100%" style="margin:0 auto;" class="card-info">
+    <tr style="height: 40px; background-color: #acd6ff; text-align: center; font-weight: bold; font-size: 14px;color:#333;">
+      <th>编号</th>
+      <th width="20%" style="text-align: left">名称</th>
+      <th width="8%">操作</th>
+    </tr>
+    <tr style="height: 36px; text-align: center" *ngFor="let inner of orders;let i=index">
+
+    </tr>
+  </table>
+  <div class="div-none" *ngIf="orders && orders.length === 0">
+    <p>暂无信息</p>
+  </div>
+  <app-turn-bar
+    [pageNo]="pageNo"
+    [pageSize]="pageSize"
+    [total]="total"
+    (turnEvent)="searchInfoList($event)">
+  </app-turn-bar>
+</div>
