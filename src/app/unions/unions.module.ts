@@ -39,6 +39,10 @@ const routes: Routes = [
         component: ExpectComponent
       },
       {
+        path: 'liaoxiuyang',
+        loadChildren:  './liaoxiuyang/liaoxiuyang.module#LiaoxiuyangModule'
+      },
+      {
         /*工作流配置*/
         path: 'congress',
         loadChildren:  './congress/congress.module#CongressModule'

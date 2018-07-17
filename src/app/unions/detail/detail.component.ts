@@ -21,7 +21,7 @@ export class DetailComponent implements OnInit {
         {id:4,inner:'职工小（小小）家',imgPath:'assets/image/gg4.png',routeUrl:'expect'},
         {id:5,inner:'班组管理',imgPath:'assets/image/gg5.png',routeUrl:'expect'},
         {id:6,inner:'俱乐部管理',imgPath:'assets/image/gg6.png',routeUrl:'expect'},
-        {id:7,inner:'疗休养',imgPath:'assets/image/gg8.png',routeUrl:'expect'}
+        {id:7,inner:'疗休养',imgPath:'assets/image/gg8.png',routeUrl:'liaoxiuyang'}
       ],
       name: '档案管理区'
     },{
