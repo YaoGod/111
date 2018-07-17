@@ -13,14 +13,11 @@
       </ul>
     </div>
     <div class="note">
-      <div class="title"><span>活动照片一</span></div>
-      <div class="word">
-        <img src="assets/image/a1.png">
-      </div>
-      <div class="title"><span>活动照片二</span></div>
-      <div class="word">
-
-        <img src="assets/image/a2.png">
+      <div class="note-img" *ngFor="let img of imgInfo;let i = index">
+        <div class="title"><span>活动照片</span></div>
+        <div class="word">
+          <img [src]="ipSetting.imgUrl+img" *ngIf="img">
+        </div>
       </div>
     </div>
   </div>

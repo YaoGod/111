@@ -51,7 +51,7 @@
               <td><span>{{inner.bbb}}</span></td>
               <td><span>{{inner.ccc}}</span></td>
               <td>
-                <i class="icon-pencil" *ngIf="rule&&rule.isUpdate === true" (click)="editCardInfo(i)"
+                <i class="icon-pencil" *ngIf="rule&&rule.isUpdate === true" (click)="editCardInfo(inner.id)"
                    style="margin-left: 5px;" title="编辑"></i>
                 <i class="icon-trash" *ngIf="rule&&rule.isDelete === true" (click)="delCardInfo(inner.id)"
                    style="margin-left: 5px;" title="删除"></i></td>
@@ -106,7 +106,24 @@
         <span class="form-label">活动照片</span>
         <div class="form-inp">
           <div class="protop-left clearfix">
+            <div class="pimg" *ngFor="let img of imgInfo;let i = index">
+              <div class="dropify-wrapper">
+                <a class="top-trash" title="删除图片" (click)="delImgPath(i)">x</a>
+                <div  class="dropify-message">
+                  <img [src]="ipSetting.imgUrl+img" *ngIf="img">
+                </div>
+              </div>
+            </div>
             <div class="pimg">
+              <div  class="dropify-wrapper bpt" *ngIf="imgInfo&&imgInfo.length<3">
+                <div  class="dropify-message"></div>
+                <p>上传图片</p>
+                <input  class="dropify" type="file"  id="press" #press
+                        (change)="prese_upload2(press.files)">
+              </div>
+            </div>
+
+            <!--<div class="pimg">
               <div class="dropify-wrapper">
                 <div class="dropify-message">
                   <img  *ngIf="imgUrlPath&&imgUrlPath[0]!==''" [src]="ipSetting.imgUrl+imgUrlPath[0]" />
@@ -135,7 +152,7 @@
                 <input type="file" class="dropify" #preseC id="preseC"  (change)="prese_upload2(preseC.files,2)">
               </div>
               <h4 *ngIf="imgUrlPath&&imgUrlPath[2]!==''">{{imgName[2]}}</h4>
-            </div>
+            </div>-->
           </div>
         </div>
       </div>

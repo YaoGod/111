@@ -17,6 +17,8 @@ export class FeaturedetailComponent implements OnInit {
   public eTime:string;
   public newCard = new CardInfo();
   public history:any;
+  public imgInfo = [];
+  public imgName = [];
   constructor(
     private route    : ActivatedRoute,
     private globalCatalogService:GlobalCatalogService,
@@ -37,9 +39,22 @@ export class FeaturedetailComponent implements OnInit {
       if(this.errorVoid.errorMsg(data)) {
         console.log(data);
         this.newCard = data.data;
+        if(this.newCard.imgPathList){
+          this.imgInfo = this.newCard.imgPathList;
+          this.imgName = this.filter_array(this.newCard.imageName.split(','));
+        }
       }
     });
 
+  }
+  private filter_array(array) {
+    for(var i = 0 ;i<array.length;i++) {
+      if(array[i] == "" || typeof(array[i]) == "undefined") {
+        array.splice(i,1);
+        i= i-1;
+      }
+    }
+    return array;
   }
 }
 export class CardInfo {
@@ -61,7 +76,10 @@ export class CardInfo {
   theme:string; // 会议主题
   note:string; // 会议议程
   address:string; // 会议地点
+  imageName:string;
   fileName=[];
   filePath=[];
   fileContract:any;
+  imgPath:string;
+  imgPathList = [];
 }

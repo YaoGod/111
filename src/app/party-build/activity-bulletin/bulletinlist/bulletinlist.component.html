@@ -146,7 +146,7 @@
           <div class="choose-list">
             <div class="choose-group" *ngFor="let subType of newCard.subTypeArr;let i=index">
               <label class="cb-blue">
-                <input type="checkbox" [name]="subType.name" id="activityType" [(ngModel)]="subType.choose" (blur)="verifyactivityType()"
+                <input type="checkbox" [name]="subType.name" [(ngModel)]="subType.choose"
                        [value]="subType.name"
                        (change)="chooseDept()">
                 <span>{{subType.name}}</span>

@@ -126,8 +126,7 @@
 }
 .word{
   padding: 10px 8px;
-  word-break: break-all;
-  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
+  width:80%;
   margin: 0;
   overflow-x: hidden;
   color: #5d5d5d;
@@ -135,17 +134,8 @@
   letter-spacing: 2px;
   line-height: 2;
 }
-#content{
-  width: 100%;
-  border: none;
-  color: #5d5d5d;
-  font-size: 12px;
-  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Hiragino Sans GB', 'SCHeiti', 'Microsoft YaHei UI', 'Microsoft YaHei', arial, simsun, sans-serif;
-  letter-spacing: 2.5px;
-  line-height: 2;
-}
-#content::-webkit-scrollbar{
-  display: none;
+.word img{
+  width:100%;
 }
 .attachment li{
   line-height:25px;

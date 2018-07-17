@@ -59,6 +59,7 @@
 }
 .card-left>li,.card-right>li{
   line-height:40px;
+  height:40px;
 }
 @keyframes myfirst
 {

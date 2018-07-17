@@ -28,9 +28,6 @@ export class ExportReportComponent implements OnInit {
   public countType:string;
   public typeTemplate:string;
   public imageName: any;
-  public activity1:string;
-  public activity2:string;
-  public activity3:string;
   public abc = ['三会一课','"六好"党支部建设月报','"主题党日"活动简报','党建实践案例','党委委员调研党支部信息','党支部工作计划和总结',
     '党支部岗区队建设情况','支部特色','学习时间'];
   constructor(
@@ -61,22 +58,57 @@ export class ExportReportComponent implements OnInit {
     this.ipSetting.sendPost(url,this.search).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         this.record = data.data.list;
-        if(this.record.imageName){
-          this.imageName = this.record.imageName.split(',');
-          if(this.imageName&&this.imageName.length===0){
-            this.activity1 = this.imageName[0];
-          }else if(this.imageName&&this.imageName.length===1){
-            this.activity1 = this.imageName[0];
-            this.activity2 = this.imageName[1];
-          }else if(this.imageName&&this.imageName.length===2){
-            this.activity1 = this.imageName[0];
-            this.activity2 = this.imageName[1];
-            this.activity3 = this.imageName[2];
+        this.total = data.data.total;
+        for(let i = 0;i<this.record.length;i++){
+          if(this.record[i].imageName){
+            this.record[i].arr = this.record[i].imageName.split(',');
+            this.filter_array(this.record[i].arr);
+            if(this.record[i].arr.length === 0){
+              this.record[i].aaa = '';
+              this.record[i].bbb = '';
+              this.record[i].ccc = '';
+            }
+            if(this.record[i].arr.length === 1){
+              this.record[i].aaa = this.record[i].arr[0];
+              this.record[i].bbb = '';
+              this.record[i].ccc = '';
+            }
+            if(this.record[i].arr.length === 2){
+              this.record[i].aaa = this.record[i].arr[0];
+              this.record[i].bbb = this.record[i].arr[1];
+              this.record[i].ccc = '';
+            }
+            if(this.record[i].arr.length === 3){
+              this.record[i].aaa = this.record[i].arr[0];
+              this.record[i].bbb = this.record[i].arr[1];
+              this.record[i].ccc = this.record[i].arr[2];
+            }
           }
         }
-        this.total = data.data.total;
+        /*if(this.record.imageName){
+         this.imageName = this.record.imageName.split(',');
+         if(this.imageName&&this.imageName.length===0){
+         this.activity1 = this.imageName[0];
+         }else if(this.imageName&&this.imageName.length===1){
+         this.activity1 = this.imageName[0];
+         this.activity2 = this.imageName[1];
+         }else if(this.imageName&&this.imageName.length===2){
+         this.activity1 = this.imageName[0];
+         this.activity2 = this.imageName[1];
+         this.activity3 = this.imageName[2];
+         }
+         }*/
       }
     });
+  }
+  private filter_array(array) {
+    for(let i = 0 ;i<array.length;i++) {
+      if(array[i] == "" || typeof(array[i]) == "undefined") {
+        array.splice(i,1);
+        i= i-1;
+      }
+    }
+    return array;
   }
   /*获取部门列表*/
   getRepairDept(){
@@ -110,7 +142,15 @@ export class ExportReportComponent implements OnInit {
     }else if(this.search.type === '7'){
       parms += ',month,pioneerNum,dutyNum,commandoNum,frequency,createUserName,createTime';
     }else if(this.search.type === '8'){
-      parms += ',imageName';
+      confirmFunc.init({
+        'title': '提示' ,
+        'mes': '支部特色不支持导出功能！',
+        'popType': 0 ,
+        'imgType': 2 ,
+      });
+      return false;
+    }else if(this.search.type === '8'){
+      parms += ',theme';
     }
 
     let url = this.ipSetting.ip + "/party/report/getListExcel?parms="+parms+"&type="+ this.search.type+"&subType="+this.search.subType+

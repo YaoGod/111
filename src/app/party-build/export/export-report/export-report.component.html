@@ -56,7 +56,7 @@
         <option>党支部年度总结</option>
       </select>
     </li>
-    <li *ngIf="typeTemplate !=='9'"><label>月份</label>
+    <li *ngIf="typeTemplate !=='9'&&typeTemplate !=='8'"><label>月份</label>
       <input name="Bmonth" style="width:130px;" type="month" [(ngModel)]="search.BTime" [value]="search.BTime"> 至
       <input name="Emonth" style="width:130px;" type="month" [(ngModel)]="search.ETime" [value]="search.ETime">
     </li>
@@ -108,9 +108,10 @@
       <td>{{report.branchName}}</td>
       <td *ngIf="search.type==='2'||search.type==='3'||search.type==='4'||search.type==='5'||search.type==='6'||
       search.type==='7'">{{report.month}}</td>
-      <td *ngIf="search.type!=='2' && search.type!=='7'&& search.type!=='5'&& search.type!=='9'">{{report.subType}}</td>
-      <td *ngIf="search.type==='1'">{{report.beginTime | date:'yyyy/MM/dd HH:mm'}}至{{report.endTime | date:'HH:mm'}}</td>
-      <td *ngIf="search.type==='1'">{{report.theme}}</td>
+      <td *ngIf="search.type!=='2' && search.type!=='7'&& search.type!=='5'&& search.type!=='8'&& search.type!=='9'">
+        {{report.subType}}</td>
+      <td *ngIf="search.type==='1'">2{{report.beginTime | date:'yyyy/MM/dd HH:mm'}}至{{report.endTime | date:'HH:mm'}}</td>
+      <td *ngIf="search.type==='1'">3{{report.theme}}</td>
       <td *ngIf="search.type==='2'">{{report.typicalMethod}}</td>
       <td *ngIf="search.type==='2'">{{report.dynamicMessage}}</td>
       <td *ngIf="search.type==='3'">{{report.shouldNum}}</td>
@@ -122,9 +123,9 @@
       <td *ngIf="search.type==='7'">{{report.dutyNum}}</td>
       <td *ngIf="search.type==='7'">{{report.commandoNum}}</td>
       <td *ngIf="search.type==='7'">{{report.frequency}}</td>
-      <td *ngIf="search.type==='8'">{{activity1}}</td>
-      <td *ngIf="search.type==='8'">{{activity2}}</td>
-      <td *ngIf="search.type==='8'">{{activity3}}</td>
+      <td *ngIf="search.type==='8'">{{report.aaa}}</td>
+      <td *ngIf="search.type==='8'">{{report.bbb}}</td>
+      <td *ngIf="search.type==='8'">{{report.ccc}}</td>
       <td *ngIf="search.type==='9'">{{report.theme}}</td>
       <td>{{report.createUserName}}</td>
       <td><p>{{report.createTime| date:'yyyy/MM/dd HH:mm'}}</p></td>
@@ -160,6 +161,11 @@
       </td>
       <td *ngIf="search.type==='7'" class="box-option">
         <a [routerLink]="['../../subunit/detail',report.id]">
+          <i class="icon-eye"></i>&nbsp;详情
+        </a>
+      </td>
+      <td *ngIf="search.type==='8'" class="box-option">
+        <a [routerLink]="['../../feature/detail',report.id]">
           <i class="icon-eye"></i>&nbsp;详情
         </a>
       </td>

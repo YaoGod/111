@@ -24,12 +24,8 @@ export class FeaturelistComponent implements OnInit {
   public record:any;
   private contractBool = true;
   public repairDept=[];
-  public imgUrlPath = ['','',''];
-  public imgName = ['','',''];
-  public activityArr = [];
-  public activity1:string;
-  public activity2:string;
-  public activity3:string;
+  public imgInfo = [];
+  public imgName = [];
   public rule : sndCatalog = new sndCatalog();
   constructor( public http:Http,
                public ipSetting:IpSettingService,
@@ -90,37 +86,42 @@ export class FeaturelistComponent implements OnInit {
       }
     });
   }
+  /*删除图片*/
+  delImgPath(index){
+    // this.newCard.imgPathList.splice(index,1);
+    this.imgInfo.splice(index,1);
+    this.imgName.splice(index,1);
 
+    // this.newCard.imgPath.splice(index,1);
+  }
   /*点击编辑*/
-  editCardInfo(index){
+  editCardInfo(id){
     this.contractBool = false;
-    this.imgUrlPath = ['','',''];
-    $("#preseA,#preseB,#preseC").val("");
     $('.mask').fadeIn();
     $('.mask .mask-head p').html('编辑支部特色内容');
-    this.newCard = JSON.parse(JSON.stringify(this.record[index]));
-    console.log(this.newCard.imgPathList);
-    if(this.newCard.imgPathList){
-      this.imgUrlPath = this.newCard.imgPathList;
-      this.imgName = this.newCard.imageName.split(',');
-    }
-    console.log(this.imgUrlPath);
-    if(this.newCard.imgPathList.length===1){
-      this.imgUrlPath.push('');
-      this.imgUrlPath.push('');
-    }
-    if(this.newCard.imgPathList.length===2){
-      this.imgUrlPath.push('');
-    }
-    console.log(this.newCard);
-    /*this.newCard.fileName = [];
-    this.newCard.filePath = [];
-    if(this.newCard.fileContract){
-      for(let i=0;i<this.newCard.fileContract.length;i++){
-        this.newCard.fileName.push(this.newCard.fileContract[i].fileName);
-        this.newCard.filePath.push(this.newCard.fileContract[i].filePath);
+    // this.newCard = JSON.parse(JSON.stringify(this.record[index]));
+    let url = "/party/report/detail/"+id;
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        this.newCard = data.data;
+        if(this.newCard.imgPathList){
+          this.imgInfo = this.newCard.imgPathList;
+          this.imgName = this.filter_array(this.newCard.imageName.split(','));
+        }
       }
-    }*/
+    });
+
+  }
+  /*编辑获取单条数据*/
+  getWelfare(id){
+    let url = "/party/report/detail/"+id;
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)) {
+        console.log(data);
+        this.newCard = data.data;
+      }
+    });
+
   }
   /*点击删除*/
   delCardInfo(id){
@@ -161,6 +162,8 @@ export class FeaturelistComponent implements OnInit {
     this.newCard.branchName = '';
     this.newCard.type = '8';
     this.newCard.subType = '';
+    this.imgInfo = [];
+    this.imgName = [];
     $('.mask').fadeIn();
     $('.mask .mask-head p').html('新增支部特色内容');
   }
@@ -178,18 +181,20 @@ export class FeaturelistComponent implements OnInit {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
         let data:any = JSON.parse(xhr.responseText);
         if(this.errorVoid.errorMsg(data)){
-          this.imgUrlPath[index] = data.msg;
-          this.imgName[index] = files[0].name;
-          confirmFunc.init({
-            'title': '提示',
-            'mes': '上传成功',
-            'popType': 0,
-            'imgType': 1,
-          });
-          $("#preseA,#preseB,#preseC").val("");
-        }else {
-          $("#preseA,#preseB,#preseC").val("");
+          if(this.imgInfo&&this.imgInfo.length>2){
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': '最多上传3张图片！',
+              'popType': 0 ,
+              'imgType': 2 ,
+            });
+            return false;
+          }else{
+            this.imgInfo.push(data.msg);
+            this.imgName.push(files[0].name);
+          }
         }
+        $('#press').val('');
       }
     };
   }
@@ -239,14 +244,13 @@ export class FeaturelistComponent implements OnInit {
     }
     let postData = JSON.parse(JSON.stringify(this.newCard));
     // postData.month = this.newCard.beginTime.substring(0, 7);
-    /*this.getNowFormatDate(); 018-06-09T10:00*/
     /*postData.beginTime = postData.beginTime.replace("T"," ");*/
-    postData.imgPathList = ['','',''];
+    postData.imgPathList = [];
     postData.imageName = '';
-    let array = JSON.parse(JSON.stringify(this.imgUrlPath));
+    let array = JSON.parse(JSON.stringify(this.imgInfo));
     let arrayName = JSON.parse(JSON.stringify(this.imgName));
     // this.filter_array(array);
-    this.filter_array(arrayName);
+    // this.filter_array(arrayName);
     if(array&&array.length===0){
       confirmFunc.init({
         'title': '提示',
@@ -256,13 +260,10 @@ export class FeaturelistComponent implements OnInit {
       });
       return false;
     }
-    // postData.imgPathList += array[i] + ',';
     for(let i=0;i<array.length;i++){
-
       postData.imageName += arrayName[i] + ',';
-
     }
-    delete postData.imgPathList;
+    postData.imgPathList = array;
     this.ipSetting.sendPost(url, postData).subscribe(data => {
       if(this.errorVoid.errorMsg(data)){
         confirmFunc.init({
@@ -288,7 +289,7 @@ export class FeaturelistComponent implements OnInit {
   /*取消*/
   addCancel(){
     $('.mask,.mask1,.mask2').fadeOut();
-    this.imgUrlPath = ['','',''];
+    this.imgInfo = [];
     $('.errorMessage').html('');
   }
   private getNowFormatDate() {

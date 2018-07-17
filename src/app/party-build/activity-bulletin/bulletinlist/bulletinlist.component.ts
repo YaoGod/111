@@ -133,11 +133,10 @@ export class BulletinlistComponent implements OnInit {
     }else{
       url = "/party/add/addTheme";  /*新增*/
     }
-    if (!this.verifybranchName() || !this.verifyactivityType() || !this.verifymonth() || !this.verifyshouldNum() ||
+    if (!this.verifybranchName() || !this.verifymonth() || !this.verifyshouldNum() ||
       !this.verifyabsentNum()) {
       return false;
     }
-
     if(this.newCard.subType && this.newCard.subType.length>0){
       this.ipSetting.sendPost(url, this.newCard).subscribe(data => {
         if(this.errorVoid.errorMsg(data)){
@@ -236,12 +235,6 @@ export class BulletinlistComponent implements OnInit {
   /*新增校验*/
   public verifybranchName(){
     if (!this.isEmpty('branchName', '不能为空')) {
-      return false;
-    }
-    return true;
-  }
-  public verifyactivityType(){
-    if(!this.isEmpty('activityType', '不能为空')){
       return false;
     }
     return true;
