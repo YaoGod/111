@@ -23,21 +23,16 @@ export class LiaoxiuyangComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.globalCatalogService.valueUpdated.subscribe(
-      (val) =>{
-        this.rule = this.globalCatalogService.getRole("unions/liaoxiuyang");
-        this.getRule(this.rule.ID);
-      }
-    );
-    if(this.rule){this.getRule(this.rule.ID);}
+    this.globalCatalogService.setTitle("工会管理/疗休养");
+    this.getRule();
     let url = this.router.url.trim().split('/');
     if(url[url.length-2] === 'info'||url[url.length-1] === 'list'){
 
       $('.row .row-title:first-child').addClass('active');
     }
   }
-  getRule(id){
-    this.globalCatalogService.getCata(id,'unions','unions/liaoxiuyang')
+  getRule(){
+    this.globalCatalogService.getCata('92','unions','unions/liaoxiuyang')
       .subscribe(data=>{
         if(this.errorVoid.errorMsg(data)){
           this.catas = data.data;
