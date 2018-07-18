@@ -11,6 +11,7 @@ import { LiaoxiuyangGroupComponent } from './liaoxiuyang-group/liaoxiuyang-group
 import { LiaoxiuyangSignComponent } from './liaoxiuyang-sign/liaoxiuyang-sign.component';
 import { LiaoxiuyangApproveComponent } from './liaoxiuyang-approve/liaoxiuyang-approve.component';
 import {LiaoxiuyangConditionComponent} from "./liaoxiuyang-condition/liaoxiuyang-condition.component";
+import { LineInfoComponent } from './line-info/line-info.component';
 const routes: Routes = [
   {
     path: '',
@@ -45,6 +46,10 @@ const routes: Routes = [
       {
         path: 'condition',
         component: LiaoxiuyangConditionComponent
+      },
+      {
+        path: 'info',
+        component: LineInfoComponent
       }
     ]
   }
@@ -57,6 +62,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   declarations: [LiaoxiuyangComponent, LiaoxiuyangLineComponent, LiaoxiuyangBatchComponent,
-    LiaoxiuyangGroupComponent, LiaoxiuyangSignComponent, LiaoxiuyangApproveComponent, LiaoxiuyangConditionComponent]
+    LiaoxiuyangGroupComponent, LiaoxiuyangSignComponent, LiaoxiuyangApproveComponent, LiaoxiuyangConditionComponent, LineInfoComponent]
 })
 export class LiaoxiuyangModule { }

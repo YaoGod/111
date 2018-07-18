@@ -1,0 +1,231 @@
+<div class="content-area">
+  <div class="content-inner">
+    <!--页面标题-->
+    <div class="nav-title">
+      <a><h4>疗休养线路管理</h4></a>
+      <div class="b-head-right">
+        <div class="content-box" tabindex="0" onclick="history.go(-1);">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>
+    </div>
+    <!--信息内容-->
+    <div class="warp">
+      <div class="warp-right">
+        <div  class="form-group">
+          <label  class="control-label"><span>线路名称</span>
+            <input class="form-control" id="name" name="name" placeholder="" type="text" autocomplete="off"
+                      [(ngModel)]="copyVote.name"
+                      (blur)="verifyEmpty(copyVote.name,'name')">
+          </label>
+          <div class="error"></div>
+        </div>
+        <div  class="form-group">
+          <label  class="control-label"><span>线路编号</span>
+            <input class="form-control" id="code" name="code" placeholder="" type="text" autocomplete="off"
+                      [(ngModel)]="copyVote.code"
+                      (blur)="verifyEmpty(copyVote.code,'code')">
+          </label>
+          <div class="error"></div>
+        </div>
+        <div  class="form-group">
+          <label  class="control-label"><span>旅行社</span>
+            <input class="form-control" id="travel" name="travel" placeholder="" type="text" autocomplete="off"
+                   [(ngModel)]="copyVote.travel"
+                   (blur)="verifyEmpty(copyVote.travel,'travel')">
+          </label>
+          <div class="error"></div>
+        </div>
+        <div  class="form-group">
+          <label  class="control-label"><span>服务标准</span>
+            <textarea class="form-control" id="explain" rows="5"
+                      name="explain" placeholder=""
+                      [(ngModel)]="copyVote.explain"
+                      (blur)="verifyEmpty(copyVote.explain,'explain')">
+            </textarea>
+          </label>
+          <div class="error"></div>
+        </div>
+        <div class="form-group">
+          <label  class="control-label"><span>线路价格</span>
+            <input class="form-control" id="price" name="price" placeholder="" type="number" autocomplete="off"
+                   [(ngModel)]="copyVote.price" style="width:550px;"
+                   (blur)="verifyEmpty(copyVote.price,'price')">元
+          </label>
+          <div class="error"></div>
+        </div>
+        <div class="form-group">
+          <label  class="control-label"><span>价格明细</span>
+            <textarea class="form-control" id="priceForm" name="priceForm" placeholder=""
+                   [(ngModel)]="copyVote.priceForm" rows="5"
+                   (blur)="verifyEmpty(copyVote.priceForm,'priceForm')">
+            </textarea>
+          </label>
+          <div class="error"></div>
+        </div>
+        <div class="form-group">
+          <label  class="control-label"><span>成团人数</span>
+            <input class="form-control" id="minNum" name="minNum" placeholder="" type="number" autocomplete="off"
+                   [(ngModel)]="copyVote.minNum"
+                   (blur)="verifyEmpty(copyVote.minNum,'minNum')">
+          </label>
+          <div class="error"></div>
+        </div>
+        <!--<div  class="form-group">
+          <span  class="control-label">
+            <span>开放范围</span>
+            <textarea class="form-control" rows="4" style="line-height: 20px;width: 600px"
+                      id="deptName" name="deptName" readonly [disabled]="copyVote.status === 'release'"
+                      [(ngModel)]="copyVote.targetName" (click)="openChooseWin()">
+            </textarea>
+            <a class="btn-danger" (click)="exportModeOut()" *ngIf="copyVote.status !== 'release'">模板下载</a>
+            <a class="btn-info" *ngIf="copyVote.status !== 'release'">模板导入
+              <input name="mode" type="file" class="file-mode"
+                     (change)="importDataIn($event.target.files)">
+            </a>
+          </span>
+          <div class="error"></div>
+        </div>-->
+        <!--<div class="modal-more" id="deptSltWin" style="display: none">
+          <h5>杭州移动各部门</h5>
+          <h5>已选：&nbsp;&nbsp;<span>{{copyVote.targetName}}</span></h5>
+          <div class="choose-group">
+            <label class="cb-blue">
+              <input type="checkbox" name="userDept" [(ngModel)]="isMyDept" [value]="user.deptId"
+                     (change)="setMyDept(user.deptId)">
+              <span>本部门</span>
+            </label>
+          </div>
+          <div class="choose-group">
+            <label class="cb-blue">
+              <input type="checkbox" name="all" id="all" [(ngModel)]="isAllDept" (change)="chooseAll()">
+              <span>全公司</span>
+            </label>
+          </div>
+          <div class="choose-list">
+            <div class="choose-group" *ngFor="let dept of deptList;let i=index">
+              <label class="cb-blue">
+                <input type="checkbox" [name]="dept.DEPT_ID" [(ngModel)]="dept.choose"
+                       [value]="dept.DEPT_ID"
+                       (change)="chooseDept()">
+                <span>{{dept.DEPT_NAME}}</span>
+              </label>
+            </div>
+          </div>
+          <div  class="modal-more-footer">
+            <button  class="btn btn-info" type="submit"
+                     onclick="$('#deptSltWin').fadeOut()">确定</button>
+          </div>
+        </div>-->
+       <!-- <div  class="form-group">
+          <span  class="control-label" style="display: inherit;">
+            <span>投票方式</span>
+            <label for="single">
+              <input id="single" name="type" type="radio" value="single" [disabled]="copyVote.status === 'release'"
+                     [(ngModel)]="copyVote.type" (change)="clearResult()">
+              单选
+            </label>
+            <label for="double">
+              <input id="double" name="type" type="radio" value="double" [disabled]="copyVote.status === 'release'"
+                     [(ngModel)]="copyVote.type" (change)="clearResult()">
+              多选
+            </label>
+            <div class="error"></div>
+          </span>
+        </div>-->
+        <!--<div  class="form-group" [@diamond]="copyVote.type ==='double'?'lower':'upper'">
+          <span  class="control-label"><span>投票配置</span>
+            <label for="number">
+              <input id="number" name="resultType" type="radio" value="number"
+                     [disabled]="copyVote.status === 'release'"
+                     [(ngModel)]="copyVote.resultType" (change)="clearResult()">
+              指定个数
+              <span [@diamond]="copyVote.resultType === 'number'?'show':'none'" id="numberLabel">&nbsp;&nbsp;
+                <input type="number" class="form-control" style="width: 80px"
+                       name="maxResult" [(ngModel)]="copyVote.maxResult"
+                       [disabled]="copyVote.status === 'release'"
+                       (blur)="verifyNumberRange(copyVote.maxResult,'numberLabel',2)">项
+              </span>
+            </label>
+            <div class="error"></div>
+          </span>
+          <div>
+            <label  class="control-label"><span></span>
+              <label for="range">
+                <input id="range" name="resultType" type="radio" value="range" [disabled]="copyVote.status === 'release'"
+                       [(ngModel)]="copyVote.resultType" (change)="clearResult()">
+                指定范围
+                <span [@diamond]="copyVote.resultType === 'range'?'show':'none'">&nbsp;&nbsp;
+                  <label id="minRange">最少选
+                  <input type="number" class="form-control" style="width: 80px" name="minResult"
+                         [(ngModel)]="copyVote.minResult" [disabled]="copyVote.status === 'release'"
+                         (blur)="verifyNumberRange(copyVote.minResult,'minRange',1,copyVote.maxResult?copyVote.maxResult-1:null)">项
+                  </label>&nbsp;&nbsp;
+                  <label id="maxRange">最多选
+                  <input type="number" class="form-control" style="width: 80px" name="maxResult"
+                         [(ngModel)]="copyVote.maxResult" [disabled]="copyVote.status === 'release'"
+                         (blur)="verifyNumberRange(copyVote.maxResult,'maxRange',copyVote.minResult?copyVote.minResult+1:null)">项
+                  </label>
+                </span>
+                <div class="error"></div>
+              </label>
+              <div class="error"></div>
+            </label>
+          </div>
+        </div>-->
+        <div  class="form-group">
+          <div  class="control-label"><span>行程安排</span>
+            <ul class="control-list">
+              <!--<li *ngFor="let option of copyVote.content;let i = index" [@diamond]="option?'active':''">{{option.text}}
+              </li>-->
+              <li *ngFor="let option of copyVote.content;let i = index" [@diamond]="option?'active':''">
+                <h5>第{{i+1}}天<span *ngIf="i!=0&&copyVote.status !== 'release'" (click)="delOption(i)">删除</span></h5>
+                  <div  class="form-group">
+                    <label  class="control-label">
+                      <textarea class="form-control" rows="5" style="line-height: 24px;"
+                                [(ngModel)]="option.text">
+                      </textarea>
+                      <!--<span *ngIf="option" class="font-count">{{option.length}}/1000</span>-->
+                    </label>
+                    <div class="error"></div>
+                  </div>
+              </li>
+              <li class="box-add" *ngIf="copyVote.status !== 'release'">
+                <a (click)="addNewOption()"><i class="icon-plus"></i>&nbsp;添加选项</a>
+              </li>
+            </ul>
+          </div>
+          <div class="error"></div>
+        </div>
+        <div  class="form-group">
+          <label  class="control-label"><span>备注</span>
+            <textarea class="form-control" id="note" rows="5"
+                      name="note" placeholder=""
+                      [(ngModel)]="copyVote.note" [disabled]="copyVote.status === 'release'"
+                      (blur)="verifyEmpty(copyVote.note,'explain')">
+                </textarea>
+          </label>
+          <div class="error"></div>
+        </div>
+        <div  class="form-group">
+          <label  class="control-label"><span>附件</span>
+            <ul class="contract-list">
+              <li *ngFor="let abc of copyVote.fileName; let k=index">{{abc}}<a  href="javascript:;" (click)="delFile(k)">×</a> </li>
+            </ul>
+            <div class="form-inp" style=" margin-top:5px;">
+              <a href="javascript:;" style="color:#666; margin-left:127px; border-radius:4px; padding:5px 10px; background: #f6f6f6;" onclick="$('#prese').trigger('click')">上 传</a>
+              <input type="file" class="dropify" #prese id="prese" style="visibility: hidden;"
+                     (change)="prese_upload(prese.files)">
+              <span class="errorMessage"></span>
+            </div>
+          </label>
+          <div class="error"></div>
+        </div>
+      </div>
+      <div style="clear: both;"></div>
+      <div class="foot-submit">
+        <a class="btn btn-info" (click)="submit()">提交</a>
+      </div>
+    </div>
+  </div>
+</div>

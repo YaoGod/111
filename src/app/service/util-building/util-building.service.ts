@@ -78,6 +78,18 @@ export class UtilBuildingService {
     xhr.send(form);
     return xhr;
   }
+  uploadFileTourLine(postData,type,id){
+    const url = this.ipSetting.ip + "/soclaty/util/uploadFile/"+type+ "/" +id;
+    var form = new FormData();
+    if (typeof(postData) === 'object') {
+      form.append('file', postData);
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.withCredentials = true;
+    xhr.send(form);
+    return xhr;
+  }
   /*
    能耗文件上传
    param: postData:file,

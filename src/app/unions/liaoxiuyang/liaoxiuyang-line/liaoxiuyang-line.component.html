@@ -8,12 +8,18 @@
       <li>
         <a href="javascript:;" class="search-btn" (click)="searchInfoList(1)"><i class="icon-magnifier"></i> 查 询</a>
       </li>
+      <li>
+        <a href="javascript:;" class="search-btn" [routerLink]="['../info']"><i class="icon-magnifier-add"></i> 新 增</a>
+      </li><!--(click)="addNewLine()"-->
     </ul>
   </div>
   <table width="100%" style="margin:0 auto;" class="card-info">
     <tr style="height: 40px; background-color: #acd6ff; text-align: center; font-weight: bold; font-size: 14px;color:#333;">
-      <th>编号</th>
-      <th width="20%" style="text-align: left">名称</th>
+      <th>线路名称</th>
+      <th>线路编号</th>
+      <th>旅行社</th>
+      <th>成团人数</th>
+      <th>当前状态</th>
       <th width="8%">操作</th>
     </tr>
     <tr style="height: 36px; text-align: center" *ngFor="let inner of orders;let i=index">

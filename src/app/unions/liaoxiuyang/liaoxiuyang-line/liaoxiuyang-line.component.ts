@@ -20,4 +20,7 @@ export class LiaoxiuyangLineComponent implements OnInit {
   searchInfoList(number){
 
   }
+  addNewLine(){
+
+  }
 }
