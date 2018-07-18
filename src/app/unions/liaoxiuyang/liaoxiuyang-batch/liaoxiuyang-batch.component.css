@@ -343,3 +343,13 @@ label + .errorMessage,.company-ipt + .errorMessage{
   border: 0.5px solid #d75452;
   border-radius: 5px;
 }
+.list-add>i,.search-link{
+  color: #686868;
+  font-size: 12px;
+  transition-duration: 500ms;
+  user-select: none;
+  cursor: pointer;
+}
+.list-add>i:hover,.search-link:hover{
+  color: #fb9678;
+}

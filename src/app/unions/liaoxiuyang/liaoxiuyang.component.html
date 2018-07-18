@@ -5,6 +5,6 @@
         <a [routerLink]="['../../'+cata.routeUrl]" routerLinkActive="active" >{{cata.name}}<span></span></a>
       </div>
     </div>
-    <router-outlet></router-outlet>
+    <router-outlet *ngIf="catas&&catas.length>0"></router-outlet>
   </div>
 </div>

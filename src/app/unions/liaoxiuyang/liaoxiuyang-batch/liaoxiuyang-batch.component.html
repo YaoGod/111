@@ -2,7 +2,7 @@
 <div class="repair-chandlery">
   <ul>
     <li>
-      <label>线路编号</label>
+      <label>批次编号</label>
       <input name="searchCode" style="width:130px;" type="text" [(ngModel)]="searchInfo.code">
     </li>
     <li>
@@ -13,25 +13,38 @@
       <a href="javascript:;" class="search-btn" (click)="batchSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
     </li>
     <li>
-      <a href="javascript:;" class="search-btn" (click)="addNewBatch()"><i class="icon-magnifier-add"></i> 新 增</a>
+      <a href="javascript:;" class="search-btn" (click)="addNewBatch()"><i class="icon-plus"></i> 新 增</a>
     </li>
   </ul>
 </div>
 <table width="100%" style="margin:0 auto;" class="card-info">
   <tr style="height: 40px; background-color: #acd6ff; text-align: center; font-weight: bold; font-size: 14px;color:#333;">
-    <th>线路编号</th>
-    <th width="20%" style="text-align: left">线路名称</th>
-    <th>线路价格</th>
-    <th>旅行社</th>
-    <th>服务标准</th>
-    <th>状态</th>
-    <th>备注</th>
-    <th>行程安排</th>
-    <th width="8%">附件</th>
-    <th width="8%">操作</th>
+    <th width="15%">批次编号</th>
+    <th>线路名称</th>
+    <th>出行时间</th>
+    <th>开放范围</th>
+    <th>成团人数下限</th>
+    <th>预报名起止时间</th>
+    <th style="min-width: 100px;">操作</th>
   </tr>
-  <tr style="height: 36px; text-align: center" *ngFor="let inner of batches;let i=index">
-
+  <tr style="height: 36px; text-align: center" *ngFor="let batch of batches;let i=index">
+    <td>{{batch.batchId}}</td>
+    <td>{{batch.lineName}}</td>
+    <td>{{batch.goTime | date:'yyyy-MM-dd HH:mm'}}</td>
+    <td>{{batch.deptId}}</td>
+    <td>{{batch.minNum}}人</td>
+    <td>{{batch.beginTime| date:'yyyy-MM-dd HH:mm'}}至{{batch.endTime| date:'yyyy-MM-dd HH:mm'}}</td>
+    <td class="box-option" style="min-width: 100px;">
+      <!--<a class="search-link" [routerLink]="['../detail',batch.id]">
+        <i class="icon-eye"></i>&nbsp;详情
+      </a>-->
+      <a class="search-link" (click)="editBatch(batch)">
+        <i class="icon-pencil"></i>&nbsp;编辑
+      </a>
+      <a class="search-link" (click)="delBatch(batch.id)">
+        <i class="icon-trash"></i>&nbsp;删除
+      </a>
+    </td>
   </tr>
 </table>
 <div class="div-none" *ngIf="batches && batches.length === 0">
@@ -56,15 +69,16 @@
         <span class="form-label">批次编号</span>
         <div class="form-inp">
           <input class="company-ipt company-sel" name="code" type="text"
-                 [(ngModel)]="newBatch.code">
+                 [(ngModel)]="newBatch.batchId" placeholder="暂无" disabled>
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">线路名称</span>
         <div class="form-inp">
-          <select class="company-ipt company-sel" name="newHandleId" id="newHandleId" [(ngModel)]="newBatch.lineObject"
-                  (blur)="verifyEmpty('newHandleId')">
+          <select class="company-ipt company-sel" name="newLineId" id="newLineId"
+                  [(ngModel)]="newBatch.lineId"
+                  (blur)="verifyEmpty('newLineId')">
             <option value="">请选择</option>
             <option *ngFor="let line of lines" [value]="line.id">{{line.name}}</option>
           </select>
@@ -74,46 +88,56 @@
       <div class="form-control">
         <span class="form-label">出行时间</span>
         <div class="form-inp">
-          <input class="company-ipt company-sel" name="goTime" type="datetime-local"
-                 [(ngModel)]="newBatch.goTime">
+          <input class="company-ipt company-sel" id="newGoTime" name="newGoTime" type="datetime-local"
+                 [(ngModel)]="newBatch.goTime" (blur)="verifyEmpty('newGoTime')">
           <span class="errorMessage"></span>
         </div>
       </div>
-      <div class="form-control">
+      <div class="form-control form-alone">
         <span class="form-label">开放范围</span>
         <div class="form-inp">
           <label>
             <input  name="deptId" type="radio"
-                   [(ngModel)]="newBatch.deptId" value="owner">私有
+                   [(ngModel)]="newBatch.deptId" value="私有">私有
           </label>
           <label>
             <input  name="deptId" type="radio"
-                   [(ngModel)]="newBatch.deptId" value="public">公开
+                   [(ngModel)]="newBatch.deptId" value="公开">公开
           </label>
-          <span class="errorMessage"></span>
-        </div>
-      </div>
-      <div class="form-control">
-        <span class="form-label">成团人数下限</span>
-        <div class="form-inp">
-          <input class="company-ipt company-sel" name="minNum" type="number"
-                 [(ngModel)]="newBatch.minNum">
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">预报名开始时间</span>
         <div class="form-inp">
-          <input class="company-ipt company-sel" name="beginTime" type="datetime-local"
-                 [(ngModel)]="newBatch.beginTime">
+          <input class="company-ipt company-sel" id="newBeginTime" name="newBeginTime" type="datetime-local"
+                 [(ngModel)]="newBatch.beginTime" (blur)="verifyEmpty('newBeginTime')">
           <span class="errorMessage"></span>
         </div>
       </div>
       <div class="form-control">
         <span class="form-label">预报名截至时间</span>
         <div class="form-inp">
-          <input class="company-ipt company-sel" name="goTime" type="datetime-local"
-                 [(ngModel)]="newBatch.goTime">
+          <input class="company-ipt company-sel" id="newEndTime" name="newEndTime" type="datetime-local"
+                 [(ngModel)]="newBatch.endTime" (blur)="verifyEmpty('newEndTime')">
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone">
+        <span class="form-label">出团地点</span>
+
+        <div class="form-inp">
+          <span id="newPlace">
+            <span *ngFor="let site of newBatch.place;let i = index">
+            {{i+1}}.&nbsp;&nbsp;
+              <input class="company-ipt company-sel" type="text" style="width:500px;"
+                     [(ngModel)]="site.name" [ngModelOptions]="{standalone: true}">
+              <span class="list-add">
+                <i class="icon-trash" (click)="delPlace(i)" *ngIf="newBatch.place.length>1"></i>&nbsp;
+                <i class="icon-plus" (click)="addPlace(i)"></i>
+              </span><br>
+            </span>
+          </span>
           <span class="errorMessage"></span>
         </div>
       </div>

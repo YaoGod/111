@@ -212,7 +212,6 @@ export class CongflowComponent implements OnInit {
       }
     }
     if(this.newCard.schedule === 8){
-      console.log(this.resultSubmit);
       if (this.resultSubmit.satisfled === "") {
         this.addErrorClass("newCreateSatisfled", "请选择满意度");
         return false;
