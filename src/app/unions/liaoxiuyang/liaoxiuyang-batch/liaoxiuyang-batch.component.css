@@ -83,6 +83,16 @@
 .wrap-inner{
   padding: 0 20px;
 }
+.card-info tr>td{
+  padding: 5px;
+}
+.card-info tr>.minText{
+  line-height: 18px;
+  font-size: 12px;
+}
+.card-info tr:nth-child(odd) {
+  background: #F4F4F4;
+}
 .mask,.mask1,.mask2{
   display: none;
   z-index: 1000;
@@ -109,7 +119,6 @@
 }
 button{
   border: none;
-  font-size: 18px;
   background: none;
 }
 .close{
@@ -210,7 +219,8 @@ button{
   background-size: 100% 1px, 100% 1px;
 }
 label + .errorMessage,.company-ipt + .errorMessage{
-  line-height: 30px;
+  line-height: 20px;
+  vertical-align: middle;
 }
 .errorMessage{
   position: absolute;
@@ -352,4 +362,76 @@ label + .errorMessage,.company-ipt + .errorMessage{
 }
 .list-add>i:hover,.search-link:hover{
   color: #fb9678;
+}
+.modal-more{
+  position: absolute;
+  width: 700px;
+  top: 10%;
+  left: 50%;
+  margin-left: -350px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 6px 0 6px rgba(0,0,0,.1), -6px 0 6px rgba(0,0,0,.1), 0 6px 6px rgba(0,0,0,.1);
+  z-index: 6;
+}
+.modal-more h5{
+  line-height: 30px;
+}
+.modal-more-footer{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding-top: 3px;
+  clear: both;
+}
+.choose-list{
+  padding-bottom: 10px;
+  clear: both;
+}
+.choose-group{
+  float: left;
+  width: 25%;
+  height: 24px;
+  line-height: 18px;
+  padding: 2px;
+  text-align: center;
+  box-sizing: border-box;
+}
+.cb-blue>input[type=checkbox]{
+  position: absolute;
+  opacity: 0;
+}
+.cb-blue span{
+  display: inline-block;
+  width: 100%;
+  border:2px solid #d6d5d7;
+  border-radius: 3px;
+  color: #8d9ea7;
+  background-color: #ffffff;
+  transition-duration: 300ms;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.cb-blue>input[type=checkbox]:checked+span{
+  border:2px solid #03a9f3;
+  color: #ffffff;
+  background-color: #03a9f3;
+}
+.fitBox{
+  position: relative;
+  float: right;
+  top: -25px;
+  right: -15px;
+  padding: 0 5px;
+  cursor: pointer;
+}
+.fitBox a i{
+  padding: 0;
 }

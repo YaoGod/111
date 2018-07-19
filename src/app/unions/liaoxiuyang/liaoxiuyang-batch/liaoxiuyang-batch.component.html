@@ -7,7 +7,10 @@
     </li>
     <li>
       <label>线路名称</label>
-      <input name="searchName" style="width:130px;" type="text" [(ngModel)]="searchInfo.name">
+      <select name="searchName"  style="width:130px;" [(ngModel)]="searchInfo.lineName">
+        <option value="">全部</option>
+        <option *ngFor="let line of lines" [value]="line.id">{{line.name}}</option>
+      </select>
     </li>
     <li>
       <a href="javascript:;" class="search-btn" (click)="batchSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
@@ -19,28 +22,30 @@
 </div>
 <table width="100%" style="margin:0 auto;" class="card-info">
   <tr style="height: 40px; background-color: #acd6ff; text-align: center; font-weight: bold; font-size: 14px;color:#333;">
-    <th width="15%">批次编号</th>
+    <th width="20%">批次编号</th>
     <th>线路名称</th>
-    <th>出行时间</th>
+    <th width="12%">出行时间</th>
     <th>开放范围</th>
     <th>成团人数下限</th>
-    <th>预报名起止时间</th>
-    <th style="min-width: 100px;">操作</th>
+    <th width="12%">预报名起止时间</th>
+    <th style="min-width: 50px;">操作</th>
   </tr>
   <tr style="height: 36px; text-align: center" *ngFor="let batch of batches;let i=index">
-    <td>{{batch.batchId}}</td>
+    <td width="20%">{{batch.batchId}}</td>
     <td>{{batch.lineName}}</td>
-    <td>{{batch.goTime | date:'yyyy-MM-dd HH:mm'}}</td>
-    <td>{{batch.deptId}}</td>
+    <td  width="12%" class="minText">{{batch.goTime | date:'yyyy年M月dd日HH:mm'}}</td>
+    <td>{{batch.deptName}}</td>
     <td>{{batch.minNum}}人</td>
-    <td>{{batch.beginTime| date:'yyyy-MM-dd HH:mm'}}至{{batch.endTime| date:'yyyy-MM-dd HH:mm'}}</td>
+    <td width="12%" class="minText">
+      {{batch.beginTime| date:'yyyy年M月dd日HH:mm'}}<br>至<br>
+      {{batch.endTime| date:'yyyy年M月dd日HH:mm'}}</td>
     <td class="box-option" style="min-width: 100px;">
-      <!--<a class="search-link" [routerLink]="['../detail',batch.id]">
+      <a class="search-link" [routerLink]="['../batchDetail',batch.id]">
         <i class="icon-eye"></i>&nbsp;详情
-      </a>-->
+      </a><br>
       <a class="search-link" (click)="editBatch(batch)">
         <i class="icon-pencil"></i>&nbsp;编辑
-      </a>
+      </a><br>
       <a class="search-link" (click)="delBatch(batch.id)">
         <i class="icon-trash"></i>&nbsp;删除
       </a>
@@ -57,8 +62,6 @@
   (turnEvent)="batchSearch($event)">
 </app-turn-bar>
 </div>
-
-
 <div class="mask" id="pici">
   <div class="mask-cotainer">
     <div class="mask-head"><i class="icon-film"></i> <p>新增批次</p>
@@ -68,7 +71,7 @@
       <div class="form-control form-alone" *ngIf="newBatch.id">
         <span class="form-label">批次编号</span>
         <div class="form-inp">
-          <input class="company-ipt company-sel" name="code" type="text"
+          <input class="company-ipt company-sel" name="code" type="text" style="width:525px;"
                  [(ngModel)]="newBatch.batchId" placeholder="暂无" disabled>
           <span class="errorMessage"></span>
         </div>
@@ -77,7 +80,7 @@
         <span class="form-label">线路名称</span>
         <div class="form-inp">
           <select class="company-ipt company-sel" name="newLineId" id="newLineId"
-                  [(ngModel)]="newBatch.lineId"
+                  [(ngModel)]="newBatch.lineId" [disabled]="newBatch.id"
                   (blur)="verifyEmpty('newLineId')">
             <option value="">请选择</option>
             <option *ngFor="let line of lines" [value]="line.id">{{line.name}}</option>
@@ -94,18 +97,16 @@
         </div>
       </div>
       <div class="form-control form-alone">
+        <span  class="control-label">
         <span class="form-label">开放范围</span>
-        <div class="form-inp">
-          <label>
-            <input  name="deptId" type="radio"
-                   [(ngModel)]="newBatch.deptId" value="私有">私有
-          </label>
-          <label>
-            <input  name="deptId" type="radio"
-                   [(ngModel)]="newBatch.deptId" value="公开">公开
-          </label>
-          <span class="errorMessage"></span>
-        </div>
+          <div class="form-inp">
+            <textarea class="company-ipt company-sel" rows="4" style="width:525px;"
+                      id="deptName" name="deptName" readonly
+                      [(ngModel)]="newBatch.deptName" (click)="openChooseWin()">
+            </textarea>
+          </div>
+        </span>
+        <div class="error"></div>
       </div>
       <div class="form-control">
         <span class="form-label">预报名开始时间</span>
@@ -116,7 +117,7 @@
         </div>
       </div>
       <div class="form-control">
-        <span class="form-label">预报名截至时间</span>
+        <span class="form-label">预报名截止时间</span>
         <div class="form-inp">
           <input class="company-ipt company-sel" id="newEndTime" name="newEndTime" type="datetime-local"
                  [(ngModel)]="newBatch.endTime" (blur)="verifyEmpty('newEndTime')">
@@ -125,7 +126,6 @@
       </div>
       <div class="form-control form-alone">
         <span class="form-label">出团地点</span>
-
         <div class="form-inp">
           <span id="newPlace">
             <span *ngFor="let site of newBatch.place;let i = index">
@@ -145,6 +145,37 @@
     <div class="mask-footer">
       <button type="submit" class="btn-mask btn-info" (click)="submit()">提 交</button>
       <button type="button" class="btn-mask btn-danger" (click)="addCancel()">取 消</button>
+    </div>
+  </div>
+  <div class="modal-more" id="deptSltWin" style="display: none">
+    <h5>杭州移动各部门</h5>
+    <h5>已选：&nbsp;&nbsp;<span>{{newBatch.deptName}}</span></h5>
+    <div class="choose-group">
+      <label class="cb-blue">
+        <input type="checkbox" name="userDept" [(ngModel)]="isMyDept" [value]="user.deptId"
+               (change)="setMyDept(user.deptId)">
+        <span>本部门</span>
+      </label>
+    </div>
+    <div class="choose-group">
+      <label class="cb-blue">
+        <input type="checkbox" name="all" id="all" [(ngModel)]="isAllDept" (change)="chooseAll()">
+        <span>全公司</span>
+      </label>
+    </div>
+    <div class="choose-list">
+      <div class="choose-group" *ngFor="let dept of deptList;let i=index">
+        <label class="cb-blue">
+          <input type="checkbox" [name]="dept.DEPT_ID" [(ngModel)]="dept.choose"
+                 [value]="dept.DEPT_ID"
+                 (change)="chooseDept()">
+          <span>{{dept.DEPT_NAME}}</span>
+        </label>
+      </div>
+    </div>
+    <div  class="modal-more-footer">
+      <button  class="btn-mask btn-info" type="submit"
+               onclick="$('#deptSltWin').fadeOut()">确定</button>
     </div>
   </div>
 </div>
