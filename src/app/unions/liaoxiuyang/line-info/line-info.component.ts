@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import 'rxjs/add/operator/switchMap';
-import {ActivatedRoute, Router} from "@angular/router";
-import * as echarts from 'echarts';
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
@@ -53,8 +52,8 @@ declare var confirmFunc:any;
 })
 export class LineInfoComponent implements OnInit {
   public copyVote  : Vote;
-  public isMyDept  : boolean;
-  public isAllDept : boolean;
+  public hotel  = [];
+  public hotelSub  = [];
   public user;
   constructor(
     private router: Router,
@@ -70,16 +69,35 @@ export class LineInfoComponent implements OnInit {
     this.copyVote.content[0] = new Option();
     this.copyVote.content[0].text = "";
     this.copyVote.status = "";
-
-
+    this.hotel  = [''];
+    if(typeof (this.route.params['_value']['id']) !== "undefined"){
+      let tempid = 0;
+      this.route.params
+        .switchMap((params: Params) => this.copyVote.id  = params['id'])
+        .subscribe(() => {
+          if (tempid === 0) {
+            this.getVoteInfo(this.copyVote.id);
+            tempid++;
+          }
+        });
+    }
   }
-
+  /*获取编辑信息*/
+  getVoteInfo(id){
+    let url = '/soclaty/tourline/getTourLineInfo/'+id;
+    this.ipSetting.sendGet(url).subscribe(data=>{
+        if(this.errorResponseService.errorMsg(data)){
+          this.copyVote = data.data;
+          this.hotel = this.copyVote.hotel;
+        }
+      })
+  }
   /*添加选项*/
   addNewOption(){
     this.copyVote.content.push(new Option());
     this.copyVote.content[this.copyVote.content.length-1].text = "";
   }
-  /*删除选项*/
+  /*删除行程*/
   delOption(index){
     let temp = [];
     for(let i = 0;i<this.copyVote.content.length;i++){
@@ -88,6 +106,19 @@ export class LineInfoComponent implements OnInit {
       }
     }
     this.copyVote.content = temp;
+  }
+  addHotel(){
+    this.hotel.push('');
+  }
+  /*删除酒店*/
+  delHotel(index){
+    let temp = [];
+    for(let i = 0;i<this.hotel.length;i++){
+      if(i!== index){
+        temp.push(this.hotel[i]);
+      }
+    }
+    this.hotel = temp;
   }
   /*删除附件*/
   delFile(index) {
@@ -135,9 +166,12 @@ export class LineInfoComponent implements OnInit {
 
     if($('.red').length === 0) {
       let postdata = JSON.parse(JSON.stringify(this.copyVote));
-      /*for(let i = 0;i<postdata.options.length;i++){
-        delete postdata.options[i].imgContent;
-      }*/
+      let list = document.getElementsByClassName("hotel");
+      this.hotelSub = [];
+      for(let i = 0;i<list.length;i++){
+        this.hotelSub.push(list[i]['value']);
+      }
+      postdata.hotel = this.hotelSub;
       if(typeof (postdata.id) === "undefined" || postdata.id === null) {
         let url = '/soclaty/tourline/addTourLine';
         this.ipSetting.sendPost(url,postdata).subscribe(data => {
@@ -209,7 +243,8 @@ export class Vote {
   content    : Array<Option>;  // 行程
   travel     : string;  // 旅行社
   dayNum     : string;  // 天数
-  status     : string;  // 旅行社
+  status     : string;  //
+  hotel      = [];  // 入住酒店
   minNum     : string;  // 人数下限
   maxNum     : string;  // 人数上限
   price      : number;  // 价格

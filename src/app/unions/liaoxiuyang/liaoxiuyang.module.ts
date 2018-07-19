@@ -12,6 +12,7 @@ import { LiaoxiuyangSignComponent } from './liaoxiuyang-sign/liaoxiuyang-sign.co
 import { LiaoxiuyangApproveComponent } from './liaoxiuyang-approve/liaoxiuyang-approve.component';
 import {LiaoxiuyangConditionComponent} from "./liaoxiuyang-condition/liaoxiuyang-condition.component";
 import { LineInfoComponent } from './line-info/line-info.component';
+import { LineDetailComponent } from './line-detail/line-detail.component';
 import { LiaoxiuyangBatchDetailComponent } from './liaoxiuyang-batch-detail/liaoxiuyang-batch-detail.component';
 import {EmptyValueModule} from "../../pipe/rename/rename.module";
 const routes: Routes = [
@@ -56,6 +57,14 @@ const routes: Routes = [
       {
         path: 'info',
         component: LineInfoComponent
+      },
+      {
+        path: 'edit/:id',
+        component: LineInfoComponent
+      },
+      {
+        path: 'detail/:id',
+        component: LineDetailComponent
       }
     ]
   }
@@ -69,6 +78,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   declarations: [LiaoxiuyangComponent, LiaoxiuyangLineComponent, LiaoxiuyangBatchComponent,
+    LiaoxiuyangGroupComponent, LiaoxiuyangSignComponent, LiaoxiuyangApproveComponent, LiaoxiuyangConditionComponent,
+    LineInfoComponent, LineDetailComponent,
     LiaoxiuyangGroupComponent, LiaoxiuyangSignComponent, LiaoxiuyangApproveComponent,
     LiaoxiuyangConditionComponent, LineInfoComponent, LiaoxiuyangBatchDetailComponent]
 })

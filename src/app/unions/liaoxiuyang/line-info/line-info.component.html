@@ -49,7 +49,7 @@
         <div class="form-group">
           <label  class="control-label"><span>线路价格</span>
             <input class="form-control" id="price" name="price" placeholder="" type="number" autocomplete="off"
-                   [(ngModel)]="copyVote.price" style="width:550px;"
+                   [(ngModel)]="copyVote.price" style="width:250px;"
                    (blur)="verifyEmpty(copyVote.price,'price')">元
           </label>
           <div class="error"></div>
@@ -66,8 +66,23 @@
         <div class="form-group">
           <label  class="control-label"><span>成团人数</span>
             <input class="form-control" id="minNum" name="minNum" placeholder="" type="number" autocomplete="off"
-                   [(ngModel)]="copyVote.minNum"
+                   [(ngModel)]="copyVote.minNum" style="width:230px;"
                    (blur)="verifyEmpty(copyVote.minNum,'minNum')">
+          </label>
+          <div class="error"></div>
+        </div>
+        <div class="form-group">
+          <label  class="control-label"><span>入住酒店</span>
+            <div style="width:800px; display: inline-block;">
+              <span *ngFor="let abc of hotel;let i=index;" style="display: inline-block; width:250px;">
+                <input class="form-control hotel" [name]="'hotel'+i" autocomplete="off"
+                       style="width:230px;" [value]="abc">
+                  <a *ngIf="i>0">
+                  <i class="icon-close" (click)="delHotel(i)"></i></a>
+              </span>
+              <a (click)="addHotel()"><i class="icon-plus"></i></a>
+            </div>
+
           </label>
           <div class="error"></div>
         </div>
@@ -182,7 +197,7 @@
                 <h5>第{{i+1}}天<span *ngIf="i!=0&&copyVote.status !== 'release'" (click)="delOption(i)">删除</span></h5>
                   <div  class="form-group">
                     <label  class="control-label">
-                      <textarea class="form-control" rows="5" style="line-height: 24px;"
+                      <textarea class="form-control" rows="5" style="line-height: 24px;" maxlength="1000"
                                 [(ngModel)]="option.text">
                       </textarea>
                       <!--<span *ngIf="option" class="font-count">{{option.length}}/1000</span>-->

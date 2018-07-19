@@ -1,0 +1,110 @@
+<div class="content-area">
+  <div class="content-inner">
+    <!--页面标题-->
+    <div class="nav-title">
+      <a><h4>疗休养线路管理</h4></a>
+      <div class="b-head-right">
+        <div class="content-box" tabindex="0" onclick="history.go(-1);">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </div>
+    </div>
+    <!--信息内容-->
+    <div class="warp">
+      <div class="warp-right">
+        <div  class="form-group">
+          <label  class="control-label"><span>线路名称</span>
+            <input class="form-control" id="name" name="name" placeholder="" type="text" autocomplete="off"
+                   [(ngModel)]="copyVote.name" disabled="disabled">
+          </label>
+        </div>
+        <div  class="form-group">
+          <label  class="control-label"><span>线路编号</span>
+            <input class="form-control" id="code" name="code" placeholder="" type="text" autocomplete="off"
+                   [(ngModel)]="copyVote.code" disabled="disabled">
+          </label>
+        </div>
+        <div  class="form-group">
+          <label  class="control-label"><span>旅行社</span>
+            <input class="form-control" id="travel" name="travel" placeholder="" type="text" autocomplete="off"
+                   [(ngModel)]="copyVote.travel" disabled="disabled">
+          </label>
+        </div>
+        <div  class="form-group">
+          <label  class="control-label"><span>服务标准</span>
+            <textarea class="form-control" id="explain" rows="5"
+                      name="explain" placeholder=""
+                      [(ngModel)]="copyVote.explain" disabled="disabled">
+            </textarea>
+          </label>
+        </div>
+        <div class="form-group">
+          <label  class="control-label"><span>线路价格</span>
+            <input class="form-control" id="price" name="price" placeholder="" type="number" autocomplete="off"
+                   [(ngModel)]="copyVote.price" style="width:250px;" disabled="disabled">元
+          </label>
+        </div>
+        <div class="form-group">
+          <label  class="control-label"><span>价格明细</span>
+            <textarea class="form-control" id="priceForm" name="priceForm" placeholder=""
+                      [(ngModel)]="copyVote.priceForm" rows="5" disabled="disabled">
+            </textarea>
+          </label>
+        </div>
+        <div class="form-group">
+          <label  class="control-label"><span>成团人数</span>
+            <input class="form-control" id="minNum" name="minNum" placeholder="" type="number" autocomplete="off"
+                   [(ngModel)]="copyVote.minNum" style="width:230px;" disabled="disabled">
+          </label>
+          <div class="error"></div>
+        </div>
+        <div class="form-group">
+          <label  class="control-label"><span>入住酒店</span>
+            <div style="width:800px; display: inline-block;">
+              <span *ngFor="let abc of hotel;let i=index;" style="display: inline-block; width:250px;">
+              <input class="form-control hotel" [name]="'hotel'+i" autocomplete="off" disabled="disabled"
+                     style="width:230px;" [value]="abc">
+            </span>
+            </div>
+
+          </label>
+        </div>
+        <div  class="form-group">
+          <div  class="control-label"><span>行程安排</span>
+            <ul class="control-list">
+              <li *ngFor="let option of copyVote.content;let i = index">
+                <h5>第{{i+1}}天</h5>
+                <div  class="form-group">
+                  <label  class="control-label">
+                      <textarea class="form-control" rows="5" style="line-height: 24px;" maxlength="1000"
+                                [(ngModel)]="option.text">
+                      </textarea>
+                  </label>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="error"></div>
+        </div>
+        <div  class="form-group">
+          <label  class="control-label"><span>备注</span>
+            <textarea class="form-control" id="note" rows="5" disabled="disabled" maxlength="1000"
+                      name="note" placeholder=""
+                      [(ngModel)]="copyVote.note">
+                </textarea>
+          </label>
+        </div>
+        <div  class="form-group">
+          <label  class="control-label"><span>附件</span>
+            <ul class="contract-list">
+              <li *ngFor="let abc of copyVote.fileContract; let k=index">{{abc.fileName}}
+                <a [href]="ipSetting.imgUrl+abc.filePath" [download]="abc.fileName">下载</a>
+              </li>
+            </ul>
+          </label>
+        </div>
+      </div>
+      <div style="clear: both;"></div>
+    </div>
+  </div>
+</div>

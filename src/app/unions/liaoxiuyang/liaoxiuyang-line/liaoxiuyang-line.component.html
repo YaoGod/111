@@ -3,7 +3,7 @@
     <ul>
       <li>
         <label>名称</label>
-        <input name="searchName" style="width:130px;" type="text" [(ngModel)]="searchInfo">
+        <input name="searchName" style="width:130px;" type="text" [(ngModel)]="searchInfo.name">
       </li>
       <li>
         <a href="javascript:;" class="search-btn" (click)="searchInfoList(1)"><i class="icon-magnifier"></i> 查 询</a>
@@ -20,13 +20,31 @@
       <th>旅行社</th>
       <th>成团人数</th>
       <th>当前状态</th>
-      <th width="8%">操作</th>
+      <th>操作</th>
     </tr>
-    <tr style="height: 36px; text-align: center" *ngFor="let inner of orders;let i=index">
-
+    <tr style="height: 36px; text-align: center" *ngFor="let inner of record;let i=index">
+      <td>{{inner.name}}</td>
+      <td>{{inner.code}}</td>
+      <td>{{inner.travel}}</td>
+      <td>{{inner.minNum}}</td>
+      <td>{{inner.status}}</td>
+      <td>
+        <a class="text-a" [routerLink]="['../detail',inner.id]">
+          <i class="icon-eye"></i>详情
+        </a>
+        <a class="text-a" [routerLink]="['../edit',inner.id]">
+          <i class="icon-pencil"></i>编辑
+        </a>
+        <a class="text-a" (click)="grounding(inner.id)">
+          <i class="icon-equalizer"></i>{{inner.status==="上架"?"下架":"上架"}}
+        </a>
+        <a class="text-a" (click)="delete(inner.id)">
+          <i class="icon-trash"></i>&nbsp;删除
+        </a>
+      </td>
     </tr>
   </table>
-  <div class="div-none" *ngIf="orders && orders.length === 0">
+  <div class="div-none" *ngIf="record && record.length === 0">
     <p>暂无信息</p>
   </div>
   <app-turn-bar
