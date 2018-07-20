@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import 'rxjs/add/operator/switchMap';
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
-import {ErrorResponseService} from "../../../service/error-response/error-response.service";
-import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
-import {UtilBuildingService} from "../../../service/util-building/util-building.service";
+import {ErrorResponseService} from "../../../../service/error-response/error-response.service";
+import {IpSettingService} from "../../../../service/ip-setting/ip-setting.service";
+import {UtilBuildingService} from "../../../../service/util-building/util-building.service";
+import {animate, keyframes, state, style, transition, trigger} from "@angular/animations";
 declare var $:any;
 declare var confirmFunc:any;
 
 @Component({
-  selector: 'app-line-info',
-  templateUrl: './line-info.component.html',
-  styleUrls: ['./line-info.component.css'],
+  selector: 'app-sign-add',
+  templateUrl: './sign-add.component.html',
+  styleUrls: ['./sign-add.component.css'],
   providers:[UtilBuildingService],
   animations: [
     trigger('diamond', [
@@ -50,11 +49,12 @@ declare var confirmFunc:any;
     ])
   ]
 })
-export class LineInfoComponent implements OnInit {
+export class SignAddComponent implements OnInit {
   public copyVote  : Vote;
   public hotel  = [];
   public hotelSub  = [];
   public user;
+  public lineName:string;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -75,7 +75,6 @@ export class LineInfoComponent implements OnInit {
       this.route.params
         .switchMap((params: Params) => this.copyVote.id  = params['id'])
         .subscribe(() => {
-        console.log(this.route.params['_value']);
           if (tempid === 0) {
             this.getVoteInfo(this.copyVote.id);
             tempid++;
@@ -85,13 +84,14 @@ export class LineInfoComponent implements OnInit {
   }
   /*获取编辑信息*/
   getVoteInfo(id){
-    let url = '/soclaty/tourline/getTourLineInfo/'+id;
+    let url = '/soclaty/tourbatch/getTourBatchInfo/'+id;
     this.ipSetting.sendGet(url).subscribe(data=>{
-        if(this.errorResponseService.errorMsg(data)){
-          this.copyVote = data.data;
-          this.hotel = this.copyVote.hotel;
-        }
-      })
+      if(this.errorResponseService.errorMsg(data)){
+        this.copyVote = data.data;
+        this.hotel = this.copyVote.hotel;
+        this.lineName = data.data.tourLine.name;
+      }
+    })
   }
   /*添加选项*/
   addNewOption(){
@@ -163,7 +163,7 @@ export class LineInfoComponent implements OnInit {
     this.verifyEmpty(this.copyVote.price,'price');
     this.verifyEmpty(this.copyVote.minNum,'minNum');
     this.verifyEmpty(this.copyVote.priceForm,'priceForm');
-   //  this.verifyEmpty(this.copyVote.content,'content');
+    //  this.verifyEmpty(this.copyVote.content,'content');
 
     if($('.red').length === 0) {
       let postdata = JSON.parse(JSON.stringify(this.copyVote));
@@ -176,39 +176,39 @@ export class LineInfoComponent implements OnInit {
       if(typeof (postdata.id) === "undefined" || postdata.id === null) {
         let url = '/soclaty/tourline/addTourLine';
         this.ipSetting.sendPost(url,postdata).subscribe(data => {
-            if (this.errorResponseService.errorMsg(data)) {
-              confirmFunc.init({
-                'title': '提示',
-                'mes': data.msg,
-                'popType': 2,
-                'imgType': 1,
-                "callback": () => {
-                  history.go(-1);
-                },
-                "cancel": () => {
-                  history.go(-1);
-                }
-              });
-            }
-          });
+          if (this.errorResponseService.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示',
+              'mes': data.msg,
+              'popType': 2,
+              'imgType': 1,
+              "callback": () => {
+                history.go(-1);
+              },
+              "cancel": () => {
+                history.go(-1);
+              }
+            });
+          }
+        });
       }else{
         let url = '/soclaty/tourline/updateTourLine';
         this.ipSetting.sendPost(url,postdata).subscribe(data => {
-            if (this.errorResponseService.errorMsg(data)) {
-              confirmFunc.init({
-                'title': '提示',
-                'mes': data.msg,
-                'popType': 2,
-                'imgType': 1,
-                "callback": () => {
-                  history.go(-1);
-                },
-                "cancel": () => {
-                  history.go(-1);
-                }
-              });
-            }
-          });
+          if (this.errorResponseService.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示',
+              'mes': data.msg,
+              'popType': 2,
+              'imgType': 1,
+              "callback": () => {
+                history.go(-1);
+              },
+              "cancel": () => {
+                history.go(-1);
+              }
+            });
+          }
+        });
       }
     }
   }

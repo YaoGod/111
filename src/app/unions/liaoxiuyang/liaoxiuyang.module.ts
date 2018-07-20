@@ -44,7 +44,7 @@ const routes: Routes = [
       },
       {
         path: 'sign',
-        component: LiaoxiuyangSignComponent
+        loadChildren:'./liaoxiuyang-sign/liaoxiuyang-sign.module#LiaoxiuyangSignModule'
       },
       {
         path: 'approve',
@@ -78,9 +78,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   declarations: [LiaoxiuyangComponent, LiaoxiuyangLineComponent, LiaoxiuyangBatchComponent,
-    LiaoxiuyangGroupComponent, LiaoxiuyangSignComponent, LiaoxiuyangApproveComponent, LiaoxiuyangConditionComponent,
-    LineInfoComponent, LineDetailComponent,
-    LiaoxiuyangGroupComponent, LiaoxiuyangSignComponent, LiaoxiuyangApproveComponent,
-    LiaoxiuyangConditionComponent, LineInfoComponent, LiaoxiuyangBatchDetailComponent]
+    LiaoxiuyangGroupComponent, LiaoxiuyangApproveComponent, LiaoxiuyangConditionComponent,
+    LineInfoComponent, LineDetailComponent, LiaoxiuyangBatchDetailComponent]
 })
 export class LiaoxiuyangModule { }

@@ -2,8 +2,8 @@
 <div class="count-area">
   <div class="count-left">
     <!--放三个临近期间的投票活动-->
-    <h2>秀我风采<em>Mien</em><span>更多>></span></h2>
-    <app-wrapper-picture [list]="wrapVotes" [width]="800" [height]="400" [baseUrl]="'./detail'"></app-wrapper-picture>
+    <!--<h2>秀我风采<em>Mien</em><span>更多>></span></h2>-->
+    <app-wrapper-picture [list]="wrapVotes" [width]="800" [height]="436" [baseUrl]="'./detail'"></app-wrapper-picture>
 
   </div>
   <div class="count-right clearfix">
@@ -15,7 +15,7 @@
     </div>-->
 
     <div class="count-inner">
-      <h4 class="list-title"><strong>榜上有名</strong><em>Famous</em><span>更多>></span></h4>
+      <h4 class="list-title"><strong>工作部署</strong><em>Famous</em><span>更多>></span></h4>
       <ul class="count-list">
         <li *ngFor="let top of votesTop;let i = index">
           <h3>·&nbsp;&nbsp;{{top.title}}</h3>
@@ -55,7 +55,7 @@
   </div>
   <div class="count-right">
     <div class="count-inner">
-      <h4 class="list-title"><strong>工作部署</strong><em>Deploy</em><span>更多>></span></h4>
+      <h4 class="list-title"><strong>榜上有名</strong><em>Deploy</em><span>更多>></span></h4>
       <ul class="count-list">
         <li *ngFor="let top of votesTop;let i = index">
           <h3>·&nbsp;&nbsp;{{top.title}}</h3>

@@ -35,11 +35,11 @@ export class UnionsindexComponent implements OnInit {
     this.search = "";
     this.votes = [
       {
-        id:1,name:'档案管理区',imgPath:'assets/image/bb2.png'
+        id:1,name:'基础管理',imgPath:'assets/image/bb2.png'
       },{
-        id:2,name:'工作展示区',imgPath:'assets/image/bb3.png'
+        id:2,name:'工作展示',imgPath:'assets/image/bb3.png'
       },{
-        id:3,name:'流程操作区',imgPath:'assets/image/bb1.png'
+        id:3,name:'学习交流',imgPath:'assets/image/bb1.png'
       }
     ];
     this.votesTop = [
