@@ -11,15 +11,11 @@
           <span class="form-title">出行时间</span>
           <span class="word">{{batch.goTime | date:'yyyy年M月dd日 HH:mm'}}</span>
         </li>
-        <li class="form-bar">
-          <span class="form-title">状态</span>
-          <span class="word">{{batch.status | emptyValue:'暂无数据'}}</span>
-        </li>
         <li class="form-bar full-line">
           <span class="form-title">线路名称</span>
           <span class="word">{{batch.lineName | emptyValue:'暂无数据'}}
             <a class="btn-link" style="position: absolute;" title="查看更多线路信息" *ngIf="batch.lineName"
-               [routerLink]="['../../info',batch.id]"></a>
+               [routerLink]="['../../detail',batch.lineId]"></a>
           </span>
         </li>
         <li class="form-bar">
@@ -55,21 +51,47 @@
           <span class="word" *ngFor="let place of batch.place;let i = index">
             {{i+1}}.&nbsp;{{place | emptyValue:'暂无数据'}}</span>
         </li>
+        <li class="form-bar full-line">
+          <span class="form-title">住宿酒店</span>
+          <span class="word"><span *ngFor="let hotel of batch.hotel;let i = index">
+            {{hotel | emptyValue:'暂无数据'}}&nbsp;&nbsp;&nbsp;</span></span>
+        </li>
       </ul>
       <div>
-        <div class="title"><span>报名信息</span></div>
-       <!-- <ul class="fy-card">
-          <li *ngFor="let child of flow.children;let i=index">
-            <div class="fy-inner">
-              <h5>{{child.theme}}<span>{{child.type}}</span></h5>
-              <p class="fy-time">{{child.createUserName}}&nbsp;（{{child.userDept}}）&nbsp;{{child.createTime| date:'yyyy/MM/dd HH:mm'}}</p>
-              <a class="btn-link" title="查看提案信息" [routerLink]="['../../info',child.id]"></a>
-              <p>{{child.suggest}}</p>
-            </div>
-          </li>
-        </ul>-->
+      <div class="title"><span>参团人员信息</span></div>
+      <div style="float: right;margin-top: -10px;">
+        <a class="btn search-btn"><i class="icon-plus"></i>&nbsp;新增</a>
+        <a class="btn btn-danger">确认成团</a>
+        <a class="btn btn-danger"><i class="glyphicon-export"></i>名单导出</a>
       </div>
-
+      <p style="font-weight: 700;height: 30px;">当前参团人数{{batch.realNum| emptyValue:'--'}}人</p>
+      <table width="100%" style="margin:0 auto;" class="card-info">
+        <tr style="height: 40px; background-color: #acd6ff; text-align: center; font-weight: bold; font-size: 14px;color:#333;">
+          <th>ID</th>
+          <th>姓名</th>
+          <th>电话</th>
+          <th>报名日期</th>
+          <th>操作</th>
+        </tr>
+        <tr style="height: 36px; text-align: center" *ngFor="let person of people;let i=index">
+          <td>{{person.id}}</td>
+          <td>{{person.name}}</td>
+          <td>{{person.telNum}}</td>
+          <td>{{person.date}}</td>
+          <td class="">
+            <a class="search-link">
+              <i class="icon-pencil"></i>&nbsp;编辑
+            </a><br>
+            <a class="search-link">
+              <i class="icon-trash"></i>&nbsp;删除
+            </a>
+          </td>
+        </tr>
+      </table>
+      <div class="div-none" *ngIf="people && people.length === 0">
+        <p>暂无信息</p>
+      </div>
+      </div>
     </div>
   </div>
 </div>

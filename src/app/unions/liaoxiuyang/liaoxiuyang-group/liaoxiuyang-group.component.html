@@ -2,8 +2,15 @@
   <div class="repair-chandlery">
     <ul>
       <li>
-        <label>名称</label>
-        <input name="searchName" style="width:130px;" type="text" [(ngModel)]="searchInfo">
+        <label>批次编号</label>
+        <input name="searchCode" style="width:130px;" type="text" [(ngModel)]="searchInfo.code">
+      </li>
+      <li>
+        <label>线路名称</label>
+        <select name="searchName"  style="width:130px;" [(ngModel)]="searchInfo.lineId">
+          <option value="">全部</option>
+          <option *ngFor="let line of lines" [value]="line.id">{{line.name}}</option>
+        </select>
       </li>
       <li>
         <a href="javascript:;" class="search-btn" (click)="searchInfoList(1)"><i class="icon-magnifier"></i> 查 询</a>
@@ -12,15 +19,35 @@
   </div>
   <table width="100%" style="margin:0 auto;" class="card-info">
     <tr style="height: 40px; background-color: #acd6ff; text-align: center; font-weight: bold; font-size: 14px;color:#333;">
-      <th>编号</th>
-      <th width="20%" style="text-align: left">名称</th>
-      <th width="8%">操作</th>
+      <th width="20%">批次编号</th>
+      <th>线路名称</th>
+      <th width="12%">出行时间</th>
+      <th class="text-left">开放范围</th>
+      <th>成团人数下限</th>
+      <th>已报人数</th>
+      <th width="12%">预报名起止时间</th>
+      <th style="min-width: 50px;">操作</th>
     </tr>
-    <tr style="height: 36px; text-align: center" *ngFor="let inner of orders;let i=index">
-
+    <tr style="height: 36px; text-align: center" *ngFor="let batch of batches;let i=index">
+      <td width="20%">{{batch.batchId}}</td>
+      <td>{{batch.lineName}}</td>
+      <td  width="12%" class="minText">{{batch.goTime | date:'yyyy年M月dd日HH:mm'}}</td>
+      <td style="max-width: 200px;">
+        <p class="tb-text">{{batch.deptName}}</p>
+      </td>
+      <td>{{batch.minNum}}人</td>
+      <td>{{batch.realNum}}人</td>
+      <td width="12%" class="minText">
+        {{batch.beginTime| date:'yyyy年M月dd日HH:mm'}}<br>至<br>
+        {{batch.endTime| date:'yyyy年M月dd日HH:mm'}}</td>
+      <td class="box-option" style="min-width: 100px;">
+        <a class="search-link" [routerLink]="['../batchDetail',batch.id]">
+          <i class="icon-eye"></i>&nbsp;详情
+        </a><br>
+      </td>
     </tr>
   </table>
-  <div class="div-none" *ngIf="orders && orders.length === 0">
+  <div class="div-none" *ngIf="batches && batches.length === 0">
     <p>暂无信息</p>
   </div>
   <app-turn-bar

@@ -17,7 +17,8 @@ export class LiaoxiuyangBatchComponent implements OnInit {
   public searchInfo : Batch;
   public batches: Array<Batch>;
   public deptList  : Array<Department>;
-  public lines: Array<any>;
+  public lines: Array<Batch>;
+  public hotels: Array<Department>;
   public newBatch: Batch;
   public pageSize = 10;
   public pageNo = 1;
@@ -37,13 +38,14 @@ export class LiaoxiuyangBatchComponent implements OnInit {
     this.globalCatalogService.setTitle("工会管理/疗休养/批次管理");
     this.user =this.globalUserService.getVal();
     this.searchInfo = new Batch();
-    this.searchInfo.lineName = "";
+    this.searchInfo.lineId = "";
     this.batches = new Array<Batch>(0);
     this.newBatch = new Batch();
     this.newBatch.deptName = [];
     this.newBatch.deptId = [];
     this.newBatch.place  = [];
     this.lines = [];
+    this.hotels = [];
     this.getLines();
     this.getDeptList();
     this.batchSearch(1);
@@ -66,17 +68,42 @@ export class LiaoxiuyangBatchComponent implements OnInit {
       }
     });
   }
+  setHotel(id){
+    let temp = [];
+    for(let i=0;i<this.lines.length;i++){
+      if(this.lines[i].id.toString()=== id.toString()){
+        temp = this.lines[i].hotel;
+      }
+    }
+    this.hotels = [];
+    for(let i=0;i<temp.length;i++){
+      this.hotels[i] = new Department();
+      this.hotels[i].value = temp[i];
+      this.hotels[i].choose = false;
+    }
+  }
   addNewBatch(){
     this.newBatch = new Batch();
     this.newBatch.lineId = "";
     this.newBatch.deptId = [this.user.deptId];
     this.newBatch.deptName = ['本部门'];
     this.newBatch.place  = [{name:""}];
+    this.hotels = [];
     $('#pici').fadeIn();
   }
   editBatch(batch){
     this.addNewBatch();
+    $("#pici .mask-head>p").html("编辑批次");
     this.newBatch = JSON.parse(JSON.stringify(batch));
+    this.setHotel(this.newBatch.lineId);
+    for(let i=0;i<this.hotels.length;i++){
+      this.hotels[i].choose = false;
+      for(let j=0;j<this.newBatch.hotel.length;j++){
+        if(this.hotels[i].value === this.newBatch.hotel[j]){
+          this.hotels[i].choose = true;
+        }
+      }
+    }
     let tempPlace = [];
     for(let i = 0;i<this.newBatch.place.length;i++){
       tempPlace.push({name:this.newBatch.place[i]});
@@ -140,6 +167,16 @@ export class LiaoxiuyangBatchComponent implements OnInit {
       return false;
     }else{
       this.removeErrorClass("newEndTime");
+    }
+    this.newBatch.hotel = [];
+    for(let i=0;i<this.hotels.length;i++){
+      if(this.hotels[i].choose){
+        this.newBatch.hotel.push(this.hotels[i].value);
+      }
+    }
+    if(this.newBatch.hotel.length===0&&this.hotels.length>0){
+      this.addErrorClass("newHotel", "请选择");
+      return false;
     }
     let verityData;
     let tempPlaceArray = [];
@@ -334,6 +371,7 @@ export class Batch {
   maxNum: number;
   minNum: number;
   realNum: number;
+  hotel: Array<string>;
   place: Array<any>;
   status: string;
   /*更多*/

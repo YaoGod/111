@@ -245,5 +245,6 @@ export class ShareNewProductComponent implements OnInit {
 export class Department {
   DEPT_ID   : string;
   DEPT_NAME : string;
+  value     : string;
   choose    : boolean;
 }

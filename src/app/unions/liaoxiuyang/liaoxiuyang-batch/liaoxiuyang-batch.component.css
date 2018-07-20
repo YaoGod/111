@@ -93,6 +93,22 @@
 .card-info tr:nth-child(odd) {
   background: #F4F4F4;
 }
+.text-left{
+  text-align: left;
+}
+.tb-text{
+  max-height: 56px;
+  padding-right: 8px;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+.tb-text:hover{
+  overflow: auto;
+}
 .mask,.mask1,.mask2{
   display: none;
   z-index: 1000;
