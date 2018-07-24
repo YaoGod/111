@@ -37,9 +37,9 @@ export class UnionsindexComponent implements OnInit {
       {
         id:1,name:'基础管理',imgPath:'assets/image/bb2.png'
       },{
-        id:2,name:'工作展示',imgPath:'assets/image/bb3.png'
+        id:2,name:'工作展示',imgPath:'assets/image/bb1.png'
       },{
-        id:3,name:'学习交流',imgPath:'assets/image/bb1.png'
+        id:3,name:'学习交流',imgPath:'assets/image/bb3.png'
       }
     ];
     this.votesTop = [
@@ -52,27 +52,23 @@ export class UnionsindexComponent implements OnInit {
       },{
         id:4,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
       },{
-        id:4,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
+        id:5,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
       },{
-        id:4,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
+        id:6,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
       },{
-        id:4,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
+        id:7,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
       },{
-        id:4,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
+        id:8,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
       },{
-        id:4,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
+        id:9,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
       },{
-        id:4,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
+        id:10,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
       },{
-        id:4,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
+        id:11,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
       },{
-        id:4,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
+        id:12,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
       },{
-        id:4,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
-      },{
-        id:4,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
-      },{
-        id:4,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
+        id:13,url:"",title:'中国科学院院士潘建伟做客浙大求是大讲堂'
       }
     ];
     this.wrapVotes = [

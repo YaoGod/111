@@ -36,9 +36,9 @@ export class DetailComponent implements OnInit {
       name: '工作展示'
     },{
       list: [
-        {id:13,inner:'政策学习',imgPath:'assets/image/cc2.png',routeUrl:'expect'},
-        {id:14,inner:'经验分享',imgPath:'assets/image/cc3.png',routeUrl:'expect'},
-        {id:15,inner:'工作手册',imgPath:'assets/image/cc4.png',routeUrl:'expect'},
+        {id:13,inner:'政策学习',imgPath:'assets/image/dd3.png',routeUrl:'expect'},
+        {id:14,inner:'经验分享',imgPath:'assets/image/dd2.png',routeUrl:'expect'},
+        {id:15,inner:'工作手册',imgPath:'assets/image/dd1.png',routeUrl:'expect'},
       ],
       name: '学习交流'
     }]

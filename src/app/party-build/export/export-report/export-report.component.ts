@@ -149,7 +149,7 @@ export class ExportReportComponent implements OnInit {
         'imgType': 2 ,
       });
       return false;
-    }else if(this.search.type === '8'){
+    }else if(this.search.type === '9'){
       parms += ',theme';
     }
 

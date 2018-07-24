@@ -205,7 +205,7 @@
                     <div class="error"></div>
                   </div>
               </li>
-              <li class="box-add" *ngIf="copyVote.status !== 'release'">
+              <li class="box-add" *ngIf="copyVote.content&&copyVote.content.length<10">
                 <a (click)="addNewOption()"><i class="icon-plus"></i>&nbsp;添加选项</a>
               </li>
             </ul>

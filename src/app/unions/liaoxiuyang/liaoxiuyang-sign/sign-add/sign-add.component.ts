@@ -55,6 +55,7 @@ export class SignAddComponent implements OnInit {
   public hotelSub  = [];
   public user;
   public lineName:string;
+  public hrmis = localStorage.getItem("username");
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -65,11 +66,14 @@ export class SignAddComponent implements OnInit {
 
   ngOnInit() {
     this.copyVote = new Vote();
-    this.copyVote.content = [];
-    this.copyVote.content[0] = new Option();
-    this.copyVote.content[0].text = "";
-    this.copyVote.status = "";
-    this.hotel  = [''];
+    this.copyVote.hrmis = localStorage.getItem("username");
+    this.copyVote.tourEnrolls = [];
+    this.copyVote.isFamily = '否';
+    this.copyVote.tourEnrolls[0] = new Option();
+    this.copyVote.tourEnrolls[0].name = "";
+    this.copyVote.tourEnrolls[0].idcard = "";
+    this.copyVote.tourEnrolls[0].sex = "";
+    this.copyVote.tourEnrolls[0].age = "";
     if(typeof (this.route.params['_value']['id']) !== "undefined"){
       let tempid = 0;
       this.route.params
@@ -81,88 +85,78 @@ export class SignAddComponent implements OnInit {
           }
         });
     }
+    this.getUserName(this.copyVote.hrmis);
   }
   /*获取编辑信息*/
   getVoteInfo(id){
     let url = '/soclaty/tourbatch/getTourBatchInfo/'+id;
     this.ipSetting.sendGet(url).subscribe(data=>{
       if(this.errorResponseService.errorMsg(data)){
-        this.copyVote = data.data;
-        this.hotel = this.copyVote.hotel;
+        this.copyVote.batchId = data.data.id;
+        this.copyVote.lineId = data.data.lineId;
         this.lineName = data.data.tourLine.name;
+
       }
     })
   }
-  /*添加选项*/
-  addNewOption(){
-    this.copyVote.content.push(new Option());
-    this.copyVote.content[this.copyVote.content.length-1].text = "";
+  /*根据员工号获取信息*/
+  getUserName(value) {
+      let url = "/portal/user/getUserInfo/" + value;
+      this.ipSetting.sendGet(url).subscribe(data => {
+        if (this.errorResponseService.errorMsg(data)) {
+          this.copyVote.deptId = data.data.deptId;
+          this.copyVote.sex = data.data.sex;
+          this.copyVote.telNum = data.data.teleNum;
+          this.copyVote.name = data.data.username;
+        }
+      });
   }
-  /*删除行程*/
+  /*添加家属信息*/
+  addNewOption(){
+    this.copyVote.tourEnrolls.push(new Option());
+    this.copyVote.tourEnrolls[this.copyVote.tourEnrolls.length-1].name = "";
+    this.copyVote.tourEnrolls[this.copyVote.tourEnrolls.length-1].idcard = "";
+    this.copyVote.tourEnrolls[this.copyVote.tourEnrolls.length-1].sex = "";
+    this.copyVote.tourEnrolls[this.copyVote.tourEnrolls.length-1].age = "";
+  }
+  /*删除家属信息*/
   delOption(index){
     let temp = [];
-    for(let i = 0;i<this.copyVote.content.length;i++){
+    for(let i = 0;i<this.copyVote.tourEnrolls.length;i++){
       if(i!== index){
-        temp.push(this.copyVote.content[i]);
+        temp.push(this.copyVote.tourEnrolls[i]);
       }
     }
-    this.copyVote.content = temp;
+    this.copyVote.tourEnrolls = temp;
   }
-  addHotel(){
-    this.hotel.push('');
-  }
-  /*删除酒店*/
-  delHotel(index){
-    let temp = [];
-    for(let i = 0;i<this.hotel.length;i++){
-      if(i!== index){
-        temp.push(this.hotel[i]);
-      }
+  /*切换携带家属*/
+  changePer(value){
+    if(value === '是'){
+      this.copyVote.tourEnrolls = [];
+      this.copyVote.tourEnrolls[0] = new Option();
+      this.copyVote.tourEnrolls[0].name = "";
+      this.copyVote.tourEnrolls[0].idcard = "";
+      this.copyVote.tourEnrolls[0].sex = "";
+      this.copyVote.tourEnrolls[0].age = "";
+    }else if(value === '否'){
+      this.copyVote.tourEnrolls = [];
+      this.copyVote.tourEnrolls[0] = new Option();
     }
-    this.hotel = temp;
   }
   /*删除附件*/
-  delFile(index) {
+  /*delFile(index) {
     this.copyVote.filePath.splice(index,1);
     this.copyVote.fileName.splice(index,1);
-  }
-  /*附件上传*/
-  prese_upload(files) {
-    var xhr = this.utilBuildingService.uploadFileTourLine(files[0],'tourLine',-1);
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {
-        var data:any = JSON.parse(xhr.responseText);
-        if(this.errorResponseService.errorMsg(data)){
-          this.copyVote.fileName.push(files[0].name);
-          this.copyVote.filePath.push(data.data);
-          confirmFunc.init({
-            'title': '提示' ,
-            'mes': '上传成功',
-            'popType': 0 ,
-            'imgType': 1,
-          });
-          $('#prese').val('');
-        }
-      }else if (xhr.readyState === 4 && xhr.status === 413){
-        confirmFunc.init({
-          'title': '提示' ,
-          'mes': '文件太大',
-          'popType': 0 ,
-          'imgType': 2,
-        });
-        $('#prese').val('');
-      }
-    };
-  }
+  }*/
+
   /*提交*/
   submit(){
     this.verifyEmpty(this.copyVote.name,'name');
-    this.verifyEmpty(this.copyVote.code,'code');
-    this.verifyEmpty(this.copyVote.travel,'travel');
-    this.verifyEmpty(this.copyVote.explain,'explain');
-    this.verifyEmpty(this.copyVote.price,'price');
+    this.verifyEmpty(this.copyVote.post,'post');
+    this.verifyEmpty(this.copyVote.idcard,'idcard');
+     /*this.verifyEmpty(this.copyVote.price,'price');
     this.verifyEmpty(this.copyVote.minNum,'minNum');
-    this.verifyEmpty(this.copyVote.priceForm,'priceForm');
+    this.verifyEmpty(this.copyVote.priceForm,'priceForm');*/
     //  this.verifyEmpty(this.copyVote.content,'content');
 
     if($('.red').length === 0) {
@@ -172,9 +166,21 @@ export class SignAddComponent implements OnInit {
       for(let i = 0;i<list.length;i++){
         this.hotelSub.push(list[i]['value']);
       }
-      postdata.hotel = this.hotelSub;
-      if(typeof (postdata.id) === "undefined" || postdata.id === null) {
-        let url = '/soclaty/tourline/addTourLine';
+      if(postdata.isFamily==='是'){
+        for(let i = 0;i<postdata.length;i++){
+          if(postdata[i].name===''||postdata[i].sex===''||postdata[i].age===''||postdata[i].idcard===''){
+            confirmFunc.init({
+              'title': '提示',
+              'mes': '要携带家属,则家属信息不能为空',
+              'popType': 0,
+              'imgType': 2
+            });
+            return false;
+          }
+        }
+      }
+      // if(typeof (postdata.id) === "undefined" || postdata.id === null) {
+        let url = '/soclaty/tourenroll/addTourEnroll';
         this.ipSetting.sendPost(url,postdata).subscribe(data => {
           if (this.errorResponseService.errorMsg(data)) {
             confirmFunc.init({
@@ -191,7 +197,7 @@ export class SignAddComponent implements OnInit {
             });
           }
         });
-      }else{
+      /*}else{
         let url = '/soclaty/tourline/updateTourLine';
         this.ipSetting.sendPost(url,postdata).subscribe(data => {
           if (this.errorResponseService.errorMsg(data)) {
@@ -209,7 +215,7 @@ export class SignAddComponent implements OnInit {
             });
           }
         });
-      }
+      }*/
     }
   }
   /*非空验证*/
@@ -239,25 +245,28 @@ export class SignAddComponent implements OnInit {
 export class Vote {
 
   id         : number;
-  name       : string;  // 线路名称
-  code       : string;  // 线路编号
-  content    : Array<Option>;  // 行程
-  travel     : string;  // 旅行社
-  dayNum     : string;  // 天数
-  status     : string;  //
-  hotel      = [];  // 入住酒店
-  minNum     : string;  // 人数下限
+  name       : string;  // 姓名
+  hrmis      : string;  // HRMIS号
+  idcard     : string;  // 身份证号
+  age        : string;  // 年龄
+  deptId     : string;  // 部门
+  post       : string;  // 岗位
+  isFamily   : string;  // 是否带家属
+  batchId    : string;  // 批次号ID
+  checkId    : string;  //
+  tourEnrolls: Array<Option>;  // 家属信息
+  telNum     : string;  // 电话
+  sex        : string;  // 性别
+  personNum  : string;  // 家属人数
+  lineId     : string;  // 线路ID
   maxNum     : string;  // 人数上限
-  price      : number;  // 价格
-  priceForm  : string;  // 价格组成
-  options    : Array<string>;
-  explain    : string;  // 服务标准
   note       : string;  // 备注
-  filePath    = [];
-  fileName    = [];
 }
 
 export class Option{
-  title      : string;
-  text       : string;
+  name      : string;
+  idcard    : string;
+  sex       : string;
+  age       : string;
+  fatherId  : string;
 }

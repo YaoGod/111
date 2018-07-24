@@ -75,7 +75,6 @@ export class LineInfoComponent implements OnInit {
       this.route.params
         .switchMap((params: Params) => this.copyVote.id  = params['id'])
         .subscribe(() => {
-        console.log(this.route.params['_value']);
           if (tempid === 0) {
             this.getVoteInfo(this.copyVote.id);
             tempid++;

@@ -85,7 +85,7 @@
 .warp-right{
   float: left;
   width: 100%;
-  padding-left: 40px;
+  padding-left: 20px;
   line-height: 26px;
   font-size: 12px;
   color: #8d9ea7;
@@ -178,7 +178,7 @@
 }
 .control-label>span{
   display: inline-block;
-  width: 56px;
+  width: 86px;
   line-height: 58px;
   padding-right: 10px;
   vertical-align: top;
