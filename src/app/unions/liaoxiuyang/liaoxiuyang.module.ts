@@ -22,11 +22,6 @@ const routes: Routes = [
     component: LiaoxiuyangComponent,
     children: [
       {
-        path: '',
-        redirectTo: 'line',
-        pathMatch: 'full'
-      },
-      {
         path: 'line',
         component: LiaoxiuyangLineComponent
       },

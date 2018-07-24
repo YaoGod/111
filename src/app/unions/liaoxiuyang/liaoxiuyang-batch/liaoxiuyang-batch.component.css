@@ -109,7 +109,7 @@
 .tb-text:hover{
   overflow: auto;
 }
-.mask,.mask1,.mask2{
+.mask{
   display: none;
   z-index: 1000;
   position: fixed;
@@ -215,6 +215,9 @@ button{
 .form-alone .form-inp {
   max-width: 80%;
   margin-left: 1%;
+}
+.form-inp>span>p{
+  line-height: 30px;
 }
 .company-ipt{
   width:170px;

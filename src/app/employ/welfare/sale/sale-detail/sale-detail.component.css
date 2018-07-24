@@ -587,6 +587,8 @@ select{
   flex-wrap: wrap;
   position: relative;
   justify-content: space-between;
+  max-height: 260px;
+  overflow: auto;
 }
 .list-table{
   width: 100%;

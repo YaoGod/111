@@ -168,16 +168,6 @@ export class LiaoxiuyangBatchComponent implements OnInit {
     }else{
       this.removeErrorClass("newEndTime");
     }
-    this.newBatch.hotel = [];
-    for(let i=0;i<this.hotels.length;i++){
-      if(this.hotels[i].choose){
-        this.newBatch.hotel.push(this.hotels[i].value);
-      }
-    }
-    if(this.newBatch.hotel.length===0&&this.hotels.length>0){
-      this.addErrorClass("newHotel", "请选择");
-      return false;
-    }
     let verityData;
     let tempPlaceArray = [];
     for(let i = 0;i<this.newBatch.place.length;i++){
@@ -189,6 +179,18 @@ export class LiaoxiuyangBatchComponent implements OnInit {
         tempPlaceArray.push(verityData.toString().trim());
         this.removeErrorClass("newPlace");
       }
+    }
+    this.newBatch.hotel = [];
+    for(let i=0;i<this.hotels.length;i++){
+      if(this.hotels[i].choose){
+        this.newBatch.hotel.push(this.hotels[i].value);
+      }
+    }
+    if(this.newBatch.hotel.length===0&&this.hotels.length>0){
+      this.addErrorClass("newHotel", "请选择");
+      return false;
+    }else {
+      this.removeErrorClass("newHotel");
     }
     let url;
     if(this.newBatch.id){

@@ -36,6 +36,9 @@ export class LiaoxiuyangComponent implements OnInit {
       .subscribe(data=>{
         if(this.errorVoid.errorMsg(data)){
           this.catas = data.data;
+          if(this.catas&&this.router.url==="/hzportal/unions/liaoxiuyang"){
+            this.router.navigate(["/hzportal/"+this.catas[0].routeUrl]);
+          }
         }
       })
   }

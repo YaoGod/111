@@ -152,7 +152,9 @@ export class ExportReportComponent implements OnInit {
     }else if(this.search.type === '9'){
       parms += ',theme';
     }
-
+    else if(this.search.type === '9'){
+      parms += ',theme,createUserName,createTime';
+    }
     let url = this.ipSetting.ip + "/party/report/getListExcel?parms="+parms+"&type="+ this.search.type+"&subType="+this.search.subType+
     "&branchName="+this.search.branchName+"&BTime="+this.search.BTime+"&ETime="+this.search.ETime;
     this.http.get(url)
