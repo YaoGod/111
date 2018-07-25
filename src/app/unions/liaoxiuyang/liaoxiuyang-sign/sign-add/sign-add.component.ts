@@ -56,6 +56,8 @@ export class SignAddComponent implements OnInit {
   public user;
   public lineName:string;
   public hrmis = localStorage.getItem("username");
+  public checkUser:any;
+  public family = new Option();
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -69,11 +71,11 @@ export class SignAddComponent implements OnInit {
     this.copyVote.hrmis = localStorage.getItem("username");
     this.copyVote.tourEnrolls = [];
     this.copyVote.isFamily = '否';
-    this.copyVote.tourEnrolls[0] = new Option();
+    /*this.copyVote.tourEnrolls[0] = new Option();
     this.copyVote.tourEnrolls[0].name = "";
     this.copyVote.tourEnrolls[0].idcard = "";
     this.copyVote.tourEnrolls[0].sex = "";
-    this.copyVote.tourEnrolls[0].age = "";
+    this.copyVote.tourEnrolls[0].age = "";*/
     if(typeof (this.route.params['_value']['id']) !== "undefined"){
       let tempid = 0;
       this.route.params
@@ -86,6 +88,7 @@ export class SignAddComponent implements OnInit {
         });
     }
     this.getUserName(this.copyVote.hrmis);
+    this.getCheckUser();
   }
   /*获取编辑信息*/
   getVoteInfo(id){
@@ -140,8 +143,15 @@ export class SignAddComponent implements OnInit {
       this.copyVote.tourEnrolls[0].age = "";
     }else if(value === '否'){
       this.copyVote.tourEnrolls = [];
-      this.copyVote.tourEnrolls[0] = new Option();
     }
+  }
+  getCheckUser(){
+    let url = '/soclaty/tourenroll/getCheckUser';
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if (this.errorResponseService.errorMsg(data)) {
+        this.user = data.data;
+      }
+    });
   }
   /*删除附件*/
   /*delFile(index) {
@@ -154,6 +164,7 @@ export class SignAddComponent implements OnInit {
     this.verifyEmpty(this.copyVote.name,'name');
     this.verifyEmpty(this.copyVote.post,'post');
     this.verifyEmpty(this.copyVote.idcard,'idcard');
+    this.verifyEmpty(this.checkUser,'checkUser');
      /*this.verifyEmpty(this.copyVote.price,'price');
     this.verifyEmpty(this.copyVote.minNum,'minNum');
     this.verifyEmpty(this.copyVote.priceForm,'priceForm');*/
@@ -161,11 +172,9 @@ export class SignAddComponent implements OnInit {
 
     if($('.red').length === 0) {
       let postdata = JSON.parse(JSON.stringify(this.copyVote));
-      let list = document.getElementsByClassName("hotel");
-      this.hotelSub = [];
-      for(let i = 0;i<list.length;i++){
-        this.hotelSub.push(list[i]['value']);
-      }
+      this.hotelSub = this.checkUser.split(',');
+      postdata.checkId = this.hotelSub[0];
+      postdata.checkName = this.hotelSub[1];
       if(postdata.isFamily==='是'){
         for(let i = 0;i<postdata.length;i++){
           if(postdata[i].name===''||postdata[i].sex===''||postdata[i].age===''||postdata[i].idcard===''){

@@ -45,6 +45,14 @@
           <div class="error"></div>
         </div>
         <div  class="form-group">
+          <label  class="control-label"><span>年龄</span>
+            <input class="form-control" id="age" name="age" placeholder="" type="number" autocomplete="off"
+                   [(ngModel)]="copyVote.age"
+                   (blur)="verifyEmpty(copyVote.age,'age')">
+          </label>
+          <div class="error"></div>
+        </div>
+        <div  class="form-group">
           <label  class="control-label"><span>身份证号</span>
             <input class="form-control" id="idcard" name="idcard" placeholder="" type="text" autocomplete="off"
                    [(ngModel)]="copyVote.idcard"
@@ -72,15 +80,15 @@
           <label  class="control-label"><span>电话</span>
             <input class="form-control" id="telNum" name="telNum" placeholder="" type="text" autocomplete="off"
                    [(ngModel)]="copyVote.telNum"
-                   (blur)="verifyEmpty(copyVote.telNum,'telNum')">元
+                   (blur)="verifyEmpty(copyVote.telNum,'telNum')">
           </label>
           <div class="error"></div>
         </div>
         <div class="form-group">
           <label  class="control-label"><span>是否携带家属</span>
-            <input class="form-control" name="isFamily" placeholder="" type="radio" style="width:150px;" value="是"
+            <input class="form-control" name="isFamily" placeholder="" type="radio" style="width:50px;" value="是"
                    (change)="changePer(copyVote.isFamily)" [(ngModel)]="copyVote.isFamily">是
-            <input class="form-control" name="isFamily" placeholder="" type="radio" style="width:150px;" value="否"
+            <input class="form-control" name="isFamily" placeholder="" type="radio" style="width:50px; margin-left:20px;" value="否"
                    (change)="changePer(copyVote.isFamily)" [(ngModel)]="copyVote.isFamily">否
           </label>
           <div class="error"></div>
@@ -111,30 +119,6 @@
           </label>
           <div class="error"></div>
         </div>
-        <!--<div  class="form-group">
-          <div  class="control-label"><span>行程安排</span>
-            <ul class="control-list">
-              &lt;!&ndash;<li *ngFor="let option of copyVote.content;let i = index" [@diamond]="option?'active':''">{{option.text}}
-              </li>&ndash;&gt;
-              <li *ngFor="let option of copyVote.content;let i = index" [@diamond]="option?'active':''">
-                <h5>第{{i+1}}天<span *ngIf="i!=0&&copyVote.status !== 'release'" (click)="delOption(i)">删除</span></h5>
-                <div  class="form-group">
-                  <label  class="control-label">
-                      <textarea class="form-control" rows="5" style="line-height: 24px;" maxlength="1000"
-                                [(ngModel)]="option.text">
-                      </textarea>
-                    &lt;!&ndash;<span *ngIf="option" class="font-count">{{option.length}}/1000</span>&ndash;&gt;
-                  </label>
-                  <div class="error"></div>
-                </div>
-              </li>
-              <li class="box-add" *ngIf="copyVote.status !== 'release'">
-                <a (click)="addNewOption()"><i class="icon-plus"></i>&nbsp;添加选项</a>
-              </li>
-            </ul>
-          </div>
-          <div class="error"></div>
-        </div>-->
         <div  class="form-group">
           <label  class="control-label"><span>备注</span>
             <textarea class="form-control" id="note" rows="5"
@@ -142,6 +126,15 @@
                       [(ngModel)]="copyVote.note"
                       (blur)="verifyEmpty(copyVote.note,'note')">
                 </textarea>
+          </label>
+          <div class="error"></div>
+        </div>
+        <div  class="form-group">
+          <label  class="control-label"><span>选择审批人</span>
+            <select class="form-control" id="checkUser" [(ngModel)]="checkUser" style="width:250px;"
+                      (blur)="verifyEmpty(checkUser,'checkUser')">
+              <option *ngFor="let use of user;let i=index;" [value]="use.userid+','+use.username">{{use.username}}</option>
+            </select>
           </label>
           <div class="error"></div>
         </div>

@@ -128,7 +128,7 @@ export class ExportReportComponent implements OnInit {
   public downDeriving(){
     let parms = 'branchName';
     if(this.search.type === '1'){
-      parms += 'branchAttach,subType,host,recorder,beginTime,endTime,address,shouldNum,factNum,absentNum,reason,theme,createUserName,' +
+      parms += ',branchAttach,subType,host,recorder,beginTime,endTime,address,shouldNum,factNum,absentNum,reason,theme,createUserName,' +
         'createTime,';
     }else if(this.search.type === '2'){
       parms += ',branchAttach,month,typicalMethod,dynamicMessage,createUserName,createTime';
@@ -151,10 +151,7 @@ export class ExportReportComponent implements OnInit {
       });
       return false;
     }else if(this.search.type === '9'){
-      parms += ',branchAttach,theme';
-    }
-    else if(this.search.type === '9'){
-      parms += ',theme,createUserName,createTime';
+      parms += ',branchAttach,theme,createUserName,createTime';
     }
     let url = this.ipSetting.ip + "/party/report/getListExcel?parms="+parms+"&type="+ this.search.type+"&subType="+this.search.subType+
     "&branchName="+this.search.branchName+"&BTime="+this.search.BTime+"&ETime="+this.search.ETime;

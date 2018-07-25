@@ -1,0 +1,55 @@
+<script src="sign-my.component.ts"></script>
+<div class="wrap-inner">
+  <div class="repair-chandlery">
+    <ul>
+      <li class="nav-title clearfix">
+        <h2>我的报名</h2>
+        <div class="content-box" onclick="history.go(-1)">
+          <i class="icon-reload"></i> 返回
+        </div>
+      </li>
+      <!--<li>
+        <label>批次编号</label>
+        <input name="searchCode" style="width:130px;" type="text" [(ngModel)]="searchInfo.code">
+      </li>
+      <li>
+        <label>线路名称</label>
+        <select name="searchName"  style="width:130px;" [(ngModel)]="searchInfo.lineName">
+          <option value="">全部</option>
+          <option *ngFor="let line of lines" [value]="line.id">{{line.name}}</option>
+        </select>
+      </li>
+      <li>
+        <a href="javascript:;" class="search-btn" (click)="batchSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
+      </li>-->
+    </ul>
+  </div>
+  <table width="100%" style="margin:0 auto;" class="card-info">
+    <tr style="height: 40px; background-color: #acd6ff; text-align: center; font-weight: bold; font-size: 14px;color:#333;">
+      <th width="20%">批次编号</th>
+      <th>是否携带家属</th>
+      <th>合计人数</th>
+      <th>备注</th>
+      <th>详情</th>
+      <th>操作</th>
+    </tr>
+    <tr style="height: 36px; text-align: center" *ngFor="let batch of batches;let i=index">
+      <td width="20%">{{batch.batchCode}}</td>
+      <td>{{batch.isFamily}}</td>
+      <td>{{batch.personNum}}</td>
+      <td>{{batch.minNum}}人</td>
+      <td class="box-option" style="min-width: 100px;">
+        <a class="search-link" [routerLink]="['../../batchDetail',batch.id]">
+        <i class="icon-eye"></i>&nbsp;详情
+      </a>
+      </td>
+      <td class="box-option" style="min-width: 100px;">
+        <a (click)="delete(batch.id)" class="search-btn" >取消报名</a>
+      </td>
+    </tr>
+  </table>
+  <div class="div-none" *ngIf="batches && batches.length === 0">
+    <p>暂无信息</p>
+  </div>
+</div>
+

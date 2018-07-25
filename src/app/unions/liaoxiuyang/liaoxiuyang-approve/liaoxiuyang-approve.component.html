@@ -6,7 +6,7 @@
         <input name="searchName" style="width:130px;" type="text" [(ngModel)]="searchInfo">
       </li>
       <li>
-        <a href="javascript:;" class="search-btn" (click)="searchInfoList(1)"><i class="icon-magnifier"></i> 查 询</a>
+        <a href="javascript:;" class="search-btn" (click)="searchInfoList()"><i class="icon-magnifier"></i> 查 询</a>
       </li>
     </ul>
   </div>
@@ -23,10 +23,10 @@
   <div class="div-none" *ngIf="orders && orders.length === 0">
     <p>暂无信息</p>
   </div>
-  <app-turn-bar
-    [pageNo]="pageNo"
-    [pageSize]="pageSize"
-    [total]="total"
-    (turnEvent)="searchInfoList($event)">
-  </app-turn-bar>
+  <!--<app-turn-bar
+  [pageNo]="pageNo"
+  [pageSize]="pageSize"
+  [total]="total"
+  (turnEvent)="searchInfoList($event)">
+  </app-turn-bar>-->
 </div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
+import {GlobalCatalogService} from "../../../service/global-catalog/global-catalog.service";
 declare var $:any;
 declare var confirmFunc:any;
 
@@ -17,16 +18,30 @@ export class LiaoxiuyangLineComponent implements OnInit {
   public total = 0;
   public searchInfo:Option;
   public record:any;
+  public rule :any;
+  public catas :any;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private errorResponseService:ErrorResponseService,
-    public ipSetting:IpSettingService
-  ) { }
+    public ipSetting:IpSettingService,
+    private globalCatalogService: GlobalCatalogService,
+  ) {
+  }
 
   ngOnInit() {
+    this.globalCatalogService.setTitle("员工服务/后勤服务区");
+    this.getRule();
     this.searchInfo = new Option();
     this.searchInfoList(1);
+  }
+  getRule(){
+    this.globalCatalogService.getCata(-1,'unions','unions/liaoxiuyang/line')
+      .subscribe(data=>{
+        if(this.errorResponseService.errorMsg(data)){
+          this.rule = data.data[0];
+        }
+      })
   }
   searchInfoList(number){
     let url = "/soclaty/tourline/getTourLineList/"+number+"/"+this.pageSize;

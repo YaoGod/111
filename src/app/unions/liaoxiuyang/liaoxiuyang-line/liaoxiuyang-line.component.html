@@ -8,7 +8,7 @@
       <li>
         <a href="javascript:;" class="search-btn" (click)="searchInfoList(1)"><i class="icon-magnifier"></i> 查 询</a>
       </li>
-      <li>
+      <li *ngIf="rule&&rule.isInstall">
         <a href="javascript:;" class="search-btn" [routerLink]="['../info']"><i class="icon-magnifier-add"></i> 新 增</a>
       </li><!--(click)="addNewLine()"-->
     </ul>
@@ -32,13 +32,13 @@
         <a class="text-a" [routerLink]="['../detail',inner.id]">
           <i class="icon-eye"></i>详情
         </a>
-        <a class="text-a" [routerLink]="['../edit',inner.id]">
+        <a class="text-a" [routerLink]="['../edit',inner.id]"  *ngIf="rule&&rule.isUpdate">
           <i class="icon-pencil"></i>编辑
         </a>
-        <a class="text-a" (click)="grounding(inner.id)">
+        <a class="text-a" (click)="grounding(inner.id)" *ngIf="rule&&rule.isUpdate">
           <i class="icon-equalizer"></i>{{inner.status==="上架"?"下架":"上架"}}
         </a>
-        <a class="text-a" (click)="delete(inner.id)">
+        <a class="text-a" (click)="delete(inner.id)" *ngIf="rule&&rule.isDelete">
           <i class="icon-trash"></i>&nbsp;删除
         </a>
       </td>

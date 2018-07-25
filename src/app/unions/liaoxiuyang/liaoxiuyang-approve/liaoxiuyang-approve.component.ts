@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {Http} from "@angular/http";
+import {IpSettingService} from "../../../service/ip-setting/ip-setting.service";
+import {ErrorResponseService} from "../../../service/error-response/error-response.service";
 
 @Component({
   selector: 'app-liaoxiuyang-approve',
@@ -12,13 +15,23 @@ export class LiaoxiuyangApproveComponent implements OnInit {
   public total = 0;
   public searchInfo:any;
   public orders:any;
-  constructor() { }
+  constructor(
+    public http:Http,
+    public ipSetting:IpSettingService,
+    public errorVoid:ErrorResponseService,
+  ) { }
 
   ngOnInit() {
-    this.searchInfoList(1);
+    this.searchInfoList();
   }
-  searchInfoList(number){
-
+  searchInfoList(){
+    let url = '/soclaty/tourenroll/getPendingCheck';
+    this.ipSetting.sendGet(url).subscribe(data => {
+      if(this.errorVoid.errorMsg(data)){
+        // this.batches = data.data.infos;
+        console.log(data.data);
+      }
+    });
   }
 
 }

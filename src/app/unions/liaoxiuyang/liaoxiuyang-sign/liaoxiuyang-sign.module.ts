@@ -7,6 +7,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {RouteGuardService} from "../../../service/route-guard/route-guard.service";
 import {FormsModule} from "@angular/forms";
 import {TurnBarModule} from "../../../component/turn-bar/turn-bar.module";
+import { SignMyComponent } from './sign-my/sign-my.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
       {
         path: 'add/:id',
         component: SignAddComponent
+      },
+      {
+        path: 'mySign',
+        component: SignMyComponent
       }
     ]
   }
@@ -37,6 +42,6 @@ const routes: Routes = [
     TurnBarModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [LiaoxiuyangSignComponent,SignListComponent, SignAddComponent]
+  declarations: [LiaoxiuyangSignComponent,SignListComponent, SignAddComponent, SignMyComponent]
 })
 export class LiaoxiuyangSignModule { }
