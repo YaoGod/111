@@ -195,6 +195,36 @@ export class LiaoxiuyangBatchDetailComponent implements OnInit {
       });
     }
   }
+  /*出行*/
+  sureGonePersonInfo(){
+    let list = $("input[type='checkbox'][name='personSel']:checked");
+    confirmFunc.init({
+      'title': '提示',
+      'mes': "已出行人数"+(this.batch.realNum-list.length)+"人，未出行"+list.length+"人，是否确认报结？",
+      'popType': 1,
+      'imgType': 3,
+      'callback': () => {
+        let url = "/soclaty/tourbatch/endBatch/"+this.batch.id;
+        let postData = [];
+        for(let i =0;i<list.length;i++){
+          postData.push(list[i].value);
+        }
+        this.ipSetting.sendPost(url,postData).subscribe(data => {
+          if (this.errorVoid.errorMsg(data)) {
+            confirmFunc.init({
+              'title': '提示' ,
+              'mes': data.msg,
+              'popType': 0 ,
+              'imgType': 1 ,
+            });
+            this.getBatchInfo(this.batch.id);
+            this.getBatchPersonInfo(this.batch.id);
+          }
+        });
+      }
+    });
+  }
+  /*导出*/
   exportPersonInfo(){
     confirmFunc.init({
       'title': '提示',
@@ -290,4 +320,5 @@ export class Person{
   note: string;
   tourEnrolls: Array<Person>;
   createTime: string;
+  status: string;
 }

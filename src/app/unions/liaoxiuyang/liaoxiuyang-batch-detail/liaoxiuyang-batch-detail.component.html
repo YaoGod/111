@@ -13,7 +13,7 @@
         </li>
         <li class="form-bar">
           <span class="form-title">状态</span>
-          <span class="word">{{batch.status==="pass"?"出团成功":"进行中"}}</span>
+          <span class="word">{{batch.status==="pass"?"出团成功":(batch.status==="going"?"进行中":"报结")}}</span>
         </li>
         <li class="form-bar full-line">
           <span class="form-title">线路名称</span>
@@ -65,14 +65,16 @@
         <div *ngIf="rule&&(rule.isUpdate||rule.isDelete||rule.isInstall)">
       <div class="title"><span>参团人员信息</span></div>
       <div style="float: right;margin-top: -10px;">
-        <a class="btn search-btn" (click)="addNewPerson()" *ngIf="batch.status!=='pass'"><i class="icon-plus"></i>&nbsp;新增</a>
-        <a class="btn btn-danger" (click)="groupPerson()" *ngIf="batch.status!=='pass'">确认成团</a>
+        <a class="btn search-btn" (click)="addNewPerson()" *ngIf="batch.status==='going'"><i class="icon-plus"></i>&nbsp;新增</a>
+        <a class="btn btn-danger" (click)="groupPerson()" *ngIf="batch.status==='going'">确认成团</a>
+        <a class="btn search-btn" (click)="sureGonePersonInfo()" *ngIf="batch.status==='pass'">确认未出行</a>
         <a class="btn btn-danger" (click)="exportPersonInfo()"><i class="glyphicon-export"></i>名单导出</a>
       </div>
       <p style="font-weight: 700;height: 30px;">当前参团人数{{batch.realNum| emptyValue:'--'}}人</p>
       <table width="100%" class="card-info">
         <tr>
           <th style="width: 25px;"></th>
+          <th style="width: 20px;" *ngIf="batch.status==='pass'"></th>
           <th class="text-left" style="width: 60px;min-width: 60px;">姓名</th>
           <th style="width: 30px">性别</th>
           <th style="width: 40px">年龄</th>
@@ -83,12 +85,14 @@
           <th style="width: 100px">电话</th>
           <th style="width: 180px;min-width: 150px">报名日期</th>
           <th>备注</th>
+          <th style="width: 60px;">状态</th>
           <th style="width: 100px;min-width: 100px" *ngIf="batch.status!=='pass'">操作</th>
         </tr>
       </table>
       <table class="card-info" *ngFor="let person of people;let i=index">
         <tr style="background-color: #ffffff;">
           <td style="width: 25px;border: none;"><i class="icon-flag" style="color: #fb9678"></i></td>
+          <td style="width: 20px;" *ngIf="batch.status==='pass'"><input type="checkbox" name="personSel" [value]="person.id"></td>
           <td class="text-left" style="width: 60px;min-width: 60px;">{{person.name}}</td>
           <td style="width: 30px">{{person.sex| emptyValue:'-'}}</td>
           <td style="width: 40px">{{person.age| emptyValue:'-'}}</td>
@@ -99,7 +103,8 @@
           <td style="width: 100px">{{person.telNum| emptyValue:'-'}}</td>
           <td style="width: 180px;min-width: 150px">{{person.createTime| emptyValue:'-'}}</td>
           <td class="text-left"><p class="tb-text">{{person.note| emptyValue:'-'}}</p></td>
-          <td class="text-right" style="width: 100px;min-width: 100px" *ngIf="batch.status!=='pass'">
+          <td style="width: 60px;">{{person.status| emptyValue:'-'}}</td>
+          <td class="text-right" style="width: 100px;min-width: 100px" *ngIf="batch.status==='going'">
             <a class="search-link" (click)="editPerson(person,'Y')">
               <i class="icon-pencil"></i>&nbsp;编辑
             </a>
@@ -110,6 +115,7 @@
         </tr>
         <tr *ngFor="let per of person.tourEnrolls;let i=index" style="background-color: #f4f4f4;">
           <td style="width: 25px;background-color: #ffffff;border: none;"><i class="group-per"></i></td>
+          <td style="width: 20px;" *ngIf="batch.status==='pass'"><input type="checkbox" name="personSel" [value]="per.id"></td>
           <td class="text-left" style="width: 60px;min-width: 60px;">{{per.name}}</td>
           <td style="width: 30px">{{per.sex| emptyValue:'-'}}</td>
           <td style="width: 40px">{{per.age| emptyValue:'-'}}</td>
@@ -120,7 +126,8 @@
           <td style="width: 100px">{{per.telNum| emptyValue:'-'}}</td>
           <td style="width: 180px;min-width: 150px">{{per.createTime| emptyValue:'-'}}</td>
           <td class="text-left"><p class="tb-text">{{per.note| emptyValue:'-'}}</p></td>
-          <td class="text-right" style="width: 100px;min-width: 100px" *ngIf="batch.status!=='pass'">
+          <td style="width: 60px;">{{per.status| emptyValue:'-'}}</td>
+          <td class="text-right" style="width: 100px;min-width: 100px" *ngIf="batch.status==='going'">
             <a class="search-link" (click)="editPerson(per,'N')">
               <i class="icon-pencil"></i>&nbsp;编辑
             </a>
