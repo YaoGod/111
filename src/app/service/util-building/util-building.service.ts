@@ -33,10 +33,10 @@ export class UtilBuildingService {
     return xhr;
   }
   uploadImages(postData,type,id){
-    const url = this.ipSetting.ip + "/party/util/uploadImg/"+type+ "/" +id;
+    const url = this.ipSetting.ip + "/party/util/uploadFile/"+type+ "/" +id;
     var form = new FormData();
     if (typeof(postData) === 'object') {
-      form.append('img', postData);
+      form.append('file', postData);
     }
     const xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);

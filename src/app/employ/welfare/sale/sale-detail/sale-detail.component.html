@@ -94,7 +94,8 @@
                 <th >合计（元）</th>
               </tr>
               <tr class="table-cont">
-                <td  width="25%"><img *ngIf="saleProduct.imgPathList" [src]="ipSetting.imgUrl+saleProduct.imgPathList[0]"/></td>
+                <td  width="25%"><img style="height:80px;" *ngIf="saleProduct.imgPathList"
+                                      [src]="ipSetting.imgUrl+saleProduct.imgPathList[0]"/></td>
                 <td>{{userSale.productType}}</td>
                 <td >{{saleProduct.name}}</td>
                 <td>￥{{saleProduct.price| number:'1.2-2'}}</td>

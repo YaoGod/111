@@ -13,10 +13,12 @@
       </ul>
     </div>
     <div class="note">
-      <div class="note-img" *ngFor="let img of imgInfo;let i = index">
-        <div class="title"><span>活动照片</span></div>
+      <div class="note-img" *ngFor="let img of newCard.fileContract;let i = index">
+        <div class="title"><span>活动照片</span>
+          <a [href]="ipSetting.ip+'/common/file/downLoadFile?path=/app/file/notice/files/temp'+img.filePath" [download]="img.fileName">
+          {{img.fileName}} <i class="icon-cloud-download">下载</i></a></div>
         <div class="word">
-          <img [src]="ipSetting.imgUrl+img" *ngIf="img">
+          <img [src]="ipSetting.imgUrl+img.filePath" *ngIf="img">
         </div>
       </div>
     </div>

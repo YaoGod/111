@@ -272,6 +272,11 @@ export class ListComponent implements OnInit {
   /*取消*/
   addCancel(){
     $('.mask,.mask1,.mask2').fadeOut();
+    this.mode = '0';
+    let list = document.getElementsByName("vice");
+    for(let i = 0;i<list.length;i++){
+      list[i]['checked'] = false;
+    }
     this.subDept();
     $('.errorMessage').html('');
   }

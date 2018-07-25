@@ -128,19 +128,20 @@ export class ExportReportComponent implements OnInit {
   public downDeriving(){
     let parms = 'branchName';
     if(this.search.type === '1'){
-      parms += ',subType,host,recorder,beginTime,endTime,address,shouldNum,factNum,absentNum,reason,theme,createUserName,createTime';
+      parms += 'branchAttach,subType,host,recorder,beginTime,endTime,address,shouldNum,factNum,absentNum,reason,theme,createUserName,' +
+        'createTime,';
     }else if(this.search.type === '2'){
-      parms += ',month,typicalMethod,dynamicMessage,createUserName,createTime';
+      parms += ',branchAttach,month,typicalMethod,dynamicMessage,createUserName,createTime';
     }else if(this.search.type === '3'){
-      parms += ',subType,month,shouldNum,factNum,createUserName,createTime';
+      parms += ',branchAttach,subType,month,shouldNum,factNum,createUserName,createTime';
     }else if(this.search.type === '4'){
-      parms += ',theme,subType,month,createUserName,createTime';
+      parms += ',branchAttach,theme,subType,month,createUserName,createTime';
     }else if(this.search.type === '5'){
-      parms += ',month,host,theme,createUserName,createTime';
+      parms += ',branchAttach,month,host,theme,createUserName,createTime';
     }else if(this.search.type === '6'){
-      parms += ',subType,month,createUserName,createTime';
+      parms += ',branchAttach,subType,month,createUserName,createTime';
     }else if(this.search.type === '7'){
-      parms += ',month,pioneerNum,dutyNum,commandoNum,frequency,createUserName,createTime';
+      parms += ',branchAttach,month,pioneerNum,dutyNum,commandoNum,frequency,createUserName,createTime';
     }else if(this.search.type === '8'){
       confirmFunc.init({
         'title': '提示' ,
@@ -150,7 +151,7 @@ export class ExportReportComponent implements OnInit {
       });
       return false;
     }else if(this.search.type === '9'){
-      parms += ',theme';
+      parms += ',branchAttach,theme';
     }
     else if(this.search.type === '9'){
       parms += ',theme,createUserName,createTime';

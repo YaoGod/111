@@ -17,7 +17,7 @@ export class FeaturedetailComponent implements OnInit {
   public eTime:string;
   public newCard = new CardInfo();
   public history:any;
-  public imgInfo = [];
+  public imgInfo : any;
   public imgName = [];
   constructor(
     private route    : ActivatedRoute,
@@ -37,12 +37,17 @@ export class FeaturedetailComponent implements OnInit {
     let url = "/party/report/detail/"+id;
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
-        console.log(data);
+
         this.newCard = data.data;
+        this.imgInfo = this.newCard.fileContract;
+        /*this.imgName = this.filter_array(this.newCard.imageName.split(','));
         if(this.newCard.imgPathList){
-          this.imgInfo = this.newCard.imgPathList;
-          this.imgName = this.filter_array(this.newCard.imageName.split(','));
-        }
+          for(let i=0;i<this.newCard.imgPathList.length;i++){
+            this.imgInfo[i].filePath = this.newCard.imgPathList[i];
+            this.imgInfo[i].fileName = this.imgName[i];
+          }
+          console.log(this.imgInfo);
+        }*/
       }
     });
 

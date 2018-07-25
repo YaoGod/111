@@ -104,8 +104,10 @@ export class FeaturelistComponent implements OnInit {
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)) {
         this.newCard = data.data;
-        if(this.newCard.imgPathList){
-          this.imgInfo = this.newCard.imgPathList;
+        if(this.newCard.fileContract){
+          for(let i=0;i<this.newCard.fileContract.length;i++){
+            this.imgInfo.push(this.newCard.fileContract[i].filePath);
+          }
           this.imgName = this.filter_array(this.newCard.imageName.split(','));
         }
       }
@@ -175,7 +177,7 @@ export class FeaturelistComponent implements OnInit {
     return true;
   }
   /*新增文件图片上传*/
-  prese_upload2(files,index){
+  prese_upload2(files){
     let xhr = this.utilBuildingService.uploadImages(files[0],'partyBuild',-1);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 &&(xhr.status === 200 || xhr.status === 304)) {

@@ -37,6 +37,7 @@ export class LiaoxiuyangLineComponent implements OnInit {
       }
     });
   }
+
   grounding(id){
     let url = '/soclaty/tourline/updateTourLineStatus';
     let inner = '';

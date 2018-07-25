@@ -83,7 +83,7 @@ input{
 }
 .card-list{
   width:100%;
-  height:auto;
+  height:36px;
   margin-top:10px;
 }
 .card-list>li:nth-of-type(2n){
