@@ -52,6 +52,9 @@ export class LiaoxiuyangBatchDetailComponent implements OnInit {
       if(this.errorVoid.errorMsg(data)) {
         this.batch = data.data;
         this.batch.lineName = this.batch.tourLine.name;
+        if(this.batch.status === 'pass'){
+          this.getSystemTime();
+        }
       }
     });
   }
@@ -106,6 +109,27 @@ export class LiaoxiuyangBatchDetailComponent implements OnInit {
     }
   }
   submit(){
+    console.log(this.newPerson.type);
+    if(this.newPerson.type === "Y"){
+      if(!this.verifyEmpty('newHRMIS')){
+        return false;
+      }
+      if(!this.verifyEmpty('newPost')){
+        return false;
+      }
+    }
+    if(!this.verifyEmpty('newName')){
+      return false;
+    }
+    if(!this.verifyEmpty('newAGE')){
+      return false;
+    }
+    if(!this.verifyIsTel('newTelNum')){
+      return false;
+    }
+    if(!this.verifyIsCard('newIDCard')){
+      return false;
+    }
     let url;
     if(this.newPerson.id){
       url = "/soclaty/tourenroll/updateTourEnroll";
@@ -236,6 +260,20 @@ export class LiaoxiuyangBatchDetailComponent implements OnInit {
         window.location.href = url;
       }
     });
+  }
+  getSystemTime(){
+    let url = "/employee/flashsale/getTime";
+    this.ipSetting.sendGet(url)
+      .subscribe(data=>{
+        if(this.errorVoid.errorMsg(data)){
+          let sysTime = Date.parse(data.data);
+          if(sysTime>=Date.parse(this.batch.goTime)){
+            this.batch.isCouldSure = true;
+          }else{
+            this.batch.isCouldSure = false;
+          }
+        }
+      })
   }
   /**验证手机号码   */
   public verifyIsTel(id: string): boolean {

@@ -3,7 +3,7 @@
   <ul>
     <li>
       <label>批次编号</label>
-      <input name="searchCode" style="width:130px;" type="text" [(ngModel)]="searchInfo.code">
+      <input name="searchCode" style="width:180px;" type="text" [(ngModel)]="searchInfo.batchId">
     </li>
     <li>
       <label>线路名称</label>
@@ -11,6 +11,11 @@
         <option value="">全部</option>
         <option *ngFor="let line of lines" [value]="line.id">{{line.name}}</option>
       </select>
+    </li>
+    <li>
+      <label>出行时间</label>
+      <input name="searchCode" style="width:180px;" type="datetime-local" [(ngModel)]="searchInfo.goBTime">至
+      <input name="searchCode" style="width:180px;" type="datetime-local" [(ngModel)]="searchInfo.goETime">
     </li>
     <li>
       <a href="javascript:;" class="search-btn" (click)="batchSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
@@ -32,7 +37,7 @@
     <th style="min-width: 50px;">操作</th>
   </tr>
   <tr style="height: 36px; text-align: center" *ngFor="let batch of batches;let i=index">
-    <td width="20%">{{batch.batchId}}</td>
+    <td width="20%" class="text-left">{{batch.batchId}}</td>
     <td>{{batch.lineName}}</td>
     <td  width="12%" class="minText">{{batch.goTime | date:'yyyy年M月dd日HH:mm'}}</td>
     <td style="max-width: 200px;">

@@ -363,6 +363,8 @@ export class Batch {
   hrmis: any;
   batchId: string;
   goTime: string;
+  goBTime: string;
+  goETime: string;
   backTime:string;
   beginTime: string;
   endTime: string;
@@ -378,4 +380,5 @@ export class Batch {
   status: string;
   /*更多*/
   tourLine: any;
+  isCouldSure: boolean;
 }
