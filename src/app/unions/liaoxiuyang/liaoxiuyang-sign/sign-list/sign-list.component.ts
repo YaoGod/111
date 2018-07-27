@@ -35,6 +35,7 @@ export class SignListComponent implements OnInit {
     this.user =this.globalUserService.getVal();
     this.searchInfo = new Batch();
     this.searchInfo.lineName = "";
+    this.searchInfo.status = "enrollGo";
     this.batches = new Array<Batch>(0);
     this.newBatch = new Batch();
     this.newBatch.deptName = [];

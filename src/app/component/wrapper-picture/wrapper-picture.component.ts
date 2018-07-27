@@ -21,9 +21,12 @@ export class WrapperPictureComponent implements OnChanges {
     private route: ActivatedRoute,
     private router: Router
   ) {
+
   }
 
   ngOnChanges() {
+    clearInterval(this.autoSlider);
+    this.setImgInterval();
     this.sliderWidth = this.width?this.width:600;
     if(this.list&&this.list.length>0){
       this.totalSlides = this.list.length;
@@ -47,13 +50,13 @@ export class WrapperPictureComponent implements OnChanges {
       },
       ()=> {
         $('#slider-wrap').removeClass('active');
-       // this.autoSlider = setInterval(()=>{this.slideRight();}, 3000);
+        this.setImgInterval();
       }
     );
   }
 
   setImgInterval(){
-    this.autoSlider = setInterval(()=>{this.slideRight();}, 3000);
+    setInterval(()=>{this.slideRight();}, 3000);
   }
   /***********
    SLIDE LEFT

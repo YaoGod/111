@@ -6,27 +6,76 @@
         <input name="searchName" style="width:130px;" type="text" [(ngModel)]="searchInfo">
       </li>
       <li>
-        <a href="javascript:;" class="search-btn" (click)="searchInfoList()"><i class="icon-magnifier"></i> 查 询</a>
+        <a href="javascript:;" class="search-btn" (click)="searchInfoList(1)"><i class="icon-magnifier"></i> 查 询</a>
       </li>
     </ul>
   </div>
   <table width="100%" style="margin:0 auto;" class="card-info">
     <tr style="height: 40px; background-color: #acd6ff; text-align: center; font-weight: bold; font-size: 14px;color:#333;">
-      <th>编号</th>
-      <th width="20%" style="text-align: left">名称</th>
+      <th>报名批次</th>
+      <th>线路名称</th>
+      <th>预报名人员姓名</th>
+      <th>是否携带家属</th>
+      <th>合计人数</th>
+      <th width="20%">备注</th>
       <th width="8%">操作</th>
     </tr>
     <tr style="height: 36px; text-align: center" *ngFor="let inner of orders;let i=index">
-
+      <td>{{inner.batchCode}}</td>
+      <td>{{inner.lineName}}</td>
+      <td>{{inner.checkName}}</td>
+      <td>{{inner.isFamily}}</td>
+      <td>{{inner.personNum}}</td>
+      <td>{{inner.note}}</td>
+      <td><a href="javascript:;" (click)="checkPer(inner.id)"
+        style="padding:4px 10px; background-color:#1eaaf0; border-radius: 4px; color:#fff;"
+      >审批</a> </td>
     </tr>
   </table>
   <div class="div-none" *ngIf="orders && orders.length === 0">
     <p>暂无信息</p>
   </div>
-  <!--<app-turn-bar
+  <app-turn-bar
   [pageNo]="pageNo"
   [pageSize]="pageSize"
   [total]="total"
   (turnEvent)="searchInfoList($event)">
-  </app-turn-bar>-->
+  </app-turn-bar>
+</div>
+<div class="mask" id="fankui">
+  <div class="mask-cotainer">
+    <div class="mask-head"><i class="icon-film"></i> <p>审批意见</p>
+      <button class="close" (click)="addCancel()">×</button>
+    </div>
+    <form method="post" name="topForm" class="repair-form">
+      <div class="form-control form-alone">
+        <span class="form-label">意见</span>
+        <div class="form-inp">
+          <label style="line-height: 30px;">
+            <input name="satisfled" type="radio" value="pass" [(ngModel)]="resultSubmit.status"
+                   (change)="changeOpinion(resultSubmit.status)">
+            同意
+          </label>
+          <label style="line-height: 30px;">
+            <input name="satisfled" type="radio" value="no" [(ngModel)]="resultSubmit.status"
+                   (change)="changeOpinion(resultSubmit.status)">
+            不同意
+          </label>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+      <div class="form-control form-alone">
+        <span class="form-label">原因</span>
+        <div class="form-inp">
+          <textarea name="newContent" id="userAssess" rows="5" [(ngModel)]="resultSubmit.checkNote"
+                    (blur)="verifyEmpty('userAssess')" style="width: 100%"></textarea>
+          <span class="errorMessage"></span>
+        </div>
+      </div>
+    </form>
+    <div class="mask-footer">
+      <button type="submit" class="btn-mask btn-info" (click)="submit()">提 交</button>
+      <button type="button" class="btn-mask btn-danger" (click)="addCancel()">取 消</button>
+    </div>
+  </div>
 </div>

@@ -13,6 +13,13 @@
         </select>
       </li>
       <li>
+        <label>批次状态</label>
+        <select name="searchStatus"  style="width:130px;" [(ngModel)]="searchInfo.status">
+          <option value="enrollGo">正在报名</option>
+          <option value="enrollPend">即将开始</option>
+        </select>
+      </li>
+      <li>
         <a href="javascript:;" class="search-btn" (click)="batchSearch(1)"><i class="icon-magnifier"></i> 查 询</a>
       </li>
       <li>

@@ -88,6 +88,11 @@ export class LineInfoComponent implements OnInit {
     this.ipSetting.sendGet(url).subscribe(data=>{
         if(this.errorResponseService.errorMsg(data)){
           this.copyVote = data.data;
+          // this.copyVote.filePath =
+          if(this.copyVote.fileName === null){
+            this.copyVote.fileName = [];
+            this.copyVote.filePath = [];
+          }
           this.hotel = this.copyVote.hotel;
         }
       })

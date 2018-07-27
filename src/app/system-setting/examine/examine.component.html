@@ -77,16 +77,19 @@
             <a [routerLink]="[order.handleUrl]" *ngIf="order.type==='职代会流程申请'&&order.handleUrl">
               <i class="icon-speech"></i>&nbsp;前往处理
             </a>
-            <a [routerLink]="['../check',order.id]" *ngIf="order.type!=='职代会流程申请'&&((searchType=== 'going'&&order.status === 'going')||order.schedule===0)">
+            <a [routerLink]="['../check',order.id]" *ngIf="order.name==='门禁权限申请'&&((searchType=== 'going'&&order.status === 'going')||order.schedule===0)">
               <i class="icon-speech"></i>&nbsp;前往处理
             </a>
             <a [routerLink]="['../detail',order.id]"
-               *ngIf="order.type!=='职代会流程申请'&&((searchType=== ''||order.status === 'end')&&order.schedule!==0)">
+               *ngIf="order.name==='门禁权限申请'&&((searchType=== ''||order.status === 'end')&&order.schedule!==0)">
               <i class="icon-eye"></i>&nbsp;详情
             </a>
             <a [routerLink]="['/hzportal/unions/congress/detail',order.content]"
                *ngIf="order.type==='职代会流程申请'&&((searchType=== ''||order.status === 'end')&&order.schedule!==0)">
               <i class="icon-eye"></i>&nbsp;详情
+            </a>
+            <a [routerLink]="['../../'+order.handleUrl]" *ngIf="order.type==='疗休养报名审核'&&order.handleUrl">
+              <i class="icon-speech"></i>&nbsp;前往处理
             </a>
           </td>
         </tr>

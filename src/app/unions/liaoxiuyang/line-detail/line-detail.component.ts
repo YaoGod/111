@@ -32,7 +32,7 @@ export class LineDetailComponent implements OnInit {
         this.copyVote = data.data;
         this.hotel = this.copyVote.hotel;
       }
-    })
+    });
   }
 }
 export class Vote {

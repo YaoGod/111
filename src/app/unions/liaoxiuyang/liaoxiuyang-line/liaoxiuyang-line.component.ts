@@ -30,7 +30,7 @@ export class LiaoxiuyangLineComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.globalCatalogService.setTitle("员工服务/后勤服务区");
+    this.globalCatalogService.setTitle("员工服务/疗休养");
     this.getRule();
     this.searchInfo = new Option();
     this.searchInfoList(1);

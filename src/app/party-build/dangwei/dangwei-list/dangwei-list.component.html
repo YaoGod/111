@@ -127,7 +127,7 @@
       <div class="form-control form-alone">
         <span class="form-label">调研主题</span>
         <div class="form-inp">
-          <input class="company-ipt" type="text" name="themeTitle" id="themeTitle" style="width: 100%"
+          <input class="company-ipt" type="text" name="themeTitle" id="themeTitle" style="width: 100%" maxlength="50"
                  [(ngModel)]="newCard.theme" (blur)="verifyEmpty('themeTitle')">
           <span class="errorMessage"></span>
         </div>
