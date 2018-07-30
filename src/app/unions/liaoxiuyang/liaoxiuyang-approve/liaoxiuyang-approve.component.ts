@@ -14,7 +14,7 @@ export class LiaoxiuyangApproveComponent implements OnInit {
   public pageSize = 10;
   public pageNo = 1;
   public total = 0;
-  public searchInfo:any;
+  public searchInfo='';
   public orders:any;
   public resultSubmit = {status:'pass',checkNote:'同意',id:''};
   constructor(
@@ -28,7 +28,7 @@ export class LiaoxiuyangApproveComponent implements OnInit {
   }
   searchInfoList(num){
     this.pageNo = num;
-    let url = '/soclaty/tourenroll/getPendingCheck/'+num+'/'+this.pageSize;
+    let url = '/soclaty/tourenroll/getPendingCheck/'+num+'/'+this.pageSize+'?userName='+this.searchInfo;
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)){
         this.orders = data.data.infos;

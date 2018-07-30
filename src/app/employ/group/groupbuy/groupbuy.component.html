@@ -32,7 +32,7 @@
               <a class="search" href="javascript: void(0);" (click)="getProductShowList(1)">查询</a>
               <!-- <input class="search" type="button" value="查询" (click)="getProductShowList()">-->
             </div>
-            <div class="b-con">
+            <div class="b-con clearfix">
               <div class="tuan" *ngFor="let groupProduct of groupProducts;let idx=index">
                 <dl class="clearfix" (click)="skip(groupProduct.code)">
                   <dt class="showpic">

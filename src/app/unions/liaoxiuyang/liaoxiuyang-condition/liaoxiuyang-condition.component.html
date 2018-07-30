@@ -2,22 +2,61 @@
   <div class="repair-chandlery">
     <ul>
       <li>
-        <label>名称</label>
-        <input name="searchName" style="width:130px;" type="text" [(ngModel)]="searchInfo">
+        <label>姓名</label>
+        <input name="searchName" style="width:130px;" type="text" [(ngModel)]="searchInfo.searchName">
+      </li>
+      <li>
+        <label>HRMIS号</label>
+        <input name="searchHrmis" style="width:130px;" type="text" [(ngModel)]="searchInfo.searchHrmis">
+      </li>
+      <li>
+        <label>归属部门</label>
+        <select name="deptId" style="width:130px;" [(ngModel)]="searchInfo.deptId">
+          <option value="">全部</option>
+          <option *ngFor="let dept of deptList" [value]="dept.DEPT_ID">{{dept.DEPT_NAME}}</option>
+        </select>
+      </li>
+      <li>
+        <label>疗休养时段</label>
+        <select name="searchTime" style="width:130px;" type="text" [(ngModel)]="searchInfo.searchTime">
+          <option value="2016-2018">2016-2018</option>
+          <option value="2016-2018">2019-2021</option>
+        </select>
+      </li>
+      <li>
+      <label>是否出行</label>
+        <select name="searchTime" style="width:130px;" type="text" [(ngModel)]="searchInfo.userStatus">
+          <option value="pass">已出行</option>
+          <option value="unpass">未出行</option>
+        </select>
       </li>
       <li>
         <a href="javascript:;" class="search-btn" (click)="searchInfoList(1)"><i class="icon-magnifier"></i> 查 询</a>
+      </li>
+      <li>
+        <a href="javascript:;" class="search-btn" (click)="inductionDialog()"><i class="icon-docs"></i> 导 入</a>
+      </li>
+      <li>
+        <a href="javascript:;" class="search-btn" (click)="downDeriving()"><i class="icon-docs"></i> 导 出</a>
       </li>
     </ul>
   </div>
   <table width="100%" style="margin:0 auto;" class="card-info">
     <tr style="height: 40px; background-color: #acd6ff; text-align: center; font-weight: bold; font-size: 14px;color:#333;">
-      <th>编号</th>
-      <th width="20%" style="text-align: left">名称</th>
+      <th>姓名</th>
+      <th>HRMIS号</th>
+      <th>归属部门</th>
+      <th>是否出行</th>
       <th width="8%">操作</th>
     </tr>
     <tr style="height: 36px; text-align: center" *ngFor="let inner of orders;let i=index">
-
+      <td>{{inner.USERNAME}}</td>
+      <td>{{inner.USERID}}</td>
+      <td>{{inner.DEPT_NAME}}</td>
+      <td>{{inner.STATUS}}</td>
+      <td><a class="text-left" [routerLink]="['../batchDetail',inner.BATCH_ID]">
+        <i class="icon-screen-desktop"></i>详情
+      </a></td>
     </tr>
   </table>
   <div class="div-none" *ngIf="orders && orders.length === 0">
@@ -29,4 +68,38 @@
     [total]="total"
     (turnEvent)="searchInfoList($event)">
   </app-turn-bar>
+</div>
+<!-- Induction 导入  -->
+<div class="modal-back" id="induction" style="display:none;">
+  <div class="modal induction">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">导入</h4>
+          <button type="button" class="close pull-right" (click)="closeInductionDialog()">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body clearfix">
+          <div class="form-control">
+            <!--<span class="form-label">文件名称</span>-->
+            <div class="form-inp clearfix">
+              <!--<input id="uploadFileName" type="text" value="" name="" style="border:1px solid #ccc;margin-top:34px; height:30px; text-indent: 2em; margin-right:8px;">-->
+              <div class="select-file">
+                <input type="file" value="" id="prese2" #prese2 (change)="prese_upload2(prese2.files)" accept="application/vnd.ms-excel,.xlsx">
+                <a onclick="$('#prese2').trigger('click')">选取文件</a>
+              </div>
+              <div class="download-file">
+                <a id="downLoadTemplate" [href]="ipSetting.ip+'/soclaty/tourenroll/downloadTemplate'">下载模板</a>
+              </div>
+            </div>
+          </div>
+          <div class="foot" style="height:30px; text-align: left;">注：只能导入现疗休养时段的人员
+            <!-- <button type="submit" class="btn-mask btn-info" (click)="inductionUploadFile(prese2.files)">确 定</button>
+             <button type="button" class="btn-mask btn-danger" (click)="closeInductionDialog()">取 消</button>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

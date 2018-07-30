@@ -108,6 +108,23 @@ export class UtilBuildingService {
     return xhr;
   }
   /*
+   疗休养导入
+   param: postData:file,
+   return:
+   */
+  importTemplateInfo(postData) {
+    const url = this.ipSetting.ip +'/soclaty/tourenroll/importData';
+    var form = new FormData();
+    if (typeof(postData) === 'object') {
+      form.append('file', postData);
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.withCredentials = true;
+    xhr.send(form);
+    return xhr;
+  }
+  /*
    能耗文件上传
    param: postData:file,
    return:
