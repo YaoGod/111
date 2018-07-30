@@ -164,6 +164,7 @@ export class SignAddComponent implements OnInit {
     this.verifyEmpty(this.copyVote.name,'name');
     this.verifyEmpty(this.copyVote.post,'post');
     this.verifyEmpty(this.copyVote.idcard,'idcard');
+    this.verifyEmpty(this.copyVote.age,'age');
     this.verifyEmpty(this.checkUser,'checkUser');
      /*this.verifyEmpty(this.copyVote.price,'price');
     this.verifyEmpty(this.copyVote.minNum,'minNum');

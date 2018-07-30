@@ -46,7 +46,7 @@
         </div>
         <div  class="form-group">
           <label  class="control-label"><span>年龄</span>
-            <input class="form-control" id="age" name="age" placeholder="" type="number" autocomplete="off"
+            <input class="form-control" id="age" name="age" placeholder="" type="number" autocomplete="off" maxlength="2"
                    [(ngModel)]="copyVote.age"
                    (blur)="verifyEmpty(copyVote.age,'age')">
           </label>
@@ -54,7 +54,7 @@
         </div>
         <div  class="form-group">
           <label  class="control-label"><span>身份证号</span>
-            <input class="form-control" id="idcard" name="idcard" placeholder="" type="text" autocomplete="off"
+            <input class="form-control" id="idcard" name="idcard" placeholder="" type="text" autocomplete="off" maxlength="18"
                    [(ngModel)]="copyVote.idcard"
                    (blur)="verifyEmpty(copyVote.idcard,'idcard')">
           </label>
@@ -70,7 +70,7 @@
         </div>
         <div  class="form-group">
           <label  class="control-label"><span>岗位</span>
-            <input class="form-control" id="post" name="post" placeholder="" type="text" autocomplete="off"
+            <input class="form-control" id="post" name="post" placeholder="" type="text" autocomplete="off" maxlength="20"
                    [(ngModel)]="copyVote.post"
                    (blur)="verifyEmpty(copyVote.post,'post')">
           </label>
@@ -78,7 +78,7 @@
         </div>
         <div class="form-group">
           <label  class="control-label"><span>电话</span>
-            <input class="form-control" id="telNum" name="telNum" placeholder="" type="text" autocomplete="off"
+            <input class="form-control" id="telNum" name="telNum" placeholder="" type="number" autocomplete="off" maxlength="11"
                    [(ngModel)]="copyVote.telNum"
                    (blur)="verifyEmpty(copyVote.telNum,'telNum')">
           </label>
@@ -104,13 +104,13 @@
             <div style="width:800px; display: inline-block;">
               <span *ngFor="let abc of copyVote.tourEnrolls;let i=index;" style="display: inline-block;">
                 <input class="form-control hotel" [name]="'dependentsName'+i" autocomplete="off" placeholder="家属姓名"
-                       style="width:100px;" [value]="abc.name" [(ngModel)]="abc.name">
+                       style="width:100px;" [value]="abc.name" [(ngModel)]="abc.name" maxlength="5">
                 <input class="form-control hotel" [name]="'dependentsSex'+i" autocomplete="off" placeholder="家属性别"
-                       style="width:100px;" [value]="abc.sex" [(ngModel)]="abc.sex">
+                       style="width:100px;" [value]="abc.sex" [(ngModel)]="abc.sex" maxlength="2">
                 <input class="form-control hotel" [name]="'dependentsAge'+i" autocomplete="off" placeholder="家属年龄"
-                       style="width:100px;" [value]="abc.age" [(ngModel)]="abc.age">
+                       style="width:100px;" [value]="abc.age" [(ngModel)]="abc.age"  maxlength="2">
                 <input class="form-control hotel" [name]="'dependentsCard'+i" autocomplete="off" placeholder="家属身份证号"
-                       style="width:300px;" [value]="abc.idcard" [(ngModel)]="abc.idcard">
+                       style="width:300px;" [value]="abc.idcard" [(ngModel)]="abc.idcard" maxlength="18">
                   <a *ngIf="i>0">
                   <i class="icon-close" (click)="delOption(i)"></i></a>
               </span>

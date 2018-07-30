@@ -31,8 +31,8 @@ export class LiaoxiuyangApproveComponent implements OnInit {
     let url = '/soclaty/tourenroll/getPendingCheck/'+num+'/'+this.pageSize;
     this.ipSetting.sendGet(url).subscribe(data => {
       if(this.errorVoid.errorMsg(data)){
-        this.orders = data.data;
-        console.log(data.data);
+        this.orders = data.data.infos;
+        this.total = data.data.total;
       }
     });
   }

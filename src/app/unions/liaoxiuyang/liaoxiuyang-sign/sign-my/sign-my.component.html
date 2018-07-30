@@ -37,9 +37,9 @@
       <td width="20%">{{batch.batchCode}}</td>
       <td>{{batch.isFamily}}</td>
       <td>{{batch.personNum}}</td>
-      <td>{{batch.minNum}}人</td>
+      <td>{{batch.note}}</td>
       <td class="box-option" style="min-width: 100px;">
-        <a class="search-link" [routerLink]="['../../batchDetail',batch.id]">
+        <a class="search-link" [routerLink]="['../../batchDetail',batch.batchId]">
         <i class="icon-eye"></i>&nbsp;详情
       </a>
       </td>
