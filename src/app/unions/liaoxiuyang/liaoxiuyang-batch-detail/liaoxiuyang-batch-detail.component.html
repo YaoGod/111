@@ -40,6 +40,14 @@
           <span class="word">{{batch.minNum | emptyValue:'-'}} 人</span>
         </li>
         <li class="form-bar">
+          <span class="form-title">联系人</span>
+          <span class="word">{{batch.concat | emptyValue:'暂无数据'}}</span>
+        </li>
+        <li class="form-bar">
+          <span class="form-title">联系人电话</span>
+          <span class="word">{{batch.concatTel | emptyValue:'暂无数据'}}</span>
+        </li>
+        <li class="form-bar">
           <span class="form-title">预报名开始时间</span>
           <span class="word">{{batch.beginTime | date:'yyyy年M月dd日 HH:mm'}}</span>
         </li>

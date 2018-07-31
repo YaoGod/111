@@ -144,6 +144,15 @@ export class LiaoxiuyangBatchComponent implements OnInit {
     if(!this.verifyEmpty('newGoTime')){
       return false;
     }
+    if(!this.verifyEmpty('deptName')){
+      return false;
+    }
+    if(!this.verifyEmpty('newConcat')){
+      return false;
+    }
+    if(!this.verifyIsTel('newConcatTel')){
+      return false;
+    }
     if(!this.verifyEmpty('newBeginTime')){
       return false;
     }
@@ -220,6 +229,20 @@ export class LiaoxiuyangBatchComponent implements OnInit {
       return false;
     }
     return true;
+  }
+  /**验证手机号码   */
+  public verifyIsTel(id: string): boolean {
+    const data =  $('#' + id).val();
+    if(this.verifyEmpty(id)){
+      if (!String(data).match( /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/ )){
+        this.addErrorClass(id, "格式不符");
+        return false;
+      }else {
+        this.removeErrorClass(id);
+        return true;
+      }
+    }
+
   }
   /**非空校验*/
   public isEmpty(id: string, error: string): boolean  {
@@ -378,6 +401,8 @@ export class Batch {
   hotel: Array<string>;
   place: Array<any>;
   status: string;
+  concat: string;
+  concatTel: string;
   /*更多*/
   tourLine: any;
   isCouldSure: boolean;

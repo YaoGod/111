@@ -28,9 +28,9 @@
       <th>线路名称</th>
       <th width="12%">出行时间</th>
       <th class="text-left">开放范围</th>
+      <th>联系人</th>
       <th>成团人数下限</th>
       <th>已报人数</th>
-      <th width="12%">预报名起止时间</th>
       <th>状态</th>
       <th style="min-width: 50px;">操作</th>
     </tr>
@@ -41,11 +41,9 @@
       <td style="max-width: 200px;">
         <p class="tb-text">{{batch.deptName}}</p>
       </td>
+      <td class="minText">{{batch.concat}}<br>{{batch.concatTel}}</td>
       <td>{{batch.minNum}}人</td>
       <td>{{batch.realNum}}人</td>
-      <td width="12%" class="minText">
-        {{batch.beginTime| date:'yyyy年M月dd日HH:mm'}}<br>至<br>
-        {{batch.endTime| date:'yyyy年M月dd日HH:mm'}}</td>
       <td>{{batch.status}}</td>
       <td class="box-option" style="min-width: 100px;">
         <a class="search-link" [routerLink]="['../batchDetail',batch.id]">
